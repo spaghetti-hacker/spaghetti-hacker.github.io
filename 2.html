@@ -1,0 +1,302 @@
+<html>
+<head>
+<title>Spaghetti Hacker</title>
+<meta charset="utf-8">
+<style>
+    body {
+      color: #00FFFF;
+      background-color: #0c0d10;
+      margin: 0 auto;
+      padding: 1em 0 1em 0;
+    }
+@font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
+       pre { font-family: "gohu", "Lucida Console", monospace, Monaco; font-size: 14px; line-height: 1.0; }
+         a { color: #00FFFF; text-decoration: none; }
+</style>
+</head>
+<body>
+<center><div style="display: inline-block; text-align: left;"><pre>
+Unknown Utility
+~ hcf  
+
+file unknown_utility_2_3
+unknown_utility_2_3: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked,
+interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.24,
+BuildID[sha1]=cb74037dd37694879f6250bfb5623c273ef68ca6, stripped
+
+;il file unknown_utility_2_3 è un eseguibile ELF a 32 bit, compilato per l'architettura x86 e
+destinato a sistemi GNU/Linux con kernel almeno versione 2.6.24. È dynamically linked, il che
+significa che dipende da librerie condivise caricate tramite il loader /lib/ld-linux.so.2. Il file
+è "stripped", quindi privo di simboli di debug, cosa che rende più complesso il reversing.
+
+;ho avviato quell'utility sconosciuta: ora il mio computer sa cose su di me che neanche io
+ricordavo.
+
+main proc near
+
+arg_0= dword ptr 8
+arg_4= dword ptr 0Ch
+
+; __unwind {
+push ebp
+mov ebp, esp
+push edi
+push esi
+push ebx
+and esp, 0FFFFFFF0h (allineamento dello stack a 16 byte)
+sub esp, 20h
+
+;sullo stack vengono allocati 32 byte + 16 byte, dovuti ai 3 push dei 3 registri e all'allineamento
+a 16 byte dello stack stesso, quindi in tutto si hanno 48 byte liberi.
+
+mov eax, [ebp+arg_4]
+cmp [ebp+arg_0], 2
+jnz short loc_80486CE
+
+;viene controllato se argc sia uguale a 2 o meno (quindi se sia stato passato il nome file
+all'eseguibile), in caso negativo viene stampato l'usage dell'eseguibile.
+
+lea edx, [esp+1Ch]
+
+;[esp+1Ch] in questa locazione di memoria verrà caricata la lunghezza del file in byte.
+
+mov [esp+4], edx
+mov eax, [eax+4]
+mov [esp], eax
+call sub_8048900
+
+;vengono passati gli argomenti alla funzione fcn.08048900, compreso il nome del file passato come
+parametro di ingresso.
+
+mov edi, [esp+1Ch]
+mov dword ptr [esp+4], 4
+mov [esp], edi
+mov ebx, eax
+call _calloc
+
+;viene allocata una porzione di memoria di lunghezza pari alla lunghezza del file.
+
+mov [esp+8], edi
+mov [esp], ebx
+mov [esp+4], eax
+mov esi, eax
+call sub_80487E0
+
+;la funzione inizia creando un array temporaneo in cui ogni elemento è inizialmente impostato al
+valore -1. L'indice di questo array rappresenta il valore decimale di ogni possibile carattere.
+
+;successivamente, la funzione scorre ogni byte o carattere trovato nel file e verifica se è già
+stato registrato nell'array delle frequenze. Se il carattere non è presente, gli viene assegnato un
+nuovo valore indice, incrementale a partire da 0. Questo valore indice viene salvato nell'array
+temporaneo alla posizione corrispondente al valore decimale del carattere.
+
+;infine, la funzione utilizza il valore indice appena assegnato per aggiornare il contatore
+relativo a quel carattere nell'array delle frequenze. In questo modo, il processo assegna
+dinamicamente indici ai caratteri incontrati e tiene traccia della loro frequenza in maniera
+efficiente.
+
+;alla fine della funzione abbiamo un array che per ogni byte/carattere contiene il numero di
+occorrenze nel file.
+
+;l'utility dice di essere sconosciuta. È il primo software con una crisi d'identità.
+
+mov edx, [esp+1Ch]
+mov [esp], esi
+mov [esp+8], edx
+mov [esp+4], eax
+call sub_8048860
+
+;in quest'altra funzione viene calcolata l'entropia del file partendo dall'array delle frequenze
+utilizzando la formula di Shannon.
+
+mov dword ptr [esp+4], offset aLf ; "%lf\n"
+mov dword ptr [esp], 1
+fstp qword ptr [esp+8]
+call ___printf_chk
+
+;viene stampato il valore dell'entropia del file.
+
+mov [esp], ebx
+call _free
+lea esp, [ebp-0Ch]
+xor eax, eax
+pop ebx
+pop esi
+pop edi
+pop ebp
+retn
+
+;epilogo della funzione.
+
+loc_80486CE:
+mov eax, [eax]
+mov dword ptr [esp], offset aUsageSFilename ; "Usage: %s <filename>\n"
+mov [esp+4], eax
+call sub_80488C0
+; } // starts at 8048640
+main endp ; sp-analysis failed
+
+;stampa dell'usage.
+
+;ho chiesto all'utility sconosciuta di pulire il disco. Ha risposto: 'Non sono tua madre!'
+
+------------------------------------------------------------------------------
+
+;alcune sezioni della funzione che legge il file e calcola il numero di byte che lo compongono.
+
+sub_8048900 proc near
+
+mov [esp+2Ch+var_24], 2
+mov [esp+2Ch+var_28], 0
+mov [esp+2Ch+var_2C], eax
+call _fseek
+test eax, eax
+jnz short loc_80489BE
+
+;prova a posizionarsi alla fine del file per calcolarne la lunghezza in byte.
+
+mov [esp+2Ch+var_2C], ebx
+call _ftell
+
+;determina la lunghezza in byte del file.
+
+mov [esi], eax
+mov [esp+2Ch+var_2C], eax
+call _malloc
+
+;alloca il numero di byte della lunghezza del file in memoria.
+
+mov [esp+2Ch+var_24], 0
+mov [esp+2Ch+var_28], 0
+mov [esp+2Ch+var_2C], ebx
+mov ebp, eax
+call _fseek
+
+;viene posizionato il cursore all'inizio del file.
+
+test eax, eax
+jnz short loc_80489BE
+
+mov [esp+2Ch+var_20], ebx
+mov [esp+2Ch+var_24], 1
+mov eax, [esi]
+mov [esp+2Ch+var_2C], ebp
+mov [esp+2Ch+var_28], eax
+call _fread
+
+;legge dal file un numero di byte pari alla lunghezza del file e li carica in memoria.
+
+cmp eax, 1
+jnz short loc_80489DA
+
+mov [esp+2Ch+var_2C], ebx
+call _fclose
+
+;chiude il file
+
+mov eax, ebp
+mov ebx, [esp+2Ch+var_10]
+mov esi, [esp+2Ch+var_C]
+mov edi, [esp+2Ch+var_8]
+mov ebp, [esp+2Ch+var_4]
+add esp, 2Ch
+retn
+
+;dopo aver usato l'utility sconosciuta, il mio antivirus ha iniziato a ridere isterico. Ora sono
+preoccupato.
+
+------------------------------------------------------------------------------
+
+;alcune sezioni della funzione dedicata alla creazione dell'array delle frequenze.
+
+sub_80487E0
+
+loc_8048831:
+movzx ecx, byte ptr [edx]
+cmp [esp+ecx*4+408h+var_408], 0FFFFFFFFh
+jnz short loc_8048820
+
+;inizializzazione dell'array temporaneo, tutti i valori dello stesso sono impostati a -1.
+
+mov [esp+ecx*4+408h+var_408], eax
+add eax, 1
+jmp short loc_8048820
+
+;qui invece viene assegnato il valore indice al carattere iesimo.
+
+loc_8048820:
+movzx ecx, byte ptr [edx]
+add edx, 1
+mov ecx, [esp+ecx*4+408h+var_408]
+add dword ptr [ebx+ecx*4], 1
+cmp edx, esi
+jz short loc_8048848
+
+;in questo blocco si va ad aggiornare l'array delle frequenze, aggiornando il contatore relativo
+all'iesimo carattere del file.
+
+;stavo per avviare l'utility sconosciuta, e il computer ha detto: 'Non farlo, Dave.'
+
+------------------------------------------------------------------------------
+
+;alcune sezioni della funzione dedicata al calcolo dell'entropia.
+
+sub_8048860
+
+loc_8048880:
+fild dword ptr [edi+ebx*4]
+
+;carica il valore intero della frequenza del simbolo [edi+ebx*4]) nello stack dei registri della
+FPU (Floating Point Unit, unità di calcolo in virgola mobile).
+
+add ebx, 1
+fdiv [esp+4Ch+var_1C]
+
+;divide il valore caricato (frequenza del simbolo) per il numero totale di simboli (probabilità
+P(i))
+
+fst [esp+4Ch+var_4C]
+fstp [esp+4Ch+var_2C]
+fstp [esp+4Ch+var_3C]
+call _log2
+
+;calcola il logaritmo in base 2 del valore appena salvato (log). Il risultato del logaritmo viene
+restituito nello stack.
+
+cmp ebx, esi
+
+;confronta l'indice corrente ebx con il numero totale di simboli esi.
+
+fld [esp+4Ch+var_2C]
+fmulp st(1), st
+
+;moltiplica P(i) per il valore del logaritmo in base di P(i). Il risultato rimane nello stack.
+
+fld [esp+4Ch+var_3C]
+fsubrp st(1), st
+
+;calcola il valore negativo del prodotto e lo accumula nella somma per l'entropia.
+
+jnz short loc_8048880
+
+;se non sono stati processati tutti i simboli (ebx!=esi), salta nuovamente all'inizio del ciclo per
+elaborare il simbolo successivo.
+
+;ho scoperto cosa fa l'utility sconosciuta quando cerchi di capire cosa fa: confonde chiunque provi
+a farlo. Poi ti denuncia per violazione della privacy.
+
+;la formula di Shannon per calcolare l'entropia misura la quantità di incertezza o di
+"informazione" contenuta in un insieme di dati, come un file o una sequenza di simboli. È la
+sommatoria negativa delle probabilità di ogni simbolo nel set di dati (come un file) moltiplicate
+per il logaritmo in base 2 della probabilità del simbolo stesso.
+
+;la probabilità di ciascun simbolo è calcolata come:
+
+P(i)=frequenza del simbolo/numero totale di simboli
+
+;successivamente, il logaritmo in base 2 viene moltiplicato per la probabilità stessa e sommato a
+una variabile accumulatrice per completare l'entropia.
+
+;ho provato a capire cosa fa l'utility sconosciuta, ma lei mi ha risposto: 'Non sei pronto per la
+verità.'
+<a href="https://spaghetti-hacker.github.io/"><<</a> 
