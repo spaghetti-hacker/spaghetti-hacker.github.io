@@ -58,18 +58,15 @@ vado a schiacciare un pisolino; non vi preoccupate se lo sentite urlare.
 0x0040080e mov rax, qword fs:[0x28]
 0x00400817 mov qword [canary], rax
 0x0040081b xor eax, eax
-0x0040081d mov rax, qword [obj.stdin] ; obj.stdin__GLIBC_2.2.5 
-;[0x601090:8]=0
+0x0040081d mov rax, qword [obj.stdin] ; obj.stdin__GLIBC_2.2.5 ; [0x601090:8]=0
 0x00400824 mov esi, 0 ; char *buf
 0x00400829 mov rdi, rax ; FILE *stream
 0x0040082c call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
-0x00400831 mov rax, qword [obj.stdout] ; obj.stdout__GLIBC_2.2.5 
-;[0x601080:8]=0
+0x00400831 mov rax, qword [obj.stdout] ; obj.stdout__GLIBC_2.2.5 ; [0x601080:8]=0
 0x00400838 mov esi, 0 ; char *buf
 0x0040083d mov rdi, rax ; FILE *stream
 0x00400840 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
-0x00400845 mov rax, qword [obj.stderr] ; obj.stderr__GLIBC_2.2.5 
-;[0x6010a0:8]=0
+0x00400845 mov rax, qword [obj.stderr] ; obj.stderr__GLIBC_2.2.5 ; [0x6010a0:8]=0
 0x0040084c mov esi, 0 ; char *buf
 0x00400851 mov rdi, rax ; FILE *stream
 0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
