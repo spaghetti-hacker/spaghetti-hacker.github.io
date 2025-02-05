@@ -57,14 +57,14 @@ char *format
 0x0804846a      push dword [0x8049709]
 0x08048470      pop edx
 
-;i 20 byte inseriti da tastiera sono inseriti a blocchi di 4 byte in diverse
-locazioni di memoria
+;i 20 byte inseriti da tastiera sono memorizzati a blocchi di 4 byte in diverse
+locazioni di memoria.
 
 0x08048471      xor eax, ebx
 0x08048473      xor ecx, edx
 0x08048475      xor eax, ecx
 
-;li xoriamo tra di loro
+;li xoriamo tra di loro.
 
 0x08048477      push eax
 0x08048478      pop dword [0x80496fa]
@@ -132,16 +132,16 @@ blocchi da 4 byte, prima del controllo finale.
 0x080484fe      idiv dword [0x804971a]
 0x08048504      xor ecx, ecx
 
-;l'obbiettivo deve essere avere in 0x804971a un qualsiasi valore che dia come
+;l'obbiettivo è avere in 0x804971a un qualsiasi valore che dia come
 resto della divisione 0; quindi edx=0.
 
 ;edx=0
 ;eax= 0x31dc9d34  (836541748 decimale)
 
-;quindi dobbiamo inserire un seriale in modo tale che dividendo quel numero il
+;quindi dobbiamo inserire un seriale in modo tale che dividendo per quel numero il
 resto sia zero.
 
-;start loop
+;start loop.
 
 0x08048506      push dword [ecx + 0x80496da]
 0x0804850c      pop ebx
@@ -152,18 +152,18 @@ resto sia zero.
 0x0804851c      cmp ecx, 0x14               ; 20
 0x08048522      jl 0x8048506
 
-;in 0x80496da ci sono i 20 byte letti dal file keykey
+;in 0x80496da ci sono i 20 byte letti dal file keykey.
 
 0x08048524      mov esi, 0x80496da
 0x08048529      mov edi, 0x80496c6
 
-;seriale giusto dopo le manipolazione varie 0x80496c6
+;il seriale giusto si trova a questo indirizzo 0x80496c6.
 
 *0x0804852e      mov ecx, 0x14               ; 20
 0x08048533      repe cmpsb byte [esi], byte es:[edi]
 0x08048535      jne 0x8048550
 
-;il seriale è lungo 20 byte
+;il seriale è lungo 20 byte.
 
 0x08048537      push str.Serial_esatto__complimenti__n_r_n_r ; 0x8049654 ;
 "Serial esatto, complimenti!\n\r\n\r" ; const char 
@@ -180,7 +180,7 @@ errato, ritenta.\r\n\r\n" ; const char *format
 0x08048560      jmp 0x8048430
 
 ;questo è il seriale giusto presente nell'eseguibile estratto prima della
-comparazione cmpsb
+comparazione cmpsb.
 
 0x80496c6:    0x34    0x9d    0xdc    0x31    0xd9    0xdc    0xae    0x67
 0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
@@ -244,8 +244,7 @@ estratto dall'eseguibile.
 
 ;Seriale: 10000400003000060000
 
-;dopo aver provato diversi seriali, ho trovato questo che soddisfa la
-condizione.
+;dopo aver provato diversi seriali, ho trovato questo che soddisfa la condizione del resto 0.
 ;dopo la divisione, edx rimarrà 0 e riusciremo a bypassare il controllo.
 
 *EAX  0x31dc9d34
