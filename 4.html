@@ -1,0 +1,256 @@
+KeyKey
+~hcf
+
+[0x08048400]> pdf
+; DATA XREF from entry0 @ 0x8048367(r)
+┌ 357: int main (int argc, char **argv, char **envp);
+0x08048400      push
+str._r_n__________________________Ritz_CrackMe_for_Linux_1_r_n_r_n ; 0x80495cc
+;                    Ritz CrackMe for Linux #1\r\n\r\n*format
+0x08048405      call sym.imp.printf         ; int printf(const char *format)
+0x0804840a      add esp, 4
+0x08048410      push
+str.____Regole:_far_apparire_il_messaggio_di_conferma_senza_patchare_il_file._r_n_r_n
+; 0x8049606 ; "    apparire il messaggio di conchare il file.\r\n\r\n" ; const
+char *format
+0x08048415      call sym.imp.printf         ; int printf(const char *format)
+0x0804841a      add esp, 4
+0x08048420      push str.C_per_terminare._r_n_r_n ; 0x8049674 ; "^C per
+terminare.\r\n\r\n" ; const char *format
+0x08048425      call sym.imp.printf         ; int printf(const char *format)
+0x0804842a      add esp, 4
+; CODE XREF from60(x)
+0x08048430      push str.Serial:_           ; 0x804968a ; "Serial: " ; const
+char *format
+0x08048435      call sym.imp.printf         ; int printf(const char *format)
+0x0804843a      add esp, 4
+
+0x08048440      push 0x80496fa
+0x08048445      push 0x80496b8              ; const char *format
+0x0804844a      call sym.imp.scanf          ; int scanf(const char *format)
+0x0804844f      add esp, 8
+
+0x08048455      push dword [0x80496fa]
+0x0804845b      pop eax
+0x0804845c      push dword [0x80496ff]
+0x08048462      pop ebx
+0x08048463      push dword [0x8049704]
+0x08048469      pop ecx
+0x0804846a      push dword [0x8049709]
+0x08048470      pop edx
+
+;i 20 byte inseriti da tastiera sono inseriti a blocchi di 4 byte in diverse
+locazioni di memoria
+
+0x08048471      xor eax, ebx
+0x08048473      xor ecx, edx
+0x08048475      xor eax, ecx
+
+;li xoriamo tra di loro
+
+0x08048477      push eax
+0x08048478      pop dword [0x80496fa]
+0x0804847e      push ecx
+0x0804847f      pop dword [0x8049704]
+
+0x08048485      mov cl, byte [0x804973d]    ; [0x804973d:1]=152 ; CL,
+[0x804973d] => 0x98
+0x0804848b      rol eax, cl
+0x0804848d      rol ebx, cl
+0x0804848f      xor eax, ebx
+0x08048491      push eax
+0x08048492      pop dword [0x804973e]
+
+0x08048498      push dword [0x80496ff]
+0x0804849e      pop eax
+
+0x0804849f      push dword [0x8049709]
+0x080484a5      pop ebx
+
+0x080484a6      mov cl, byte [0x8049741]    ; [0x8049741:1]=0 CL, [0x8049741]
+=> 0x31
+0x080484ac      ror eax, cl
+0x080484ae      ror ebx, cl
+0x080484b0      xor eax, ebx
+0x080484b2      rol eax, cl
+0x080484b4      push eax
+0x080484b5      pop dword [0x804971a]
+
+;otteniamo un valore dopo questi xor che verrà utilizzato come divisore in una
+divisione successiva; il resto di questa divisione verrà utilizzato per xorare
+blocchi da 4 byte, prima del controllo finale.
+
+0x080484bb      mov eax, 5
+0x080484c0      mov ebx, str.keykey         ; 0x80496bf ; "keykey"
+0x080484c5      xor ecx, ecx
+0x080484c7      xor edx, edx
+0x080484c9      int 0x80
+
+;apre il file keykey
+
+0x080484cb      mov dword [0x80496bb], eax  ; [0x80496bb:4]=0
+0x080484d0      mov eax, 3
+0x080484d5      push dword [0x80496bb]
+0x080484db      pop ebx
+0x080484dc      mov ecx, 0x80496da
+0x080484e1      mov edx, 0x14               ; 20
+0x080484e6      int 0x80
+
+;legge 20 byte
+
+0x080484e8      mov eax, 6
+0x080484ed      push dword [0x80496bb]
+0x080484f3      pop ebx
+0x080484f4      int 0x80
+
+;chiude il file
+
+0x080484f6      push dword [0x80496da]
+0x080484fc      pop eax
+
+;in eax vengono inseriti 4 byte dei 20 estratti dal file.
+
+0x080484fd      cdq
+0x080484fe      idiv dword [0x804971a]
+0x08048504      xor ecx, ecx
+
+;l'obbiettivo deve essere avere in 0x804971a un qualsiasi valore che dia come
+resto della divisione 0; quindi edx=0.
+
+;edx=0
+;eax= 0x31dc9d34  (836541748 decimale)
+
+;quindi dobbiamo inserire un seriale in modo tale che dividendo quel numero il
+resto sia zero.
+
+;start loop
+
+0x08048506      push dword [ecx + 0x80496da]
+0x0804850c      pop ebx
+0x0804850d      xor ebx, edx
+0x0804850f      push ebx
+0x08048510      pop dword [ecx + 0x80496da]
+0x08048516      add ecx, 4
+0x0804851c      cmp ecx, 0x14               ; 20
+0x08048522      jl 0x8048506
+
+;in 0x80496da ci sono i 20 byte letti dal file keykey
+
+0x08048524      mov esi, 0x80496da
+0x08048529      mov edi, 0x80496c6
+
+;seriale giusto dopo le manipolazione varie 0x80496c6
+
+*0x0804852e      mov ecx, 0x14               ; 20
+0x08048533      repe cmpsb byte [esi], byte es:[edi]
+0x08048535      jne 0x8048550
+
+;il seriale è lungo 20 byte
+
+0x08048537      push str.Serial_esatto__complimenti__n_r_n_r ; 0x8049654 ;
+"Serial esatto, complimenti!\n\r\n\r" ; const char 
+0x0804853c      call sym.imp.printf         ; int printf(const char *format)
+0x08048541      add esp, 4
+0x08048547      mov eax, 1
+0x0804854c      xor ebx, ebx
+0x0804854e      int 0x80
+; CODE XREF from35(x)
+0x08048550      push str.Serial_errato__ritenta._r_n_r_n ; 0x8049693 ; "Serial
+errato, ritenta.\r\n\r\n" ; const char *format
+0x08048555      call sym.imp.printf         ; int printf(const char *format)
+0x0804855a      add esp, 4
+0x08048560      jmp 0x8048430
+
+;questo è il seriale giusto presente nell'eseguibile estratto prima della
+comparazione cmpsb
+
+0x80496c6:    0x34    0x9d    0xdc    0x31    0xd9    0xdc    0xae    0x67
+0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
+0x80496d6:    0xc6    0x85    0xe1    0x82
+
+
+;\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f\xfb\x53\xc6\x85\xe1\x82
+
+python -c 'import sys;
+sys.stdout.buffer.write(b"\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f\xfb\x53\xc6\x85\xe1\x82")'
+> keykey
+
+pwndbg> b *0x8048350
+Breakpoint 1 at 0x8048350
+pwndbg> b *0x0804852e
+Breakpoint 2 at 0x804852e
+
+0x08048524      beda960408     mov esi, 0x80496da
+0x08048529      bfc6960408     mov edi, 0x80496c6
+0x0804852e      b914000000     mov ecx, 0x14  
+
+pwndbg> x/20xb 0x80496c6
+0x80496c6:    0x34    0x9d    0xdc    0x31    0xd9    0xdc    0xae    0x67
+0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
+0x80496d6:    0xc6    0x85    0xe1    0x82
+
+;questo è il seriale corretto.
+;verrà inserito nel file keykey, che viene aperto dall'eseguibile, da cui
+vengono letti 20 byte (che è la lunghezza del numero seriale).
+
+python -c 'import sys;
+sys.stdout.buffer.write(b"\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f\xfb\x53\xc6\x85\xe1\x82")'
+> keykey
+
+0x080484f6      ff35da960408   push dword [0x80496da]
+0x080484fc      58             pop eax
+
+;verranno letti 4 byte dal file e avremo questo valore: 0x31dc9d34 (836541748
+in decimale).
+
+0x080484fd      99             cdq
+0x080484fe      f73d1a970408   idiv dword [0x804971a]
+0x08048504      31c9           xor ecx, ecx
+
+;cdq estenderà eax e modificherà anche edx, che in questo caso sarà impostato a
+0; l'obiettivo è mantenere edx=0 in modo che l'xor successivo non alteri i byte
+estratti dal file.
+
+0x08048506      push dword [ecx + 0x80496da]
+0x0804850c      pop ebx
+0x0804850d      xor ebx, edx
+0x0804850f      push ebx
+0x08048510      pop dword [ecx + 0x80496da]
+
+0x08048516      add ecx, 4
+0x0804851c      cmp ecx, 0x14               ; 20
+0x08048522      jl 0x8048506
+
+;dopo questo ciclo, se edx è uguale a 0, avremo gli stessi byte che abbiamo
+estratto dall'eseguibile.
+
+;Seriale: 10000400003000060000
+
+;dopo aver provato diversi seriali, ho trovato questo che soddisfa la
+condizione.
+;dopo la divisione, edx rimarrà 0 e riusciremo a bypassare il controllo.
+
+*EAX  0x31dc9d34
+*EDX  0
+
+► 0x80484fe    idiv   dword ptr [0x804971a]
+0x8048504    xor    ecx, ecx                        ECX => 0
+0x8048506    push   dword ptr [ecx + 0x80496da]
+
+*EAX  0x18ee4e9a
+EDX  0
+
+0x80484fe    idiv   dword ptr [0x804971a]
+► 0x8048504    xor    ecx, ecx  
+
+
+./ritzcrkme1 
+
+Ritz CrackMe for Linux #1
+
+Regole: far apparire il messaggio di conferma senza patchare il file.
+
+^C per terminare.
+
+Serial: 10000400003000060000
+Serial esatto, complimenti!
