@@ -19,6 +19,8 @@
 keykey
 ~hcf
 
+;reverse engineering di un crackme per linux.    
+    
 [0x08048400]> pdf
 ; DATA XREF from entry0 @ 0x8048367(r)
 ┌ 357: int main (int argc, char **argv, char **envp);
@@ -48,6 +50,8 @@ char *format
 0x0804844a      call sym.imp.scanf          ; int scanf(const char *format)
 0x0804844f      add esp, 8
 
+;varie printf di introduzione al crackme e la scanf che ti chiede di inserire il seriale.
+
 0x08048455      push dword [0x80496fa]
 0x0804845b      pop eax
 0x0804845c      push dword [0x80496ff]
@@ -64,7 +68,7 @@ locazioni di memoria.
 0x08048473      xor ecx, edx
 0x08048475      xor eax, ecx
 
-;li xoriamo tra di loro.
+;vengono xorati tra di loro e in parte ricaricati in memoria.
 
 0x08048477      push eax
 0x08048478      pop dword [0x80496fa]
@@ -94,9 +98,9 @@ locazioni di memoria.
 0x080484b4      push eax
 0x080484b5      pop dword [0x804971a]
 
-;otteniamo un valore dopo questi xor che verrà utilizzato come divisore in una
-divisione successiva; il resto di questa divisione verrà utilizzato per xorare
-blocchi da 4 byte, prima del controllo finale.
+;otteniamo un valore dopo questi xor che verrà utilizzato come divisore in una divisione 
+successiva prima che avvenga il controllo di sicurezza finale; il resto di questa 
+divisione verrà utilizzato per xorare blocchi da 4 byte, prima del controllo.
 
 0x080484bb      mov eax, 5
 0x080484c0      mov ebx, str.keykey         ; 0x80496bf ; "keykey"
@@ -104,7 +108,7 @@ blocchi da 4 byte, prima del controllo finale.
 0x080484c7      xor edx, edx
 0x080484c9      int 0x80
 
-;apre il file keykey
+;apre il file keykey.
 
 0x080484cb      mov dword [0x80496bb], eax  ; [0x80496bb:4]=0
 0x080484d0      mov eax, 3
@@ -114,7 +118,7 @@ blocchi da 4 byte, prima del controllo finale.
 0x080484e1      mov edx, 0x14               ; 20
 0x080484e6      int 0x80
 
-;legge 20 byte
+;legge 20 byte.
 
 0x080484e8      mov eax, 6
 0x080484ed      push dword [0x80496bb]
@@ -138,7 +142,7 @@ resto della divisione 0; quindi edx=0.
 ;edx=0
 ;eax= 0x31dc9d34  (836541748 decimale)
 
-;quindi dobbiamo inserire un seriale in modo tale che dividendo per quel numero il
+;bisogna inserire un seriale in modo tale che dividendo per il numero risultante il
 resto sia zero.
 
 ;start loop.
@@ -186,7 +190,6 @@ comparazione cmpsb.
 0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
 0x80496d6:    0xc6    0x85    0xe1    0x82
 
-
 ;\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f\xfb\x53\xc6\x85\xe1\x82
 
 python -c 'import sys;
@@ -208,8 +211,7 @@ pwndbg> x/20xb 0x80496c6
 0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
 0x80496d6:    0xc6    0x85    0xe1    0x82
 
-;questo è il seriale corretto.
-;verrà inserito nel file keykey, che viene aperto dall'eseguibile, da cui
+;il seriale giusto verrà inserito nel file keykey, che viene aperto dall'eseguibile, da cui
 vengono letti 20 byte (che è la lunghezza del numero seriale).
 
 python -c 'import sys;
@@ -246,7 +248,8 @@ estratto dall'eseguibile.
 
 ;Seriale: 10000400003000060000
 
-;dopo aver provato diversi seriali, ho trovato questo che soddisfa la condizione del resto 0.
+;dopo aver provato diversi seriali, ho trovato questo seriale che soddisfa la 
+condizione del resto 0.
 ;dopo la divisione, edx rimarrà 0 e riusciremo a bypassare il controllo.
 
 *EAX  0x31dc9d34
