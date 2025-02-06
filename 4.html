@@ -98,9 +98,10 @@ locazioni di memoria.
 0x080484b4      push eax
 0x080484b5      pop dword [0x804971a]
 
-;otteniamo un valore dopo queste rotazioni e xor che verrà utilizzato come divisore in una divisione 
-successiva prima che avvenga il controllo di sicurezza finale; il resto di questa 
-divisione verrà utilizzato per xorare blocchi da 4 byte, prima del controllo del seriale.
+;otteniamo un valore dopo queste rotazioni e xor che verrà utilizzato come 
+divisore in una divisione successiva prima che avvenga il controllo di sicurezza 
+finale; il resto di questa divisione verrà utilizzato per xorare blocchi da 4 byte, 
+prima del controllo del seriale.
 
 0x080484bb      mov eax, 5
 0x080484c0      mov ebx, str.keykey         ; 0x80496bf ; "keykey"
