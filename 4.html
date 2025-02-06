@@ -20,7 +20,7 @@ keykey
 ~hcf
 
 ;reverse engineering di un crackme per linux.    
-    
+
 [0x08048400]> pdf
 ; DATA XREF from entry0 @ 0x8048367(r)
 ┌ 357: int main (int argc, char **argv, char **envp);
@@ -30,6 +30,7 @@ str._r_n__________________________XXXX_CrackMe_for_Linux_1_r_n_r_n ; 0x80495cc
 0x08048405      call sym.imp.printf         ; int printf(const char *format)
 0x0804840a      add esp, 4
 0x08048410      push
+
 str.____Regole:_far_apparire_il_messaggio_di_conferma_senza_patchare_il_file._r_n_r_n
 ; 0x8049606 ; "    apparire il messaggio di conchare il file.\r\n\r\n" ; const
 char *format
@@ -50,7 +51,8 @@ char *format
 0x0804844a      call sym.imp.scanf          ; int scanf(const char *format)
 0x0804844f      add esp, 8
 
-;varie printf di introduzione al crackme e la scanf che ti chiede di inserire il seriale.
+;varie printf di introduzione al crackme e la scanf che ti chiede di inserire
+il seriale.
 
 0x08048455      push dword [0x80496fa]
 0x0804845b      pop eax
@@ -99,9 +101,9 @@ locazioni di memoria.
 0x080484b5      pop dword [0x804971a]
 
 ;otteniamo un valore dopo queste rotazioni e xor che verrà utilizzato come 
-divisore in una divisione successiva prima che avvenga il controllo di sicurezza 
-finale; il resto di questa divisione verrà utilizzato per xorare blocchi da 4 byte, 
-prima del controllo del seriale.
+divisore in una divisione successiva prima che avvenga il controllo di
+sicurezza  finale; il resto di questa divisione verrà utilizzato per xorare 
+blocchi da 4 byte, prima del controllo del seriale.
 
 0x080484bb      mov eax, 5
 0x080484c0      mov ebx, str.keykey         ; 0x80496bf ; "keykey"
@@ -143,7 +145,8 @@ resto della divisione 0; quindi edx=0.
 ;edx=0
 ;eax= 0x31dc9d34  (836541748 decimale)
 
-;bisogna inserire un seriale in modo tale che dividendo per il numero risultante il
+;bisogna inserire un seriale in modo tale che dividendo per il numero
+risultante il
 resto sia zero.
 
 ;start loop.
@@ -191,12 +194,12 @@ comparazione cmpsb.
 0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
 0x80496d6:    0xc6    0x85    0xe1    0x82
 
+
 ;\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f\xfb\x53\xc6\x85\xe1\x82
 
 python -c 'import sys;
-sys.stdout.buffer.write(b"\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\ \
-\x7f\x8f\xfb\x53\xc6\x85\xe1\x82")'
-> keykey
+sys.stdout.buffer.write(b"\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\ 
+\x7f\x8f\xfb\x53\xc6\x85\xe1\x82")'> keykey
 
 pwndbg> b *0x8048350
 Breakpoint 1 at 0x8048350
@@ -212,11 +215,13 @@ pwndbg> x/20xb 0x80496c6
 0x80496ce:    0x6d    0xfb    0xec    0x9a    0x7f    0x8f    0xfb    0x53
 0x80496d6:    0xc6    0x85    0xe1    0x82
 
-;il seriale giusto verrà inserito nel file keykey, che viene aperto dall'eseguibile, 
+;il seriale giusto verrà inserito nel file keykey, che viene aperto
+dall'eseguibile, 
 da cui vengono letti 20 byte (che è la lunghezza del numero seriale).
 
 python -c 'import sys;
-sys.stdout.buffer.write(b"\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f \
+
+sys.stdout.buffer.write(b"\x34\x9d\xdc\x31\xd9\xdc\xae\x67\x6d\xfb\xec\x9a\x7f\x8f
 \xfb\x53\xc6\x85\xe1\x82")'
 > keykey
 
