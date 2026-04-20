@@ -32,24 +32,37 @@ pre {
         margin-bottom: 0.5em;
     }
 }
-
 </style>
 </head>
+<script>
+if (window.innerWidth <= 768) {
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("pre").forEach(function(pre) {
+            var div = document.createElement("div");
+            div.innerHTML = pre.innerHTML.replace(/\n/g, "<br>");
+            div.style.fontFamily = pre.style.fontFamily;
+            div.style.fontSize = "14px";
+            div.style.lineHeight = "1.4";
+            pre.parentNode.replaceChild(div, pre);
+        });
+    });
+}
+</script>
 <body>
 <center><div style="display: inline-block; text-align: left;"><pre>
-Intro<br>                                                  
-~ HCF<br>                                       
+Intro
+~ HCF                                       
 
 Spaghetti Hacker : questo è un blog personale di studio e approfondimento di 
 tematiche acare; una spaghettata acara, aglio, olio, pepperoncino e tanto 
 reverse engineering, memory corruption, binary exploitation, malware analysis, 
-digital forensics e tutto ciò che riguarda il mondo low level.<br><br>
+digital forensics e tutto ciò che riguarda il mondo low level.
 
 Il "reverse engineering" è l'esigenza, la pretesa da parte degli utenti di 
 poter aprire, esplorare, modificare la tecnologia, secondo le proprie esigenze, 
 ampliare e quindi sviluppare nuove caratteristiche per adattare ogni cosa al 
 quadro tecnologico,  che è sempre in evoluzione. È esplorazione in tempo reale 
-oltre le possibilità ordinarie; è rebop!<br><br>
+oltre le possibilità ordinarie; è rebop!
 
 Halt and Catch Fire, indicato con la sigla mnemonica di hcf, è un'istruzione 
 fittizia  del linguaggio assembly, intesa prevalentemente come uno scherzo, 
@@ -58,7 +71,7 @@ la cpu in uno stato da cui  può essere fatta uscire solo con un reset; solitame
 con la sigla hcf si descrive una o  più istruzioni non documentate presenti 
 in molte architetture e utilizzate per poter  effettuare agevolmente particolari 
 test durante lo sviluppo dei prodotti, ma che non  sono da utilizzarsi nella 
-normale operatività.<br><br>
+normale operatività.
 
 <a href="https://spaghetti-hacker.github.io/"><<</a>
 </pre></div></center></body></html>
