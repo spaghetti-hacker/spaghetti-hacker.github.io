@@ -40,7 +40,7 @@ if (window.innerWidth <= 768) {
         document.querySelectorAll("pre").forEach(function(pre) {
             var div = document.createElement("div");
             div.innerHTML = pre.innerHTML.replace(/\n/g, "<br>");
-            div.style.fontFamily = pre.style.fontFamily;
+	    div.style.fontFamily = "'gohu', 'Lucida Console', monospace, Monaco";
             div.style.fontSize = "14px";
             div.style.lineHeight = "1.4";
             pre.parentNode.replaceChild(div, pre);
