@@ -11,8 +11,15 @@
       padding: 1em 0 1em 0;
     }
 @font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
-       pre { font-family: "gohu", "Lucida Console", monospace, Monaco; font-size: 14px; line-height: 1.0; }
          a { color: #A8FF3E; text-decoration: none; }
+
+pre { 
+      font-family: "gohu", "Lucida Console", monospace, Monaco; 
+      font-size: clamp(10px, 3vw, 14px);
+      line-height: 1.0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
 </style>
 </head>
 <body>
