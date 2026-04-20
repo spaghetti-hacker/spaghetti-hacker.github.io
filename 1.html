@@ -26,10 +26,28 @@ pre {
         word-wrap: break-word;
         line-height: 1.4;
     }
+    /* simula gli accapo del pre */
+    pre br {
+        display: block;
+        margin-bottom: 0.5em;
+    }
 }
-
 </style>
 </head>
+<script>
+if (window.innerWidth <= 768) {
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("pre").forEach(function(pre) {
+            var div = document.createElement("div");
+            div.innerHTML = pre.innerHTML.replace(/\n/g, "<br>");
+	    div.style.fontFamily = "'gohu', 'Lucida Console', monospace, Monaco";
+            div.style.fontSize = "14px";
+            div.style.lineHeight = "1.4";
+            pre.parentNode.replaceChild(div, pre);
+        });
+    });
+}
+</script>
 <body>
 <center><div style="display: inline-block; text-align: left;"><pre>
 NO_ELF
