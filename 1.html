@@ -25,6 +25,7 @@ pre {
         white-space: normal;
         word-wrap: break-word;
         line-height: 1.4;
+	overflow-wrap: anywhere;
     }
     /* simula gli accapo del pre */
     pre br {
@@ -43,6 +44,7 @@ if (window.innerWidth <= 768) {
 	    div.style.fontFamily = "'gohu', 'Lucida Console', monospace, Monaco";
             div.style.fontSize = "14px";
             div.style.lineHeight = "1.4";
+            div.style.overflowWrap = "anywhere";
             pre.parentNode.replaceChild(div, pre);
         });
     });
