@@ -1,7 +1,8 @@
 <html>
 <head>
-<title>Spaghetti Hacker</title>
+<title>NO ELF</title>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {
       color: #65E903;
@@ -13,19 +14,24 @@
          a { color: #A8FF3E; text-decoration: none; }
 
 pre { 
-      font-family: "gohu", "Lucida Console", monospace, Monaco;
-      font-size: clamp(10px, 3vw, 14px);
-      line-height: 1.0;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      text-align: justify;
+    font-family: "gohu", "Lucida Console", monospace, Monaco; 
+    font-size: 14px; 
+    line-height: 1.0;
+    white-space: pre;
+}
+
+@media (max-width: 768px) {
+    pre {
+        white-space: normal;
+        word-wrap: break-word;
+        line-height: 1.4;
     }
+}
 
 </style>
 </head>
 <body>
 <center><div style="display: inline-block; text-align: left;"><pre>
-
 NO_ELF
 ~ HCF 
 
