@@ -20,11 +20,17 @@ pre {
     white-space: pre;
 }
 
+
 @media (max-width: 768px) {
     pre {
         white-space: normal;
         word-wrap: break-word;
         line-height: 1.4;
+    }
+    /* simula gli accapo del pre */
+    pre br {
+        display: block;
+        margin-bottom: 0.5em;
     }
 }
 
@@ -32,19 +38,20 @@ pre {
 </head>
 <body>
 <center><div style="display: inline-block; text-align: left;"><pre>
-Intro                                                  
-~ HCF                                       
+Intro<br>                                                  
+~ HCF<br>                                       
 
 Spaghetti Hacker : questo è un blog personale di studio e approfondimento di 
 tematiche acare; una spaghettata acara, aglio, olio, pepperoncino e tanto 
 reverse engineering, memory corruption, binary exploitation, malware analysis, 
-digital forensics e tutto ciò che riguarda il mondo low level.
+digital forensics e tutto ciò che riguarda il mondo low level.<br>
 
 Il "reverse engineering" è l'esigenza, la pretesa da parte degli utenti di 
 poter aprire, esplorare, modificare la tecnologia, secondo le proprie esigenze, 
 ampliare e quindi sviluppare nuove caratteristiche per adattare ogni cosa al 
 quadro tecnologico,  che è sempre in evoluzione. È esplorazione in tempo reale 
-oltre le possibilità ordinarie; è rebop!
+oltre le possibilità ordinarie; è rebop!<br>
+
   
 Halt and Catch Fire, indicato con la sigla mnemonica di hcf, è un'istruzione 
 fittizia  del linguaggio assembly, intesa prevalentemente come uno scherzo, 
@@ -53,7 +60,7 @@ la cpu in uno stato da cui  può essere fatta uscire solo con un reset; solitame
 con la sigla hcf si descrive una o  più istruzioni non documentate presenti 
 in molte architetture e utilizzate per poter  effettuare agevolmente particolari 
 test durante lo sviluppo dei prodotti, ma che non  sono da utilizzarsi nella 
-normale operatività.
+normale operatività.<br><br>
 
 <a href="https://spaghetti-hacker.github.io/"><<</a>
 </pre></div></center></body></html>
