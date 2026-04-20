@@ -188,24 +188,36 @@ a:hover{
 <div class="meta">~ HCF | Reverse Engineering Report</div>
 
 <p>
-Questo report documenta il reverse engineering di un eseguibile ELF a 64 bit
-non stripped. L’analisi è stata condotta con tecniche statiche e dinamiche
-per comprenderne il comportamento e valutarne la possibile natura malevola.
+;questo report documenta il reverse engineering di un eseguibile ELF a 64 bit
+non "stripped", cioè con informazioni sui simboli. L'analisi è stata condotta
+utilizzando sia tecniche statiche che dinamiche per identificare le funzionalità 
+del programma e il suo comportamento, con l'obiettivo di determinare la sua 
+potenziale natura malevola. In genere scelgo a caso un eseguibile ELF, prendendolo 
+dalla mia collezione di malware Linux e inizio ad analizzarlo non sapendo assolutamente
+nulla di quelle che possano essere le sue caratteristiche. Utilizzo vari strumenti 
+automatici per semplificare l'analisi nelle fasi iniziali; analisi che si basa 
+prevalentemente sul reverse engineering del codice assembly disassemblato.
 </p>
 
 <div class="quote">
-Scelgo spesso un ELF casuale dalla mia collezione malware Linux e inizio senza sapere nulla.
-Poi lo apro, lo smonto, lo interrogo.
+;quello che una matrioska potrebbe esprimere è archetipico e complesso: l’idea
+di infinito. In questo tipo di indagine sulla realtà, di raffigurazione
+materica di concetti astratti, i Giapponesi sono maestri, di fatti la sua
+origine è attribuita proprio alle statuette di legno, l’una contenuta
+nell’altra, dell’isola di Honsu.
+
+;quando non sei in vena di fare battute, è il momento perfetto per fare una pausa…
+vado a schiacciare un pisolino; non vi preoccupate se lo sentite urlare
 </div>
 
 <div class="section">
 <h2>Fingerprint iniziale</h2>
 
 <pre>
-ELF 64-bit LSB executable, x86-64
-dynamically linked
-interpreter /lib64/ld-linux-x86-64.so.2
-not stripped
+;4b060ab45f7acc1b2959dd5969f97a45d6fecd06f311763afbb864eaea4161e4: ELF 64-bit
+LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter
+/lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32,
+BuildID[sha1]=ee77cc98527691b00b5d6af2089a96deb32f6d11, not stripped
 </pre>
 
 </div>
@@ -219,9 +231,33 @@ Scelta comune in malware o implant per ottenere I/O immediato.
 </p>
 
 <pre>
-setbuf(stdin, 0)
-setbuf(stdout, 0)
-setbuf(stderr, 0)
+[0x004006f0]> s main
+[0x00400806]> pdf
+; DATA XREF from entry0 @ 0x40072d(r)
+;main (int argc, char **argv, char **envp);
+; var int64_t canary @ rbp-0x8
+; var int64_t var_10h @ rbp-0x10
+; var int64_t var_20h @ rbp-0x20
+; var void *ptr @ rbp-0x28
+; var int64_t fd @ rbp-0x2c
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+0x0040080a sub rsp, 0x30
+0x0040080e mov rax, qword fs:[0x28]
+0x00400817 mov qword [canary], rax
+0x0040081b xor eax, eax
+0x0040081d mov rax, qword [obj.stdin] ; obj.stdin__GLIBC_2.2.5 ; [0x601090:8]=0
+0x00400824 mov esi, 0 ; char *buf
+0x00400829 mov rdi, rax ; FILE *stream
+0x0040082c call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+0x00400831 mov rax, qword [obj.stdout] ; obj.stdout__GLIBC_2.2.5 ; [0x601080:8]=0
+0x00400838 mov esi, 0 ; char *buf
+0x0040083d mov rdi, rax ; FILE *stream
+0x00400840 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+0x00400845 mov rax, qword [obj.stderr] ; obj.stderr__GLIBC_2.2.5 ; [0x6010a0:8]=0
+0x0040084c mov esi, 0 ; char *buf
+0x00400851 mov rdi, rax ; FILE *stream
+0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
 </pre>
 
 <p>
