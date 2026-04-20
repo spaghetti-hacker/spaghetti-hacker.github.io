@@ -187,8 +187,7 @@ NO_ELF
 
 ;quando non sei in vena di fare battute, è il momento perfetto per fare una pausa… vado a schiacciare un pisolino; non vi preoccupate se lo sentite urlare.
 
-<div class="article">
-[0x004006f0]> s main
+<div class="article"> [0x004006f0]> s main
 [0x00400806]> pdf
 ; DATA XREF from entry0 @ 0x40072d(r)
 ;main (int argc, char **argv, char **envp);
@@ -214,8 +213,8 @@ NO_ELF
 0x00400845 mov rax, qword [obj.stderr] ; obj.stderr__GLIBC_2.2.5 ; [0x6010a0:8]=0
 0x0040084c mov esi, 0 ; char *buf
 0x00400851 mov rdi, rax ; FILE *stream
-0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
-</div>
+0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)</div>
+
 ;disabilita il buffering per gli stream standard stdin, stdout e stderr.  Disabilitare il buffering degli stream standard nei malware (e anche in altri tipi di software dannoso) è una tecnica comune per ottenere un controllo più immediato e preciso sulle operazioni di input e output. In un contesto normale, i flussi standard come stdout (output) sono bufferizzati per ottimizzare le prestazioni: il sistema operativo accumula l'output in un buffer e lo scrive a destinazione solo quando il buffer è pieno o quando il programma termina. È una tecnica utilizzata per garantire un'esecuzione più controllata, reattiva e tempestiva. Questo è particolarmente importante per mantenere un flusso di comunicazione stabile e immediato tra il malware e i sistemi esterni, prevenire la perdita di dati e ridurre il rischio di comportamenti anomali o di arresti imprevisti.
 
 ;l’idea di qualcosa contenuto in qualcos’altro, che a sua volta contiene qualcosa di più piccolo e così via, richiama l’idea della reductio ad infinitum.
