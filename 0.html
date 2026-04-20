@@ -1,55 +1,47 @@
 <html>
 <head>
-<title>Intro</title>
+<title>NO ELF</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+    @font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
     body {
-      color: #65E903;
-      background-color: #0c0d10;
-      margin: 0 auto;
-      padding: 1em 0 1em 0;
+        color: #65E903;
+        background-color: #0c0d10;
+        padding: 1.5em 1em;
+        font-family: "gohu", "Lucida Console", monospace, Monaco;
+        font-size: 14px;
+        line-height: 1.0;
     }
-@font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
-         a { color: #A8FF3E; text-decoration: none; }
 
-pre { 
-    font-family: "gohu", "Lucida Console", monospace, Monaco; 
-    font-size: 14px; 
-    line-height: 1.0;
-    white-space: pre;
-}
+    .container {
+        max-width: 780px;
+        margin: 0 auto;
+    }
 
-@media (max-width: 768px) {
     pre {
-        white-space: normal;
+        font-family: "gohu", "Lucida Console", monospace, Monaco;
+        font-size: 14px;
+        line-height: 1.0;
+        white-space: pre-wrap;
         word-wrap: break-word;
-        line-height: 1.4;
+        overflow-wrap: anywhere;
+        text-align: left;
     }
-    /* simula gli accapo del pre */
-    pre br {
-        display: block;
-        margin-bottom: 0.5em;
-    }
-}
+
+    a { color: #A8FF3E; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 </style>
 </head>
-<script>
-if (window.innerWidth <= 768) {
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll("pre").forEach(function(pre) {
-            var div = document.createElement("div");
-            div.innerHTML = pre.innerHTML.replace(/\n/g, "<br>");
-	    div.style.fontFamily = "'gohu', 'Lucida Console', monospace, Monaco";
-            div.style.fontSize = "14px";
-            div.style.lineHeight = "1.4";
-            pre.parentNode.replaceChild(div, pre);
-        });
-    });
-}
-</script>
 <body>
-<center><div style="display: inline-block; text-align: left;"><pre>
+<div class="container"><pre>
 Intro
 ~ HCF                                       
 
