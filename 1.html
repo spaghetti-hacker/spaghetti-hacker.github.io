@@ -26,6 +26,7 @@ pre {
         word-wrap: break-word;
         line-height: 1.4;
 	overflow-wrap: anywhere;
+	text-align: justify
     }
     /* simula gli accapo del pre */
     pre br {
@@ -45,6 +46,7 @@ if (window.innerWidth <= 768) {
             div.style.fontSize = "14px";
             div.style.lineHeight = "1.4";
             div.style.overflowWrap = "anywhere";
+	    div.style.textAlign = "justify"
             pre.parentNode.replaceChild(div, pre);
         });
     });
