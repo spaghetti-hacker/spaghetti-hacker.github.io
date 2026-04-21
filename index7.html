@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPAGHETTI HACKER</title>
+<title>SPAGHETTI HACKER BBS</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
@@ -35,7 +35,7 @@ body{
     font-size:clamp(15px,2.6vw,18px);
     line-height:1.6;
     min-height:100vh;
-    padding:40px 24px;
+    padding:36px 22px;
 }
 
 .wrapper{
@@ -43,20 +43,12 @@ body{
     margin:auto;
 }
 
-.article{
+.screen{
     background:#0f1a0f;
     border:1px solid #1f2c1b;
     border-radius:6px;
-    padding:10px 14px;
-    margin-bottom:28px;
-    white-space:pre-wrap;
-}
-
-.console{
-    background:#0f1a0f;
-    border:1px solid #1f2c1b;
-    border-radius:6px;
-    padding:14px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
 }
 
 .line{
@@ -68,30 +60,25 @@ body{
     color:#4f7a35;
 }
 
-.mod{
-    color:#65E903;
-}
-
-.entry{
-    padding-left:18px;
-    margin:10px 0 18px 0;
-    opacity:0;
-    transform:translateY(5px);
-    transition:.25s;
-}
-
-.entry.visible{
-    opacity:1;
-    transform:none;
-}
-
 a{
     color:#65E903;
     text-decoration:none;
 }
 
 a:hover{
-    color:#4f7a35;
+    color:#9cff5f;
+}
+
+.block{
+    margin-top:18px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.25s;
+}
+
+.block.visible{
+    opacity:1;
+    transform:none;
 }
 
 .cursor{
@@ -109,40 +96,37 @@ a:hover{
     50%{opacity:0;}
 }
 
-.section{
-    margin-bottom:18px;
+@media(max-width:640px){
+    body{padding:20px 10px;}
+    .screen{padding:12px;}
 }
 </style>
 </head>
 
 <body>
 <div class="wrapper">
-
-<div class="article">SPAGHETTI HACKER // HCF</div>
-
-<div class="console" id="root"></div>
-
+<div class="screen" id="root"></div>
 </div>
 
 <script>
-const MODULES = [
+const POSTS = [
 {
-    id:"0x01",
-    name:"reverse_engineering",
+    n:"01",
+    name:"Reverse Engineering",
     file:"get_number.html",
     href:"get_number.html",
     desc:"shellcode-as-png, crackme con vincolo temporizzato"
 },
 {
-    id:"0x02",
-    name:"malware_analysis",
+    n:"02",
+    name:"Malware Analysis",
     file:"no_elf.html",
     href:"no_elf.html",
     desc:"reverse engineering di un ELF dropper con payload in memoria"
 },
 {
-    id:"0x03",
-    name:"ctf_and_vulnerability_research",
+    n:"03",
+    name:"CTF / Vuln Research",
     file:"asm.html",
     href:"asm.html",
     desc:"shellcode injection sotto SECCOMP con filename flag fuori misura"
@@ -152,56 +136,58 @@ const MODULES = [
 const root = document.getElementById("root");
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
-function addLine(html=""){
+function line(html=""){
     const d = document.createElement("div");
-    d.className = "line";
-    d.innerHTML = html;
+    d.className="line";
+    d.innerHTML=html;
     root.appendChild(d);
     return d;
 }
 
-async function typeText(el,text,speed=18){
-    for(const ch of text){
-        el.innerHTML += ch;
+async function type(el,text,speed=16){
+    for(const c of text){
+        el.innerHTML += c;
         await wait(speed);
     }
 }
 
 async function boot(){
 
-    addLine('<span class="dim">booting exploit console...</span>');
+    let l1 = line();
+    await type(l1,"CONNECT 2400 BAUD...");
+    await wait(300);
+
+    let l2 = line();
+    await type(l2,"HANDSHAKE OK");
     await wait(250);
 
-    addLine('<span class="dim">loading modules...</span>');
-    await wait(350);
+    line("");
 
-    for(const m of MODULES){
+    let title = line();
+    await type(title,":: SPAGHETTI HACKER BBS ::");
+    line('<span class="dim">sysop: HCF</span>');
+    line("");
 
-        const sec = document.createElement("div");
-        sec.className = "section";
-        root.appendChild(sec);
+    await wait(300);
 
-        const head = document.createElement("div");
-        head.className = "line";
-        sec.appendChild(head);
+    for(const p of POSTS){
 
-        await typeText(head, `[${m.id}] ${m.name}`);
+        const block = document.createElement("div");
+        block.className="block";
+        block.innerHTML =
+            `[${p.n}] ${p.name}<br>` +
+            `&nbsp;&nbsp;&nbsp;&nbsp;<a href="${p.href}">${p.file}</a><br>` +
+            `<span class="dim">&nbsp;&nbsp;&nbsp;&nbsp;${p.desc}</span>`;
 
-        const entry = document.createElement("div");
-        entry.className = "entry";
-        entry.innerHTML =
-            `→ <a href="${m.href}">${m.file}</a><br>` +
-            `<span class="dim">${m.desc}</span>`;
-
-        sec.appendChild(entry);
-
-        await wait(100);
-        entry.classList.add("visible");
-        await wait(180);
+        root.appendChild(block);
+        await wait(120);
+        block.classList.add("visible");
+        await wait(220);
     }
 
-    await wait(200);
-    addLine('root@spaghetti-hacker:~# <span class="cursor"></span>');
+    line("");
+    line('<span class="dim">Select file...</span>');
+    line('> <span class="cursor"></span>');
 }
 
 boot();
