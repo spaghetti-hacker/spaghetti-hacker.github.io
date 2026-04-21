@@ -10,22 +10,14 @@
     src:url("gohu.woff") format("woff");
 }
 
-:root{
-    --bg:#0c0d10;
-    --text:#65E903;
-    --soft:#9dff5f;
-    --muted:#4f7a35;
-    --dim:#2a3d24;
-}
-
 *{ margin:0; padding:0; box-sizing:border-box; }
 
 body{
-    background:var(--bg);
-    color:var(--text);
+    background:#0c0d10;
+    color:#65E903;
     font-family:gohu,"Lucida Console",monospace;
     font-size:clamp(15px,2.6vw,18px);
-    line-height:1.0;
+    line-height:1.6;
     min-height:100vh;
     padding:40px 20px;
 }
@@ -35,27 +27,24 @@ body{
     margin:auto;
 }
 
-.line{ white-space:pre-wrap; overflow-wrap:anywhere; }
-.line.muted{ color:var(--muted); }
-.line.soft{ color:var(--soft); }
-.line.dim{ color:var(--dim); }
+a{
+    color:#65E903;
+    text-decoration:none;
+}
 
-.prompt{ color:var(--soft); }
-.prompt span{ color:var(--muted); }
-
-/* listing */
-.listing{
-    margin-top:6px;
+a:hover{
+    /*text-decoration:underline;*/
+    color:#4f7a35;
 }
 
 .entry{
     display:grid;
     grid-template-columns: 18ch 14ch 1fr;
     gap:0 10px;
-    padding:2px 0;
     opacity:0;
     transform:translateY(4px);
     transition:opacity .25s, transform .25s;
+    white-space:pre-wrap;
     overflow-wrap:anywhere;
 }
 
@@ -64,27 +53,16 @@ body{
     transform:none;
 }
 
-.entry a{
-    color:var(--text);
-    text-decoration:none;
-    font-family:gohu,"Lucida Console",monospace;
+.line{
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
 }
 
-.entry a:hover{
-    color:var(--soft);
-    text-decoration:underline;
-}
-
-.entry .perms{ color:var(--muted); }
-.entry .date{ color:var(--muted); }
-.entry .desc{ color:var(--soft); }
-
-/* cursore */
 .cursor{
     display:inline-block;
     width:.55em;
     height:1em;
-    background:var(--text);
+    background:#65E903;
     vertical-align:text-bottom;
     animation:blink 1s step-end infinite;
     margin-left:2px;
@@ -95,24 +73,12 @@ body{
     50%{ opacity:0; }
 }
 
-/* sezione nascosta inizialmente */
-.shell-block{
-    opacity:0;
-    transition:opacity .4s;
-}
-.shell-block.visible{
-    opacity:1;
-}
-
 @media(max-width:600px){
     .entry{
         grid-template-columns:1fr;
-        gap:0;
-        border-bottom:1px solid var(--dim);
-        padding:6px 0;
+        padding:4px 0;
     }
     .entry .perms{ display:none; }
-    .entry .date{ font-size:.85em; }
 }
 </style>
 </head>
@@ -142,85 +108,58 @@ const ARTICLES = [
 ];
 
 const root = document.getElementById('root');
-
-// delay utility
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
-// scrive una riga con effetto typing
-async function typeLine(el, text, speed=18){
+async function typeLine(el, text, speed=22){
     for(const ch of text){
         el.textContent += ch;
         await wait(speed);
     }
 }
 
+function mkLine(html=''){
+    const d = document.createElement('div');
+    d.className = 'line';
+    if(html) d.innerHTML = html;
+    return d;
+}
+
 async function boot(){
 
-    // -- riga 1: banner
-    const banner = mkLine('');
-    banner.innerHTML =
-        `<span style="color:var(--muted)">┌─[</span>` +
-        `<span style="color:var(--soft)">HCF</span>` +
-        `<span style="color:var(--muted)">@</span>` +
-        `<span style="color:var(--text)">spaghetti-hacker</span>` +
-        `<span style="color:var(--muted)">]─[~]</span>`;
-    root.appendChild(banner);
-    await wait(120);
-
-    // -- prompt + comando
-    const cmdLine = mkLine('');
+    // prompt + comando
+    const cmdLine = mkLine();
     root.appendChild(cmdLine);
-    cmdLine.innerHTML = `<span class="prompt">└─<span>#</span> </span>`;
+    const promptSpan = document.createElement('span');
+    promptSpan.textContent = 'HCF@spaghetti-hacker:~# ';
+    cmdLine.appendChild(promptSpan);
     const cmdSpan = document.createElement('span');
     cmdLine.appendChild(cmdSpan);
     await typeLine(cmdSpan, 'ls -la ./articles/', 22);
     await wait(300);
 
-    // -- intestazione ls
-    const header = mkLine('total ' + ARTICLES.length, 'muted');
-    root.appendChild(header);
+    // total
+    root.appendChild(mkLine('total ' + ARTICLES.length));
     await wait(80);
 
-    // -- entries
-    const listing = document.createElement('div');
-    listing.className = 'listing';
-    root.appendChild(listing);
-
-    for(let i=0; i<ARTICLES.length; i++){
-        const a = ARTICLES[i];
+    // entries
+    for(const a of ARTICLES){
         const entry = document.createElement('div');
         entry.className = 'entry';
         entry.innerHTML =
             `<span class="perms">-rwxr-xr-x</span>` +
             `<span class="date">${a.date}</span>` +
-            `<span><a href="${a.href}">${a.slug}</a> <span class="desc">;${a.desc}</span></span>`;
-        listing.appendChild(entry);
+            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span>`;
+        root.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
     }
 
-    await wait(250);
+    await wait(200);
 
-    // -- nuova riga prompt con cursore
-    const newPrompt = mkLine('');
-    root.appendChild(newPrompt);
-    newPrompt.innerHTML =
-        `<span style="color:var(--muted)">┌─[</span>` +
-        `<span style="color:var(--soft)">HCF</span>` +
-        `<span style="color:var(--muted)">@</span>` +
-        `<span style="color:var(--text)">spaghetti-hacker</span>` +
-        `<span style="color:var(--muted)">]─[~]</span>`;
-
-    const finalPrompt = mkLine('');
-    root.appendChild(finalPrompt);
-    finalPrompt.innerHTML = `<span class="prompt">└─<span>#</span> </span><span class="cursor"></span>`;
-}
-
-function mkLine(text, cls=''){
-    const d = document.createElement('div');
-    d.className = 'line' + (cls ? ' '+cls : '');
-    d.textContent = text;
-    return d;
+    // prompt finale con cursore
+    const finalLine = mkLine();
+    root.appendChild(finalLine);
+    finalLine.innerHTML = `HCF@spaghetti-hacker:~# <span class="cursor"></span>`;
 }
 
 boot();
