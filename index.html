@@ -71,7 +71,6 @@ body{
 
     10% {
         transform: translate(2px, 0);
-        filter: contrast(1.2) brightness(1.05);
     }
 
     12% {
@@ -92,7 +91,6 @@ body{
 
     36% {
         transform: translate(-6px, 0);
-        filter: contrast(1.4) saturate(1.2);
     }
 
     38% {
@@ -113,7 +111,6 @@ body{
 
     68% {
         transform: translate(-2px, 2px);
-        filter: hue-rotate(10deg);
     }
 
     70% {
@@ -122,7 +119,6 @@ body{
 
     100% {
         transform: translate(0, 0);
-        filter: none;
     }
 }
 
@@ -328,6 +324,22 @@ async function boot(){
 
     let title = line();
     await wait(300); 
+	
+    function triggerCRTGlitch(el){
+    // probabilità irregolare
+    const intensity = Math.random();
+
+    if(intensity < 0.7) return;
+
+    el.classList.add("glitch");
+
+    // durata variabile (cruciale per realism)
+    const duration = 120 + Math.random() * 220;
+
+    setTimeout(() => {
+        el.classList.remove("glitch");
+    }, duration);
+}
 
     const banner = document.createElement("div");
 banner.className = "banner";
