@@ -232,7 +232,6 @@ NO_ELF
 0x00400889 mov edi, 0x13f ; 319
 0x0040088e mov eax, 0
 0x00400893 call sym.imp.syscall</div><pre>
-
 ;319 è il numero della syscall per memfd_create. Questo blocco di codice sta creando un file in memoria chiamato "no_elf" utilizzando la syscall memfd_create con il flag impostato a 1. Il file descriptor risultante dalla chiamata sarà restituito, consentendo di utilizzare il file in memoria per scopi specifici, come l'interprocess communication o la memorizzazione temporanea dei dati.
 
 ;la syscall è memfd_create (numero 319).
