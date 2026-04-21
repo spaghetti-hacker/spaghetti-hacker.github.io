@@ -220,8 +220,8 @@ async function renderSection(sec){
         entry.innerHTML =
             //`<span class="perms">-r--r--r--</span>` +
             //`<span class="date">${a.date}</span>` +
-            `<span><a href="${a.href}">${a.slug}</a>`+
-            `<span style="color:#4f7a35">;${a.desc}</span></span>`;
+            `<span><a href="${a.href}">${a.slug}</a></span>`+
+            `<span style="color:#4f7a35">;${a.desc}</span>`;
         wrap.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
