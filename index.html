@@ -134,10 +134,10 @@ const SECTIONS = [
                 desc: "shellcode-as-png, crackme con vincolo temporizzato"
             },
             {
-                slug: "",
-                href: "",
+                slug: "nuovo_articolo.html",
+                href: "nuovo_articolo.html",
                 date: "2025-05-15",
-                desc: ""
+                desc: "descrizione"
             },
         ]
     },
@@ -151,10 +151,10 @@ const SECTIONS = [
                 desc: "reverse engineering di un ELF dropper con payload in memoria"
             },
             {
-                slug: "",
-                href: "",
+                slug: "nuovo_articolo.html",
+                href: "nuovo_articolo.html",
                 date: "2025-05-15",
-                desc: ""
+                desc: "descrizione"
             },
         ]
     },
@@ -168,10 +168,10 @@ const SECTIONS = [
                 desc: "shellcode injection sotto SECCOMP con filename flag fuori misura"
             },
             {
-                slug: "",
-                href: "",
+                slug: "nuovo_articolo.html",
+                href: "nuovo_articolo.html",
                 date: "2025-05-15",
-                desc: ""
+                desc: "descrizione"
             },
         ]
     },
@@ -211,6 +211,7 @@ async function renderSection(sec){
     await wait(300);
 
     //wrap.appendChild(mkLine('total ' + sec.articles.length));
+    wrap.appendChild(mkLine('      '));
     await wait(80);
 
     for(const a of sec.articles){
