@@ -88,6 +88,8 @@ a:hover{ text-decoration:underline; }
 ASM ~ HCF
 @@@
 
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
 ;il binario asm aspetta in input una shellcode che successivamente esegue; l'obbiettivo è leggere la flag dal filesystem, ma il nomefile della flag è molto lungo e il codice assembly x64 viene successivamente eseguito in un ambiente sandbox SECCOMP. SECCOMP è un meccanismo di sicurezza del kernel Linux che permette di restringere le system call che un processo può eseguire.
 
 ;quando un processo è in modalità SECCOMP, può utilizzare solo un sottoinsieme limitato di syscall. Se tenta di eseguire una syscall non permessa, il kernel può:
