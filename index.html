@@ -193,7 +193,7 @@ async function boot(){
         entry.innerHTML =
             `<span class="perms">-rwxr-xr-x</span>` +
             `<span class="date">${a.date}</span>` +
-            `<span><a href="${a.href}">${a.slug}</a> <span class="desc">// ${a.desc}</span></span>`;
+            `<span><a href="${a.href}">${a.slug}</a> <span class="desc">;${a.desc}</span></span>`;
         listing.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
