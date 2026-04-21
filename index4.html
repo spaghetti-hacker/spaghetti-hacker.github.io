@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPAGHETTI HACKER</title>
+<style>
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:gohu,"Lucida Console",monospace;
+    font-size:clamp(15px,2.6vw,18px);
+    line-height:1.6;
+    min-height:100vh;
+    padding:40px 20px;
+}
+
+.wrapper{
+    max-width:860px;
+    margin:auto;
+}
+
+.article{
+    background:#0f1a0f;
+    border:1px solid #1f2c1b;
+    border-radius:6px;
+    width:100%;
+    display:block;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    padding:10px 14px;
+    font-size:.95em;
+    margin-bottom:32px;
+}
+
+a{
+    color:#65E903;
+    text-decoration:none;
+}
+
+a:hover{
+    color:#4f7a35;
+}
+
+.entry{
+    display:grid;
+    grid-template-columns:18ch 14ch 1fr;
+    gap:0 10px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .25s, transform .25s;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.entry.visible{
+    opacity:1;
+    transform:none;
+}
+
+.line{
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.cursor{
+    display:inline-block;
+    width:.55em;
+    height:1em;
+    background:#65E903;
+    vertical-align:text-bottom;
+    animation:blink 1s step-end infinite;
+    margin-left:2px;
+}
+
+@keyframes blink{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0; }
+}
+
+@media(max-width:600px){
+    .entry{
+        grid-template-columns:1fr;
+        padding:4px 0;
+    }
+    .entry .perms{ display:none; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="article">SPAGHETTI HACKER</div>
+
+<div id="root"></div>
+</div>
+
+<script>
+const ARTICLES = [
+    {
+        slug: "no_elf.html",
+        href: "no_elf.html",
+        date: "2026-01-03",
+        desc: "reverse engineering di un ELF dropper con payload in memoria"
+    },
+    {
+        slug: "another_post",
+        href: "#",
+        date: "2024-02-10",
+        desc: "analisi statica di un rootkit per kernel linux"
+    },
+    {
+        slug: "third_post",
+        href: "#",
+        date: "2024-01-05",
+        desc: "shellcode injection e tecniche di evasione"
+    },
+];
+
+const root = document.getElementById('root');
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+async function typeLine(el, text, speed=22){
+    for(const ch of text){
+        el.textContent += ch;
+        await wait(speed);
+    }
+}
+
+function mkLine(html=''){
+    const d = document.createElement('div');
+    d.className = 'line';
+    if(html) d.innerHTML = html;
+    return d;
+}
+
+async function boot(){
+
+    const cmdLine = mkLine();
+    root.appendChild(cmdLine);
+    const promptSpan = document.createElement('span');
+    promptSpan.textContent = 'root@spaghetti-hacker:~# ';
+    cmdLine.appendChild(promptSpan);
+    const cmdSpan = document.createElement('span');
+    cmdLine.appendChild(cmdSpan);
+    await typeLine(cmdSpan, 'ls -la ./articles/', 22);
+    await wait(300);
+
+    root.appendChild(mkLine('total ' + ARTICLES.length));
+    await wait(80);
+
+    for(const a of ARTICLES){
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML =
+            `<span class="perms">-rwxr-xr-x</span>` +
+            `<span class="date">${a.date}</span>` +
+            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
+        root.appendChild(entry);
+        await wait(60);
+        entry.classList.add('visible');
+    }
+
+    await wait(200);
+
+    const finalLine = mkLine();
+    root.appendChild(finalLine);
+    finalLine.innerHTML = `root@spaghetti-hacker:~# <span class="cursor"></span>`;
+}
+
+boot();
+</script>
+</body>
+</html>
