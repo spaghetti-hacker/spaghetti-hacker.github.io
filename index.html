@@ -170,7 +170,7 @@ async function boot(){
     // -- prompt + comando
     const cmdLine = mkLine('');
     root.appendChild(cmdLine);
-    cmdLine.innerHTML = `<span class="prompt">└─<span>$</span> </span>`;
+    cmdLine.innerHTML = `<span class="prompt">└─<span>#</span> </span>`;
     const cmdSpan = document.createElement('span');
     cmdLine.appendChild(cmdSpan);
     await typeLine(cmdSpan, 'ls -la ./articles/', 22);
@@ -213,7 +213,7 @@ async function boot(){
 
     const finalPrompt = mkLine('');
     root.appendChild(finalPrompt);
-    finalPrompt.innerHTML = `<span class="prompt">└─<span>$</span> </span><span class="cursor"></span>`;
+    finalPrompt.innerHTML = `<span class="prompt">└─<span>#</span> </span><span class="cursor"></span>`;
 }
 
 function mkLine(text, cls=''){
