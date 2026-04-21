@@ -11,6 +11,12 @@
     src:url("gohu.woff") format("woff");
 }
 
+@font-face {
+  font-family: 'Fixedsys';
+  src: url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype');
+}
+
+
 :root{
     --bg:#0c0d10;
     --border:#1f2c1b;
@@ -25,7 +31,7 @@ html{ scroll-behavior:smooth; }
 body{
     background:var(--bg);
     color:var(--text);
-    font-family:gohu,"Lucida Console",monospace;
+    font-family:Fixedsys,gohu,"Lucida Console",monospace;
     font-size:clamp(15px,2.6vw,18px);
     line-height:1.5;
     padding:24px 24px;
