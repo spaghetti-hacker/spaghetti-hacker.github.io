@@ -59,8 +59,76 @@ body{
     100% { transform: translate(0); filter: hue-rotate(0deg); }
 }
 
+@keyframes crtGlitch {
+    0% {
+        transform: translate(0, 0);
+        filter: none;
+    }
+
+    8% {
+        transform: translate(-1px, 0);
+    }
+
+    10% {
+        transform: translate(2px, 0);
+        filter: contrast(1.2) brightness(1.05);
+    }
+
+    12% {
+        transform: translate(-3px, 1px);
+    }
+
+    14% {
+        transform: translate(1px, -1px);
+    }
+
+    18% {
+        transform: translate(0, 0);
+    }
+
+    35% {
+        transform: translate(0, 0);
+    }
+
+    36% {
+        transform: translate(-6px, 0);
+        filter: contrast(1.4) saturate(1.2);
+    }
+
+    38% {
+        transform: translate(4px, 0);
+    }
+
+    40% {
+        transform: translate(0, 0);
+    }
+
+    65% {
+        transform: translate(0, 0);
+    }
+
+    66% {
+        transform: translate(3px, -2px);
+    }
+
+    68% {
+        transform: translate(-2px, 2px);
+        filter: hue-rotate(10deg);
+    }
+
+    70% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+        filter: none;
+    }
+}
+
+
 .banner img{
-    animation: glitch 2.5s infinite;
+    animation: crtGlitch 2.5s infinite;
 }
 
 
