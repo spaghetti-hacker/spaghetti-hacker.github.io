@@ -207,8 +207,7 @@ async function renderSection(sec){
     cmdLine.appendChild(promptSpan);
     const cmdSpan = document.createElement('span');
     cmdLine.appendChild(cmdSpan);
-    //await typeLine(cmdSpan, `ls -la ./${sec.dir}/`, 22);
-    await typeLine(cmdSpan, `ls -1 ./${sec.dir}/`, 22);
+    await typeLine(cmdSpan, `ls -la ./${sec.dir}/`, 22);
     await wait(300);
 
     wrap.appendChild(mkLine('total ' + sec.articles.length));
