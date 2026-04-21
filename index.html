@@ -130,7 +130,7 @@ async function boot(){
     const cmdLine = mkLine();
     root.appendChild(cmdLine);
     const promptSpan = document.createElement('span');
-    promptSpan.textContent = 'HCF@spaghetti-hacker:~# ';
+    promptSpan.textContent = 'hcf@spaghetti-hacker:~# ';
     cmdLine.appendChild(promptSpan);
     const cmdSpan = document.createElement('span');
     cmdLine.appendChild(cmdSpan);
@@ -159,7 +159,7 @@ async function boot(){
     // prompt finale con cursore
     const finalLine = mkLine();
     root.appendChild(finalLine);
-    finalLine.innerHTML = `HCF@spaghetti-hacker:~# <span class="cursor"></span>`;
+    finalLine.innerHTML = `hcf@spaghetti-hacker:~# <span class="cursor"></span>`;
 }
 
 boot();
