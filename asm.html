@@ -339,7 +339,6 @@ call back
 
 ;chiama back e push rip (indirizzo filename) sullo stack.
 
-;syscall open()
 
 @@@
 xor rax, rax
@@ -348,13 +347,12 @@ xor rsi, rsi
 syscall
 @@@
 
+;syscall open()
 ;rdi già contiene il puntatore al filename.
 ;syscall 2 per open.
 ;flags O_RDONLY=0
 ;rdx non serve per open.
 ;fd ritornato in rax.
-
-;syscall read()
 
 @@@
 mov rdi, rax
@@ -365,14 +363,13 @@ mov dx, 0x300
 syscall
 @@@
 
+;syscall read()
 ;fd del file.
 ;syscall number 0 (read).
 ;sub rsp, crea spazio sullo stack.
 ;in rsi l'indirizzo del buffer dove scrivere.
 ;in dx 0x300 dimensione massima.
 ;bytes letti in rax.
-
-;syscall write()
 
 @@@
 mov rdx, rax
@@ -381,12 +378,12 @@ mov dil, 1
 syscall
 @@@
 
+;syscall write()
 ;lunghezza da scrivere.
 ;syscall write.
 ;fd stdout.
 ;rsi già punta al buffer.
 
-;syscall exit()
 
 @@@
 mov al, 60
@@ -394,7 +391,7 @@ xor rdi, rdi
 syscall
 @@@
 
-;syscall exit.
+;syscall exit()
 ;exit code 0.
 
 ;eseguendo lo script otteniamo la flag dal file con il nome estremamente lungo.
