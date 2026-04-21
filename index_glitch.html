@@ -38,81 +38,31 @@ body{
     padding:36px 22px;
 }
 
-body{
-    background:#0c0d10;
-    color:#65E903;
-    font-family:gohu,"Lucida Console",monospace;
-    position:relative;
-    overflow-x:hidden;
-}
-
-/* CRT overlay globale */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,0.03),
-            rgba(255,255,255,0.03) 1px,
-            transparent 2px,
-            transparent 4px
-        );
-    opacity:0.25;
-    mix-blend-mode:overlay;
-}
-
-/* leggero flicker globale */
-@keyframes flicker {
-    0% { opacity:1; }
-    97% { opacity:1; }
-    98% { opacity:0.97; }
-    99% { opacity:1; }
-    100% { opacity:0.99; }
-}
-
-.screen{
-    animation: flicker 3s infinite;
-}
-
-/* BANNER: “materializzazione analogica” */
 .banner{
-    position:relative;
+    text-align:center;
     margin-bottom:18px;
-    filter: contrast(1.1) brightness(1.05);
 }
 
-.banner img{
-    width:100%;
+/*.banner img{
     max-width:100%;
-    opacity:0;
-    transform: scale(1.02) translateY(-6px);
-    filter: blur(2px) saturate(1.2);
-    transition: all 0.8s ease;
-}
+    height:auto;
+    image-rendering:pixelated;
+    filter:drop-shadow(0 0 4px rgba(101,233,3,.35));
+}*/
 
-/* stato attivo */
-.banner img.on{
-    opacity:1;
-    transform: scale(1) translateY(0);
-    filter: blur(0px) saturate(1.4);
-}
-
-/* glitch raro */
 @keyframes glitch {
-    0% { transform: translate(0); }
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
     20% { transform: translate(-1px, 1px); }
     40% { transform: translate(1px, -1px); }
     60% { transform: translate(-1px, -1px); }
     80% { transform: translate(1px, 1px); }
-    100% { transform: translate(0); }
+    100% { transform: translate(0); filter: hue-rotate(0deg); }
 }
 
-.banner.glitch img.on{
-    animation: glitch 0.25s steps(2) 2;
+.banner img{
+    animation: glitch 2.5s infinite;
 }
+
 
 .ascii{
     margin:0;
@@ -310,40 +260,14 @@ async function boot(){
 
     let title = line();
     await wait(300); 
-	
-function rand(min,max){
-    return Math.floor(Math.random()*(max-min+1))+min;
-}
 
-function createBanner(){
     const banner = document.createElement("div");
-    banner.className = "banner";
+banner.className = "banner";
 
-    const img = document.createElement("img");
-    img.src = "banner.png";
-    img.alt = "Spaghetti Hacker BBS";
+banner.innerHTML = `<img src="banner.png" alt="Spaghetti Hacker BBS">`;
 
-    banner.appendChild(img);
-    root.appendChild(banner);
+root.appendChild(banner);
 
-    // “boot analogico”
-    setTimeout(() => {
-        img.classList.add("on");
-    }, 400);
-
-    // glitch raro (effetto instabilità sistema)
-    setInterval(() => {
-        if(Math.random() < 0.12){
-            banner.classList.add("glitch");
-            setTimeout(() => banner.classList.remove("glitch"), 300);
-        }
-    }, rand(2000, 5000));
-
-    return banner;
-}
-
-    createBanner();
-    await wait(300);
 
     line('<span class="dim">sysop: HCF</span>');
 
