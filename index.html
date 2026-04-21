@@ -63,7 +63,7 @@ a:hover{
 .entry{
     display:grid;
     /*grid-template-columns:18ch 14ch 1fr;*/
-    grid-template-columns:1fr;
+    grid-template-columns:14ch 1fr;
     gap:0 10px;
     opacity:0;
     transform:translateY(4px);
@@ -220,7 +220,8 @@ async function renderSection(sec){
         entry.innerHTML =
             //`<span class="perms">-r--r--r--</span>` +
             //`<span class="date">${a.date}</span>` +
-            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
+            `<span><a href="${a.href}">${a.slug}</a>`+
+            `<span style="color:#4f7a35">;${a.desc}</span></span>`;
         wrap.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
