@@ -1,33 +1,229 @@
-<html>
+<!DOCTYPE html>
+<html lang="it">
 <head>
-<title>Spaghetti Hacker</title>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>spaghetti-hacker</title>
 <style>
-    body {
-      color: #65E903;
-      background-color: #0c0d10;
-      margin: 0 auto;
-      padding: 1em 0 1em 0;
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+:root{
+    --bg:#0c0d10;
+    --text:#65E903;
+    --soft:#9dff5f;
+    --muted:#4f7a35;
+    --dim:#2a3d24;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:gohu,"Lucida Console",monospace;
+    font-size:clamp(13px,2.2vw,16px);
+    line-height:1.6;
+    min-height:100vh;
+    padding:40px 20px;
+}
+
+.wrapper{
+    max-width:860px;
+    margin:auto;
+}
+
+.line{ white-space:pre-wrap; overflow-wrap:anywhere; }
+.line.muted{ color:var(--muted); }
+.line.soft{ color:var(--soft); }
+.line.dim{ color:var(--dim); }
+
+.prompt{ color:var(--soft); }
+.prompt span{ color:var(--muted); }
+
+/* listing */
+.listing{
+    margin-top:6px;
+}
+
+.entry{
+    display:grid;
+    grid-template-columns: 18ch 14ch 1fr;
+    gap:0 10px;
+    padding:2px 0;
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .25s, transform .25s;
+    overflow-wrap:anywhere;
+}
+
+.entry.visible{
+    opacity:1;
+    transform:none;
+}
+
+.entry a{
+    color:var(--text);
+    text-decoration:none;
+    font-family:gohu,"Lucida Console",monospace;
+}
+
+.entry a:hover{
+    color:var(--soft);
+    text-decoration:underline;
+}
+
+.entry .perms{ color:var(--muted); }
+.entry .date{ color:var(--muted); }
+.entry .desc{ color:var(--soft); }
+
+/* cursore */
+.cursor{
+    display:inline-block;
+    width:.55em;
+    height:1em;
+    background:var(--text);
+    vertical-align:text-bottom;
+    animation:blink 1s step-end infinite;
+    margin-left:2px;
+}
+
+@keyframes blink{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0; }
+}
+
+/* sezione nascosta inizialmente */
+.shell-block{
+    opacity:0;
+    transition:opacity .4s;
+}
+.shell-block.visible{
+    opacity:1;
+}
+
+@media(max-width:600px){
+    .entry{
+        grid-template-columns:1fr;
+        gap:0;
+        border-bottom:1px solid var(--dim);
+        padding:6px 0;
     }
-@font-face { font-family: "gohu"; src: url("gohu.woff") format('woff'); }
-       pre { font-family: "gohu", "Lucida Console", monospace, Monaco; font-size: 14px; line-height: 1.0; }
-         a { color: #65E903; text-decoration: none; }
+    .entry .perms{ display:none; }
+    .entry .date{ font-size:.85em; }
+}
 </style>
 </head>
 <body>
-<center><div style="display: inline-block; text-align: left;"><pre>
-                                                  ┌───────────────────────┐
-                                                  ▄   ▄ ▄▄▄▄▄ ▄▄▄▄▄       │
-                                                  █   █ █     █           │
-                                                  █▀▀▀█ █     █▀▀▀▀       │
-                                                  █   █ █▄▄▄▄ █           │
-┌─────────────────────────────────────────────────┐                       │
-│ log.HCF                                         │                       │
-│                                     CONTENTS    └───────────────────────┘
-│                                                                        │ 
-│ log.000  <a href="0.html">Intro</a> ................................................... HCF │
-│ log.001  <a href="1.html">NO ELF</a> .................................................. HCF │
-│                                                                        │ 
-└────────────────────────────────────────────────────────────────────────┘ 
+<div class="wrapper" id="root"></div>
 
-</pre></div></center></body></html>
+<script>
+const ARTICLES = [
+    {
+        slug: "no_elf",
+        href: "no_elf.html",
+        date: "2024-03-15",
+        desc: "reverse engineering di un ELF dropper con payload in memoria"
+    },
+    {
+        slug: "another_post",
+        href: "#",
+        date: "2024-02-10",
+        desc: "analisi statica di un rootkit per kernel linux"
+    },
+    {
+        slug: "third_post",
+        href: "#",
+        date: "2024-01-05",
+        desc: "shellcode injection e tecniche di evasione"
+    },
+];
+
+const root = document.getElementById('root');
+
+// delay utility
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+// scrive una riga con effetto typing
+async function typeLine(el, text, speed=18){
+    for(const ch of text){
+        el.textContent += ch;
+        await wait(speed);
+    }
+}
+
+async function boot(){
+
+    // -- riga 1: banner
+    const banner = mkLine('');
+    banner.innerHTML =
+        `<span style="color:var(--muted)">┌─[</span>` +
+        `<span style="color:var(--soft)">hcf</span>` +
+        `<span style="color:var(--muted)">@</span>` +
+        `<span style="color:var(--text)">spaghetti-hacker</span>` +
+        `<span style="color:var(--muted)">]─[~]</span>`;
+    root.appendChild(banner);
+    await wait(120);
+
+    // -- prompt + comando
+    const cmdLine = mkLine('');
+    root.appendChild(cmdLine);
+    cmdLine.innerHTML = `<span class="prompt">└─<span>$</span> </span>`;
+    const cmdSpan = document.createElement('span');
+    cmdLine.appendChild(cmdSpan);
+    await typeLine(cmdSpan, 'ls -la ./articles/', 22);
+    await wait(300);
+
+    // -- intestazione ls
+    const header = mkLine('total ' + ARTICLES.length, 'muted');
+    root.appendChild(header);
+    await wait(80);
+
+    // -- entries
+    const listing = document.createElement('div');
+    listing.className = 'listing';
+    root.appendChild(listing);
+
+    for(let i=0; i<ARTICLES.length; i++){
+        const a = ARTICLES[i];
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML =
+            `<span class="perms">-rwxr-xr-x</span>` +
+            `<span class="date">${a.date}</span>` +
+            `<span><a href="${a.href}">${a.slug}</a> <span class="desc">// ${a.desc}</span></span>`;
+        listing.appendChild(entry);
+        await wait(60);
+        entry.classList.add('visible');
+    }
+
+    await wait(250);
+
+    // -- nuova riga prompt con cursore
+    const newPrompt = mkLine('');
+    root.appendChild(newPrompt);
+    newPrompt.innerHTML =
+        `<span style="color:var(--muted)">┌─[</span>` +
+        `<span style="color:var(--soft)">hcf</span>` +
+        `<span style="color:var(--muted)">@</span>` +
+        `<span style="color:var(--text)">spaghetti-hacker</span>` +
+        `<span style="color:var(--muted)">]─[~]</span>`;
+
+    const finalPrompt = mkLine('');
+    root.appendChild(finalPrompt);
+    finalPrompt.innerHTML = `<span class="prompt">└─<span>$</span> </span><span class="cursor"></span>`;
+}
+
+function mkLine(text, cls=''){
+    const d = document.createElement('div');
+    d.className = 'line' + (cls ? ' '+cls : '');
+    d.textContent = text;
+    return d;
+}
+
+boot();
+</script>
+</body>
+</html>
