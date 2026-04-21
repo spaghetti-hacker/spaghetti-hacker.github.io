@@ -54,6 +54,7 @@ body{
 .line{
     white-space:pre-wrap;
     overflow-wrap:anywhere;
+    min-height:1em;
 }
 
 .dim{
@@ -81,6 +82,19 @@ a:hover{
     transform:none;
 }
 
+.post{
+    margin-top:8px;
+    padding-left:18px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.25s;
+}
+
+.post.visible{
+    opacity:1;
+    transform:none;
+}
+
 .cursor{
     display:inline-block;
     width:.55em;
@@ -104,32 +118,75 @@ a:hover{
 </head>
 
 <body>
+
 <div class="wrapper">
 <div class="screen" id="root"></div>
 </div>
 
 <script>
-const POSTS = [
+const SECTIONS = [
 {
-    n:"01",
-    name:"Reverse Engineering",
-    file:"get_number.html",
-    href:"get_number.html",
-    desc:"shellcode-as-png, crackme con vincolo temporizzato"
+    n:"0x01",
+    name:"REVERSE ENGINEERING",
+    posts:[
+        {
+            file:"get_number.html",
+            href:"get_number.html",
+            desc:"shellcode-as-png, crackme con vincolo temporizzato"
+        },
+        {
+            file:"crackme_timer.html",
+            href:"crackme_timer.html",
+            desc:"anti-debug e controllo temporale"
+        },
+        {
+            file:"packed_binary.html",
+            href:"packed_binary.html",
+            desc:"unpacking manuale e reversing payload"
+        }
+    ]
 },
 {
-    n:"02",
-    name:"Malware Analysis",
-    file:"no_elf.html",
-    href:"no_elf.html",
-    desc:"reverse engineering di un ELF dropper con payload in memoria"
+    n:"0x02",
+    name:"MALWARE ANALYSIS",
+    posts:[
+        {
+            file:"no_elf.html",
+            href:"no_elf.html",
+            desc:"reverse engineering di un ELF dropper con payload in memoria"
+        },
+        {
+            file:"loader_xor.html",
+            href:"loader_xor.html",
+            desc:"config cifrata XOR e persistenza"
+        },
+        {
+            file:"bot_client.html",
+            href:"bot_client.html",
+            desc:"network beaconing e logica C2"
+        }
+    ]
 },
 {
-    n:"03",
-    name:"CTF / Vuln Research",
-    file:"asm.html",
-    href:"asm.html",
-    desc:"shellcode injection sotto SECCOMP con filename flag fuori misura"
+    n:"0x03",
+    name:"CTF & VULNERABILITY RESEARCH",
+    posts:[
+        {
+            file:"asm.html",
+            href:"asm.html",
+            desc:"shellcode injection sotto SECCOMP con filename fuori misura"
+        },
+        {
+            file:"format_string.html",
+            href:"format_string.html",
+            desc:"arbitrary write via printf controllata"
+        },
+        {
+            file:"heap_notes.html",
+            href:"heap_notes.html",
+            desc:"use-after-free e tcache poisoning"
+        }
+    ]
 }
 ];
 
@@ -138,8 +195,8 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 
 function line(html=""){
     const d = document.createElement("div");
-    d.className="line";
-    d.innerHTML=html;
+    d.className = "line";
+    d.innerHTML = html;
     root.appendChild(d);
     return d;
 }
@@ -165,32 +222,47 @@ async function boot(){
 
     let title = line();
     await type(title,":: SPAGHETTI HACKER BBS ::");
+
     line('<span class="dim">sysop: HCF</span>');
     line("");
 
     await wait(300);
 
-    for(const p of POSTS){
+    for(const sec of SECTIONS){
 
-        const block = document.createElement("div");
-        block.className="block";
-        block.innerHTML =
-            `[${p.n}] ${p.name}<br>` +
-            `&nbsp;&nbsp;&nbsp;&nbsp;<a href="${p.href}">${p.file}</a><br>` +
-            `<span class="dim">&nbsp;&nbsp;&nbsp;&nbsp;${p.desc}</span>`;
+        const head = document.createElement("div");
+        head.className = "block";
+        head.innerHTML = `[${sec.n}] ${sec.name}`;
+        root.appendChild(head);
 
-        root.appendChild(block);
         await wait(120);
-        block.classList.add("visible");
-        await wait(220);
+        head.classList.add("visible");
+        await wait(180);
+
+        for(const p of sec.posts){
+
+            const post = document.createElement("div");
+            post.className = "post";
+
+            post.innerHTML =
+                `→ <a href="${p.href}">${p.file}</a><br>` +
+                `<span class="dim">  ;${p.desc}</span>`;
+
+            root.appendChild(post);
+
+            await wait(90);
+            post.classList.add("visible");
+            await wait(150);
+        }
+
+        line("");
     }
 
-    line("");
-    line('<span class="dim">Select file...</span>');
-    line('> <span class="cursor"></span>');
+    line('<span>root@spaghetti-hacker:~#</span> <span class="cursor"></span>');
 }
 
 boot();
 </script>
+
 </body>
 </html>
