@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPAGHETTI HACKER</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Fixedsys';
+  src: url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'VT323';
+  src: url('VT323-Regular.ttf') format('truetype');
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:gohu,"Lucida Console",monospace;
+    font-size:clamp(15px,2.6vw,18px);
+    line-height:1.6;
+    min-height:100vh;
+    padding:40px 24px;
+}
+
+.wrapper{
+    max-width:860px;
+    margin:auto;
+}
+
+.article{
+    background:#0f1a0f;
+    border:1px solid #1f2c1b;
+    border-radius:6px;
+    width:100%;
+    display:block;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    padding:10px 14px;
+    font-size:.95em;
+    margin-bottom:32px;
+}
+
+a{
+    color:#65E903;
+    text-decoration:none;
+}
+
+a:hover{
+    color:#4f7a35;
+}
+
+.entry{
+    display:grid;
+    /*grid-template-columns:18ch 14ch 1fr;*/
+    grid-template-columns:14ch 1fr;
+    gap:0 10px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .25s, transform .25s;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.entry.visible{
+    opacity:1;
+    transform:none;
+}
+
+.line{
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.cursor{
+    display:inline-block;
+    width:.55em;
+    height:1em;
+    background:#65E903;
+    vertical-align:text-bottom;
+    animation:blink 1s step-end infinite;
+    margin-left:2px;
+}
+
+@keyframes blink{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0; }
+}
+
+.section{
+    margin-bottom:32px;
+}
+
+@media(max-width:600px){
+    .entry{
+        grid-template-columns:1fr;
+        padding:4px 0;
+    }
+    .entry .perms{ display:none; }
+}
+
+#root{
+    padding-left:14px;
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="article">SPAGHETTI HACKER ~ HCF</div>
+
+<div id="root"></div>
+</div>
+
+<script>
+const SECTIONS = [
+    {
+        dir: "reverse_engineering",
+        articles: [
+            {
+                slug: "get_number.html",
+                href: "get_number.html",
+                date: "2025-05-15",
+                desc: "shellcode-as-png, crackme con vincolo temporizzato"
+            },
+        ]
+    },
+    {
+        dir: "malware_analysis",
+        articles: [
+            {
+                slug: "no_elf.html",
+                href: "no_elf.html",
+                date: "2024-10-15",
+                desc: "reverse engineering di un ELF dropper con payload in memoria"
+            },
+        ]
+    },
+    {
+        dir: "ctf_and_vulnerability_research",
+        articles: [
+            {
+                slug: "asm.html",
+                href: "asm.html",
+                date: "2026-02-04",
+                desc: "shellcode injection sotto SECCOMP con filename flag fuori misura"
+            },
+        ]
+    },
+];
+
+const root = document.getElementById('root');
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+async function typeLine(el, text, speed=22){
+    for(const ch of text){
+        el.textContent += ch;
+        await wait(speed);
+    }
+}
+
+function mkLine(html=''){
+    const d = document.createElement('div');
+    d.className = 'line';
+    if(html) d.innerHTML = html;
+    return d;
+}
+
+async function renderSection(sec){
+    const wrap = document.createElement('div');
+    wrap.className = 'section';
+    root.appendChild(wrap);
+
+    // prompt + comando
+    const cmdLine = mkLine();
+    wrap.appendChild(cmdLine);
+    const promptSpan = document.createElement('span');
+    promptSpan.textContent = 'root@spaghetti-hacker:~# ';
+    cmdLine.appendChild(promptSpan);
+    const cmdSpan = document.createElement('span');
+    cmdLine.appendChild(cmdSpan);
+    await typeLine(cmdSpan, `ls -la ./${sec.dir}/`, 22);
+    await wait(300);
+
+    wrap.appendChild(mkLine('total ' + sec.articles.length));
+    await wait(80);
+
+    for(const a of sec.articles){
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML =
+            //`<span class="perms">-r--r--r--</span>` +
+            `<span class="date">${a.date}</span>` +
+            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
+        wrap.appendChild(entry);
+        await wait(60);
+        entry.classList.add('visible');
+    }
+
+    await wait(150);
+}
+
+async function boot(){
+    for(const sec of SECTIONS){
+        await renderSection(sec);
+    }
+
+    await wait(200);
+    const finalLine = mkLine();
+    root.appendChild(finalLine);
+    finalLine.innerHTML = `root@spaghetti-hacker:~# <span class="cursor"></span>`;
+}
+
+boot();
+</script>
+</body>
+</html>
