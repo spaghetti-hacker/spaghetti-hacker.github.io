@@ -43,12 +43,26 @@ body{
     margin-bottom:18px;
 }
 
-.banner img{
+/*.banner img{
     max-width:100%;
     height:auto;
     image-rendering:pixelated;
     filter:drop-shadow(0 0 4px rgba(101,233,3,.35));
+}*/
+
+@keyframes glitch {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(1px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); filter: hue-rotate(0deg); }
 }
+
+.banner img{
+    animation: glitch 2.5s infinite;
+}
+
 
 .ascii{
     margin:0;
