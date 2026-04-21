@@ -336,8 +336,6 @@ async function boot(){
     await type(l2,"HANDSHAKE OK");
     await wait(250);
 
-    line("");
-
     let title = line();
     await wait(300); 
 	
@@ -355,14 +353,12 @@ async function boot(){
     setTimeout(() => {
         el.classList.remove("glitch");
     }, duration);
-}
+    }
 
     const banner = document.createElement("div");
-banner.className = "banner";
-
-banner.innerHTML = `<img src="banner.png" alt="Spaghetti Hacker BBS">`;
-
-root.appendChild(banner);
+    banner.className = "banner";
+    banner.innerHTML = `<img src="banner.png" alt="Spaghetti Hacker BBS">`;
+    root.appendChild(banner);
 
 
     line('<span class="dim">sysop: HCF</span>');
