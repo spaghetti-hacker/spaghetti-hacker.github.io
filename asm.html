@@ -193,8 +193,6 @@ call rax
 
 ;esegue la shellcode.
 
-------------------------------------------------------------------------------
-
 @@@
 [0x00000d64]> s sym.sandbox
 [0x00000c50]> pdf
@@ -231,8 +229,6 @@ call rax
 ;exit 60 (0x3c)
 ;exit_group 231 (0xe7)
 
-------------------------------------------------------------------------------
-
 ;obiettivo
 
 ;leggere il contenuto del file con il nome lunghissimo:
@@ -246,8 +242,6 @@ this_is_pwnable.kr_flag_file_please_read_this_file.sorry_the_file_name_is_very_l
 ;jmp a una label che contiene il filename.
 ;call torna indietro al codice principale (push rip sullo stack, che contiene l'indirizzo della stringa filename).
 ;pop recupera l'indirizzo del filename dallo stack.
-
-------------------------------------------------------------------------------
 
 ;shellcode exploit
 
