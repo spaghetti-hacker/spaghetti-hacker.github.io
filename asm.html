@@ -446,7 +446,8 @@ MXXXXX_XXXXXXXX_XX_XXX_XXSy
         if(paragraphs.length > 0){
             html += `<div class="commento">\n`;
             for(const p of paragraphs){
-                html += `<p>${p}</p>\n`;
+                //html += `<p>${p}</p>\n`;
+	  	html += `<p>${p.replace(/\n/g, '<br>')}</p>\n`;
             }
             html += `</div>\n`;
         }
