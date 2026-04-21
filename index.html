@@ -27,19 +27,31 @@ body{
     margin:auto;
 }
 
+.article{
+    background:#0f1a0f;
+    border:1px solid #1f2c1b;
+    border-radius:6px;
+    width:100%;
+    display:block;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    padding:10px 14px;
+    font-size:.95em;
+    margin-bottom:32px;
+}
+
 a{
     color:#65E903;
     text-decoration:none;
 }
 
 a:hover{
-    /*text-decoration:underline;*/
     color:#4f7a35;
 }
 
 .entry{
     display:grid;
-    grid-template-columns: 18ch 14ch 1fr;
+    grid-template-columns:18ch 14ch 1fr;
     gap:0 10px;
     opacity:0;
     transform:translateY(4px);
@@ -83,7 +95,12 @@ a:hover{
 </style>
 </head>
 <body>
-<div class="wrapper" id="root"></div>
+<div class="wrapper">
+
+<div class="article">SPAGHETTI HACKER ~ HCF</div>
+
+<div id="root"></div>
+</div>
 
 <script>
 const ARTICLES = [
@@ -126,7 +143,6 @@ function mkLine(html=''){
 
 async function boot(){
 
-    // prompt + comando
     const cmdLine = mkLine();
     root.appendChild(cmdLine);
     const promptSpan = document.createElement('span');
@@ -137,18 +153,16 @@ async function boot(){
     await typeLine(cmdSpan, 'ls -la ./articles/', 22);
     await wait(300);
 
-    // total
     root.appendChild(mkLine('total ' + ARTICLES.length));
     await wait(80);
 
-    // entries
     for(const a of ARTICLES){
         const entry = document.createElement('div');
         entry.className = 'entry';
         entry.innerHTML =
             `<span class="perms">-rwxr-xr-x</span>` +
             `<span class="date">${a.date}</span>` +
-            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span>`;
+            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
         root.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
@@ -156,7 +170,6 @@ async function boot(){
 
     await wait(200);
 
-    // prompt finale con cursore
     const finalLine = mkLine();
     root.appendChild(finalLine);
     finalLine.innerHTML = `root@spaghetti-hacker:~# <span class="cursor"></span>`;
