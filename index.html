@@ -38,105 +38,31 @@ body{
     padding:36px 22px;
 }
 
-body{
-    background:#0c0d10;
-    color:#65E903;
-    font-family:gohu,"Lucida Console",monospace;
-    position:relative;
-    overflow-x:hidden;
-}
-
-/* CRT overlay globale */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,0.03),
-            rgba(255,255,255,0.03) 1px,
-            transparent 2px,
-            transparent 4px
-        );
-    opacity:0.25;
-    mix-blend-mode:overlay;
-}
-
-/* leggero flicker globale */
-@keyframes flicker {
-    0% { opacity:1; }
-    97% { opacity:1; }
-    98% { opacity:0.97; }
-    99% { opacity:1; }
-    100% { opacity:0.99; }
-}
-
-.screen{
-    animation: flicker 3s infinite;
-}
-
 .banner{
-    position:relative;
+    text-align:center;
     margin-bottom:18px;
-    overflow:hidden;
 }
 
-/* immagine iniziale "distorta" */
+/*.banner img{
+    max-width:100%;
+    height:auto;
+    image-rendering:pixelated;
+    filter:drop-shadow(0 0 4px rgba(101,233,3,.35));
+}*/
+
+@keyframes glitch {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(1px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); filter: hue-rotate(0deg); }
+}
+
 .banner img{
-    width:100%;
-    opacity:0;
-    transform: scale(1.02);
-    filter: blur(6px) contrast(1.3) brightness(0.8);
-    clip-path: inset(0 0 100% 0);
+    animation: glitch 2.5s infinite;
 }
 
-/* fase 1: segnale acquisito */
-.banner img.decode{
-    opacity:1;
-    animation: scanReveal 1.8s ease-out forwards;
-}
-
-/* scan verticale tipo decoding */
-@keyframes scanReveal{
-    0%{
-        clip-path: inset(100% 0 0 0);
-        filter: blur(8px) contrast(1.5) brightness(0.6);
-    }
-    60%{
-        clip-path: inset(20% 0 0 0);
-        filter: blur(3px) contrast(1.2) brightness(0.9);
-    }
-    100%{
-        clip-path: inset(0 0 0 0);
-        filter: blur(0px) contrast(1.1) brightness(1.05);
-    }
-}
-
-/* noise overlay tipo segnale analogico */
-.banner::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background:
-        repeating-radial-gradient(
-            circle at 50% 50%,
-            rgba(255,255,255,0.04) 0px,
-            rgba(0,0,0,0.02) 2px,
-            transparent 3px
-        );
-    opacity:0.25;
-    mix-blend-mode:overlay;
-    animation: noiseMove 0.4s steps(2) infinite;
-}
-
-@keyframes noiseMove{
-    0%{transform:translate(0,0);}
-    50%{transform:translate(-1px,1px);}
-    100%{transform:translate(1px,-1px);}
-}
 
 .ascii{
     margin:0;
@@ -335,48 +261,13 @@ async function boot(){
     let title = line();
     await wait(300); 
 
-function rand(min,max){
-    return Math.random()*(max-min)+min;
-}
-
-function createBanner(){
     const banner = document.createElement("div");
-    banner.className = "banner";
+banner.className = "banner";
 
-    const img = document.createElement("img");
-    img.src = "banner.png";
-    img.alt = "Spaghetti Hacker BBS";
+banner.innerHTML = `<img src="banner.png" alt="Spaghetti Hacker BBS">`;
 
-    banner.appendChild(img);
-    root.appendChild(banner);
+root.appendChild(banner);
 
-    // Fase 0: "signal lock"
-    setTimeout(() => {
-        img.classList.add("decode");
-    }, 300);
-
-    // micro glitch durante la decodifica
-    const glitchInterval = setInterval(() => {
-        const jitter = rand(0, 1);
-
-        if (jitter > 0.85) {
-            img.style.transform = `translate(${rand(-1,1)}px, ${rand(-1,1)}px) scale(1.02)`;
-        } else {
-            img.style.transform = "scale(1.02)";
-        }
-    }, 80);
-
-    // fine decodifica → stabilizzazione
-    setTimeout(() => {
-        clearInterval(glitchInterval);
-        img.style.transform = "scale(1)";
-    }, 2000);
-
-    return banner;
-}
-
-    createBanner();
-    await wait(300);
 
     line('<span class="dim">sysop: HCF</span>');
 
