@@ -86,10 +86,6 @@ a:hover{
     50%{ opacity:0; }
 }
 
-.section{
-    margin-bottom:32px;
-}
-
 @media(max-width:600px){
     .entry{
         grid-template-columns:1fr;
@@ -101,6 +97,7 @@ a:hover{
 #root{
     padding-left:14px;
 }
+
 </style>
 </head>
 <body>
@@ -112,39 +109,24 @@ a:hover{
 </div>
 
 <script>
-const SECTIONS = [
+const ARTICLES = [
     {
-        dir: "reverse_engineering",
-        articles: [
-            {
-                slug: "no_elf",
-                href: "no_elf.html",
-                date: "2026-01-03",
-                desc: "reverse engineering di un ELF dropper con payload in memoria"
-            },
-        ]
+        slug: "no_elf.html",
+        href: "no_elf.html",
+        date: "2026-01-03",
+        desc: "reverse engineering di un ELF dropper con payload in memoria"
     },
     {
-        dir: "malware_analysis",
-        articles: [
-            {
-                slug: "another_post",
-                href: "#",
-                date: "2024-02-10",
-                desc: "analisi statica di un rootkit per kernel linux"
-            },
-        ]
+        slug: "another_post",
+        href: "#",
+        date: "2024-02-10",
+        desc: "analisi statica di un rootkit per kernel linux"
     },
     {
-        dir: "ctf_and_vulnerability_research",
-        articles: [
-            {
-                slug: "third_post",
-                href: "#",
-                date: "2024-01-05",
-                desc: "shellcode injection e tecniche di evasione"
-            },
-        ]
+        slug: "third_post",
+        href: "#",
+        date: "2024-01-05",
+        desc: "shellcode injection e tecniche di evasione"
     },
 ];
 
@@ -165,46 +147,35 @@ function mkLine(html=''){
     return d;
 }
 
-async function renderSection(sec){
-    const wrap = document.createElement('div');
-    wrap.className = 'section';
-    root.appendChild(wrap);
+async function boot(){
 
-    // prompt + comando
     const cmdLine = mkLine();
-    wrap.appendChild(cmdLine);
+    root.appendChild(cmdLine);
     const promptSpan = document.createElement('span');
     promptSpan.textContent = 'root@spaghetti-hacker:~# ';
     cmdLine.appendChild(promptSpan);
     const cmdSpan = document.createElement('span');
     cmdLine.appendChild(cmdSpan);
-    await typeLine(cmdSpan, `ls -la ./${sec.dir}/`, 22);
+    await typeLine(cmdSpan, 'ls -la ./articles/', 22);
     await wait(300);
 
-    wrap.appendChild(mkLine('total ' + sec.articles.length));
+    root.appendChild(mkLine('total ' + ARTICLES.length));
     await wait(80);
 
-    for(const a of sec.articles){
+    for(const a of ARTICLES){
         const entry = document.createElement('div');
         entry.className = 'entry';
         entry.innerHTML =
             `<span class="perms">-rwxr-xr-x</span>` +
             `<span class="date">${a.date}</span>` +
             `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
-        wrap.appendChild(entry);
+        root.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
     }
 
-    await wait(150);
-}
-
-async function boot(){
-    for(const sec of SECTIONS){
-        await renderSection(sec);
-    }
-
     await wait(200);
+
     const finalLine = mkLine();
     root.appendChild(finalLine);
     finalLine.innerHTML = `root@spaghetti-hacker:~# <span class="cursor"></span>`;
