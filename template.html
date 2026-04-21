@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NO_ELF | HCF</title>
+<style>
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+:root{
+    --bg:#0c0d10;
+    --border:#1f2c1b;
+    --text:#65E903;
+    --soft:#9dff5f;
+    --muted:#4f7a35;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:gohu,"Lucida Console",monospace;
+    font-size:clamp(15px,2.6vw,18px);
+    line-height:1.5;
+    padding:24px 14px;
+}
+
+.wrapper{ max-width:1024px; margin:auto; }
+
+/* box codice */
+.article{
+    background:#0f1a0f;
+    border:1px solid var(--border);
+    border-radius:6px;
+    width:100%;
+    display:block;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    padding:10px 14px;
+    font-size:.95em;
+    margin:16px 0;
+}
+
+/* testo commento */
+.commento{
+    margin:16px 0;
+    overflow-wrap:anywhere;
+}
+.commento p{
+    margin-bottom:10px;
+}
+.commento p:last-child{
+    margin-bottom:0;
+}
+
+a{ color:#65E903; text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+@media(max-width:768px){
+    body{ padding:0; }
+    .article{ border-radius:0; }
+    .wrapper{ padding:12px; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper" id="output"></div>
+
+<!--
+  ================================================================
+  SCRIVI QUI IL TUO CONTENUTO
+  ================================================================
+
+  REGOLE:
+  - Le righe tra @@@ e @@@ diventano un box .article (codice/assembly)
+  - Il testo normale diventa commento con <p> automatici
+  - Le righe vuote separano i paragrafi
+  ================================================================
+-->
+<script id="content" type="text/plain">
+NO_ELF
+~ HCF
+
+@@@
+[0x004006f0]> s main
+[0x00400806]> pdf
+; DATA XREF from entry0 @ 0x40072d(r)
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+0x0040080a sub rsp, 0x30
+0x0040082c call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+0x00400840 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
+@@@
+
+;disabilita il buffering per stdin, stdout e stderr. È una tecnica comune nei malware per ottenere un controllo immediato sulle operazioni di I/O.
+
+;l'idea di qualcosa contenuto in qualcos'altro, che a sua volta contiene qualcosa di più piccolo e così via, richiama l'idea della reductio ad infinitum.
+
+@@@
+0x00400869 call sym.imp.getpid ; int getpid(void)
+0x0040087a call sym.imp.printf ; int printf(const char *format)
+@@@
+
+;ottiene il pid del processo e lo stampa; perchè fa sta cosa? non l'ho capito.
+
+@@@
+0x00400893 call sym.imp.syscall
+@@@
+
+;319 è memfd_create. Crea un file in memoria chiamato "no_elf" con flag MFD_CLOEXEC.
+
+;la metà della metà della metà, i numeri periodici: se rimpicciolissimo le matrioske all'infinito, incapperemmo nell'idea di infinitamente piccolo.
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+</script>
+
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let html = '';
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco article: da @@@ a @@@
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta il @@@ di chiusura
+            html += `<div class="article">${escHtml(block.replace(/\n$/, ''))}</div>\n`;
+            continue;
+        }
+
+        // raccoglie un blocco di testo (fino al prossimo @@@ o fine)
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        // divide in paragrafi sulle righe vuote
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+            html += `<div class="commento">\n`;
+            for(const p of paragraphs){
+                html += `<p>${p}</p>\n`;
+            }
+            html += `</div>\n`;
+        }
+    }
+
+    output.innerHTML = html;
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+
+    function escHtml(str){
+        return str
+            .replace(/&/g,'&amp;')
+            .replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;');
+    }
+})();
+</script>
+</body>
+</html>
