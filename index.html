@@ -191,7 +191,7 @@ async function renderSection(sec){
     await typeLine(cmdSpan, `ls -la ./${sec.dir}/`, 22);
     await wait(300);
 
-    wrap.appendChild(mkLine('total ' + sec.articles.length));
+    //wrap.appendChild(mkLine('total ' + sec.articles.length));
     await wait(80);
 
     for(const a of sec.articles){
@@ -199,7 +199,7 @@ async function renderSection(sec){
         entry.className = 'entry';
         entry.innerHTML =
             //`<span class="perms">-r--r--r--</span>` +
-            `<span class="date">${a.date}</span>` +
+            //`<span class="date">${a.date}</span>` +
             `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
         wrap.appendChild(entry);
         await wait(60);
