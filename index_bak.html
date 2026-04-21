@@ -198,7 +198,7 @@ async function renderSection(sec){
         const entry = document.createElement('div');
         entry.className = 'entry';
         entry.innerHTML =
-            //`<span class="perms">-r--r--r--</span>` +
+            `<span class="perms">-r--r--r--</span>` +
             `<span class="date">${a.date}</span>` +
             `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
         wrap.appendChild(entry);
