@@ -39,25 +39,41 @@ body{
 }
 
 .banner{
-    text-align:center;
+    position:relative;
     margin-bottom:18px;
-}
-
-/*.banner img{
+    width:100%;
     max-width:100%;
-    height:auto;
-    image-rendering:pixelated;
-    filter:drop-shadow(0 0 4px rgba(101,233,3,.35));
-}*/
-
-@keyframes glitch {
-    0% { transform: translate(0); filter: hue-rotate(0deg); }
-    20% { transform: translate(-4px, 4px); }
-    40% { transform: translate(4px, -4px); }
-    60% { transform: translate(-4px, -4px); }
-    80% { transform: translate(4px, 4px); }
-    100% { transform: translate(0); filter: hue-rotate(0deg); }
+    overflow:hidden;
 }
+
+/* fondamentale: mai forzare scaling fisso */
+.banner img{
+    width:100%;
+    height:auto;
+    display:block;
+    max-width:100%;
+    transform-origin:center;
+}
+
+/* desktop effetto “leggero zoom” */
+@media (min-width: 768px){
+    .banner img.on{
+        transform: scale(1.01);
+    }
+}
+
+/* mobile: zero zoom, zero drift */
+@media (max-width: 767px){
+    .banner img.on{
+        transform: none !important;
+    }
+
+    .banner.glitch img{
+        transform: none !important;
+        animation: none !important;
+    }
+}
+
 
 @keyframes crtGlitch {
     0% {
