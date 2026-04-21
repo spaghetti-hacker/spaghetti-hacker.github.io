@@ -210,8 +210,8 @@ async function renderSection(sec){
     await typeLine(cmdSpan, `ls -la ./${sec.dir}/`, 22);
     await wait(300);
 
-    //wrap.appendChild(mkLine('total ' + sec.articles.length));
-    wrap.appendChild(mkLine('      '));
+    wrap.appendChild(mkLine('total ' + sec.articles.length));
+    //wrap.appendChild(mkLine('      '));
     await wait(80);
 
     for(const a of sec.articles){
