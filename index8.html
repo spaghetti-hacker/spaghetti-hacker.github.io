@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPAGHETTI HACKER BBS</title>
+
+<style>
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:gohu,"Lucida Console",monospace;
+    font-size:clamp(15px,2.6vw,18px);
+    line-height:1.6;
+    min-height:100vh;
+    padding:36px 22px;
+}
+
+/* CRT overlay */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 1px,
+        transparent 3px,
+        transparent 4px
+    );
+    opacity:0.2;
+}
+
+/* SCREEN */
+.wrapper{
+    max-width:860px;
+    margin:auto;
+}
+
+.screen{
+    background:#0f1a0f;
+    border:1px solid #1f2c1b;
+    border-radius:6px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+    animation:flicker 4s infinite;
+}
+
+@keyframes flicker{
+    0%,100%{opacity:1;}
+    97%{opacity:0.98;}
+    98%{opacity:1;}
+}
+
+/* BANNER */
+.banner{
+    position:relative;
+    margin-bottom:18px;
+    overflow:hidden;
+}
+
+.banner img{
+    width:100%;
+    display:block;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:0.6s ease;
+    filter:contrast(1.1) brightness(1.05);
+}
+
+.banner img.on{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* scanlines sopra banner */
+.banner::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0),
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,0.2) 3px
+    );
+}
+
+/* GLITCH EVENT */
+@keyframes crtGlitch {
+    0%   { transform: translate(0,0); }
+    8%   { transform: translate(-1px,0); }
+    10%  { transform: translate(2px,0); }
+    12%  { transform: translate(-3px,1px); }
+    14%  { transform: translate(1px,-1px); }
+    36%  { transform: translate(-6px,0); }
+    38%  { transform: translate(4px,0); }
+    66%  { transform: translate(3px,-2px); }
+    68%  { transform: translate(-2px,2px); }
+    100% { transform: translate(0,0); }
+}
+
+.banner.glitch img{
+    animation:crtGlitch 0.6s steps(2,end);
+}
+
+/* MOBILE SAFE */
+@media(max-width:768px){
+    .banner.glitch img{
+        animation:none;
+        transform:none !important;
+    }
+}
+
+/* UI */
+.line{
+    white-space:pre-wrap;
+    min-height:1em;
+}
+
+.block{
+    margin-top:18px;
+}
+
+.post{
+    margin-top:8px;
+    padding-left:18px;
+}
+
+.dim{ color:#4f7a35; }
+
+a{ color:#65E903; text-decoration:none; }
+a:hover{ color:#9cff5f; }
+
+.cursor{
+    display:inline-block;
+    width:.55em;
+    height:1em;
+    background:#65E903;
+    animation:blink 1s step-end infinite;
+}
+
+@keyframes blink{
+    0%,100%{opacity:1;}
+    50%{opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="screen" id="root"></div>
+</div>
+
+<script>
+const root = document.getElementById("root");
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+function line(html=""){
+    const d = document.createElement("div");
+    d.className = "line";
+    d.innerHTML = html;
+    root.appendChild(d);
+    return d;
+}
+
+function triggerCRTGlitch(banner){
+    const intensity = Math.random();
+    if(intensity < 0.7) return;
+
+    banner.classList.add("glitch");
+
+    const img = banner.querySelector("img");
+    if(img){
+        img.style.transform = `translate(${Math.random()*4-2}px,${Math.random()*3-1.5}px)`;
+    }
+
+    setTimeout(() => {
+        banner.classList.remove("glitch");
+        if(img) img.style.transform = "";
+    }, 150 + Math.random()*200);
+}
+
+function startCRTGlitchLoop(banner){
+    function loop(){
+        const delay = 7000 + Math.random()*5000;
+        setTimeout(() => {
+            triggerCRTGlitch(banner);
+            loop();
+        }, delay);
+    }
+    loop();
+}
+
+async function boot(){
+
+    let l1 = line();
+    l1.innerHTML = "CONNECT 2400 BAUD...";
+    await wait(300);
+
+    let l2 = line();
+    l2.innerHTML = "HANDSHAKE OK";
+    await wait(300);
+
+    /* BANNER */
+    const banner = document.createElement("div");
+    banner.className = "banner";
+
+    const img = document.createElement("img");
+    img.src = "banner.png";
+    img.alt = "Spaghetti Hacker BBS";
+
+    banner.appendChild(img);
+    root.appendChild(banner);
+
+    setTimeout(() => img.classList.add("on"), 300);
+
+    startCRTGlitchLoop(banner);
+
+    await wait(400);
+
+    line('<span class="dim">sysop: HCF</span>');
+
+    /* fake content */
+    for(let i=0;i<3;i++){
+        const b = document.createElement("div");
+        b.className = "block";
+        b.innerHTML = `[0x0${i}] section loaded`;
+        root.appendChild(b);
+        await wait(200);
+    }
+
+    line("");
+    line('<span>root@spaghetti-hacker:~#</span> <span class="cursor"></span>');
+}
+
+boot();
+</script>
+
+</body>
+</html>
