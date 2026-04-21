@@ -62,8 +62,7 @@ a:hover{
 
 .entry{
     display:grid;
-    /*grid-template-columns:18ch 14ch 1fr;*/
-    grid-template-columns:30ch 1fr;
+    grid-template-columns:18ch 14ch 1fr;
     gap:0 10px;
     opacity:0;
     transform:translateY(4px);
@@ -133,12 +132,6 @@ const SECTIONS = [
                 date: "2025-05-15",
                 desc: "shellcode-as-png, crackme con vincolo temporizzato"
             },
-            {
-                slug: "nuovo_articolo.html",
-                href: "nuovo_articolo.html",
-                date: "2025-05-15",
-                desc: "descrizione"
-            },
         ]
     },
     {
@@ -150,12 +143,6 @@ const SECTIONS = [
                 date: "2024-10-15",
                 desc: "reverse engineering di un ELF dropper con payload in memoria"
             },
-            {
-                slug: "nuovo_articolo.html",
-                href: "nuovo_articolo.html",
-                date: "2025-05-15",
-                desc: "descrizione"
-            },
         ]
     },
     {
@@ -166,12 +153,6 @@ const SECTIONS = [
                 href: "asm.html",
                 date: "2026-02-04",
                 desc: "shellcode injection sotto SECCOMP con filename flag fuori misura"
-            },
-            {
-                slug: "nuovo_articolo.html",
-                href: "nuovo_articolo.html",
-                date: "2025-05-15",
-                desc: "descrizione"
             },
         ]
     },
@@ -211,17 +192,15 @@ async function renderSection(sec){
     await wait(300);
 
     wrap.appendChild(mkLine('total ' + sec.articles.length));
-    //wrap.appendChild(mkLine('      '));
     await wait(80);
 
     for(const a of sec.articles){
         const entry = document.createElement('div');
         entry.className = 'entry';
         entry.innerHTML =
-            //`<span class="perms">-r--r--r--</span>` +
-            //`<span class="date">${a.date}</span>` +
-            `<span><a href="${a.href}">${a.slug}</a></span>`+
-            `<span style="color:#4f7a35">;${a.desc}</span>`;
+            `<span class="perms">-r--r--r--</span>` +
+            `<span class="date">${a.date}</span>` +
+            `<span><a href="${a.href}">${a.slug}</a> <span style="color:#4f7a35">;${a.desc}</span></span>`;
         wrap.appendChild(entry);
         await wait(60);
         entry.classList.add('visible');
