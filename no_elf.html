@@ -23,6 +23,11 @@
     src:url('VT323-Regular.ttf') format('truetype');
 }
 
+@font-face{
+    font-family:dos;
+    src:url("Perfect%20DOS%20VGA%20437.ttf") format("truetype");
+}
+
 :root{
     --bg:#0c0d10;
     --panel:#121419;
@@ -46,7 +51,7 @@ html{
 body{
     background:var(--bg);
     color:var(--text);
-    font-family:unifont,gohu,"Lucida Console",monospace;
+    font-family:dos,unifont,gohu,"Lucida Console",monospace;
     font-size:clamp(18px,2.8vw,20px);
     line-height:1.5;
     padding:24px 14px;
