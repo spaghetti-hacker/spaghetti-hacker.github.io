@@ -3,18 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NO_ELF | HCF</title>
+<title>TITOLO | HCF</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
 @font-face{
     font-family:gohu;
     src:url("gohu.woff") format("woff");
 }
 
+@font-face{
+    font-family:unifont;
+    src:url("unifont.woff") format("woff");
+}
+
 :root{
     --bg:#0c0d10;
-    --border:#1f2c1b;
+    --border:#001c1c;
     --text:#65E903;
-    --soft:#9dff5f;
     --muted:#4f7a35;
 }
 
@@ -24,100 +29,298 @@ html{ scroll-behavior:smooth; }
 body{
     background:var(--bg);
     color:var(--text);
-    font-family:gohu,"Lucida Console",monospace;
-    font-size:clamp(15px,2.6vw,18px);
+    font-family:unifont,gohu,"Lucida Console",monospace;
+    letter-spacing:0px;
+    font-size:clamp(22px,3.2vw,24px);
     line-height:1.5;
     padding:24px 14px;
 }
 
 .wrapper{ max-width:1024px; margin:auto; }
 
-/* box codice */
 .article{
-    background:#0f1a0f;
+    background:#001C1C;
     border:1px solid var(--border);
     border-radius:6px;
+    overflow:hidden;
     width:100%;
     display:block;
     white-space:pre-wrap;
     overflow-wrap:anywhere;
     padding:10px 14px;
     font-size:.95em;
-    margin:16px 0;
 }
 
-/* testo commento */
 .commento{
+    color:var(--muted);
     margin:16px 0;
     overflow-wrap:anywhere;
+    white-space:normal;
 }
-.commento p{
-    margin-bottom:10px;
-}
-.commento p:last-child{
-    margin-bottom:0;
-}
+
+.commento p{ margin-bottom:10px; }
+.commento p:last-child{ margin-bottom:0; }
 
 a{ color:#65E903; text-decoration:none; }
-a:hover{ text-decoration:underline; }
+
+a:hover{
+    color:#9cff5f;
+}
+
 
 @media(max-width:768px){
-    body{ padding:0; }
+    body{ padding:0; font-size:16px; }
     .article{ border-radius:0; }
-    .wrapper{ padding:12px; }
 }
 </style>
 </head>
 <body>
-<div class="wrapper" id="output"></div>
+<div class="wrapper">
+<div id="output"></div>
+</div>
 
 <!--
-  ================================================================
-  SCRIVI QUI IL TUO CONTENUTO
-  ================================================================
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
 
-  REGOLE:
-  - Le righe tra @@@ e @@@ diventano un box .article (codice/assembly)
-  - Il testo normale diventa commento con <p> automatici
-  - Le righe vuote separano i paragrafi
-  ================================================================
--->
-<script id="content" type="text/plain">
-NO_ELF
-~ HCF
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
 
-@@@
-[0x004006f0]> s main
-[0x00400806]> pdf
-; DATA XREF from entry0 @ 0x40072d(r)
-0x00400806 push rbp
-0x00400807 mov rbp, rsp
-0x0040080a sub rsp, 0x30
-0x0040082c call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
-0x00400840 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
-0x00400854 call sym.imp.setbuf ; void setbuf(FILE *stream, char *buf)
-@@@
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
 
-;disabilita il buffering per stdin, stdout e stderr. È una tecnica comune nei malware per ottenere un controllo immediato sulle operazioni di I/O.
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
 
-;l'idea di qualcosa contenuto in qualcos'altro, che a sua volta contiene qualcosa di più piccolo e così via, richiama l'idea della reductio ad infinitum.
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
 
-@@@
-0x00400869 call sym.imp.getpid ; int getpid(void)
-0x0040087a call sym.imp.printf ; int printf(const char *format)
-@@@
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
 
-;ottiene il pid del processo e lo stampa; perchè fa sta cosa? non l'ho capito.
+================================================================
+ESEMPIO:
 
-@@@
-0x00400893 call sym.imp.syscall
-@@@
-
-;319 è memfd_create. Crea un file in memoria chiamato "no_elf" con flag MFD_CLOEXEC.
-
-;la metà della metà della metà, i numeri periodici: se rimpicciolissimo le matrioske all'infinito, incapperemmo nell'idea di infinitamente piccolo.
+NO_ELF ~ HCF
 
 <a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+GET_NUMBER ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+
+;questo crackme legge un file chiamato "get_number.png", ne mappa una parte in memoria e verifica che il primo byte sia 0x90 (NOP).
+;esegue poi il contenuto mappato come shellcode, due volte, in momenti diversi.
+;tra una chiamata e l’altra misura il tempo e somma il valore restituito dalla shellcode,
+;insieme ai bit meno significativi del tempo (invertiti e mascherati con 1).
+;se la somma complessiva è esattamente 6, il file viene accettato.
+;altrimenti, viene stampato un messaggio di errore.
+
+;obiettivo: eseguire una shellcode custom contenuta in get_number.png e bypassare il controllo finale
+
+@@@
+0x00001124 push r12
+0x00001126 lea rdi, str.Loading...
+0x0000112d push rbp
+
+0x0000112e push rbx
+0x0000112f call sym.imp.puts
+@@@
+
+;stampa "Loading..."
+
+@@@
+0x00001134 xor eax, eax
+0x00001136 call fcn.000012f0
+@@@
+
+;legge il contenuto del file
+
+@@@
+0x0000113b test rax, rax
+0x0000113e je 0x11be
+@@@
+
+;termina se la lettura è fallita
+
+@@@
+0x00001140 mov rdi, rax
+0x00001143 mov rbp, rax
+0x00001146 call fcn.00001390
+0x0000114b test eax, eax
+0x0000114d je 0x11be
+@@@
+
+;chiama la funzione che valida il primo byte e termina se non è 0x90
+
+@@@
+0x0000114f lea rdi, str.Processing...
+0x00001156 call sym.imp.puts
+0x0000115b xor edi, edi
+0x0000115d call sym.imp.time
+0x00001162 mov rbx, rax
+0x00001165 mov rdi, rax
+0x00001168 call rbp
+0x0000116a not rbx
+0x0000116d mov edi, 1
+0x00001172 and ebx, 1
+0x00001175 lea r12d, [rax + rbx]
+0x00001179 call sym.imp.sleep
+@@@
+
+;salva time in rbx, chiama la shellcode, inverte e maschera rbx, somma al valore di ritorno della shellcode eax, memorizza in r12d e attende 1 secondo
+
+@@@
+0x0000117e xor edi, edi
+0x00001180 call sym.imp.time
+0x00001185 mov rbx, rax
+0x00001188 mov rdi, rax
+0x0000118b call rbp
+0x0000118d not rbx
+0x00001190 and ebx, 1
+0x00001193 add eax, ebx
+0x00001195 add eax, r12d
+0x00001198 cmp eax, 6
+@@@
+
+;stessa sequenza, ma alla fine verifica se la somma complessiva è uguale a 6
+
+@@@
+0x0000119b je 0x11b0
+0x0000119d lea rdi, str.That_doesnt_seem_right...
+0x000011a4 call sym.imp.puts
+0x000011a9 pop rbx
+0x000011aa xor eax, eax
+0x000011ac pop rbp
+0x000011ad pop r12
+0x000011af ret
+@@@
+
+;stampa un messaggio di errore se la condizione fallisce
+
+@@@
+0x000011b0 lea rdi, str.Correct__Awesome_file_you_got_there_____
+0x000011b7 call sym.imp.puts
+0x000011bc jmp 0x11a9
+@@@
+
+;messaggio di successo
+
+;funzione fcn.000012f0
+
+@@@
+0x000012f5 lea rsi, "r"
+0x000012fc lea rdi, "get_number.png"
+0x00001308 call fopen
+0x0000130d test rax, rax
+0x00001310 je 0x1380
+@@@
+
+;apertura del file
+
+@@@
+0x00001312 xor edi, edi
+0x00001314 xor r9d, r9d
+0x00001317 mov ecx, 0x22
+0x0000131c mov edx, 7
+0x00001321 mov esi, 0x10
+0x00001326 mov r8d, -1
+0x0000132c mov rbp, rax
+0x0000132f call mmap
+@@@
+
+;mmap di 16 byte (0x10)
+
+@@@
+0x00001334 mov rcx, rbp
+0x00001337 mov edx, 0x10
+0x0000133c mov esi, 1
+0x00001344 mov rbx, rax
+0x00001349 mov eax, 0xb0f0b0f
+0x0000134d movd xmm0, eax
+0x00001350 pshufd xmm0, xmm0, 0
+0x00001355 movups [rbx], xmm0
+0x00001358 movups [rbx + 0x10], xmm0
+0x0000135c call fread
+@@@
+
+;legge i dati dal file e li carica nella memoria precedentemente mappata con mmap
+
+@@@
+0x00001361 test rax, rax
+0x00001364 je 0x1370
+0x00001366 add rsp, 8
+0x0000136a mov rax, rbx
+0x0000136d pop rbx
+0x0000136e pop rbp
+0x0000136f ret
+@@@
+
+;ritorna il puntatore alla shellcode
+
+;funzione fcn.00001390
+
+@@@
+0x00001394 cmp byte [rdi], 0x90
+0x00001397 jne 0x13a0
+0x00001399 mov eax, 1
+0x0000139e ret
+@@@
+
+;verifica prima che il primo byte della shellcode sia uguale a 0x90
+
+@@@
+0x000013a0 lea rdi, str.Im_not_happy_with_the_first_byte
+0x000013ab call puts
+0x000013b0 xor eax, eax
+0x000013b6 ret
+@@@
+
+;stampa un messsaggio di errore se fallisce il controllo
+
+;shellcode valida (+ padding per un totale 16 byte):
+
+@@@
+nop
+xor ebx, ebx
+mov eax, 2
+ret
+@@@
+
+;in questo modo azzeriamo il valore in ebx, dove era stato salvato il valore di ritorno della funzione time; possiamo quindi controllare il valore della somma totale e superare il controllo finale. Questo perchè la shellcode viene chiamata dopo la funzione time che va poi a valorizzare ebx.
+
+;genera file:
+;printf '\x90\x31\xdb\xb8\x02\x00\x00\x00\xc3\x90\x90\x90\x90\x90\x90\x90' > get_number.png
+
+@@@
+./shellcoding
+Loading...
+Processing...
+Correct! Awesome file you got there („• ᴗ •„)
+@@@
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
 </script>
 
 <script>
@@ -126,16 +329,27 @@ NO_ELF
     const lines = raw.split('\n');
     const output = document.getElementById('output');
 
-    let html = '';
     let i = 0;
 
     // salta righe vuote iniziali
     while(i < lines.length && lines[i].trim() === '') i++;
 
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title + ' | HCF';
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
     while(i < lines.length){
         const line = lines[i];
 
-        // blocco article: da @@@ a @@@
+        // blocco @@@ → codice pre-wrap
         if(line.trim() === '@@@'){
             i++;
             let block = '';
@@ -143,30 +357,40 @@ NO_ELF
                 block += lines[i] + '\n';
                 i++;
             }
-            i++; // salta il @@@ di chiusura
-            html += `<div class="article">${escHtml(block.replace(/\n$/, ''))}</div>\n`;
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            inner += escCode(block.replace(/\n$/, ''));
+	    //inner += '\n' + escCode(block.replace(/\n$/, ''));
             continue;
         }
 
-        // raccoglie un blocco di testo (fino al prossimo @@@ o fine)
+        // raccoglie testo fino al prossimo @@@
         let textLines = [];
         while(i < lines.length && lines[i].trim() !== '@@@'){
             textLines.push(lines[i]);
             i++;
         }
 
-        // divide in paragrafi sulle righe vuote
         const paragraphs = splitParagraphs(textLines);
         if(paragraphs.length > 0){
-            html += `<div class="commento">\n`;
+            inner += '<div class="commento">\n';
             for(const p of paragraphs){
-                html += `<p>${p}</p>\n`;
+                // i commenti NON vengono escapati: i link HTML passano interi
+                inner += '<p>' + p + '</p>\n';
             }
-            html += `</div>\n`;
+            inner += '</div>';
         }
     }
 
-    output.innerHTML = html;
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
 
     function splitParagraphs(lines){
         const result = [];
@@ -183,13 +407,6 @@ NO_ELF
         }
         if(current.length > 0) result.push(current.join('\n'));
         return result;
-    }
-
-    function escHtml(str){
-        return str
-            .replace(/&/g,'&amp;')
-            .replace(/</g,'&lt;')
-            .replace(/>/g,'&gt;');
     }
 })();
 </script>
