@@ -268,7 +268,7 @@ const SECTIONS = [
             file:"no_elf.html",
             href:"no_elf.html",
             desc:"reverse engineering di un ELF dropper con payload in memoria",
-            date:"2024-01-15"
+            date:"2025-01-15"
         },
         {
             file:"lotoor.html",
@@ -292,7 +292,7 @@ const SECTIONS = [
             file:"get_number.html",
             href:"get_number.html",
             desc:"shellcode-as-png, crackme con vincolo temporizzato",
-            date:"2024-01-28"
+            date:"2025-01-28"
         },
         {
             file:"sigsegv.html",
@@ -316,7 +316,7 @@ const SECTIONS = [
             file:"asm.html",
             href:"asm.html",
             desc:"shellcode injection sotto SECCOMP con filename fuori misura",
-            date:"2024-03-18"
+            date:"2025-03-18"
         },
         {
             file:"got_overwrite.html",
@@ -335,7 +335,7 @@ const SECTIONS = [
 ];
 
 // i 5 post più recenti, ordinati per data decrescente
-const RECENT_COUNT = 5;
+const RECENT_COUNT = 3;
 const recentPosts = SECTIONS.flatMap(s => s.posts)
     .filter(p => p.date)
     .sort((a,b) => new Date(b.date) - new Date(a.date))
