@@ -267,17 +267,20 @@ const SECTIONS = [
         {
             file:"no_elf.html",
             href:"no_elf.html",
-            desc:"reverse engineering di un ELF dropper con payload in memoria"
+            desc:"reverse engineering di un ELF dropper con payload in memoria",
+            date:"2024-01-15"
         },
         {
             file:"lotoor.html",
             href:"lotoor.html",
-            desc:"campione di malware ELF compilato per architettura ARM 32-bit"
+            desc:"campione di malware ELF compilato per architettura ARM 32-bit",
+            date:"2024-02-10"
         },
         {
             file:"proc_hider.html",
             href:"proc_hider.html",
-            desc:"rootkit userland, usato per nascondere processi"
+            desc:"rootkit userland, usato per nascondere processi",
+            date:"2024-03-05"
         }
     ]
 },
@@ -288,17 +291,20 @@ const SECTIONS = [
         {
             file:"get_number.html",
             href:"get_number.html",
-            desc:"shellcode-as-png, crackme con vincolo temporizzato"
+            desc:"shellcode-as-png, crackme con vincolo temporizzato",
+            date:"2024-01-28"
         },
         {
             file:"sigsegv.html",
             href:"sigsegv.html",
-            desc:"crackme che implementa tecniche avanzate di anti-debugging attraverso l'uso di segnali SIGSEGV"
+            desc:"crackme che implementa tecniche avanzate di anti-debugging attraverso l'uso di segnali SIGSEGV",
+            date:"2024-04-01"
         },
         {
             file:"packed_binary.html",
             href:"packed_binary.html",
-            desc:"questo crackme utilizza i segnali UNIX per costruire dinamicamente una password all'’interno di un buffer globale"
+            desc:"questo crackme utilizza i segnali UNIX per costruire dinamicamente una password all'’interno di un buffer globale",
+            date:"2024-02-20"
         }
     ]
 },
@@ -309,21 +315,31 @@ const SECTIONS = [
         {
             file:"asm.html",
             href:"asm.html",
-            desc:"shellcode injection sotto SECCOMP con filename fuori misura"
+            desc:"shellcode injection sotto SECCOMP con filename fuori misura",
+            date:"2024-03-18"
         },
         {
             file:"got_overwrite.html",
             href:"got_overwrite.html",
-            desc:"sfruttamento della vulnerabilità format string per scrivere nella GOT"
+            desc:"sfruttamento della vulnerabilità format string per scrivere nella GOT",
+            date:"2024-01-05"
         },
         {
             file:"heap_notes.html",
             href:"heap_notes.html",
-            desc:"use-after-free e tcache poisoning"
+            desc:"use-after-free e tcache poisoning",
+            date:"2024-04-12"
         }
     ]
 }
 ];
+
+// i 5 post più recenti, ordinati per data decrescente
+const RECENT_COUNT = 5;
+const recentPosts = SECTIONS.flatMap(s => s.posts)
+    .filter(p => p.date)
+    .sort((a,b) => new Date(b.date) - new Date(a.date))
+    .slice(0, RECENT_COUNT);
 
 const root = document.getElementById("root");
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -381,6 +397,27 @@ async function boot(){
     line('<span class="dim">sysop: HCF</span>');
 
     await wait(300);
+
+    // sezione RECENT
+    const recentHead = document.createElement("div");
+    recentHead.className = "block";
+    recentHead.innerHTML = `[0x00] RECENT`;
+    root.appendChild(recentHead);
+    await wait(120);
+    recentHead.classList.add("visible");
+    await wait(180);
+
+    for(const p of recentPosts){
+        const post = document.createElement("div");
+        post.className = "post";
+        post.innerHTML =
+            `→ <a href="${p.href}">${p.file}</a><br>` +
+            `<span class="dim">  ;${p.desc}</span>`;
+        root.appendChild(post);
+        await wait(90);
+        post.classList.add("visible");
+        await wait(150);
+    }
 
     for(const sec of SECTIONS){
 
