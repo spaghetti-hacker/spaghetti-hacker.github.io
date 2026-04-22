@@ -122,200 +122,26 @@ NO_ELF ~ HCF
 ================================================================
 -->
 <script id="content" type="text/plain">
-GET_NUMBER ~ HCF
+NO_ELF ~ HCF
 
 <a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
 
-;questo crackme legge un file chiamato "get_number.png", ne mappa una parte in memoria e verifica che il primo byte sia 0x90 (NOP).
-;esegue poi il contenuto mappato come shellcode, due volte, in momenti diversi.
-;tra una chiamata e l’altra misura il tempo e somma il valore restituito dalla shellcode,
-;insieme ai bit meno significativi del tempo (invertiti e mascherati con 1).
-;se la somma complessiva è esattamente 6, il file viene accettato.
-;altrimenti, viene stampato un messaggio di errore.
+;scrivi qui il tuo commento introduttivo.
 
-;obiettivo: eseguire una shellcode custom contenuta in get_number.png e bypassare il controllo finale
+;un altro paragrafo.
 
 @@@
-0x00001124 push r12
-0x00001126 lea rdi, str.Loading...
-0x0000112d push rbp
-
-0x0000112e push rbx
-0x0000112f call sym.imp.puts
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
 @@@
 
-;stampa "Loading..."
+;commento sul codice qui sopra.
 
 @@@
-0x00001134 xor eax, eax
-0x00001136 call fcn.000012f0
+0x004008ea ret
 @@@
 
-;legge il contenuto del file
-
-@@@
-0x0000113b test rax, rax
-0x0000113e je 0x11be
-@@@
-
-;termina se la lettura è fallita
-
-@@@
-0x00001140 mov rdi, rax
-0x00001143 mov rbp, rax
-0x00001146 call fcn.00001390
-0x0000114b test eax, eax
-0x0000114d je 0x11be
-@@@
-
-;chiama la funzione che valida il primo byte e termina se non è 0x90
-
-@@@
-0x0000114f lea rdi, str.Processing...
-0x00001156 call sym.imp.puts
-0x0000115b xor edi, edi
-0x0000115d call sym.imp.time
-0x00001162 mov rbx, rax
-0x00001165 mov rdi, rax
-0x00001168 call rbp
-0x0000116a not rbx
-0x0000116d mov edi, 1
-0x00001172 and ebx, 1
-0x00001175 lea r12d, [rax + rbx]
-0x00001179 call sym.imp.sleep
-@@@
-
-;salva time in rbx, chiama la shellcode, inverte e maschera rbx, somma al valore di ritorno della shellcode eax, memorizza in r12d e attende 1 secondo
-
-@@@
-0x0000117e xor edi, edi
-0x00001180 call sym.imp.time
-0x00001185 mov rbx, rax
-0x00001188 mov rdi, rax
-0x0000118b call rbp
-0x0000118d not rbx
-0x00001190 and ebx, 1
-0x00001193 add eax, ebx
-0x00001195 add eax, r12d
-0x00001198 cmp eax, 6
-@@@
-
-;stessa sequenza, ma alla fine verifica se la somma complessiva è uguale a 6
-
-@@@
-0x0000119b je 0x11b0
-0x0000119d lea rdi, str.That_doesnt_seem_right...
-0x000011a4 call sym.imp.puts
-0x000011a9 pop rbx
-0x000011aa xor eax, eax
-0x000011ac pop rbp
-0x000011ad pop r12
-0x000011af ret
-@@@
-
-;stampa un messaggio di errore se la condizione fallisce
-
-@@@
-0x000011b0 lea rdi, str.Correct__Awesome_file_you_got_there_____
-0x000011b7 call sym.imp.puts
-0x000011bc jmp 0x11a9
-@@@
-
-;messaggio di successo
-
-;funzione fcn.000012f0
-
-@@@
-0x000012f5 lea rsi, "r"
-0x000012fc lea rdi, "get_number.png"
-0x00001308 call fopen
-0x0000130d test rax, rax
-0x00001310 je 0x1380
-@@@
-
-;apertura del file
-
-@@@
-0x00001312 xor edi, edi
-0x00001314 xor r9d, r9d
-0x00001317 mov ecx, 0x22
-0x0000131c mov edx, 7
-0x00001321 mov esi, 0x10
-0x00001326 mov r8d, -1
-0x0000132c mov rbp, rax
-0x0000132f call mmap
-@@@
-
-;mmap di 16 byte (0x10)
-
-@@@
-0x00001334 mov rcx, rbp
-0x00001337 mov edx, 0x10
-0x0000133c mov esi, 1
-0x00001344 mov rbx, rax
-0x00001349 mov eax, 0xb0f0b0f
-0x0000134d movd xmm0, eax
-0x00001350 pshufd xmm0, xmm0, 0
-0x00001355 movups [rbx], xmm0
-0x00001358 movups [rbx + 0x10], xmm0
-0x0000135c call fread
-@@@
-
-;legge i dati dal file e li carica nella memoria precedentemente mappata con mmap
-
-@@@
-0x00001361 test rax, rax
-0x00001364 je 0x1370
-0x00001366 add rsp, 8
-0x0000136a mov rax, rbx
-0x0000136d pop rbx
-0x0000136e pop rbp
-0x0000136f ret
-@@@
-
-;ritorna il puntatore alla shellcode
-
-;funzione fcn.00001390
-
-@@@
-0x00001394 cmp byte [rdi], 0x90
-0x00001397 jne 0x13a0
-0x00001399 mov eax, 1
-0x0000139e ret
-@@@
-
-;verifica prima che il primo byte della shellcode sia uguale a 0x90
-
-@@@
-0x000013a0 lea rdi, str.Im_not_happy_with_the_first_byte
-0x000013ab call puts
-0x000013b0 xor eax, eax
-0x000013b6 ret
-@@@
-
-;stampa un messsaggio di errore se fallisce il controllo
-
-;shellcode valida (+ padding per un totale 16 byte):
-
-@@@
-nop
-xor ebx, ebx
-mov eax, 2
-ret
-@@@
-
-;in questo modo azzeriamo il valore in ebx, dove era stato salvato il valore di ritorno della funzione time; possiamo quindi controllare il valore della somma totale e superare il controllo finale. Questo perchè la shellcode viene chiamata dopo la funzione time che va poi a valorizzare ebx.
-
-;genera file:
-;printf '\x90\x31\xdb\xb8\x02\x00\x00\x00\xc3\x90\x90\x90\x90\x90\x90\x90' > get_number.png
-
-@@@
-./shellcoding
-Loading...
-Processing...
-Correct! Awesome file you got there („• ᴗ •„)
-@@@
-
+;commento finale.
 <a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
 </script>
 
@@ -355,8 +181,7 @@ Correct! Awesome file you got there („• ᴗ •„)
             }
             i++; // salta @@@ di chiusura
             // il codice viene escapato tranne &lt; &gt; &amp; già scritti
-            //inner += escCode(block.replace(/\n$/, ''));
-	    inner += '\n' + escCode(block.replace(/\n$/, ''));
+            inner += '\n' + escCode(block.replace(/\n$/, ''));
             continue;
         }
 
