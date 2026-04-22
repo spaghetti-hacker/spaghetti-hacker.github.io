@@ -14,6 +14,11 @@
 }
 
 @font-face{
+    font-family:unifont;
+    src:url("unifont.woff") format("woff");
+}
+
+@font-face{
     font-family:'VT323';
     src:url('VT323-Regular.ttf') format('truetype');
 }
@@ -41,7 +46,7 @@ html{
 body{
     background:var(--bg);
     color:var(--text);
-    font-family:VT323,gohu,"Lucida Console",monospace;
+    font-family:unifont,gohu,"Lucida Console",monospace;
     font-size:clamp(18px,2.8vw,20px);
     line-height:1.5;
     padding:24px 14px;
