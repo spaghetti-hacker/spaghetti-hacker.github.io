@@ -411,7 +411,7 @@ async function boot(){
         const post = document.createElement("div");
         post.className = "post";
         post.innerHTML =
-	    `* <a href="${p.href}">${p.file}</a><br>` +
+	    `» <a href="${p.href}">${p.file}</a><br>` +
             `<span class="dim">  ;${p.desc}</span>`;
         root.appendChild(post);
         await wait(90);
@@ -436,7 +436,7 @@ async function boot(){
             post.className = "post";
 
             post.innerHTML =
-                `* <a href="${p.href}">${p.file}</a><br>` +
+                `» <a href="${p.href}">${p.file}</a><br>` +
                 `<span class="dim">  ;${p.desc}</span>`;
 
             root.appendChild(post);
