@@ -355,8 +355,8 @@ Correct! Awesome file you got there („• ᴗ •„)
             }
             i++; // salta @@@ di chiusura
             // il codice viene escapato tranne &lt; &gt; &amp; già scritti
-            //inner += escCode(block.replace(/\n$/, ''));
-	    inner += '\n' + escCode(block.replace(/\n$/, ''));
+            inner += escCode(block.replace(/\n$/, ''));
+	    //inner += '\n' + escCode(block.replace(/\n$/, ''));
             continue;
         }
 
