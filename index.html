@@ -470,11 +470,15 @@ const COMMANDS = {
         out(`<span class="dim">;sysop: HCF</span>`);
     },
 
-    clear(){
-        /* svuota tutto tranne la prompt line */
+    /*clear(){
         const pl = document.getElementById("prompt-line");
         while(root.firstChild && root.firstChild !== pl)
             root.removeChild(root.firstChild);
+    }*/
+
+    clear(){
+    root.innerHTML = "";
+    boot();
     }
 };
 
