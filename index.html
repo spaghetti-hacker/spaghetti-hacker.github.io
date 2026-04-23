@@ -381,7 +381,6 @@ const COMMANDS = {
     help(){
         outLines([
             `<span class="info">comandi disponibili:</span>`,
-            `<span class="info">                    </span>`,
             `<span class="ok">ls</span>              <span class="dim"> ;elenca sezioni</span>`,
             `<span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca post sezione</span>`,
             `<span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post</span>`,
@@ -411,9 +410,9 @@ const COMMANDS = {
             out(`<span class="err">ls: sezione non trovata: ${esc(args)}</span>`);
             return;
         }
-        out(`<span class="dim">;${sec.posts.length} post</span>`);
-        out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         out(`  `);
+        out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
+        out(`<span class="dim">;${sec.posts.length} post</span>`);
         sec.posts.forEach(p => {
             out(
                 `» <a href="${p.href}">${p.file}</a><br>` +
