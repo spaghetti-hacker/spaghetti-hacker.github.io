@@ -495,8 +495,9 @@ function runCommand(raw){
 
     if(fn) fn(args);
     else out(`<span class="err">comando non trovato: ${esc(cmd)}  (digita <span class="ok">help</span>)</span>`);
-    hr();
-    out("");
+    if(cmd.toLowerCase() !== "clear") { hr(); out(""); }
+    /*hr();
+    out("");*/
 }
 
 /* ── costruisce la riga prompt fissa ── */
