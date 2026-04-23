@@ -372,7 +372,7 @@ function outLines(lines){
 }
 
 function hr(){
-    out(`<span class="dim">                            </span>`);
+    out(`<span class="dim">               </span>`);
 }
 
 /* ── definizione comandi ── */
@@ -381,13 +381,13 @@ const COMMANDS = {
     help(){
         outLines([
             `<span class="info">comandi disponibili:</span>`,
-            `  <span class="ok">ls</span>              <span class="dim"> ;elenca sezioni</span>`,
-            `  <span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca i post di una sezione</span>`,
-            `  <span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post </span>`,
-            `  <span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
-            `  <span class="ok">recent</span>          <span class="dim"> ;mostra gli ultimi post</span>`,
-            `  <span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
-            `  <span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
+            `<span class="ok">ls</span>              <span class="dim"> ;elenca sezioni</span>`,
+            `<span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca post sezione</span>`,
+            `<span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post</span>`,
+            `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
+            `<span class="ok">recent</span>          <span class="dim"> ;mostra ultimi post</span>`,
+            `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
+            `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
         ]);
     },
 
@@ -395,7 +395,7 @@ const COMMANDS = {
         if(!args){
             /* lista sezioni */
             outLines(SECTIONS.map(s =>
-                `  [${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} post</span>`
+                `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} post</span>`
             ));
             return;
         }
@@ -413,8 +413,8 @@ const COMMANDS = {
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         sec.posts.forEach(p => {
             out(
-                `  » <a href="${p.href}">${p.file}</a><br>` +
-                `  <span class="dim">;${p.desc}</span>`
+                `» <a href="${p.href}">${p.file}</a><br>` +
+                `<span class="dim">;${p.desc}</span>`
             );
         });
     },
@@ -443,11 +443,11 @@ const COMMANDS = {
             out(`<span class="dim">;nessun risultato per "${esc(args)}"</span>`);
             return;
         }
-        out(`<span class="info">; ${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`);
+        out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`);
         results.forEach(p => {
             out(
-                `  » <a href="${p.href}">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
-                `  <span class="dim">;${p.desc}</span>`
+                `» <a href="${p.href}">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
+                `<span class="dim">;${p.desc}</span>`
             );
         });
     },
@@ -456,8 +456,8 @@ const COMMANDS = {
         out(`<span style="color:#65E903">[0x00] RECENT</span>`);
         recentPosts.forEach(p => {
             out(
-                `  » <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
-                `  <span class="dim">;${p.desc}</span>`
+                `» <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
+                `<span class="dim">;${p.desc}</span>`
             );
         });
     },
