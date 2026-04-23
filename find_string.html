@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TITOLO | HCF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+@font-face{
+    font-family:unifont;
+    src:url("unifont.woff") format("woff");
+}
+
+:root{
+    --bg:#0c0d10;
+    --border:#001c1c;
+    --text:#65E903;
+    --muted:#3a9070;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:unifont,gohu,"Lucida Console",monospace;
+    letter-spacing:0px;
+    font-size:clamp(22px,3.2vw,24px);
+    line-height:1.5;
+    padding:24px 14px;
+}
+
+.wrapper{ max-width:1024px; margin:auto; }
+
+.article{
+    background:#001C1C;
+    border:1px solid var(--border);
+    border-radius:6px;
+    overflow:hidden;
+    width:100%;
+    display:block;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    padding:10px 14px;
+    font-size:.95em;
+}
+
+.commento{
+    color:var(--muted);
+    margin:16px 0;
+    overflow-wrap:anywhere;
+    white-space:normal;
+}
+
+.commento p{ margin-bottom:10px; }
+.commento p:last-child{ margin-bottom:0; }
+
+a{ color:#65E903; text-decoration:none; }
+
+a:hover{
+    color:#9cff5f;
+}
+
+
+@media(max-width:768px){
+    body{ padding:0; font-size:16px; }
+    .article{ border-radius:0; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<div id="output"></div>
+</div>
+
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+FIND_STRING ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+
+;reversing di una semplice routine di ricerca stringa in array di stringhe
+
+;in questo breve write-up andiamo ad analizzare la funzione fcn.00001520, individuata durante il reversing di un binario x64. Nonostante la logica sia lineare, è un buon esempio per esercitare alcune competenze fondamentali:
+
+;riconoscimento dei parametri in calling convention System V AMD64
+;ricostruzione di strutture dati tramite offset
+;identificazione di loop compilati in assembly
+;ricostruzione della logica originale in C
+
+@@@
+[0x00001520]> s fcn.00001520
+[0x00001520]> pdf
+0x00001520      push r13
+0x00001522      push r12
+0x00001524      push rbp
+0x00001525      push rbx
+0x00001526      sub rsp, 8
+0x0000152a      mov r12, qword [rdi + 8]    ; arg1
+0x0000152e      test r12, r12
+@@@
+
+;viene letto il campo a offset +8 del primo parametro.
+;dall'analisi complessiva emerge che arg1 è verosimilmente una struct;
+;questo secondo campo rappresenta con buona probabilità il numero di elementi presenti.
+;il valore viene poi testato per verificare se sia uguale a 0.
+
+@@@
+struct x{
+	char *arg[];
+	int numero_di_stringhe;
+}
+
+
+0x00001531      je 0x1570
+@@@
+
+
+;se il campo appena controllato vale 0, non ci sono elementi da elaborare.
+;l'esecuzione salta direttamente al ramo finale, che termina la funzione restituendo 0.
+
+@@@
+0x00001533      mov r13, qword [rdi]        ; arg1
+0x00001536      mov rbp, rsi                ; arg2
+@@@
+
+;r13=arg1
+;rbp=arg2
+
+@@@
+0x00001539      xor ebx, ebx
+0x0000153b      jmp 0x1549
+@@@
+
+;ebx viene azzerato e utilizzato come indice del ciclo.
+;da questo punto ha inizio l'iterazione sugli elementi dell'array di stringhe.
+
+@@@
+0x00001540      add rbx, 1
+0x00001544      cmp rbx, r12
+0x00001547      je 0x1570
+0x00001549      mov rdi, qword [r13 + rbx*8] 
+@@@
+
+;rdi=arg1[i]
+;i=ebx
+
+@@@
+0x0000154e      mov rsi, rbp                
+@@@
+
+;rsi=rbp=arg2
+
+@@@
+0x00001551      call sym.imp.strcmp         
+@@@
+
+;viene confrontata la stringa corrente dell'array contenuto in arg1 (è il primo parametro della struttura)
+;con la seconda stringa passata alla funzione (arg2), tramite strcmp().
+
+@@@
+0x00001556      test eax, eax
+0x00001558      jne 0x1540
+
+0x0000155a      add rsp, 8
+0x0000155e      mov eax, 1
+0x00001563      pop rbx
+0x00001564      pop rbp
+0x00001565      pop r12
+0x00001567      pop r13
+0x00001569      ret
+@@@
+
+;uscita con valore 1
+
+@@@
+0x00001570      add rsp, 8
+0x00001574      xor eax, eax
+0x00001576      pop rbx
+0x00001577      pop rbp
+0x00001578      pop r12
+0x0000157a      pop r13
+0x0000157c      ret
+@@@
+
+;uscita con valore 0
+
+;la funzione riceve come primo parametro una struttura di tipo x, composta da un array di stringhe e da un campo numerico che indica il numero totale di elementi presenti. Come secondo parametro viene invece passata una stringa da cercare.
+
+;la logica implementata consiste nello scorrere l'array di stringhe contenuto nella struttura e confrontare ciascun elemento con la seconda stringa ricevuta. Se viene trovata una corrispondenza, la funzione restituisce 1; se nessun elemento coincide, restituisce 0.
+
+;reversing in pseudo-C:
+
+@@@
+int cerca_stringa(astruct *struttura,char *stringa_da_cercare)
+
+{
+  int risultato_ricerca;
+  long i;
+  long puntatore_temporaneo;
+  long temp_tot;
+  
+  temp_tot = struttura->totale_stringhe;
+  if (temp_tot != 0) {
+    puntatore_temporaneo = struttura->puntatore_ad_array_di_stringhe;
+    i = 0;
+    do {
+      risultato_ricerca = strcmp(*(char **)(puntatore_temporaneo + i * 8),stringa_da_cercare);
+      if (risultato_ricerca == 0) {
+        return 1;
+      }
+      i = i + 1;
+    } while (i != temp_tot);
+  }
+  return 0;
+}
+@@@
+
+;conclusione
+
+;questa funzione implementa una semplice ricerca lineare di una stringa all'interno di un array di stringhe.
+
+;pur essendo una routine elementare, mostra diversi pattern molto comuni nel reversing:
+
+;struct riconoscibili tramite offset costanti
+;array di puntatori identificabili con indexing *8
+;loop compilati con cmp/jump
+;funzioni libc come strcmp usate come indizio semantico
+
+;sono proprio queste piccole funzioni a costruire l'occhio del reverse engineer: imparare a riconoscerle rapidamente permette di risparmiare tempo quando si affrontano binari molto più complessi.
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+</script>
+
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title + ' | HCF';
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            inner += escCode(block.replace(/\n$/, ''));
+	    //inner += '\n' + escCode(block.replace(/\n$/, ''));
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+            inner += '<div class="commento">\n';
+            for(const p of paragraphs){
+                // i commenti NON vengono escapati: i link HTML passano interi
+                inner += '<p>' + p + '</p>\n';
+            }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+</body>
+</html>
