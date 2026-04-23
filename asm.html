@@ -262,16 +262,13 @@ call rax
 @@@
 
 ;nella funzione ci sono tutta una serie di chiamate a seccomp_rule_add che definiscono quali syscall sono permesse; seccomp_rule_add aggiunge una regola che permette (mov esi, 0x7fff0000 ; action = SCMP_ACT_ALLOW) una specifica syscall.
-
 ;syscall permesse:<br>
 ;read 0<br>
 ;write 1<br>
 ;open 2<br>
 ;exit 60 (0x3c)<br>
 ;exit_group 231 (0xe7)<br>
-<br>
 ;obiettivo<br>
-<br>
 ;leggere il contenuto del file con il nome lunghissimo:
 
 @@@
