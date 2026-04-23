@@ -428,7 +428,7 @@ const COMMANDS = {
         out(`<span class="dim">;${sec.posts.length} write-up</span>`);
         sec.posts.forEach(p => {
             out(
-                `» <a href="${p.href}">${p.file}</a><br>` +
+                `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a><br>` +
                 `<span class="dim">;${p.desc}</span>`
             );
         });
