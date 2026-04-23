@@ -407,9 +407,10 @@ const COMMANDS = {
     ls(args){
         if(!args){
             /* lista sezioni */
+	    const label = sec.name === "LINK & TOOL" ? "resources" : "write-up";
 	    out("  ");
             outLines(SECTIONS.map(s =>
-                `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} write-up</span>`
+	    `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`
             ));
             return;
         }
