@@ -449,7 +449,7 @@ const COMMANDS = {
     },
 
     recent(){
-        out(`<span class="info">; ultimi ${RECENT_COUNT} post</span>`);
+        out(`<span class="info">[0x00] RECENT</span>`);
         recentPosts.forEach(p => {
             out(
                 `  » <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
