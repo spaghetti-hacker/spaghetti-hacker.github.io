@@ -406,13 +406,13 @@ const COMMANDS = {
 
     ls(args){
         if(!args){
-            /* lista sezioni */
-	    out("  ");
-            outLines(SECTIONS.map(s => {
-	    const label = sec.name === "LINK & TOOL" ? "resources" : "write-up";
-	    return `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`
-            }));
-        }
+   		out("  ");
+    		outLines(SECTIONS.map(s => {
+        	const label = s.name === "LINK & TOOL" ? "resources" : "write-up";
+        	return `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`;
+    		}));
+    	return;
+	}
         /* ls <id sezione> — accetta "0x01", "01", "1", o nome parziale */
         const q = args.toLowerCase();
         const sec = SECTIONS.find(s =>
