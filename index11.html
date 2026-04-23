@@ -372,7 +372,7 @@ function outLines(lines){
 }
 
 function hr(){
-    out(`<span class="dim">──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>`);
+    out(`<span class="dim">                            </span>`);
 }
 
 /* ── definizione comandi ── */
@@ -381,14 +381,13 @@ const COMMANDS = {
     help(){
         outLines([
             `<span class="info">comandi disponibili:</span>`,
-            `  <span class="ok">ls</span>              <span class="dim">;elenca tutte le sezioni</span>`,
-            `  <span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca i post di una sezione  (es: ls 0x01)</span>`,
-            `  <span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post                  (es: cat no_elf.html)</span>`,
-            `  <span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca nei titoli e nelle desc  (es: find crackme)</span>`,
-            `  <span class="ok">recent</span>          <span class="dim">;mostra gli ultimi ${RECENT_COUNT} post</span>`,
-            `  <span class="ok">whoami</span>          <span class="dim">;chi sei</span>`,
-            `  <span class="ok">clear</span>           <span class="dim">;pulisce lo schermo</span>`,
-            `  <span class="ok">help</span>            <span class="dim">;questo messaggio</span>`,
+            `  <span class="ok">ls</span>              <span class="dim"> ;elenca sezioni</span>`,
+            `  <span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca i post di una sezione</span>`,
+            `  <span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post </span>`,
+            `  <span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
+            `  <span class="ok">recent</span>          <span class="dim"> ;mostra gli ultimi post</span>`,
+            `  <span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
+            `  <span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
         ]);
     },
 
