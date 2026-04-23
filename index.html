@@ -382,10 +382,10 @@ const COMMANDS = {
         outLines([
             `<span class="info">comandi disponibili:</span>`,
             `<span class="ok">ls</span>              <span class="dim"> ;elenca sezioni</span>`,
-            `<span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca post sezione</span>`,
-            `<span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post</span>`,
+            `<span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca write up sezione</span>`,
+            `<span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un write up</span>`,
             `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
-            `<span class="ok">recent</span>          <span class="dim"> ;mostra ultimi post</span>`,
+            `<span class="ok">recent</span>          <span class="dim"> ;mostra ultimi write up</span>`,
             `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
         ]);
@@ -395,7 +395,7 @@ const COMMANDS = {
         if(!args){
             /* lista sezioni */
             outLines(SECTIONS.map(s =>
-                `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} post</span>`
+                `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} write up</span>`
             ));
             return;
         }
@@ -412,7 +412,7 @@ const COMMANDS = {
         }
         out(`  `);
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
-        out(`<span class="dim">;${sec.posts.length} post</span>`);
+        out(`<span class="dim">;${sec.posts.length} write up</span>`);
         sec.posts.forEach(p => {
             out(
                 `» <a href="${p.href}">${p.file}</a><br>` +
@@ -457,7 +457,7 @@ const COMMANDS = {
     recent(){
         out(`  `);
         out(`<span style="color:#65E903">[0x00] RECENT</span>`);
-	out(`<span class="dim">;ultimi ${RECENT_COUNT} post</span>`);
+	out(`<span class="dim">;ultimi ${RECENT_COUNT} write up</span>`);
         recentPosts.forEach(p => {
             out(
                 `» <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
