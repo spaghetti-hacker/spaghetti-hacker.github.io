@@ -426,7 +426,9 @@ const COMMANDS = {
         }
         out(`  `);
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
+        if(sec.name !== "LINK & TOOL"){
         out(`<span class="dim">;${sec.posts.length} write-up</span>`);
+        }
         sec.posts.forEach(p => {
             out(
                 `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a><br>` +
