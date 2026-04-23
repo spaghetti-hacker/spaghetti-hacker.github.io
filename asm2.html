@@ -136,10 +136,10 @@ ASM ~ HCF
 
 ;quando un processo è in modalità SECCOMP, può utilizzare solo un sottoinsieme limitato di syscall. Se tenta di eseguire una syscall non permessa, il kernel può:
 
-;terminare il processo (modo più restrittivo).
-;restituire un errore.
-;inviare un segnale.
-;permettere l'esecuzione (se configurato con filtri BPF, come in questo caso).
+;terminare il processo (modo più restrittivo).<br>
+;restituire un errore.<br>
+;inviare un segnale.<br>
+;permettere l'esecuzione (se configurato con filtri BPF, come in questo caso).<br>
 
 @@@
 [0x00000b20]> s main
