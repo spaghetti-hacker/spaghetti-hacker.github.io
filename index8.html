@@ -4,11 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPAGHETTI HACKER BBS</title>
+<link rel="icon" type="image/png" href="favicon.png">
 
 <style>
 @font-face{
     font-family:gohu;
     src:url("gohu.woff") format("woff");
+}
+
+@font-face{
+    font-family:'Fixedsys';
+    src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype');
+}
+
+@font-face{
+    font-family:unifont;
+    src:url("unifont.woff") format("woff");
+}
+
+@font-face{
+    font-family:dos;
+    src:url("msx-international.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:'VT323';
+    src:url('VT323-Regular.ttf') format('truetype');
 }
 
 *{
@@ -20,157 +41,265 @@
 body{
     background:#0c0d10;
     color:#65E903;
-    font-family:gohu,"Lucida Console",monospace;
-    font-size:clamp(15px,2.6vw,18px);
+    font-family:unifont,VT323,unifont,VT323,gohu,"Lucida Console",monospace;
+    font-size:23px;
+    letter-spacing:0px;
     line-height:1.6;
     min-height:100vh;
     padding:36px 22px;
 }
 
-/* CRT overlay */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.03),
-        rgba(255,255,255,0.03) 1px,
-        transparent 3px,
-        transparent 4px
-    );
-    opacity:0.2;
-}
-
-/* SCREEN */
-.wrapper{
-    max-width:860px;
-    margin:auto;
-}
-
-.screen{
-    background:#0f1a0f;
-    border:1px solid #1f2c1b;
-    border-radius:6px;
-    padding:16px;
-    box-shadow:0 0 10px rgba(101,233,3,.06);
-    animation:flicker 4s infinite;
-}
-
-@keyframes flicker{
-    0%,100%{opacity:1;}
-    97%{opacity:0.98;}
-    98%{opacity:1;}
-}
-
-/* BANNER */
 .banner{
     position:relative;
     margin-bottom:18px;
+    width:100%;
+    max-width:100%;
     overflow:hidden;
 }
 
 .banner img{
     width:100%;
+    height:auto;
     display:block;
-    opacity:0;
-    transform:translateY(-4px);
-    transition:0.6s ease;
-    filter:contrast(1.1) brightness(1.05);
+    max-width:100%;
+    transform-origin:center;
 }
 
-.banner img.on{
-    opacity:1;
-    transform:translateY(0);
+@media (min-width: 768px){
+    .banner img.on{
+        transform: scale(1.01);
+    }
 }
 
-/* scanlines sopra banner */
-.banner::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background:repeating-linear-gradient(
-        to bottom,
-        rgba(0,0,0,0),
-        rgba(0,0,0,0) 2px,
-        rgba(0,0,0,0.2) 3px
-    );
+@media (max-width: 767px){
+    .banner img.on{
+        transform: none !important;
+    }
+    .banner.glitch img{
+        transform: none !important;
+        animation: none !important;
+    }
 }
 
-/* GLITCH EVENT */
 @keyframes crtGlitch {
-    0%   { transform: translate(0,0); }
+    0%   { transform: translate(0,0); filter:none; }
     8%   { transform: translate(-1px,0); }
     10%  { transform: translate(2px,0); }
     12%  { transform: translate(-3px,1px); }
     14%  { transform: translate(1px,-1px); }
+    18%  { transform: translate(0,0); }
+    35%  { transform: translate(0,0); }
     36%  { transform: translate(-6px,0); }
     38%  { transform: translate(4px,0); }
+    40%  { transform: translate(0,0); }
+    65%  { transform: translate(0,0); }
     66%  { transform: translate(3px,-2px); }
     68%  { transform: translate(-2px,2px); }
+    70%  { transform: translate(0,0); }
     100% { transform: translate(0,0); }
 }
 
-.banner.glitch img{
-    animation:crtGlitch 0.6s steps(2,end);
+.ascii{
+    margin:0;
+    color:#65E903;
+    font-family:"Fixedsys";
+    font-size:.58em;
+    line-height:1.0;
+    white-space:pre;
+    overflow-x:auto;
+    letter-spacing:0;
 }
 
-/* MOBILE SAFE */
-@media(max-width:768px){
-    .banner.glitch img{
-        animation:none;
-        transform:none !important;
-    }
+.wrapper{
+    max-width:1024px;
+    margin:auto;
 }
 
-/* UI */
+.screen{
+    background:#001C1C;
+    border:1px solid #001c1c;
+    border-radius:6px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+}
+
 .line{
     white-space:pre-wrap;
+    overflow-wrap:anywhere;
     min-height:1em;
+}
+
+.dim{
+    color:#3a9070;
+}
+
+a{
+    color:#65E903;
+    text-decoration:none;
+}
+
+a:hover{
+    color:#9cff5f;
 }
 
 .block{
     margin-top:18px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.25s;
+}
+
+.block.visible{
+    opacity:1;
+    transform:none;
 }
 
 .post{
     margin-top:8px;
     padding-left:18px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.25s;
 }
 
-.dim{ color:#4f7a35; }
+.post.visible{
+    opacity:1;
+    transform:none;
+}
 
-a{ color:#65E903; text-decoration:none; }
-a:hover{ color:#9cff5f; }
-
+/* ── cursore vecchio (usato durante il boot) ── */
 .cursor{
     display:inline-block;
     width:.55em;
     height:1em;
     background:#65E903;
+    vertical-align:text-bottom;
     animation:blink 1s step-end infinite;
+    margin-left:2px;
 }
 
 @keyframes blink{
     0%,100%{opacity:1;}
     50%{opacity:0;}
 }
+
+/* ── riga prompt interattiva ── */
+#prompt-line{
+    display:flex;
+    align-items:baseline;
+    margin-top:0;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+#prompt-label{
+    flex-shrink:0;
+}
+
+#prompt-input{
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#65E903;
+    font-family:unifont,VT323,gohu,"Lucida Console",monospace;
+    font-size:inherit;
+    line-height:inherit;
+    letter-spacing:0;
+    caret-color:#65E903;
+    flex:1;
+    min-width:0;
+    padding:0;
+    /* nasconde il cursore nativo — usiamo quello CSS */
+    caret-color:#65E903;
+}
+
+/* output dei comandi */
+.cmd-output{
+    margin-top:2px;
+    padding-left:0;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.cmd-echo{
+    color:#65E903;
+    opacity:.55;
+}
+
+.err{
+    color:#e05050;
+}
+
+.ok{
+    color:#65E903;
+}
+
+.info{
+    color:#3a9070;
+}
+
+@media(max-width:640px){
+    body{
+        padding:20px 10px;
+        font-size:16px;
+    }
+    .screen{padding:12px;}
+}
 </style>
 </head>
 
 <body>
-
 <div class="wrapper">
 <div class="screen" id="root"></div>
 </div>
 
 <script>
+/* ═══════════════════════════════════════════════
+   DATI
+═══════════════════════════════════════════════ */
+const SECTIONS = [
+{
+    n:"0x01",
+    name:"MALWARE ANALYSIS",
+    posts:[
+        { file:"no_elf.html",      href:"no_elf.html",      desc:"reverse engineering di un ELF dropper con payload in memoria",                                                    date:"2025-01-15" },
+        { file:"lotoor.html",      href:"lotoor.html",       desc:"campione di malware ELF compilato per architettura ARM 32-bit",                                                   date:"2024-02-10" },
+        { file:"proc_hider.html",  href:"proc_hider.html",   desc:"rootkit userland, usato per nascondere processi",                                                                 date:"2024-03-05" }
+    ]
+},
+{
+    n:"0x02",
+    name:"REVERSE ENGINEERING",
+    posts:[
+        { file:"get_number.html",  href:"get_number.html",   desc:"shellcode-as-png, crackme con vincolo temporizzato",                                                              date:"2025-01-28" },
+        { file:"sigsegv.html",     href:"sigsegv.html",      desc:"crackme che implementa tecniche avanzate di anti-debugging attraverso l'uso di segnali SIGSEGV",                 date:"2024-04-01" },
+        { file:"packed_binary.html",href:"packed_binary.html",desc:"questo crackme utilizza i segnali UNIX per costruire dinamicamente una password all'interno di un buffer globale",date:"2024-02-20" }
+    ]
+},
+{
+    n:"0x03",
+    name:"CTF & VULNERABILITY RESEARCH",
+    posts:[
+        { file:"asm.html",         href:"asm.html",          desc:"shellcode injection sotto SECCOMP con filename fuori misura",                                                     date:"2025-03-18" },
+        { file:"got_overwrite.html",href:"got_overwrite.html",desc:"sfruttamento della vulnerabilità format string per scrivere nella GOT",                                          date:"2024-01-05" },
+        { file:"heap_notes.html",  href:"heap_notes.html",   desc:"use-after-free e tcache poisoning",                                                                              date:"2024-04-12" }
+    ]
+}
+];
+
+const RECENT_COUNT = 3;
+const recentPosts = SECTIONS.flatMap(s => s.posts)
+    .filter(p => p.date)
+    .sort((a,b) => new Date(b.date) - new Date(a.date))
+    .slice(0, RECENT_COUNT);
+
+/* ═══════════════════════════════════════════════
+   UTILITÀ DOM
+═══════════════════════════════════════════════ */
 const root = document.getElementById("root");
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
-function line(html=""){
+function line(html = ""){
     const d = document.createElement("div");
     d.className = "line";
     d.innerHTML = html;
@@ -178,76 +307,282 @@ function line(html=""){
     return d;
 }
 
-function triggerCRTGlitch(banner){
-    const intensity = Math.random();
-    if(intensity < 0.7) return;
-
-    banner.classList.add("glitch");
-
-    const img = banner.querySelector("img");
-    if(img){
-        img.style.transform = `translate(${Math.random()*4-2}px,${Math.random()*3-1.5}px)`;
+async function type(el, text, speed = 16){
+    for(const c of text){
+        el.innerHTML += c;
+        await wait(speed);
     }
-
-    setTimeout(() => {
-        banner.classList.remove("glitch");
-        if(img) img.style.transform = "";
-    }, 150 + Math.random()*200);
 }
 
-function startCRTGlitchLoop(banner){
-    function loop(){
-        const delay = 7000 + Math.random()*5000;
-        setTimeout(() => {
-            triggerCRTGlitch(banner);
-            loop();
-        }, delay);
-    }
-    loop();
-}
-
+/* ═══════════════════════════════════════════════
+   BOOT SEQUENCE  (identica all'originale)
+═══════════════════════════════════════════════ */
 async function boot(){
-
     let l1 = line();
-    l1.innerHTML = "CONNECT 2400 BAUD...";
+    await type(l1, "CONNECT 2400 BAUD...");
     await wait(300);
 
     let l2 = line();
-    l2.innerHTML = "HANDSHAKE OK";
+    await type(l2, "HANDSHAKE OK");
+    await wait(250);
+
+    line();
     await wait(300);
 
-    /* BANNER */
     const banner = document.createElement("div");
     banner.className = "banner";
-
-    const img = document.createElement("img");
-    img.src = "banner.png";
-    img.alt = "Spaghetti Hacker BBS";
-
-    banner.appendChild(img);
+    banner.innerHTML = `<img src="banner22.png" alt="Spaghetti Hacker BBS">`;
     root.appendChild(banner);
 
-    setTimeout(() => img.classList.add("on"), 300);
-
-    startCRTGlitchLoop(banner);
-
-    await wait(400);
-
     line('<span class="dim">sysop: HCF</span>');
-
-    /* fake content */
-    for(let i=0;i<3;i++){
-        const b = document.createElement("div");
-        b.className = "block";
-        b.innerHTML = `[0x0${i}] section loaded`;
-        root.appendChild(b);
-        await wait(200);
-    }
-
+    await wait(300);
     line("");
-    line('<span>root@spaghetti-hacker:~#</span> <span class="cursor"></span>');
+    startShell();
+    COMMANDS.recent();
+    line("");
+    COMMANDS.help();
 }
 
+/* ═══════════════════════════════════════════════
+   SHELL INTERATTIVA
+═══════════════════════════════════════════════ */
+
+/* storia comandi (freccia su/giù) */
+const history = [];
+let histIdx = -1;
+
+/* tutti i post flat per ricerca */
+const allPosts = SECTIONS.flatMap(s =>
+    s.posts.map(p => ({ ...p, section: s.name, n: s.n }))
+);
+
+/* ── output helpers ── */
+function out(html, cls = "cmd-output"){
+    const d = document.createElement("div");
+    d.className = cls;
+    d.innerHTML = html;
+    // inserisce PRIMA della riga prompt
+    root.insertBefore(d, document.getElementById("prompt-line"));
+    return d;
+}
+
+function outLines(lines){
+    lines.forEach(l => out(l));
+}
+
+/* ── definizione comandi ── */
+const COMMANDS = {
+
+    help(){
+        outLines([
+            `<span class="info">comandi disponibili:</span>`,
+            `  <span class="ok">ls</span>              <span class="dim">;elenca tutte le sezioni</span>`,
+            `  <span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;elenca i post di una sezione  (es: ls 0x01)</span>`,
+            `  <span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post                  (es: cat no_elf.html)</span>`,
+            `  <span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca nei titoli e nelle desc  (es: find crackme)</span>`,
+            `  <span class="ok">recent</span>          <span class="dim">;mostra gli ultimi ${RECENT_COUNT} post</span>`,
+            `  <span class="ok">whoami</span>          <span class="dim">;chi sei</span>`,
+            `  <span class="ok">clear</span>           <span class="dim">;pulisce lo schermo</span>`,
+            `  <span class="ok">help</span>            <span class="dim">;questo messaggio</span>`,
+        ]);
+    },
+
+    ls(args){
+        if(!args){
+            /* lista sezioni */
+            outLines(SECTIONS.map(s =>
+                `  [${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} post</span>`
+            ));
+            return;
+        }
+        /* ls <id sezione> — accetta "0x01", "01", "1", o nome parziale */
+        const q = args.toLowerCase();
+        const sec = SECTIONS.find(s =>
+            s.n.toLowerCase() === q ||
+            s.n.replace("0x","").toLowerCase() === q.replace("0x","") ||
+            s.name.toLowerCase().includes(q)
+        );
+        if(!sec){
+            out(`<span class="err">ls: sezione non trovata: ${esc(args)}</span>`);
+            return;
+        }
+        out(`<span class="info">[${sec.n}] ${sec.name}</span>`);
+        sec.posts.forEach(p => {
+            out(
+                `  » <a href="${p.href}">${p.file}</a><br>` +
+                `    <span class="dim">;${p.desc}</span>`
+            );
+        });
+    },
+
+    cat(args){
+        if(!args){ out(`<span class="err">uso: cat &lt;filename&gt;</span>`); return; }
+        const q = args.toLowerCase().trim();
+        const p = allPosts.find(p =>
+            p.file.toLowerCase() === q ||
+            p.file.toLowerCase().replace(".html","") === q.replace(".html","")
+        );
+        if(!p){ out(`<span class="err">cat: file non trovato: ${esc(args)}</span>`); return; }
+        out(`<span class="dim">;apertura ${p.file}...</span>`);
+        setTimeout(() => { window.location.href = p.href; }, 400);
+    },
+
+    find(args){
+        if(!args){ out(`<span class="err">uso: find &lt;keyword&gt;</span>`); return; }
+        const q = args.toLowerCase().trim();
+        const results = allPosts.filter(p =>
+            p.file.toLowerCase().includes(q) ||
+            p.desc.toLowerCase().includes(q) ||
+            p.section.toLowerCase().includes(q)
+        );
+        if(!results.length){
+            out(`<span class="dim">;nessun risultato per "${esc(args)}"</span>`);
+            return;
+        }
+        out(`<span class="info">; ${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`);
+        results.forEach(p => {
+            out(
+                `  » <a href="${p.href}">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
+                `    <span class="dim">;${p.desc}</span>`
+            );
+        });
+    },
+
+    recent(){
+        out(`<span class="info">; ultimi ${RECENT_COUNT} post</span>`);
+        recentPosts.forEach(p => {
+            out(
+                `  » <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
+                `    <span class="dim">;${p.desc}</span>`
+            );
+        });
+    },
+
+    whoami(){
+        out(`<span class="dim">;guest — accesso in sola lettura</span>`);
+        out(`<span class="dim">;sysop: HCF</span>`);
+    },
+
+    clear(){
+        /* svuota tutto tranne la prompt line */
+        const pl = document.getElementById("prompt-line");
+        while(root.firstChild && root.firstChild !== pl)
+            root.removeChild(root.firstChild);
+    }
+};
+
+/* ── escape html minimale ── */
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* ── esegui un comando ── */
+function runCommand(raw){
+    const trimmed = raw.trim();
+    if(!trimmed) return;
+
+    /* echo del comando digitato */
+    out(`<span class="cmd-echo">root@spaghetti-hacker:~# ${esc(trimmed)}</span>`);
+
+    const [cmd, ...rest] = trimmed.split(/\s+/);
+    const args = rest.join(" ") || null;
+    const fn = COMMANDS[cmd.toLowerCase()];
+
+    if(fn) fn(args);
+    else out(`<span class="err">comando non trovato: ${esc(cmd)}  (digita <span class="ok">help</span>)</span>`);
+}
+
+/* ── costruisce la riga prompt fissa ── */
+function startShell(){
+    const pl = document.createElement("div");
+    pl.id = "prompt-line";
+    pl.className = "line";
+
+    const label = document.createElement("span");
+    label.id = "prompt-label";
+    label.innerHTML = `root@spaghetti-hacker:~# `;
+
+    const input = document.createElement("input");
+    input.id = "prompt-input";
+    input.type = "text";
+    input.autocomplete = "off";
+    input.autocorrect = "off";
+    input.autocapitalize = "off";
+    input.spellcheck = false;
+    input.setAttribute("aria-label", "bbs shell");
+
+    pl.appendChild(label);
+    pl.appendChild(input);
+    root.appendChild(pl);
+
+    /* metti il focus subito e su ogni click nella screen */
+    input.focus();
+    document.getElementById("root").addEventListener("click", () => input.focus());
+
+    /* ENTER → esegui */
+    input.addEventListener("keydown", e => {
+        if(e.key === "Enter"){
+            e.preventDefault();
+            const val = input.value;
+            input.value = "";
+            histIdx = -1;
+            if(val.trim()){
+                history.unshift(val);
+                runCommand(val);
+            }
+            /* scroll alla fine */
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        /* freccia SU */
+        if(e.key === "ArrowUp"){
+            e.preventDefault();
+            if(histIdx < history.length - 1){
+                histIdx++;
+                input.value = history[histIdx];
+            }
+        }
+
+        /* freccia GIÙ */
+        if(e.key === "ArrowDown"){
+            e.preventDefault();
+            if(histIdx > 0){
+                histIdx--;
+                input.value = history[histIdx];
+            } else {
+                histIdx = -1;
+                input.value = "";
+            }
+        }
+
+        /* TAB → autocomplete filename o comando */
+        if(e.key === "Tab"){
+            e.preventDefault();
+            const val = input.value;
+            const parts = val.trim().split(/\s+/);
+
+            if(parts.length === 1){
+                /* completa il comando */
+                const partial = parts[0].toLowerCase();
+                const matches = Object.keys(COMMANDS).filter(c => c.startsWith(partial));
+                if(matches.length === 1) input.value = matches[0] + " ";
+                else if(matches.length > 1) out(`<span class="dim">;${matches.join("  ")}</span>`);
+            } else {
+                /* completa il filename (per cat, ls, find) */
+                const partial = parts[parts.length-1].toLowerCase();
+                const matches = allPosts
+                    .map(p => p.file)
+                    .filter(f => f.toLowerCase().startsWith(partial));
+                if(matches.length === 1){
+                    parts[parts.length-1] = matches[0];
+                    input.value = parts.join(" ");
+                } else if(matches.length > 1){
+                    out(`<span class="dim">;${matches.join("  ")}</span>`);
+                }
+            }
+        }
+    });
+}
+
+/* ── avvio ── */
 boot();
 </script>
 
