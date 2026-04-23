@@ -334,10 +334,10 @@ int cerca_stringa(astruct *struttura,char *stringa_da_cercare)
         const paragraphs = splitParagraphs(textLines);
         if(paragraphs.length > 0){
             inner += '<div class="commento">\n';
-            for(const p of paragraphs){
-                // i commenti NON vengono escapati: i link HTML passano interi
-                inner += '<p>' + p + '</p>\n';
-            }
+	    for (const p of paragraphs){
+    		const cleaned = p.replace(/\n/g, '<br>');
+    		inner += '<p>' + cleaned + '</p>\n';
+		}
             inner += '</div>';
         }
     }
