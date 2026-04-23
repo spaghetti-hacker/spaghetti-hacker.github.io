@@ -384,8 +384,8 @@ const COMMANDS = {
             `  <span class="ok">ls</span>              <span class="dim"> ;elenca sezioni</span>`,
             `  <span class="ok">ls &lt;sezione&gt;</span>     <span class="dim">;post di una sezione</span>`,
             `  <span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un post</span>`,
-            `  <span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca nei titoli e nelle desc</span>`,
-            `  <span class="ok">recent</span>          <span class="dim"> ;mostra gli ultimi ${RECENT_COUNT} post</span>`,
+            `  <span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
+            `  <span class="ok">recent</span>          <span class="dim"> ;ultimi ${RECENT_COUNT} post</span>`,
             `  <span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `  <span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
         ]);
@@ -413,8 +413,8 @@ const COMMANDS = {
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         sec.posts.forEach(p => {
             out(
-                `  » <a href="${p.href}">${p.file}</a><br>` +
-                `    <span class="dim">;${p.desc}</span>`
+                `» <a href="${p.href}">${p.file}</a><br>` +
+                `<span class="dim">;${p.desc}</span>`
             );
         });
     },
