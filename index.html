@@ -411,7 +411,7 @@ const COMMANDS = {
             out(`<span class="err">ls: sezione non trovata: ${esc(args)}</span>`);
             return;
         }
-        out(`  `);
+        out(`<span class="dim">;${sec.posts.length} post</span>`);
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         out(`  `);
         sec.posts.forEach(p => {
