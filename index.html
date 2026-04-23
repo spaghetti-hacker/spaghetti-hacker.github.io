@@ -393,6 +393,7 @@ const COMMANDS = {
     ls(args){
         if(!args){
             /* lista sezioni */
+	    out("  ");
             outLines(SECTIONS.map(s =>
                 `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} write-up</span>`
             ));
