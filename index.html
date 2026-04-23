@@ -445,7 +445,8 @@ const COMMANDS = {
             out(`<span class="dim">;nessun risultato per "${esc(args)}"</span>`);
             return;
         }
-        out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`);
+        out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`); 
+        out(" ");
         results.forEach(p => {
             out(
                 `» <a href="${p.href}">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
