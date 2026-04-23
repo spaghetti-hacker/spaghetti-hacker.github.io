@@ -412,6 +412,7 @@ const COMMANDS = {
             return;
         }
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
+        out(`  `);
         sec.posts.forEach(p => {
             out(
                 `» <a href="${p.href}">${p.file}</a><br>` +
@@ -455,6 +456,7 @@ const COMMANDS = {
 
     recent(){
         out(`<span style="color:#65E903">[0x00] RECENT</span>`);
+        out(`  `);
         recentPosts.forEach(p => {
             out(
                 `» <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
