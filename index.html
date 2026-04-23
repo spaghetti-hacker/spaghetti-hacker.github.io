@@ -491,7 +491,7 @@ function runCommand(raw){
     if(!trimmed) return;
 
     /* echo del comando digitato */
-    out(`<span style="color:#3a9070">root@spaghetti-hacker:~# ${esc(trimmed)}</span>`);
+    out(`<span style="color:#65E903">root@spaghetti-hacker:~# ${esc(trimmed)}</span>`);
 
     const [cmd, ...rest] = trimmed.split(/\s+/);
     const args = rest.join(" ") || null;
