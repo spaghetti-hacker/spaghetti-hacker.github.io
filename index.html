@@ -462,7 +462,7 @@ const COMMANDS = {
         out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`); 
         results.forEach(p => {
             out(
-                `» <a href="${p.href}">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
+                `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
                 `<span class="dim">;${p.desc}</span>`
             );
         });
@@ -474,7 +474,7 @@ const COMMANDS = {
 	out(`<span class="dim">;ultimi ${RECENT_COUNT} write-up</span>`);
         recentPosts.forEach(p => {
             out(
-                `» <a href="${p.href}">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
+                `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
                 `<span class="dim">;${p.desc}</span>`
             );
         });
