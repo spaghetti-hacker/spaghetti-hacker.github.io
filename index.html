@@ -423,7 +423,7 @@ const COMMANDS = {
         out(`  `);
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         if(sec.name === "LINK & TOOL"){
-    		out(`<span class="dim">;external resources</span>`);
+    		out(`<span class="dim">;${sec.posts.length} external resources</span>`);
 	} else {
     		out(`<span class="dim">;${sec.posts.length} write-up</span>`);
 	}
