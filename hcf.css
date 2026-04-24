@@ -44,7 +44,7 @@ body{
 .article{
     background:#001C1C;
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:0px;
     overflow:hidden;
     width:100%;
     display:block;
