@@ -15,14 +15,11 @@
 
 
 :root{
-    /*--bg:#0c0d10;*/
     --bg:#0c0d10;
     --border:#001c1c;
-    /*--text:#65E903;*/
-    --text:#00ffff;
+    --text:#65E903;
     /*--muted:#4f7a35;*/
-    /*--muted:#3a9070;*/
-    --muted:#00ffff;
+    --muted:#3a9070;
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
