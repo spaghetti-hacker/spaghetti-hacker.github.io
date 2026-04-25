@@ -296,7 +296,7 @@ const SECTIONS = [
     name:"MALWARE ANALYSIS",
     img:"logo_ma.png",
     posts:[
-        { file:"no_elf.html",      href:"no_elf.html",      desc:"reverse engineering di un ELF dropper con payload in memoria",                                                    date:"2025-02-15" }
+        { file:"no_elf.html",      href:"no_elf.html",      desc:"reverse engineering di un ELF dropper con payload in memoria",                                                    date:"2025-01-15" }
     ]
 },
 {
@@ -458,8 +458,7 @@ const COMMANDS = {
    		out("  ");
     		outLines(SECTIONS.map(s => {
         	const label = s.name === "LINK & TOOL" ? "resources" : "write-up";
-        	/*return `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`;*/
-        	return `[${s.n}] <span class="ok">${s.name}</span>;
+        	return `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`;
     		}));
     	return;
 	}
