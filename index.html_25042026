@@ -246,38 +246,6 @@ a:hover{
     }
     .screen{padding:12px;}
 }
-
-.post-img{
-    display:inline-block;
-    vertical-align:middle;
-    height:119px;
-    width:auto;
-    /*max-width:2.4em;*/
-    object-fit:contain;
-    /*image-rendering:pixelated;*/
-    margin-right:6px;
-    position:relative;
-    top:-.1em;
-}
-
-.post-row{
-    display:flex;
-    align-items:flex-start;
-    gap:0;
-    margin-top:6px;
-}
-
-.post-row-img{
-    flex-shrink:0;
-    display:flex;
-    align-items:center;
-    padding-top:.1em;
-}
-
-.post-row-body{
-    flex:1;
-    min-width:0;
-}
 </style>
 </head>
 
@@ -294,15 +262,13 @@ const SECTIONS = [
 {
     n:"0x01",
     name:"MALWARE ANALYSIS",
-    img:"logo_ma.png",
     posts:[
-        { file:"no_elf.html",      href:"no_elf.html",      desc:"reverse engineering di un ELF dropper con payload in memoria",                                                    date:"2025-02-15" }
+        { file:"no_elf.html",      href:"no_elf.html",      desc:"reverse engineering di un ELF dropper con payload in memoria",                                                    date:"2025-01-15" }
     ]
 },
 {
     n:"0x02",
     name:"REVERSE ENGINEERING",
-    img:"logo_re.png",
     posts:[
         { file:"find_string.html",  href:"find_string.html",   desc:"reversing di una semplice routine di ricerca stringa in un array di stringhe",                                                              date:"2026-04-23" },
         { file:"get_number.html",  href:"get_number.html",   desc:"shellcode-as-png, crackme con vincolo temporizzato",                                                              date:"2025-01-28" }
@@ -311,7 +277,6 @@ const SECTIONS = [
 {
     n:"0x03",
     name:"CTF & VULNERABILITY RESEARCH",
-    img:"logo_ctf.png",
     posts:[
         { file:"asm.html",         href:"asm.html",          desc:"shellcode injection sotto SECCOMP con filename fuori misura",                                                     date:"2025-03-18" }
     ]
@@ -319,7 +284,6 @@ const SECTIONS = [
 {
     n:"0x04",
     name:"LINK & TOOL",
-    img:"logo_ctf.png",
     posts:[
         { file:"Searchable Linux Syscall Table",         href:"https://filippo.io/linux-syscall-table/",          desc:"syscall Linux",                                                     date:"2023-03-18" },
         { file:"CyberChef",href:"https://gchq.github.io/CyberChef/",desc:"web app open source per analizzare, convertire e manipolare dati tramite un’interfaccia visuale drag and drop",                                          date:"2023-01-05" },
@@ -329,7 +293,7 @@ const SECTIONS = [
 ];
 
 const RECENT_COUNT = 3;
-const recentPosts = SECTIONS.flatMap(s => s.posts.map(p => ({ ...p, img: s.img })))
+const recentPosts = SECTIONS.flatMap(s => s.posts)
     .filter(p => p.date)
     .sort((a,b) => new Date(b.date) - new Date(a.date))
     .slice(0, RECENT_COUNT);
@@ -394,7 +358,7 @@ let histIdx = -1;
 
 /* tutti i post flat per ricerca */
 const allPosts = SECTIONS.flatMap(s =>
-    s.posts.map(p => ({ ...p, section: s.name, n: s.n, img: s.img }))
+    s.posts.map(p => ({ ...p, section: s.name, n: s.n }))
 );
 
 /* ── output helpers ── */
@@ -413,22 +377,6 @@ function outLines(lines){
 
 function hr(){
     out(`<span class="dim">               </span>`);
-}
-
-/* ── helper: render riga post con immagine sezione ── */
-function postHtml(p, extra = ""){
-    const imgTag = p.img
-        ? `<img class="post-img" src="${p.img}" alt="" aria-hidden="true">`
-        : `<span style="margin-right:6px">»</span>`;
-    return (
-        `<div class="post-row">` +
-          `<span class="post-row-img">${imgTag}</span>` +
-          `<span class="post-row-body">` +
-            `<a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a>${extra}<br>` +
-            `<span class="dim">;${p.desc}</span>` +
-          `</span>` +
-        `</div>`
-    );
 }
 
 /* ── definizione comandi ── */
@@ -458,8 +406,7 @@ const COMMANDS = {
    		out("  ");
     		outLines(SECTIONS.map(s => {
         	const label = s.name === "LINK & TOOL" ? "resources" : "write-up";
-        	/*return `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`;*/
-        	return `[${s.n}] <span class="ok">${s.name}</span>;
+        	return `[${s.n}] <span class="ok">${s.name}</span>  <span class="dim">;${s.posts.length} ${label}</span>`;
     		}));
     	return;
 	}
@@ -482,7 +429,10 @@ const COMMANDS = {
     		out(`<span class="dim">;${sec.posts.length} write-up</span>`);
 	}
         sec.posts.forEach(p => {
-            out(postHtml({ ...p, img: sec.img }));
+            out(
+                `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a><br>` +
+                `<span class="dim">;${p.desc}</span>`
+            );
         });
     },
 
@@ -513,7 +463,10 @@ const COMMANDS = {
         out(" ");
         out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`); 
         results.forEach(p => {
-            out(postHtml(p, `  <span class="dim">[${p.n}]</span>`));
+            out(
+                `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a>  <span class="dim">[${p.n}]</span><br>` +
+                `<span class="dim">;${p.desc}</span>`
+            );
         });
     },
 
@@ -522,7 +475,10 @@ const COMMANDS = {
         out(`<span style="color:#65E903">[0x00] RECENT</span>`);
 	out(`<span class="dim">;ultimi ${RECENT_COUNT} write-up</span>`);
         recentPosts.forEach(p => {
-            out(postHtml(p, `  <span class="dim">${p.date}</span>`));
+            out(
+                `» <a href="${p.href}" target="_blank" rel="noopener noreferrer">${p.file}</a>  <span class="dim">${p.date}</span><br>` +
+                `<span class="dim">;${p.desc}</span>`
+            );
         });
     },
 
