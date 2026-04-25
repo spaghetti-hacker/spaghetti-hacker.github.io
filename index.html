@@ -477,10 +477,8 @@ const COMMANDS = {
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         if(sec.name === "LINK & TOOL"){
     		/*out(`<span class="dim">;${sec.posts.length} external resources</span>`);*/
-    		out(`<span class="dim">              </span>`);
 	} else {
     		/*out(`<span class="dim">;${sec.posts.length} write-up</span>`);*/
-    		out(`<span class="dim">              </span>`);
 	}
         sec.posts.forEach(p => {
             out(postHtml({ ...p, img: sec.img }));
