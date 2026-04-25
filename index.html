@@ -65,22 +65,6 @@ body{
     transform-origin:center;
 }
 
-@media (min-width: 768px){
-    .banner img.on{
-        transform: scale(1.0);
-    }
-}
-
-@media (max-width: 767px){
-    .banner img.on{
-        transform: none !important;
-    }
-    .banner.glitch img{
-        transform: none !important;
-        animation: none !important;
-    }
-}
-
 @keyframes crtGlitch {
     0%   { transform: translate(0,0); filter:none; }
     8%   { transform: translate(-1px,0); }
