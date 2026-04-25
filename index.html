@@ -512,7 +512,7 @@ const COMMANDS = {
             return;
         }
         out(" ");
-        out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`); 
+        /*out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`);*/
         results.forEach(p => {
             out(postHtml(p, `  <span class="dim">[${p.n}]</span>`));
         });
@@ -521,7 +521,7 @@ const COMMANDS = {
     recent(){
         out(`  `);
         out(`<span style="color:#65E903">[0x00] RECENT</span>`);
-	out(`<span class="dim">;ultimi ${RECENT_COUNT} write-up</span>`);
+	/*out(`<span class="dim">;ultimi ${RECENT_COUNT} write-up</span>`);*/
         recentPosts.forEach(p => {
             out(postHtml(p, `  <span class="dim">${p.date}</span>`));
         });
