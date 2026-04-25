@@ -580,7 +580,8 @@ function startShell(){
     root.appendChild(pl);
 
     /* metti il focus subito e su ogni click nella screen */
-    input.focus();
+    /*input.focus();*/
+    if(!/Mobi|Android/i.test(navigator.userAgent)) input.focus();
     document.getElementById("root").addEventListener("click", () => input.focus());
 
     /* ENTER → esegui */
