@@ -42,7 +42,8 @@ body{
 .wrapper{ max-width:1024px; margin:auto; }
 
 .article{
-    background:#001C1C;
+    /*background:#001C1C;*/
+    background:#3a9070;
     border-radius:0px;
     border:1px solid var(--border);
     overflow:hidden;
