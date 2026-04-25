@@ -17,8 +17,7 @@
 :root{
     /*--bg:#0c0d10;*/
     --bg:#0c0d10;
-    /*--border:#001c1c;*/
-    --border:#3a9070;
+    --border:#001c1c;
     --text:#65E903;
     /*--text:#00ffff;*/
     /*--muted:#4f7a35;*/
@@ -45,6 +44,7 @@ body{
 .article{
     background:#001C1C;
     border-radius:0px;
+    border:1px solid var(--border);
     overflow:hidden;
     width:100%;
     display:block;
@@ -56,7 +56,6 @@ body{
 
 .commento{
     color:var(--muted);
-    border:1px solid var(--border);
     margin:16px 0;
     overflow-wrap:anywhere;
     white-space:normal;
