@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TITOLO | HCF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/get_number.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+XORCIST ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+
+;il binario implementa un semplice meccanismo di autenticazione racchiuso in diversi livelli di offuscamento e logica anti-analisi.
+
+;controllo anti-debug
+
+;all'avvio del programma, viene eseguita una funzione preliminare per determinare se il processo è sotto tracciamento da parte di un debugger. Se questa condizione viene rilevata, l'esecuzione viene interrotta anticipatamente con un messaggio fuorviante.
+
+;questo meccanismo funge da misura anti-analisi di base per scoraggiare l'ispezione dinamica durante l'esecuzione.
+
+@@@
+[0x00001445]> s fcn.00001258
+[0x00001258]> pdf
+
+0x00001258      push rbp
+0x00001259      mov rbp, rsp
+0x0000125c      sub rsp, 0x120
+0x00001263      mov rax, qword fs:[0x28]
+0x0000126c      mov qword [canary], rax
+0x00001270      xor eax, eax
+
+0x00001272      lea rdx, [0x00002004]       ; "r"
+0x00001279      lea rax, str._proc_self_status ; 0x2006 ; "/proc/self/status"
+0x00001280      mov rsi, rdx                ; const char *mode
+0x00001283      mov rdi, rax                ; const char *filename
+0x00001286      call sym.imp.fopen          ; file*fopen(const char *filename, const char *mode)
+
+0x0000128b      mov qword [stream], rax
+0x00001292      cmp qword [stream], 0
+0x0000129a      jne 0x12ff
+@@@
+
+;la funzione fopen fallisce restituendo NULL, altrimenti restituisce un puntatore ad una struttura FILE
+
+@@@
+0x0000129c      mov eax, 0
+0x000012a1      jmp 0x1333
+
+0x000012a6      lea rcx, str.TracerPid:     ; 0x2018 ; "TracerPid:"
+0x000012ad      lea rax, [str]
+0x000012b4      mov edx, 0xa                ; size_t n
+0x000012b9      mov rsi, rcx                ; const char *s2
+0x000012bc      mov rdi, rax                ; const char *s1
+0x000012bf      call sym.imp.strncmp        ; int strncmp(const char *s1, const char *s2, size_t n)
+@@@
+
+;controlla se nel buffer letto da fgets c'è la stringa TracerPid, facendo una strncmp dei prima 10 byte
+
+@@@
+0x000012c4      test eax, eax
+0x000012c6      jne 0x12ff
+@@@
+
+;0 → le stringhe sono uguali nei primi n caratteri (o fino al '\0')
+;< 0 → s1 è minore di s2
+;> 0 → s1 è maggiore di s2
+
+;quindi cerca questa stringa fino a quando non legge più niente e nel caso la trova:
+
+@@@
+0x000012c8      lea rax, [str]
+0x000012cf      add rax, 0xa
+0x000012d3      mov rdi, rax                ; const char *str
+0x000012d6      call sym.imp.atoi           ; int atoi(const char *str)
+@@@
+
+;prende il pid che sta tracciando il processo e lo trasforma in numero
+
+@@@
+0x000012db      mov dword [var_11ch], eax
+@@@
+
+;mette questo numero letto in var_11ch
+
+@@@
+0x000012e1      mov rax, qword [stream]
+0x000012e8      mov rdi, rax                ; FILE *stream
+0x000012eb      call sym.imp.fclose         ; int fclose(FILE *stream)
+@@@
+
+;chiude il file
+
+@@@
+0x000012f0      cmp dword [var_11ch], 0
+0x000012f7      setne al
+@@@
+
+;controlla se var_11ch è valorizzato o 0, in caso non è uguale a 0 setta al e poi esce
+
+@@@
+0x000012fa      movzx eax, al
+0x000012fd      jmp 0x1333
+@@@
+
+;fopen riuscito
+
+@@@
+0x000012ff      mov rdx, qword [stream]     ; FILE *stream
+0x00001306      lea rax, [str]
+0x0000130d      mov esi, 0x100              ; int size
+0x00001312      mov rdi, rax                ; char *s
+0x00001315      call sym.imp.fgets          ; char *fgets(char *s, int size, FILE *stream)
+@@@
+
+;fa una fgets dal file che ha appena aperto, da 0x100 byte; fgets restituisce un puntatore al buffer appena letto o NULL se fallisce
+
+@@@
+0x0000131a      test rax, rax
+0x0000131d      jne 0x12a6
+@@@
+
+;qui fallisce fgets, chiude il file ed esce
+
+@@@
+0x0000131f      mov rax, qword [stream]
+0x00001326      mov rdi, rax                ; FILE *stream
+0x00001329      call sym.imp.fclose         ; int fclose(FILE *stream)
+0x0000132e      mov eax, 0
+0x00001333      mov rdx, qword [canary]
+0x00001337      sub rdx, qword fs:[0x28]
+0x00001340      je 0x1347
+0x00001342      call sym.imp.__stack_chk_fail ; void __stack_chk_fail(void)
+0x00001347      leave
+0x00001348      ret
+
+bool check_tracer_pid(void)
+
+{
+  int risultato_strncmp;
+  FILE *stream;
+  char *risultato_fgets;
+  long in_FS_OFFSET;
+  bool risultato;
+  char str [254];
+  long canary;
+
+  canary = *(long *)(in_FS_OFFSET + 0x28);
+  stream = fopen("/proc/self/status","r");
+  if (stream == (FILE *)0x0) {
+    risultato = false;
+  }
+  else {
+    do {
+      risultato_fgets = fgets(str,0x100,stream);
+      if (risultato_fgets == (char *)0x0) {
+        fclose(stream);
+        risultato = false;
+        goto check_canary;
+      }
+      risultato_strncmp = strncmp(str,"TracerPid:",10);
+    } while (risultato_strncmp != 0);
+    risultato_strncmp = atoi(str+10);
+    fclose(stream);
+    risultato = risultato_strncmp != 0;
+  }
+check_canary:
+  if (canary != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return risultato;
+}
+@@@
+
+;meccanismo di recupero della password
+
+;la logica di autenticazione principale risiede in una chiamata tramite puntatore a funzione che alla fine si risolve in una routine di verifica della password.
+
+;all'interno di questa routine, una sequenza di byte statici viene copiata in un buffer sullo stack. Questa sequenza rappresenta la password cifrata memorizzata nella sezione dati del binario.
+
+@@@
+bool FUN_00101349(char *input)
+{
+  int iVar1;
+  long in_FS_OFFSET;
+  char buffer [24];
+  long canary;
+
+  canary = *(long *)(in_FS_OFFSET + 0x28);
+  strcpy(buffer,&DAT_00102023);
+  FUN_00101209(buffer);
+  iVar1 = strcmp(input,buffer);
+  if (canary != *(long *)(in_FS_OFFSET + 0x28)) {
+    __stack_chk_fail();
+  }
+  return iVar1 == 0;
+}
+
+void FUN_00101209(long buffer)
+{
+  undefined4 i;
+
+  for (i = 0; *(char *)(buffer + i) != '\0'; i = i + 1) {
+    *(byte *)(buffer + i) = *(byte *)(buffer + i) ^ 0xa9;
+  }
+  return;
+}
+
+00102023 dd
+00102024 da
+00102025 f6
+00102026 d9
+00102027 c4
+00102028 c6
+00102029 f6
+0010202a ce
+0010202b c7
+0010202c ce
+0010202d f6
+0010202e c0
+0010202f ca
+00102030 c5
+00102031 00
+@@@
+
+;routine di decifratura
+
+;prima del confronto, il buffer viene passato attraverso una semplice funzione di trasformazione che applica un'operazione XOR byte per byte utilizzando una chiave costante:
+
+;chiave: 0xA9
+;operazione: ogni byte del buffer viene messo in XOR con la chiave
+
+;questo produce la password in chiaro in memoria durante l'esecuzione.
+
+@@@
+bytes_data = [0xDD, 0xDA, 0xF6, 0xD9, 0xC4, 0xC6, 0xF6, 0xCE, 0xC7, 0xCE, 0xF6, 0xC0, 0xCA, 0xC5]
+key = 0xA9
+result = bytes([b ^ key for b in bytes_data])
+print("XOR result (hex):", result.hex())
+print("XOR result (str):", result.decode('ascii', errors='replace'))
+
+./xorcist
+What's the password?
+ts_pmo_gng_icl
+Logged in as root.
+@@@
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+</script>
+
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title + ' | HCF';
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            inner += escCode(block.replace(/\n$/, ''));
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+</body>
+</html>
