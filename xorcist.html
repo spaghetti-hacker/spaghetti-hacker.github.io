@@ -75,20 +75,17 @@ XORCIST ~ HCF
 @@@
 [0x00001445]> s fcn.00001258
 [0x00001258]> pdf
-
 0x00001258      push rbp
 0x00001259      mov rbp, rsp
 0x0000125c      sub rsp, 0x120
 0x00001263      mov rax, qword fs:[0x28]
 0x0000126c      mov qword [canary], rax
 0x00001270      xor eax, eax
-
 0x00001272      lea rdx, [0x00002004]       ;"r"
 0x00001279      lea rax, str._proc_self_status ;"/proc/self/status"
 0x00001280      mov rsi, rdx                ;const char *mode
 0x00001283      mov rdi, rax                ;const char *filename
 0x00001286      call sym.imp.fopen          ;file*fopen(const char *filename, const char *mode)
-
 0x0000128b      mov qword [stream], rax
 0x00001292      cmp qword [stream], 0
 0x0000129a      jne 0x12ff
@@ -99,7 +96,6 @@ XORCIST ~ HCF
 @@@
 0x0000129c      mov eax, 0
 0x000012a1      jmp 0x1333
-
 0x000012a6      lea rcx, str.TracerPid:     ;"TracerPid:"
 0x000012ad      lea rax, [str]
 0x000012b4      mov edx, 0xa                ;size_t n
