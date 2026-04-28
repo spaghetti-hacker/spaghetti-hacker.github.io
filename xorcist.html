@@ -83,11 +83,11 @@ XORCIST ~ HCF
 0x0000126c      mov qword [canary], rax
 0x00001270      xor eax, eax
 
-0x00001272      lea rdx, [0x00002004]       ; "r"
-0x00001279      lea rax, str._proc_self_status ; 0x2006 ; "/proc/self/status"
-0x00001280      mov rsi, rdx                ; const char *mode
-0x00001283      mov rdi, rax                ; const char *filename
-0x00001286      call sym.imp.fopen          ; file*fopen(const char *filename, const char *mode)
+0x00001272      lea rdx, [0x00002004]       ;"r"
+0x00001279      lea rax, str._proc_self_status ;"/proc/self/status"
+0x00001280      mov rsi, rdx                ;const char *mode
+0x00001283      mov rdi, rax                ;const char *filename
+0x00001286      call sym.imp.fopen          ;file*fopen(const char *filename, const char *mode)
 
 0x0000128b      mov qword [stream], rax
 0x00001292      cmp qword [stream], 0
@@ -100,12 +100,12 @@ XORCIST ~ HCF
 0x0000129c      mov eax, 0
 0x000012a1      jmp 0x1333
 
-0x000012a6      lea rcx, str.TracerPid:     ; 0x2018 ; "TracerPid:"
+0x000012a6      lea rcx, str.TracerPid:     ;"TracerPid:"
 0x000012ad      lea rax, [str]
-0x000012b4      mov edx, 0xa                ; size_t n
-0x000012b9      mov rsi, rcx                ; const char *s2
-0x000012bc      mov rdi, rax                ; const char *s1
-0x000012bf      call sym.imp.strncmp        ; int strncmp(const char *s1, const char *s2, size_t n)
+0x000012b4      mov edx, 0xa                ;size_t n
+0x000012b9      mov rsi, rcx                ;const char *s2
+0x000012bc      mov rdi, rax                ;const char *s1
+0x000012bf      call sym.imp.strncmp        ;int strncmp(const char *s1, const char *s2, size_t n)
 @@@
 
 ;controlla se nel buffer letto da fgets c'è la stringa TracerPid, facendo una strncmp dei prima 10 byte
@@ -124,8 +124,8 @@ XORCIST ~ HCF
 @@@
 0x000012c8      lea rax, [str]
 0x000012cf      add rax, 0xa
-0x000012d3      mov rdi, rax                ; const char *str
-0x000012d6      call sym.imp.atoi           ; int atoi(const char *str)
+0x000012d3      mov rdi, rax                ;const char *str
+0x000012d6      call sym.imp.atoi           ;int atoi(const char *str)
 @@@
 
 ;prende il pid che sta tracciando il processo e lo trasforma in numero
@@ -138,8 +138,8 @@ XORCIST ~ HCF
 
 @@@
 0x000012e1      mov rax, qword [stream]
-0x000012e8      mov rdi, rax                ; FILE *stream
-0x000012eb      call sym.imp.fclose         ; int fclose(FILE *stream)
+0x000012e8      mov rdi, rax                ;FILE *stream
+0x000012eb      call sym.imp.fclose         ;int fclose(FILE *stream)
 @@@
 
 ;chiude il file
@@ -159,11 +159,11 @@ XORCIST ~ HCF
 ;fopen riuscito
 
 @@@
-0x000012ff      mov rdx, qword [stream]     ; FILE *stream
+0x000012ff      mov rdx, qword [stream]     ;FILE *stream
 0x00001306      lea rax, [str]
-0x0000130d      mov esi, 0x100              ; int size
-0x00001312      mov rdi, rax                ; char *s
-0x00001315      call sym.imp.fgets          ; char *fgets(char *s, int size, FILE *stream)
+0x0000130d      mov esi, 0x100              ;int size
+0x00001312      mov rdi, rax                ;char *s
+0x00001315      call sym.imp.fgets          ;char *fgets(char *s, int size, FILE *stream)
 @@@
 
 ;fa una fgets dal file che ha appena aperto, da 0x100 byte; fgets restituisce un puntatore al buffer appena letto o NULL se fallisce
@@ -177,13 +177,13 @@ XORCIST ~ HCF
 
 @@@
 0x0000131f      mov rax, qword [stream]
-0x00001326      mov rdi, rax                ; FILE *stream
-0x00001329      call sym.imp.fclose         ; int fclose(FILE *stream)
+0x00001326      mov rdi, rax                ;FILE *stream
+0x00001329      call sym.imp.fclose         ;int fclose(FILE *stream)
 0x0000132e      mov eax, 0
 0x00001333      mov rdx, qword [canary]
 0x00001337      sub rdx, qword fs:[0x28]
 0x00001340      je 0x1347
-0x00001342      call sym.imp.__stack_chk_fail ; void __stack_chk_fail(void)
+0x00001342      call sym.imp.__stack_chk_fail ;void __stack_chk_fail(void)
 0x00001347      leave
 0x00001348      ret
 
