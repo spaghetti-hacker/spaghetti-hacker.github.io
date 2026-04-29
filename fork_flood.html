@@ -760,12 +760,15 @@ int main(int argc, char **argv)
 })();
 </script>
 <script>
-fetch("https://api.counterapi.dev/v1/spaghettihacker/home/hit")
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:flood/up")
   .then(res => res.json())
   .then(data => {
-    document.getElementById("visits").innerText = data.count ?? data.value;
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
   })
-  .catch(err => {
+  .catch(() => {
     document.getElementById("visits").innerText = "error";
   });
 </script>
