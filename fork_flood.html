@@ -224,8 +224,8 @@ LAB_0000894c:
 ;loop infinito di fork (il cuore della fork-bomb)
 ;ogni iterazione genera un figlio che esce subito
 ;il figlio morto diventa zombie e occupa un slot nella process table
-;il kernel non lo rimuove finché il padre non chiama wait()
-;il padre non chiama mai wait(), quindi i zombie si accumulano
+;il kernel non lo rimuove finché il padre (il processo bomber) non chiama wait()
+;il processo bomber non chiama mai wait(), quindi i zombie si accumulano
 
 @@@
 LAB_00008980:
@@ -287,7 +287,7 @@ LAB_000089fc:
 0x00008a00  add r3, r3, #0x1          
 0x00008a08  b   LAB_00008980
 @@@
-          
+
 ;incrementa contatore figli, torna al fork
 
 ;qui il comportamento è chiaro: crescita lineare dei processi fino al limite imposto dal kernel. Non è un attacco diretto a un servizio, ma una pressione sistemica sulle risorse.
@@ -300,26 +300,34 @@ LAB_000089fc:
 
 ;quando il sistema è sufficientemente saturato, il malware interviene direttamente sul processo target:
 
+;blocco del processo padre
+;attende sulla pipe il segnale dal bomber
+
 @@@
 LAB_00008a0c:                         
-0x00008a2c  bl  read                
+0x00008a2c  bl  read
+@@@
+
+;pipe sbloccata: i slot sono esauriti, procedi
+
+@@@
 0x00008a34  bl  FUN_00008768     
 @@@
 
-;blocco del processo padre
-;attende segnale su pipe
-;restart_adb(adb_pid), kill(pid,9)
-;doppio fork per processo "fantasma" permanente
+;uccide adb: kill(adb_pid, 9)
+;il sistema lo riavvierà automaticamente in condizioni degradate
+
+;doppio fork: crea un processo orfano che mantiene slot occupati
+;anche dopo che il bomber esaurisce i tentativi
 
 @@@
 0x00008a38  bl  fork
 0x00008a48  bl  fork
 LAB_00008a4c:
-0x00008a50  bl  sleep(0x743C)      
+0x00008a50  bl  sleep(0x743C)
 0x00008a54  b   LAB_00008a4c
 @@@
 
-;loop eterno mantiene slot occupati
 ;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il bomber ha finito.
 
 ;il processo adb viene terminato forzatamente. Questo non è ancora l'exploit finale, ma il trigger che forza il sistema a ricrearlo in condizioni degradate.
@@ -338,10 +346,10 @@ LAB_00008a4c:
 0x000087c8  beq 0x87e8           
 @@@
 
-; find_adb() scansiona /pro
-; non trovato sleep(1) e riprova
-; trovato == vecchio PID?
-; se sì sleep(1) e riprova
+;find_adb() scansiona /proc
+;non trovato sleep(1) e riprova
+;trovato == vecchio PID?
+;se sì sleep(1) e riprova
 
 ;nuovo adb trovato, attendi e uccidi tutto
 
