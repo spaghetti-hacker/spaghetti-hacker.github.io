@@ -404,12 +404,11 @@ in cui le sue stesse dinamiche interne producono il risultato desiderato.
 
 TTP: Tactics, Techniques and Procedures, è il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
 
-T1057: Process Discovery: la scansione iterativa di /proc/%d/cmdline per trovare adb
-T1078.003: Valid Accounts: Local Accounts: sfrutta il contesto shell dell'utente adb
-T1548.001: Abuse Elevation Control Mechanism: Setuid and Setgid: il cuore dell'exploit, la race condition su setuid()
-T1562.001: Impair Defenses: disabilitazione implicita del servizio adb tramite SIGKILL
-T1499.001: Endpoint Denial of Service: OS Exhaustion Flood: la fork-bomb che satura la process table
-T1543: Create or Modify System Process: il riavvio di adb in stato alterato
+T1057: Process Discovery, la scansione iterativa di /proc/%d/cmdline per trovare adb
+T1078.003: Valid Accounts: Local Accounts, sfrutta il contesto shell dell'utente adb
+T1548.001: Abuse Elevation Control Mechanism: Setuid and Setgid, il cuore dell'exploit, la race condition su setuid()
+T1499.001: Endpoint Denial of Service, OS Exhaustion Flood: la fork-bomb che satura la process table
+T1543: Create or Modify System Process, il riavvio di adb in stato alterato
 
 CARO: Computer Antivirus Research Organization
 È uno schema di nomenclatura standardizzato per i malware, nato negli anni '90 per evitare che vendor diversi chiamassero lo stesso malware in modi incompatibili. Il formato Tipo:Piattaforma/Famiglia.Variante permette di identificare univocamente un campione. Serve ai ricercatori per catalogare, confrontare e comunicare in modo non ambiguo quando si parla di un campione specifico, indipendentemente dal vendor che lo ha analizzato.
