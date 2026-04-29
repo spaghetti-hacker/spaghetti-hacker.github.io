@@ -23,7 +23,7 @@
 <img src="https://spaghetti-hacker.github.io/fork_flood.png" alt="banner" style="width:100%;display:block;">
 <div id="output"></div>
 </div>
-
+<h1>Visite: <span id="visits">...</span></h1>
 <!--
 ================================================================
 SCRIVI QUI IL TUO CONTENUTO
@@ -757,6 +757,16 @@ int main(int argc, char **argv)
         return result;
     }
 })();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/spaghettihacker/home/hit")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("visits").innerText = data.count ?? data.value;
+  })
+  .catch(err => {
+    document.getElementById("visits").innerText = "error";
+  });
 </script>
 </body>
 </html>
