@@ -127,7 +127,7 @@ Analisi malware Android tramite reverse engineering
 
 ;0x8ab8 ; "/sbin/adb"
 ;const char *s2
-;non trovato → incrementa e continua
+;non trovato, incrementa e continua
 
 ;una volta individuata la presenza del processo adb, il comportamento si sposta verso la manipolazione delle risorse. Il codice verifica i limiti imposti dal sistema operativo, in particolare il numero massimo di processi consentiti per utente. Questo controllo è fondamentale perché l'intero attacco si basa sulla capacità di saturare tali limiti. Se il sistema non impone vincoli, il malware si interrompe, segno che la sua strategia dipende fortemente da condizioni ambientali precise.
 
@@ -255,7 +255,7 @@ LAB_000089a0:
 
 ;"[+] Forked %d childs."
 ;new_pids = 0
-;write(pepe[1], &c, 1) → segnala padre
+;write(pepe[1], &c, 1), segnala padre
 ;close(pepe[1]
 ;continua a forkkare
 
@@ -291,7 +291,7 @@ LAB_00008a0c:
 
 ;blocco del processo padre
 ;attende segnale su pipe
-;restart_adb(adb_pid) → kill(pid,9)
+;restart_adb(adb_pid), kill(pid,9)
 ;doppio fork per processo "fantasma" permanente
 
 @@@
@@ -302,7 +302,7 @@ LAB_00008a4c:
 0x00008a54  b   LAB_00008a4c
 @@@
 
-;loop eterno → mantiene slot occupati
+;loop eterno mantiene slot occupati
 ;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il bomber ha finito.
 
 ;il processo adb viene terminato forzatamente. Questo non è ancora l'exploit finale, ma il trigger che forza il sistema a ricrearlo in condizioni degradate.
@@ -321,12 +321,12 @@ LAB_00008a4c:
 0x000087c8  beq 0x87e8           
 @@@
 
-; find_adb() → scansiona /pro
-; non trovato → sleep(1) e riprova
+; find_adb() scansiona /pro
+; non trovato sleep(1) e riprova
 ; trovato == vecchio PID?
-; sì → sleep(1) e riprova
+; se sì sleep(1) e riprova
 
-;nuovo adb trovato → attendi e uccidi tutto
+;nuovo adb trovato, attendi e uccidi tutto
 
 @@@
 0x000087cc  mov r0, #5
