@@ -79,13 +79,13 @@ Analisi malware Android tramite reverse engineering
 ;in particolare analizza dinamicamente i cmdline dei processi attivi:
 
 @@@
-0x00008698  add r3, pc, r3   e"
+0x00008698  add r3, pc, r3   
 0x0000869c  mov r1, r3       
 0x000086a0  ldr r2, [var_10h]
 0x000086a4  bl sym.imp.sprintf
 @@@
 
-;0x8aa4 ; "/proc/%d/cmdlin
+;0x8aa4 ; "/proc/%d/cmdline"
 ;const char *format
 ;PID corrente (contatore)
 
