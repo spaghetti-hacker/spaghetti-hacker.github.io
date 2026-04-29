@@ -83,7 +83,7 @@ FORK FLOOD ~ HCF
 ;interpreter /system/bin/linker, 
 ;stripped
 
-;Ditto è un Pokémon particolare, privo di una forma propria stabile. Non combatte attraverso una struttura rigida, ma attraverso la capacità di replicare ciò che osserva. La sua forza non deriva da una strategia aggressiva diretta, ma dall'adattamento e dalla copia del contesto circostante. È una entità che non impone una forma, ma la assume e la riflette.
+;Gengar è un Pokémon caratterizzato da un comportamento opportunistico e predatorio basato sull’interazione con un ambiente già instabile. Non forza direttamente le condizioni dello scontro, ma opera all’interno di contesti degradati, sfruttando omissioni, ritardi e disallineamenti nello stato del bersaglio. La sua efficacia non deriva dalla creazione della vulnerabilità, ma dalla capacità di intercettare finestre temporali e condizioni favorevoli già presenti nel sistema. È un’entità che non impone uno stato, ma lo osserva, lo attraversa e lo sfrutta nel momento in cui diventa incoerente.
 
 ;l'analisi di questo campione malware è stata condotta attraverso un processo di reverse engineering sul codice assembly, con l'obiettivo di ricostruire il comportamento reale del binario senza alcun accesso al codice sorgente originale. Il lavoro non si è basato su ipotesi astratte, ma sull'osservazione diretta delle istruzioni macchina, delle chiamate di sistema e delle interazioni con il sistema operativo.
 
@@ -476,19 +476,14 @@ LAB_00008a4c:
 
 ;conclusione
 
-;questo malware non segue il modello classico degli exploit basati  su corruzione della memoria o esecuzione diretta di codice arbitrario.
-Non colpisce una singola vulnerabilità, ma altera il sistema nel suo insieme fino a modificarne il comportamento emergente.
+;questo malware non segue il modello classico degli exploit basati su corruzione della memoria o esecuzione diretta di codice arbitrario.
+non colpisce una singola vulnerabilità isolata, ma interviene sul sistema nel suo complesso, alterandone progressivamente lo stato operativo fino a rendere emergenti comportamenti instabili e non deterministici.
 
-;il paragone con Ditto diventa quindi particolarmente preciso.
+;il paragone con Gengar risulta quindi più appropriato.
 
-;come Ditto, il malware non ha una forma rigida. Non attacca direttamente, ma si adatta al contesto che osserva. Replica lo stato
-del sistema, ne sfrutta le regole interne e le porta al limite fino a farle collassare. La sua forza non sta nella violenza dell'attacco,
-ma nella capacità di trasformare il sistema stesso nel vettore dell'exploit. Non rompe le regole: le porta semplicemente al punto
-in cui iniziano a lavorare contro sé stesse.
+;come Gengar, il malware non forza direttamente il sistema, ma opera all’interno di condizioni già compromesse o in fase di degrado. osserva lo stato del sistema, ne intercetta le incoerenze e ne sfrutta le finestre temporali instabili, amplificando gli effetti della saturazione fino a trasformarli in opportunità di exploit. la sua efficacia non risiede nella creazione del caos, ma nell’abilità di muoversi dentro il caos già presente e sfruttarlo nel momento in cui diventa funzionale all’attacco.
 
-;entrambi condividono una caratteristica fondamentale: la forza non risiede in un attacco diretto, ma nella capacità di trasformare il
-contesto fino a renderlo favorevole. Il sistema non viene violato nel senso tradizionale del termine, ma viene portato in una condizione
-in cui le sue stesse dinamiche interne producono il risultato desiderato.
+;entrambi condividono una caratteristica fondamentale: la forza non deriva da un attacco diretto alla vulnerabilità, ma dalla capacità di operare in sistemi già instabili, intercettandone le transizioni critiche. il sistema non viene forzato dall’esterno, ma cede internamente nel momento in cui le sue condizioni operative diventano incoerenti e sfruttabili.
 
 ;TTP: Tactics, Techniques and Procedures, è il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
 
