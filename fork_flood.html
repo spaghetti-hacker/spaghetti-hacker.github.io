@@ -79,42 +79,55 @@ Analisi malware Android tramite reverse engineering
 ;in particolare analizza dinamicamente i cmdline dei processi attivi:
 
 @@@
-0x00008698  add r3, pc, r3   ; 0x8aa4 ; "/proc/%d/cmdline"
-0x0000869c  mov r1, r3       ; const char *format
-0x000086a0  ldr r2, [var_10h]; PID corrente (contatore)
+0x00008698  add r3, pc, r3   e"
+0x0000869c  mov r1, r3       
+0x000086a0  ldr r2, [var_10h]
 0x000086a4  bl sym.imp.sprintf
 @@@
+
+;0x8aa4 ; "/proc/%d/cmdlin
+;const char *format
+;PID corrente (contatore)
 
 ;questa struttura mostra chiaramente l'intento: enumerare lo spazio dei processi tramite /proc/<pid>/cmdline, costruendo dinamicamente i percorsi per ogni PID. Il malware apre ogni entry di /proc, legge il contenuto di cmdline e verifica la presenza di un target specifico, in questo caso il processo adb.
 
 ;la lettura dei processi avviene in modo diretto attraverso syscall:
 
 @@@
-0x000086ac  mov r0, r3       ; const char *path  → "/proc/<pid>/cmdline"
-0x000086b0  mov r1, 0        ; O_RDONLY
+0x000086ac  mov r0, r3       
+0x000086b0  mov r1, 0        
 0x000086b4  bl sym.imp.open
 @@@
+
+;const char *path  "/proc/<pid>/cmdline"
+;O_RDONLY
 
 ;apertura file
 
 @@@
 0x000086e4  ldr r0, [fildes]
-0x000086e8  mov r1, r3       ; buf
-0x000086ec  mov r2, 0xff     ; nbyte = 255
+0x000086e8  mov r1, r3       
+0x000086ec  mov r2, 0xff     
 0x000086f0  bl sym.imp.read
 0x000086f4  ldr r0, [fildes]
 0x000086f8  bl sym.imp.close
 @@@
 
+;buf
+;nbyte = 255
 ;lettura byte e chiusura file
 
 @@@
-0x00008708  add r3, pc, r3   ; 0x8ab8 ; "/sbin/adb"
-0x0000870c  mov r1, r3       ; const char *s2
+0x00008708  add r3, pc, r3   
+0x0000870c  mov r1, r3       
 0x00008710  bl sym.imp.strstr
 0x00008718  cmp r3, 0
-0x0000871c  beq 0x8730       ; non trovato → incrementa e continua
+0x0000871c  beq 0x8730      
 @@@
+
+;0x8ab8 ; "/sbin/adb"
+;const char *s2
+;non trovato → incrementa e continua
 
 ;una volta individuata la presenza del processo adb, il comportamento si sposta verso la manipolazione delle risorse. Il codice verifica i limiti imposti dal sistema operativo, in particolare il numero massimo di processi consentiti per utente. Questo controllo è fondamentale perché l'intero attacco si basa sulla capacità di saturare tali limiti. Se il sistema non impone vincoli, il malware si interrompe, segno che la sua strategia dipende fortemente da condizioni ambientali precise.
 
@@ -137,8 +150,10 @@ Analisi malware Android tramite reverse engineering
 ;se finito prosegui
 
 @@@
-0x00008894  bl  exit                 ; altrimenti termina
+0x00008894  bl  exit                 
 @@@
+
+;altrimenti termina
 
 ;questo controllo è essenziale: se non esistono limiti di processo (caso RLIM_INFINITY), l'attacco viene interrotto. Questo dimostra che il malware non è cieco, ma dipende fortemente dalle condizioni ambientali.
 
@@ -161,9 +176,12 @@ Analisi malware Android tramite reverse engineering
 
 @@@
 LAB_0000894c:
-0x0000894c  bl  setsid        ; figlio si stacca dal terminale
-0x00008958  bl  pipe          ; crea pipe(pepe) per sincronizzazione
+0x0000894c  bl  setsid        
+0x00008958  bl  pipe          
 @@@
+
+;figlio si stacca dal terminale
+;crea pipe(pepe) per sincronizzazione
 
 ;il codice si trasforma in un demone: non dipende più dal terminale e può operare in background. Questa è una fase tipica dei malware che vogliono diventare indipendenti dal terminale e operare in modo persistente.
 
@@ -171,7 +189,7 @@ LAB_0000894c:
 
 ;la fase successiva è quella realmente distruttiva: la saturazione del sistema attraverso fork ripetuti. Il cuore dell'attacco è la generazione massiva di processi tramite fork ripetuti, fino al raggiungimento del limite di sistema.
 
-;secondo fork → processo fork-bomber
+;secondo fork : processo fork-bomber
 
 @@@
 0x0000895c  bl  fork          
@@ -182,17 +200,21 @@ LAB_0000894c:
 ;il processo padre salta al blocco read/restart
 
 @@@
-0x00008974  bl  close         ; close(pepe[0])
+0x00008974  bl  close         
 @@@
+
+;close(pepe[0])
 
 ;loop infinito di fork (il cuore della fork-bomb)
 
 @@@
 LAB_00008980:
-0x00008980  bl  fork                  ; p = fork()
-0x00008988  str r3,[local_14]         ; salva p
+0x00008980  bl  fork                  
+0x00008988  str r3,[local_14]         
 @@@
 
+;p = fork()
+;salva p
 ;if (p==0) figlio muore subito = zombie
 
 @@@
@@ -210,15 +232,17 @@ LAB_000089a0:
 ;if (p<0) fork fallita, slot esauriti
 
 @@@
-0x000089a4  bge LAB_000089fc          ; se p >= 0 vai a incrementa
+0x000089a4  bge LAB_000089fc          
 @@@
 
+;se p >= 0 vai a incrementa
 ;fork fallita:
 
 @@@
-0x000089b4  beq LAB_0000897c          ; se new_pids==0, NOP e ricomincia
+0x000089b4  beq LAB_0000897c          
 @@@
 
+;se new_pids==0, NOP e ricomincia
 ;prima volta che fallisce:
 
 @@@
@@ -242,9 +266,12 @@ LAB_000089fc:
 ;p>0 fork riuscita
 
 @@@
-0x00008a00  add r3, r3, #0x1          ; pids++
-0x00008a08  b   LAB_00008980          ; torna al fork
+0x00008a00  add r3, r3, #0x1          
+0x00008a08  b   LAB_00008980          
 @@@
+
+;pids++
+;torna al fork
 
 ;qui il comportamento è chiaro: crescita lineare dei processi fino al limite imposto dal kernel. Non è un attacco diretto a un servizio, ma una pressione sistemica sulle risorse.
 
@@ -287,22 +314,32 @@ LAB_00008a4c:
 ;loop di attesa: cerca adb con PID diverso dall'originale
 
 @@@
-0x000087a4  bl  FUN_0000865c       ; find_adb() → scansiona /proc
+0x000087a4  bl  FUN_0000865c       
 0x000087b4  cmp r3, #0x0
-0x000087b8  beq 0x87e8             ; non trovato → sleep(1) e riprova
-0x000087c4  cmp r2, r3             ; trovato == vecchio PID?
-0x000087c8  beq 0x87e8             ; sì → sleep(1) e riprova
+0x000087b8  beq 0x87e8             
+0x000087c4  cmp r2, r3            
+0x000087c8  beq 0x87e8           
 @@@
+
+; find_adb() → scansiona /pro
+; non trovato → sleep(1) e riprova
+; trovato == vecchio PID?
+; sì → sleep(1) e riprova
 
 ;nuovo adb trovato → attendi e uccidi tutto
 
 @@@
 0x000087cc  mov r0, #5
-0x000087d0  bl  sleep              ; sleep(5)
-0x000087d4  mvn r0, #0             ; pid = -1 (tutti i processi)
-0x000087d8  mov r1, #9             ; SIGKILL
-0x000087dc  bl  kill               ; kill(-1, 9)
+0x000087d0  bl  sleep              
+0x000087d4  mvn r0, #0            
+0x000087d8  mov r1, #9            
+0x000087dc  bl  kill            
 @@@
+
+;sleep(5)
+;pid = -1 (tutti i processi)
+;SIGKILL
+;kill(-1, 9)
 
 ;il kill(-1, 9) è il momento terminale dell'exploit: un segnale broadcast che colpisce tutti i processi dell'utente corrente. Se setuid() non è riuscito nel nuovo adb a causa della saturazione, il processo è rimasto con privilegi elevati — e in quello stato viene lasciato operare dopo che il broadcast ha eliminato tutto il resto.
 
