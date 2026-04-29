@@ -375,25 +375,34 @@ LAB_000089fc:
 
 ;quando il sistema è sufficientemente saturato, il malware interviene direttamente sul processo target:
 
-;blocco del processo padre
-;attende sulla pipe il segnale dal bomber
+;blocco del processo padre.
+;attende sulla pipe il segnale dal fork-bomber.
 
 @@@
 LAB_00008a0c:                         
 0x00008a2c  bl  read
 @@@
 
-;pipe sbloccata: i slot sono esauriti, procedi
+
+;abbiamo due processi:
+
+;fork-bomber, crea pressione (fork loop).
+;controller (padre), decide quando scatenare la fase successiva.
+
+;pipe sbloccata: i slot sono esauriti, procedi.
+;si blocca finché il fork-bomber non scrive un byte, il fork-bomber esegue write(pepe[1], &c, 1);
+;cioè quando la fork bomb entra nello stato di saturazione, parte la fase successiva.
 
 @@@
 0x00008a34  bl  FUN_00008768     
 @@@
 
-;uccide adb: kill(adb_pid, 9)
-;il sistema lo riavvierà automaticamente in condizioni degradate
+;kill(adb_pid, 9).
+;uccide adb.
+;il sistema lo riavvierà automaticamente in condizioni degradate.
 
-;doppio fork: crea un processo orfano che mantiene slot occupati
-;anche dopo che il bomber esaurisce i tentativi
+;doppio fork: crea un processo orfano che mantiene slot occupati.
+;anche dopo che il bomber esaurisce i tentativi.
 
 @@@
 0x00008a38  bl  fork
@@ -403,30 +412,36 @@ LAB_00008a4c:
 0x00008a54  b   LAB_00008a4c
 @@@
 
-;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il bomber ha finito.
+;doppio fork: crea un processo orfano persistente.
+;questo processo non esegue logica utile.
+;ma rimane attivo occupando uno slot nella process table.
+
+;il sleep infinito lo rende CPU-neutral ma resource-resident.
+;serve a impedire il recupero del sistema dopo la fase di saturazione.
+;anche quando il bomber termina la sua attività.
+
+;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il fork-bomber ha finito.
 
 ;il processo adb viene terminato forzatamente. Questo non è ancora l'exploit finale, ma il trigger che forza il sistema a ricrearlo in condizioni degradate.
 
-;una volta ucciso adb, il malware non si limita ad attendere passivamente. Entra in una fase di verifica attiva: monitora continuamente lo spazio dei processi cercando un nuovo processo adb con PID diverso da quello originale. Quando lo individua, attende 5 secondi — una finestra calcolata per dare tempo al sistema di tentare l'inizializzazione — e poi invia un SIGKILL broadcast a tutti i processi del sistema.
+;una volta ucciso adb, il malware non si limita ad attendere passivamente. Entra in una fase di verifica attiva: monitora continuamente lo spazio dei processi cercando un nuovo processo adb con PID diverso da quello originale. Quando lo individua, attende 5 secondi, una finestra calcolata per dare tempo al sistema di tentare l'inizializzazione, e poi invia un SIGKILL broadcast a tutti i processi del sistema.
 
-;con il relativo snippet assembly da FUN_0000878c:
-
-;loop di attesa: cerca adb con PID diverso dall'originale
+;loop di attesa: cerca adb con PID diverso dall'originale:
 
 @@@
-0x000087a4  bl  FUN_0000865c       
+0x000087a4  bl  find_adb()      
 0x000087b4  cmp r3, #0x0
 0x000087b8  beq 0x87e8             
 0x000087c4  cmp r2, r3            
 0x000087c8  beq 0x87e8           
 @@@
 
-;find_adb() scansiona /proc
-;non trovato sleep(1) e riprova
-;trovato == vecchio PID?
-;se sì sleep(1) e riprova
+;find_adb() scansiona /proc.
+;non trovato sleep(1) e riprova.
+;cmp r2, r3, trovato == vecchio PID? 
+;se sì sleep(1) e riprova. Altrimenti passa alla kill massiva.
 
-;nuovo adb trovato, attendi e uccidi tutto
+;nuovo adb trovato, attendi e uccidi tutto:
 
 @@@
 0x000087cc  mov r0, #5
@@ -436,18 +451,24 @@ LAB_00008a4c:
 0x000087dc  bl  kill            
 @@@
 
+;mvn r0, 0      
+;mov r1, 9      
+
+;r0 = ~0 = 0xFFFFFFFF = -1
+;SIGKILL
+
 ;sleep(5)
 ;pid = -1 (tutti i processi)
 ;SIGKILL
 ;kill(-1, 9)
 
-;il kill(-1, 9) è il momento terminale dell'exploit: un segnale broadcast che colpisce tutti i processi dell'utente corrente. Se setuid() non è riuscito nel nuovo adb a causa della saturazione, il processo è rimasto con privilegi elevati — e in quello stato viene lasciato operare dopo che il broadcast ha eliminato tutto il resto.
+;il kill(-1, 9) è il momento terminale dell'exploit: un segnale broadcast che colpisce tutti i processi dell'utente corrente. Se setuid() non è riuscito nel nuovo adb a causa della saturazione, il processo è rimasto con privilegi elevati, e in quello stato viene lasciato operare dopo che il broadcast ha eliminato tutto il resto.
 
 ;le risorse sono ormai vicine al limite e il comportamento del sistema non è più deterministico. È in questa fase che si crea la finestra di race condition.
 
 ;la chiamata a setuid() avviene internamente al processo adb al riavvio, fuori dal codice di questo binario
 
-;in condizioni normali, questa chiamata riduce i privilegi del processo. Tuttavia, in uno stato di saturazione e race condition, la sequenza di inizializzazione può non comportarsi in modo affidabile, creando la finestra di exploit.
+;in condizioni normali, questa chiamata riduce i privilegi del processo. Tuttavia, in uno stato di saturazione e race condition, la sequenza di inizializzazione può non comportarsi in modo affidabile, creando la finestra per l'exploit.
 
 ;il nuovo processo adb, durante la sua inizializzazione, dovrebbe eseguire operazioni di deprivilegiamento tramite setuid. Tuttavia, a causa dello stato del sistema, questa transizione non avviene correttamente. Il risultato è che il processo può rimanere in uno stato privilegiato, generando l'effetto desiderato dall'exploit.
 
