@@ -75,6 +75,14 @@ FORK FLOOD ~ HCF
 
 <a href="https://spaghetti-hacker.github.io/">«</a>
 
+;VirusShare_efb10d9d306199a49377cd21132f67ff
+;ELF 32-bit LSB executable, 
+;ARM, 
+;EABI5 version 1 (SYSV), 
+;dynamically linked, 
+;interpreter /system/bin/linker, 
+;stripped
+
 ;Ditto è un Pokémon particolare, privo di una forma propria stabile. Non combatte attraverso una struttura rigida, ma attraverso la capacità di replicare ciò che osserva. La sua forza non deriva da una strategia aggressiva diretta, ma dall'adattamento e dalla copia del contesto circostante. È una entità che non impone una forma, ma la assume, la riflette e la moltiplica/altera.
 
 ;l'analisi di questo campione malware è stata condotta attraverso un processo di reverse engineering sul codice assembly, con l'obiettivo di ricostruire il comportamento reale del binario senza alcun accesso al codice sorgente originale. Il lavoro non si è basato su ipotesi astratte, ma sull'osservazione diretta delle istruzioni macchina, delle chiamate di sistema e delle interazioni con il sistema operativo.
@@ -394,7 +402,7 @@ in cui iniziano a lavorare contro sé stesse.
 contesto fino a renderlo favorevole. Il sistema non viene violato nel senso tradizionale del termine, ma viene portato in una condizione
 in cui le sue stesse dinamiche interne producono il risultato desiderato.
 
-TTP: Tactics, Techniques and ProceduresÈ il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
+TTP: Tactics, Techniques and Procedures, è il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
 
 T1057: Process Discovery: la scansione iterativa di /proc/%d/cmdline per trovare adb
 T1078.003: Valid Accounts: Local Accounts: sfrutta il contesto shell dell'utente adb
@@ -451,7 +459,6 @@ Suffisso: campo opzionale che aggiunge informazioni comportamentali, tra i più 
 #include <signal.h>
 #include <stdlib.h>
 
-
 void die(const char *msg)
 {
 	perror(msg);
@@ -479,12 +486,10 @@ pid_t find_adb()
         return found;
 }
 
-
 void restart_adb(pid_t pid)
 {
 	kill(pid, 9);
 }
-
 
 void wait_for_root_adb(pid_t old_adb)
 {
@@ -499,7 +504,6 @@ void wait_for_root_adb(pid_t old_adb)
 	sleep(5);
 	kill(-1, 9);
 }
-
 
 int main(int argc, char **argv)
 {
