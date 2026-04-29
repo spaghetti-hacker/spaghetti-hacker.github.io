@@ -83,7 +83,7 @@ FORK FLOOD ~ HCF
 ;interpreter /system/bin/linker, 
 ;stripped
 
-;Gengar è un Pokémon caratterizzato da un comportamento opportunistico basato sull'interazione con la percezione del bersaglio. Non forza direttamente lo scontro, ma agisce attraverso illusioni, apparizioni improvvise e distorsioni percettive che inducono paura e disorientamento. La sua efficacia non deriva da una degradazione progressiva del sistema cognitivo, ma dall'interferenza immediata con la capacità del bersaglio di interpretare correttamente il contesto, sfruttando momenti di vulnerabilità già presenti. È un'entità che non altera strutturalmente la percezione, ma la distorce quanto basta per rendere il comportamento del bersaglio instabile e prevedibilmente errato.
+;Gengar è un Pokémon caratterizzato da un comportamento opportunistico basato sull'interazione con la percezione del bersaglio. Non forza direttamente lo scontro, ma agisce attraverso illusioni, apparizioni improvvise e distorsioni percettive che inducono paura e disorientamento. È un'entità che non altera strutturalmente la percezione, ma la distorce quanto basta per rendere il comportamento del bersaglio instabile e prevedibilmente errato.
 
 ;l'analisi di questo campione malware è stata condotta attraverso un processo di reverse engineering sul codice assembly, con l'obiettivo di ricostruire il comportamento reale del binario senza alcun accesso al codice sorgente originale. Il lavoro non si è basato su ipotesi astratte, ma sull'osservazione diretta delle istruzioni macchina, delle chiamate di sistema e delle interazioni con il sistema operativo.
 
@@ -479,9 +479,7 @@ LAB_00008a4c:
 ;questo malware non segue il modello classico degli exploit basati su corruzione della memoria o esecuzione diretta di codice arbitrario.
 non colpisce una singola vulnerabilità isolata, ma interviene sul sistema nel suo complesso, alterandone progressivamente lo stato operativo fino a rendere emergenti comportamenti instabili e non deterministici.
 
-;come il Pokèmon Gengar, il malware non forza direttamente il sistema, ma opera all'interno di condizioni già compromesse o in fase di degrado. osserva lo stato del sistema, ne intercetta le incoerenze e ne sfrutta le finestre temporali instabili, amplificando gli effetti della saturazione fino a trasformarli in opportunità di exploit. La sua efficacia non risiede nella creazione del caos, ma nell'abilità di muoversi dentro il caos già presente e sfruttarlo nel momento in cui diventa funzionale all'attacco.
-
-;entrambi condividono una caratteristica fondamentale: la forza non deriva da un attacco diretto alla vulnerabilità, ma dalla capacità di operare in sistemi già instabili, intercettandone le transizioni critiche. Il sistema non viene forzato dall'esterno, ma cede internamente nel momento in cui le sue condizioni operative diventano incoerenti e sfruttabili.
+;il malware non forza direttamente il sistema, ma opera all'interno di condizioni già compromesse o in fase di degrado. osserva lo stato del sistema, ne intercetta le incoerenze e ne sfrutta le finestre temporali instabili, amplificando gli effetti della saturazione fino a trasformarli in opportunità di exploit. La sua efficacia non risiede nella creazione del caos, ma nell'abilità di muoversi dentro il caos già presente e sfruttarlo nel momento in cui diventa funzionale all'attacco.
 
 ;TTP: Tactics, Techniques and Procedures, è il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
 
