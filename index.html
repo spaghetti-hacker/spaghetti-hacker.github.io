@@ -296,7 +296,7 @@ const SECTIONS = [
     name:"REVERSE ENGINEERING",
     img:"logo_re.png",
     posts:[
-        { file:"xorcist.html",  href:"xorcist.html",  desc:"crackme con password offuscata tramite XOR e semplice controllo anti-debug",                                                              date:"2026-04-28" },
+        { file:"xorcist.html",  href:"xorcist.html", img:"logo_tool.png",   desc:"crackme con password offuscata tramite XOR e semplice controllo anti-debug",                                                              date:"2026-04-28" },
         { file:"find_string.html",  href:"find_string.html",   desc:"reversing di una semplice routine di ricerca stringa in un array di stringhe",                                                              date:"2026-04-23" },
         { file:"get_number.html",  href:"get_number.html",   desc:"shellcode-as-png, crackme con vincolo temporizzato",                                                              date:"2025-01-28" }
     ]
@@ -315,14 +315,15 @@ const SECTIONS = [
     img:"logo_tool.png",
     posts:[
         { file:"Searchable Linux Syscall Table",         href:"https://filippo.io/linux-syscall-table/",          desc:"syscall Linux",                                                     date:"2023-03-18" },
-        { file:"CyberChef",href:"https://gchq.github.io/CyberChef/",desc:"web app open source per analizzare, convertire e manipolare dati tramite un’interfaccia visuale drag and drop",                                          date:"2023-01-05" },
+        { file:"CyberChef",href:"https://gchq.github.io/CyberChef/",desc:"web app open source per analizzare, convertire e manipolare dati tramite un'interfaccia visuale drag and drop",                                          date:"2023-01-05" },
         { file:"Decompiler Explorer",  href:"https://dogbolt.org/",   desc:"piattaforma web pensata per il reverse engineering che permette di caricare o compilare codice e vedere come diversi decompiler lo ricostruiscono in pseudocodice",                                                                              date:"2023-04-12" }
     ]
 }
 ];
 
 const RECENT_COUNT = 3;
-const recentPosts = SECTIONS.flatMap(s => s.posts.map(p => ({ ...p, img: s.img })))
+/* ── per recentPosts: preferisce l'img del singolo post, fallback a quella della sezione ── */
+const recentPosts = SECTIONS.flatMap(s => s.posts.map(p => ({ ...p, img: p.img || s.img })))
     .filter(p => p.date)
     .sort((a,b) => new Date(b.date) - new Date(a.date))
     .slice(0, RECENT_COUNT);
@@ -385,9 +386,9 @@ async function boot(){
 const history = [];
 let histIdx = -1;
 
-/* tutti i post flat per ricerca */
+/* tutti i post flat per ricerca — preferisce l'img del singolo post, fallback a quella della sezione */
 const allPosts = SECTIONS.flatMap(s =>
-    s.posts.map(p => ({ ...p, section: s.name, n: s.n, img: s.img }))
+    s.posts.map(p => ({ ...p, section: s.name, n: s.n, img: p.img || s.img }))
 );
 
 /* ── output helpers ── */
@@ -473,8 +474,9 @@ const COMMANDS = {
 	} else {
     		/*out(`<span class="dim">;${sec.posts.length} write-up</span>`);*/
 	}
+        /* preferisce l'img del singolo post, fallback a quella della sezione */
         sec.posts.forEach(p => {
-            out(postHtml({ ...p, img: sec.img }));
+            out(postHtml({ ...p, img: p.img || sec.img }));
         });
     },
 
