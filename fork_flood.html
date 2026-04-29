@@ -101,7 +101,7 @@ FORK FLOOD ~ HCF
 ;sono i tre parametri passati alla sprintf
 ;int sprintf(char *s, const char *format, var_10h)
 
-;questa struttura mostra chiaramente l'intento: enumerare lo spazio dei processi tramite /proc/<pid>/cmdline, costruendo dinamicamente i percorsi per ogni PID. Il malware apre ogni entry di /proc, legge il contenuto di cmdline e verifica la presenza di un target specifico, in questo caso il processo adb.
+;questa struttura mostra chiaramente l'intento: enumerare lo spazio dei processi tramite /proc/%d/cmdline, costruendo dinamicamente i percorsi per ogni PID. Il malware apre ogni entry di /proc, legge il contenuto di cmdline e verifica la presenza di un target specifico, in questo caso il processo adb.
 
 ;la lettura dei processi avviene in modo diretto attraverso syscall:
 
