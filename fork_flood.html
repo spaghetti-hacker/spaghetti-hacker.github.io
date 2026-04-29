@@ -111,7 +111,7 @@ FORK FLOOD ~ HCF
 0x000086b4  bl sym.imp.open
 @@@
 
-;path  "/proc/\<pid\>/cmdline"
+;path  "/proc/%d/cmdline"
 ;O_RDONLY
 
 ;apertura file, open(path, O_RDONLY)
@@ -396,7 +396,7 @@ in cui le sue stesse dinamiche interne producono il risultato desiderato.
 
 TTP: Tactics, Techniques and ProceduresÈ il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
 
-T1057: Process Discovery: la scansione iterativa di /proc/\<pid\>/cmdline per trovare adb
+T1057: Process Discovery: la scansione iterativa di /proc/%d/cmdline per trovare adb
 T1078.003: Valid Accounts: Local Accounts: sfrutta il contesto shell dell'utente adb
 T1548.001: Abuse Elevation Control Mechanism: Setuid and Setgid: il cuore dell'exploit, la race condition su setuid()
 T1562.001: Impair Defenses: disabilitazione implicita del servizio adb tramite SIGKILL
