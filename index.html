@@ -373,6 +373,7 @@ async function boot(){
 
     line('<span class="dim">sysop: HCF</span>');
     line('<span class="dim">hacker artist, reverse engineer, battle programmer, malware & cybersecurity analyst</span>');
+    line(';visite: <span id="visits">...</span>');
     await wait(300);
     startShell();
     COMMANDS.recent();
@@ -656,6 +657,19 @@ function startShell(){
 
 /* ── avvio ── */
 boot();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:home/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
 </script>
 
 </body>
