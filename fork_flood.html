@@ -226,7 +226,7 @@ LAB_0000894c:
 
 ;serve per far parlare:
 
-;processo bomber (figlio che satura il sistema con le fork).
+;processo fork-bomber (figlio che satura il sistema con le fork).
 ;processo controller (padre che aspetta).
 
 ;il codice si trasforma in un demone: non dipende più dal terminale e può operare in background. Questa è una fase tipica dei malware che vogliono diventare indipendenti dal terminale e operare in modo persistente.
@@ -275,7 +275,7 @@ LAB_00008980:
 ;tre casi possibili:
 
 ;p==0 figlio appena creato
-;p>0 padre del bomber loop
+;p>0 padre del fork-bomber loop
 ;p<0 fork fallita (risorse esaurite)
 
 @@@
@@ -348,7 +348,7 @@ LAB_000089a0:
 LAB_000089fc:
 @@@
 
-;caso p>0 (padre del bomber loop).
+;caso p>0 (padre del fork-bomber loop).
 ;continua la generazione dei processi.
 
 @@@
@@ -399,7 +399,7 @@ LAB_00008a0c:
 ;il sistema lo riavvierà automaticamente in condizioni degradate.
 
 ;doppio fork: crea un processo orfano che mantiene slot occupati.
-;anche dopo che il bomber esaurisce i tentativi.
+;anche dopo che il fork-bomber esaurisce i tentativi.
 
 @@@
 0x00008a38  bl  fork
@@ -415,7 +415,7 @@ LAB_00008a4c:
 
 ;il sleep infinito lo rende CPU-neutral ma resource-resident.
 ;serve a impedire il recupero del sistema dopo la fase di saturazione.
-;anche quando il bomber termina la sua attività.
+;anche quando il fork-bomber termina la sua attività.
 
 ;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il fork-bomber ha finito.
 
