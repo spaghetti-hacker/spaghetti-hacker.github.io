@@ -250,13 +250,6 @@ a:hover{
     margin-right:16px;
     position:relative;
     top:-.1em;
-    transition: transform .25s, opacity .25s;
-    opacity: .7;
-}
-
-.post-row:hover .post-img {
-    transform: scale(1.15);
-    opacity: 1;
 }
 
 .post-row{
