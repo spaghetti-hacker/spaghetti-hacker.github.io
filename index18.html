@@ -534,7 +534,7 @@ const COMMANDS = {
         out(`<span class="dim">;fetching feed...</span>`);
         try {
             const res = await fetch(
-                "https://www.reddit.com/r/reverseengineering+Malware.json?limit=5&sort=new",
+                "https://www.reddit.com/r/reverseengineering+Malware.json?limit=5&sort=new&row_json=1",
                 { headers: { "Accept": "application/json" } }
             );
             if(!res.ok) throw new Error();
