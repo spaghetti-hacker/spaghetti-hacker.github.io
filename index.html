@@ -262,7 +262,7 @@ a:hover{
 .post-row-img{
     flex-shrink:0;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     padding-top:.1em;
 }
 
@@ -372,9 +372,7 @@ async function boot(){
     banner.innerHTML = `<img src="banner22.png" alt="Spaghetti Hacker BBS">`;
     root.appendChild(banner);
 
-    line('<div class="post-row"><span class="post-row-img"><img class="post-img" src="acaro3.png" alt=""></span><span class="post-row-body"><span class="dim">sysop: HCF</span></span></div>');
-    line('<span class="dim">hacker artist, reverse engineer, battle programmer, malware & cybersecurity analyst</span>');
-    line('visite: <span id="visits">...</span>');
+    line('<div class="post-row"><span class="post-row-img"><img class="post-img" src="acaro3.png" alt=""></span><span class="post-row-body"><span class="dim">HCF: hacker artist, reverse engineer, battle programmer, malware & cybersecurity analyst</span><br>visite: <span id="visits">...</span></span></div>');
 
     fetch("https://api.counterapi.dev/v1/:spaghettihacker/:home/up")
     .then(res => res.json())
