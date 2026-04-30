@@ -544,7 +544,7 @@ const COMMANDS = {
             const posts = data.hits;
             if(!posts.length){ out(`<span class="err">;nessun risultato</span>`); return; }
             out(" ");
-            const title = keyword ? `HACKER NEWS :: ${esc(keyword).toUpperCase()}` : "CYBERNEWS";
+            const title = keyword ? `HACKER NEWS :: ${esc(keyword).toUpperCase()}` : "HACKER NEWS";
             out(`<span style="color:#65E903">[0x05] ${title}</span>`);
             posts.forEach(p => {
                 const date = p.created_at.slice(0, 10);
