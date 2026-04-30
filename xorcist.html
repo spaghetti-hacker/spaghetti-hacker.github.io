@@ -385,5 +385,18 @@ Logged in as root.
     }
 })();
 </script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:xor/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
 </body>
 </html>

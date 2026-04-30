@@ -97,10 +97,15 @@ body{
 a{
     color:#65E903;
     text-decoration:none;
+    /*background:#3a9070;*/
+    background:#0a3a2a;
+    line-height: 0.98 !important;
+    display: inline-block;
 }
 
 a:hover{
     color:#9cff5f;
+    background:#3a9070;
 }
 
 @media (max-width:768px){
@@ -356,5 +361,18 @@ visite: <span id="visits">...</span></p>
 </div>
 </div>
 </div>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:noelf/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
 </body>
 </html>
