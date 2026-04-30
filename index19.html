@@ -240,13 +240,19 @@ a:hover{
     vertical-align:middle;
     height:auto;
     width:118px;
+    /*max-width:2.4em;*/
     object-fit:contain;
+    /*image-rendering:pixelated;*/
     margin-right:16px;
     position:relative;
     top:-.1em;
-    /* hover effect */
-    opacity:.7;
-    transition: transform .25s, opacity .25s;
+    transition: transform 1s, opacity .1s;
+    opacity: 1;
+}
+
+.post-row:hover .post-img {
+    transform: scale(1.15);
+    opacity: 1;
 }
 
 .post-row{
@@ -261,12 +267,6 @@ a:hover{
     display:flex;
     align-items:flex-start;
     padding-top:.1em;
-    overflow:hidden;
-}
-
-.post-row:hover .post-img{
-    transform: scale(1.15);
-    opacity: 1;
 }
 
 .post-row-body{
