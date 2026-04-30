@@ -64,10 +64,18 @@ body{
 .commento p{ margin-bottom:10px; }
 .commento p:last-child{ margin-bottom:0; }
 
-a{ color:#65E903; text-decoration:none; }
+a{
+    color:#65E903;
+    text-decoration:none;
+    /*background:#3a9070;*/
+    background:#0a3a2a;
+    line-height: 0.98 !important;
+    display: inline-block;
+}
 
 a:hover{
     color:#9cff5f;
+    background:#3a9070;
 }
 
 
