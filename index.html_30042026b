@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com; font-src 'self'; img-src 'self';">
 <title>SPAGHETTI HACKER</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
@@ -47,6 +46,7 @@ body{
     letter-spacing:0px;
     line-height:1.2;
     min-height:100vh;
+    /*padding:36px 22px;*/
     padding:36px 22px;
 }
 
@@ -117,12 +117,14 @@ body{
 }
 
 .dim{
+    /*color:#3a9070;*/
     color:#65E903;
 }
 
 a{
     color:#65E903;
     text-decoration:none;
+    /*background:#3a9070;*/
     background:#0a3a2a;
     line-height: 0.98 !important;
     display: inline-block;
@@ -200,6 +202,8 @@ a:hover{
     flex:1;
     min-width:0;
     padding:0;
+    /* nasconde il cursore nativo — usiamo quello CSS */
+    caret-color:#65E903;
 }
 
 /* output dei comandi */
@@ -356,7 +360,7 @@ async function type(el, text, speed = 16){
 }
 
 /* ═══════════════════════════════════════════════
-   BOOT SEQUENCE
+   BOOT SEQUENCE  (identica all'originale)
 ═══════════════════════════════════════════════ */
 async function boot(){
     let l1 = line();
@@ -454,25 +458,25 @@ const COMMANDS = {
             `<span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un write-up</span>`,
             `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
             `<span class="ok">recent</span>          <span class="dim"> ;ultimi write-up</span>`,
-            `<span class="ok">news [keyword]</span>  <span class="dim"> ;ultime notizie HN</span>`,
             `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
             `<span class="ok">whoami</span>          <span class="dim"> ;chi sono?</span>`,
             `<span class="info">                     </span>`,
             `<span class="info">;ls &lt;sezione&gt;, per la sezione si possono usare anche parti del nome</span>`,
-            `<span class="info">;cat &lt;filename&gt;, si può usare il TAB per completare il filename</span>`,
-            `<span class="info">;cliccando sui link, le pagine si apriranno in un nuovo tab</span>`,
+       	    `<span class="info">;cat &lt;filename&gt;, si può usare il TAB per completare il filename</span>`,
+       	    `<span class="info">;cliccando sui link, le pagine si apriranno in un nuovo tab</span>`,
         ]);
     },
 
     ls(args){
         if(!args){
-            out("  ");
-            outLines(SECTIONS.map(s => {
-                return `[${s.n}] <span class="ok">${s.name}</span>`;
-            }));
-            return;
-        }
+   		out("  ");
+    		outLines(SECTIONS.map(s => {
+        	const label = s.name === "LINK & TOOL" ? "resources" : "write-up";
+		return `[${s.n}] <span class="ok">${s.name}</span>`;
+    		}));
+    	return;
+	}
         /* ls <id sezione> — accetta "0x01", "01", "1", o nome parziale */
         const q = args.toLowerCase();
         const sec = SECTIONS.find(s =>
@@ -486,6 +490,11 @@ const COMMANDS = {
         }
         out(`  `);
         out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
+        if(sec.name === "LINK & TOOL"){
+    		/*out(`<span class="dim">;${sec.posts.length} external resources</span>`);*/
+	} else {
+    		/*out(`<span class="dim">;${sec.posts.length} write-up</span>`);*/
+	}
         /* preferisce l'img del singolo post, fallback a quella della sezione */
         sec.posts.forEach(p => {
             out(postHtml({ ...p, img: p.img || sec.img }));
@@ -517,6 +526,7 @@ const COMMANDS = {
             return;
         }
         out(" ");
+        /*out(`<span class="info">;${results.length} risultat${results.length===1?"o":"i"} per "${esc(args)}"</span>`);*/
         results.forEach(p => {
             out(postHtml(p, `  <span class="dim">[${p.n}]</span>`));
         });
@@ -525,42 +535,10 @@ const COMMANDS = {
     recent(){
         out(`  `);
         out(`<span style="color:#65E903">[0x00] RECENT</span>`);
+	/*out(`<span class="dim">;ultimi ${RECENT_COUNT} write-up</span>`);*/
         recentPosts.forEach(p => {
             out(postHtml(p, `  <span class="dim">${p.date}</span>`));
         });
-    },
-
-    async news(args){
-        const keyword = args ? args.replace(/^["']|["']$/g, "").trim() : "";
-        const label = keyword ? `<span class="dim">keyword: ${esc(keyword)}</span>` : "";
-        out(`<span class="dim">fetching feed... ${label}</span>`);
-        try {
-            const base = keyword
-                ? `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=5&query=${encodeURIComponent(keyword)}`
-                : `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=5`;
-            const res = await fetch(base);
-            if(!res.ok) throw new Error();
-            const data = await res.json();
-            const posts = data.hits;
-            if(!posts.length){ out(`<span class="err">;nessun risultato</span>`); return; }
-            out(" ");
-            const title = keyword ? `HACKER NEWS :: ${esc(keyword).toUpperCase()}` : "HACKER NEWS";
-            out(`<span style="color:#65E903">[0x05] ${title}</span>`);
-            posts.forEach(p => {
-                const date = p.created_at.slice(0, 10);
-                const url = p.url || `https://news.ycombinator.com/item?id=${p.objectID}`;
-                out(
-                    `<div class="post-row">` +
-                    `<span class="post-row-img"><img class="post-img" src="logo_re.png" alt="" aria-hidden="true"></span>` +
-                    `<span class="post-row-body">` +
-                    `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(p.title)}</a>` +
-                    `<span class="dim"> ;${date}</span>` +
-                    `</span></div>`
-                );
-            });
-        } catch {
-            out(`<span class="err">;errore nel recupero del feed</span>`);
-        }
     },
 
     whoami(){
@@ -568,9 +546,15 @@ const COMMANDS = {
         out(`<span class="dim">;Halt and Catch Fire, indicato con la sigla mnemonica di HCF, è un'istruzione fittizia del linguaggio assembly - intesa prevalentemente come uno scherzo - che è stata usata per definire istruzioni solitamente non documentate che portano la cpu in uno stato da cui può essere fatta uscire solo con un reset; solitamente con la sigla HCF si descrive una o più istruzioni non documentate presenti in molte architetture e utilizzate per poter effettuare agevolmente particolari test durante lo sviluppo dei prodotti, ma che non sono da utilizzarsi nella normale operatività.</span>`);
     },
 
+    /*clear(){
+        const pl = document.getElementById("prompt-line");
+        while(root.firstChild && root.firstChild !== pl)
+            root.removeChild(root.firstChild);
+    }*/
+
     clear(){
-        root.innerHTML = "";
-        boot();
+    root.innerHTML = "";
+    boot();
     }
 };
 
@@ -592,6 +576,8 @@ function runCommand(raw){
     if(fn) fn(args);
     else out(`<span class="err">comando non trovato: ${esc(cmd)}  (digita <span class="ok">help</span>)</span>`);
     if(cmd.toLowerCase() !== "clear") { hr(); out(""); }
+    /*hr();
+    out("");*/
 }
 
 /* ── costruisce la riga prompt fissa ── */
@@ -618,6 +604,7 @@ function startShell(){
     root.appendChild(pl);
 
     /* metti il focus subito e su ogni click nella screen */
+    /*input.focus();*/
     if(!/Mobi|Android/i.test(navigator.userAgent)) input.focus();
     document.getElementById("root").addEventListener("click", () => input.focus());
 
