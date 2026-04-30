@@ -454,7 +454,7 @@ const COMMANDS = {
             `<span class="ok">cat &lt;filename&gt;</span>   <span class="dim">;apre un write-up</span>`,
             `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
             `<span class="ok">recent</span>          <span class="dim"> ;ultimi write-up</span>`,
-            `<span class="ok">news [keyword]</span>  <span class="dim"> ;ultime notizie HN</span>`,
+            `<span class="ok">news [keyword]</span>  <span class="dim"> ;ultime notizie HN (opz. filtra per keyword)</span>`,
             `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
             `<span class="ok">whoami</span>          <span class="dim"> ;chi sono?</span>`,
@@ -532,7 +532,7 @@ const COMMANDS = {
 
     async news(args){
         const keyword = args ? args.replace(/^["']|["']$/g, "").trim() : "";
-        const label = keyword ? `;<span class="dim">keyword: ${esc(keyword)}</span>` : "";
+        const label = keyword ? `;<span class="dim">keyword: ${esc(keyword)}</span> — ` : "";
         out(`<span class="dim">;fetching feed... ${label}</span>`);
         try {
             const base = keyword
@@ -544,7 +544,7 @@ const COMMANDS = {
             const posts = data.hits;
             if(!posts.length){ out(`<span class="err">;nessun risultato</span>`); return; }
             out(" ");
-            const title = keyword ? `HACKER NEWS :: ${esc(keyword).toUpperCase()}` : "CYBERNEWS";
+            const title = keyword ? `CYBERNEWS — ${esc(keyword).toUpperCase()}` : "CYBERNEWS";
             out(`<span style="color:#65E903">[0x05] ${title}</span>`);
             posts.forEach(p => {
                 const date = p.created_at.slice(0, 10);
@@ -554,7 +554,7 @@ const COMMANDS = {
                     `<span class="post-row-img"><img class="post-img" src="logo_re.png" alt="" aria-hidden="true"></span>` +
                     `<span class="post-row-body">` +
                     `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(p.title)}</a>` +
-                    `<span class="dim"> ;${date}</span>` +
+                    `<span class="dim"> ;HackerNews — ${date}</span>` +
                     `</span></div>`
                 );
             });
