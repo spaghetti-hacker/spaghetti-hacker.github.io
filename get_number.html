@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TITOLO | HCF</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="stylesheet" href="hcf.css">
+<link rel="stylesheet" href="hcf2.css">
 </head>
 <body>
 <div class="wrapper">
@@ -293,7 +293,8 @@ Correct! Awesome file you got there („• ᴗ •„)
             }
             i++; // salta @@@ di chiusura
             // il codice viene escapato tranne &lt; &gt; &amp; già scritti
-            inner += escCode(block.replace(/\n$/, ''));
+            //inner += escCode(block.replace(/\n$/, ''));
+            inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
             continue;
         }
 
