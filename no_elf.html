@@ -108,6 +108,18 @@ a:hover{
     background:#3a9070;
 }
 
+.codeblock{
+    background:#0a3a2a;
+    padding:10px 14px;
+    margin:12px -14px;
+    width:calc(100% + 28px);
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    display:block;
+    font-size:inherit;
+    font-family:inherit;
+}
+
 @media (max-width:768px){
 
     body{
@@ -360,7 +372,21 @@ a:hover{
 </div>
 </div>
 <script>
-fetch("https://api.counterapi.dev/v1/:spaghettihacker/:noelf/up")
+(function(){
+    const article = document.querySelector('.article');
+    if(!article) return;
+    const children = Array.from(article.childNodes);
+    for(const node of children){
+        if(node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ''){
+            const pre = document.createElement('pre');
+            pre.className = 'codeblock';
+            pre.textContent = node.textContent;
+            node.parentNode.replaceChild(pre, node);
+        }
+    }
+})();
+</script>
+<script>
   .then(res => res.json())
   .then(data => {
     const counter = data.count;
