@@ -68,7 +68,7 @@ body{
 
 .commento{
     color:var(--muted);
-    margin:16px 0;
+    margin:12px 0;
     overflow-wrap:anywhere;
     white-space:normal;
 }
