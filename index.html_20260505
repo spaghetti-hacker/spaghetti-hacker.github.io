@@ -468,17 +468,9 @@ const COMMANDS = {
     ls(args){
         if(!args){
             out("  ");
-            SECTIONS.forEach(s => {
-                const imgTag = s.img
-                    ? `<img class="post-img" src="${s.img}" alt="" aria-hidden="true">`
-                    : `<span style="margin-right:6px">»</span>`;
-                out(
-                    `<div class="post-row">` +
-                      `<span class="post-row-img">${imgTag}</span>` +
-                      `<span class="post-row-body"><span class="ok">[${s.n}] ${s.name}</span></span>` +
-                    `</div>`
-                );
-            });
+            outLines(SECTIONS.map(s => {
+                return `[${s.n}] <span class="ok">${s.name}</span>`;
+            }));
             return;
         }
         /* ls <id sezione> — accetta "0x01", "01", "1", o nome parziale */
@@ -493,18 +485,7 @@ const COMMANDS = {
             return;
         }
         out(`  `);
-        /* titolo sezione con immagine — stesso meccanismo di postHtml */
-        {
-            const imgTag = sec.img
-                ? `<img class="post-img" src="${sec.img}" alt="" aria-hidden="true">`
-                : `<span style="margin-right:6px">»</span>`;
-            const d = document.createElement("div");
-            d.className = "post-row";
-            d.innerHTML =
-                `<span class="post-row-img">${imgTag}</span>` +
-                `<span class="post-row-body" style="color:#65E903">[${sec.n}] ${sec.name}</span>`;
-            root.insertBefore(d, document.getElementById("prompt-line"));
-        }
+        out(`<span style="color:#65E903">[${sec.n}] ${sec.name}</span>`);
         /* preferisce l'img del singolo post, fallback a quella della sezione */
         sec.posts.forEach(p => {
             out(postHtml({ ...p, img: p.img || sec.img }));
@@ -543,14 +524,7 @@ const COMMANDS = {
 
     recent(){
         out(`  `);
-        {
-            const d = document.createElement("div");
-            d.className = "post-row";
-            d.innerHTML =
-                `<span class="post-row-img"><img class="post-img" src="logo_re.png" alt="" aria-hidden="true"></span>` +
-                `<span class="post-row-body" style="color:#65E903">[0x00] RECENT</span>`;
-            root.insertBefore(d, document.getElementById("prompt-line"));
-        }
+        out(`<span style="color:#65E903">[0x00] RECENT</span>`);
         recentPosts.forEach(p => {
             out(postHtml(p, `  <span class="dim">${p.date}</span>`));
         });
@@ -571,14 +545,7 @@ const COMMANDS = {
             if(!posts.length){ out(`<span class="err">;nessun risultato</span>`); return; }
             out(" ");
             const title = keyword ? `HACKER NEWS :: ${esc(keyword).toUpperCase()}` : "HACKER NEWS";
-            {
-                const d = document.createElement("div");
-                d.className = "post-row";
-                d.innerHTML =
-                    `<span class="post-row-img"><img class="post-img" src="logo_re.png" alt="" aria-hidden="true"></span>` +
-                    `<span class="post-row-body" style="color:#65E903">[0x05] ${title}</span>`;
-                root.insertBefore(d, document.getElementById("prompt-line"));
-            }
+            out(`<span style="color:#65E903">[0x05] ${title}</span>`);
             posts.forEach(p => {
                 const date = p.created_at.slice(0, 10);
                 const url = p.url || `https://news.ycombinator.com/item?id=${p.objectID}`;
