@@ -80,7 +80,7 @@ visite: <span id="visits">...</span>
 
 ;il dump del malware che mi ha fornito la Spaghetti Hacker è più grande del solito. Ho quindi deciso di analizzare le singole funzioni che lo compongono; prendi un problema grande e lo scomponi in problemi piccoli.
 
-;nel seguente write-up analizzo la funzione initConnection, estratta tramite radare2 da un binario ELF x86-64 malevolo. L'obiettivo è comprendere il comportamento della funzione attraverso l'esame del disassemblato e la ricostruzione del codice sorgente equivalente in C.
+;nel seguente write-up analizzo la funzione initConnection, estratta tramite radare2 da un binario ELF x86-64 malevolo. L'obiettivo è comprendere il comportamento della funzione attraverso l'esame del disassemblato e ricostruire il codice sorgente equivalente in C.
 
 ;la funzione risulta essere il punto di ingresso per la logica di connessione di un bot, presumibilmente di tipo C2 (Command & Control). Come vedremo, il codice implementa un meccanismo di rotazione su una lista di server remoti, con parsing inline dell'indirizzo nel formato host:porta e gestione della connessione con timeout, pattern tipici dei malware botnet.
 
