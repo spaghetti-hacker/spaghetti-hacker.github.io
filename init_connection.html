@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/fork_flood2.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="FORK FLOOD">
+<meta property="og:description" content=";reverse engineering di un exploit Android con saturazione della process table tramite fork-bomb">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/fork_flood2.png">
+
+
+<title>INIT CONNECTION</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/fork_flood2.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+INIT CONNECTION ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;analisi della funzione initConnection
+
+;il dump del malware che mi ha fornito la Spaghetti Hacker è più grande del solito. Ho quindi deciso di analizzare le singole funzioni che lo compongono; prendi un problema grande e lo scomponi in problemi piccoli.
+
+;nel seguente write-up analizzo la funzione initConnection, estratta tramite radare2 da un binario ELF x86-64 malevolo. L'obiettivo è comprendere il comportamento della funzione attraverso l'esame del disassemblato e la ricostruzione del codice sorgente equivalente in C.
+
+;la funzione risulta essere il punto di ingresso per la logica di connessione di un bot, presumibilmente di tipo C2 (Command & Control). Come vedremo, il codice implementa un meccanismo di rotazione su una lista di server remoti, con parsing inline dell'indirizzo nel formato host:porta e gestione della connessione con timeout, pattern tipici dei malware botnet.
+
+@@@
+[0x00400194]> s sym.initConnection
+[0x00403a8a]> pdf
+0x00403a8a      push rbp
+0x00403a8b      mov rbp, rsp
+0x00403a8e      sub rsp, 0x220
+@@@
+
+;ha predisposto sullo stack un'area di memoria di 544 byte.
+;buffer sovradimensionato, probabilmente per semplicità più che per necessità. Tipico codice non raffinato, molto comune nei malware. Il codice appare riutilizzato o scritto senza particolare attenzione all'ottimizzazione, pratica comune nello sviluppo di malware. Riutilizzare codice è molto comune nell'ambito del malware development.
+
+@@@
+0x00403a95      lea rax, [dest]
+0x00403a9c      mov rdi, rax                ; void *s
+0x00403a9f      mov edx, 0x200              ; 512 ; size_t n
+0x00403aa4      mov esi, 0                  ; int c
+0x00403aa9      call sym.__GI_memset        ; void *memset(void *s, int c, size_t n)
+
+;memset(dest,NULL,512)
+;ha preparato questo blocco di memoria inizializzata a NULL di 512 byte.
+;l'inizializzazione del buffer non mitiga il rischio di overflow introdotto da strcpy.
+;il buffer è leggermente più grande dell'area inizializzata, suggerendo allineamento o layout dello stack piuttosto che una scelta intenzionale.
+
+@@@
+0x00403aae      mov eax, dword [obj.mainCommSock] ; [0x50e120:4]=0
+0x00403ab4      test eax, eax
+0x00403ab6      je 0x403acd
+@@@
+
+;c'è questo oggetto obj.mainCommSock, oggetto del socket di comunicazione principale? Dovrebbe essere una variabile globale.
+;viene testato se è zero o meno, quindi se è presente o meno un socket aperto.
+;sta provando una nuova connessione e non vuole connessioni già aperte.
+;se è zero salta, altrimenti lo chiude e lo inizializza a 0:
+
+@@@
+0x00403ab8      mov edi, dword [obj.mainCommSock] ; [0x50e120:4]=0 ; int fildes
+0x00403abe      call sym.__GI_close         ; int close(int fildes)
+0x00403ac3      mov dword [obj.mainCommSock], 0 ; [0x50e120:4]=0
+@@@
+
+;lo chiude e lo inizializza a 0.
+
+@@@
+0x00403acd      mov eax, dword [obj.currentServer] ; [0x50dc38:4]=-1
+0x00403ad3      test eax, eax
+0x00403ad5      jne 0x403ae3
+@@@
+
+;stessa cosa per l'oggetto currentServer, se non è zero salta.
+
+@@@
+0x00403ad7      mov dword [obj.currentServer], 0
+0x00403ae1      jmp 0x403af1
+@@@
+
+;se è zero viene ri-settato a zero e salta, altrimenti.
+;viene incrementato.
+
+;la logica di aggiornamento di currentServer appare anomala e potenzialmente incompleta, suggerendo che il controllo dei limiti possa essere gestito altrove o che il codice sia soggetto a errori di indexing.
+
+@@@
+0x00403ae3      mov eax, dword [obj.currentServer] ; [0x50dc38:4]=-1
+0x00403ae9      inc eax
+0x00403af1      mov eax, dword [obj.currentServer] ; [0x50dc38:4]=-1
+0x00403af7      cdqe
+0x00403af9      mov rax, qword [rax*8 + obj.commServer] ; [0x50dbe0:8]=0x40b760 sym..rodata ; "`\xb7@"
+@@@
+
+;potrebbe puntare a una lista di indirizzi che contengono server, magari una lista di C2.
+;suggerisce una lista di server C2 verso cui provare a connettersi; il failover però viene implementato attraverso le chiamate successive ad initConnection, non all'interno della funzione:
+
+@@@
+0x00403b01      mov rsi, rax                ; const char *src
+0x00403b04      lea rdi, [dest]             ; char *dest
+0x00403b0b      call sym.strcpy             ; char *strcpy(char *dest, const char *src)
+@@@
+
+;copia in dest l'iesimo server. Questa strcpy è pericolosa; lo spazio sullo stack è molto grande, ma non c'è alcun controllo sulla lunghezza della stringa sorgente. L'assenza di controlli su strcpy introduce un potenziale stack overflow, suggerendo che la robustezza non è una priorità del codice.
+
+@@@
+0x00403b10      mov dword [var_4h], 0x1b46  ; 'F'
+0x00403b17      lea rdi, [dest]             ; const char *s
+0x00403b1e      mov esi, 0x3a               ; ':' ; 58 ; int c
+0x00403b23      call sym.__GI_strchr        ; char *strchr(const char *s, int c)
+@@@
+
+;cerca nella stringa copiata in dest il carattere ":".
+
+@@@
+0x00403b28      test rax, rax
+0x00403b2b      je 0x403b5e
+0x00403b2d      lea rdi, [dest]             ; const char *s
+0x00403b34      mov esi, 0x3a               ; ':' ; 58 ; int c
+0x00403b39      call sym.__GI_strchr        ; char *strchr(const char *s, int c)
+@@@
+
+;cerca nella stringa il carattere ":".
+
+@@@
+0x00403b3e      lea rdi, [rax + 1]          ; const char *str
+0x00403b42      call sym.atoi               ; int atoi(const char *str)
+@@@
+
+;dopo i : c'è qualche stringa che può essere convertita in numero.
+
+@@@
+0x00403b47      mov dword [var_4h], eax
+@@@
+
+;in var_4h, dopo la funzione atoi, abbiamo il valore numerico della porta.
+
+@@@
+0x00403b4a      lea rdi, [dest]             ; const char *s
+0x00403b51      mov esi, 0x3a               ; ':' ; 58 ; int c
+0x00403b56      call sym.__GI_strchr        ; char *strchr(const char *s, int c)
+0x00403b5b      mov byte [rax], 0
+@@@
+
+;stessa ricerca del carattere ":".
+
+;chiamate strchr
+
+;1a controlla se : esiste.
+;2a prende il puntatore per leggere la porta con atoi.
+;3a prende il puntatore per scrivere \0 e troncare l'host.
+
+;attraverso chiamate successive a initConnection si scorre attraverso la lista degli ipotetici server C2, perchè currentServer è una variabile globale.
+
+;l'assenza di riutilizzo del puntatore restituito da strchr introduce ridondanza, suggerendo un'implementazione poco ottimizzata o generata senza attenzione alle performance.
+
+@@@
+0x00403b5e      mov edx, 0                  ; int protocol
+0x00403b63      mov esi, 1                  ; int type
+0x00403b68      mov edi, 2                  ; int domain
+0x00403b6d      call sym.socket             ; int socket(int domain, int type, int protocol)
+@@@
+
+;viene creato un socket TCP/IPv4 (AF_INET + SOCK_STREAM).
+;mainCommSock = socket(2,1,0);
+;2, AF_INET
+;1, SOCK_STREAM
+
+@@@
+0x00403b72      mov dword [obj.mainCommSock], eax ; [0x50e120:4]=0
+0x00403b78      lea rsi, [dest]             ; int64_t arg2
+0x00403b7f      mov edi, dword [obj.mainCommSock] ; [0x50e120:4]=0 ; fd_set *arg1
+0x00403b85      mov edx, dword [var_4h]     ; int64_t arg3
+0x00403b88      mov ecx, 0x1e               ; 30 ; int64_t arg4
+0x00403b8d      call sym.connectTimeout
+@@@
+
+;viene provata una connessione tramite il socket appena creato con timeout a 30 secondi.
+
+@@@
+0x00403b92      test eax, eax
+0x00403b94      jne 0x403ba2
+0x00403b96      mov dword [var_214h], 1
+0x00403ba0      jmp 0x403bac
+0x00403ba2      mov dword [var_214h], 0
+0x00403bac      mov eax, dword [var_214h]
+0x00403bb2      leave
+0x00403bb3      ret
+@@@
+
+;reversing della funzione in C:
+
+@@@
+bool initConnection(void)
+
+{
+  int connessione;
+  char *colon_ptr;
+  char dest [524];
+  int porta;
+
+  memset(dest,0,0x200);
+  if (mainCommSock != 0) {
+    close(mainCommSock);
+    mainCommSock = 0;
+  }
+
+;se c'era già una connessione aperta, la chiude prima di procedere.
+
+  if (currentServer == 0) {
+    currentServer = 0;
+  }
+  else {
+    currentServer = currentServer + 1;
+  }
+
+  strcpy(dest,commServer[currentServer]);
+  porta = 0x1b46;
+  colon_ptr = strchr(dest,0x3a);
+  if (colon_ptr != (char *)0x0) {
+    colon_ptr = strchr(dest,0x3a);
+    porta = atoi(colon_ptr + 1);
+    colon_ptr = strchr(dest,0x3a);
+    *colon_ptr = '\0';
+  }
+@@@
+
+;viene cercato il carattere : nella stringa, il numero dopo i due punti viene convertito con atoi() come porta, poi il : viene sovrascritto con \0,  spezzando la stringa in modo che dest contenga solo l'hostname.
+
+;0x1b46 = 6982, porta di default, potrebbe essere una porta IRC non standard (IRC standard è 6667). Potrebbe trattarsi di un C2 (Command & Control).
+
+@@@
+  mainCommSock = socket(2,1,0);
+  connessione = connectTimeout(mainCommSock,dest,porta,0x1e);
+  return connessione == 0;
+}
+@@@
+
+;questa funzione è tipica di un client C2 con lista di server di fallback (failover list). Il pattern commServer[] come array di stringhe "host:porta" è classico dei bot Mirai o bot DDoS. La logica di rotazione dei server suggerisce un tentativo di resilienza delegato alla logica esterna: se un server C2 cade, il bot prova il successivo.
+
+;in radare2, il prefisso obj. indica variabili globali (o statiche) identificate dall'analisi, non sono oggetti nel senso OOP, è solo la convenzione di naming di r2 per distinguerle dalle funzioni (sym.) e dalle stringhe (str.).
+
+;obj.mainCommSockint (file descriptor) Il socket TCP aperto verso il C2
+;obj.currentServerint (indice) Indice corrente nell'array di server, forse inizializzato a -1
+;obj.commServerchar*[] (array di puntatori a stringhe) La lista dei server C2 nel formato "host:porta"
+
+@@@
+[0x00403a8a]> pxr 8 @ obj.commServer
+0x0050dbe0 0x000000000040b760   `.@..... @ obj.commServer 4241248 .rodata str.5.2.65.150:999,section..rodata,.rodata R X 'xor eax, 0x362e322e' 5.2.65.150:999
+@@@
+
+;IoC
+;5.2.65.150:999
+
+;l'analisi di initConnection rivela una funzione compatta ma significativa dal punto di vista comportamentale. Il bot implementa una failover list di server C2 nell'array commServer[], iterando sequenzialmente sugli indirizzi disponibili (senza bounds checking visibile), in caso di mancata connessione. Il formato host:porta viene parsato manualmente con tre chiamate a strchr(), una scelta implementativa rudimentale ma efficace.
+
+;la funzione implementa un singolo tentativo di connessione su un server selezionato sequenzialmente; il comportamento di failover emerge solo nel contesto delle chiamate ripetute da parte del codice chiamante.
+
+;l'indirizzo estratto dalla memoria, 5.2.65.150:999, e la porta di default 6982 (0x1b46), è compatibile con pattern osservati in diverse botnet (es. Mirai e derivati).
+
+;questa funzione non implementa l'intero meccanismo di comunicazione, ma espone chiaramente il modello operativo: selezione sequenziale dei target, parsing minimale e tentativi di connessione isolati, delegando la resilienza alla logica esterna.
+
+;il comportamento osservato suggerisce una progettazione minimale, in cui la funzione si limita a un singolo tentativo di connessione, mentre la gestione del failover è interamente demandata al codice chiamante.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:init/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
