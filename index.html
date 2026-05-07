@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com; font-src 'self'; img-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com; font-src 'self'; img-src 'self'; frame-src https://w.soundcloud.com;">
 <title>SPAGHETTI HACKER</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
@@ -446,6 +446,22 @@ function postHtml(p, extra = ""){
 /* ── definizione comandi ── */
 const COMMANDS = {
 
+    music(){
+        out(`<span class="dim">;loading HCF playlist...</span>`);
+        const wrap = document.createElement("div");
+        wrap.className = "cmd-output";
+        wrap.style.cssText = "margin-top:8px;";
+        wrap.innerHTML =
+            `<iframe width="50%" height="450" scrolling="no" frameborder="no" allow="autoplay" ` +
+            `src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2022763077%3Fsecret_token%3Ds-m0YH0vZ2GBL&color=%2365e903&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">` +
+            `</iframe>` +
+            `<div style="font-size:10px;color:#65E903;line-break:anywhere;word-break:normal;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight:100;">` +
+            `<a href="https://soundcloud.com/hcf_m4hg" title="HCF" target="_blank" style="color:#65E903;text-decoration:none;">HCF</a> · ` +
+            `<a href="https://soundcloud.com/hcf_m4hg/sets/bz_hackercore/s-m0YH0vZ2GBL" title="bz" target="_blank" style="color:#65E903;text-decoration:none;">bz</a>` +
+            `</div>`;
+        root.insertBefore(wrap, document.getElementById("prompt-line"));
+    },
+
     help(){
         outLines([
             `<span class="info">                     </span>`,
@@ -456,6 +472,7 @@ const COMMANDS = {
             `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
             `<span class="ok">recent</span>          <span class="dim"> ;ultimi write-up</span>`,
             `<span class="ok">news [keyword]</span>  <span class="dim"> ;ultime notizie HN</span>`,
+            `<span class="ok">music</span>           <span class="dim"> ;playlist HCF</span>`,
             `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
             `<span class="ok">whoami</span>          <span class="dim"> ;chi sono?</span>`,
