@@ -449,9 +449,11 @@ const COMMANDS = {
     music(){
         /* ── PLAYLIST: aggiungi/rimuovi oggetti qui ── */
         const PLAYLIST = [
-            { id:"_tUBCmGBO3A", title:"Mr. Robot" },
+	    { id:"_tUBCmGBO3A", title:"Mr. Robot" },
             { id:"8j-AFTjIWUs", title:"Enter The Flow State" },
             { id:"PNhQakLdI9o", title:"Hacking Music" },
+	    { id:"1YW_6OXYB7E", title:"YTCracker", playlist:"OLAK5uy_nM7cVS3NvmRyfF7d12T6A27lVVB0sbah8" },
+
         ];
         /* ─────────────────────────────────────────── */
 
@@ -466,7 +468,9 @@ const COMMANDS = {
         }
         PLAYLIST.forEach(track => {
             const thumb = `https://img.youtube.com/vi/${track.id}/mqdefault.jpg`;
-            const url   = `https://www.youtube.com/watch?v=${track.id}`;
+            const url   = track.playlist
+                ? `https://www.youtube.com/watch?v=${track.id}&list=${track.playlist}`
+                : `https://www.youtube.com/watch?v=${track.id}`;
             const d = document.createElement("div");
             d.className = "cmd-output post-row";
             d.innerHTML =
