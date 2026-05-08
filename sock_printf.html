@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/sock_printf.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="FORK FLOOD">
+<meta property="og:description" content=";reverse engineering di un exploit Android con saturazione della process table tramite fork-bomb">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/sock_printf.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/sock_printf.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+SOCK PRINTF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;nel corso dell'analisi del binario è emersa una funzione denominata sockprintf, richiamata dal main con un socket globale (obj.mainCommSock) e una format string contenente escape ANSI. La funzione non è documentata e non corrisponde ad alcuna libreria standard, il che rende necessaria un'analisi manuale del suo comportamento per capire quale ruolo ricopre nella comunicazione del malware.
+
+@@@
+0x00403cb3      mov edi, dword [obj.mainCommSock] ; [0x50e120:4]=0 ; int64_t arg1
+0x00403cb9      mov r8, rbx                 ; int64_t arg6
+0x00403cbc      mov rcx, r12                ; int64_t arg5
+0x00403cbf      mov rdx, rax                ; int64_t arg4
+0x00403cc2      mov esi, _31mSnoopy.e_0m__e_1_31m_se_0m_e_1_31m:e_0m_e_1_31m_se_0m__e_1_31m_e_0m__e_1_31m_se_0m_ ; 0x40bed0 ; int64_t arg3
+0x00403cc7      mov eax, 0
+0x00403ccc      call sym.sockprintf
+@@@
+
+;chiamata alla funzione socokprintf dalla funzione main
+
+@@@
+0x0040bed0     .string "\e[0m[\e[1;31mSnoopy.\e[0m][\e[1;31m%s\e[0m]\e[1;31m:\e[0m[\e[1;31m%s\e[0m] \e[1;31m>\e[0m [\e[1;31m%s\e[0m]" ; len=96
+@@@
+
+;la struttura del prompt è [Snoopy.][arg1]:[arg2] > [arg3] 
+;dove tutto il testo colorato è in rosso brillante (\e[1;31m)
+
+;esempi:
+;[Snoopy.][192.168.1.50]:[22] > [x86_64]
+;[Snoopy.][192.168.1.50]:[Unknown Port] > [x86_64]
+
+;è una funzione custom che si comporta come una printf orientata alla rete: invece di scrivere su standard output, formatta una stringa e la trasmette direttamente su un socket, presumibilmente verso un server di comando e controllo.
+
+@@@
+[0x00400cf7]> pd 128
+; CALL XREF from main @ 0x403ccc(x)
+ockprintf (int64_t arg1, int64_t arg3, int64_t arg4, int64_t arg5, int64_t arg6);
+; arg int64_t arg1 @ rdi
+; arg int64_t arg3 @ rdx
+; arg int64_t arg4 @ rcx
+; arg int64_t arg5 @ r8
+; arg int64_t arg6 @ r9
+; var int64_t var_1h @ rbp-0x1
+; var int64_t var_88h @ rbp-0x88
+; var int64_t var_90h @ rbp-0x90
+; var int64_t var_98h @ rbp-0x98
+; var int64_t var_a0h @ rbp-0xa0
+; var int64_t var_e4h @ rbp-0xe4
+; var int64_t var_f8h @ rbp-0xf8
+0x00400cf7      push rbp
+0x00400cf8      mov rbp, rsp
+0x00400cfb      sub rsp, 0x110
+0x00400d02      mov dword [var_e4h], edi    ; arg1
+0x00400d08      mov qword [var_a0h], rdx    ; arg3
+0x00400d0f      mov qword [var_98h], rcx    ; arg4
+0x00400d16      mov qword [var_90h], r8     ; arg5
+0x00400d1d      mov qword [var_88h], r9     ; arg6
+0x00400d24      movzx eax, al
+0x00400d27      mov qword [var_f8h], rax
+0x00400d2e      mov rdx, qword [var_f8h]
+0x00400d35      lea rax, [rdx*4]
+0x00400d3d      mov qword [var_f8h], 0x400d7c ; '|\r@'
+0x00400d48      sub qword [var_f8h], rax
+0x00400d4f      lea rax, [var_1h]
+0x00400d53      mov rdi, qword [var_f8h]
+0x00400d5a      jmp rdi
+@@@
+
+;il jmp rdi dopo il prologo della funzione.
+
+@@@
+0x00400d5c      movaps xmmword [rax - 0xf], xmm7
+0x00400d60      movaps xmmword [rax - 0x1f], xmm6
+0x00400d64      movaps xmmword [rax - 0x2f], xmm5
+0x00400d68      movaps xmmword [rax - 0x3f], xmm4
+0x00400d6c      movaps xmmword [rax - 0x4f], xmm3
+0x00400d70      movaps xmmword [rax - 0x5f], xmm2
+0x00400d74      movaps xmmword [rax - 0x6f], xmm1
+0x00400d78      movaps xmmword [rax - 0x7f], xmm0
+@@@
+
+;essendo la funzione variadica, il compilatore genera un prologo che salva selettivamente i registri XMM usati dal chiamante. 
+
+;una funzione variadica è una funzione che accetta un numero variabile di argomenti, dove solo il primo o i primi sono dichiarati esplicitamente nella firma mentre i restanti vengono passati e letti a runtime tramite i meccanismi va_start, va_arg e va_end. L'esempio più classico è proprio printf, che accetta una format string fissa seguita da quanti argomenti servono a riempirla.
+
+;il valore in al (istruzione 0x00400d24) indica quanti registri floating point sono stati passati, e tramite un calcolo sull'indirizzo base 0x400d7c viene sottratto un offset proporzionale, ottenendo un puntatore che viene poi seguito con un jmp rdi. Questa istruzione salta direttamente nel mezzo di una sequenza di movaps disposti in ordine discendente da xmm7 a xmm0, salvando solo i registri effettivamente usati. È un'ottimizzazione classica del prologo variadico x86-64 System V ABI, generata automaticamente dal compilatore.
+
+@@@
+0x00400d7c      mov qword [rbp - 0xf0], rsi
+0x00400d83      mov edi, 0x800              ; 2048
+0x00400d88      call sym.malloc             ;  void *malloc(size_t size)
+0x00400d8d      mov qword [rbp - 0xc8], rax
+0x00400d94      mov rax, qword [rbp - 0xc8]
+0x00400d9b      mov rdi, rax
+0x00400d9e      mov edx, 0x800              ; 2048
+0x00400da3      mov esi, 0
+0x00400da8      call sym.__GI_memset        ; void *memset(void *s, int c, size_t n)
+@@@
+
+;una volta completato il salvataggio dei registri, la funzione alloca un buffer heap da 2048 byte e lo azzera con una memset. Costruisce poi manualmente una struttura va_list sullo stack, popolando i campi gp_offset, fp_offset, overflow_arg_area e reg_save_area secondo le specifiche dell'ABI. Con questa struttura chiama una funzione interna sym.print, che si comporta come una vsnprintf custom, scrivendo la stringa formattata nel buffer. Successivamente aggiunge un carattere newline in fondo alla stringa, calcolando la lunghezza con un repne scasb al posto di una strlen standard.
+
+@@@
+0x00400dad      mov rax, qword [rbp - 0xc8]
+0x00400db4      mov qword [rbp - 0xc0], rax
+0x00400dbb      lea rax, [rbp - 0xe0]
+0x00400dc2      mov dword [rax], 0x10       ; [0x10:4]=-1 ; 16
+0x00400dc8      lea rax, [rbp - 0xe0]
+0x00400dcf      mov dword [rax + 4], 0x30   ; '0'
+                                            ; [0x30:4]=-1 ; 48
+0x00400dd6      lea rax, [rbp - 0xe0]
+0x00400ddd      lea rdx, [rbp + 0x10]
+0x00400de1      mov qword [rax + 8], rdx
+0x00400de5      lea rax, [rbp - 0xe0]
+0x00400dec      lea rdi, [rbp - 0xb0]
+0x00400df3      mov qword [rax + 0x10], rdi
+0x00400df7      mov rsi, qword [rbp - 0xf0]
+0x00400dfe      lea rdx, [rbp - 0xe0]
+0x00400e05      lea rdi, [rbp - 0xc8]
+0x00400e0c      call sym.print
+@@@
+
+;__va_elem è la struttura che il compilatore costruisce dietro le quinte ogni volta che una funzione variadica viene chiamata, e serve a tenere traccia di dove si trovano gli argomenti extra e quanti ne sono già stati letti. Senza di essa va_arg non saprebbe dove andare a prendere il prossimo valore.
+
+@@@
+typedef struct {
+    unsigned int gp_offset;         // offset ai prossimi GPR salvati.
+    unsigned int fp_offset;         // offset ai prossimi XMM salvati.
+    void        *overflow_arg_area; // puntatore agli argomenti passati sullo stack.
+    void        *reg_save_area;     // puntatore all'area dove sono salvati i registri.
+} __va_elem;
+@@@
+
+;mov dword [rax],      0x10   ;gp_offset = 16
+;mov dword [rax + 4],  0x30   ;fp_offset = 48
+;mov qword [rax + 8],  rdx    ;overflow_arg_area = rbp+0x10 (args sullo stack).
+;mov qword [rax + 0x10], rdi  ;reg_save_area = rbp-0xb0 (dove sono i registri).
+
+@@@
+0x00400e11      mov rax, qword [rbp - 0xc0]
+0x00400e18      mov rcx, 0xffffffffffffffff
+0x00400e1f      mov qword [rbp - 0x100], rax
+0x00400e26      mov eax, 0
+0x00400e2b      cld
+0x00400e2c      mov rdi, qword [rbp - 0x100]
+0x00400e33      repne scasb al, byte [rdi]
+0x00400e35      mov rax, rcx
+0x00400e38      not rax
+0x00400e3b      dec rax
+@@@
+
+;qui imposta rcx a -1, arriva al carattere null alla fine della stringa, tramite repne scasb al, byte [rdi].
+;a quel punto abbiamo la lunghezza della stringa+1 negativa in rcx.
+;il valore rcx viene negato e decrementata di 1; cosi si ottiene la lunghezza della stringa.
+                
+@@@
+0x00400e3e      add rax, qword [rbp - 0xc0]
+0x00400e45      mov byte [rax], 0xa
+0x00400e48      mov rax, qword [rbp - 0xc0]
+0x00400e4f      mov rcx, 0xffffffffffffffff
+0x00400e56      mov qword [rbp - 0x108], rax
+0x00400e5d      mov eax, 0
+0x00400e62      cld
+0x00400e63      mov rdi, qword [rbp - 0x108]
+0x00400e6a      repne scasb al, byte [rdi]
+@@@
+
+;calcola la lunghezza con un repne scasb al posto di una strlen standard.
+;il primo repne scasb serve per trovare la posizione dell'ultimo byte e scriverci il newline 0x0a (istruzione 0x00400e45). Una volta aggiunto il newline la stringa è cresciuta di un byte, quindi la lunghezza calcolata prima non è più valida. Il secondo repne scasb ricalcola la lunghezza della stringa aggiornata, e il risultato viene passato come parametro length alla send. Non poteva essere riusata la lunghezza precedente perché nel frattempo il codice aveva modificato il buffer.
+
+@@@
+0x00400e6c      mov rax, rcx
+0x00400e6f      not rax
+0x00400e72      lea rdx, [rax - 1]
+0x00400e76      mov rsi, qword [rbp - 0xc0]
+0x00400e7d      mov edi, dword [rbp - 0xe4]
+0x00400e83      mov ecx, 0x4000
+0x00400e88      call sym.send               ; ssize_t send(int socket, void *buffer, size_t length, int flags)
+@@@
+
+;la stringa formattata viene passata a send con il flag 0x4000, corrispondente a MSG_NOSIGNAL su Linux, che impedisce al processo di ricevere un SIGPIPE nel caso in cui la connessione remota sia caduta, dettaglio tipico di un'applicazione server o di un malware che vuole evitare crash inattesi sulla rete. Il buffer heap viene infine liberato e la funzione restituisce il valore di ritorno di send.
+
+@@@
+0x00400e8d      mov dword [rbp - 0xb4], eax
+0x00400e93      mov rdi, qword [rbp - 0xc0]
+0x00400e9a      call sym.free               ; void free(void *ptr)
+0x00400e9f      mov eax, dword [rbp - 0xb4]
+0x00400ea5      leave
+0x00400ea6      ret
+@@@
+
+;il socket passato come primo argomento proviene da obj.mainCommSock, una variabile globale che suggerisce una connessione persistente già stabilita altrove nel binario. La format string all'indirizzo 0x40bed0 contiene sequenze di escape ANSI per colorare l'output, il che indica che il destinatario è un terminale interattivo remoto, coerente con uno scenario in cui il malware espone una shell o un'interfaccia testuale verso il proprio C2.
+
+@@@
+int sockprintf(int sockfd, const char *fmt, ...) {
+    char *buf = malloc(0x800);
+    memset(buf, 0, 0x800);
+
+    va_list ap;
+    va_start(ap, fmt);
+
+    sym.print(buf, fmt, ap);   
+
+    buf[strlen(buf)] = '\n'; 
+
+    int n = send(sockfd, buf, strlen(buf), 0x4000);
+
+    free(buf);
+    return n;
+}
+@@@
+
+;sockprintf è una funzione che si comporta come una printf ma invece di scrivere su standard output manda il risultato su un socket. Riceve come argomenti un file descriptor di socket, una format string e un numero variabile di argomenti aggiuntivi. Internamente alloca un buffer heap da 2048 byte, lo azzera, costruisce manualmente la va_list seguendo l'ABI System V x86-64, e poi chiama una funzione interna print che si occupa di formattare la stringa nel buffer analogamente a una vsnprintf. Una volta formattata la stringa, aggiunge un carattere newline in fondo, e infine chiama send con il flag MSG_NOSIGNAL per trasmettere il contenuto sul socket senza rischiare di ricevere un SIGPIPE in caso di connessione caduta. Il buffer viene liberato prima di ritornare.
+
+;è una funzione che rappresenta un componente infrastrutturale del malware, progettato per inviare output formattato verso un destinatario remoto in modo robusto e silenzioso. La scelta di implementarla come wrapper variadico custom, anziché usare direttamente dprintf o fprintf, suggerisce che lo sviluppatore volesse un controllo preciso sul comportamento della trasmissione, in particolare evitando crash da SIGPIPE e aggiungendo automaticamente il newline. La presenza di escape ANSI nella format string e di un socket globale persistente indica che questa funzione non è un caso isolato, ma fa parte di un sistema di comunicazione più ampio con il C2, probabilmente un'interfaccia interattiva di tipo shell.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:sock/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
