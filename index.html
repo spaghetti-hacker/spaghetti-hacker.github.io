@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com; font-src 'self'; img-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com; font-src 'self'; img-src 'self' https://img.youtube.com; frame-src 'none';">
 <title>SPAGHETTI HACKER</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
@@ -446,6 +446,40 @@ function postHtml(p, extra = ""){
 /* ── definizione comandi ── */
 const COMMANDS = {
 
+    music(){
+        /* ── PLAYLIST: aggiungi/rimuovi oggetti qui ── */
+        const PLAYLIST = [
+            { id:"_tUBCmGBO3A", title:"Mr. Robot" },
+            { id:"8j-AFTjIWUs", title:"Enter The Flow State" },
+            { id:"PNhQakLdI9o", title:"Hacking Music" },
+        ];
+        /* ─────────────────────────────────────────── */
+
+        out(" ");
+        {
+            const d = document.createElement("div");
+            d.className = "cmd-output post-row";
+            d.innerHTML =
+                `<span class="post-row-img"><img class="post-img" src="logo_re.png" alt="" aria-hidden="true"></span>` +
+                `<span class="post-row-body" style="color:#65E903">[0x06] HCF PLAYLIST</span>`;
+            root.insertBefore(d, document.getElementById("prompt-line"));
+        }
+        PLAYLIST.forEach(track => {
+            const thumb = `https://img.youtube.com/vi/${track.id}/mqdefault.jpg`;
+            const url   = `https://www.youtube.com/watch?v=${track.id}`;
+            const d = document.createElement("div");
+            d.className = "cmd-output post-row";
+            d.innerHTML =
+                `<span class="post-row-img">` +
+                  `<img class="post-img" src="${thumb}" alt="" aria-hidden="true">` +
+                `</span>` +
+                `<span class="post-row-body">` +
+                  `<a href="${url}" target="_blank" rel="noopener noreferrer">${esc(track.title)}</a>` +
+                `</span>`;
+            root.insertBefore(d, document.getElementById("prompt-line"));
+        });
+    },
+
     help(){
         outLines([
             `<span class="info">                     </span>`,
@@ -456,6 +490,7 @@ const COMMANDS = {
             `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
             `<span class="ok">recent</span>          <span class="dim"> ;ultimi write-up</span>`,
             `<span class="ok">news [keyword]</span>  <span class="dim"> ;ultime notizie HN</span>`,
+            `<span class="ok">music</span>           <span class="dim"> ;playlist HCF</span>`,
             `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
             `<span class="ok">whoami</span>          <span class="dim"> ;chi sono?</span>`,
