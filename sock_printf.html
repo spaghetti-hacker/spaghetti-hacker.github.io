@@ -79,11 +79,11 @@ visite: <span id="visits">...</span>
 ;nel corso dell'analisi del binario è emersa una funzione denominata sockprintf, richiamata dal main con un socket globale (obj.mainCommSock) e una format string contenente escape ANSI. La funzione non è documentata e non corrisponde ad alcuna libreria standard, il che rende necessaria un'analisi manuale del suo comportamento per capire quale ruolo ricopre nella comunicazione del malware.
 
 @@@
-0x00403cb3      mov edi, dword [obj.mainCommSock] ; [0x50e120:4]=0 ; int64_t arg1
-0x00403cb9      mov r8, rbx                 ; int64_t arg6
-0x00403cbc      mov rcx, r12                ; int64_t arg5
-0x00403cbf      mov rdx, rax                ; int64_t arg4
-0x00403cc2      mov esi, _31mSnoopy.e_0m__e_1_31m_se_0m_e_1_31m:e_0m_e_1_31m_se_0m__e_1_31m_e_0m__e_1_31m_se_0m_ ; 0x40bed0 ; int64_t arg3
+0x00403cb3      mov edi, dword [obj.mainCommSock] ;[0x50e120:4]=0 ;int64_t arg1
+0x00403cb9      mov r8, rbx                 ;int64_t arg6
+0x00403cbc      mov rcx, r12                ;int64_t arg5
+0x00403cbf      mov rdx, rax                ;int64_t arg4
+0x00403cc2      mov esi, _31mSnoopy.e_0m__e_1_31m_se_0m_e_1_31m:e_0m_e_1_31m_se_0m__e_1_31m_e_0m__e_1_31m_se_0m_ ;0x40bed0 ;int64_t arg3
 0x00403cc7      mov eax, 0
 0x00403ccc      call sym.sockprintf
 @@@
@@ -91,7 +91,7 @@ visite: <span id="visits">...</span>
 ;chiamata alla funzione socokprintf dalla funzione main
 
 @@@
-0x0040bed0     .string "\e[0m[\e[1;31mSnoopy.\e[0m][\e[1;31m%s\e[0m]\e[1;31m:\e[0m[\e[1;31m%s\e[0m] \e[1;31m>\e[0m [\e[1;31m%s\e[0m]" ; len=96
+0x0040bed0     .string "\e[0m[\e[1;31mSnoopy.\e[0m][\e[1;31m%s\e[0m]\e[1;31m:\e[0m[\e[1;31m%s\e[0m] \e[1;31m>\e[0m [\e[1;31m%s\e[0m]" ;len=96
 @@@
 
 ;la struttura del prompt è [Snoopy.][arg1]:[arg2] > [arg3] 
@@ -122,16 +122,16 @@ ockprintf (int64_t arg1, int64_t arg3, int64_t arg4, int64_t arg5, int64_t arg6)
 0x00400cf7      push rbp
 0x00400cf8      mov rbp, rsp
 0x00400cfb      sub rsp, 0x110
-0x00400d02      mov dword [var_e4h], edi    ; arg1
-0x00400d08      mov qword [var_a0h], rdx    ; arg3
-0x00400d0f      mov qword [var_98h], rcx    ; arg4
-0x00400d16      mov qword [var_90h], r8     ; arg5
-0x00400d1d      mov qword [var_88h], r9     ; arg6
+0x00400d02      mov dword [var_e4h], edi    ;arg1
+0x00400d08      mov qword [var_a0h], rdx    ;arg3
+0x00400d0f      mov qword [var_98h], rcx    ;arg4
+0x00400d16      mov qword [var_90h], r8     ;arg5
+0x00400d1d      mov qword [var_88h], r9     ;arg6
 0x00400d24      movzx eax, al
 0x00400d27      mov qword [var_f8h], rax
 0x00400d2e      mov rdx, qword [var_f8h]
 0x00400d35      lea rax, [rdx*4]
-0x00400d3d      mov qword [var_f8h], 0x400d7c ; '|\r@'
+0x00400d3d      mov qword [var_f8h], 0x400d7c ;'|\r@'
 0x00400d48      sub qword [var_f8h], rax
 0x00400d4f      lea rax, [var_1h]
 0x00400d53      mov rdi, qword [var_f8h]
@@ -159,14 +159,14 @@ ockprintf (int64_t arg1, int64_t arg3, int64_t arg4, int64_t arg5, int64_t arg6)
 
 @@@
 0x00400d7c      mov qword [rbp - 0xf0], rsi
-0x00400d83      mov edi, 0x800              ; 2048
-0x00400d88      call sym.malloc             ;  void *malloc(size_t size)
+0x00400d83      mov edi, 0x800              ;2048
+0x00400d88      call sym.malloc             ;void *malloc(size_t size)
 0x00400d8d      mov qword [rbp - 0xc8], rax
 0x00400d94      mov rax, qword [rbp - 0xc8]
 0x00400d9b      mov rdi, rax
-0x00400d9e      mov edx, 0x800              ; 2048
+0x00400d9e      mov edx, 0x800              ;2048
 0x00400da3      mov esi, 0
-0x00400da8      call sym.__GI_memset        ; void *memset(void *s, int c, size_t n)
+0x00400da8      call sym.__GI_memset        ;void *memset(void *s, int c, size_t n)
 @@@
 
 ;una volta completato il salvataggio dei registri, la funzione alloca un buffer heap da 2048 byte e lo azzera con una memset. Costruisce poi manualmente una struttura va_list sullo stack, popolando i campi gp_offset, fp_offset, overflow_arg_area e reg_save_area secondo le specifiche dell'ABI. Con questa struttura chiama una funzione interna sym.print, che si comporta come una vsnprintf custom, scrivendo la stringa formattata nel buffer. Successivamente aggiunge un carattere newline in fondo alla stringa, calcolando la lunghezza con un repne scasb al posto di una strlen standard.
@@ -175,10 +175,10 @@ ockprintf (int64_t arg1, int64_t arg3, int64_t arg4, int64_t arg5, int64_t arg6)
 0x00400dad      mov rax, qword [rbp - 0xc8]
 0x00400db4      mov qword [rbp - 0xc0], rax
 0x00400dbb      lea rax, [rbp - 0xe0]
-0x00400dc2      mov dword [rax], 0x10       ; [0x10:4]=-1 ; 16
+0x00400dc2      mov dword [rax], 0x10       ;[0x10:4]=-1 ;16
 0x00400dc8      lea rax, [rbp - 0xe0]
-0x00400dcf      mov dword [rax + 4], 0x30   ; '0'
-                                            ; [0x30:4]=-1 ; 48
+0x00400dcf      mov dword [rax + 4], 0x30   ;'0'
+                                            ;[0x30:4]=-1 ; 48
 0x00400dd6      lea rax, [rbp - 0xe0]
 0x00400ddd      lea rdx, [rbp + 0x10]
 0x00400de1      mov qword [rax + 8], rdx
@@ -195,10 +195,10 @@ ockprintf (int64_t arg1, int64_t arg3, int64_t arg4, int64_t arg5, int64_t arg6)
 
 @@@
 typedef struct {
-    unsigned int gp_offset;         // offset ai prossimi GPR salvati.
-    unsigned int fp_offset;         // offset ai prossimi XMM salvati.
-    void        *overflow_arg_area; // puntatore agli argomenti passati sullo stack.
-    void        *reg_save_area;     // puntatore all'area dove sono salvati i registri.
+    unsigned int gp_offset;         //offset ai prossimi GPR salvati.
+    unsigned int fp_offset;         //offset ai prossimi XMM salvati.
+    void        *overflow_arg_area; //puntatore agli argomenti passati sullo stack.
+    void        *reg_save_area;     //puntatore all'area dove sono salvati i registri.
 } __va_elem;
 @@@
 
@@ -246,7 +246,7 @@ typedef struct {
 0x00400e76      mov rsi, qword [rbp - 0xc0]
 0x00400e7d      mov edi, dword [rbp - 0xe4]
 0x00400e83      mov ecx, 0x4000
-0x00400e88      call sym.send               ; ssize_t send(int socket, void *buffer, size_t length, int flags)
+0x00400e88      call sym.send               ;ssize_t send(int socket, void *buffer, size_t length, int flags)
 @@@
 
 ;la stringa formattata viene passata a send con il flag 0x4000, corrispondente a MSG_NOSIGNAL su Linux, che impedisce al processo di ricevere un SIGPIPE nel caso in cui la connessione remota sia caduta, dettaglio tipico di un'applicazione server o di un malware che vuole evitare crash inattesi sulla rete. Il buffer heap viene infine liberato e la funzione restituisce il valore di ritorno di send.
@@ -254,7 +254,7 @@ typedef struct {
 @@@
 0x00400e8d      mov dword [rbp - 0xb4], eax
 0x00400e93      mov rdi, qword [rbp - 0xc0]
-0x00400e9a      call sym.free               ; void free(void *ptr)
+0x00400e9a      call sym.free               ;void free(void *ptr)
 0x00400e9f      mov eax, dword [rbp - 0xb4]
 0x00400ea5      leave
 0x00400ea6      ret
