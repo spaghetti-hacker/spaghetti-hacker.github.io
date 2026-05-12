@@ -47,7 +47,7 @@ body{
     letter-spacing:0px;
     line-height:1.2;
     min-height:100vh;
-    padding:16px 22px 36px;
+    padding:36px 22px;
 }
 
 
@@ -273,191 +273,10 @@ a:hover{
     flex:1;
     min-width:0;
 }
-
-/* ── navbar ── */
-#navbar{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:#0c0d10;
-    border-bottom:1px solid #1a3a1a;
-    padding:6px 0;
-    display:flex;
-    justify-content:flex-start;
-    font-family:VT323,dos,unifont,gohu,monospace;
-    font-size:26px;
-    box-shadow:0 2px 12px rgba(101,233,3,.08);
-}
-
-#navbar-inner{
-    max-width:1024px;
-    width:100%;
-    margin:0 auto;
-    /* screen ha padding:16px, il nav-item ha già padding:1px 6px → 16-6=10px per allineare RECENT a CONNECT */
-    padding:0 22px 0 10px;
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:0 4px;
-}
-
-/* voce top-level: esattamente lo stile nav-item di index27 */
-.nav-entry{
-    position:relative;
-}
-
-.nav-entry > a,
-.nav-entry > span.nav-label{
-    color:#65E903;
-    background:transparent;
-    display:inline-block;
-    padding:1px 6px;
-    line-height:1.15 !important;
-    border:1px solid transparent;
-    white-space:nowrap;
-    text-decoration:none;
-    cursor:pointer;
-    font-family:inherit;
-    font-size:inherit;
-}
-
-.nav-entry:hover > a,
-.nav-entry:hover > span.nav-label,
-.nav-entry > a:hover{
-    color:#9cff5f;
-    background:#0a2a18;
-    border-color:#65E903;
-}
-
-.nav-sep{
-    color:#1a5a1a;
-    flex-shrink:0;
-    user-select:none;
-    padding:0 2px;
-}
-
-/* ── dropdown: nessun bordo, sfondo come navbar ── */
-.nav-entry .dropdown{
-    visibility:hidden;
-    position:absolute;
-    top:100%;
-    left:0;
-    background:#0c0d10;
-    min-width:260px;
-    z-index:200;
-    padding:0;
-    margin-top:0;
-}
-
-/* ponte trasparente che copre il gap tra la voce e il dropdown */
-.nav-entry .dropdown::before{
-    content:'';
-    position:absolute;
-    top:-8px;
-    left:0;
-    right:0;
-    height:8px;
-}
-
-.nav-entry:hover .dropdown{
-    visibility:visible;
-}
-
-/* voce dropdown: stesso stile nav-item */
-.drop-item{
-    position:relative;
-}
-
-.drop-item > a{
-    display:block;
-    color:#65E903;
-    background:transparent;
-    text-decoration:none;
-    padding:1px 6px;
-    line-height:1.15 !important;
-    border:1px solid transparent;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    max-width:420px;
-    margin:0;
-}
-
-.drop-item > a:hover{
-    color:#9cff5f;
-    background:#0a2a18;
-    border-color:#65E903;
-}
-
-/* ── tooltip: fluttua a destra della voce, fade in/out ── */
-.drop-tooltip{
-    position:absolute;
-    top:0;
-    left:calc(100% + 8px);
-    background:#0c0d10;
-    color:#65E903;
-    border:1px solid #1a3a1a;
-    padding:1px 8px;
-    font-size:1em;
-    line-height:1.15;
-    white-space:nowrap;
-    z-index:500;
-    pointer-events:none;
-    opacity:0;
-    transition:opacity .25s ease;
-}
-
-.drop-item:hover .drop-tooltip{
-    opacity:1;
-}
-
-@media(max-width:640px){
-    #navbar{ font-size:20px; }
-    #navbar-inner{ padding:0 10px 0 26px; gap:0 2px; }
-}
 </style>
 </head>
 
 <body>
-<nav id="navbar">
-<div id="navbar-inner">
-    <div class="nav-entry">
-        <a href="#" onclick="event.preventDefault();COMMANDS.recent();window.scrollTo(0,document.body.scrollHeight);">RECENT</a>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <span class="nav-label">MALWARE ▾</span>
-        <div class="dropdown" id="drop-malware"></div>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <span class="nav-label">REVERSE ▾</span>
-        <div class="dropdown" id="drop-re"></div>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <span class="nav-label">CTF ▾</span>
-        <div class="dropdown" id="drop-ctf"></div>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <span class="nav-label">LINK ▾</span>
-        <div class="dropdown" id="drop-link"></div>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <a href="#" onclick="event.preventDefault();COMMANDS.music();window.scrollTo(0,document.body.scrollHeight);">MUSIC</a>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <a href="https://spaghetti-hacker.github.io" target="_blank" rel="noopener">HCF</a>
-    </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
-        <a href="https://spaghetti-hacker.blogfree.net" target="_blank" rel="noopener">OLD</a>
-    </div>
-</div>
-</nav>
 <div class="wrapper">
 <div class="screen" id="root"></div>
 </div>
@@ -509,34 +328,6 @@ const SECTIONS = [
     ]
 }
 ];
-
-/* ── popola i dropdown della navbar ── */
-(function buildNav(){
-    const map = { "0x01":"drop-malware", "0x02":"drop-re", "0x03":"drop-ctf", "0x04":"drop-link" };
-    SECTIONS.forEach(sec => {
-        const drop = document.getElementById(map[sec.n]);
-        if(!drop) return;
-        sec.posts.forEach(p => {
-            const item = document.createElement("div");
-            item.className = "drop-item";
-
-            const a = document.createElement("a");
-            a.href = p.href;
-            a.target = "_blank";
-            a.rel = "noopener noreferrer";
-            a.textContent = p.file;
-            item.appendChild(a);
-
-            if(p.desc){
-                const tip = document.createElement("span");
-                tip.className = "drop-tooltip";
-                tip.textContent = ";" + p.desc;
-                item.appendChild(tip);
-            }
-            drop.appendChild(item);
-        });
-    });
-})();
 
 const RECENT_COUNT = 4;
 /* ── per recentPosts: preferisce l'img del singolo post, fallback a quella della sezione ── */
