@@ -319,6 +319,8 @@ a:hover{
     cursor:pointer;
     font-family:inherit;
     font-size:inherit;
+    user-select:none;
+    -webkit-user-select:none;
 }
 
 .nav-entry:hover > a,
@@ -381,6 +383,8 @@ a:hover{
     text-overflow:ellipsis;
     max-width:420px;
     margin:0;
+    user-select:none;
+    -webkit-user-select:none;
 }
 
 .drop-item > a:hover{
@@ -413,7 +417,8 @@ a:hover{
 
 @media(max-width:640px){
     #navbar{ font-size:20px; }
-    #navbar-inner{ padding:0 10px 0 26px; gap:0 2px; }
+    /* body mobile: padding 10px, screen: padding 12px, nav-item: padding-left 6px → 10+12-6=16px */
+    #navbar-inner{ padding:0 10px 0 16px; gap:0 2px; }
     .nav-desktop{ display:none; }
     .drop-tooltip{ display:none; }
 }
