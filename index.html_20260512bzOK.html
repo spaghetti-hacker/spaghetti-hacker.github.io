@@ -302,8 +302,9 @@ a:hover{
     }
 
     .nav-entry:hover .dropdown,
-    .nav-entry.open .dropdown{
-    visibility:visible;
+    .nav-entry:active .dropdown,
+    .nav-entry:focus-within .dropdown{
+        visibility:visible;
     }
 
     .drop-item{
