@@ -414,6 +414,7 @@ a:hover{
 @media(max-width:640px){
     #navbar{ font-size:20px; }
     #navbar-inner{ padding:0 10px 0 26px; gap:0 2px; }
+    .nav-desktop{ display:none; }
 }
 </style>
 </head>
@@ -421,10 +422,10 @@ a:hover{
 <body>
 <nav id="navbar">
 <div id="navbar-inner">
-    <div class="nav-entry">
+    <div class="nav-entry nav-desktop">
         <a href="#" onclick="event.preventDefault();COMMANDS.recent();window.scrollTo(0,document.body.scrollHeight);">RECENT</a>
     </div>
-    <span class="nav-sep">|</span>
+    <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry">
         <span class="nav-label">MALWARE ▾</span>
         <div class="dropdown" id="drop-malware"></div>
@@ -439,21 +440,21 @@ a:hover{
         <span class="nav-label">CTF ▾</span>
         <div class="dropdown" id="drop-ctf"></div>
     </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
+    <span class="nav-sep nav-desktop">|</span>
+    <div class="nav-entry nav-desktop">
         <span class="nav-label">LINK ▾</span>
         <div class="dropdown" id="drop-link"></div>
     </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
+    <span class="nav-sep nav-desktop">|</span>
+    <div class="nav-entry nav-desktop">
         <a href="#" onclick="event.preventDefault();COMMANDS.music();window.scrollTo(0,document.body.scrollHeight);">MUSIC</a>
     </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
+    <span class="nav-sep nav-desktop">|</span>
+    <div class="nav-entry nav-desktop">
         <a href="https://spaghetti-hacker.github.io" target="_blank" rel="noopener">HCF</a>
     </div>
-    <span class="nav-sep">|</span>
-    <div class="nav-entry">
+    <span class="nav-sep nav-desktop">|</span>
+    <div class="nav-entry nav-desktop">
         <a href="https://spaghetti-hacker.blogfree.net" target="_blank" rel="noopener">OLD</a>
     </div>
 </div>
