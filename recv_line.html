@@ -372,7 +372,6 @@ int recvLine(int socket_fd, char *buffer, int maxLen)
         }
     }
 
-    // 4. Legge dal socket GLOBALE byte per byte fino a \n
     char *ptr = buffer;
     int count = 0;
     while (maxLen-- > 1) {
