@@ -78,13 +78,13 @@ visite: <span id="visits">...</span>
 
 ;sym.recvLine
 
-;questo documento presenta l'analisi statica della funzione sym.recvLine, ricavata tramite reverse engineering con Radare2 su un binario ELF x86-64 Linux. L'obiettivo è ricostruire il comportamento della funzione a partire dal disassemblato, identificarne la logica ad alto livello e documntare le scelte implementative rilevanti dal punto di vista della sicurezza e dell'architettura di rete.
+;questo documento presenta l'analisi statica della funzione sym.recvLine, ricavata tramite reverse engineering con Radare2 su un binario ELF x86-64 Linux. L'obiettivo dell'analisi è inferire la semantica della funzione a partire dal disassemblato, ricostruendone il comportamento ad alto livello, determinandone il ruolo operativo nel malware. A tal fine vengono analizzati control flow, data flow, interazioni con le API e principali dettagli implementativi, producendo infine una rappresentazione pseudocodice/C-like della routine.
 
 ;la funzione si colloca nel contesto di un'applicazione client/server che gestisce comunicazioni su socket TCP. L'analisi copre tre componenti principali:
 
 ;la funzione recvLine stessa, che implementa la lettura riga-per-riga da un socket con timeout e retry.
 
-;ll wrapper sym.recv / sym.recvfrom, che esegue la syscall recvfrom (nr. 45) direttamente.
+;ll wrapper sym.recv/sym.recvfrom, che esegue la syscall recvfrom (nr. 45) direttamente.
 ;la gestione del multiplexing I/O tramite select().
 
 @@@
@@ -110,11 +110,11 @@ visite: <span id="visits">...</span>
 @@@
 
 ;argomenti passati alla funzione
-;control_fd		rdi 	File descriptor monitorato da select()
-;buffer 		rsi 	Puntatore al buffer di destinazione allocato dal chiamante.
-;maxLen 		rdx 	Dimensione massima del buffer.
+;control_fd		rdi 	file descriptor monitorato da select()
+;buffer 		rsi 	puntatore al buffer di destinazione allocato dal chiamante.
+;maxLen 		rdx 	dimensione massima del buffer.
 
-;nota architetturale: la funzione usa control_fd per il monitoraggio tramite select(), ma legge i dati effettivi dal socket globale mainCommSock. Questo suggerisce un design a due canali separati: uno di controllo e uno dati/comandi.(?)
+;la funzione usa control_fd per il monitoraggio tramite select(), ma legge i dati effettivi dal socket globale mainCommSock. Questo suggerisce un design a due canali separati: uno di controllo e uno dati/comandi.(?da verificare)
 
 @@@
 0x00400f79      movsxd rdx, eax
@@ -156,7 +156,7 @@ visite: <span id="visits">...</span>
 @@@
 
 ;corpo del loop: azzera una qword alla volta del fd_set.
-;equivale a FD_ZERO(&fds) — 16 iterazioni × 8 byte = 128 byte = 1024 bit.
+;equivale a FD_ZERO(&fds): 16 iterazioni × 8 byte = 128 byte = 1024 bit.
 
 @@@
 0x00400fcf      cmp dword [var_1ch], 0xf
@@ -211,7 +211,7 @@ visite: <span id="visits">...</span>
 ;&exceptfds,           //exceptfds  <- stesso set
 ;&timeout);            //aspetta al massimo N secondi
 
-;sta aspettando che un file descriptor sia leggibile o in stato di errore, con un timeout: classico pattern di un client o server che aspetta dati dalla rete senza bloccarsi per sempre. Oggi select() è considerato legacy,i sistemi moderni preferiscono epoll (Linux) o kqueue (BSD/macOS) perché scalano meglio con migliaia di connessioni.
+;sta aspettando che un file descriptor sia leggibile o in stato di errore, con un timeout: classico pattern di un client o server che aspetta dati dalla rete senza bloccarsi per sempre. Oggi select() è considerato legacy, i sistemi moderni preferiscono epoll (Linux) o kqueue (BSD/macOS) perché scalano meglio con migliaia di connessioni.
 
 @@@
 0x00401032      mov dword [var_30h], eax
