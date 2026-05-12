@@ -251,13 +251,13 @@ a:hover{
 
     #navbar{
         font-size:20px !important;
-        overflow-x:hidden;
+        overflow:visible !important;
     }
 
     #navbar-inner{
         padding:0 10px 0 7px;
         gap:0 2px;
-        overflow-x:hidden;
+        overflow:visible !important;
     }
 
     .nav-desktop{
@@ -266,6 +266,15 @@ a:hover{
 
     .drop-tooltip{
         display:none !important;
+    }
+
+    .nav-entry{
+        position:relative;
+        -webkit-tap-highlight-color:transparent;
+    }
+
+    .nav-entry > .nav-label{
+        touch-action:manipulation;
     }
 
     .nav-entry .dropdown{
@@ -278,9 +287,17 @@ a:hover{
         max-width:none !important;
         min-width:0 !important;
 
+        background:#001c1c;
+
         overflow-x:hidden !important;
 
         z-index:9999;
+    }
+
+    .nav-entry:hover .dropdown,
+    .nav-entry:active .dropdown,
+    .nav-entry:focus-within .dropdown{
+        visibility:visible;
     }
 
     .drop-item{
@@ -301,6 +318,7 @@ a:hover{
         text-overflow:ellipsis;
     }
 }
+
 
 .post-img{
     display:inline-block;
