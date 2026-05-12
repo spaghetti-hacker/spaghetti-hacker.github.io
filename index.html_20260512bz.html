@@ -279,17 +279,17 @@ a:hover{
 
     .nav-entry .dropdown{
         position:fixed;
-
         top:48px;
+        left:10px !important;
+        right:10px !important;
 
-        left:50% !important;
-        transform:translateX(-50%);
-
-        width:min(92vw, 520px);
+        width:auto !important;
+        max-width:none !important;
+        min-width:0 !important;
 
         background:#001c1c;
 
-        overflow:hidden;
+        overflow-x:hidden !important;
 
         z-index:9999;
     }
@@ -302,6 +302,7 @@ a:hover{
 
     .drop-item{
         width:100%;
+        overflow:hidden;
     }
 
     .drop-item > a{
@@ -309,11 +310,12 @@ a:hover{
         width:100%;
 
         white-space:normal !important;
+        overflow-wrap:anywhere;
+        word-break:break-word;
 
-        overflow-wrap:normal !important;
-        word-break:normal !important;
-
-        padding:2px 0;
+        max-width:100% !important;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
 }
 
