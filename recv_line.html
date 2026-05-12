@@ -116,6 +116,12 @@ visite: <span id="visits">...</span>
 
 ;la funzione usa control_fd per il monitoraggio tramite select(), ma legge i dati effettivi dal socket globale mainCommSock. Questo suggerisce un design a due canali separati: uno di controllo e uno dati/comandi.(?da verificare)
 
+;fd_set è la struttura dati che select() usa per sapere quali file descriptor deve controllare. Internamente è una bitmap: ogni bit rappresenta un fd, quindi se il bit è acceso quel descrittore viene monitorato.
+
+;FD_ZERO() serve a inizializzare questa struttura azzerandola completamente. In pratica pulisce tutti i bit, così select() parte da un insieme vuoto di file descriptor.
+
+;FD_SET(fd, &set) invece accende il bit corrispondente a un determinato file descriptor dentro l'fd_set. È il modo con cui dici a select(): "controlla anche questo socket/file descriptor".
+
 @@@
 0x00400f79      movsxd rdx, eax
 0x00400f7c      mov rax, qword [var_e0h]
