@@ -369,9 +369,7 @@ if (ready < 1) {
 @@@
 int recvLine(int socket_fd, char *buffer, int maxLen)
 {
-
     memset(buffer, 0, maxLen);
-
 
     struct timeval tv = {30, 0};
     fd_set fds;
