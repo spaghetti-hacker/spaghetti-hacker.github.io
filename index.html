@@ -240,7 +240,24 @@ a:hover{
     #navbar{ font-size:20px !important; }
     #navbar-inner{ padding:0 10px 0 7px; gap:0 2px; }
     .nav-desktop{ display:none; }
-    .drop-tooltip{ display:none; }
+
+    .drop-tooltip{
+        display:none !important;
+    }
+
+    .dropdown{
+        position:fixed;
+        left:10px;
+        right:10px;
+        min-width:0;
+        max-width:calc(100vw - 20px);
+        overflow-x:hidden;
+    }
+
+    .drop-item > a{
+        max-width:100%;
+    }
+
 }
 
 .post-img{
