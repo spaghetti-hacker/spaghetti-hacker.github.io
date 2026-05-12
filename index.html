@@ -278,18 +278,25 @@ a:hover{
     }
 
     .nav-entry .dropdown{
-        position:fixed;
+        position:fixed !important;
 
-        top:48px;
+        top:48px !important;
 
-        left:50% !important;
-        transform:translateX(-50%);
+        left:50vw !important;
+        right:auto !important;
 
-        width:min(92vw, 520px);
+        transform:translateX(-50%) !important;
+
+        width:min(92vw, 520px) !important;
+        max-width:min(92vw, 520px) !important;
+        min-width:0 !important;
 
         background:#001c1c;
 
         overflow:hidden;
+
+        margin:0 !important;
+        padding:0;
 
         z-index:9999;
     }
@@ -316,7 +323,6 @@ a:hover{
         padding:2px 0;
     }
 }
-
 
 .post-img{
     display:inline-block;
