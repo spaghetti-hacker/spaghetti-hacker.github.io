@@ -79,6 +79,7 @@ visite: <span id="visits">...</span>
 ;sym.recvLine
 
 ;questo documento presenta l'analisi statica della funzione sym.recvLine, ricavata tramite reverse engineering con Radare2 su un binario ELF x86-64 Linux. L'obiettivo è ricostruire il comportamento della funzione a partire dal disassemblato, identificarne la logica ad alto livello e documntare le scelte implementative rilevanti dal punto di vista della sicurezza e dell'architettura di rete.
+
 ;la funzione si colloca nel contesto di un'applicazione client/server che gestisce comunicazioni su socket TCP. L'analisi copre tre componenti principali:
 
 ;la funzione recvLine stessa, che implementa la lettura riga-per-riga da un socket con timeout e retry.
@@ -145,6 +146,7 @@ visite: <span id="visits">...</span>
 @@@
 
 ;è un no-op effettivo, probabilmente un artefatto del compilatore che azzera la parte alta di rax tramite il mov a 32 bit su se stesso.
+
 ;qualsiasi scrittura su un registro a 32 bit (e_x) azzera implicitamente i bit 32–63 del registro a 64 bit corrispondente (r_x).
 
 @@@
@@ -161,6 +163,7 @@ visite: <span id="visits">...</span>
 @@@
 
 ;comparazione tra var_1ch e il valore 15 incluso, quindi il loop FD_ZERO azzera 16 qword (128 byte = 1024 bit), che è esattamente la dimensione di fd_set su Linux.
+
 ;implementa la macro FD_SET seguita da una chiamata a select().
 ;FD_SET: calcola l'indice nella bitmap (fd/64) e imposta il bit corrispondente (1 << (fd % 64)).
 
@@ -291,6 +294,7 @@ if (ready < 1) {
 @@@
 
 ;qui il controllo è su un altro indice var_2ch e torna indietro se var_2ch contiene un valore numerico inferiore o uguale a 9.
+
 ;var_2ch = contatore retry, loop fino a 9 tentativi massimi.
 
 @@@
