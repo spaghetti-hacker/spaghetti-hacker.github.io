@@ -201,10 +201,10 @@ visite: <span id="visits">...</span>
 
 ;FD_SET(nfds, &exceptfds);   // registra il fd da monitorare
 ;select(nfds + 1,
-;       &exceptfds,           //readfds    <- stesso set
-;       NULL,                 //writefds   <- non interessa
-;       &exceptfds,           //exceptfds  <- stesso set
-;       &timeout);            //aspetta al massimo N secondi
+;&exceptfds,           //readfds    <- stesso set
+;NULL,                 //writefds   <- non interessa
+;&exceptfds,           //exceptfds  <- stesso set
+;&timeout);            //aspetta al massimo N secondi
 
 ;sta aspettando che un file descriptor sia leggibile o in stato di errore, con un timeout: classico pattern di un client o server che aspetta dati dalla rete senza bloccarsi per sempre. Oggi select() è considerato legacy,i sistemi moderni preferiscono epoll (Linux) o kqueue (BSD/macOS) perché scalano meglio con migliaia di connessioni.
 
