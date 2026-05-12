@@ -1081,11 +1081,14 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     document.querySelectorAll(".nav-entry").forEach(entry => {
 
-        const label = entry.querySelector(".nav-label");
-        if(!label) return;
+        entry.addEventListener("click", e => {
 
-        label.addEventListener("click", e => {
+            if(e.target.closest(".dropdown a")){
+                return;
+            }
+
             e.stopPropagation();
+            e.preventDefault();
 
             const alreadyOpen = entry.classList.contains("open");
 
