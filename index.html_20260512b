@@ -279,8 +279,7 @@ a:hover{
     position:sticky;
     top:0;
     z-index:100;
-    /*background:#0c0d10;*/
-    background:#001c1c;
+    background:#0c0d10;
     border-bottom:1px solid #1a3a1a;
     padding:6px 0;
     display:flex;
@@ -345,7 +344,7 @@ a:hover{
     position:absolute;
     top:100%;
     left:0;
-    background:#001c1c;
+    background:#0c0d10;
     min-width:260px;
     z-index:200;
     padding:0;
@@ -399,7 +398,7 @@ a:hover{
     position:absolute;
     top:0;
     left:calc(100% + 8px);
-    background:#001c1c;
+    background:#0c0d10;
     color:#65E903;
     border:1px solid #1a3a1a;
     padding:1px 8px;
