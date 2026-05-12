@@ -274,15 +274,19 @@ visite: <span id="visits">...</span>
 0x004010f5      jle 0x401044
 @@@
 
-;if (ready < 1) {
-;        for (int retry = 0; retry <= 9; retry++) {
-;            tv = {30, 0};
-;            FD_ZERO(&fds);
-;            FD_SET(socket_fd, &fds);
-;            ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
-;            if (ready > 0) break;
-;        }
-;    }
+;comparazione tra l'indice var_2ch e 9.
+
+@@@
+if (ready < 1) {
+        for (int retry = 0; retry <= 9; retry++) {
+            tv = {30, 0};
+            FD_ZERO(&fds);
+            FD_SET(socket_fd, &fds);
+            ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
+            if (ready > 0) break;
+        }
+    }
+@@@
 
 ;qui il controllo è su un altro indice var_2ch e torna indietro se var_2ch contiene un valore numerico inferiore o uguale a 9.
 ;var_2ch = contatore retry, loop fino a 9 tentativi massimi.
