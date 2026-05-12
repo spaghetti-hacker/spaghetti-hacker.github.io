@@ -404,7 +404,8 @@ a:hover{
     padding:1px 8px;
     font-size:1em;
     line-height:1.15;
-    white-space:nowrap;
+    white-space:normal;
+    max-width:260px;
     z-index:500;
     pointer-events:none;
     opacity:0;
@@ -539,20 +540,6 @@ const SECTIONS = [
                 tip.className = "drop-tooltip";
                 tip.textContent = ";" + p.desc;
                 item.appendChild(tip);
-
-                item.addEventListener("mouseenter", () => {
-                    tip.style.left = "";
-                    tip.style.right = "";
-                    const r = tip.getBoundingClientRect();
-                    if(r.right > window.innerWidth - 8){
-                        tip.style.left = "auto";
-                        tip.style.right = "calc(100% + 8px)";
-                    }
-                });
-                item.addEventListener("mouseleave", () => {
-                    tip.style.left = "";
-                    tip.style.right = "";
-                });
             }
             drop.appendChild(item);
         });
