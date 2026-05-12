@@ -216,6 +216,7 @@ visite: <span id="visits">...</span>
 @@@
 
 ;il codice costruisce una struct timeval con timeout di 30 secondi e invoca select() in modalità di sola lettura (il parametro writefds è NULL). Il fatto che lo stesso fd_set venga passato sia come readfds che come exceptfds consente di intercettare sia dati disponibili che condizioni di errore sul socket.
+
 ;se select() ritorna un valore <= 0 (timeout o errore), viene avviato un loop di retry che ripete il tentativo fino a 10 volte (indice da 0 a 9):
 
 @@@
