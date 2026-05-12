@@ -450,7 +450,7 @@ recvLine(control_fd, buffer, maxLen)
 
 ;robustezza controllata: il meccanismo di retry su select() (fino a 10 tentativi da 30 secondi ciascuno) garantisce una certa tolleranza ai timeout di rete, con un tempo massimo di attesa teorico di ~5 minuti prima di rinunciare.
 
-;design a doppio canale: la separazione tra control_fd (monitorato) e mainCommSock (da cui si legge) suggerisce un'architettura in cui la disponibilità dei dati è segnalata su un canale separato dalla trasmissione effettiva — pattern comune in protocolli con canale di controllo out-of-band.
+;design a doppio canale: la separazione tra control_fd (monitorato) e mainCommSock (da cui si legge) suggerisce un'architettura in cui la disponibilità dei dati è segnalata su un canale separato dalla trasmissione effettiva, pattern comune in protocolli con canale di controllo out-of-band.
 
 ;dal punto di vista del reverse engineering, la funzione non presenta tecniche di offuscamento o anti-analisi, risultando relativamente lineare da decompilare. La struttura del codice suggerisce una compilazione con ottimizzazioni moderate (-O1 o simile) e senza symbol stripping (i simboli sym.recvLine, obj.mainCommSock sono presenti).
 
