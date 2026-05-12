@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/recv_line.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="RECV LINE">
+<meta property="og:description" content=";reverse engineering di un exploit Android con saturazione della process table tramite fork-bomb">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/recv_line.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/recv_line.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+RECV LINE ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+RECV LINE ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;sym.recvLine
+
+;questo documento presenta l'analisi statica della funzione sym.recvLine, ricavata tramite reverse engineering con Radare2 su un binario ELF x86-64 Linux. L'obiettivo è ricostruire il comportamento della funzione a partire dal disassemblato, identificarne la logica ad alto livello e documntare le scelte implementative rilevanti dal punto di vista della sicurezza e dell'architettura di rete.
+;la funzione si colloca nel contesto di un'applicazione client/server che gestisce comunicazioni su socket TCP. L'analisi copre tre componenti principali:
+
+;la funzione recvLine stessa, che implementa la lettura riga-per-riga da un socket con timeout e retry.
+;ll wrapper sym.recv / sym.recvfrom, che esegue la syscall recvfrom (nr. 45) direttamente.
+;la gestione del multiplexing I/O tramite select().
+
+@@@
+[0x00400194]> s sym.recvLine
+[0x00400f55]> pdf
+@@@
+
+;int recvLine(int control_fd, char *buffer, int maxLen)
+
+@@@
+0x00400f55      push rbp
+0x00400f56      mov rbp, rsp
+0x00400f59      sub rsp, 0xf0
+@@@
+
+;f0 byte sullo stack
+
+@@@
+0x00400f60      mov dword [nfds], edi       ;arg1
+0x00400f66      mov qword [var_e0h], rsi    ;arg2
+0x00400f6d      mov dword [var_e4h], edx    ;arg3
+0x00400f73      mov eax, dword [var_e4h]
+@@@
+
+;argomenti passati alla funzione
+;control_fd		rdi 	File descriptor monitorato da select()
+;buffer 		rsi 	Puntatore al buffer di destinazione allocato dal chiamante
+;maxLen 		rdx 	Dimensione massima del buffer
+
+;nota architetturale: la funzione usa control_fd per il monitoraggio tramite select(), ma legge i dati effettivi dal socket globale mainCommSock. Questo suggerisce un design a due canali separati: uno di controllo e uno dati/comandi.(?)
+
+@@@
+0x00400f79      movsxd rdx, eax
+0x00400f7c      mov rax, qword [var_e0h]
+0x00400f83      mov rdi, rax
+0x00400f86      cld
+0x00400f87      mov rcx, rdx
+0x00400f8a      mov eax, 0
+0x00400f8f      rep stosb byte [rdi], al
+@@@
+
+;scrive il valore in al (0x00) per rcx volte a partire da rdi
+;equivale a memset(buffer, 0, maxLen), azzera l'intero buffer prima della lettura
+
+@@@
+0x00400f91      mov qword [timeout], 0x1e   ;30
+0x00400f9c      mov qword [var_b8h], 0
+0x00400fa7      lea rax, [exceptfds]
+0x00400fae      mov qword [var_18h], rax
+0x00400fb2      mov dword [var_1ch], 0
+0x00400fb9      jmp 0x400fcf
+@@@
+
+;inizializza il contatore a 0 e salta alla condizione del loop
+
+@@@
+0x00400fbb      mov eax, dword [var_1ch]
+0x00400fbe      mov rdx, qword [var_18h]
+0x00400fc2      mov eax, eax
+@@@
+
+;è un no-op effettivo, probabilmente un artefatto del compilatore che azzera la parte alta di rax tramite il mov a 32 bit su se stesso.
+
+@@@
+0x00400fc4      mov qword [rdx + rax*8], 0
+0x00400fcc      inc dword [var_1ch]
+@@@
+
+;corpo del loop: azzera una qword alla volta del fd_set
+;equivale a FD_ZERO(&fds) — 16 iterazioni × 8 byte = 128 byte = 1024 bit
+
+@@@
+0x00400fcf      cmp dword [var_1ch], 0xf
+0x00400fd3      jbe 0x400fbb
+@@@
+
+;comparazione tra var_1ch e il valore 15 incluso, quindi il loop FD_ZERO azzera 16 qword (128 byte = 1024 bit), che è esattamente la dimensione di fd_set su Linux.
+;implementa la macro FD_SET seguita da una chiamata a select().
+;FD_SET: calcola l'indice nella bitmap (fd/64) e imposta il bit corrispondente (1 << (fd % 64))
+
+@@@
+0x00400fd5      mov eax, dword [nfds]
+0x00400fdb      cdqe
+0x00400fdd      shr rax, 6
+@@@
+
+;divisione per 64,
+
+@@@
+0x00400fe1      mov rsi, rax
+0x00400fe4      mov rdx, qword [rbp + rax*8 - 0xb0]
+0x00400fec      mov ecx, dword [nfds]
+0x00400ff2      and ecx, 0x3f               ;63
+0x00400ff5      mov eax, 1
+0x00400ffa      shl rax, cl
+0x00400ffd      or rax, rdx
+0x00401000      mov qword [rbp + rsi*8 - 0xb0], rax
+0x00401008      mov edi, dword [nfds]       ;int nfds
+0x0040100e      inc edi
+0x00401010      lea rax, [timeout]
+0x00401017      lea rcx, [exceptfds]        ;fd_set *exceptfds
+0x0040101e      lea rsi, [exceptfds]        ;fd_set *readfds
+0x00401025      mov r8, rax                 ;struct timeval *timeout
+0x00401028      mov edx, 0                  ;fd_set *writefds
+0x0040102d      call sym.__libc_select      ;int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *
+@@@
+
+;struct timeval tv = {30, 0};
+;fd_set fds;
+;FD_ZERO(&fds);
+;FD_SET(socket_fd, &fds);
+;int ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
+
+;call select
+;select() serve a fare I/O multiplexing: monitorare più file descriptor contemporaneamente aspettando che almeno uno diventi "pronto", senza bloccarsi su uno solo.
+
+;FD_SET(nfds, &exceptfds);   // registra il fd da monitorare
+;select(nfds + 1,
+;       &exceptfds,           //readfds    <- stesso set
+;       NULL,                 //writefds   <- non interessa
+;       &exceptfds,           //exceptfds  <- stesso set
+;       &timeout);            //aspetta al massimo N secondi
+
+;sta aspettando che un file descriptor sia leggibile o in stato di errore, con un timeout: classico pattern di un client o server che aspetta dati dalla rete senza bloccarsi per sempre. Oggi select() è considerato legacy,i sistemi moderni preferiscono epoll (Linux) o kqueue (BSD/macOS) perché scalano meglio con migliaia di connessioni.
+
+@@@
+0x00401032      mov dword [var_30h], eax
+0x00401035      cmp dword [var_30h], 0
+0x00401039      jg 0x4010fb
+0x0040103f      jmp 0x4010f1
+@@@
+
+;il codice costruisce una struct timeval con timeout di 30 secondi e invoca select() in modalità di sola lettura (il parametro writefds è NULL). Il fatto che lo stesso fd_set venga passato sia come readfds che come exceptfds consente di intercettare sia dati disponibili che condizioni di errore sul socket.
+;se select() ritorna un valore <= 0 (timeout o errore), viene avviato un loop di retry che ripete il tentativo fino a 10 volte (indice da 0 a 9):
+
+@@@
+0x00401044      mov qword [timeout], 0x1e   ;30
+0x0040104f      mov qword [var_b8h], 0
+0x0040105a      lea rax, [exceptfds]
+0x00401061      mov qword [var_8h], rax
+0x00401065      mov dword [var_ch], 0
+0x0040106c      jmp 0x401082
+0x0040106e      mov eax, dword [var_ch]
+0x00401071      mov rdx, qword [var_8h]
+0x00401075      mov eax, eax
+0x00401077      mov qword [rdx + rax*8], 0
+0x0040107f      inc dword [var_ch]
+0x00401082      cmp dword [var_ch], 0xf
+0x00401086      jbe 0x40106e
+@@@
+
+;FD_ZERO(&fds);
+
+@@@
+0x00401088      mov eax, dword [nfds]
+0x0040108e      cdqe
+0x00401090      shr rax, 6
+0x00401094      mov rsi, rax
+0x00401097      mov rdx, qword [rbp + rax*8 - 0xb0]
+0x0040109f      mov ecx, dword [nfds]
+0x004010a5      and ecx, 0x3f               ;63
+0x004010a8      mov eax, 1
+0x004010ad      shl rax, cl
+0x004010b0      or rax, rdx
+0x004010b3      mov qword [rbp + rsi*8 - 0xb0], rax
+0x004010bb      mov edi, dword [nfds]       ;int nfds
+0x004010c1      inc edi
+0x004010c3      lea rax, [timeout]
+0x004010ca      lea rcx, [exceptfds]        ;fd_set *exceptfds
+0x004010d1      lea rsi, [exceptfds]        ;fd_set *readfds
+0x004010d8      mov r8, rax                 ;struct timeval *timeout
+0x004010db      mov edx, 0                  ;fd_set *writefds
+0x004010e0      call sym.__libc_select      ;int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set struct timeval *timeout)
+@@@
+
+;call select
+
+@@@
+0x004010e5      mov dword [var_30h], eax
+0x004010e8      cmp dword [var_30h], 0
+0x004010ec      jg 0x4010fb
+@@@
+
+;se ready > 0 (fd pronto), esce dal loop di retry e procede alla lettura.
+
+@@@
+0x004010ee      inc dword [var_2ch]
+0x004010f1      cmp dword [var_2ch], 9
+0x004010f5      jle 0x401044
+@@@
+
+;if (ready < 1) {
+;        for (int retry = 0; retry <= 9; retry++) {
+;            tv = {30, 0};
+;            FD_ZERO(&fds);
+;            FD_SET(socket_fd, &fds);
+;            ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
+;            if (ready > 0) break;
+;        }
+;    }
+
+;qui il controllo è su un altro indice var_2ch e torna indietro se var_2ch contiene un valore numerico inferiore o uguale a 9
+;var_2ch = contatore retry, loop fino a 9 tentativi massimi
+
+@@@
+0x004010fb      mov dword [var_20h], 0
+0x00401102      mov rax, qword [var_e0h]
+0x00401109      mov qword [var_28h], rax
+0x0040110d      jmp 0x401163
+0x0040110f      mov edi, dword [obj.mainCommSock] ;[0x50e120:4]=0 ;int socket
+0x00401115      lea rsi, [buffer]           ;void *buffer
+0x0040111c      mov ecx, 0                  ;int flags
+0x00401121      mov edx, 1                  ;size_t length
+0x00401126      call sym.recv               ;ssize_t recv(int socket, void *buffer, size_t length, int flags)
+@@@
+
+;qui riceve un byte dal socket obj.mainCommSock
+;la funzione legge un byte alla volta da mainCommSock (non da control_fd) e accumula i caratteri nel buffer finché non incontra il carattere newline \n (ASCII 0x0A) oppure raggiunge il limite maxLen. Il contatore var_20h traccia i byte letti escludendo il newline finale. In caso di errore di recv(), viene scritto un terminatore nullo e restituito -1.
+
+@@@
+0x0040112b      cmp rax, 1                  ;1
+0x0040112f      je 0x401144
+@@@
+
+;se lo riceve salta avanti
+
+@@@
+0x00401131      mov rax, qword [var_28h]
+0x00401135      mov byte [rax], 0
+0x00401138      mov dword [var_e8h], 0xffffffff ;-1
+0x00401142      jmp 0x401187
+@@@
+
+;altrimenti esce
+
+@@@
+0x00401144      movzx eax, byte [buffer]
+0x0040114b      mov rdx, qword [var_28h]
+0x0040114f      mov byte [rdx], al
+0x00401151      inc qword [var_28h]
+0x00401155      movzx eax, byte [buffer]
+0x0040115c      cmp al, 0xa                 ;10
+0x0040115e      je 0x401177
+@@@
+
+;c'è una comparazione tra il byte iesimo del buffer e 0xa, \n
+;se è uguale salta avanti altrimenti, incremente indici e fa dei controlli
+
+@@@
+0x00401160      inc dword [var_20h]
+0x00401163      cmp dword [var_e4h], 1
+0x0040116a      setg al
+0x0040116d      dec dword [var_e4h]
+0x00401173      test al, al
+0x00401175      jne 0x40110f
+0x00401177      mov rax, qword [var_28h]
+0x0040117b      mov byte [rax], 0
+0x0040117e      mov eax, dword [var_20h]
+0x00401181      mov dword [var_e8h], eax
+0x00401187      mov eax, dword [var_e8h]
+0x0040118d      leave
+0x0040118e      ret
+@@@
+
+;uscita dalla funzione
+
+@@@
+int recvLine(int socket_fd, char *buffer, int maxLen)
+{
+
+    memset(buffer, 0, maxLen);
+
+
+    struct timeval tv = {30, 0};
+    fd_set fds;
+    FD_ZERO(&fds);
+    FD_SET(socket_fd, &fds);
+    int ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
+
+    if (ready < 1) {
+        for (int retry = 0; retry <= 9; retry++) {
+            tv = {30, 0};
+            FD_ZERO(&fds);
+            FD_SET(socket_fd, &fds);
+            ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
+            if (ready > 0) break;
+        }
+    }
+
+    // 4. Legge dal socket GLOBALE byte per byte fino a \n
+    char *ptr = buffer;
+    int count = 0;
+    while (maxLen-- > 1) {
+        ssize_t r = recv(mainCommSock, &ch, 1, 0);
+        if (r != 1) { *ptr = '\0'; return -1; }
+        *ptr++ = ch;
+        if (ch == '\n') break;
+        count++;
+    }
+    *ptr = '\0';
+    return count;   // bytes letti (escluso \n)
+}
+@@@
+
+;reversing in linguaggio C della funzione recvLine
+
+@@@
+[0x00406274]> s sym.recvfrom
+[0x00406280]> pdf
+0x00406280      push rbx
+0x00406281      movsxd r10, ecx             ;arg4
+0x00406284      movsxd rdi, edi             ;arg1
+0x00406287      mov eax, 0x2d               ;'-' ; 45
+0x0040628c      syscall
+@@@
+
+;45	recvfrom	recvfrom(2)	sys_recvfrom
+;le chiamate recv(), recvfrom() e recvmsg() vengono utilizzate per ricevere messaggi da un socket. Possono essere utilizzate per ricevere dati sia su socket senza connessione che su socket orientati alla connessione.
+
+@@@
+0x0040628e      cmp rax, 0xfffffffffffff000
+0x00406294      mov rbx, rax
+0x00406297      jbe 0x4062a8
+0x00406299      call sym.__errno_location
+0x0040629e      mov edx, ebx
+0x004062a0      or rbx, 0xffffffffffffffff
+0x004062a4      neg edx
+0x004062a6      mov dword [rax], edx
+0x004062a8      mov rax, rbx
+0x004062ab      pop rbx
+0x004062ac      ret
+@@@
+
+;questo è il wrapper bare-metal di recvfrom. Il numero di syscall 45 corrisponde a sys_recvfrom sull'ABI x86-64 Linux. La funzione esegue la chiamata di sistema direttamente senza passare per la glibc, il che è tipico di binari staticamente linkati o compilati con musl/uclibc.
+
+;il kernel Linux restituisce errori come valori negativi compresi tra -4096 e -1. Il confronto con 0xFFFFFFFFFFFFF000 permette di distinguere un errore da un valore di ritorno legittimo. In caso di errore, il codice negativo viene negato e scritto in errno, mentre la funzione restituisce -1.
+
+@@@
+recvLine(control_fd, buffer, maxLen)
+│
+├─ memset(buffer, 0, maxLen)
+│
+├─ select(control_fd, timeout=30s)
+│   └─ se fallisce: retry fino a 10 volte
+│
+├─ loop: recv(mainCommSock, &ch, 1, 0)
+│   ├─ errore -> return -1
+│   ├─ ch == '\n' -> break
+│   └─ ch != '\n' -> accumula nel buffer
+│
+└─ NULL-termina il buffer -> return count
+@@@
+
+;l'analisi ha permesso di ricostruire con precisione la semantica della funzione recvLine. Si tratta di un lettore di linee orientato a protocolli testuali (simili a HTTP/1.x, FTP, SMTP o protocolli custom line-based), caratterizzato da:
+
+;robustezza controllata: il meccanismo di retry su select() (fino a 10 tentativi da 30 secondi ciascuno) garantisce una certa tolleranza ai timeout di rete, con un tempo massimo di attesa teorico di ~5 minuti prima di rinunciare.
+;design a doppio canale: la separazione tra control_fd (monitorato) e mainCommSock (da cui si legge) suggerisce un'architettura in cui la disponibilità dei dati è segnalata su un canale separato dalla trasmissione effettiva — pattern comune in protocolli con canale di controllo out-of-band.
+
+;dal punto di vista del reverse engineering, la funzione non presenta tecniche di offuscamento o anti-analisi, risultando relativamente lineare da decompilare. La struttura del codice suggerisce una compilazione con ottimizzazioni moderate (-O1 o simile) e senza symbol stripping (i simboli sym.recvLine, obj.mainCommSock sono presenti).
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:rline/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
