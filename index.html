@@ -534,6 +534,20 @@ const SECTIONS = [
                 tip.className = "drop-tooltip";
                 tip.textContent = ";" + p.desc;
                 item.appendChild(tip);
+
+                item.addEventListener("mouseenter", () => {
+                    tip.style.left = "";
+                    tip.style.right = "";
+                    const r = tip.getBoundingClientRect();
+                    if(r.right > window.innerWidth - 8){
+                        tip.style.left = "auto";
+                        tip.style.right = "calc(100% + 8px)";
+                    }
+                });
+                item.addEventListener("mouseleave", () => {
+                    tip.style.left = "";
+                    tip.style.right = "";
+                });
             }
             drop.appendChild(item);
         });
