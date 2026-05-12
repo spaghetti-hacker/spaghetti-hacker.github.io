@@ -269,15 +269,18 @@ a:hover{
     }
 
     .nav-entry .dropdown{
-        position:absolute;
-        left:0 !important;
-        right:auto !important;
+        position:fixed;
+        top:48px;
+        left:10px !important;
+        right:10px !important;
 
-        width:calc(100vw - 20px) !important;
-        max-width:calc(100vw - 20px) !important;
+        width:auto !important;
+        max-width:none !important;
         min-width:0 !important;
 
         overflow-x:hidden !important;
+
+        z-index:9999;
     }
 
     .drop-item{
