@@ -301,8 +301,10 @@ a:hover{
         z-index:9999;
     }
 
-    .nav-entry.open .dropdown{
-    visibility:visible;
+    .nav-entry:hover .dropdown,
+    .nav-entry:active .dropdown,
+    .nav-entry:focus-within .dropdown{
+        visibility:visible;
     }
 
     .drop-item{
@@ -1075,34 +1077,6 @@ function startShell(){
 
 /* ── avvio ── */
 boot();
-</script>
-<script>
-if(window.matchMedia("(max-width:640px)").matches){
-
-    document.querySelectorAll(".nav-entry").forEach(entry => {
-
-        const label = entry.querySelector(".nav-label");
-        if(!label) return;
-
-        label.addEventListener("click", e => {
-            e.stopPropagation();
-
-            const alreadyOpen = entry.classList.contains("open");
-
-            document.querySelectorAll(".nav-entry.open")
-                .forEach(el => el.classList.remove("open"));
-
-            if(!alreadyOpen){
-                entry.classList.add("open");
-            }
-        });
-    });
-
-    document.addEventListener("click", () => {
-        document.querySelectorAll(".nav-entry.open")
-            .forEach(el => el.classList.remove("open"));
-    });
-}
 </script>
 </body>
 </html>
