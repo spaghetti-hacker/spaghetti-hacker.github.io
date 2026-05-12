@@ -232,71 +232,34 @@ a:hover{
 }
 
 @media(max-width:640px){
-
-    html,
-    body{
-        overflow-x:hidden !important;
-        width:100%;
-    }
-
     body{
         padding:20px 10px;
         font-size:20px;
     }
-
-    .screen{
-        padding:12px;
-        overflow-x:hidden;
-    }
-
-    #navbar{
-        font-size:20px !important;
-        overflow-x:hidden;
-    }
-
-    #navbar-inner{
-        padding:0 10px 0 7px;
-        gap:0 2px;
-        overflow-x:hidden;
-    }
-
-    .nav-desktop{
-        display:none;
-    }
+    .screen{padding:12px;}
+    #navbar{ font-size:20px !important; }
+    #navbar-inner{ padding:0 10px 0 7px; gap:0 2px; }
+    .nav-desktop{ display:none; }
 
     .drop-tooltip{
         display:none !important;
     }
 
-    .nav-entry .dropdown{
-        position:absolute;
-        left:0 !important;
-        right:auto !important;
-
-        width:calc(100vw - 20px) !important;
-        max-width:calc(100vw - 20px) !important;
-        min-width:0 !important;
-
-        overflow-x:hidden !important;
-    }
-
-    .drop-item{
-        width:100%;
-        overflow:hidden;
+    .dropdown{
+        position:fixed;
+        left:10px;
+        right:10px;
+        max-width:calc(100vw - 20px);
+        min-width:0;
+        overflow-x:hidden;
     }
 
     .drop-item > a{
-        display:block;
-        width:100%;
-
-        white-space:normal !important;
+        white-space:normal;
         overflow-wrap:anywhere;
-        word-break:break-word;
-
-        max-width:100% !important;
-        overflow:hidden;
-        text-overflow:ellipsis;
+        max-width:100%;
     }
+
 }
 
 .post-img{
