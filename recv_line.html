@@ -145,6 +145,7 @@ visite: <span id="visits">...</span>
 @@@
 
 ;è un no-op effettivo, probabilmente un artefatto del compilatore che azzera la parte alta di rax tramite il mov a 32 bit su se stesso.
+;qualsiasi scrittura su un registro a 32 bit (e_x) azzera implicitamente i bit 32–63 del registro a 64 bit corrispondente (r_x).
 
 @@@
 0x00400fc4      mov qword [rdx + rax*8], 0
