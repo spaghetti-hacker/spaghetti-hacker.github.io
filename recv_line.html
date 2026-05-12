@@ -83,6 +83,7 @@ visite: <span id="visits">...</span>
 ;la funzione si colloca nel contesto di un'applicazione client/server che gestisce comunicazioni su socket TCP. L'analisi copre tre componenti principali:
 
 ;la funzione recvLine stessa, che implementa la lettura riga-per-riga da un socket con timeout e retry.
+
 ;ll wrapper sym.recv / sym.recvfrom, che esegue la syscall recvfrom (nr. 45) direttamente.
 ;la gestione del multiplexing I/O tramite select().
 
