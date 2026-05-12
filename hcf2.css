@@ -36,7 +36,7 @@ body{
     letter-spacing:0px;
     font-size:26px;
     line-height:1.2;
-    padding:24px 14px;
+    /*padding:24px 14px;*/
 }
 
 .wrapper{ max-width:1024px; margin:auto; }
