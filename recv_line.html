@@ -109,8 +109,8 @@ visite: <span id="visits">...</span>
 
 ;argomenti passati alla funzione
 ;control_fd		rdi 	File descriptor monitorato da select()
-;buffer 		rsi 	Puntatore al buffer di destinazione allocato dal chiamante
-;maxLen 		rdx 	Dimensione massima del buffer
+;buffer 		rsi 	Puntatore al buffer di destinazione allocato dal chiamante.
+;maxLen 		rdx 	Dimensione massima del buffer.
 
 ;nota architetturale: la funzione usa control_fd per il monitoraggio tramite select(), ma legge i dati effettivi dal socket globale mainCommSock. Questo suggerisce un design a due canali separati: uno di controllo e uno dati/comandi.(?)
 
@@ -124,8 +124,8 @@ visite: <span id="visits">...</span>
 0x00400f8f      rep stosb byte [rdi], al
 @@@
 
-;scrive il valore in al (0x00) per rcx volte a partire da rdi
-;equivale a memset(buffer, 0, maxLen), azzera l'intero buffer prima della lettura
+;scrive il valore in al (0x00) per rcx volte a partire da rdi.
+;equivale a memset(buffer, 0, maxLen), azzera l'intero buffer prima della lettura.
 
 @@@
 0x00400f91      mov qword [timeout], 0x1e   ;30
@@ -136,7 +136,7 @@ visite: <span id="visits">...</span>
 0x00400fb9      jmp 0x400fcf
 @@@
 
-;inizializza il contatore a 0 e salta alla condizione del loop
+;inizializza il contatore a 0 e salta alla condizione del loop.
 
 @@@
 0x00400fbb      mov eax, dword [var_1ch]
@@ -151,8 +151,8 @@ visite: <span id="visits">...</span>
 0x00400fcc      inc dword [var_1ch]
 @@@
 
-;corpo del loop: azzera una qword alla volta del fd_set
-;equivale a FD_ZERO(&fds) — 16 iterazioni × 8 byte = 128 byte = 1024 bit
+;corpo del loop: azzera una qword alla volta del fd_set.
+;equivale a FD_ZERO(&fds) — 16 iterazioni × 8 byte = 128 byte = 1024 bit.
 
 @@@
 0x00400fcf      cmp dword [var_1ch], 0xf
@@ -161,7 +161,7 @@ visite: <span id="visits">...</span>
 
 ;comparazione tra var_1ch e il valore 15 incluso, quindi il loop FD_ZERO azzera 16 qword (128 byte = 1024 bit), che è esattamente la dimensione di fd_set su Linux.
 ;implementa la macro FD_SET seguita da una chiamata a select().
-;FD_SET: calcola l'indice nella bitmap (fd/64) e imposta il bit corrispondente (1 << (fd % 64))
+;FD_SET: calcola l'indice nella bitmap (fd/64) e imposta il bit corrispondente (1 << (fd % 64)).
 
 @@@
 0x00400fd5      mov eax, dword [nfds]
@@ -187,7 +187,7 @@ visite: <span id="visits">...</span>
 0x0040101e      lea rsi, [exceptfds]        ;fd_set *readfds
 0x00401025      mov r8, rax                 ;struct timeval *timeout
 0x00401028      mov edx, 0                  ;fd_set *writefds
-0x0040102d      call sym.__libc_select      ;int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *
+0x0040102d      call sym.__libc_select      ;int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *)
 @@@
 
 ;struct timeval tv = {30, 0};
@@ -196,7 +196,7 @@ visite: <span id="visits">...</span>
 ;FD_SET(socket_fd, &fds);
 ;int ready = select(socket_fd + 1, &fds, NULL, &fds, &tv);
 
-;call select
+;call select.
 ;select() serve a fare I/O multiplexing: monitorare più file descriptor contemporaneamente aspettando che almeno uno diventi "pronto", senza bloccarsi su uno solo.
 
 ;FD_SET(nfds, &exceptfds);   // registra il fd da monitorare
@@ -284,8 +284,8 @@ visite: <span id="visits">...</span>
 ;        }
 ;    }
 
-;qui il controllo è su un altro indice var_2ch e torna indietro se var_2ch contiene un valore numerico inferiore o uguale a 9
-;var_2ch = contatore retry, loop fino a 9 tentativi massimi
+;qui il controllo è su un altro indice var_2ch e torna indietro se var_2ch contiene un valore numerico inferiore o uguale a 9.
+;var_2ch = contatore retry, loop fino a 9 tentativi massimi.
 
 @@@
 0x004010fb      mov dword [var_20h], 0
@@ -299,7 +299,7 @@ visite: <span id="visits">...</span>
 0x00401126      call sym.recv               ;ssize_t recv(int socket, void *buffer, size_t length, int flags)
 @@@
 
-;qui riceve un byte dal socket obj.mainCommSock
+;qui riceve un byte dal socket obj.mainCommSock.
 ;la funzione legge un byte alla volta da mainCommSock (non da control_fd) e accumula i caratteri nel buffer finché non incontra il carattere newline \n (ASCII 0x0A) oppure raggiunge il limite maxLen. Il contatore var_20h traccia i byte letti escludendo il newline finale. In caso di errore di recv(), viene scritto un terminatore nullo e restituito -1.
 
 @@@
@@ -328,8 +328,8 @@ visite: <span id="visits">...</span>
 0x0040115e      je 0x401177
 @@@
 
-;c'è una comparazione tra il byte iesimo del buffer e 0xa, \n
-;se è uguale salta avanti altrimenti, incremente indici e fa dei controlli
+;c'è una comparazione tra il byte iesimo del buffer e 0xa, \n.
+;se è uguale salta avanti altrimenti, incremente indici e fa dei controlli.
 
 @@@
 0x00401160      inc dword [var_20h]
@@ -347,7 +347,7 @@ visite: <span id="visits">...</span>
 0x0040118e      ret
 @@@
 
-;uscita dalla funzione
+;uscita dalla funzione.
 
 @@@
 int recvLine(int socket_fd, char *buffer, int maxLen)
@@ -386,7 +386,7 @@ int recvLine(int socket_fd, char *buffer, int maxLen)
 }
 @@@
 
-;reversing in linguaggio C della funzione recvLine
+;reversing in linguaggio C della funzione recvLine.
 
 @@@
 [0x00406274]> s sym.recvfrom
@@ -398,7 +398,7 @@ int recvLine(int socket_fd, char *buffer, int maxLen)
 0x0040628c      syscall
 @@@
 
-;45	recvfrom	recvfrom(2)	sys_recvfrom
+;45: recvfrom.
 ;le chiamate recv(), recvfrom() e recvmsg() vengono utilizzate per ricevere messaggi da un socket. Possono essere utilizzate per ricevere dati sia su socket senza connessione che su socket orientati alla connessione.
 
 @@@
