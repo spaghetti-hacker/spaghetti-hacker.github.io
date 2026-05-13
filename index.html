@@ -1105,6 +1105,14 @@ if(window.matchMedia("(max-width:640px)").matches){
             }
 
         }, { passive: false });
+
+        /* impedisce al documento di chiudere tutto quando si tocca dentro il dropdown */
+        const dropdown = entry.querySelector(".dropdown");
+        if(dropdown){
+            dropdown.addEventListener("touchstart", e => {
+                e.stopPropagation();
+            }, { passive: true });
+        }
     });
 
     /* chiudi su tap fuori dal navbar */
