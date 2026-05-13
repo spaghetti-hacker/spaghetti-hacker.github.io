@@ -271,38 +271,36 @@ a:hover{
     .nav-entry{
         position:relative;
         -webkit-tap-highlight-color:transparent;
+        user-select:none;
+        -webkit-user-select:none;
     }
 
     .nav-entry > .nav-label{
-        touch-action:manipulation;
+        cursor:pointer;
     }
 
     .nav-entry .dropdown{
         position:fixed !important;
-
         top:48px !important;
-
         left:50vw !important;
         right:auto !important;
-
         transform:translateX(-50%) !important;
-
         width:min(92vw, 520px) !important;
         max-width:min(92vw, 520px) !important;
         min-width:0 !important;
-
         background:#001c1c;
-
         overflow:hidden;
-
         margin:0 !important;
         padding:0;
-
         z-index:9999;
+        /* nascosto di default */
+        visibility:hidden;
+        pointer-events:none;
     }
 
     .nav-entry.open .dropdown{
-    visibility:visible;
+        visibility:visible;
+        pointer-events:auto;
     }
 
     .drop-item{
@@ -312,13 +310,24 @@ a:hover{
     .drop-item > a{
         display:block;
         width:100%;
-
         white-space:normal !important;
-
         overflow-wrap:normal !important;
         word-break:normal !important;
-
         padding:2px 0;
+        /* previeni selezione testo sui link del dropdown */
+        user-select:none;
+        -webkit-user-select:none;
+    }
+
+    /* su mobile :hover non deve mai mostrare il dropdown —
+       solo la classe .open gestita da JS lo mostra */
+    .nav-entry:hover .dropdown{
+        visibility:hidden;
+        pointer-events:none;
+    }
+    .nav-entry.open .dropdown{
+        visibility:visible !important;
+        pointer-events:auto !important;
     }
 }
 
@@ -367,6 +376,8 @@ a:hover{
     position:sticky;
     top:0;
     z-index:100;
+    user-select:none;
+    -webkit-user-select:none;
     /*background:#0c0d10;*/
     background:#001c1c;
     border-bottom:1px solid #1a3a1a;
@@ -704,10 +715,15 @@ async function boot(){
     });
 
     await wait(300);
-    startShell();
-    COMMANDS.recent();
-    COMMANDS.help();
-    hr();
+    const isMobile = window.matchMedia("(max-width:640px)").matches;
+    if(isMobile){
+        COMMANDS.recent();
+    } else {
+        startShell();
+        COMMANDS.recent();
+        COMMANDS.help();
+        hr();
+    }
 }
 
 /* ═══════════════════════════════════════════════
@@ -728,8 +744,10 @@ function out(html, cls = "cmd-output"){
     const d = document.createElement("div");
     d.className = cls;
     d.innerHTML = html;
-    // inserisce PRIMA della riga prompt
-    root.insertBefore(d, document.getElementById("prompt-line"));
+    // inserisce PRIMA della riga prompt (se esiste), altrimenti in fondo
+    const prompt = document.getElementById("prompt-line");
+    if(prompt) root.insertBefore(d, prompt);
+    else root.appendChild(d);
     return d;
 }
 
@@ -1004,9 +1022,18 @@ function startShell(){
     pl.appendChild(input);
     root.appendChild(pl);
 
-    /* metti il focus subito e su ogni click nella screen */
-    if(!/Mobi|Android/i.test(navigator.userAgent)) input.focus();
-    document.getElementById("root").addEventListener("click", () => input.focus());
+    /* metti il focus subito (solo desktop) */
+    if(!/Mobi|Android/i.test(navigator.userAgent)){
+        input.focus();
+        /* su desktop: click su root → focus shell */
+        if(!root._focusListenerAdded){
+            root.addEventListener("click", () => {
+                const inp = document.getElementById("prompt-input");
+                if(inp) inp.focus();
+            });
+            root._focusListenerAdded = true;
+        }
+    }
 
     /* ENTER → esegui */
     input.addEventListener("keydown", e => {
@@ -1019,8 +1046,11 @@ function startShell(){
                 history.unshift(val);
                 runCommand(val);
             }
-            /* scroll alla fine */
-            window.scrollTo(0, document.body.scrollHeight);
+            /* scroll alla fine — uso requestAnimationFrame per non triggerare
+               l'evento scroll prima che il dropdown abbia finito di aggiornarsi */
+            requestAnimationFrame(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            });
         }
 
         /* freccia SU */
@@ -1079,33 +1109,120 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    document.querySelectorAll(".nav-entry").forEach(entry => {
+    let openEntry = null;
+    let startY = 0, startX = 0;
+    let rafId = null;
+    let openScrollY = 0;
 
-        entry.addEventListener("touchstart", e => {
+    let pollDeadline = 0;
 
-            if(e.target.closest(".dropdown a")){
+    /* polling continuo: gira finché il dropdown è aperto.
+       pollDeadline permette al tick di continuare anche quando scrollY
+       sembra fermo — su scroll veloce iOS il momentum parte con ritardo */
+    function startPoll(){
+        if(rafId) cancelAnimationFrame(rafId);
+        openScrollY = window.scrollY;
+        function tick(){
+            if(!openEntry){ rafId = null; return; }
+            if(Math.abs(window.scrollY - openScrollY) > 4){
+                dropClose();
                 return;
             }
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            const alreadyOpen = entry.classList.contains("open");
-
-            document.querySelectorAll(".nav-entry.open")
-                .forEach(el => el.classList.remove("open"));
-
-            if(!alreadyOpen){
-                entry.classList.add("open");
+            if(pollDeadline && performance.now() < pollDeadline){
+                /* siamo nel periodo di grazia post-touchend: continua a girare */
+                rafId = requestAnimationFrame(tick);
+                return;
             }
+            if(pollDeadline && performance.now() >= pollDeadline){
+                /* periodo di grazia scaduto senza scroll rilevato: fermati */
+                pollDeadline = 0;
+                rafId = null;
+                return;
+            }
+            rafId = requestAnimationFrame(tick);
+        }
+        rafId = requestAnimationFrame(tick);
+    }
 
-        }, { passive: false });
-    });
+    /* chiamato al touchend: resetta il riferimento scrollY al momento
+       esatto del rilascio del dito ed estende il polling di 600ms */
+    function extendPoll(){
+        openScrollY = window.scrollY;
+        pollDeadline = performance.now() + 600;
+        if(!rafId && openEntry) startPoll();
+    }
 
-    document.addEventListener("touchstart", () => {
-        document.querySelectorAll(".nav-entry.open")
-            .forEach(el => el.classList.remove("open"));
+    function stopPoll(){
+        if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    function dropClose(){
+        stopPoll();
+        if(openEntry){
+            openEntry.classList.remove("open");
+            openEntry = null;
+        }
+    }
+
+    function dropOpen(entry){
+        if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
+        openEntry = entry;
+        entry.classList.add("open");
+        startPoll();  /* inizia a monitorare lo scroll subito all'apertura */
+    }
+
+    window.addEventListener("touchstart", e => {
+        startY = e.touches[0].clientY;
+        startX = e.touches[0].clientX;
+        if(openEntry) openScrollY = window.scrollY;
+        pollDeadline = 0;
     }, { passive: true });
+
+    /* touchmove: chiudi appena il dito inizia a scorrere */
+    window.addEventListener("touchmove", e => {
+        if(!openEntry) return;
+        const dy = Math.abs(e.touches[0].clientY - startY);
+        const dx = Math.abs(e.touches[0].clientX - startX);
+        if(dy > 6 || dx > 6) dropClose();
+    }, { passive: true });
+
+    /* scroll classico come ulteriore fallback */
+    window.addEventListener("scroll", () => { if(openEntry) dropClose(); }, { passive: true });
+
+    /* touchend: gestione tap */
+    document.addEventListener("touchend", e => {
+        /* estendi il polling per catturare momentum scroll su flick veloce */
+        if(openEntry) extendPoll();
+        const t = e.changedTouches[0];
+        const dy = Math.abs(t.clientY - startY);
+        const dx = Math.abs(t.clientX - startX);
+
+        /* era uno scroll, non un tap → ignora */
+        if(dy > 6 || dx > 6) return;
+
+        /* tap su link nel dropdown → naviga */
+        const link = t.target.closest(".dropdown a");
+        if(link){
+            e.preventDefault();
+            const href = link.getAttribute("href");
+            dropClose();
+            if(href) window.location.href = href;
+            return;
+        }
+
+        /* tap su nav-entry → toggle dropdown */
+        const entry = t.target.closest(".nav-entry");
+        if(entry){
+            e.preventDefault();
+            openEntry === entry ? dropClose() : dropOpen(entry);
+            return;
+        }
+
+        /* tap fuori da tutto → chiudi */
+        if(openEntry) dropClose();
+
+    }, { passive: false });
+
 }
 </script>
 </body>

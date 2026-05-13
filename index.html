@@ -553,6 +553,15 @@ a:hover{
         <span class="nav-label">CTF ▾</span>
         <div class="dropdown" id="drop-ctf"></div>
     </div>
+    <span class="nav-sep">|</span>
+    <div class="nav-entry">
+        <span class="nav-label">NEWS ▾</span>
+        <div class="dropdown" id="drop-news">
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('cyber');window.scrollTo(0,document.body.scrollHeight);">cyber</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('reverse engineering');window.scrollTo(0,document.body.scrollHeight);">reverse engineering</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('malware analysis');window.scrollTo(0,document.body.scrollHeight);">malware analysis</a></div>
+        </div>
+    </div>
     <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry nav-desktop">
         <span class="nav-label">LINK ▾</span>
@@ -1200,13 +1209,13 @@ if(window.matchMedia("(max-width:640px)").matches){
         /* era uno scroll, non un tap → ignora */
         if(dy > 6 || dx > 6) return;
 
-        /* tap su link nel dropdown → naviga */
+        /* tap su link nel dropdown → esegui onclick o naviga */
         const link = t.target.closest(".dropdown a");
         if(link){
             e.preventDefault();
-            const href = link.getAttribute("href");
             dropClose();
-            if(href) window.location.href = href;
+            if(link.onclick) link.onclick(e);
+            else if(link.href && !link.href.endsWith("#")) window.location.href = link.href;
             return;
         }
 
