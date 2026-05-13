@@ -1111,23 +1111,28 @@ if(window.matchMedia("(max-width:640px)").matches){
         if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
         openEntry = entry;
         entry.classList.add("open");
+        pageYAtOpen = window.scrollY;  /* salva posizione pagina all'apertura */
     }
 
-    /* touchstart: registra posizione iniziale */
-    let startY = 0, startX = 0;
+    let startY  = 0, startX  = 0;   /* posizione dito al touchstart */
+    let pageYAtOpen = 0;             /* scrollY quando il dropdown è stato aperto */
+
+    /* ogni touchstart: controlla se la pagina si è mossa da quando il dropdown era aperto */
     window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
+        /* se c'è un dropdown aperto e la pagina è scrollata (anche per momentum iOS) → chiudi */
+        if(openEntry && Math.abs(window.scrollY - pageYAtOpen) > 4) dropClose();
     }, { passive: true });
 
-    /* touchmove su window: intercetta scroll in ogni condizione (iOS incluso) */
+    /* touchmove: chiudi appena il dito si muove */
     window.addEventListener("touchmove", e => {
         const dy = Math.abs(e.touches[0].clientY - startY);
         const dx = Math.abs(e.touches[0].clientX - startX);
         if(dy > 6 || dx > 6) dropClose();
     }, { passive: true });
 
-    /* scroll su window: fallback per scroll programmatico o momentum scroll iOS */
+    /* scroll: chiudi su qualsiasi scroll (momentum iOS, scroll programmatico, ecc.) */
     window.addEventListener("scroll", dropClose, { passive: true });
 
     /* touchend: gestisce i tap */
