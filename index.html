@@ -1132,8 +1132,11 @@ if(window.matchMedia("(max-width:640px)").matches){
         overlay.style.display = "block";
     }
 
-    /* tap sull'overlay (fuori dal dropdown) → chiudi */
+    /* tap sull'overlay → chiudi, ma solo se il tap non è su un elemento del dropdown */
     overlay.addEventListener("touchend", e => {
+        const t = e.changedTouches[0];
+        const el = document.elementFromPoint(t.clientX, t.clientY);
+        if(el && el.closest(".dropdown")) return;
         e.preventDefault();
         dropClose();
     }, { passive: false });
