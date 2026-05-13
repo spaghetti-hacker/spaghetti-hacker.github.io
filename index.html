@@ -1107,9 +1107,9 @@ if(window.matchMedia("(max-width:640px)").matches){
         }, { passive: false });
     });
 
-    /* chiudi su tap fuori — ma solo se il target è fuori da qualsiasi nav-entry */
+    /* chiudi su tap fuori — ma solo se il target è fuori da navbar e dropdown */
     document.addEventListener("touchstart", e => {
-        if(!e.target.closest(".nav-entry")){
+        if(!e.target.closest(".nav-entry") && !e.target.closest(".dropdown")){
             closeAll();
         }
     }, { passive: true });
