@@ -318,6 +318,17 @@ a:hover{
         user-select:none;
         -webkit-user-select:none;
     }
+
+    /* su mobile :hover non deve mai mostrare il dropdown —
+       solo la classe .open gestita da JS lo mostra */
+    .nav-entry:hover .dropdown{
+        visibility:hidden;
+        pointer-events:none;
+    }
+    .nav-entry.open .dropdown{
+        visibility:visible !important;
+        pointer-events:auto !important;
+    }
 }
 
 .post-img{
@@ -1097,15 +1108,6 @@ boot();
 </script>
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
-
-    /* ── DEBUG: log visibile in pagina ── */
-    const dbg = document.createElement("div");
-    dbg.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#000;color:#0f0;font-size:12px;z-index:99999;padding:4px;max-height:80px;overflow:hidden;";
-    document.body.appendChild(dbg);
-    function log(msg){ dbg.textContent = msg; }
-
-    window.addEventListener("touchmove", () => log("touchmove | openEntry=" + (openEntry ? openEntry.textContent.trim().slice(0,10) : "null")), { passive: true });
-    window.addEventListener("scroll",    () => log("scroll | openEntry=" + (openEntry ? openEntry.textContent.trim().slice(0,10) : "null") + " | dropClose called→" + (()=>{dropClose();return"ok";})() ), { passive: true });
 
     let openEntry = null;
 
