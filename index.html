@@ -1121,11 +1121,18 @@ if(window.matchMedia("(max-width:640px)").matches){
     }, { passive: true });
 
     /* ── touchmove: l'utente sta scrollando → chiudi subito ── */
-    document.addEventListener("touchmove", e => {
+    /* window cattura il touchmove anche quando lo scroll è su body/root */
+    window.addEventListener("touchmove", e => {
         if(!isScrolling){
             isScrolling = true;
             dropClose();
         }
+    }, { passive: true });
+
+    /* backup: scroll su window (copre scroll programmatico e casi edge iOS) */
+    window.addEventListener("scroll", () => {
+        isScrolling = true;
+        dropClose();
     }, { passive: true });
 
     /* ── touchend: gestisce tap (non scroll) ── */
