@@ -575,9 +575,9 @@ a:hover{
     <div class="nav-entry">
         <span class="nav-label" data-short="NEWS">NEWS ▾</span>
         <div class="dropdown" id="drop-news">
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();runCommand('news cyber');">Cyber</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();runCommand('news reverse engineering');">Reverse Engineering</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();runCommand('news malware analysis');">Malware Analysis</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news cyber');">Cyber</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news reverse engineering');">Reverse Engineering</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news malware analysis');">Malware Analysis</a></div>
         </div>
     </div>
     <span class="nav-sep nav-desktop">|</span>
@@ -587,7 +587,7 @@ a:hover{
     </div>
     <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry nav-desktop">
-        <a href="#" onclick="event.preventDefault();runCommand('music');">MUSIC</a>
+        <a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('music');">MUSIC</a>
     </div>
     <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry nav-desktop">
@@ -1010,12 +1010,18 @@ const COMMANDS = {
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
 /* ── esegui un comando ── */
+/* se true, runCommand scrolla al primo elemento dell'output invece che al fondo */
+let scrollToOutput = false;
+
 async function runCommand(raw){
     const trimmed = raw.trim();
     if(!trimmed) return;
 
+    const shouldScrollToOutput = scrollToOutput;
+    scrollToOutput = false;
+
     /* echo del comando digitato */
-    out(`<span style="color:#65E903">root@spaghetti-hacker:~# ${esc(trimmed)}</span>`);
+    const echoEl = out(`<span style="color:#65E903">root@spaghetti-hacker:~# ${esc(trimmed)}</span>`);
 
     const [cmd, ...rest] = trimmed.split(/\s+/);
     const args = rest.join(" ") || null;
@@ -1024,6 +1030,15 @@ async function runCommand(raw){
     if(fn) await fn(args);
     else out(`<span class="err">comando non trovato: ${esc(cmd)}  (digita <span class="ok">help</span>)</span>`);
     if(cmd.toLowerCase() !== "clear") { hr(); out(""); }
+
+    /* scrolla all'echo del comando (primo elemento inserito) */
+    if(shouldScrollToOutput){
+        requestAnimationFrame(() => {
+            echoEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    } else {
+        requestAnimationFrame(() => window.scrollTo(0, document.body.scrollHeight));
+    }
 }
 
 /* ── costruisce la riga prompt fissa ── */
