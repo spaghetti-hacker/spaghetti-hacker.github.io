@@ -575,9 +575,9 @@ a:hover{
     <div class="nav-entry">
         <span class="nav-label" data-short="NEWS">NEWS ▾</span>
         <div class="dropdown" id="drop-news">
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('cyber');window.scrollTo(0,document.body.scrollHeight);">Cyber</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('reverse engineering');window.scrollTo(0,document.body.scrollHeight);">Reverse Engineering</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('malware analysis');window.scrollTo(0,document.body.scrollHeight);">Malware Analysis</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();runCommand('news cyber');">Cyber</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();runCommand('news reverse engineering');">Reverse Engineering</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();runCommand('news malware analysis');">Malware Analysis</a></div>
         </div>
     </div>
     <span class="nav-sep nav-desktop">|</span>
