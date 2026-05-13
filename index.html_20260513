@@ -1079,8 +1079,6 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    let skipDocClose = false;
-
     document.querySelectorAll(".nav-entry").forEach(entry => {
 
         entry.addEventListener("click", e => {
@@ -1089,6 +1087,7 @@ if(window.matchMedia("(max-width:640px)").matches){
                 return;
             }
 
+            e.stopPropagation();
             e.preventDefault();
 
             const alreadyOpen = entry.classList.contains("open");
@@ -1099,15 +1098,10 @@ if(window.matchMedia("(max-width:640px)").matches){
             if(!alreadyOpen){
                 entry.classList.add("open");
             }
-
-            /* impedisce al listener globale di chiudere subito */
-            skipDocClose = true;
-            setTimeout(() => { skipDocClose = false; }, 0);
         });
     });
 
     document.addEventListener("click", () => {
-        if(skipDocClose) return;
         document.querySelectorAll(".nav-entry.open")
             .forEach(el => el.classList.remove("open"));
     });
