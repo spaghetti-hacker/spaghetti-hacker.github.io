@@ -273,11 +273,9 @@ a:hover{
         -webkit-tap-highlight-color:transparent;
         user-select:none;
         -webkit-user-select:none;
-        touch-action:manipulation;
     }
 
     .nav-entry > .nav-label{
-        touch-action:manipulation;
         cursor:pointer;
     }
 
@@ -1093,10 +1091,11 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    let openEntry   = null;
-    let touchStartY = 0;
-    let touchStartX = 0;
-    let navTapped   = false;   /* true se il touchstart era sulla navbar */
+    let openEntry  = null;
+    let startY     = 0;
+    let startX     = 0;
+    let didScroll  = false;  /* il gesto corrente ha superato la soglia di movimento */
+    let tappedNav  = false;  /* il touchstart corrente era sulla navbar */
 
     function dropClose(){
         if(openEntry){
@@ -1111,63 +1110,98 @@ if(window.matchMedia("(max-width:640px)").matches){
         entry.classList.add("open");
     }
 
-    /* chiudi sempre quando la pagina si muove, qualunque sia la causa */
-    window.addEventListener("scroll", dropClose, { passive: true });
+    /*
+     * touchstart — capture phase, così lo riceviamo PRIMA di qualsiasi
+     * elemento figlio e prima che il browser decida cosa farne.
+     * Usiamo passive:true perché non dobbiamo fare preventDefault qui.
+     */
+    document.addEventListener("touchstart", e => {
+        startY    = e.touches[0].clientY;
+        startX    = e.touches[0].clientX;
+        didScroll = false;
+        tappedNav = !!e.target.closest("#navbar");
+    }, { passive: true, capture: true });
 
-    /* registra punto di partenza del gesto */
-    window.addEventListener("touchstart", e => {
-        touchStartY = e.touches[0].clientY;
-        touchStartX = e.touches[0].clientX;
-        navTapped = !!e.target.closest("#navbar");
-    }, { passive: true });
+    /*
+     * touchmove — capture phase + passive:true.
+     * Capture garantisce ricezione anche se un figlio ha touch-action che
+     * normalmente lo assorbirebbe. Non facciamo preventDefault quindi
+     * passive:true va bene e non blocca lo scroll nativo.
+     * Appena il dito si sposta >6px settiamo didScroll e chiudiamo il dropdown.
+     */
+    document.addEventListener("touchmove", e => {
+        if(didScroll) return;
+        const dy = Math.abs(e.touches[0].clientY - startY);
+        const dx = Math.abs(e.touches[0].clientX - startX);
+        if(dy > 6 || dx > 6){
+            didScroll = true;
+            dropClose();
+        }
+    }, { passive: true, capture: true });
 
-    /* se il dito si muove più di 8px → è scroll, chiudi subito */
-    window.addEventListener("touchmove", e => {
-        const dy = Math.abs(e.touches[0].clientY - touchStartY);
-        const dx = Math.abs(e.touches[0].clientX - touchStartX);
-        if(dy > 8 || dx > 8) dropClose();
-    }, { passive: true });
+    /*
+     * touchend — gestiamo i tap (didScroll=false).
+     * passive:false ci serve per poter chiamare preventDefault sui link
+     * del dropdown ed evitare la ricerca Google / doppio-tap zoom.
+     */
+    document.addEventListener("touchend", e => {
 
-    /* touchend: gestisce solo i tap veri (spostamento < 8px) */
-    window.addEventListener("touchend", e => {
+        /* era un gesto di scroll → non fare nulla, resetta e basta */
+        if(didScroll){
+            didScroll = false;
+            tappedNav = false;
+            return;
+        }
+
         const touch = e.changedTouches[0];
-        const dy = Math.abs(touch.clientY - touchStartY);
-        const dx = Math.abs(touch.clientX - touchStartX);
 
-        /* era uno scroll/swipe → ignora */
-        if(dy > 8 || dx > 8) return;
+        /* doppio controllo: se changedTouch si è mosso >6px, ignora */
+        const dy = Math.abs(touch.clientY - startY);
+        const dx = Math.abs(touch.clientX - startX);
+        if(dy > 6 || dx > 6){
+            didScroll = false;
+            tappedNav = false;
+            return;
+        }
 
-        /* --- tap su link nel dropdown → naviga --- */
+        /* 1) tap su link nel dropdown → naviga */
         const link = touch.target.closest(".dropdown a");
         if(link){
             e.preventDefault();
             const href = link.getAttribute("href");
             dropClose();
+            tappedNav = false;
             if(href) window.location.href = href;
             return;
         }
 
-        /* --- tap su nav-entry → toggle dropdown --- */
+        /* 2) tap su nav-entry → toggle dropdown */
         const entry = touch.target.closest(".nav-entry");
         if(entry){
             e.preventDefault();
             openEntry === entry ? dropClose() : dropOpen(entry);
+            /* non resettare tappedNav qui: rimane true per questo gesto */
+            tappedNav = false;
             return;
         }
 
-        /* --- tap fuori navbar con dropdown aperto → solo chiudi --- */
+        /* 3) dropdown aperto + tap fuori navbar → chiudi */
         if(openEntry){
             dropClose();
+            tappedNav = false;
             return;
         }
 
-        /* --- tap su #root senza dropdown e senza navbar → focus shell --- */
-        if(!navTapped && touch.target.closest("#root")){
+        /* 4) tap su #root, nessun dropdown, gesto non partito dalla navbar
+              → focus sull'input della shell */
+        if(!tappedNav && touch.target.closest("#root")){
             const inp = document.getElementById("prompt-input");
             if(inp) inp.focus();
         }
 
-    }, { passive: false });
+        tappedNav = false;
+
+    }, { passive: false, capture: false });
 
 }
 </script>
