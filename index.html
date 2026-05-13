@@ -1111,93 +1111,36 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     let openEntry = null;
     let startY = 0, startX = 0;
-    let rafId = null;
-    let openScrollY = 0;
-
-    let pollDeadline = 0;
-
-    /* polling continuo: gira finché il dropdown è aperto.
-       pollDeadline permette al tick di continuare anche quando scrollY
-       sembra fermo — su scroll veloce iOS il momentum parte con ritardo */
-    function startPoll(){
-        if(rafId) cancelAnimationFrame(rafId);
-        openScrollY = window.scrollY;
-        function tick(){
-            if(!openEntry){ rafId = null; return; }
-            if(Math.abs(window.scrollY - openScrollY) > 4){
-                dropClose();
-                return;
-            }
-            if(pollDeadline && performance.now() < pollDeadline){
-                /* siamo nel periodo di grazia post-touchend: continua a girare */
-                rafId = requestAnimationFrame(tick);
-                return;
-            }
-            if(pollDeadline && performance.now() >= pollDeadline){
-                /* periodo di grazia scaduto senza scroll rilevato: fermati */
-                pollDeadline = 0;
-                rafId = null;
-                return;
-            }
-            rafId = requestAnimationFrame(tick);
-        }
-        rafId = requestAnimationFrame(tick);
-    }
-
-    /* chiamato al touchend: resetta il riferimento scrollY al momento
-       esatto del rilascio del dito ed estende il polling di 600ms */
-    function extendPoll(){
-        openScrollY = window.scrollY;
-        pollDeadline = performance.now() + 600;
-        if(!rafId && openEntry) startPoll();
-    }
-
-    function stopPoll(){
-        if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
-    }
 
     function dropClose(){
-        stopPoll();
         if(openEntry){
             openEntry.classList.remove("open");
             openEntry = null;
         }
+        document.body.style.overflow = "";
+        document.body.style.touchAction = "";
     }
 
     function dropOpen(entry){
         if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
         openEntry = entry;
         entry.classList.add("open");
-        startPoll();  /* inizia a monitorare lo scroll subito all'apertura */
+        /* blocca lo scroll mentre il dropdown è aperto */
+        document.body.style.overflow = "hidden";
+        document.body.style.touchAction = "none";
     }
 
     window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
-        if(openEntry) openScrollY = window.scrollY;
-        pollDeadline = 0;
     }, { passive: true });
 
-    /* touchmove: chiudi appena il dito inizia a scorrere */
-    window.addEventListener("touchmove", e => {
-        if(!openEntry) return;
-        const dy = Math.abs(e.touches[0].clientY - startY);
-        const dx = Math.abs(e.touches[0].clientX - startX);
-        if(dy > 6 || dx > 6) dropClose();
-    }, { passive: true });
-
-    /* scroll classico come ulteriore fallback */
-    window.addEventListener("scroll", () => { if(openEntry) dropClose(); }, { passive: true });
-
-    /* touchend: gestione tap */
     document.addEventListener("touchend", e => {
-        /* estendi il polling per catturare momentum scroll su flick veloce */
-        if(openEntry) extendPoll();
         const t = e.changedTouches[0];
         const dy = Math.abs(t.clientY - startY);
         const dx = Math.abs(t.clientX - startX);
 
-        /* era uno scroll, non un tap → ignora */
+        /* era uno scroll/swipe, non un tap → ignora */
         if(dy > 6 || dx > 6) return;
 
         /* tap su link nel dropdown → naviga */
@@ -1218,7 +1161,7 @@ if(window.matchMedia("(max-width:640px)").matches){
             return;
         }
 
-        /* tap fuori da tutto → chiudi */
+        /* tap fuori → chiudi */
         if(openEntry) dropClose();
 
     }, { passive: false });
