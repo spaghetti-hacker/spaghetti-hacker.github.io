@@ -1115,17 +1115,20 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     /* touchstart: registra posizione iniziale */
     let startY = 0, startX = 0;
-    document.addEventListener("touchstart", e => {
+    window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
-    }, { passive: true, capture: true });
+    }, { passive: true });
 
-    /* touchmove: se dito si sposta >6px chiudi subito */
-    document.addEventListener("touchmove", e => {
+    /* touchmove su window: intercetta scroll in ogni condizione (iOS incluso) */
+    window.addEventListener("touchmove", e => {
         const dy = Math.abs(e.touches[0].clientY - startY);
         const dx = Math.abs(e.touches[0].clientX - startX);
         if(dy > 6 || dx > 6) dropClose();
-    }, { passive: true, capture: true });
+    }, { passive: true });
+
+    /* scroll su window: fallback per scroll programmatico o momentum scroll iOS */
+    window.addEventListener("scroll", dropClose, { passive: true });
 
     /* touchend: gestisce i tap */
     document.addEventListener("touchend", e => {
