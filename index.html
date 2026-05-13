@@ -250,14 +250,23 @@ a:hover{
     }
 
     #navbar{
-        font-size:20px !important;
+        font-size:17px !important;
         overflow:visible !important;
     }
 
     #navbar-inner{
-        padding:0 10px 0 7px;
-        gap:0 2px;
+        padding:0 4px 0 2px;
+        gap:0;
         overflow:visible !important;
+    }
+
+    .nav-entry > a,
+    .nav-entry > span.nav-label{
+        padding:1px 3px !important;
+    }
+
+    .nav-sep{
+        padding:0 1px !important;
     }
 
     .nav-desktop{
@@ -557,9 +566,9 @@ a:hover{
     <div class="nav-entry">
         <span class="nav-label">NEWS ▾</span>
         <div class="dropdown" id="drop-news">
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('cyber');window.scrollTo(0,document.body.scrollHeight);">cyber</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('reverse engineering');window.scrollTo(0,document.body.scrollHeight);">reverse engineering</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('malware analysis');window.scrollTo(0,document.body.scrollHeight);">malware analysis</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('cyber');window.scrollTo(0,document.body.scrollHeight);">Cyber</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('reverse engineering');window.scrollTo(0,document.body.scrollHeight);">Reverse Engineering</a></div>
+            <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('malware analysis');window.scrollTo(0,document.body.scrollHeight);">Malware Analysis</a></div>
         </div>
     </div>
     <span class="nav-sep nav-desktop">|</span>
