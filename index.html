@@ -1114,8 +1114,11 @@ if(window.matchMedia("(max-width:640px)").matches){
     let rafId = null;
     let openScrollY = 0;
 
-    /* polling continuo: gira finché il dropdown è aperto,
-       cattura qualsiasi movimento di scrollY incluso il momentum iOS */
+    let pollDeadline = 0;
+
+    /* polling continuo: gira finché il dropdown è aperto.
+       pollDeadline permette al tick di continuare anche quando scrollY
+       sembra fermo — su scroll veloce iOS il momentum parte con ritardo */
     function startPoll(){
         if(rafId) cancelAnimationFrame(rafId);
         openScrollY = window.scrollY;
@@ -1125,9 +1128,28 @@ if(window.matchMedia("(max-width:640px)").matches){
                 dropClose();
                 return;
             }
+            if(pollDeadline && performance.now() < pollDeadline){
+                /* siamo nel periodo di grazia post-touchend: continua a girare */
+                rafId = requestAnimationFrame(tick);
+                return;
+            }
+            if(pollDeadline && performance.now() >= pollDeadline){
+                /* periodo di grazia scaduto senza scroll rilevato: fermati */
+                pollDeadline = 0;
+                rafId = null;
+                return;
+            }
             rafId = requestAnimationFrame(tick);
         }
         rafId = requestAnimationFrame(tick);
+    }
+
+    /* chiamato al touchend: resetta il riferimento scrollY al momento
+       esatto del rilascio del dito ed estende il polling di 600ms */
+    function extendPoll(){
+        openScrollY = window.scrollY;
+        pollDeadline = performance.now() + 600;
+        if(!rafId && openEntry) startPoll();
     }
 
     function stopPoll(){
@@ -1152,9 +1174,8 @@ if(window.matchMedia("(max-width:640px)").matches){
     window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
-        /* aggiorna il riferimento scrollY ad ogni nuovo tocco così
-           un tap veloce dopo uno scroll non chiude erroneamente */
         if(openEntry) openScrollY = window.scrollY;
+        pollDeadline = 0;
     }, { passive: true });
 
     /* touchmove: chiudi appena il dito inizia a scorrere */
@@ -1170,6 +1191,8 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     /* touchend: gestione tap */
     document.addEventListener("touchend", e => {
+        /* estendi il polling per catturare momentum scroll su flick veloce */
+        if(openEntry) extendPoll();
         const t = e.changedTouches[0];
         const dy = Math.abs(t.clientY - startY);
         const dx = Math.abs(t.clientX - startX);
