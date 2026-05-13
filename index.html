@@ -271,38 +271,38 @@ a:hover{
     .nav-entry{
         position:relative;
         -webkit-tap-highlight-color:transparent;
+        user-select:none;
+        -webkit-user-select:none;
+        touch-action:manipulation;
     }
 
     .nav-entry > .nav-label{
         touch-action:manipulation;
+        cursor:pointer;
     }
 
     .nav-entry .dropdown{
         position:fixed !important;
-
         top:48px !important;
-
         left:50vw !important;
         right:auto !important;
-
         transform:translateX(-50%) !important;
-
         width:min(92vw, 520px) !important;
         max-width:min(92vw, 520px) !important;
         min-width:0 !important;
-
         background:#001c1c;
-
         overflow:hidden;
-
         margin:0 !important;
         padding:0;
-
         z-index:9999;
+        /* nascosto di default */
+        visibility:hidden;
+        pointer-events:none;
     }
 
     .nav-entry.open .dropdown{
-    visibility:visible;
+        visibility:visible;
+        pointer-events:auto;
     }
 
     .drop-item{
@@ -312,13 +312,13 @@ a:hover{
     .drop-item > a{
         display:block;
         width:100%;
-
         white-space:normal !important;
-
         overflow-wrap:normal !important;
         word-break:normal !important;
-
         padding:2px 0;
+        /* previeni selezione testo sui link del dropdown */
+        user-select:none;
+        -webkit-user-select:none;
     }
 }
 
@@ -367,6 +367,8 @@ a:hover{
     position:sticky;
     top:0;
     z-index:100;
+    user-select:none;
+    -webkit-user-select:none;
     /*background:#0c0d10;*/
     background:#001c1c;
     border-bottom:1px solid #1a3a1a;
@@ -1079,58 +1081,56 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
+    /* ── unica fonte di verità: quale entry è aperta ── */
+    let openEntry = null;
+
     function closeAll(){
-        document.querySelectorAll(".nav-entry.open")
-            .forEach(el => el.classList.remove("open"));
+        if(openEntry){
+            openEntry.classList.remove("open");
+            openEntry = null;
+        }
     }
 
-    document.querySelectorAll(".nav-entry").forEach(entry => {
-
-        /* touchend sui link del dropdown: naviga esplicitamente */
-        entry.querySelectorAll(".dropdown a").forEach(link => {
-            link.addEventListener("touchend", e => {
-                e.stopPropagation();
-                const href = link.getAttribute("href");
-                if(href){
-                    closeAll();
-                    window.location.href = href;
-                }
-            }, { passive: true });
-        });
-
-        entry.addEventListener("touchstart", e => {
-
-            /* tocco su un link dentro il dropdown: lascia navigare normalmente */
-            if(e.target.closest(".dropdown a")){
-                closeAll();
-                /* NON chiamare preventDefault: lascia che il browser navighi */
-                return;
-            }
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            const alreadyOpen = entry.classList.contains("open");
-            closeAll();
-
-            if(!alreadyOpen){
-                entry.classList.add("open");
-            }
-
-        }, { passive: false });
-    });
-
-    /* chiudi su tap fuori — ma solo se il target è fuori da navbar e dropdown */
-    document.addEventListener("touchstart", e => {
-        if(!e.target.closest(".nav-entry") && !e.target.closest(".dropdown")){
-            closeAll();
+    function openOne(entry){
+        if(openEntry && openEntry !== entry){
+            openEntry.classList.remove("open");
         }
-    }, { passive: true });
+        openEntry = entry;
+        entry.classList.add("open");
+    }
 
-    /* chiudi sempre quando si scrolla */
-    document.addEventListener("touchmove", () => {
+    /* ── un solo listener sul documento, gestisce tutto ── */
+    document.addEventListener("pointerdown", e => {
+
+        /* tap su un link dentro un dropdown aperto → naviga */
+        const link = e.target.closest(".dropdown a");
+        if(link){
+            e.preventDefault();
+            const href = link.getAttribute("href");
+            closeAll();
+            if(href) window.location.href = href;
+            return;
+        }
+
+        /* tap su una nav-label → toggle dropdown */
+        const label = e.target.closest(".nav-entry");
+        if(label){
+            e.preventDefault();
+            if(openEntry === label){
+                closeAll();
+            } else {
+                openOne(label);
+            }
+            return;
+        }
+
+        /* tap fuori dalla navbar → chiudi tutto */
         closeAll();
-    }, { passive: true });
+
+    }, { passive: false });
+
+    /* chiudi su scroll */
+    document.addEventListener("touchmove", closeAll, { passive: true });
 }
 </script>
 </body>
