@@ -1006,15 +1006,17 @@ function startShell(){
     pl.appendChild(input);
     root.appendChild(pl);
 
-    /* metti il focus subito e su ogni click nella screen */
-    if(!/Mobi|Android/i.test(navigator.userAgent)) input.focus();
-    /* aggiunge il listener solo la prima volta, non ad ogni boot/clear */
-    if(!root._focusListenerAdded){
-        root.addEventListener("click", () => {
-            const inp = document.getElementById("prompt-input");
-            if(inp) inp.focus();
-        });
-        root._focusListenerAdded = true;
+    /* metti il focus subito (solo desktop) */
+    if(!/Mobi|Android/i.test(navigator.userAgent)){
+        input.focus();
+        /* su desktop: click su root → focus shell */
+        if(!root._focusListenerAdded){
+            root.addEventListener("click", () => {
+                const inp = document.getElementById("prompt-input");
+                if(inp) inp.focus();
+            });
+            root._focusListenerAdded = true;
+        }
     }
 
     /* ENTER → esegui */
@@ -1028,8 +1030,11 @@ function startShell(){
                 history.unshift(val);
                 runCommand(val);
             }
-            /* scroll alla fine */
-            window.scrollTo(0, document.body.scrollHeight);
+            /* scroll alla fine — uso requestAnimationFrame per non triggerare
+               l'evento scroll prima che il dropdown abbia finito di aggiornarsi */
+            requestAnimationFrame(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            });
         }
 
         /* freccia SU */
@@ -1088,17 +1093,19 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    /* ── unica fonte di verità: quale entry è aperta ── */
+    /* ── stato: quale nav-entry ha il dropdown aperto ── */
     let openEntry = null;
+    /* flag: l'utente sta scrollando (settato da touchmove, resettato da touchstart) */
+    let isScrolling = false;
 
-    function closeAll(){
+    function dropClose(){
         if(openEntry){
             openEntry.classList.remove("open");
             openEntry = null;
         }
     }
 
-    function openOne(entry){
+    function dropOpen(entry){
         if(openEntry && openEntry !== entry){
             openEntry.classList.remove("open");
         }
@@ -1106,38 +1113,65 @@ if(window.matchMedia("(max-width:640px)").matches){
         entry.classList.add("open");
     }
 
-    /* ── un solo listener sul documento, gestisce tutto ── */
-    document.addEventListener("pointerdown", e => {
+    /* ── touch: traccia inizio gesto ── */
+    let touchStartY = 0;
+    document.addEventListener("touchstart", e => {
+        isScrolling = false;
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
 
-        /* tap su un link dentro un dropdown aperto → naviga */
-        const link = e.target.closest(".dropdown a");
+    /* ── touchmove: l'utente sta scrollando → chiudi subito ── */
+    document.addEventListener("touchmove", e => {
+        if(!isScrolling){
+            isScrolling = true;
+            dropClose();
+        }
+    }, { passive: true });
+
+    /* ── touchend: gestisce tap (non scroll) ── */
+    document.addEventListener("touchend", e => {
+        /* se era uno scroll, ignora */
+        if(isScrolling) return;
+
+        const touch = e.changedTouches[0];
+
+        /* 1) tap su link nel dropdown → naviga */
+        const link = touch.target.closest(".dropdown a");
         if(link){
             e.preventDefault();
             const href = link.getAttribute("href");
-            closeAll();
-            if(href) window.location.href = href;
+            dropClose();
+            if(href) setTimeout(() => { window.location.href = href; }, 10);
             return;
         }
 
-        /* tap su una nav-label → toggle dropdown */
-        const label = e.target.closest(".nav-entry");
-        if(label){
+        /* 2) tap su nav-entry (label) → toggle dropdown */
+        const entry = touch.target.closest(".nav-entry");
+        if(entry){
             e.preventDefault();
-            if(openEntry === label){
-                closeAll();
+            if(openEntry === entry){
+                dropClose();
             } else {
-                openOne(label);
+                dropOpen(entry);
             }
             return;
         }
 
-        /* tap fuori dalla navbar → chiudi tutto */
-        closeAll();
+        /* 3) tap fuori dalla navbar con dropdown aperto → chiudi */
+        if(openEntry){
+            dropClose();
+            return;
+        }
+
+        /* 4) tap su #root senza dropdown aperto → focus shell */
+        const rootEl = touch.target.closest("#root");
+        if(rootEl){
+            const inp = document.getElementById("prompt-input");
+            if(inp) inp.focus();
+        }
 
     }, { passive: false });
 
-    /* chiudi su scroll — window garantisce che venga sempre triggerato */
-    window.addEventListener("scroll", closeAll, { passive: true });
 }
 </script>
 </body>
