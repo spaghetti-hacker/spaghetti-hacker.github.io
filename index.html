@@ -1086,11 +1086,24 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     document.querySelectorAll(".nav-entry").forEach(entry => {
 
+        /* touchend sui link del dropdown: naviga esplicitamente */
+        entry.querySelectorAll(".dropdown a").forEach(link => {
+            link.addEventListener("touchend", e => {
+                e.stopPropagation();
+                const href = link.getAttribute("href");
+                if(href){
+                    closeAll();
+                    window.location.href = href;
+                }
+            }, { passive: true });
+        });
+
         entry.addEventListener("touchstart", e => {
 
-            /* tocco su un link dentro il dropdown: chiudi e lascia navigare */
+            /* tocco su un link dentro il dropdown: lascia navigare normalmente */
             if(e.target.closest(".dropdown a")){
                 closeAll();
+                /* NON chiamare preventDefault: lascia che il browser navighi */
                 return;
             }
 
