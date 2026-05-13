@@ -704,10 +704,15 @@ async function boot(){
     });
 
     await wait(300);
-    startShell();
-    COMMANDS.recent();
-    COMMANDS.help();
-    hr();
+    const isMobile = window.matchMedia("(max-width:640px)").matches;
+    if(isMobile){
+        COMMANDS.recent();
+    } else {
+        startShell();
+        COMMANDS.recent();
+        COMMANDS.help();
+        hr();
+    }
 }
 
 /* ═══════════════════════════════════════════════
@@ -728,8 +733,10 @@ function out(html, cls = "cmd-output"){
     const d = document.createElement("div");
     d.className = cls;
     d.innerHTML = html;
-    // inserisce PRIMA della riga prompt
-    root.insertBefore(d, document.getElementById("prompt-line"));
+    // inserisce PRIMA della riga prompt (se esiste), altrimenti in fondo
+    const prompt = document.getElementById("prompt-line");
+    if(prompt) root.insertBefore(d, prompt);
+    else root.appendChild(d);
     return d;
 }
 
@@ -1091,11 +1098,7 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    let openEntry  = null;
-    let startY     = 0;
-    let startX     = 0;
-    let didScroll  = false;  /* il gesto corrente ha superato la soglia di movimento */
-    let tappedNav  = false;  /* il touchstart corrente era sulla navbar */
+    let openEntry = null;
 
     function dropClose(){
         if(openEntry){
@@ -1110,96 +1113,49 @@ if(window.matchMedia("(max-width:640px)").matches){
         entry.classList.add("open");
     }
 
-    /*
-     * touchstart — capture phase, così lo riceviamo PRIMA di qualsiasi
-     * elemento figlio e prima che il browser decida cosa farne.
-     * Usiamo passive:true perché non dobbiamo fare preventDefault qui.
-     */
+    /* touchstart: registra posizione iniziale */
+    let startY = 0, startX = 0;
     document.addEventListener("touchstart", e => {
-        startY    = e.touches[0].clientY;
-        startX    = e.touches[0].clientX;
-        didScroll = false;
-        tappedNav = !!e.target.closest("#navbar");
+        startY = e.touches[0].clientY;
+        startX = e.touches[0].clientX;
     }, { passive: true, capture: true });
 
-    /*
-     * touchmove — capture phase + passive:true.
-     * Capture garantisce ricezione anche se un figlio ha touch-action che
-     * normalmente lo assorbirebbe. Non facciamo preventDefault quindi
-     * passive:true va bene e non blocca lo scroll nativo.
-     * Appena il dito si sposta >6px settiamo didScroll e chiudiamo il dropdown.
-     */
+    /* touchmove: se dito si sposta >6px chiudi subito */
     document.addEventListener("touchmove", e => {
-        if(didScroll) return;
         const dy = Math.abs(e.touches[0].clientY - startY);
         const dx = Math.abs(e.touches[0].clientX - startX);
-        if(dy > 6 || dx > 6){
-            didScroll = true;
-            dropClose();
-        }
+        if(dy > 6 || dx > 6) dropClose();
     }, { passive: true, capture: true });
 
-    /*
-     * touchend — gestiamo i tap (didScroll=false).
-     * passive:false ci serve per poter chiamare preventDefault sui link
-     * del dropdown ed evitare la ricerca Google / doppio-tap zoom.
-     */
+    /* touchend: gestisce i tap */
     document.addEventListener("touchend", e => {
+        const t = e.changedTouches[0];
+        const dy = Math.abs(t.clientY - startY);
+        const dx = Math.abs(t.clientX - startX);
 
-        /* era un gesto di scroll → non fare nulla, resetta e basta */
-        if(didScroll){
-            didScroll = false;
-            tappedNav = false;
-            return;
-        }
+        /* era uno scroll, non un tap */
+        if(dy > 6 || dx > 6) return;
 
-        const touch = e.changedTouches[0];
-
-        /* doppio controllo: se changedTouch si è mosso >6px, ignora */
-        const dy = Math.abs(touch.clientY - startY);
-        const dx = Math.abs(touch.clientX - startX);
-        if(dy > 6 || dx > 6){
-            didScroll = false;
-            tappedNav = false;
-            return;
-        }
-
-        /* 1) tap su link nel dropdown → naviga */
-        const link = touch.target.closest(".dropdown a");
+        /* tap su link nel dropdown → naviga */
+        const link = t.target.closest(".dropdown a");
         if(link){
             e.preventDefault();
             const href = link.getAttribute("href");
             dropClose();
-            tappedNav = false;
             if(href) window.location.href = href;
             return;
         }
 
-        /* 2) tap su nav-entry → toggle dropdown */
-        const entry = touch.target.closest(".nav-entry");
+        /* tap su nav-entry → toggle dropdown */
+        const entry = t.target.closest(".nav-entry");
         if(entry){
             e.preventDefault();
             openEntry === entry ? dropClose() : dropOpen(entry);
-            /* non resettare tappedNav qui: rimane true per questo gesto */
-            tappedNav = false;
             return;
         }
 
-        /* 3) dropdown aperto + tap fuori navbar → chiudi */
-        if(openEntry){
-            dropClose();
-            tappedNav = false;
-            return;
-        }
-
-        /* 4) tap su #root, nessun dropdown, gesto non partito dalla navbar
-              → focus sull'input della shell */
-        if(!tappedNav && touch.target.closest("#root")){
-            const inp = document.getElementById("prompt-input");
-            if(inp) inp.focus();
-        }
-
-        tappedNav = false;
+        /* tap fuori → chiudi */
+        dropClose();
 
     }, { passive: false, capture: false });
 
