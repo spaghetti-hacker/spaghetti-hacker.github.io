@@ -1008,7 +1008,14 @@ function startShell(){
 
     /* metti il focus subito e su ogni click nella screen */
     if(!/Mobi|Android/i.test(navigator.userAgent)) input.focus();
-    document.getElementById("root").addEventListener("click", () => input.focus());
+    /* aggiunge il listener solo la prima volta, non ad ogni boot/clear */
+    if(!root._focusListenerAdded){
+        root.addEventListener("click", () => {
+            const inp = document.getElementById("prompt-input");
+            if(inp) inp.focus();
+        });
+        root._focusListenerAdded = true;
+    }
 
     /* ENTER → esegui */
     input.addEventListener("keydown", e => {
