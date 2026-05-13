@@ -1129,8 +1129,8 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     }, { passive: false });
 
-    /* chiudi su scroll */
-    document.addEventListener("touchmove", closeAll, { passive: true });
+    /* chiudi su scroll — window garantisce che venga sempre triggerato */
+    window.addEventListener("scroll", closeAll, { passive: true });
 }
 </script>
 </body>
