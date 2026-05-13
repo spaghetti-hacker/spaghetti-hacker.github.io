@@ -1110,43 +1110,60 @@ boot();
 if(window.matchMedia("(max-width:640px)").matches){
 
     let openEntry = null;
+    let scrollTimer = null;
+
+    /* overlay invisibile per catturare tap fuori dal dropdown */
+    const overlay = document.createElement("div");
+    overlay.style.cssText = "position:fixed;inset:0;z-index:9998;display:none;";
+    document.body.appendChild(overlay);
 
     function dropClose(){
         if(openEntry){
             openEntry.classList.remove("open");
             openEntry = null;
         }
+        overlay.style.display = "none";
     }
 
     function dropOpen(entry){
         if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
         openEntry = entry;
         entry.classList.add("open");
-        pageYAtOpen = window.scrollY;  /* salva posizione pagina all'apertura */
+        overlay.style.display = "block";
     }
 
-    let startY  = 0, startX  = 0;   /* posizione dito al touchstart */
-    let pageYAtOpen = 0;             /* scrollY quando il dropdown è stato aperto */
+    /* tap sull'overlay (fuori dal dropdown) → chiudi */
+    overlay.addEventListener("touchend", e => {
+        e.preventDefault();
+        dropClose();
+    }, { passive: false });
 
-    /* ogni touchstart: controlla se la pagina si è mossa da quando il dropdown era aperto */
+    let startY = 0, startX = 0;
+
     window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
-        /* se c'è un dropdown aperto e la pagina è scrollata (anche per momentum iOS) → chiudi */
-        if(openEntry && Math.abs(window.scrollY - pageYAtOpen) > 4) dropClose();
     }, { passive: true });
 
-    /* touchmove: chiudi appena il dito si muove */
+    /* touchmove: chiudi appena il dito si muove (scroll attivo) */
     window.addEventListener("touchmove", e => {
         const dy = Math.abs(e.touches[0].clientY - startY);
         const dx = Math.abs(e.touches[0].clientX - startX);
-        if(dy > 6 || dx > 6) dropClose();
+        if((dy > 6 || dx > 6) && openEntry) dropClose();
     }, { passive: true });
 
-    /* scroll: chiudi su qualsiasi scroll (momentum iOS, scroll programmatico, ecc.) */
-    window.addEventListener("scroll", dropClose, { passive: true });
+    /* scroll: copre momentum iOS e scroll programmatico.
+       Usiamo sia window che document per massima compatibilità Safari. */
+    const onScroll = () => {
+        if(!openEntry) return;
+        /* piccolo debounce per non chiudere su micro-jitter */
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(dropClose, 30);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("scroll", onScroll, { passive: true, capture: true });
 
-    /* touchend: gestisce i tap */
+    /* touchend: gestisce i tap sui nav-entry e sui link */
     document.addEventListener("touchend", e => {
         const t = e.changedTouches[0];
         const dy = Math.abs(t.clientY - startY);
@@ -1165,16 +1182,13 @@ if(window.matchMedia("(max-width:640px)").matches){
             return;
         }
 
-        /* tap su nav-entry → toggle dropdown */
+        /* tap su nav-entry (ma non sull'overlay) → toggle dropdown */
         const entry = t.target.closest(".nav-entry");
         if(entry){
             e.preventDefault();
             openEntry === entry ? dropClose() : dropOpen(entry);
             return;
         }
-
-        /* tap fuori → chiudi */
-        dropClose();
 
     }, { passive: false, capture: false });
 
