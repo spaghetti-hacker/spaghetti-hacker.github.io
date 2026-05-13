@@ -1111,8 +1111,31 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     let openEntry = null;
     let startY = 0, startX = 0;
+    let rafId = null;
+    let openScrollY = 0;
+
+    /* polling continuo: gira finché il dropdown è aperto,
+       cattura qualsiasi movimento di scrollY incluso il momentum iOS */
+    function startPoll(){
+        if(rafId) cancelAnimationFrame(rafId);
+        openScrollY = window.scrollY;
+        function tick(){
+            if(!openEntry){ rafId = null; return; }
+            if(Math.abs(window.scrollY - openScrollY) > 4){
+                dropClose();
+                return;
+            }
+            rafId = requestAnimationFrame(tick);
+        }
+        rafId = requestAnimationFrame(tick);
+    }
+
+    function stopPoll(){
+        if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    }
 
     function dropClose(){
+        stopPoll();
         if(openEntry){
             openEntry.classList.remove("open");
             openEntry = null;
@@ -1123,11 +1146,15 @@ if(window.matchMedia("(max-width:640px)").matches){
         if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
         openEntry = entry;
         entry.classList.add("open");
+        startPoll();  /* inizia a monitorare lo scroll subito all'apertura */
     }
 
     window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
+        /* aggiorna il riferimento scrollY ad ogni nuovo tocco così
+           un tap veloce dopo uno scroll non chiude erroneamente */
+        if(openEntry) openScrollY = window.scrollY;
     }, { passive: true });
 
     /* touchmove: chiudi appena il dito inizia a scorrere */
@@ -1138,33 +1165,11 @@ if(window.matchMedia("(max-width:640px)").matches){
         if(dy > 6 || dx > 6) dropClose();
     }, { passive: true });
 
-    /* scroll: listener classico */
+    /* scroll classico come ulteriore fallback */
     window.addEventListener("scroll", () => { if(openEntry) dropClose(); }, { passive: true });
 
-    /* rAF polling: rileva il momentum scroll iOS dove touchmove non spara più
-       ma la pagina continua a muoversi dopo che il dito si è alzato */
-    let rafId = null;
-    let lastScrollY = 0;
-    function pollScroll(){
-        if(!openEntry){ rafId = null; return; }
-        if(Math.abs(window.scrollY - lastScrollY) > 2){
-            dropClose();
-            rafId = null;
-            return;
-        }
-        rafId = requestAnimationFrame(pollScroll);
-    }
-
-    /* touchend: unico punto di gestione tap + avvia polling momentum scroll */
+    /* touchend: gestione tap */
     document.addEventListener("touchend", e => {
-        /* avvia sempre il polling se c'è un dropdown aperto,
-           così intercettiamo il momentum scroll iOS dopo che il dito si alza */
-        if(openEntry){
-            lastScrollY = window.scrollY;
-            if(rafId) cancelAnimationFrame(rafId);
-            rafId = requestAnimationFrame(pollScroll);
-        }
-
         const t = e.changedTouches[0];
         const dy = Math.abs(t.clientY - startY);
         const dx = Math.abs(t.clientX - startX);
