@@ -250,7 +250,7 @@ a:hover{
     }
 
     #navbar{
-        font-size:17px !important;
+        font-size:20px !important;
         overflow:visible !important;
     }
 
@@ -262,11 +262,11 @@ a:hover{
 
     .nav-entry > a,
     .nav-entry > span.nav-label{
-        padding:1px 3px !important;
+        padding:1px 0px !important;
     }
 
     .nav-sep{
-        padding:0 1px !important;
+        padding:0 0px !important;
     }
 
     .nav-desktop{
@@ -286,15 +286,6 @@ a:hover{
 
     .nav-entry > .nav-label{
         cursor:pointer;
-    }
-
-    /* sostituisce il testo con la label corta via data-short */
-    .nav-entry > .nav-label[data-short]{
-        font-size:0;
-    }
-    .nav-entry > .nav-label[data-short]::before{
-        content:attr(data-short);
-        font-size:17px;
     }
 
     .nav-entry .dropdown{
@@ -429,7 +420,7 @@ a:hover{
     color:#65E903;
     background:transparent;
     display:inline-block;
-    padding:1px 6px;
+    padding:1px 3px;
     line-height:1.2 !important;
     border:1px solid transparent;
     white-space:nowrap;
@@ -527,7 +518,7 @@ a:hover{
     color:#65E903;
     /*border:1px solid transparent;*/
     /*border:1px solid #1a3a1a;*/
-    /*padding:1px 8px;*/
+    padding:1px 3px;
     font-size:1em;
     line-height:1.2;
     white-space:normal;
@@ -558,22 +549,22 @@ a:hover{
     </div>
     <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry">
-        <span class="nav-label" data-short="MAL">MALWARE ▾</span>
+        <span class="nav-label">MALWARE ▾</span>
         <div class="dropdown" id="drop-malware"></div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label" data-short="REV">REVERSE ▾</span>
+        <span class="nav-label">REVERSE ▾</span>
         <div class="dropdown" id="drop-re"></div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label" data-short="CTF">CTF ▾</span>
+        <span class="nav-label">CTF ▾</span>
         <div class="dropdown" id="drop-ctf"></div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label" data-short="NEWS">NEWS ▾</span>
+        <span class="nav-label">NEWS ▾</span>
         <div class="dropdown" id="drop-news">
             <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('cyber');window.scrollTo(0,document.body.scrollHeight);">Cyber</a></div>
             <div class="drop-item"><a href="#" onclick="event.preventDefault();COMMANDS.news('reverse engineering');window.scrollTo(0,document.body.scrollHeight);">Reverse Engineering</a></div>
