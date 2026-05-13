@@ -1093,10 +1093,10 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    /* ── stato: quale nav-entry ha il dropdown aperto ── */
-    let openEntry = null;
-    /* flag: l'utente sta scrollando (settato da touchmove, resettato da touchstart) */
-    let isScrolling = false;
+    let openEntry   = null;
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let navTapped   = false;   /* true se il touchstart era sulla navbar */
 
     function dropClose(){
         if(openEntry){
@@ -1106,73 +1106,63 @@ if(window.matchMedia("(max-width:640px)").matches){
     }
 
     function dropOpen(entry){
-        if(openEntry && openEntry !== entry){
-            openEntry.classList.remove("open");
-        }
+        if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
         openEntry = entry;
         entry.classList.add("open");
     }
 
-    /* ── touch: traccia inizio gesto ── */
-    let touchStartY = 0;
-    document.addEventListener("touchstart", e => {
-        isScrolling = false;
+    /* chiudi sempre quando la pagina si muove, qualunque sia la causa */
+    window.addEventListener("scroll", dropClose, { passive: true });
+
+    /* registra punto di partenza del gesto */
+    window.addEventListener("touchstart", e => {
         touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+        navTapped = !!e.target.closest("#navbar");
     }, { passive: true });
 
-    /* ── touchmove: l'utente sta scrollando → chiudi subito ── */
-    /* window cattura il touchmove anche quando lo scroll è su body/root */
+    /* se il dito si muove più di 8px → è scroll, chiudi subito */
     window.addEventListener("touchmove", e => {
-        if(!isScrolling){
-            isScrolling = true;
-            dropClose();
-        }
+        const dy = Math.abs(e.touches[0].clientY - touchStartY);
+        const dx = Math.abs(e.touches[0].clientX - touchStartX);
+        if(dy > 8 || dx > 8) dropClose();
     }, { passive: true });
 
-    /* backup: scroll su window (copre scroll programmatico e casi edge iOS) */
-    window.addEventListener("scroll", () => {
-        isScrolling = true;
-        dropClose();
-    }, { passive: true });
-
-    /* ── touchend: gestisce tap (non scroll) ── */
-    document.addEventListener("touchend", e => {
-        /* se era uno scroll, ignora */
-        if(isScrolling) return;
-
+    /* touchend: gestisce solo i tap veri (spostamento < 8px) */
+    window.addEventListener("touchend", e => {
         const touch = e.changedTouches[0];
+        const dy = Math.abs(touch.clientY - touchStartY);
+        const dx = Math.abs(touch.clientX - touchStartX);
 
-        /* 1) tap su link nel dropdown → naviga */
+        /* era uno scroll/swipe → ignora */
+        if(dy > 8 || dx > 8) return;
+
+        /* --- tap su link nel dropdown → naviga --- */
         const link = touch.target.closest(".dropdown a");
         if(link){
             e.preventDefault();
             const href = link.getAttribute("href");
             dropClose();
-            if(href) setTimeout(() => { window.location.href = href; }, 10);
+            if(href) window.location.href = href;
             return;
         }
 
-        /* 2) tap su nav-entry (label) → toggle dropdown */
+        /* --- tap su nav-entry → toggle dropdown --- */
         const entry = touch.target.closest(".nav-entry");
         if(entry){
             e.preventDefault();
-            if(openEntry === entry){
-                dropClose();
-            } else {
-                dropOpen(entry);
-            }
+            openEntry === entry ? dropClose() : dropOpen(entry);
             return;
         }
 
-        /* 3) tap fuori dalla navbar con dropdown aperto → chiudi */
+        /* --- tap fuori navbar con dropdown aperto → solo chiudi --- */
         if(openEntry){
             dropClose();
             return;
         }
 
-        /* 4) tap su #root senza dropdown aperto → focus shell */
-        const rootEl = touch.target.closest("#root");
-        if(rootEl){
+        /* --- tap su #root senza dropdown e senza navbar → focus shell --- */
+        if(!navTapped && touch.target.closest("#root")){
             const inp = document.getElementById("prompt-input");
             if(inp) inp.focus();
         }
