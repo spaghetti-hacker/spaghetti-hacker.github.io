@@ -1104,9 +1104,8 @@ if(window.matchMedia("(max-width:640px)").matches){
     document.body.appendChild(dbg);
     function log(msg){ dbg.textContent = msg; }
 
-    window.addEventListener("touchmove", () => log("touchmove ✓"), { passive: true });
-    window.addEventListener("scroll",    () => log("scroll ✓"),    { passive: true });
-    document.addEventListener("touchmove", () => log("doc-touchmove ✓"), { passive: true });
+    window.addEventListener("touchmove", () => log("touchmove | openEntry=" + (openEntry ? openEntry.textContent.trim().slice(0,10) : "null")), { passive: true });
+    window.addEventListener("scroll",    () => log("scroll | openEntry=" + (openEntry ? openEntry.textContent.trim().slice(0,10) : "null") + " | dropClose called→" + (()=>{dropClose();return"ok";})() ), { passive: true });
 
     let openEntry = null;
 
