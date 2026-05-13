@@ -1079,18 +1079,11 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    function closeAll(){
-        document.querySelectorAll(".nav-entry.open")
-            .forEach(el => el.classList.remove("open"));
-    }
-
     document.querySelectorAll(".nav-entry").forEach(entry => {
 
         entry.addEventListener("touchstart", e => {
 
-            /* click su un link dentro il dropdown: lascia navigare */
             if(e.target.closest(".dropdown a")){
-                closeAll();
                 return;
             }
 
@@ -1098,7 +1091,9 @@ if(window.matchMedia("(max-width:640px)").matches){
             e.stopPropagation();
 
             const alreadyOpen = entry.classList.contains("open");
-            closeAll();
+
+            document.querySelectorAll(".nav-entry.open")
+                .forEach(el => el.classList.remove("open"));
 
             if(!alreadyOpen){
                 entry.classList.add("open");
@@ -1107,14 +1102,9 @@ if(window.matchMedia("(max-width:640px)").matches){
         }, { passive: false });
     });
 
-    /* chiudi su tap fuori dal navbar */
     document.addEventListener("touchstart", () => {
-        closeAll();
-    }, { passive: true });
-
-    /* chiudi appena l'utente inizia a scorrere */
-    document.addEventListener("touchmove", () => {
-        closeAll();
+        document.querySelectorAll(".nav-entry.open")
+            .forEach(el => el.classList.remove("open"));
     }, { passive: true });
 }
 </script>
