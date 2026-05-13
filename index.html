@@ -1079,17 +1079,16 @@ boot();
 <script>
 if(window.matchMedia("(max-width:640px)").matches){
 
-    let skipDocClose = false;
-
     document.querySelectorAll(".nav-entry").forEach(entry => {
 
-        entry.addEventListener("click", e => {
+        entry.addEventListener("touchstart", e => {
 
             if(e.target.closest(".dropdown a")){
                 return;
             }
 
             e.preventDefault();
+            e.stopPropagation();
 
             const alreadyOpen = entry.classList.contains("open");
 
@@ -1100,17 +1099,13 @@ if(window.matchMedia("(max-width:640px)").matches){
                 entry.classList.add("open");
             }
 
-            /* impedisce al listener globale di chiudere subito */
-            skipDocClose = true;
-            setTimeout(() => { skipDocClose = false; }, 0);
-        });
+        }, { passive: false });
     });
 
-    document.addEventListener("click", () => {
-        if(skipDocClose) return;
+    document.addEventListener("touchstart", () => {
         document.querySelectorAll(".nav-entry.open")
             .forEach(el => el.classList.remove("open"));
-    });
+    }, { passive: true });
 }
 </script>
 </body>
