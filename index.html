@@ -1111,68 +1111,50 @@ if(window.matchMedia("(max-width:640px)").matches){
 
     let openEntry = null;
     let scrollTimer = null;
-
-    /* overlay invisibile per catturare tap fuori dal dropdown */
-    const overlay = document.createElement("div");
-    overlay.style.cssText = "position:fixed;inset:0;z-index:9998;display:none;";
-    document.body.appendChild(overlay);
+    let startY = 0, startX = 0;
 
     function dropClose(){
         if(openEntry){
             openEntry.classList.remove("open");
             openEntry = null;
         }
-        overlay.style.display = "none";
     }
 
     function dropOpen(entry){
         if(openEntry && openEntry !== entry) openEntry.classList.remove("open");
         openEntry = entry;
         entry.classList.add("open");
-        overlay.style.display = "block";
     }
-
-    /* tap sull'overlay → chiudi, ma solo se il tap non è su un elemento del dropdown */
-    overlay.addEventListener("touchend", e => {
-        const t = e.changedTouches[0];
-        const el = document.elementFromPoint(t.clientX, t.clientY);
-        if(el && el.closest(".dropdown")) return;
-        e.preventDefault();
-        dropClose();
-    }, { passive: false });
-
-    let startY = 0, startX = 0;
 
     window.addEventListener("touchstart", e => {
         startY = e.touches[0].clientY;
         startX = e.touches[0].clientX;
     }, { passive: true });
 
-    /* touchmove: chiudi appena il dito si muove (scroll attivo) */
+    /* touchmove: chiudi appena il dito inizia a scorrere */
     window.addEventListener("touchmove", e => {
+        if(!openEntry) return;
         const dy = Math.abs(e.touches[0].clientY - startY);
         const dx = Math.abs(e.touches[0].clientX - startX);
-        if((dy > 6 || dx > 6) && openEntry) dropClose();
+        if(dy > 6 || dx > 6) dropClose();
     }, { passive: true });
 
-    /* scroll: copre momentum iOS e scroll programmatico.
-       Usiamo sia window che document per massima compatibilità Safari. */
+    /* scroll: copre momentum iOS (dito già sollevato ma pagina in movimento) */
     const onScroll = () => {
         if(!openEntry) return;
-        /* piccolo debounce per non chiudere su micro-jitter */
         clearTimeout(scrollTimer);
         scrollTimer = setTimeout(dropClose, 30);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("scroll", onScroll, { passive: true, capture: true });
 
-    /* touchend: gestisce i tap sui nav-entry e sui link */
+    /* touchend: unico punto di gestione tap */
     document.addEventListener("touchend", e => {
         const t = e.changedTouches[0];
         const dy = Math.abs(t.clientY - startY);
         const dx = Math.abs(t.clientX - startX);
 
-        /* era uno scroll, non un tap */
+        /* era uno scroll, non un tap → ignora */
         if(dy > 6 || dx > 6) return;
 
         /* tap su link nel dropdown → naviga */
@@ -1185,7 +1167,7 @@ if(window.matchMedia("(max-width:640px)").matches){
             return;
         }
 
-        /* tap su nav-entry (ma non sull'overlay) → toggle dropdown */
+        /* tap su nav-entry → toggle dropdown */
         const entry = t.target.closest(".nav-entry");
         if(entry){
             e.preventDefault();
@@ -1193,7 +1175,10 @@ if(window.matchMedia("(max-width:640px)").matches){
             return;
         }
 
-    }, { passive: false, capture: false });
+        /* tap fuori da tutto → chiudi */
+        if(openEntry) dropClose();
+
+    }, { passive: false });
 
 }
 </script>
