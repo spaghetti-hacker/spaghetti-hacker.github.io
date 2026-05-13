@@ -1088,7 +1088,7 @@ if(window.matchMedia("(max-width:640px)").matches){
 
         entry.addEventListener("touchstart", e => {
 
-            /* click su un link dentro il dropdown: lascia navigare */
+            /* tocco su un link dentro il dropdown: chiudi e lascia navigare */
             if(e.target.closest(".dropdown a")){
                 closeAll();
                 return;
@@ -1105,22 +1105,16 @@ if(window.matchMedia("(max-width:640px)").matches){
             }
 
         }, { passive: false });
-
-        /* impedisce al documento di chiudere tutto quando si tocca dentro il dropdown */
-        const dropdown = entry.querySelector(".dropdown");
-        if(dropdown){
-            dropdown.addEventListener("touchstart", e => {
-                e.stopPropagation();
-            }, { passive: true });
-        }
     });
 
-    /* chiudi su tap fuori dal navbar */
-    document.addEventListener("touchstart", () => {
-        closeAll();
+    /* chiudi su tap fuori — ma solo se il target è fuori da qualsiasi nav-entry */
+    document.addEventListener("touchstart", e => {
+        if(!e.target.closest(".nav-entry")){
+            closeAll();
+        }
     }, { passive: true });
 
-    /* chiudi appena l'utente inizia a scorrere */
+    /* chiudi sempre quando si scrolla */
     document.addEventListener("touchmove", () => {
         closeAll();
     }, { passive: true });
