@@ -1110,7 +1110,6 @@ boot();
 if(window.matchMedia("(max-width:640px)").matches){
 
     let openEntry = null;
-    let scrollTimer = null;
     let startY = 0, startX = 0;
 
     function dropClose(){
@@ -1139,17 +1138,33 @@ if(window.matchMedia("(max-width:640px)").matches){
         if(dy > 6 || dx > 6) dropClose();
     }, { passive: true });
 
-    /* scroll: copre momentum iOS (dito già sollevato ma pagina in movimento) */
-    const onScroll = () => {
-        if(!openEntry) return;
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(dropClose, 30);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.addEventListener("scroll", onScroll, { passive: true, capture: true });
+    /* scroll: listener classico */
+    window.addEventListener("scroll", () => { if(openEntry) dropClose(); }, { passive: true });
 
-    /* touchend: unico punto di gestione tap */
+    /* rAF polling: rileva il momentum scroll iOS dove touchmove non spara più
+       ma la pagina continua a muoversi dopo che il dito si è alzato */
+    let rafId = null;
+    let lastScrollY = 0;
+    function pollScroll(){
+        if(!openEntry){ rafId = null; return; }
+        if(Math.abs(window.scrollY - lastScrollY) > 2){
+            dropClose();
+            rafId = null;
+            return;
+        }
+        rafId = requestAnimationFrame(pollScroll);
+    }
+
+    /* touchend: unico punto di gestione tap + avvia polling momentum scroll */
     document.addEventListener("touchend", e => {
+        /* avvia sempre il polling se c'è un dropdown aperto,
+           così intercettiamo il momentum scroll iOS dopo che il dito si alza */
+        if(openEntry){
+            lastScrollY = window.scrollY;
+            if(rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(pollScroll);
+        }
+
         const t = e.changedTouches[0];
         const dy = Math.abs(t.clientY - startY);
         const dx = Math.abs(t.clientX - startX);
