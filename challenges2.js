@@ -6,7 +6,7 @@ const CHALLENGES = [
     {
         cat: "REV",
         challenges: [
-            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"80ee4f917a5e03e55725742a8aa7c2e032c3139e2be93ebaf47e1551f750587b",        file:"",            desc:"Reversing for dummies" },
+            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"80ee4f917a5e03e55725742a8aa7c2e032c3139e2be93ebaf47e1551f750587b",        file:"hcf000",            desc:"Reversing for dummies" },
         ]
     },
     {
