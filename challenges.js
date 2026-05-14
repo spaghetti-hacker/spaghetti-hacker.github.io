@@ -18,13 +18,13 @@ const CHALLENGES = [
     {
         cat: "MAL",
         challenges: [
-            { title:"Dropper",        diff:"med",    pts:50, flag:"282462e6de49e5c1e0b2d58a120a51c7c53c24783388ba2bb37b887f49bc0dcb",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
+            { title:"Dropper",        diff:"med",    pts:150, flag:"282462e6de49e5c1e0b2d58a120a51c7c53c24783388ba2bb37b887f49bc0dcb",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
         ]
     },
     {
         cat: "CRYPTO",
         challenges: [
-            { title:"XOR Crypto",     diff:"easy",   pts:75,  flag:"",      file:"",          desc:"Ciphertext cifrato con XOR a chiave ripetuta di 4 byte." },
+            { title:"XOR Crypto",     diff:"easy",   pts:50,  flag:"2d838248a738c3c87345e5473c9c2f3a259689eb6676165cf14c5843f9fb8fe1",      file:"hr.txt",          desc:"Decrypt the Ciphertext." },
         ]
     },
     {
