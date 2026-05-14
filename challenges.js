@@ -30,7 +30,7 @@ const CHALLENGES = [
     {
         cat: "FORENSICS",
         challenges: [
-            { title:"PCAP Mystery",   diff:"easy",    pts:50, flag:"",    file:"",   desc:"Analizza il traffico di rete e trova la flag." },
+            { title:"PCAP Mystery",   diff:"easy",    pts:50, flag:"2be272137d271e45f39caaf5cd2ede54e8dc99517e044f28192c78d74187ae98",    file:"ch1.pcap",   desc:"Analizza il traffico di rete e trova la flag." },
         ]
     },
 ];
