@@ -25,6 +25,7 @@ body{
     overflow-x:hidden;
 }
 
+/* ── navbar identica all'originale ── */
 #navbar{
     position:sticky; top:0; z-index:100;
     user-select:none; -webkit-user-select:none;
@@ -49,6 +50,7 @@ body{
 .nav-entry > a:hover{ color:#65E903; background:#0a3a2a; }
 .nav-sep{ color:#1a5a1a; flex-shrink:0; user-select:none; padding:0 2px; }
 
+/* ── layout ── */
 .wrapper{ max-width:1024px; margin:auto; }
 
 .screen{
@@ -62,6 +64,7 @@ body{
 .line{ white-space:pre-wrap; overflow-wrap:anywhere; min-height:1em; }
 .dim{ color:#65E903; opacity:.55; }
 
+/* link identici all'originale */
 a{
     color:#65E903; text-decoration:none;
     background:#0a3a2a; border:1px solid transparent;
@@ -69,6 +72,7 @@ a{
 }
 a:hover{ color:#9cff5f; background:#3a9070; }
 
+/* ── griglia challenge ── */
 .cat-label{
     margin-top:16px;
     margin-bottom:6px;
@@ -82,6 +86,7 @@ a:hover{ color:#9cff5f; background:#3a9070; }
     gap:8px;
 }
 
+/* stesso colore di sfondo dei link: #0a3a2a */
 .chall-card{
     background:#0a3a2a;
     border:1px solid transparent;
@@ -109,6 +114,7 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 .chall-meta{ font-size:.78em; opacity:0.75; margin-top:3px; }
 .chall-desc{ font-size:1em; opacity:1; margin-top:4px; line-height:1.25; }
 
+/* difficoltà — solo un puntino colorato nel titolo */
 .dot{ display:inline-block; width:.45em; height:.45em; border-radius:50%; margin-right:5px; vertical-align:middle; position:relative; top:-.1em; }
 .dot-easy  { background:#2a9a2a; }
 .dot-med   { background:#9a9a2a; }
@@ -117,9 +123,11 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 
 .sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
 
+/* ── banner ── */
 .banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
 .banner img{ width:100%; height:auto; display:block; max-width:100%; }
 
+/* ── logo categorie ── */
 .post-img{
     display:inline-block; vertical-align:middle;
     height:auto; width:118px; object-fit:contain;
@@ -165,8 +173,50 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 </div>
 </div>
 
-<script src="challenges.js"></script>
 <script>
+/* ══════════════════════════════════════════
+   CHALLENGE LIST — modifica qui
+══════════════════════════════════════════ */
+const CHALLENGES = [
+    {
+        cat: "REV",
+        challenges: [
+            { title:"Baby Rev",       diff:"easy",   pts:50,  desc:"Crackme con password offuscata tramite XOR.", file:"baby_rev" },
+            { title:"Packed Binary",  diff:"med",    pts:150, desc:"Eseguibile compresso con UPX. Trova la chiave nascosta.", file:"packed_binary" },
+        ]
+    },
+    {
+        cat: "PWN",
+        challenges: [
+            { title:"Stack Overflow", diff:"med",    pts:150, desc:"Buffer overflow classico su x86-64. Reindirizza il flusso.", file:"stack_overflow" },
+            { title:"Heap Exploit",   diff:"hard",   pts:400, desc:"Use-after-free su custom allocator. Tcache poisoning.", file:"heap_exploit" },
+        ]
+    },
+    {
+        cat: "MAL",
+        challenges: [
+            { title:"Dropper",        diff:"med",    pts:200, desc:"Analizza un dropper ELF che scarica e lancia un payload in memoria. Trova IoC.", file:"" },
+            { title:"Rat Hunt",       diff:"hard",   pts:350, desc:"Remote Access Trojan nascosto in un binario legittimo. Trova il C2.", file:"" },
+        ]
+    },
+    {
+        cat: "CRYPTO",
+        challenges: [
+            { title:"XOR Crypto",     diff:"easy",   pts:75,  desc:"Ciphertext cifrato con XOR a chiave ripetuta di 4 byte.", file:"xor_crypto" },
+        ]
+    },
+    {
+        cat: "FORENSICS",
+        challenges: [
+            { title:"PCAP Mystery",   diff:"med",    pts:200, desc:"Analizza il traffico di rete e trova la flag.", file:"pcap_mystery.pcap" },
+        ]
+    },
+];
+
+/* ══════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════ */
+/* mappa categoria → logo (stesso meccanismo della index) */
 const CAT_LOGO = {
     "REV":      "logo_re.png",
     "PWN":      "logo_ctf.png",
@@ -197,6 +247,7 @@ CHALLENGES.forEach((section, si) => {
 
         if(c.file){
             card.href = c.file;
+            /* forza download se è un binario (no estensione o estensione non web) */
             const ext = c.file.split('.').pop().toLowerCase();
             const webExts = ['html','htm','pdf','txt','png','jpg','gif'];
             if(!webExts.includes(ext)) card.setAttribute('download','');
