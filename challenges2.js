@@ -12,13 +12,13 @@ const CHALLENGES = [
     {
         cat: "PWN",
         challenges: [
-            { title:"Stack Overflow", diff:"easy",    pts:50, flag:"flag{r1p_r3tu4rn_addr3ss}",       file:"stack_overflow",      desc:"Buffer overflow classico su x86-64. Reindirizza il flusso." },
+            { title:"Stack Overflow", diff:"easy",    pts:50, flag:"b4a4b21904129db00ece35af5810902f4d208e1283e0325936b77ee680e6799d",       file:"smash",      desc:"Buffer overflow classico su x86-64" },
         ]
     },
     {
         cat: "MAL",
         challenges: [
-            { title:"Dropper",        diff:"easy",    pts:50, flag:"flag{dr0pp3r_1n_m3m0ry}",         file:"",                    desc:"Analizza un dropper ELF che scarica e lancia un payload in memoria. Trova IoC." },
+            { title:"Dropper",        diff:"easy",    pts:50, flag:"154f3443154a8dc86d7fcd6a84e4f901539c94d7b761a111639bf88dc65f5cab",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
         ]
     },
     {
