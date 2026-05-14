@@ -6,7 +6,7 @@ const CHALLENGES = [
     {
         cat: "REV",
         challenges: [
-            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"d26b71303eebb857561a2e123debd6006bbe437b30a0fb04d25810c568896536",        file:"baby_rev",            desc:"Crackme con password offuscata tramite XOR." },
+            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"80ee4f917a5e03e55725742a8aa7c2e032c3139e2be93ebaf47e1551f750587b",        file:"hcf000",            desc:"Reversing for dummies" },
         ]
     },
     {
