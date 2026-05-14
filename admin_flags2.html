@@ -473,7 +473,20 @@ CHALLENGES.forEach((section, si) => {
 /* ══════════════════════════════════════════
    VALIDAZIONE + ASSEGNAZIONE PUNTI
 ══════════════════════════════════════════ */
-function check(inputId, playerInputId, cat, title, correctFlag, pts){
+
+async function sha256(str){
+    const buf = await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(str)
+    );
+
+    return Array.from(new Uint8Array(buf))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+
+async function check(inputId, playerInputId, cat, title, correctFlag, pts){
     const flagEl   = document.getElementById(inputId);
     const playerEl = document.getElementById(playerInputId);
     const result   = document.getElementById('res-' + inputId);
@@ -486,12 +499,14 @@ function check(inputId, playerInputId, cat, title, correctFlag, pts){
         return;
     }
 
-    if(val !== correctFlag){
-        result.className = 'val-result fail';
-        result.textContent = ';[FAIL] flag errata ✗';
-        flagEl.style.borderColor = '#e05050';
-        return;
-    }
+    const hash = await sha256(val);
+
+    if(hash !== correctHash){
+    	result.className = 'val-result fail';
+    	result.textContent = ';[FAIL] flag errata ✗';
+    	flagEl.style.borderColor = '#e05050';
+    	return;
+   }
 
     /* flag corretta */
     flagEl.style.borderColor = '#2adf2a';

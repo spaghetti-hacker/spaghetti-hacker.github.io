@@ -6,8 +6,8 @@ const CHALLENGES = [
     {
         cat: "REV",
         challenges: [
-            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"flag{x0r_1s_n0t_secur3}",        file:"baby_rev",            desc:"Crackme con password offuscata tramite XOR." },
-            { title:"Packed Binary",  diff:"med",    pts:150, flag:"flag{upx_unp4ck3d_and_pwn3d}",   file:"packed_binary",       desc:"Eseguibile compresso con UPX. Trova la chiave nascosta." },
+            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"d26b71303eebb857561a2e123debd6006bbe437b30a0fb04d25810c568896536",        file:"baby_rev",            desc:"Crackme con password offuscata tramite XOR." },
+            { title:"Packed Binary",  diff:"med",    pts:150, flag:"d26b71303eebb857561a2e123debd6006bbe437b30a0fb04d25810c568896536",   file:"packed_binary",       desc:"Eseguibile compresso con UPX. Trova la chiave nascosta." },
         ]
     },
     {
