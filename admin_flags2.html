@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN ~ FLAG VALIDATOR</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face{ font-family:gohu;       src:url("gohu.woff") format("woff"); }
+@font-face{ font-family:'Fixedsys'; src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype'); }
+@font-face{ font-family:unifont;    src:url("unifont.woff") format("woff"); }
+@font-face{ font-family:dos;        src:url("JetBrainsMonoNL-Medium.ttf") format("truetype"); }
+@font-face{ font-family:'VT323';    src:url('VT323-Regular.ttf') format('truetype'); }
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:26px;
+    letter-spacing:0px;
+    line-height:1.2;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+#navbar{
+    position:sticky; top:0; z-index:100;
+    user-select:none; -webkit-user-select:none;
+    background:#001c1c; border-bottom:1px solid #1a3a1a;
+    padding:0; display:flex; justify-content:flex-start;
+    font-family:VT323,dos,unifont,gohu,monospace; font-size:26px;
+    box-shadow:0 2px 12px rgba(101,233,3,.08);
+}
+#navbar-inner{
+    max-width:1024px; width:100%; margin:0 auto;
+    padding:0 22px 0 16px;
+    display:flex; align-items:center; flex-wrap:wrap; gap:0 4px;
+}
+.nav-entry > a{
+    color:#65E903; background:transparent; display:inline-block;
+    padding:1px 6px; line-height:1.2 !important;
+    border:1px solid transparent; white-space:nowrap;
+    text-decoration:none; cursor:pointer;
+    font-family:inherit; font-size:inherit;
+    user-select:none; -webkit-user-select:none;
+}
+.nav-entry > a:hover{ color:#65E903; background:#0a3a2a; }
+.nav-sep{ color:#1a5a1a; flex-shrink:0; user-select:none; padding:0 2px; }
+
+.wrapper{ max-width:1024px; margin:auto; }
+
+.screen{
+    background:#001C1C;
+    border:1px solid #001c1c;
+    border-radius:6px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+}
+
+.line{ white-space:pre-wrap; overflow-wrap:anywhere; min-height:1em; }
+.dim{ color:#65E903; opacity:.55; }
+
+a{
+    color:#65E903; text-decoration:none;
+    background:#0a3a2a; border:1px solid transparent;
+    line-height:1.2 !important; display:inline-block;
+}
+a:hover{ color:#9cff5f; background:#3a9070; }
+
+.sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
+
+/* ── banner ── */
+.banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
+.banner img{ width:100%; height:auto; display:block; max-width:100%; }
+
+/* ── validator ── */
+.validator-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(320px,1fr));
+    gap:8px;
+    margin-top:8px;
+}
+
+.val-card{
+    background:#0a3a2a;
+    border:1px solid transparent;
+    padding:10px 12px;
+    transition:.12s;
+    color:#65E903;
+    line-height:1.2;
+}
+
+.val-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+}
+.val-chall-name{ font-size:1em; }
+.val-cat{ font-size:.78em; opacity:.6; }
+
+.val-input-row{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.val-input{
+    flex:1;
+    background:#001c1c;
+    border:1px solid #1a3a1a;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.88em;
+    padding:2px 6px;
+    outline:none;
+    caret-color:#65E903;
+    line-height:1.2;
+    min-width:0;
+}
+.val-input:focus{ border-color:#65E903; }
+.val-input::placeholder{ color:#65E903; opacity:.3; }
+
+/* player input — numero giocatore */
+.val-player{
+    width:3.5em;
+    background:#001c1c;
+    border:1px solid #1a3a1a;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.88em;
+    padding:2px 6px;
+    outline:none;
+    caret-color:#65E903;
+    line-height:1.2;
+    text-align:center;
+}
+.val-player:focus{ border-color:#65E903; }
+.val-player::placeholder{ color:#65E903; opacity:.3; }
+
+.val-btn{
+    background:#0a3a2a;
+    border:1px solid #65E903;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.88em;
+    padding:2px 10px;
+    cursor:pointer;
+    line-height:1.2;
+    white-space:nowrap;
+    transition:.12s;
+}
+.val-btn:hover{ background:#3a9070; color:#9cff5f; }
+
+.val-result{
+    margin-top:5px;
+    font-size:.85em;
+    min-height:1em;
+    letter-spacing:.03em;
+}
+.val-result.ok  { color:#2adf2a; }
+.val-result.fail{ color:#e05050; }
+.val-result.empty{ opacity:0; }
+
+/* categoria label */
+.cat-label-row{
+    margin-top:18px;
+    margin-bottom:6px;
+    font-size:1em;
+    opacity:1;
+}
+
+/* ── scoreboard ── */
+#scoreboard-section{
+    margin-top:8px;
+}
+
+.score-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:10px;
+}
+
+.score-reset-btn{
+    background:#2a0a0a;
+    border:1px solid #e05050;
+    color:#e05050;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.82em;
+    padding:2px 10px;
+    cursor:pointer;
+    line-height:1.2;
+    transition:.12s;
+}
+.score-reset-btn:hover{ background:#5a1a1a; color:#ff8080; }
+
+.score-addplayer-row{
+    display:flex;
+    gap:6px;
+    align-items:center;
+    margin-bottom:14px;
+}
+.score-nameinput{
+    background:#001c1c;
+    border:1px solid #1a3a1a;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.88em;
+    padding:2px 8px;
+    outline:none;
+    caret-color:#65E903;
+    line-height:1.2;
+    width:180px;
+}
+.score-nameinput:focus{ border-color:#65E903; }
+.score-nameinput::placeholder{ color:#65E903; opacity:.3; }
+
+/* ASCII bar chart */
+.scoreboard-wrap{
+    font-size:.92em;
+    line-height:1.35;
+    overflow-x:auto;
+}
+.sb-row{
+    display:flex;
+    align-items:baseline;
+    gap:0;
+    white-space:nowrap;
+    margin-bottom:3px;
+}
+.sb-rank{
+    width:2.2em;
+    text-align:right;
+    opacity:.5;
+    flex-shrink:0;
+    padding-right:.4em;
+}
+.sb-name{
+    width:12em;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    flex-shrink:0;
+    padding-right:.6em;
+}
+.sb-bar{
+    color:#65E903;
+    flex-shrink:0;
+    letter-spacing:0;
+}
+.sb-bar-solved{
+    color:#2adf2a;
+}
+.sb-pts{
+    padding-left:.5em;
+    opacity:.85;
+    flex-shrink:0;
+}
+.sb-solves{
+    padding-left:.6em;
+    opacity:.45;
+    font-size:.85em;
+    flex-shrink:0;
+}
+
+.sb-empty{
+    opacity:.45;
+    font-size:.9em;
+    padding:6px 0;
+}
+
+/* player id label nel validator */
+.val-pid-label{
+    font-size:.78em;
+    opacity:.5;
+    margin-right:2px;
+    white-space:nowrap;
+}
+
+@media(max-width:640px){
+    html,body{ overflow-x:hidden !important; width:100%; }
+    body{ padding:20px 10px; font-size:20px; }
+    .screen{ padding:12px; overflow-x:hidden; }
+    #navbar{ font-size:20px !important; }
+    #navbar-inner{ padding:0 4px 0 2px; gap:0; }
+    .nav-entry > a{ padding:1px 3px !important; }
+    .nav-sep{ padding:0 1px !important; }
+    .validator-grid{ grid-template-columns:1fr; }
+    .sb-name{ width:8em; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+<div id="navbar-inner">
+    <div class="nav-entry"><a href="index.html">index.html</a></div>
+    <span class="nav-sep">|</span>
+    <div class="nav-entry"><a href="ctf.html">CTF</a></div>
+    <span class="nav-sep">|</span>
+    <div class="nav-entry"><a href="#">ADMIN</a></div>
+</div>
+</nav>
+
+<div class="wrapper">
+<div class="screen">
+
+    <div class="banner"><img src="bannerctf.png" alt="Spaghetti Hacker BBS"></div>
+
+    <!-- ══ VALIDATOR ══ -->
+    <div id="validator-container"></div>
+
+    <hr class="sep">
+
+    <!-- ══ SCOREBOARD ══ -->
+    <div id="scoreboard-section">
+        <div class="score-header">
+            <span>;[SCOREBOARD]</span>
+            <button class="score-reset-btn" onclick="resetScoreboard()">RESET</button>
+        </div>
+
+        <div class="score-addplayer-row">
+            <span class="val-pid-label">PLAYER#</span>
+            <input class="val-player" id="new-player-id" type="number" min="1" placeholder="N" autocomplete="off">
+            <input class="score-nameinput" id="new-player-name" type="text" placeholder="nome giocatore" autocomplete="off" spellcheck="false">
+            <button class="val-btn" onclick="addPlayer()">+ ADD</button>
+        </div>
+
+        <div class="scoreboard-wrap" id="scoreboard-render">
+            <div class="sb-empty">;nessun giocatore registrato</div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<script src="challenges.js"></script>
+<script>
+/* ══════════════════════════════════════════
+   STATE — scoreboard persistita in localStorage
+══════════════════════════════════════════ */
+
+/* flat list di tutte le challenge con punteggio */
+const ALL_CHALLENGES = [];
+CHALLENGES.forEach(sec => sec.challenges.forEach(c => {
+    ALL_CHALLENGES.push({ cat: sec.cat, title: c.title, pts: c.pts, flag: c.flag });
+}));
+
+const MAX_PLAYERS = 30;
+
+/* struttura players: { id: number, name: string, solved: Set<string>, score: number } */
+let players = [];   // in memoria
+
+function storageKey(){ return 'ctf_scoreboard_v1'; }
+
+function saveState(){
+    const serializable = players.map(p => ({
+        id:     p.id,
+        name:   p.name,
+        solved: [...p.solved],
+        score:  p.score,
+    }));
+    try{ localStorage.setItem(storageKey(), JSON.stringify(serializable)); } catch(e){}
+}
+
+function loadState(){
+    try{
+        const raw = localStorage.getItem(storageKey());
+        if(!raw) return;
+        const arr = JSON.parse(raw);
+        players = arr.map(p => ({ id:p.id, name:p.name, solved:new Set(p.solved), score:p.score }));
+    } catch(e){ players = []; }
+}
+
+function challKey(cat, title){ return `${cat}::${title}`; }
+
+/* ══════════════════════════════════════════
+   PLAYER MANAGEMENT
+══════════════════════════════════════════ */
+function addPlayer(){
+    const idInput   = document.getElementById('new-player-id');
+    const nameInput = document.getElementById('new-player-name');
+    const id   = parseInt(idInput.value, 10);
+    const name = nameInput.value.trim();
+
+    if(!id || id < 1){
+        flash(idInput, '#e05050');
+        return;
+    }
+    if(!name){
+        flash(nameInput, '#e05050');
+        return;
+    }
+    if(players.find(p => p.id === id)){
+        flash(idInput, '#9a9a2a');  /* già esiste */
+        return;
+    }
+    if(players.length >= MAX_PLAYERS){
+        alert(';max ' + MAX_PLAYERS + ' giocatori');
+        return;
+    }
+
+    players.push({ id, name, solved: new Set(), score: 0 });
+    idInput.value   = '';
+    nameInput.value = '';
+    saveState();
+    renderScoreboard();
+}
+
+function resetScoreboard(){
+    if(!confirm('Resettare tutta la scoreboard?')) return;
+    players = [];
+    saveState();
+    renderScoreboard();
+}
+
+function flash(el, color){
+    const orig = el.style.borderColor;
+    el.style.borderColor = color;
+    setTimeout(() => { el.style.borderColor = orig; }, 600);
+}
+
+/* ══════════════════════════════════════════
+   VALIDATOR
+══════════════════════════════════════════ */
+const container = document.getElementById('validator-container');
+
+CHALLENGES.forEach((section, si) => {
+
+    const label = document.createElement('div');
+    label.className = 'cat-label-row';
+    label.textContent = `[${section.cat}]`;
+    container.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'validator-grid';
+
+    section.challenges.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'val-card';
+
+        const safeId = `${section.cat}-${c.title.replace(/\s+/g,'_')}`;
+        const inputId  = `inp-${safeId}`;
+        const playerInputId = `pid-${safeId}`;
+
+        card.innerHTML =
+            `<div class="val-card-top">` +
+                `<span class="val-chall-name">${c.title}</span>` +
+                `<span class="val-cat">${section.cat} · ${c.pts}pts</span>` +
+            `</div>` +
+            `<div class="val-input-row">` +
+                `<span class="val-pid-label">#</span>` +
+                `<input class="val-player" id="${playerInputId}" type="number" min="1" placeholder="N" autocomplete="off" title="ID giocatore">` +
+                `<input class="val-input" id="${inputId}" type="text" placeholder="flag{...}" autocomplete="off" spellcheck="false">` +
+                `<button class="val-btn" onclick="check('${inputId}','${playerInputId}','${section.cat}','${c.title.replace(/'/g,"\\'")}','${c.flag.replace(/'/g,"\\'")}',${c.pts})">CHECK</button>` +
+            `</div>` +
+            `<div class="val-result empty" id="res-${inputId}">·</div>`;
+
+        grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+
+    if(si < CHALLENGES.length - 1){
+        const hr = document.createElement('hr');
+        hr.className = 'sep';
+        container.appendChild(hr);
+    }
+});
+
+/* ══════════════════════════════════════════
+   VALIDAZIONE + ASSEGNAZIONE PUNTI
+══════════════════════════════════════════ */
+function check(inputId, playerInputId, cat, title, correctFlag, pts){
+    const flagEl   = document.getElementById(inputId);
+    const playerEl = document.getElementById(playerInputId);
+    const result   = document.getElementById('res-' + inputId);
+    const val      = flagEl.value.trim();
+    const pid      = parseInt(playerEl.value, 10);
+
+    if(!val){
+        result.className = 'val-result fail';
+        result.textContent = ';inserisci una flag';
+        return;
+    }
+
+    if(val !== correctFlag){
+        result.className = 'val-result fail';
+        result.textContent = ';[FAIL] flag errata ✗';
+        flagEl.style.borderColor = '#e05050';
+        return;
+    }
+
+    /* flag corretta */
+    flagEl.style.borderColor = '#2adf2a';
+
+    if(!pid || pid < 1){
+        result.className = 'val-result ok';
+        result.textContent = ';[OK] flag corretta ✓  (nessun giocatore selezionato)';
+        return;
+    }
+
+    const player = players.find(p => p.id === pid);
+    if(!player){
+        result.className = 'val-result ok';
+        result.textContent = `;[OK] flag corretta ✓  (player #${pid} non trovato — aggiungerlo prima)`;
+        return;
+    }
+
+    const key = challKey(cat, title);
+    if(player.solved.has(key)){
+        result.className = 'val-result ok';
+        result.textContent = `;[OK] già assegnato a ${player.name}`;
+        return;
+    }
+
+    player.solved.add(key);
+    player.score += pts;
+    saveState();
+    renderScoreboard();
+
+    result.className = 'val-result ok';
+    result.textContent = `;[OK] +${pts}pts → ${player.name}  [totale: ${player.score}pts]`;
+}
+
+/* ══════════════════════════════════════════
+   SCOREBOARD — ASCII bar chart orizzontale
+══════════════════════════════════════════ */
+const BAR_CHARS   = '▏▎▍▌▋▊▉█';   /* 1/8 → 8/8 */
+const BAR_FULL    = '█';
+const BAR_MAX_W   = 28;           /* caratteri massimi per la barra */
+
+function makeBar(value, maxValue){
+    if(maxValue === 0) return '';
+    const ratio  = value / maxValue;
+    const totalEighths = Math.round(ratio * BAR_MAX_W * 8);
+    const full   = Math.floor(totalEighths / 8);
+    const frac   = totalEighths % 8;
+
+    let bar = BAR_FULL.repeat(full);
+    if(frac > 0 && full < BAR_MAX_W) bar += BAR_CHARS[frac - 1];
+    return bar;
+}
+
+function renderScoreboard(){
+    const el = document.getElementById('scoreboard-render');
+
+    if(players.length === 0){
+        el.innerHTML = '<div class="sb-empty">;nessun giocatore registrato</div>';
+        return;
+    }
+
+    /* ordina per punteggio desc, poi per numero solve desc, poi per id asc */
+    const sorted = [...players].sort((a,b) =>
+        b.score !== a.score ? b.score - a.score :
+        b.solved.size !== a.solved.size ? b.solved.size - a.solved.size :
+        a.id - b.id
+    );
+
+    const maxScore = sorted[0].score || 1;
+    const totalChall = ALL_CHALLENGES.length;
+
+    let html = '';
+
+    /* intestazione */
+    html += `<div class="sb-row">` +
+        `<span class="sb-rank" style="opacity:.3">#</span>` +
+        `<span class="sb-name" style="opacity:.3">PLAYER</span>` +
+        `<span style="opacity:.3;font-size:.78em">` +
+            `${'─'.repeat(BAR_MAX_W)}` +
+        `</span>` +
+        `<span class="sb-pts" style="opacity:.3;font-size:.78em">PTS</span>` +
+        `<span class="sb-solves" style="opacity:.3;font-size:.78em">SOLVES</span>` +
+    `</div>`;
+
+    sorted.forEach((p, i) => {
+        const rank = i + 1;
+        const bar  = makeBar(p.score, maxScore);
+        const pad  = '·'.repeat(BAR_MAX_W - bar.length);   /* padding puntini */
+        const isFirst = rank === 1 && p.score > 0;
+
+        html += `<div class="sb-row">` +
+            `<span class="sb-rank">${rank}.</span>` +
+            `<span class="sb-name" title="id:${p.id}">${escHtml(p.name)}</span>` +
+            `<span class="sb-bar">` +
+                `<span class="sb-bar-solved">${bar}</span>` +
+                `<span style="opacity:.2">${pad}</span>` +
+            `</span>` +
+            `<span class="sb-pts">${p.score}</span>` +
+            `<span class="sb-solves">(${p.solved.size}/${totalChall})</span>` +
+        `</div>`;
+    });
+
+    el.innerHTML = html;
+}
+
+function escHtml(s){
+    return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════════
+   ENTER per confermare nel validator
+══════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+    if(e.key !== 'Enter') return;
+    const inp = e.target;
+    if(inp.classList.contains('val-input') || inp.classList.contains('val-player')){
+        const row = inp.closest('.val-input-row');
+        const btn = row?.querySelector('.val-btn');
+        if(btn) btn.click();
+    }
+    if(inp.id === 'new-player-name' || inp.id === 'new-player-id'){
+        addPlayer();
+    }
+});
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+loadState();
+renderScoreboard();
+</script>
+</body>
+</html>
