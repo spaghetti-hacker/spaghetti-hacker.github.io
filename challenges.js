@@ -6,19 +6,19 @@ const CHALLENGES = [
     {
         cat: "REV",
         challenges: [
-            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"80ee4f917a5e03e55725742a8aa7c2e032c3139e2be93ebaf47e1551f750587b",        file:"hcf000",            desc:"Reversing for dummies" },
+            { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"7ca442e90fbe04d1d52da076f4383cf5e59bb8113b0ee72ec84f71dd5e5a33e6",        file:"hcf000",            desc:"Reversing for dummies" },
         ]
     },
     {
         cat: "PWN",
         challenges: [
-            { title:"Stack Overflow", diff:"easy",    pts:50, flag:"b4a4b21904129db00ece35af5810902f4d208e1283e0325936b77ee680e6799d",       file:"smash",      desc:"Buffer overflow classico su x86-64" },
+            { title:"Stack Overflow", diff:"easy",    pts:50, flag:"c6f98dd180bc4255b089c789c45c7708e3eef5e909c610a41e9b230cb5c95ad9",       file:"smash",      desc:"Buffer overflow classico su x86-64" },
         ]
     },
     {
         cat: "MAL",
         challenges: [
-            { title:"Dropper",        diff:"easy",    pts:50, flag:"154f3443154a8dc86d7fcd6a84e4f901539c94d7b761a111639bf88dc65f5cab",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
+            { title:"Dropper",        diff:"easy",    pts:50, flag:"282462e6de49e5c1e0b2d58a120a51c7c53c24783388ba2bb37b887f49bc0dcb",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
         ]
     },
     {
