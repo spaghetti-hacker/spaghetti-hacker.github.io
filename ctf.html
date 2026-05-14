@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CTF :: SPAGHETTI HACKER</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
 @font-face{ font-family:gohu;       src:url("gohu.woff") format("woff"); }
 @font-face{ font-family:'Fixedsys'; src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype'); }
@@ -120,7 +121,7 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 .dot-hard  { background:#9a2a2a; }
 .dot-insane{ background:#9a1a8a; }
 
-.sep{ border:none; border-top:1px solid #1a3a1a; margin:14px 0; }
+.sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:.35; }
 
 /* ── banner ── */
 .banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
@@ -190,10 +191,10 @@ const CHALLENGES = [
         ]
     },
     {
-        cat: "WEB",
+        cat: "MAL",
         challenges: [
-            { title:"Web 101",        diff:"easy",   pts:50,  desc:"Pagina di login vulnerabile a SQL injection.", file:"" },
-            { title:"SSRF Lab",       diff:"hard",   pts:350, desc:"Server-Side Request Forgery su endpoint interno.", file:"" },
+            { title:"Dropper",        diff:"med",    pts:200, desc:"Analizza un dropper ELF che scarica e lancia un payload in memoria.", file:"" },
+            { title:"Rat Hunt",       diff:"hard",   pts:350, desc:"Remote Access Trojan nascosto in un binario legittimo. Trova il C2.", file:"" },
         ]
     },
     {
@@ -216,10 +217,10 @@ const CHALLENGES = [
 /* mappa categoria → logo (stesso meccanismo della index) */
 const CAT_LOGO = {
     "REV":      "logo_re.png",
-    "PWN":      "logo_ma.png",
-    "WEB":      "logo_tool.png",
+    "PWN":      "logo_ctf.png",
+    "MAL":      "logo_ma.png",
     "CRYPTO":   "logo_re.png",
-    "FORENSICS":"logo_ctf.png",
+    "FORENSICS":"logo_re.png",
 };
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
@@ -250,7 +251,6 @@ CHALLENGES.forEach((section, si) => {
             if(!webExts.includes(ext)) card.setAttribute('download','');
         } else {
             card.href = '#';
-            card.style.opacity = '.5';
             card.style.cursor = 'default';
             card.onclick = e => e.preventDefault();
         }
