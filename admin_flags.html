@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN ~ FLAG VALIDATOR</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face{ font-family:gohu;       src:url("gohu.woff") format("woff"); }
+@font-face{ font-family:'Fixedsys'; src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype'); }
+@font-face{ font-family:unifont;    src:url("unifont.woff") format("woff"); }
+@font-face{ font-family:dos;        src:url("JetBrainsMonoNL-Medium.ttf") format("truetype"); }
+@font-face{ font-family:'VT323';    src:url('VT323-Regular.ttf') format('truetype'); }
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:26px;
+    letter-spacing:0px;
+    line-height:1.2;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+#navbar{
+    position:sticky; top:0; z-index:100;
+    user-select:none; -webkit-user-select:none;
+    background:#001c1c; border-bottom:1px solid #1a3a1a;
+    padding:0; display:flex; justify-content:flex-start;
+    font-family:VT323,dos,unifont,gohu,monospace; font-size:26px;
+    box-shadow:0 2px 12px rgba(101,233,3,.08);
+}
+#navbar-inner{
+    max-width:1024px; width:100%; margin:0 auto;
+    padding:0 22px 0 16px;
+    display:flex; align-items:center; flex-wrap:wrap; gap:0 4px;
+}
+.nav-entry > a{
+    color:#65E903; background:transparent; display:inline-block;
+    padding:1px 6px; line-height:1.2 !important;
+    border:1px solid transparent; white-space:nowrap;
+    text-decoration:none; cursor:pointer;
+    font-family:inherit; font-size:inherit;
+    user-select:none; -webkit-user-select:none;
+}
+.nav-entry > a:hover{ color:#65E903; background:#0a3a2a; }
+.nav-sep{ color:#1a5a1a; flex-shrink:0; user-select:none; padding:0 2px; }
+
+.wrapper{ max-width:1024px; margin:auto; }
+
+.screen{
+    background:#001C1C;
+    border:1px solid #001c1c;
+    border-radius:6px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+}
+
+.line{ white-space:pre-wrap; overflow-wrap:anywhere; min-height:1em; }
+.dim{ color:#65E903; opacity:.55; }
+
+a{
+    color:#65E903; text-decoration:none;
+    background:#0a3a2a; border:1px solid transparent;
+    line-height:1.2 !important; display:inline-block;
+}
+a:hover{ color:#9cff5f; background:#3a9070; }
+
+.sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
+
+/* ── banner ── */
+.banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
+.banner img{ width:100%; height:auto; display:block; max-width:100%; }
+
+/* ── validator ── */
+.validator-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(320px,1fr));
+    gap:8px;
+    margin-top:8px;
+}
+
+.val-card{
+    background:#0a3a2a;
+    border:1px solid transparent;
+    padding:10px 12px;
+    transition:.12s;
+    color:#65E903;
+    line-height:1.2;
+}
+
+.val-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+}
+.val-chall-name{ font-size:1em; }
+.val-cat{ font-size:.78em; opacity:.6; }
+
+.val-input-row{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.val-input{
+    flex:1;
+    background:#001c1c;
+    border:1px solid #1a3a1a;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.88em;
+    padding:2px 6px;
+    outline:none;
+    caret-color:#65E903;
+    line-height:1.2;
+    min-width:0;
+}
+.val-input:focus{ border-color:#65E903; }
+.val-input::placeholder{ color:#65E903; opacity:.3; }
+
+.val-btn{
+    background:#0a3a2a;
+    border:1px solid #65E903;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:.88em;
+    padding:2px 10px;
+    cursor:pointer;
+    line-height:1.2;
+    white-space:nowrap;
+    transition:.12s;
+}
+.val-btn:hover{ background:#3a9070; color:#9cff5f; }
+
+.val-result{
+    margin-top:5px;
+    font-size:.85em;
+    min-height:1em;
+    letter-spacing:.03em;
+}
+.val-result.ok  { color:#2adf2a; }
+.val-result.fail{ color:#e05050; }
+.val-result.empty{ opacity:0; }
+
+/* categoria label */
+.cat-label-row{
+    margin-top:18px;
+    margin-bottom:6px;
+    font-size:.85em;
+    opacity:.5;
+}
+
+@media(max-width:640px){
+    html,body{ overflow-x:hidden !important; width:100%; }
+    body{ padding:20px 10px; font-size:20px; }
+    .screen{ padding:12px; overflow-x:hidden; }
+    #navbar{ font-size:20px !important; }
+    #navbar-inner{ padding:0 4px 0 2px; gap:0; }
+    .nav-entry > a{ padding:1px 3px !important; }
+    .nav-sep{ padding:0 1px !important; }
+    .validator-grid{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+<div id="navbar-inner">
+    <div class="nav-entry"><a href="index.html">← HOME</a></div>
+    <span class="nav-sep">|</span>
+    <div class="nav-entry"><a href="ctf.html">CTF</a></div>
+    <span class="nav-sep">|</span>
+    <div class="nav-entry"><a href="#">ADMIN</a></div>
+</div>
+</nav>
+
+<div class="wrapper" style="padding:16px 22px 36px;">
+<div class="screen">
+
+    <div class="banner"><img src="bannerctf.png" alt="Spaghetti Hacker BBS"></div>
+    <div class="line"><span class="dim">;validatore flag — inserisci la flag e premi CHECK</span></div>
+
+    <div id="validator-container"></div>
+
+</div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   FLAGS — modifica qui
+   flag: stringa esatta da validare
+══════════════════════════════════════════ */
+const CHALLENGES = [
+    {
+        cat: "REV",
+        challenges: [
+            { title:"Baby Rev",      flag:"flag{x0r_1s_n0t_secur3}"         },
+            { title:"Packed Binary", flag:"flag{upx_unp4ck3d_and_pwn3d}"    },
+        ]
+    },
+    {
+        cat: "PWN",
+        challenges: [
+            { title:"Stack Overflow", flag:"flag{r1p_r3tu4rn_addr3ss}"       },
+            { title:"Heap Exploit",   flag:"flag{tc4ch3_p01s0n_fr33}"        },
+        ]
+    },
+    {
+        cat: "MAL",
+        challenges: [
+            { title:"Dropper",   flag:"flag{dr0pp3r_1n_m3m0ry}"              },
+            { title:"Rat Hunt",  flag:"flag{c2_1s_4t_1337_p0rt}"             },
+        ]
+    },
+    {
+        cat: "CRYPTO",
+        challenges: [
+            { title:"XOR Crypto", flag:"flag{r3p34t3d_x0r_br0k3n}"          },
+        ]
+    },
+    {
+        cat: "FORENSICS",
+        challenges: [
+            { title:"PCAP Mystery", flag:"flag{pcap_fl4g_3xf1ltr4t3d}"      },
+        ]
+    },
+];
+
+/* ══════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════ */
+const container = document.getElementById('validator-container');
+
+CHALLENGES.forEach((section, si) => {
+
+    const label = document.createElement('div');
+    label.className = 'cat-label-row';
+    label.textContent = `[${section.cat}]`;
+    container.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'validator-grid';
+
+    section.challenges.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'val-card';
+
+        const inputId = `inp-${section.cat}-${c.title.replace(/\s+/g,'_')}`;
+
+        card.innerHTML =
+            `<div class="val-card-top">` +
+                `<span class="val-chall-name">${c.title}</span>` +
+                `<span class="val-cat">${section.cat}</span>` +
+            `</div>` +
+            `<div class="val-input-row">` +
+                `<input class="val-input" id="${inputId}" type="text" placeholder="flag{...}" autocomplete="off" spellcheck="false">` +
+                `<button class="val-btn" onclick="check('${inputId}','${c.flag.replace(/'/g,"\\'")}')">CHECK</button>` +
+            `</div>` +
+            `<div class="val-result empty" id="res-${inputId}">·</div>`;
+
+        grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+
+    if(si < CHALLENGES.length - 1){
+        const hr = document.createElement('hr');
+        hr.className = 'sep';
+        container.appendChild(hr);
+    }
+});
+
+/* ══════════════════════════════════════════
+   VALIDAZIONE
+══════════════════════════════════════════ */
+function check(inputId, correctFlag){
+    const input = document.getElementById(inputId);
+    const result = document.getElementById('res-' + inputId);
+    const val = input.value.trim();
+
+    if(!val){
+        result.className = 'val-result fail';
+        result.textContent = ';inserisci una flag';
+        return;
+    }
+
+    if(val === correctFlag){
+        result.className = 'val-result ok';
+        result.textContent = ';[OK] flag corretta ✓';
+        input.style.borderColor = '#2adf2a';
+    } else {
+        result.className = 'val-result fail';
+        result.textContent = ';[FAIL] flag errata ✗';
+        input.style.borderColor = '#e05050';
+    }
+}
+
+/* enter per confermare */
+document.addEventListener('keydown', e => {
+    if(e.key !== 'Enter') return;
+    const inp = e.target;
+    if(!inp.classList.contains('val-input')) return;
+    const id = inp.id;
+    const btn = inp.closest('.val-input-row')?.querySelector('.val-btn');
+    if(btn) btn.click();
+});
+</script>
+</body>
+</html>
