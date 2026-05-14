@@ -122,6 +122,21 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 
 .sep{ border:none; border-top:1px solid #1a3a1a; margin:14px 0; }
 
+/* ── banner ── */
+.banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
+.banner img{ width:100%; height:auto; display:block; max-width:100%; }
+
+/* ── logo categorie ── */
+.post-img{
+    display:inline-block; vertical-align:middle;
+    height:auto; width:118px; object-fit:contain;
+    margin-right:16px; position:relative; top:-.1em;
+    transition: transform 1s, opacity .1s; opacity:1;
+}
+.cat-row{ display:flex; align-items:flex-start; gap:0; margin-top:16px; margin-bottom:6px; }
+.cat-row-img{ flex-shrink:0; display:flex; align-items:flex-start; padding-top:.1em; }
+.cat-row-body{ flex:1; min-width:0; }
+
 @media(max-width:640px){
     html,body{ overflow-x:hidden !important; width:100%; }
     body{ padding:20px 10px; font-size:20px; }
@@ -147,6 +162,7 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 <div class="wrapper" style="padding:16px 22px 36px;">
 <div class="screen">
 
+    <div class="banner"><img src="banner22.png" alt="Spaghetti Hacker BBS"></div>
     <div class="line"><span class="dim">;clicca su una challenge per scaricare l'eseguibile</span></div>
 
     <div id="chall-container"></div>
@@ -197,15 +213,27 @@ const CHALLENGES = [
 /* ══════════════════════════════════════════
    RENDER
 ══════════════════════════════════════════ */
+/* mappa categoria → logo (stesso meccanismo della index) */
+const CAT_LOGO = {
+    "REV":      "logo_re.png",
+    "PWN":      "logo_ma.png",
+    "WEB":      "logo_tool.png",
+    "CRYPTO":   "logo_re.png",
+    "FORENSICS":"logo_ctf.png",
+};
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
 const container = document.getElementById('chall-container');
 
 CHALLENGES.forEach((section, si) => {
-    const label = document.createElement('div');
-    label.className = 'cat-label';
-    label.innerHTML = `;[${section.cat}]`;
-    container.appendChild(label);
+    const logo = CAT_LOGO[section.cat] || "logo_re.png";
+
+    const catRow = document.createElement('div');
+    catRow.className = 'cat-row';
+    catRow.innerHTML =
+        `<span class="cat-row-img"><img class="post-img" src="${logo}" alt="" aria-hidden="true"></span>` +
+        `<span class="cat-row-body"><span style="opacity:.5;font-size:.85em">[${section.cat}]</span></span>`;
+    container.appendChild(catRow);
 
     const grid = document.createElement('div');
     grid.className = 'chall-grid';
