@@ -659,8 +659,8 @@ function renderScoreboard(){
         const isFirst = rank === 1 && p.score > 0;
 
         html += `<div class="sb-row">` +
-            `<span class="sb-rank">${rank}.</span>` +
-            `<span class="sb-name" title="id:${p.id}">${escHtml(p.name)}</span>` +
+            `<span class="sb-rank">${p.id}.</span>` +
+            `<span class="sb-name">${escHtml(p.name)}</span>` +
             `<span class="sb-bar">` +
                 `<span class="sb-bar-solved">${bar}</span>` +
                 `<span style="opacity:.2">${pad}</span>` +
