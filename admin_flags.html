@@ -75,6 +75,59 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 .banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
 .banner img{ width:100%; height:auto; display:block; max-width:100%; }
 
+/* ── timer ── */
+.timer-block{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+    padding:10px 14px;
+    background:#001212;
+    border:1px solid #1a3a1a;
+}
+.timer-display{
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:4.2em;
+    color:#65E903;
+    letter-spacing:.08em;
+    line-height:1;
+    text-shadow:0 0 18px rgba(101,233,3,.35);
+    user-select:none;
+    min-width:6ch;
+}
+.timer-display.running{
+    color:#2adf2a;
+    text-shadow:0 0 22px rgba(42,223,42,.45);
+}
+.timer-controls{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex-shrink:0;
+}
+.timer-btn{
+    background:#0a3a2a;
+    border:1px solid #65E903;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:1em;
+    padding:2px 14px;
+    cursor:pointer;
+    line-height:1.2;
+    white-space:nowrap;
+    transition:.12s;
+    min-width:7em;
+    text-align:center;
+}
+.timer-btn:hover{ background:#3a9070; color:#9cff5f; }
+.timer-btn.danger{
+    background:#2a0a0a;
+    border-color:#e05050;
+    color:#e05050;
+}
+.timer-btn.danger:hover{ background:#5a1a1a; color:#ff8080; }
+
 /* ── validator ── */
 .validator-grid{
     display:grid;
@@ -308,6 +361,15 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 <div class="screen">
 
     <div class="banner"><img src="bannerctf.png" alt="Spaghetti Hacker BBS"></div>
+
+    <!-- ══ TIMER ══ -->
+    <div class="timer-block">
+        <div class="timer-display" id="timer-display">00:00:00</div>
+        <div class="timer-controls">
+            <button class="timer-btn" id="timer-toggle" onclick="timerToggle()">&#9654; START</button>
+            <button class="timer-btn danger" onclick="timerReset()">&#9632; RESET</button>
+        </div>
+    </div>
 
     <!-- ══ VALIDATOR ══ -->
     <div id="validator-container"></div>
@@ -635,8 +697,57 @@ document.addEventListener('keydown', e => {
 });
 
 /* ══════════════════════════════════════════
+   TIMER
+══════════════════════════════════════════ */
+let timerSeconds  = 0;
+let timerRunning  = false;
+let timerInterval = null;
+
+function timerTick(){
+    timerSeconds++;
+    timerRender();
+}
+
+function timerRender(){
+    const h = Math.floor(timerSeconds / 3600);
+    const m = Math.floor((timerSeconds % 3600) / 60);
+    const s = timerSeconds % 60;
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('timer-display').textContent =
+        pad(h)+':'+pad(m)+':'+pad(s);
+}
+
+function timerToggle(){
+    const btn  = document.getElementById('timer-toggle');
+    const disp = document.getElementById('timer-display');
+    if(timerRunning){
+        clearInterval(timerInterval);
+        timerInterval = null;
+        timerRunning  = false;
+        btn.innerHTML = '&#9654; START';
+        disp.classList.remove('running');
+    } else {
+        timerInterval = setInterval(timerTick, 1000);
+        timerRunning  = true;
+        btn.innerHTML = '&#9646;&#9646; STOP';
+        disp.classList.add('running');
+    }
+}
+
+function timerReset(){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerRunning  = false;
+    timerSeconds  = 0;
+    document.getElementById('timer-toggle').innerHTML = '&#9654; START';
+    document.getElementById('timer-display').classList.remove('running');
+    timerRender();
+}
+
+/* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
+
 loadState();
 renderScoreboard();
 </script>
