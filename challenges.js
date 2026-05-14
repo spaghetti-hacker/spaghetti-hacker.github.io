@@ -24,13 +24,13 @@ const CHALLENGES = [
     {
         cat: "CRYPTO",
         challenges: [
-            { title:"XOR Crypto",     diff:"easy",   pts:75,  flag:"flag{r3p34t3d_x0r_br0k3n}",      file:"xor_crypto",          desc:"Ciphertext cifrato con XOR a chiave ripetuta di 4 byte." },
+            { title:"XOR Crypto",     diff:"easy",   pts:75,  flag:"",      file:"",          desc:"Ciphertext cifrato con XOR a chiave ripetuta di 4 byte." },
         ]
     },
     {
         cat: "FORENSICS",
         challenges: [
-            { title:"PCAP Mystery",   diff:"easy",    pts:50, flag:"flag{pcap_fl4g_3xf1ltr4t3d}",    file:"pcap_mystery.pcap",   desc:"Analizza il traffico di rete e trova la flag." },
+            { title:"PCAP Mystery",   diff:"easy",    pts:50, flag:"",    file:"",   desc:"Analizza il traffico di rete e trova la flag." },
         ]
     },
 ];
