@@ -453,7 +453,7 @@ CHALLENGES.forEach((section, si) => {
             `<div class="val-input-row">` +
                 `<span class="val-pid-label">#</span>` +
                 `<input class="val-player" id="${playerInputId}" type="number" min="1" placeholder="N" autocomplete="off" title="ID giocatore">` +
-                `<input class="val-input" id="${inputId}" type="text" placeholder="flag{...}" autocomplete="off" spellcheck="false">` +
+                `<input class="val-input" id="${inputId}" type="password" placeholder="flag{...}" autocomplete="off" spellcheck="false">` +
                 `<button class="val-btn" onclick="check('${inputId}','${playerInputId}','${section.cat}','${c.title.replace(/'/g,"\\'")}','${c.flag.replace(/'/g,"\\'")}',${c.pts})">CHECK</button>` +
             `</div>` +
             `<div class="val-result empty" id="res-${inputId}">·</div>`;
