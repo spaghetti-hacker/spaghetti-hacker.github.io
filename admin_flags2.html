@@ -486,7 +486,7 @@ async function sha256(str){
 }
 
 
-async function check(inputId, playerInputId, cat, title, correctFlag, pts){
+async function check(inputId, playerInputId, cat, title, correctHash, pts){
     const flagEl   = document.getElementById(inputId);
     const playerEl = document.getElementById(playerInputId);
     const result   = document.getElementById('res-' + inputId);
