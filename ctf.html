@@ -137,6 +137,10 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 .cat-row{ display:flex; align-items:flex-start; gap:0; margin-top:16px; margin-bottom:6px; }
 .cat-row-img{ flex-shrink:0; display:flex; align-items:flex-start; padding-top:.1em; }
 .cat-row-body{ flex:1; min-width:0; }
+.cat-row:hover .post-img {
+    transform: scale(1.15);
+    opacity: 1;
+}
 
 @media(max-width:640px){
     html,body{ overflow-x:hidden !important; width:100%; }
