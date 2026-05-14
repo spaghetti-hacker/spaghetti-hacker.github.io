@@ -3,752 +3,249 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CTF :: BBS TERMINAL</title>
+<title>CTF :: SPAGHETTI HACKER</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@font-face{ font-family:gohu;       src:url("gohu.woff") format("woff"); }
+@font-face{ font-family:'Fixedsys'; src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype'); }
+@font-face{ font-family:unifont;    src:url("unifont.woff") format("woff"); }
+@font-face{ font-family:dos;        src:url("JetBrainsMonoNL-Medium.ttf") format("truetype"); }
+@font-face{ font-family:'VT323';    src:url('VT323-Regular.ttf') format('truetype'); }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
 body{
     background:#0c0d10;
     color:#65E903;
-    font-family:'VT323', monospace;
-    font-size:22px;
-    line-height:1.25;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:26px;
+    letter-spacing:0px;
+    line-height:1.2;
     min-height:100vh;
     overflow-x:hidden;
 }
 
-/* ── NAVBAR ── */
+/* ── navbar identica all'originale ── */
 #navbar{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:#001c1c;
-    border-bottom:1px solid #1a3a1a;
-    padding:0;
-    display:flex;
-    justify-content:flex-start;
-    font-size:22px;
+    position:sticky; top:0; z-index:100;
+    user-select:none; -webkit-user-select:none;
+    background:#001c1c; border-bottom:1px solid #1a3a1a;
+    padding:0; display:flex; justify-content:flex-start;
+    font-family:VT323,dos,unifont,gohu,monospace; font-size:26px;
     box-shadow:0 2px 12px rgba(101,233,3,.08);
-    user-select:none;
 }
 #navbar-inner{
-    max-width:1100px;
-    width:100%;
-    margin:0 auto;
-    padding:0 16px;
-    display:flex;
-    align-items:center;
-    gap:0 4px;
+    max-width:1024px; width:100%; margin:0 auto;
+    padding:0 22px 0 10px;
+    display:flex; align-items:center; flex-wrap:wrap; gap:0 4px;
 }
-.nav-sep{ color:#1a5a1a; padding:0 4px; }
-.nav-item{
-    color:#65E903;
-    background:transparent;
-    display:inline-block;
-    padding:2px 8px;
-    border:1px solid transparent;
-    cursor:pointer;
-    text-decoration:none;
-    white-space:nowrap;
+.nav-entry > a{
+    color:#65E903; background:transparent; display:inline-block;
+    padding:1px 6px; line-height:1.2 !important;
+    border:1px solid transparent; white-space:nowrap;
+    text-decoration:none; cursor:pointer;
+    font-family:inherit; font-size:inherit;
+    user-select:none; -webkit-user-select:none;
 }
-.nav-item:hover, .nav-item.active{
-    background:#0a3a2a;
-    color:#9cff5f;
-}
-#nav-title{
-    color:#65E903;
-    padding:2px 8px;
-    opacity:.5;
-    font-size:.85em;
-}
+.nav-entry > a:hover{ background:#0a3a2a; }
+.nav-sep{ color:#1a5a1a; flex-shrink:0; user-select:none; padding:0 2px; }
 
-/* ── LAYOUT ── */
-.wrapper{
-    max-width:1100px;
-    margin:0 auto;
-    padding:16px;
-}
+/* ── layout ── */
+.wrapper{ max-width:1024px; margin:auto; }
+
 .screen{
     background:#001C1C;
     border:1px solid #001c1c;
-    border-radius:4px;
+    border-radius:6px;
     padding:16px;
     box-shadow:0 0 10px rgba(101,233,3,.06);
 }
 
-/* ── VIEWS ── */
-.view{ display:none; }
-.view.active{ display:block; }
+.line{ white-space:pre-wrap; overflow-wrap:anywhere; min-height:1em; }
+.dim{ color:#65E903; opacity:.55; }
 
-/* ── SCOREBOARD TABLE ── */
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:8px;
+/* link identici all'originale */
+a{
+    color:#65E903; text-decoration:none;
+    background:#0a3a2a; border:1px solid transparent;
+    line-height:1.2 !important; display:inline-block;
 }
-th{
-    text-align:left;
-    color:#65E903;
-    border-bottom:1px solid #1a3a1a;
-    padding:2px 8px;
-    opacity:.7;
-    font-weight:normal;
-}
-td{
-    padding:3px 8px;
-    border-bottom:1px solid #0a1a0a;
-}
-tr:hover td{ background:#0a1a0a; }
-.rank-1 td:first-child{ color:#ffd700; }
-.rank-2 td:first-child{ color:#c0c0c0; }
-.rank-3 td:first-child{ color:#cd7f32; }
-.pts{ color:#9cff5f; }
-.solved-count{ opacity:.6; }
+a:hover{ color:#9cff5f; background:#3a9070; }
 
-/* ── CHALLENGE CARDS ── */
-.cat-header{
-    margin-top:18px;
+/* ── griglia challenge ── */
+.cat-label{
+    margin-top:16px;
     margin-bottom:6px;
-    border-left:3px solid #65E903;
-    padding-left:8px;
-    opacity:.75;
-    font-size:.9em;
+    opacity:.5;
+    font-size:.85em;
 }
+
 .chall-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
     gap:8px;
-    margin-top:4px;
 }
+
+/* stesso colore di sfondo dei link: #0a3a2a */
 .chall-card{
-    background:#0a1a0a;
-    border:1px solid #1a3a1a;
+    background:#0a3a2a;
+    border:1px solid transparent;
     padding:10px 12px;
     cursor:pointer;
-    transition:.15s;
+    transition:.12s;
+    display:block;
+    color:#65E903;
+    text-decoration:none;
+    line-height:1.2;
 }
 .chall-card:hover{
-    border-color:#65E903;
-    background:#0d220d;
-}
-.chall-card.solved{
-    border-color:#2a5a2a;
-    opacity:.65;
-}
-.chall-title{
-    color:#65E903;
-    font-size:1.05em;
-}
-.chall-card.solved .chall-title::after{
-    content:" ✓";
+    background:#3a9070;
     color:#9cff5f;
-    font-size:.85em;
 }
-.chall-meta{
-    font-size:.78em;
-    opacity:.55;
-    margin-top:2px;
-}
-.chall-pts{
-    color:#9cff5f;
-    float:right;
-    font-size:.9em;
-}
-.diff-easy{ border-top:2px solid #2a6a2a; }
-.diff-med{  border-top:2px solid #6a6a2a; }
-.diff-hard{ border-top:2px solid #6a2a2a; }
-.diff-insane{ border-top:2px solid #6a1a5a; }
 
-/* ── MODAL / FLAG SUBMIT ── */
-#modal-bg{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    z-index:500;
-    align-items:center;
-    justify-content:center;
-}
-#modal-bg.open{ display:flex; }
-#modal{
-    background:#001c1c;
-    border:1px dashed #65E903;
-    padding:20px 24px;
-    max-width:540px;
-    width:95%;
-    font-family:'VT323', monospace;
-    font-size:22px;
-    color:#65E903;
-}
-#modal h2{ font-size:1.1em; font-weight:normal; margin-bottom:8px; }
-#modal .chall-desc{ opacity:.7; font-size:.85em; margin-bottom:12px; line-height:1.3; white-space:pre-wrap; }
-#modal .hints{ margin-bottom:12px; font-size:.82em; opacity:.55; }
-.flag-row{
+.chall-top{
     display:flex;
-    gap:6px;
-    margin-top:10px;
+    justify-content:space-between;
+    align-items:baseline;
 }
-#flag-input{
-    flex:1;
-    background:transparent;
-    border:1px solid #65E903;
-    color:#65E903;
-    font-family:inherit;
-    font-size:inherit;
-    padding:2px 8px;
-    outline:none;
-    caret-color:#65E903;
-}
-#flag-input::placeholder{ opacity:.3; }
-.btn{
-    background:#0a3a2a;
-    border:1px solid #65E903;
-    color:#65E903;
-    font-family:inherit;
-    font-size:inherit;
-    padding:2px 12px;
-    cursor:pointer;
-}
-.btn:hover{ background:#3a9070; color:#fff; }
-.btn.danger{ background:#3a0a0a; border-color:#e05050; color:#e05050; }
-.btn.danger:hover{ background:#6a1a1a; color:#fff; }
-#flag-result{
-    margin-top:6px;
-    font-size:.85em;
-    min-height:1.3em;
-}
-.ok{ color:#65E903; }
-.err{ color:#e05050; }
-.dim{ opacity:.55; }
-.blink{
-    animation:blink 1s step-end infinite;
-}
-@keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0;} }
+.chall-title{ font-size:1em; }
+.chall-pts{ color:#9cff5f; font-size:.85em; }
+.chall-card:hover .chall-pts{ color:#fff; }
+.chall-meta{ font-size:.78em; opacity:.6; margin-top:3px; }
+.chall-desc{ font-size:.82em; opacity:.65; margin-top:4px; line-height:1.25; }
 
-/* ── ADMIN PANEL ── */
-.admin-section{
-    margin-top:18px;
-    border:1px solid #1a3a1a;
-    padding:12px;
-}
-.admin-section h3{
-    font-weight:normal;
-    font-size:.95em;
-    border-bottom:1px solid #1a3a1a;
-    margin-bottom:10px;
-    padding-bottom:4px;
-    opacity:.7;
-}
-.form-row{
-    display:grid;
-    grid-template-columns:130px 1fr;
-    align-items:center;
-    gap:4px 8px;
-    margin-bottom:6px;
-}
-.form-row label{ opacity:.6; font-size:.85em; }
-.form-input, .form-select, .form-textarea{
-    background:transparent;
-    border:1px solid #2a4a2a;
-    color:#65E903;
-    font-family:inherit;
-    font-size:.9em;
-    padding:2px 6px;
-    outline:none;
-    width:100%;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus{
-    border-color:#65E903;
-}
-.form-select option{ background:#001c1c; }
-.form-textarea{ resize:vertical; min-height:60px; }
-.admin-chall-list{ margin-top:8px; }
-.admin-chall-item{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:3px 0;
-    border-bottom:1px solid #0a1a0a;
-    font-size:.85em;
-}
-.admin-chall-item .del-btn{
-    margin-left:auto;
-    cursor:pointer;
-    color:#e05050;
-    opacity:.6;
-    font-size:.85em;
-    flex-shrink:0;
-}
-.admin-chall-item .del-btn:hover{ opacity:1; }
-.badge{
-    font-size:.7em;
-    padding:0 4px;
-    border:1px solid currentColor;
-    opacity:.6;
-}
+/* difficoltà — solo un puntino colorato nel titolo */
+.dot{ display:inline-block; width:.45em; height:.45em; border-radius:50%; margin-right:5px; vertical-align:middle; position:relative; top:-.1em; }
+.dot-easy  { background:#2a9a2a; }
+.dot-med   { background:#9a9a2a; }
+.dot-hard  { background:#9a2a2a; }
+.dot-insane{ background:#9a1a8a; }
 
-/* ── TERMINAL BOOT ── */
-#boot-screen{
-    position:fixed;
-    inset:0;
-    background:#0c0d10;
-    color:#65E903;
-    font-family:'VT323',monospace;
-    font-size:22px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:flex-start;
-    padding:48px;
-    z-index:9999;
-    transition:opacity .4s;
-}
-#boot-screen.fade{ opacity:0; pointer-events:none; }
+.sep{ border:none; border-top:1px solid #1a3a1a; margin:14px 0; }
 
-/* ── PROFILE ── */
-.profile-box{
-    background:#0a1a0a;
-    border:1px solid #1a3a1a;
-    padding:12px 16px;
-    margin-bottom:12px;
-}
-.profile-stat{ display:inline-block; margin-right:24px; }
-.profile-stat .val{ color:#9cff5f; }
-
-/* ── RESPONSIVE ── */
-@media(max-width:600px){
-    body{ font-size:18px; }
+@media(max-width:640px){
+    html,body{ overflow-x:hidden !important; width:100%; }
+    body{ padding:20px 10px; font-size:20px; }
+    .screen{ padding:12px; overflow-x:hidden; }
+    #navbar{ font-size:20px !important; }
+    #navbar-inner{ padding:0 4px 0 2px; gap:0; }
+    .nav-entry > a{ padding:1px 3px !important; }
+    .nav-sep{ padding:0 1px !important; }
     .chall-grid{ grid-template-columns:1fr; }
-    .form-row{ grid-template-columns:1fr; }
-    #boot-screen{ padding:24px 16px; }
-}
-
-hr.sep{
-    border:none;
-    border-top:1px solid #1a3a1a;
-    margin:12px 0;
 }
 </style>
 </head>
 <body>
 
-<!-- BOOT SCREEN -->
-<div id="boot-screen">
-    <div id="boot-log"></div>
-</div>
-
-<!-- NAVBAR -->
 <nav id="navbar">
 <div id="navbar-inner">
-    <span id="nav-title">root@ctf:~#</span>
+    <div class="nav-entry"><a href="index.html">← HOME</a></div>
     <span class="nav-sep">|</span>
-    <span class="nav-item active" onclick="showView('challenges')">CHALLENGES</span>
-    <span class="nav-sep">|</span>
-    <span class="nav-item" onclick="showView('scoreboard')">SCOREBOARD</span>
-    <span class="nav-sep">|</span>
-    <span class="nav-item" onclick="showView('profile')">PROFILE</span>
-    <span class="nav-sep">|</span>
-    <span class="nav-item" onclick="showView('admin')">ADMIN</span>
+    <div class="nav-entry"><a href="#">CTF</a></div>
 </div>
 </nav>
 
-<div class="wrapper">
+<div class="wrapper" style="padding:16px 22px 36px;">
 <div class="screen">
 
-<!-- CHALLENGES VIEW -->
-<div id="view-challenges" class="view active">
-    <div class="dim" style="font-size:.8em;margin-bottom:8px;">;TYPE <span class="ok">ls</span> TO LIST, CLICK A CARD TO SUBMIT FLAG</div>
+    <div class="line"><span class="dim">;clicca su una challenge per scaricare l'eseguibile</span></div>
+
     <div id="chall-container"></div>
-</div>
 
-<!-- SCOREBOARD VIEW -->
-<div id="view-scoreboard" class="view">
-    <div class="dim" style="font-size:.8em;margin-bottom:8px;">;LIVE SCOREBOARD — AUTO REFRESH 30s</div>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>HANDLE</th>
-                <th>SCORE</th>
-                <th>SOLVED</th>
-                <th>LAST SOLVE</th>
-            </tr>
-        </thead>
-        <tbody id="score-body"></tbody>
-    </table>
-</div>
-
-<!-- PROFILE VIEW -->
-<div id="view-profile" class="view">
-    <div class="dim" style="font-size:.8em;margin-bottom:8px;">;YOUR SESSION</div>
-    <div class="profile-box">
-        <div><span class="dim">handle: </span><span id="prof-handle" style="color:#9cff5f"></span></div>
-        <div style="margin-top:6px">
-            <span class="profile-stat"><span class="dim">score: </span><span class="val" id="prof-score">0</span> pts</span>
-            <span class="profile-stat"><span class="dim">solved: </span><span class="val" id="prof-solved">0</span></span>
-        </div>
-    </div>
-    <div>
-        <div class="dim" style="font-size:.8em;margin-bottom:6px;">;CHANGE HANDLE</div>
-        <div style="display:flex;gap:8px;">
-            <input class="form-input" id="handle-input" style="max-width:260px" placeholder="nuovo handle...">
-            <button class="btn" onclick="changeHandle()">SET</button>
-        </div>
-        <div id="handle-result" style="margin-top:4px;font-size:.82em;"></div>
-    </div>
-    <hr class="sep">
-    <div class="dim" style="font-size:.8em;margin-bottom:6px;">;CHALLENGE RISOLTE</div>
-    <div id="prof-solved-list"></div>
-</div>
-
-<!-- ADMIN VIEW -->
-<div id="view-admin" class="view">
-    <div class="dim" style="font-size:.8em;margin-bottom:8px;">;ADMIN PANEL — GESTIONE CHALLENGE</div>
-
-    <div class="admin-section">
-        <h3>;[+] AGGIUNGI CHALLENGE</h3>
-        <div class="form-row"><label>titolo</label><input class="form-input" id="a-title" placeholder="Challenge Name"></div>
-        <div class="form-row"><label>categoria</label>
-            <select class="form-select" id="a-cat">
-                <option>PWN</option>
-                <option>REV</option>
-                <option>WEB</option>
-                <option>CRYPTO</option>
-                <option>FORENSICS</option>
-                <option>MISC</option>
-            </select>
-        </div>
-        <div class="form-row"><label>difficoltà</label>
-            <select class="form-select" id="a-diff">
-                <option value="easy">EASY</option>
-                <option value="med">MEDIUM</option>
-                <option value="hard">HARD</option>
-                <option value="insane">INSANE</option>
-            </select>
-        </div>
-        <div class="form-row"><label>punti</label><input class="form-input" id="a-pts" type="number" value="100" min="1"></div>
-        <div class="form-row"><label>flag</label><input class="form-input" id="a-flag" placeholder="CTF{...}"></div>
-        <div class="form-row"><label>descrizione</label><textarea class="form-textarea" id="a-desc" placeholder="Descrizione della challenge..."></textarea></div>
-        <div class="form-row"><label>hint (opz.)</label><input class="form-input" id="a-hint" placeholder="hint opzionale"></div>
-        <div class="form-row"><label>link file</label><input class="form-input" id="a-file" placeholder="https://... (opzionale)"></div>
-        <div style="margin-top:10px;display:flex;gap:8px;align-items:center;">
-            <button class="btn" onclick="adminAdd()">+ AGGIUNGI</button>
-            <span id="admin-result" style="font-size:.82em;"></span>
-        </div>
-    </div>
-
-    <div class="admin-section">
-        <h3>;[*] CHALLENGE ESISTENTI</h3>
-        <div class="admin-chall-list" id="admin-list"></div>
-    </div>
-
-    <div class="admin-section">
-        <h3>;[!] DANGER ZONE</h3>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn danger" onclick="resetScores()">RESET SCORE</button>
-            <button class="btn danger" onclick="resetAll()">RESET TUTTO</button>
-        </div>
-        <div class="dim" style="font-size:.75em;margin-top:6px;">;reset score: azzera i punteggi ma mantiene le challenge · reset tutto: cancella tutto</div>
-    </div>
-</div>
-
-</div><!-- /screen -->
-</div><!-- /wrapper -->
-
-<!-- MODAL FLAG SUBMIT -->
-<div id="modal-bg" onclick="closeModal(event)">
-<div id="modal">
-    <h2 id="modal-title"></h2>
-    <div id="modal-cat-pts" style="font-size:.8em;opacity:.55;margin-bottom:8px;"></div>
-    <div class="chall-desc" id="modal-desc"></div>
-    <div class="hints" id="modal-hint"></div>
-    <div id="modal-file"></div>
-    <div class="flag-row">
-        <input class="form-input" id="flag-input" placeholder="CTF{...}" autocomplete="off" spellcheck="false">
-        <button class="btn" onclick="submitFlag()">SUBMIT</button>
-        <button class="btn danger" onclick="closeModal()">✕</button>
-    </div>
-    <div id="flag-result"></div>
 </div>
 </div>
 
 <script>
-/* ═══ STORAGE KEY ═══ */
-const KEY_CHALLS  = "ctf_challenges";
-const KEY_SCORES  = "ctf_scores";
-const KEY_HANDLE  = "ctf_handle";
-const KEY_SOLVED  = "ctf_solved";
-
-/* ═══ DEFAULT CHALLENGES ═══ */
-const DEFAULT_CHALLENGES = [
-    { id:"c1", title:"Baby Rev", cat:"REV", diff:"easy", pts:50, flag:"CTF{r3v_st4rt3d}", desc:"Analizza questo semplice crackme e trova la password corretta.\n\nIl binario controlla una stringa hardcoded dopo una semplice trasformazione XOR con chiave 0x42.", hint:"strings + XOR", file:"" },
-    { id:"c2", title:"Stack Overflow", cat:"PWN", diff:"med", pts:150, flag:"CTF{b0f_cl4ss1c}", desc:"Buffer overflow classico su x86-64.\nNessuna protezione stack canary. Reindirizza il flusso alla funzione win().", hint:"checksec + gdb", file:"" },
-    { id:"c3", title:"Web 101", cat:"WEB", diff:"easy", pts:50, flag:"CTF{sqli_1s_d34d}", desc:"Pagina di login vulnerabile a SQL injection.\nBypass l'autenticazione e recupera il flag dal database.", hint:"' OR 1=1--", file:"" },
-    { id:"c4", title:"XOR Crypto", cat:"CRYPTO", diff:"easy", pts:75, flag:"CTF{xor_1s_n0t_3ncrypt10n}", desc:"Ciphertext cifrato con XOR a chiave ripetuta.\nLa chiave è lunga 4 byte.", hint:"known plaintext attack", file:"" },
-    { id:"c5", title:"Heap Exploit", cat:"PWN", diff:"hard", pts:400, flag:"CTF{h34p_m4g1c}", desc:"Use-after-free su un custom allocator.\nLeakka libc, poi sfrutta tcache poisoning.", hint:"pwndbg + pwntools", file:"" },
-    { id:"c6", title:"PCAP Mystery", cat:"FORENSICS", diff:"med", pts:200, flag:"CTF{p4ck3t_sn1ff3d}", desc:"Una cattura di rete nasconde qualcosa.\nAnalizza il traffico e trova il flag esfiltrato.", hint:"wireshark + follow stream", file:"" },
+/* ══════════════════════════════════════════
+   CHALLENGE LIST — modifica qui
+══════════════════════════════════════════ */
+const CHALLENGES = [
+    {
+        cat: "REV",
+        challenges: [
+            { title:"Baby Rev",       diff:"easy",   pts:50,  desc:"Crackme con password offuscata tramite XOR.", file:"baby_rev" },
+            { title:"Packed Binary",  diff:"med",    pts:150, desc:"Eseguibile compresso con UPX. Trova la chiave nascosta.", file:"packed_binary" },
+        ]
+    },
+    {
+        cat: "PWN",
+        challenges: [
+            { title:"Stack Overflow", diff:"med",    pts:150, desc:"Buffer overflow classico su x86-64. Reindirizza il flusso.", file:"stack_overflow" },
+            { title:"Heap Exploit",   diff:"hard",   pts:400, desc:"Use-after-free su custom allocator. Tcache poisoning.", file:"heap_exploit" },
+        ]
+    },
+    {
+        cat: "WEB",
+        challenges: [
+            { title:"Web 101",        diff:"easy",   pts:50,  desc:"Pagina di login vulnerabile a SQL injection.", file:"" },
+            { title:"SSRF Lab",       diff:"hard",   pts:350, desc:"Server-Side Request Forgery su endpoint interno.", file:"" },
+        ]
+    },
+    {
+        cat: "CRYPTO",
+        challenges: [
+            { title:"XOR Crypto",     diff:"easy",   pts:75,  desc:"Ciphertext cifrato con XOR a chiave ripetuta di 4 byte.", file:"xor_crypto" },
+        ]
+    },
+    {
+        cat: "FORENSICS",
+        challenges: [
+            { title:"PCAP Mystery",   diff:"med",    pts:200, desc:"Analizza la cattura di rete e trova il flag esfiltrato.", file:"pcap_mystery.pcap" },
+        ]
+    },
 ];
 
-/* ═══ STATE ═══ */
-let challenges = [];
-let scores     = {};   // { handle: { score, solved:[], lastSolve } }
-let myHandle   = "";
-let mySolved   = [];   // array di id
-let currentChall = null;
-
-function load(){
-    try { challenges = JSON.parse(localStorage.getItem(KEY_CHALLS)) || DEFAULT_CHALLENGES; } catch{ challenges = [...DEFAULT_CHALLENGES]; }
-    try { scores     = JSON.parse(localStorage.getItem(KEY_SCORES))  || {}; }               catch{ scores = {}; }
-    try { myHandle   = localStorage.getItem(KEY_HANDLE) || "anon_" + Math.random().toString(36).slice(2,6); } catch{ myHandle="anon"; }
-    try { mySolved   = JSON.parse(localStorage.getItem(KEY_SOLVED))  || []; }               catch{ mySolved=[]; }
-    localStorage.setItem(KEY_HANDLE, myHandle);
-}
-
-function save(){
-    localStorage.setItem(KEY_CHALLS,  JSON.stringify(challenges));
-    localStorage.setItem(KEY_SCORES,  JSON.stringify(scores));
-    localStorage.setItem(KEY_HANDLE,  myHandle);
-    localStorage.setItem(KEY_SOLVED,  JSON.stringify(mySolved));
-}
-
-/* ═══ VIEW SWITCHER ═══ */
-function showView(name){
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    document.getElementById('view-'+name).classList.add('active');
-    event && event.target && event.target.classList.add('active');
-    if(name==='challenges') renderChallenges();
-    if(name==='scoreboard') renderScoreboard();
-    if(name==='profile')    renderProfile();
-    if(name==='admin')      renderAdmin();
-}
-
-/* ═══ CHALLENGES ═══ */
-function renderChallenges(){
-    const cats = [...new Set(challenges.map(c=>c.cat))];
-    const container = document.getElementById('chall-container');
-    container.innerHTML = '';
-    cats.forEach(cat=>{
-        const hdr = document.createElement('div');
-        hdr.className = 'cat-header';
-        hdr.textContent = `;[${cat}]`;
-        container.appendChild(hdr);
-        const grid = document.createElement('div');
-        grid.className = 'chall-grid';
-        challenges.filter(c=>c.cat===cat).forEach(c=>{
-            const solved = mySolved.includes(c.id);
-            const solveCount = Object.values(scores).filter(s=>s.solved&&s.solved.includes(c.id)).length;
-            const card = document.createElement('div');
-            card.className = `chall-card diff-${c.diff}${solved?' solved':''}`;
-            card.innerHTML = `
-                <span class="chall-pts">${c.pts} pts</span>
-                <div class="chall-title">${esc(c.title)}</div>
-                <div class="chall-meta">${c.diff.toUpperCase()} &nbsp;·&nbsp; ${solveCount} solve${solveCount!==1?'s':''}</div>`;
-            card.onclick = ()=>openModal(c);
-            grid.appendChild(card);
-        });
-        container.appendChild(grid);
-    });
-}
-
-/* ═══ MODAL ═══ */
-function openModal(c){
-    currentChall = c;
-    document.getElementById('modal-title').textContent = c.title;
-    document.getElementById('modal-cat-pts').textContent = `[${c.cat}] · ${c.diff.toUpperCase()} · ${c.pts} pts`;
-    document.getElementById('modal-desc').textContent = c.desc || '';
-    document.getElementById('modal-hint').textContent = c.hint ? `;hint: ${c.hint}` : '';
-    document.getElementById('modal-file').innerHTML = c.file ? `<a href="${esc(c.file)}" target="_blank" class="dim" style="font-size:.82em;">;download: ${esc(c.file)}</a>` : '';
-    document.getElementById('flag-input').value = '';
-    document.getElementById('flag-result').innerHTML = mySolved.includes(c.id)
-        ? '<span class="ok">;challenge già risolta ✓</span>' : '';
-    document.getElementById('modal-bg').classList.add('open');
-    setTimeout(()=>document.getElementById('flag-input').focus(),50);
-}
-
-function closeModal(e){
-    if(e && e.target !== document.getElementById('modal-bg') && e.type==='click') return;
-    document.getElementById('modal-bg').classList.remove('open');
-    currentChall = null;
-}
-
-document.getElementById('flag-input').addEventListener('keydown', e=>{
-    if(e.key==='Enter') submitFlag();
-    if(e.key==='Escape') closeModal();
-});
-
-function submitFlag(){
-    if(!currentChall) return;
-    const val = document.getElementById('flag-input').value.trim();
-    const res = document.getElementById('flag-result');
-    if(!val){ res.innerHTML='<span class="err">;inserisci una flag</span>'; return; }
-    if(mySolved.includes(currentChall.id)){
-        res.innerHTML='<span class="dim">;già risolta</span>'; return;
-    }
-    if(val === currentChall.flag){
-        mySolved.push(currentChall.id);
-        if(!scores[myHandle]) scores[myHandle]={score:0,solved:[],lastSolve:''};
-        scores[myHandle].score += currentChall.pts;
-        scores[myHandle].solved = [...mySolved];
-        scores[myHandle].lastSolve = new Date().toISOString().slice(0,16).replace('T',' ');
-        save();
-        res.innerHTML='<span class="ok">;FLAG CORRETTA! +'+currentChall.pts+' pts ▒▒▒</span>';
-        setTimeout(()=>{ renderChallenges(); }, 800);
-    } else {
-        res.innerHTML='<span class="err">;FLAG ERRATA — riprova</span>';
-        document.getElementById('flag-input').style.borderColor='#e05050';
-        setTimeout(()=>document.getElementById('flag-input').style.borderColor='#65E903',800);
-    }
-}
-
-/* ═══ SCOREBOARD ═══ */
-function renderScoreboard(){
-    const body = document.getElementById('score-body');
-    const sorted = Object.entries(scores)
-        .map(([h,d])=>({handle:h,...d}))
-        .sort((a,b)=>b.score-a.score || new Date(a.lastSolve)-new Date(b.lastSolve));
-    body.innerHTML = '';
-    if(!sorted.length){ body.innerHTML=`<tr><td colspan="5" class="dim">;nessun punteggio ancora</td></tr>`; return; }
-    sorted.forEach((p,i)=>{
-        const tr = document.createElement('tr');
-        if(i<3) tr.className=`rank-${i+1}`;
-        const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-        tr.innerHTML = `
-            <td>${medal||('#'+(i+1))}</td>
-            <td style="color:${p.handle===myHandle?'#9cff5f':'#65E903'}">${esc(p.handle)}${p.handle===myHandle?' ◀':''}</td>
-            <td class="pts">${p.score}</td>
-            <td class="solved-count">${(p.solved||[]).length}</td>
-            <td class="dim" style="font-size:.8em">${p.lastSolve||'-'}</td>`;
-        body.appendChild(tr);
-    });
-}
-
-/* ═══ PROFILE ═══ */
-function renderProfile(){
-    document.getElementById('prof-handle').textContent = myHandle;
-    document.getElementById('prof-score').textContent = scores[myHandle]?.score || 0;
-    document.getElementById('prof-solved').textContent = mySolved.length;
-    document.getElementById('handle-input').value = myHandle;
-    const list = document.getElementById('prof-solved-list');
-    if(!mySolved.length){ list.innerHTML='<span class="dim">;nessuna challenge risolta</span>'; return; }
-    list.innerHTML = mySolved.map(id=>{
-        const c = challenges.find(x=>x.id===id);
-        return c ? `<div class="dim" style="font-size:.85em">[${c.cat}] ${esc(c.title)} <span style="color:#9cff5f">+${c.pts}</span></div>` : '';
-    }).join('');
-}
-
-function changeHandle(){
-    const newH = document.getElementById('handle-input').value.trim().slice(0,32);
-    const res = document.getElementById('handle-result');
-    if(!newH){ res.innerHTML='<span class="err">;handle vuoto</span>'; return; }
-    if(newH === myHandle){ res.innerHTML='<span class="dim">;invariato</span>'; return; }
-    // migrate score
-    if(scores[myHandle]){ scores[newH]=scores[myHandle]; delete scores[myHandle]; }
-    myHandle = newH;
-    save();
-    renderProfile();
-    res.innerHTML='<span class="ok">;handle aggiornato</span>';
-}
-
-/* ═══ ADMIN ═══ */
-function renderAdmin(){
-    const list = document.getElementById('admin-list');
-    if(!challenges.length){ list.innerHTML='<div class="dim">;nessuna challenge</div>'; return; }
-    list.innerHTML = '';
-    challenges.forEach(c=>{
-        const d = document.createElement('div');
-        d.className='admin-chall-item';
-        d.innerHTML = `<span class="badge">${c.cat}</span> <span>${esc(c.title)}</span> <span class="dim">${c.pts}pts</span> <span class="del-btn" onclick="adminDel('${c.id}')">[DEL]</span>`;
-        list.appendChild(d);
-    });
-}
-
-function adminAdd(){
-    const title = document.getElementById('a-title').value.trim();
-    const cat   = document.getElementById('a-cat').value;
-    const diff  = document.getElementById('a-diff').value;
-    const pts   = parseInt(document.getElementById('a-pts').value)||100;
-    const flag  = document.getElementById('a-flag').value.trim();
-    const desc  = document.getElementById('a-desc').value.trim();
-    const hint  = document.getElementById('a-hint').value.trim();
-    const file  = document.getElementById('a-file').value.trim();
-    const res   = document.getElementById('admin-result');
-
-    if(!title||!flag){ res.innerHTML='<span class="err">;titolo e flag obbligatori</span>'; return; }
-
-    const id = 'c'+Date.now();
-    challenges.push({id,title,cat,diff,pts,flag,desc,hint,file});
-    save();
-    renderAdmin();
-    res.innerHTML='<span class="ok">;challenge aggiunta</span>';
-    document.getElementById('a-title').value='';
-    document.getElementById('a-flag').value='';
-    document.getElementById('a-desc').value='';
-    document.getElementById('a-hint').value='';
-    document.getElementById('a-file').value='';
-}
-
-function adminDel(id){
-    if(!confirm('Eliminare questa challenge?')) return;
-    challenges = challenges.filter(c=>c.id!==id);
-    mySolved   = mySolved.filter(s=>s!==id);
-    Object.values(scores).forEach(s=>{ if(s.solved) s.solved=s.solved.filter(x=>x!==id); });
-    save();
-    renderAdmin();
-    renderChallenges();
-}
-
-function resetScores(){
-    if(!confirm('Azzerare tutti i punteggi?')) return;
-    scores = {}; mySolved = [];
-    save(); renderAdmin(); renderScoreboard();
-    document.getElementById('admin-result').innerHTML='<span class="ok">;score azzerati</span>';
-}
-
-function resetAll(){
-    if(!confirm('Cancellare TUTTO (challenge + score)?')) return;
-    challenges=[...DEFAULT_CHALLENGES]; scores={}; mySolved=[];
-    save(); renderAdmin(); renderChallenges();
-}
-
-/* ═══ UTIL ═══ */
+/* ══════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════ */
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-/* ═══ BOOT SEQUENCE ═══ */
-async function boot(){
-    load();
-    const log = document.getElementById('boot-log');
-    const lines = [
-        "CONNECT 2400 BAUD...",
-        "HANDSHAKE OK",
-        "",
-        "LOADING CTF PLATFORM v0.1",
-        `CHALLENGES LOADED: ${challenges.length}`,
-        `HANDLE: ${myHandle}`,
-        "",
-        "SYSTEM READY.",
-    ];
-    for(const l of lines){
-        const d=document.createElement('div');
-        d.style.minHeight='1.25em';
-        log.appendChild(d);
-        for(const c of l){ d.textContent+=c; await new Promise(r=>setTimeout(r,18)); }
-        await new Promise(r=>setTimeout(r,80));
+const container = document.getElementById('chall-container');
+
+CHALLENGES.forEach((section, si) => {
+    const label = document.createElement('div');
+    label.className = 'cat-label';
+    label.innerHTML = `;[${section.cat}]`;
+    container.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'chall-grid';
+
+    section.challenges.forEach(c => {
+        const card = document.createElement('a');
+        card.className = 'chall-card';
+
+        if(c.file){
+            card.href = c.file;
+            /* forza download se è un binario (no estensione o estensione non web) */
+            const ext = c.file.split('.').pop().toLowerCase();
+            const webExts = ['html','htm','pdf','txt','png','jpg','gif'];
+            if(!webExts.includes(ext)) card.setAttribute('download','');
+        } else {
+            card.href = '#';
+            card.style.opacity = '.5';
+            card.style.cursor = 'default';
+            card.onclick = e => e.preventDefault();
+        }
+
+        card.innerHTML =
+            `<div class="chall-top">` +
+                `<span class="chall-title"><span class="dot dot-${c.diff}"></span>${esc(c.title)}</span>` +
+                `<span class="chall-pts">${c.pts}&nbsp;pts</span>` +
+            `</div>` +
+            `<div class="chall-meta">${c.diff.toUpperCase()}${!c.file?' &nbsp;·&nbsp; <span style="opacity:.5">no file</span>':''}</div>` +
+            (c.desc ? `<div class="chall-desc">${esc(c.desc)}</div>` : '');
+
+        grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+
+    if(si < CHALLENGES.length - 1){
+        const hr = document.createElement('hr');
+        hr.className = 'sep';
+        container.appendChild(hr);
     }
-    await new Promise(r=>setTimeout(r,350));
-    document.getElementById('boot-screen').classList.add('fade');
-    setTimeout(()=>document.getElementById('boot-screen').remove(), 450);
-    renderChallenges();
-}
-
-/* scoreboard auto-refresh */
-setInterval(()=>{
-    if(document.getElementById('view-scoreboard').classList.contains('active')) renderScoreboard();
-}, 30000);
-
-boot();
+});
 </script>
 </body>
 </html>
