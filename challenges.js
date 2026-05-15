@@ -12,8 +12,8 @@ const CHALLENGES = [
     {
         cat: "PWN",
         challenges: [
-            { title:"Smash The Stack For Fun And Profit", diff:"med",    pts:100, flag:"5d07a78c0349a26c535b3f44034b257afae3e8701ee41a39a2af16461b817380",       file:"smash2",      desc:"Buffer overflow classico su x86-64." },
             { title:"Stack Overflow", diff:"easy",    pts:50, flag:"c6f98dd180bc4255b089c789c45c7708e3eef5e909c610a41e9b230cb5c95ad9",       file:"smash",      desc:"Buffer overflow classico su x86-64." },
+            { title:"Smash The Stack For Fun And Profit", diff:"med",    pts:100, flag:"5d07a78c0349a26c535b3f44034b257afae3e8701ee41a39a2af16461b817380",       file:"smash2",      desc:"Buffer overflow classico su x86-64." },
         ]
     },
     {
