@@ -21,6 +21,7 @@ const CHALLENGES = [
         cat: "MAL",
         challenges: [
             { title:"Dropper",        diff:"med",    pts:150, flag:"282462e6de49e5c1e0b2d58a120a51c7c53c24783388ba2bb37b887f49bc0dcb",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
+            { title:"Loader",        diff:"med",    pts:150, flag:"6539942db0e8209fa3d16f8b31e0ef196f20ff2793a522661619d9b3f8eabaf5",         file:"loader",                    desc:"Analizza un loader ELF. Trova la flag." },
         ]
     },
     {
