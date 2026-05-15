@@ -4,7 +4,7 @@
 ══════════════════════════════════════════ */
 const CHALLENGES = [
     {
-        cat: "REV",
+        cat: "REVERSE",
         challenges: [
             { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"7ca442e90fbe04d1d52da076f4383cf5e59bb8113b0ee72ec84f71dd5e5a33e6",        file:"hcf000",            desc:"Reversing for dummies." },
             { title:"sFunc",       diff:"med",   pts:100,  flag:"04e2b0d7d3159b6fe013687210aec7850da1f1b4555e16bb7bfb2e7a6234ea74",        file:"sw.txt",            desc:"Reversing della sFunc. La flag è: flag{...}." },
@@ -18,7 +18,7 @@ const CHALLENGES = [
         ]
     },
     {
-        cat: "MAL",
+        cat: "MALWARE",
         challenges: [
             { title:"Dropper",        diff:"med",    pts:150, flag:"282462e6de49e5c1e0b2d58a120a51c7c53c24783388ba2bb37b887f49bc0dcb",         file:"dropper",                    desc:"Analizza un dropper ELF. Trova la flag." },
             { title:"Loader",        diff:"med",    pts:150, flag:"6539942db0e8209fa3d16f8b31e0ef196f20ff2793a522661619d9b3f8eabaf5",         file:"loader",                    desc:"Analizza un loader ELF. Trova la flag." },
