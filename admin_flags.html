@@ -556,7 +556,7 @@ async function check(inputId, playerInputId, cat, title, correctHash, pts){
 
     if(!val){
         result.className = 'val-result fail';
-        result.textContent = ';inserisci una flag';
+        result.textContent = 'inserisci una flag';
         return;
     }
 
@@ -564,7 +564,7 @@ async function check(inputId, playerInputId, cat, title, correctHash, pts){
 
     if(hash !== correctHash){
     	result.className = 'val-result fail';
-    	result.textContent = ';[FAIL] flag errata ✗';
+    	result.textContent = '[FAIL] flag errata ✗';
     	flagEl.style.borderColor = '#e05050';
     	return;
    }
@@ -574,21 +574,21 @@ async function check(inputId, playerInputId, cat, title, correctHash, pts){
 
     if(!pid || pid < 1){
         result.className = 'val-result ok';
-        result.textContent = ';[OK] flag corretta ✓  (nessun giocatore selezionato)';
+        result.textContent = '[OK] flag corretta ✓  (nessun giocatore selezionato)';
         return;
     }
 
     const player = players.find(p => p.id === pid);
     if(!player){
         result.className = 'val-result ok';
-        result.textContent = `;[OK] flag corretta ✓  (player #${pid} non trovato — aggiungerlo prima)`;
+        result.textContent = `[OK] flag corretta ✓  (player #${pid} non trovato — aggiungerlo prima)`;
         return;
     }
 
     const key = challKey(cat, title);
     if(player.solved.has(key)){
         result.className = 'val-result ok';
-        result.textContent = `;[OK] già assegnato a ${player.name}`;
+        result.textContent = `[OK] già assegnato a ${player.name}`;
         return;
     }
 
@@ -598,7 +598,7 @@ async function check(inputId, playerInputId, cat, title, correctHash, pts){
     renderScoreboard();
 
     result.className = 'val-result ok';
-    result.textContent = `;[OK] +${pts}pts → ${player.name}  [totale: ${player.score}pts]`;
+    result.textContent = `[OK] +${pts}pts → ${player.name}  [totale: ${player.score}pts]`;
 }
 
 /* ══════════════════════════════════════════
