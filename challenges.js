@@ -35,6 +35,7 @@ const CHALLENGES = [
         cat: "FORENSICS",
         challenges: [
             { title:"PCAP Mystery",   diff:"easy",    pts:50, flag:"2be272137d271e45f39caaf5cd2ede54e8dc99517e044f28192c78d74187ae98",    file:"ch1.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{...}" },
+            { title:"PCAP Telnet",   diff:"easy",    pts:50, flag:"c17beda8c96140db5cf5d7609224b06b0c465909abb0d3f58e53714bfd46bf10",    file:"ch2.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{...}" },
         ]
     },
 ];
