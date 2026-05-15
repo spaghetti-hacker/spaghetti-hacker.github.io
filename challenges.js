@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   challenges.js — file di configurazione condiviso
+   challenges.js :: file di configurazione condiviso
    Importato da ctf.html e admin_flags.html
 ══════════════════════════════════════════ */
 const CHALLENGES = [
