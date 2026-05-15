@@ -7,6 +7,7 @@ const CHALLENGES = [
         cat: "REV",
         challenges: [
             { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"7ca442e90fbe04d1d52da076f4383cf5e59bb8113b0ee72ec84f71dd5e5a33e6",        file:"hcf000",            desc:"Reversing for dummies." },
+            { title:"sFunc",       diff:"med",   pts:100,  flag:"04e2b0d7d3159b6fe013687210aec7850da1f1b4555e16bb7bfb2e7a6234ea74",        file:"sw.txt",            desc:"Reversing della sFunc. La flag è: flag{...}. Al posto dei puntini scrivere la parola inglese che descrive la sFunc." },
         ]
     },
     {
