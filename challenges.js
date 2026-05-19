@@ -7,7 +7,7 @@ const CHALLENGES = [
         cat: "REVERSE",
         challenges: [
             { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"7ca442e90fbe04d1d52da076f4383cf5e59bb8113b0ee72ec84f71dd5e5a33e6",        file:"hcf000",            desc:"Reversing for dummies." },
-            { title:"sFunc",       diff:"med",   pts:100,  flag:"04e2b0d7d3159b6fe013687210aec7850da1f1b4555e16bb7bfb2e7a6234ea74",        file:"sw.txt",            desc:"Reversing della sFunc. La flag è: flag{...}." },
+            { title:"sFunc",       diff:"med",   pts:100,  flag:"04e2b0d7d3159b6fe013687210aec7850da1f1b4555e16bb7bfb2e7a6234ea74",        file:"sw.txt",            desc:"Reversing della sFunc. La flag è: flag{cosa_fa_la_funzione_in_inglese}." },
             { title:"Bypass Me",       diff:"med",   pts:100,  flag:"8816ef83bbdf2c1e8f9bdd2216935d95708cd15baeb649763912020317cd3519",        file:"bypassme.bin",            desc:"Prova a bypassare il controllo sulla password." },
         ]
     },
@@ -37,8 +37,8 @@ const CHALLENGES = [
     {
         cat: "NETWORK",
         challenges: [
-            { title:"PCAP FTP",   diff:"easy",    pts:50, flag:"2be272137d271e45f39caaf5cd2ede54e8dc99517e044f28192c78d74187ae98",    file:"ch1.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{...}" },
-            { title:"PCAP Telnet",   diff:"easy",    pts:50, flag:"c17beda8c96140db5cf5d7609224b06b0c465909abb0d3f58e53714bfd46bf10",    file:"ch2.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{...}" },
+            { title:"PCAP FTP",   diff:"easy",    pts:50, flag:"2be272137d271e45f39caaf5cd2ede54e8dc99517e044f28192c78d74187ae98",    file:"ch1.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{password}" },
+            { title:"PCAP Telnet",   diff:"easy",    pts:50, flag:"c17beda8c96140db5cf5d7609224b06b0c465909abb0d3f58e53714bfd46bf10",    file:"ch2.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{password}" },
         ]
     },
 ];
