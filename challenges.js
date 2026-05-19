@@ -32,7 +32,7 @@ const CHALLENGES = [
         challenges: [
             { title:"XOR Crypto",     diff:"easy",   pts:50,  flag:"69e1ba6e2fd49d23c88269cba0180050134a63342e360c0a03112921cfe86129",      file:"xor.txt",          desc:"Decrypt the Ciphertext. Tool online consigliato: [CyberChef]." },
             { title:"ASCII Crypto",     diff:"easy",   pts:50,  flag:"2d838248a738c3c87345e5473c9c2f3a259689eb6676165cf14c5843f9fb8fe1",      file:"hr.txt",          desc:"Decrypt the Ciphertext. Tool online consigliato: [CyberChef]." },
-            { title:"Hash Crack",     diff:"med",   pts:100,  flag:"38529cec1f30394bcb1877071164ebec10e25cda6e4ca96dd534abd529612704",      file:"hashcrack",          desc:"Crack the Hash. Tool online consigliato: [Crack Station]." },
+            { title:"Hash Crack",     diff:"med",   pts:100,  flag:"38529cec1f30394bcb1877071164ebec10e25cda6e4ca96dd534abd529612704",      file:"hashcrack",          desc:"Crack the Hash. Tool online consigliato: [CrackStation]." },
         ]
     },
     {
