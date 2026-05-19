@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASAMATTA ~ CTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face{ font-family:gohu;       src:url("gohu.woff") format("woff"); }
+@font-face{ font-family:'Fixedsys'; src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype'); }
+@font-face{ font-family:unifont;    src:url("unifont.woff") format("woff"); }
+@font-face{ font-family:dos;        src:url("JetBrainsMonoNL-Medium.ttf") format("truetype"); }
+@font-face{ font-family:'VT323';    src:url('VT323-Regular.ttf') format('truetype'); }
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:VT323,dos,unifont,gohu,monospace;
+    font-size:26px;
+    letter-spacing:0px;
+    line-height:1.2;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+#navbar{
+    position:sticky; top:0; z-index:100;
+    user-select:none; -webkit-user-select:none;
+    background:#001c1c; border-bottom:1px solid #1a3a1a;
+    padding:0; display:flex; justify-content:flex-start;
+    font-family:VT323,dos,unifont,gohu,monospace; font-size:26px;
+    box-shadow:0 2px 12px rgba(101,233,3,.08);
+}
+#navbar-inner{
+    max-width:1024px; width:100%; margin:0 auto;
+    padding:0 22px 0 16px;
+    display:flex; align-items:center; flex-wrap:wrap; gap:0 4px;
+}
+.nav-entry > a{
+    color:#65E903; background:transparent; display:inline-block;
+    padding:1px 6px; line-height:1.2 !important;
+    border:1px solid transparent; white-space:nowrap;
+    text-decoration:none; cursor:pointer;
+    font-family:inherit; font-size:inherit;
+    user-select:none; -webkit-user-select:none;
+}
+.nav-entry > a:hover{ color:#65E903; background:#0a3a2a; }
+.nav-sep{ color:#1a5a1a; flex-shrink:0; user-select:none; padding:0 2px; }
+
+.wrapper{ max-width:1024px; margin:auto; }
+
+.screen{
+    background:#001C1C;
+    border:1px solid #001c1c;
+    border-radius:6px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+}
+
+.line{ white-space:pre-wrap; overflow-wrap:anywhere; min-height:1em; }
+.dim{ color:#65E903; opacity:.55; }
+
+a{
+    color:#65E903; text-decoration:none;
+    background:#0a3a2a; border:1px solid transparent;
+    line-height:1.2 !important; display:inline-block;
+}
+a:hover{ color:#9cff5f; background:#3a9070; }
+
+.cat-label{
+    margin-top:16px;
+    margin-bottom:6px;
+    opacity:.5;
+    font-size:.85em;
+}
+
+.chall-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+    gap:8px;
+}
+
+.chall-card{
+    background:#0a3a2a;
+    border:1px solid transparent;
+    padding:10px 12px;
+    cursor:pointer;
+    transition:.12s;
+    display:block;
+    color:#65E903;
+    text-decoration:none;
+    line-height:1.2;
+}
+.chall-card:hover{
+    background:#3a9070;
+    color:#9cff5f;
+}
+
+.chall-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+}
+.chall-title{ font-size:1em; }
+.chall-pts{ color:#9cff5f; font-size:.85em; }
+.chall-card:hover .chall-pts{ color:#fff; }
+.chall-meta{ font-size:.78em; opacity:0.75; margin-top:3px; }
+.chall-desc{ font-size:1em; opacity:1; margin-top:4px; line-height:1.25; }
+
+.dot{ display:inline-block; width:.45em; height:.45em; border-radius:50%; margin-right:5px; vertical-align:middle; position:relative; top:-.1em; }
+.dot-easy  { background:#2a9a2a; }
+.dot-med   { background:#9a9a2a; }
+.dot-hard  { background:#9a2a2a; }
+.dot-insane{ background:#9a1a8a; }
+
+/* ── tooltip challenge ── */
+.chall-card{ position:relative; }
+.chall-tooltip{
+    position:absolute;
+    top:0;
+    left:calc(100% + 8px);
+    background:#0a3a2a;
+    color:#65E903;
+    padding:4px 8px;
+    font-size:1em;
+    line-height:1.2;
+    white-space:normal;
+    width:max-content;
+    max-width:340px;
+    z-index:500;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 0s;
+    border:1px dashed #65E903;
+}
+.chall-card:hover .chall-tooltip{
+    opacity:1;
+    transition:opacity 1.15s ease;
+}
+
+.sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
+
+.banner{ position:relative; margin-bottom:18px; width:100%; max-width:100%; overflow:hidden; }
+.banner img{ width:100%; height:auto; display:block; max-width:100%; }
+
+.post-img{
+    display:inline-block; vertical-align:middle;
+    height:auto; width:118px; object-fit:contain;
+    margin-right:16px; position:relative; top:-.1em;
+    transition: transform 1s, opacity .1s; opacity:1;
+}
+.cat-row{ display:flex; align-items:flex-start; gap:0; margin-top:16px; margin-bottom:6px; }
+.cat-row-img{ flex-shrink:0; display:flex; align-items:flex-start; padding-top:.1em; }
+.cat-row-body{ flex:1; min-width:0; }
+.cat-row:hover .post-img {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+@media(max-width:640px){
+    html,body{ overflow-x:hidden !important; width:100%; }
+    body{ padding:20px 10px; font-size:20px; }
+    .screen{ padding:12px; overflow-x:hidden; }
+    #navbar{ font-size:20px !important; }
+    #navbar-inner{ padding:0 4px 0 2px; gap:0; }
+    .nav-entry > a{ padding:1px 3px !important; }
+    .nav-sep{ padding:0 1px !important; }
+    .chall-grid{ grid-template-columns:1fr; }
+    .chall-tooltip{ display:none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+<div id="navbar-inner">
+    <div class="nav-entry"><a href="index.html">index.html</a></div>
+    <span class="nav-sep">|</span>
+    <div class="nav-entry"><a href="#">CTF</a></div>
+</div>
+</nav>
+
+<div class="wrapper">
+<div class="screen">
+
+    <div class="banner"><img src="bannerctf.png" alt="Spaghetti Hacker BBS"></div>
+    <div id="chall-container"></div>
+
+</div>
+</div>
+
+<script src="challenges.js"></script>
+<script>
+const CAT_LOGO = {
+    "REVERSE":      "logo_re.png",
+    "PWN":      "logo_ctf.png",
+    "MALWARE":      "logo_ma.png",
+    "CRYPTO":   "logo_old_spa22.png",
+    "GENERAL":  "logo_tool.png",
+};
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+const container = document.getElementById('chall-container');
+
+CHALLENGES.forEach((section, si) => {
+    const logo = CAT_LOGO[section.cat] || "logo_re.png";
+
+    const catRow = document.createElement('div');
+    catRow.className = 'cat-row';
+    catRow.innerHTML =
+        `<span class="cat-row-img"><img class="post-img" src="${logo}" alt="" aria-hidden="true"></span>` +
+        `<span class="cat-row-body"><span style="opacity:1;font-size:1em">[${section.cat}]</span></span>`;
+    container.appendChild(catRow);
+
+    const grid = document.createElement('div');
+    grid.className = 'chall-grid';
+
+    section.challenges.forEach(c => {
+        const card = document.createElement('a');
+        card.className = 'chall-card';
+
+        if(c.file){
+            card.href = c.file;
+            const ext = c.file.split('.').pop().toLowerCase();
+            const webExts = ['html','htm','pdf','txt','png','jpg','gif'];
+            if(!webExts.includes(ext)) card.setAttribute('download','');
+        } else {
+            card.href = '#';
+            card.style.cursor = 'default';
+            card.onclick = e => e.preventDefault();
+        }
+
+        card.innerHTML =
+            `<div class="chall-top">` +
+                `<span class="chall-title"><span class="dot dot-${c.diff}"></span>${esc(c.title)}</span>` +
+                `<span class="chall-pts">${c.pts}&nbsp;pts</span>` +
+            `</div>` +
+            `<div class="chall-meta">${c.diff.toUpperCase()}${!c.file?' &nbsp;·&nbsp; <span style="opacity:.5">no file</span>':''}</div>` +
+            (c.desc ? `<div class="chall-desc">${esc(c.desc)}</div>` : '') +
+            (c.desc ? `<div class="chall-tooltip">${esc(c.desc)}</div>` : '');
+
+        grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+
+    if(si < CHALLENGES.length - 1){
+        const hr = document.createElement('hr');
+        hr.className = 'sep';
+        container.appendChild(hr);
+    }
+});
+</script>
+</body>
+</html>
