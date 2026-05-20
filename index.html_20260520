@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com https://services.nvd.nist.gov; font-src 'self'; img-src 'self' https://img.youtube.com; frame-src 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com; font-src 'self'; img-src 'self' https://img.youtube.com; frame-src 'none';">
 <title>SPAGHETTI HACKER</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
@@ -578,7 +578,6 @@ a:hover{
             <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news cyber');">Cyber</a></div>
             <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news reverse engineering');">Reverse Engineering</a></div>
             <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news malware analysis');">Malware Analysis</a></div>
-            <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('cve');">CVE</a></div>
         </div>
     </div>
     <span class="nav-sep nav-desktop">|</span>
@@ -995,66 +994,6 @@ const COMMANDS = {
             });
         } catch {
             out(`<span class="err">;errore nel recupero del feed</span>`);
-        }
-    },
-
-    async cve(){
-        out(`<span class="dim">;fetching CVE critical >= 9.5 from NVD...</span>`);
-        try {
-            const now   = new Date();
-            const start = new Date(now);
-            start.setDate(start.getDate() - 1);
-            const fmt = d => d.toISOString().replace(/\.\d{3}Z$/, ".000");
-            const url = `https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate=${fmt(start)}&pubEndDate=${fmt(now)}&resultsPerPage=200`;
-            const res = await fetch(url);
-            if(!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
-            const vulns = (data.vulnerabilities || []).map(v => v.cve);
-
-            /* estrai score e tieni solo >= 9.5, ordina desc, prendi top 10 */
-            const scored = vulns.map(cve => {
-                const metrics = cve.metrics || {};
-                let score = null;
-                for(const key of ["cvssMetricV31","cvssMetricV30","cvssMetricV2"]){
-                    const e = (metrics[key] || [])[0];
-                    if(e){ score = e.cvssData?.baseScore ?? null; break; }
-                }
-                const desc = (cve.descriptions || []).find(d => d.lang === "en")?.value || "N/A";
-                return { id: cve.id, score, desc };
-            })
-            .filter(c => c.score !== null && c.score >= 9.5)
-            .sort((a,b) => b.score - a.score)
-            .slice(0, 10);
-
-            if(!scored.length){
-                out(`<span class="dim">;nessuna CVE >= 9.5 nelle ultime 24h</span>`);
-                return;
-            }
-
-            out(" ");
-            {
-                const d = document.createElement("div");
-                d.className = "post-row";
-                d.innerHTML =
-                    `<span class="post-row-img"><img class="post-img" src="logo_ctf.png" alt="" aria-hidden="true"></span>` +
-                    `<span class="post-row-body" style="color:#65E903">[0x06] CVE CRITICAL — TOP ${scored.length} — CVSS >= 9.5</span>`;
-                root.insertBefore(d, document.getElementById("prompt-line"));
-            }
-
-            scored.forEach(c => {
-                const nvdUrl = `https://nvd.nist.gov/vuln/detail/${esc(c.id)}`;
-                const shortDesc = c.desc.length > 120 ? c.desc.slice(0, 120) + "…" : c.desc;
-                out(
-                    `<div class="post-row">` +
-                    `<span class="post-row-img"><img class="post-img" src="logo_old_spa22.png" alt="" aria-hidden="true"></span>` +
-                    `<span class="post-row-body">` +
-                    `<a href="${nvdUrl}" target="_blank" rel="noopener noreferrer">${esc(c.id)}</a>` +
-                    `<span class="dim"> ;CVSS ${c.score} — ${esc(shortDesc)}</span>` +
-                    `</span></div>`
-                );
-            });
-        } catch(e) {
-            out(`<span class="err">;errore NVD: ${esc(String(e))}</span>`);
         }
     },
 
