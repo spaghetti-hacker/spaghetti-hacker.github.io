@@ -118,12 +118,10 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 /* ── tooltip globale fisso ── */
 #global-tooltip{
     position:fixed;
-    top:0;
-    right:0;
     width:300px;
     background:#0a3a2a;
     color:#65E903;
-    padding:10px 12px;
+    padding:6px 10px;
     font-family:VT323,dos,unifont,gohu,monospace;
     font-size:26px;
     line-height:1.2;
@@ -133,8 +131,7 @@ a:hover{ color:#9cff5f; background:#3a9070; }
     pointer-events:none;
     opacity:0;
     transition:opacity 0.05s ease;
-    border-left:1px dashed #65E903;
-    border-bottom:1px dashed #65E903;
+    border:1px dashed #65E903;
 }
 
 .sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
@@ -251,8 +248,24 @@ CHALLENGES.forEach((section, si) => {
     }
 });
 
-/* ── tooltip globale ── */
+/* ── tooltip globale: fisso in basso a destra del contenitore ── */
 const tooltip = document.getElementById('global-tooltip');
+const GAP = 16; // px di distanza dal bordo destro del wrapper
+
+function setTooltipPosition() {
+    const wr = document.querySelector('.wrapper');
+    /* offsetLeft + offsetWidth dà la posizione statica nel documento,
+       indipendente dallo scroll — uguale a come la vede il CSS fixed */
+    const left = wr.offsetLeft + wr.offsetWidth + GAP;
+    tooltip.style.left   = left + 'px';
+    tooltip.style.bottom = '24px';
+    tooltip.style.top    = 'auto';
+    tooltip.style.right  = 'auto';
+}
+
+/* calcola subito e ricalcola al resize */
+setTooltipPosition();
+window.addEventListener('resize', setTooltipPosition);
 
 document.querySelectorAll('.chall-card').forEach(card => {
     const desc = card.querySelector('.chall-desc');
