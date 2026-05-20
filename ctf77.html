@@ -118,10 +118,12 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 /* ── tooltip globale fisso ── */
 #global-tooltip{
     position:fixed;
+    top:0;
+    right:0;
     width:300px;
     background:#0a3a2a;
     color:#65E903;
-    padding:6px 10px;
+    padding:10px 12px;
     font-family:VT323,dos,unifont,gohu,monospace;
     font-size:26px;
     line-height:1.2;
@@ -131,7 +133,8 @@ a:hover{ color:#9cff5f; background:#3a9070; }
     pointer-events:none;
     opacity:0;
     transition:opacity 0.05s ease;
-    border:1px dashed #65E903;
+    border-left:1px dashed #65E903;
+    border-bottom:1px dashed #65E903;
 }
 
 .sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
@@ -248,20 +251,8 @@ CHALLENGES.forEach((section, si) => {
     }
 });
 
-/* ── tooltip globale ancorato al wrapper ── */
+/* ── tooltip globale ── */
 const tooltip = document.getElementById('global-tooltip');
-const GAP = 12; // px di distanza dal bordo destro del wrapper
-
-function positionTooltip() {
-    const wr = document.querySelector('.wrapper').getBoundingClientRect();
-    /* allineato al bordo destro del wrapper + GAP, in basso */
-    tooltip.style.left  = (wr.right + GAP) + 'px';
-    tooltip.style.bottom = (window.innerHeight - wr.bottom) + 'px';
-    tooltip.style.top   = 'auto';
-}
-
-/* ricalcola se la finestra cambia dimensione */
-window.addEventListener('resize', () => { if(tooltip.style.opacity === '1') positionTooltip(); });
 
 document.querySelectorAll('.chall-card').forEach(card => {
     const desc = card.querySelector('.chall-desc');
@@ -270,7 +261,6 @@ document.querySelectorAll('.chall-card').forEach(card => {
 
     card.addEventListener('mouseenter', () => {
         tooltip.textContent = text;
-        positionTooltip();
         tooltip.style.opacity = '1';
     });
     card.addEventListener('mouseleave', () => {
