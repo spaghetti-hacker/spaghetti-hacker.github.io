@@ -107,7 +107,7 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 .chall-pts{ color:#9cff5f; font-size:.85em; }
 .chall-card:hover .chall-pts{ color:#fff; }
 .chall-meta{ font-size:.78em; opacity:0.75; margin-top:3px; }
-.chall-desc{ display:none; font-size:1em; opacity:1; margin-top:4px; line-height:1.25; }
+.chall-desc{ font-size:1em; opacity:1; margin-top:4px; line-height:1.25; }
 
 .dot{ display:inline-block; width:.45em; height:.45em; border-radius:50%; margin-right:5px; vertical-align:middle; position:relative; top:-.1em; }
 .dot-easy  { background:#2a9a2a; }
@@ -115,23 +115,29 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 .dot-hard  { background:#9a2a2a; }
 .dot-insane{ background:#9a1a8a; }
 
-/* ── tooltip globale fisso ── */
-#global-tooltip{
-    position:fixed;
-    width:300px;
+/* ── tooltip challenge ── */
+.chall-card{ position:relative; }
+.chall-tooltip{
+    position:absolute;
+    top:-6px;
+    left:calc(100% + 8px);
     background:#0a3a2a;
     color:#65E903;
-    padding:6px 10px;
-    font-family:VT323,dos,unifont,gohu,monospace;
-    font-size:26px;
+    padding:0px 8px 40px 0px;
+    font-size:1em;
     line-height:1.2;
     white-space:normal;
-    word-break:break-word;
-    z-index:9999;
+    width:max-content;
+    max-width:340px;
+    z-index:500;
     pointer-events:none;
     opacity:0;
-    transition:opacity 0.05s ease;
+    transition:opacity 0s;
     border:1px dashed #65E903;
+}
+.chall-card:hover .chall-tooltip{
+    opacity:1;
+    transition:opacity 0.05s ease;
 }
 
 .sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
@@ -162,13 +168,12 @@ a:hover{ color:#9cff5f; background:#3a9070; }
     .nav-entry > a{ padding:1px 3px !important; }
     .nav-sep{ padding:0 1px !important; }
     .chall-grid{ grid-template-columns:1fr; }
-    #global-tooltip{ display:none !important; }
-    .chall-desc{ display:block; font-size:1em; opacity:1; margin-top:4px; line-height:1.25; }
+    .chall-tooltip{ display:none !important; }
+    .chall-card .chall-tooltip.chall-desc{ display:block !important; font-size:1em; opacity:1; margin-top:4px; line-height:1.25; position:static; width:auto; max-width:none; border:none; padding:0; opacity:1 !important; }
 }
 </style>
 </head>
 <body>
-<div id="global-tooltip"></div>
 
 <nav id="navbar">
 <div id="navbar-inner">
@@ -234,7 +239,7 @@ CHALLENGES.forEach((section, si) => {
                 `<span class="chall-pts">${c.pts}&nbsp;pts</span>` +
             `</div>` +
             `<div class="chall-meta">${c.diff.toUpperCase()}${!c.file?' &nbsp;·&nbsp; <span style="opacity:.5">no file</span>':''}</div>` +
-            (c.desc ? `<div class="chall-desc" data-desc="${esc(c.desc)}">${esc(c.desc)}</div>` : '');
+            (c.desc ? `<div class="chall-tooltip chall-desc">${esc(c.desc)}</div>` : '');
 
         grid.appendChild(card);
     });
@@ -246,39 +251,6 @@ CHALLENGES.forEach((section, si) => {
         hr.className = 'sep';
         container.appendChild(hr);
     }
-});
-
-/* ── tooltip globale: fisso in basso a destra del contenitore ── */
-const tooltip = document.getElementById('global-tooltip');
-const GAP = 16; // px di distanza dal bordo destro del wrapper
-
-function setTooltipPosition() {
-    const wr = document.querySelector('.wrapper');
-    /* offsetLeft + offsetWidth dà la posizione statica nel documento,
-       indipendente dallo scroll — uguale a come la vede il CSS fixed */
-    const left = wr.offsetLeft + wr.offsetWidth + GAP;
-    tooltip.style.left   = left + 'px';
-    tooltip.style.bottom = '24px';
-    tooltip.style.top    = 'auto';
-    tooltip.style.right  = 'auto';
-}
-
-/* calcola subito e ricalcola al resize */
-setTooltipPosition();
-window.addEventListener('resize', setTooltipPosition);
-
-document.querySelectorAll('.chall-card').forEach(card => {
-    const desc = card.querySelector('.chall-desc');
-    if(!desc) return;
-    const text = desc.dataset.desc || desc.textContent;
-
-    card.addEventListener('mouseenter', () => {
-        tooltip.textContent = text;
-        tooltip.style.opacity = '1';
-    });
-    card.addEventListener('mouseleave', () => {
-        tooltip.style.opacity = '0';
-    });
 });
 </script>
 </body>
