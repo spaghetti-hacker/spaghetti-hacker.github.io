@@ -118,10 +118,12 @@ a:hover{ color:#9cff5f; background:#3a9070; }
 /* ── tooltip globale fisso ── */
 #global-tooltip{
     position:fixed;
-    width:300px;
+    width:400px;
+    min-width:400px;
+    max-width:400px;
     background:#0a3a2a;
     color:#65E903;
-    padding:6px 10px;
+    padding:4px 4px;
     font-family:VT323,dos,unifont,gohu,monospace;
     font-size:26px;
     line-height:1.2;
@@ -132,6 +134,21 @@ a:hover{ color:#9cff5f; background:#3a9070; }
     opacity:0;
     transition:opacity 0.05s ease;
     border:1px dashed #65E903;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+}
+#global-tooltip img{
+    width:64px;
+    height:64px;
+    object-fit:contain;
+    flex-shrink:0;
+    opacity:.85;
+    margin-top:2px;
+}
+#global-tooltip .tt-text{
+    flex:1;
+    min-width:0;
 }
 
 .sep{ border:none; border-top:1px dashed #65E903; margin:14px 0; opacity:1; }
@@ -228,6 +245,7 @@ CHALLENGES.forEach((section, si) => {
             card.onclick = e => e.preventDefault();
         }
 
+        card.dataset.logo = logo;
         card.innerHTML =
             `<div class="chall-top">` +
                 `<span class="chall-title"><span class="dot dot-${c.diff}"></span>${esc(c.title)}</span>` +
@@ -273,7 +291,10 @@ document.querySelectorAll('.chall-card').forEach(card => {
     const text = desc.dataset.desc || desc.textContent;
 
     card.addEventListener('mouseenter', () => {
-        tooltip.textContent = text;
+        const logoSrc = card.dataset.logo || '';
+        tooltip.innerHTML = (logoSrc ? `<img src="${logoSrc}" alt="">` : '') +
+            `<span class="tt-text">${text}</span>`;
+        setTooltipPosition();
         tooltip.style.opacity = '1';
     });
     card.addEventListener('mouseleave', () => {
