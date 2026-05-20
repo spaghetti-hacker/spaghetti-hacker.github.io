@@ -525,9 +525,7 @@ a:hover{
     left:calc(100% + 8px);
     background:#0a3a2a;
     color:#65E903;
-    /*border:1px solid transparent;*/
-    /*border:1px solid #1a3a1a;*/
-    padding:0px 4px;
+    padding:4px 4px;
     font-size:1em;
     line-height:1.2;
     white-space:normal;
@@ -537,9 +535,23 @@ a:hover{
     pointer-events:none;
     opacity:0;
     transition:opacity 0s;
-
     border:1px dashed #65E903;
+    display:flex;
+    align-items:flex-start;
+    gap:6px;
+}
 
+.drop-tooltip img{
+    width:52px;
+    height:52px;
+    object-fit:contain;
+    flex-shrink:0;
+    opacity:.85;
+}
+
+.drop-tooltip .tt-text{
+    flex:1;
+    min-width:0;
 }
 
 .drop-item:hover .drop-tooltip{
@@ -674,7 +686,9 @@ const SECTIONS = [
             if(p.desc){
                 const tip = document.createElement("span");
                 tip.className = "drop-tooltip";
-                tip.textContent = ";" + p.desc;
+                const imgSrc = p.img || sec.img;
+                tip.innerHTML = (imgSrc ? `<img src="${imgSrc}" alt="">` : '') +
+                    `<span class="tt-text">;${p.desc}</span>`;
                 item.appendChild(tip);
             }
             drop.appendChild(item);
@@ -856,6 +870,7 @@ const COMMANDS = {
             `<span class="ok">find &lt;keyword&gt;</span>   <span class="dim">;cerca keyword</span>`,
             `<span class="ok">recent</span>          <span class="dim"> ;ultimi write-up</span>`,
             `<span class="ok">news [keyword]</span>  <span class="dim"> ;ultime notizie HN</span>`,
+            `<span class="ok">cve</span>  	     <span class="dim">    ;ultime CVE Critiche</span>`,
             `<span class="ok">music</span>           <span class="dim"> ;playlist HCF</span>`,
             `<span class="ok">clear</span>           <span class="dim"> ;pulisce lo schermo</span>`,
             `<span class="ok">help</span>            <span class="dim"> ;questo messaggio</span>`,
