@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/list_fork.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="LIST FORK">
+<meta property="og:description" content=";reverse engineering della funzione listFork, estratta da un binario malevolo.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/list_fork.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/list_fork.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+LIST FORK ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;la funzione listFork è una wrapper attorno alla syscall fork() che, oltre a creare un processo figlio, mantiene aggiornata una lista dinamica globale dei pid dei figli generati. L'implementazione ricorre a un pattern di riallocazione manuale della memoria: ad ogni invocazione nel ramo padre, l'array globale pids viene espanso di un elemento, il nuovo pid viene accodato e il vecchio buffer viene liberato.
+
+;l'analisi è stata condotta con radare2/ghidra sul binario ELF x86-64, esaminando l'assembly prodotto dal compilatore e ricostruendo la semantica delle variabili locali e delle strutture dei dati globali.
+
+;biforcazione del flusso di esecuzione
+
+;immediatamente dopo la chiamata a fork() il valore di ritorno in eax, il pid, viene salvato in var_14h e confrontato con zero per separare il ramo figlio dal ramo padre.
+
+@@@
+0x004013d3  call sym.fork
+0x004013d8  mov  dword [var_14h], eax    
+0x004013db  cmp  dword [var_14h], 0
+0x004013df  jne  0x4013ec                    
+@@@
+
+;salva il pid restituito da fork.
+;pid != 0 -> ramo padre.                       
+;pid == 0 -> ramo figlio, fall-through.
+
+@@@
+0x004013e1  mov  eax, dword [var_14h]
+0x004013e4  mov  dword [var_24h], eax       
+0x004013e7  jmp  0x40148f                   
+@@@
+               
+;imposta il valore di ritorno a 0
+;salta direttamente al ret
+;il figlio non esegue alcuna logica aggiuntiva: carica 0 in var_24h e raggiunge il ret. Tutta la gestione dell'array appartiene esclusivamente al padre.
+
+;espansione dell'array globale pids
+
+;nel ramo padre, numpids viene incrementato e viene calcolata la dimensione del nuovo buffer. La moltiplicazione per 4 è aritmetica dei puntatori su int a 32 bit (sizeof(pid_t) == 4); il + 4 aggiunge esattamente lo slot per il nuovo pid.
+
+@@@
+0x004013f3  inc  rax                        
+0x004013f6  mov  qword [obj.numpids], rax   
+0x004013fd  mov  rax, qword [obj.numpids]
+0x00401404  shl  rax, 2                     
+0x00401408  lea  rdi, [rax + 4]             
+0x0040140c  call sym.malloc                 
+0x00401411  mov  qword [var_10h], rax       
+@@@
+
+;numpids++
+;aggiorna il contatore globale
+;rax = numpids*4  (shl 2 = *4)
+;size = numpids*4 + 4, un slot extra
+;alloca il nuovo buffer
+;var_10h = puntatore al nuovo buffer
+
+;copia dei pid esistenti nel nuovo buffer
+
+;un loop copia i vecchi numpids - 1 elementi da obj.pids al nuovo buffer. L'indice var_4h scala di 4 byte ad ogni iterazione tramite shl 2; la condizione di uscita è jb (salto se sotto, unsigned), che garantisce che l'ultimo slot venga lasciato libero per il nuovo pid.
+
+@@@
+loop_body:
+0x0040141e  mov  eax, dword [var_4h]
+0x00401421  shl  rax, 2                     
+0x00401425  mov  rcx, rax
+0x00401428  add  rcx, qword [var_10h]       
+0x0040142c  mov  eax, dword [var_4h]
+0x0040142f  shl  rax, 2                     
+0x00401436  mov  rdx, qword [obj.pids]
+0x0040143d  lea  rax, [rdx + rax]           
+0x00401441  mov  eax, dword [rax]           
+0x00401443  mov  dword [rcx], eax           
+0x00401445  inc  dword [var_4h]             
+@@@
+
+;offset = i*4
+;dst = nuovo_buffer+offset
+;offset = i*4
+;src = pids+offset
+;carica pids[i]
+;scrive in nuovo_buffer[i]
+;i++
+
+@@@
+loop_check:
+0x00401448  mov  eax, dword [var_4h]
+0x0040144b  mov  rdx, qword [obj.numpids]
+0x00401452  dec  rdx                        
+0x00401455  cmp  rax, rdx
+0x00401458  jb   loop_body                  
+@@@
+
+;limite = numpids-1
+;continua se i < numpids-1
+
+;inserimento del nuovo pid e swap del puntatore
+
+;dopo il loop, il pid del figlio appena creato viene scritto nell'ultimo slot del nuovo buffer. Il vecchio array viene liberato e obj.pids viene aggiornato al nuovo puntatore, completando il pattern di realloc manuale.
+
+@@@
+0x0040145a  mov  rax, qword [obj.numpids]
+0x00401461  shl  rax, 2                     
+0x00401465  add  rax, qword [var_10h]       
+0x00401469  lea  rdx, [rax - 4]             
+0x0040146d  mov  eax, dword [var_14h]       
+0x00401470  mov  dword [rdx], eax           
+0x00401472  mov  rdi, qword [obj.pids]
+0x00401479  call sym.free                   
+0x0040147e  mov  rax, qword [var_10h]
+0x00401482  mov  qword [obj.pids], rax      
+0x00401489  mov  eax, dword [var_14h]
+0x0040148c  mov  dword [var_24h], eax       
+@@@
+
+;numpids*4
+;punta oltre la fine del buffer
+;ultimo slot = buffer[numpids-1]
+;pid del nuovo figlio
+;lo accoda al nuovo buffer
+;libera il vecchio array
+;obj.pids ora punta al nuovo buffer
+;valore di ritorno = pid del figlio
+
+;conclusione
+
+;listFork implementa un gestore di processi figlio minimalista. Ad ogni chiamata nel ramo padre esegue di fatto una realloc manuale dell'array globale pids: alloca un buffer di dimensione (numpids*4)+4 byte, copia gli elementi preesistenti, accoda il pid del nuovo figlio, libera il vecchio buffer e aggiorna il puntatore globale. Il figlio invece bypassa completamente questa logica e ritorna 0. La funzione restituisce il pid del figlio al padre, e 0 al figlio, replicando fedemente la semantica standard di fork().
+
+;da un punto di vista della robustezza, l'implementazione non verifica il valore di ritorno di malloc, non gestisce la fork fallita (ritorno -1) e non è thread-safe in quanto accede a variabili globali senza sincronizzazione.
+
+;reversing in c della funzione listFork():
+
+@@@
+__pid_t listFork(void)
+
+{
+  __pid_t pid_fork;
+  void *puntatore_nuova_memoria;
+  uint i;
+  
+  pid_fork = fork();
+  if (pid_fork != 0) {
+    numpids = numpids + 1;
+    puntatore_nuova_memoria = malloc(numpids * 4 + 4);
+    for (i = 0; (ulong)i < numpids - 1U; i = i + 1) {
+      *(undefined4 *)((ulong)i * 4 + (long)puntatore_nuova_memoria) =
+           *(undefined4 *)((ulong)i * 4 + (long)pids);
+    }
+    *(__pid_t *)((long)puntatore_nuova_memoria + numpids * 4 + -4) = pid_fork;
+    free(pids);
+    pids = puntatore_nuova_memoria;
+  }
+  return pid_fork;
+}
+@@@
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:listfork/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
