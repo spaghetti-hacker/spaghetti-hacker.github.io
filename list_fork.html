@@ -211,13 +211,13 @@ __pid_t listFork(void)
   
   pid_fork = fork();
   if (pid_fork != 0) {
-    numpids = numpids + 1;
-    puntatore_nuova_memoria = malloc(numpids * 4 + 4);
-    for (i = 0; (ulong)i < numpids - 1U; i = i + 1) {
-      *(undefined4 *)((ulong)i * 4 + (long)puntatore_nuova_memoria) =
-           *(undefined4 *)((ulong)i * 4 + (long)pids);
+    numpids = numpids+1;
+    puntatore_nuova_memoria = malloc(numpids*4 +4);
+    for (i = 0; (ulong)i < numpids - 1U; i=i+1) {
+      *(undefined4 *)((ulong)i*4 + (long)puntatore_nuova_memoria) =
+           *(undefined4 *)((ulong)i*4 +(long)pids);
     }
-    *(__pid_t *)((long)puntatore_nuova_memoria + numpids * 4 + -4) = pid_fork;
+    *(__pid_t *)((long)puntatore_nuova_memoria +numpids*4 +-4) = pid_fork;
     free(pids);
     pids = puntatore_nuova_memoria;
   }
