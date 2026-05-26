@@ -199,7 +199,7 @@ loop_check:
 
 ;da un punto di vista della robustezza, l'implementazione non verifica il valore di ritorno di malloc, non gestisce la fork fallita (ritorno -1) e non è thread-safe in quanto accede a variabili globali senza sincronizzazione.
 
-;reversing in c della funzione listFork():
+;reversing in pseudo-C della funzione listFork():
 
 @@@
 __pid_t listFork(void)
