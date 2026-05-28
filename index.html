@@ -698,7 +698,7 @@ const SECTIONS = [
     });
 })();
 
-const RECENT_COUNT = 4;
+const RECENT_COUNT = 7;
 /* ── per recentPosts: preferisce l'img del singolo post, fallback a quella della sezione ── */
 const recentPosts = SECTIONS.flatMap(s => s.posts.map(p => ({ ...p, img: p.img || s.img })))
     .filter(p => p.date)
