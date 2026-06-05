@@ -140,9 +140,7 @@ visite: <span id="visits">...</span>
 ;controllo post-divisione: il quoziente deve essere esattamente 67 ('C').
 ;questo branch è irraggiungibile nel flusso normale non tracciato.
 
---------------------------------------------------------------------------------
 FUNZIONE ANTI-DEBUG - fcn.00001259 (chiamata da fcn.00001314)
---------------------------------------------------------------------------------
 
 @@@
 0x0000125a      lea rdi, str._proc_self_status
@@ -208,9 +206,7 @@ FUNZIONE ANTI-DEBUG - fcn.00001259 (chiamata da fcn.00001314)
 
 ;ritorna: 0 se TracerPid=0, PID se tracciato, 1 se fopen ha fallito.
 
---------------------------------------------------------------------------------
 HANDLER SIGFPE - 0x00001319
---------------------------------------------------------------------------------
 
 @@@
 0x0000131a      xor esi, esi
@@ -273,9 +269,7 @@ HANDLER SIGFPE - 0x00001319
 ;se diverso -> jne salta a 0x13b2, bypassa il lea di "Well done" -> puts stampa "Fail".
 ;jmp 0x1363 finale chiama exit(0).
 
---------------------------------------------------------------------------------
 HOOK LD_PRELOAD - hook.c
---------------------------------------------------------------------------------
 
 @@@
 #define _GNU_SOURCE
