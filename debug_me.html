@@ -287,7 +287,7 @@ FILE *fopen(const char *path, const char *mode) {
     if (strstr(path, "/proc/self/status")) {
         count++;
         if (count > 1)
-            return NULL;  // dalla seconda chiamata in poi → ritorna NULL → fcn ritorna 1
+            return NULL; 
     }
 
     return real_fopen(path, mode);
