@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/debug_me.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="DEBUG ME">
+<meta property="og:description" content=";crackme che usa TracerPid come meccanismo anti-debug a tre stage.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/debug_me.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/debug_me.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+DEBUG ME ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;ho analizzato il crackme DebugMe partendo dal disassembly prodotto da radare2 e dal decompilato generato da Ghidra. L'analisi ha seguito il flusso di esecuzione dall'entry point fino alla risoluzione completa dei tre stage.
+
+;il punto di partenza è stato affiancare il disassembly di radare2, utile per una visione immediata dei flussi di controllo, al decompilato di Ghidra per disambiguare la struttura delle funzioni più dense. Il processo riceveva SIGFPE quasi subito: l'attenzione si è spostata sulla divisione a 0x1139 e sulla funzione chiamata prima. Un primo tentativo di patch statica per saltare il controllo anti-debug funziona per lo stage 1, ma rompe lo stage 2, il meccanismo SIGFPE non è solo un ostacolo da aggirare, è il vettore che trasferisce l'esecuzione nell'handler dove si svolge il resto del challenge. La soluzione LD_PRELOAD è emersa solo dopo aver capito che il comportamento corretto richiedeva che la funzione anti-debug ritornasse valori diversi a seconda della chiamata, qualcosa che una patch statica non può fare facilmente.
+
+@@@
+0x000010e3      mov edi, 8
+0x000010ec      lea rsi, [0x00001319]
+0x000010f4      call sym.imp.signal
+@@@
+
+;registra un handler custom per SIGFPE (segnale 8).
+;signal(SIGFPE, handler_at_0x1319).
+;SIGFPE = 8, SIG_DFL = 0, SIG_IGN = 1.
+
+@@@
+0x000010f9      lea rdi, str.e_1mDebugMe_stage_1:_e_0m
+0x00001102      call sym.imp.printf
+0x0000110e      call sym.imp.fflush
+@@@
+
+;stampa "DebugMe stage 1:" e forza il flush su stdout.
+;fflush necessario perché stdout è bufferizzato per default.
+
+@@@
+0x00001113      mov eax, 0xffffffff
+0x00001118      cmp ebp, 2
+0x0000111b      jne 0x1126
+0x0000111d      mov rdi, qword [rbx + 8]
+0x00001121      call sym.imp.atoi
+@@@
+
+;se argc == 2, converte argv[1] in intero tramite atoi.
+;altrimenti eax rimane -1 (0xFFFFFFFF).
+;rbx+8 punta a argv[1] perché ogni puntatore è 8 byte su x86-64.
+
+@@@
+0x00001126      mov dword [0x00004074], eax
+@@@
+
+;salva il risultato di atoi (o -1) nella variabile globale [0x4074].
+;questo valore verrà confrontato nello stage 3.
+
+@@@
+0x0000112c      call fcn.00001314
+0x00001131      mov ecx, eax
+0x00001133      mov eax, 0x43
+0x00001138      cdq
+0x00001139      idiv ecx
+@@@
+
+;chiama la funzione anti-debug che legge TracerPid da /proc/self/status.
+;se non tracciato: TracerPid:0 -> ecx=0 -> idiv 0 -> SIGFPE -> salta all'handler.
+;se tracciato: ecx=PID -> 67/PID, il quoziente deve essere 67 (0x43).
+;l'unico divisore che soddisfa 67/x=67 è x=1, impossibile con un PID reale.
+
+@@@
+0x0000113b      cmp eax, 0x43
+0x0000113e      je 0x114c
+0x00001140      call sym.imp.puts    ; "Fail"
+@@@
+
+;controllo post-divisione: il quoziente deve essere esattamente 67 ('C').
+;questo branch è irraggiungibile nel flusso normale non tracciato.
+
+--------------------------------------------------------------------------------
+FUNZIONE ANTI-DEBUG - fcn.00001259 (chiamata da fcn.00001314)
+--------------------------------------------------------------------------------
+
+@@@
+0x0000125a      lea rdi, str._proc_self_status
+0x00001281      call sym.imp.fopen
+0x00001286      test rax, rax
+0x00001289      je 0x12eb
+@@@
+
+;apre /proc/self/status in lettura.
+;se fopen fallisce (ritorna NULL) salta a 0x12eb dove ebx viene settato a 1.
+;questo è il comportamento che sfruttiamo con l'hook LD_PRELOAD.
+
+@@@
+0x0000128e      lea rdi, [s1]
+0x00001293      mov ecx, 0x109
+0x0000129a      rep stosb byte [rdi], al
+@@@
+
+;azzera il buffer s1 (265 byte = 0x109) prima di leggerci dentro.
+;equivale a memset(s1, 0, 0x109).
+
+@@@
+0x0000129c      mov rdx, rbp
+0x000012a4      lea rdi, [s1]
+0x000012a9      call sym.imp.fgets
+@@@
+
+;legge una riga da /proc/self/status nel buffer s1.
+;il loop continua finché non trova la riga "TracerPid:".
+
+@@@
+0x000012b3      mov edx, 0xa
+0x000012b8      lea rsi, str.TracerPid:
+0x000012bf      lea rdi, [s1]
+0x000012c4      call sym.imp.strncmp
+0x000012cb      jne 0x129c
+@@@
+
+;confronta i primi 10 caratteri (0xa) con "TracerPid:".
+;se non corrisponde, rilegge la riga successiva (loop a 0x129c).
+
+@@@
+0x000012cd      lea rdi, [str]
+0x000012d2      call sym.imp.atoi
+0x000012da      mov ebx, eax
+@@@
+
+;[str] punta a s1+10, cioè ai caratteri immediatamente dopo "TracerPid:".
+;il layout dello stack è: local_129 @ rbp-0x129, local_11f @ rbp-0x11f.
+;differenza = 0x129 - 0x11f = 0xa = 10, quindi local_11f è contiguo dopo i 10 byte di "TracerPid:".
+;atoi legge il valore numerico: 0 se non tracciato, PID del tracer se tracciato.
+
+@@@
+0x000012eb      mov ebx, 1
+@@@
+
+;questo valore (1) viene settato solo se fopen ha ritornato NULL.
+;è il valore che ci serve per far passare gli stage 2 e 3.
+
+@@@
+0x0000130f      mov eax, ebx
+@@@
+
+;ritorna: 0 se TracerPid=0, PID se tracciato, 1 se fopen ha fallito.
+
+--------------------------------------------------------------------------------
+HANDLER SIGFPE - 0x00001319
+--------------------------------------------------------------------------------
+
+@@@
+0x0000131a      xor esi, esi
+0x0000131c      mov edi, 8
+0x00001321      call sym.imp.signal
+@@@
+
+;ripristina il comportamento default per SIGFPE: signal(8, SIG_DFL) dove SIG_DFL=0.
+;necessario per evitare ricorsione infinita se si verifica un altro SIGFPE nell'handler.
+
+@@@
+0x00001326      call sym.imp.puts    ; "Pass"
+0x00001332      call sym.imp.printf  ; "DebugMe stage 2:"
+0x00001347      call sym.imp.fflush
+@@@
+
+;stage 1 superato: stampa "Pass" e annuncia lo stage 2.
+
+@@@
+0x0000134c      call fcn.00001314
+0x00001351      mov ebx, eax
+0x00001353      call fcn.00001314
+0x00001358      mov ecx, eax
+0x0000135a      mov eax, ebx
+0x0000135c      cdq
+0x0000135d      idiv ecx
+@@@
+
+;chiama due volte la funzione anti-debug.
+;senza hook: entrambe ritornano 0 -> idiv 0 -> secondo SIGFPE -> crash.
+;(l'handler è stato resettato a SIG_DFL, quindi questa volta il processo termina).
+;con hook fopen: entrambe ritornano 1 -> 1/1=1 -> eax=1, nessun crash.
+
+@@@
+0x0000135f      test eax, eax
+0x00001361      jne 0x136a
+0x00001363      call sym.imp.exit    ;exit(0)
+@@@
+
+;se il quoziente è 0 esce, altrimenti prosegue.
+;con ebx=1, ecx=1: quoziente=1 -> non zero -> salta a 0x136a.
+
+@@@
+0x0000136a      call sym.imp.puts    ;"Pass"
+0x00001376      call sym.imp.printf  ;"DebugMe stage 3:"
+@@@
+
+;stage 2 superato
+
+@@@
+0x00001390      cmp dword [0x00004074], ebx
+0x0000139d      jne 0x13b2
+0x0000139f      call sym.imp.puts    ; "Pass"
+0x000013ab      lea rdi, str.Well_done_:_
+0x000013b2      call sym.imp.puts
+@@@
+
+;confronta [0x4074] (argv[1] convertito) con ebx (ritorno prima fcn.00001314 = 1).
+;se argv[1]="1" -> atoi("1")=1 -> [0x4074]=1 -> 1==1 -> "Pass" + "Well done :)".
+;se diverso -> jne salta a 0x13b2, bypassa il lea di "Well done" -> puts stampa "Fail".
+;jmp 0x1363 finale chiama exit(0).
+
+--------------------------------------------------------------------------------
+HOOK LD_PRELOAD - hook.c
+--------------------------------------------------------------------------------
+
+@@@
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <string.h>
+#include <dlfcn.h>
+
+static int count = 0;
+
+FILE *fopen(const char *path, const char *mode) {
+    static FILE *(*real_fopen)(const char*, const char*) = NULL;
+    if (!real_fopen)
+        real_fopen = dlsym(RTLD_NEXT, "fopen");
+
+    if (strstr(path, "/proc/self/status")) {
+        count++;
+        if (count > 1)
+            return NULL;  // dalla seconda chiamata in poi → ritorna NULL → fcn ritorna 1
+    }
+
+    return real_fopen(path, mode);
+}
+@@@
+
+;la funzione sovrascrive fopen tramite LD_PRELOAD intercettando le chiamate che tentano di aprire /proc/self/status. La prima viene lasciata passare normalmente, permettendo al binario di leggere TracerPid: 0 e generare il SIGFPE necessario per superare lo stage 1. Dalla seconda in poi restituisce NULL, facendo fallire fopen nella funzione anti-debug che di conseguenza prende il percorso di fallback e ritorna 1, il valore richiesto dagli stage 2 e 3. Tutte le altre chiamate a fopen su path diversi vengono inoltrate alla funzione reale senza interferenze.
+
+@@@
+gcc -shared -fPIC -o hook.so hook.c -ldl
+LD_PRELOAD=./hook.so ./DebugMe 1
+@@@
+
+;il binario implementa una catena di tre stage basata interamente su un meccanismo anti-debug che sfrutta TracerPid in /proc/self/status. Il design è volutamente controintuitivo: per superare lo stage 1 il processo NON deve essere tracciato (così TracerPid: 0 provoca SIGFPE e l'esecuzione salta nell'handler), mentre per superare gli stage 2 e 3 la stessa funzione anti-debug deve ritornare 1 invece di 0. Questo crea un conflitto apparente risolvibile solo intercettando fopen tramite LD_PRELOAD: si lascia passare la prima chiamata (TracerPid: 0 -> SIGFPE voluto) e si forza NULL per le chiamate successive (fopen fallisce -> la funzione ritorna 1 per il percorso di fallback). Lo stage 3 verifica infine che argv[1] corrisponda al valore ritornato dalla funzione (1), completando il challenge con ./DebugMe 1.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:debugme/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
