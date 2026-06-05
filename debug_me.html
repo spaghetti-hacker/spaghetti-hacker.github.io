@@ -298,7 +298,12 @@ FILE *fopen(const char *path, const char *mode) {
 
 @@@
 gcc -shared -fPIC -o hook.so hook.c -ldl
+
 LD_PRELOAD=./hook.so ./DebugMe 1
+DebugMe stage 1: Pass
+DebugMe stage 2: Pass
+DebugMe stage 3: Pass
+Well done :)
 @@@
 
 ;il binario implementa una catena di tre stage basata interamente su un meccanismo anti-debug che sfrutta TracerPid in /proc/self/status. Il design è volutamente controintuitivo: per superare lo stage 1 il processo NON deve essere tracciato (così TracerPid: 0 provoca SIGFPE e l'esecuzione salta nell'handler), mentre per superare gli stage 2 e 3 la stessa funzione anti-debug deve ritornare 1 invece di 0. Questo crea un conflitto apparente risolvibile solo intercettando fopen tramite LD_PRELOAD: si lascia passare la prima chiamata (TracerPid: 0 -> SIGFPE voluto) e si forza NULL per le chiamate successive (fopen fallisce -> la funzione ritorna 1 per il percorso di fallback). Lo stage 3 verifica infine che argv[1] corrisponda al valore ritornato dalla funzione (1), completando il challenge con ./DebugMe 1.
