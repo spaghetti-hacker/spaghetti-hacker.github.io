@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/proc_hider.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="PROC HIDER">
+<meta property="og:description" content=";.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/proc_hider.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/proc_hider.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+PROC HIDER ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;analisi libreria ELF 3b4e756212ea2ed01da98cceeb856449bb50d380339b5564e30cbe7fbfdae2d4
+
+;il file analizzato è una libreria ELF a 64 bit (x86-64), non stripped. Essendo una .so e non contenendo una main, la sua modalità d'uso più probabile è tramite LD_PRELOAD, cioè come libreria caricata in anticipo per intercettare chiamate a funzioni standard, oppure un processo malevolo si aggancia al processo target (es. via ptrace) e invoca dlopen nel suo contesto per caricare la .so malevola. Questo è un tipico comportamento da rootkit userland, usato per nascondere processi.
+
+;scopo: intercettare funzioni di libreria standard (readdir, readdir64) e filtrare processi da /proc, rendendoli invisibili a strumenti come ps e top.
+
+;funzioni esportate
+
+@@@
+sym.readdir
+sym.readdir64
+sym.get_dir_name
+sym.get_process_name
+@@@
+
+;le due versioni di readdir indicano che la libreria si sostituisce alle implementazioni originali della libc. Le funzioni get_dir_name e get_process_name sono helper usati per identificare la directory corrente e risalire al nome di un processo a partire da un pid.
+
+;funzione readdir
+
+@@@
+0x00001489 mov rax, qword [obj.original_readdir] ; [0x40a0:8]=0
+0x00001490 test rax, rax
+0x00001493 jne 0x14e1
+0x00001495 lea rsi, str.readdir ; 0x2060 ; "readdir"
+0x0000149c mov rdi, 0xffffffffffffffff
+0x000014a3 call sym.imp.dlsym
+0x000014a8 mov qword [obj.original_readdir], rax
+@@@
+
+;verifica se la funzione originale readdir è già stata risolta, altrimenti usa dlsym(RTLD_NEXT,"readdir") per ottenerne l'indirizzo e lo salva in una variabile globale.
+
+@@@
+0x000014e1 mov rdx, qword [obj.original_readdir]
+0x000014e8 mov rax, qword [var_218h]
+0x000014ef mov rdi, rax
+0x000014f2 call rdx
+0x000014f4 mov qword [var_8h], rax
+0x000014f8 cmp qword [var_8h], 0
+0x000014fd je 0x157b
+@@@
+
+;chiama la vera readdir(dirp) e ne salva il risultato, se il puntatore restituito è nullo significa fine directory.
+
+@@@
+0x000014ff lea rcx, [s1]
+0x00001506 mov rax, qword [var_218h]
+0x0000150d mov edx, 0x100
+0x00001512 mov rsi, rcx
+0x00001515 mov rdi, rax
+0x00001518 call sym.get_dir_name
+0x0000151d test eax, eax
+0x0000151f je 0x157b
+0x00001521 lea rax, [s1]
+0x00001528 lea rsi, str._proc ; "/proc"
+0x0000152f mov rdi, rax
+0x00001532 call sym.imp.strcmp
+0x00001537 test eax, eax
+0x00001539 jne 0x157b
+@@@
+
+;controlla se la directory aperta con dirp è /proc, se non lo è restituisce l'entry senza ulteriori filtri.
+
+@@@
+0x0000153b mov rax, qword [var_8h]
+0x0000153f lea rdx, [rax + 0x13]
+0x00001543 lea rax, [var_110h]
+0x0000154a mov rsi, rax
+0x0000154d mov rdi, rdx
+0x00001550 call sym.get_process_name
+0x00001555 test eax, eax
+0x00001557 je 0x157b
+@@@
+
+;chiama get_process_name per estrarre il nome del processo corrispondente a quella entry numerica di /proc (ricavato dal file /proc/<pid>/stat).
+
+@@@
+0x00001559 mov rdx, qword [obj.process_to_filter]
+0x00001560 lea rax, [var_110h]
+0x00001567 mov rsi, rdx
+0x0000156a mov rdi, rax
+0x0000156d call sym.imp.strcmp
+0x00001572 test eax, eax
+0x00001574 jne 0x157b
+0x00001576 jmp 0x14e1
+@@@
+
+;se il nome del processo corrisponde alla stringa process_to_filter la entry viene scartata, e viene richiamata di nuovo la readdir originale per saltare al prossimo pid.
+
+;funzione get_process_name
+
+@@@
+0x00001276 lea rsi, str.0123456789
+0x00001280 call sym.imp.strspn
+0x00001292 call sym.imp.strlen
+0x00001297 cmp rbx, rax
+0x0000129a je 0x12a6
+0x0000129c mov eax, 0
+@@@
+
+;verifica che il nome della directory sia composto interamente da cifre, altrimenti non è un pid e la funzione ritorna fallimento.
+
+@@@
+0x000012b7 lea rdx, str._proc__s_stat ; "/proc/%s/stat"
+0x000012cb call sym.imp.snprintf
+0x000012e1 call sym.imp.fopen
+0x000012f8 call sym.imp.fgets
+@@@
+
+;costruisce il path /proc/<pid>/stat, lo apre e legge la prima riga contenente informazioni sul processo.
+
+@@@
+0x00001349 lea rsi, str._d______s ; "%d (%[^)]s"
+0x00001358 call sym.imp.__isoc99_sscanf
+@@@
+
+;usa sscanf per estrarre da quella riga il nome del processo (tra parentesi tonde) e lo scrive nel buffer passato come argomento.
+
+;considerazioni finali
+
+;la libreria implementa due hook (readdir e readdir64) per garantire compatibilità.
+;utilizza dlsym(RTLD_NEXT, ...) per risolvere e richiamare la funzione originale.
+;funziona solo quando si esplora la directory /proc.
+;per ogni entry numerica (pid), apre /proc/<pid>/stat e ottiene il nome del processo.
+;se il nome coincide con process_to_filter, quella entry viene nascosta.
+;in altre parole, si tratta di un rootkit userland via LD_PRELOAD che rende invisibile un processo specifico agli strumenti di monitoring basati su /proc.
+
+@@@
+clamscan ./3b4e756212ea2ed01da98cceeb856449bb50d380339b5564e30cbe7fbfdae2d4
+
+/home/remnux/Desktop/FollowTheWhiteRabbit/Linux-Malware-Samples/quarantena/3b4e756212ea2ed01da98cceeb856449bb50d380339b5564e30cbe7fbfdae2d4: Unix.Trojan.Prochider-9821784-0 FOUND
+
+----------- SCAN SUMMARY -----------
+Known viruses: 8676049
+Engine version: 0.103.6
+Scanned directories: 0
+Scanned files: 1
+Infected files: 1
+Data scanned: 0.02 MB
+Data read: 0.02 MB (ratio 1.00:1)
+Time: 19.041 sec (0 m 19 s)
+Start Date: 2025:09:04 11:44:18
+End Date: 2025:09:04 11:44:37
+@@@
+
+;da questo output di VirusTotal si possono trarre alcune considerazioni importanti:
+
+;alta percentuale di rilevamento: 43 motori antivirus su 65 hanno classificato il file come malevolo. Questo conferma con un buon livello di certezza che si tratta di una minaccia.
+
+;il file è etichettato principalmente come: Trojan Rootkit, ProcHider (Process Hider). Alcuni vendor lo indicano anche come Backdoor.
+
+;ciò significa che il codice è progettato per: nascondere processi attivi (manipolando la lista dei processi in Linux). Rendere più difficile l’individuazione da parte dell’amministratore o di strumenti di sicurezza.
+
+;target del malware: Il formato del file è ELF 64-bit, quindi pensato per sistemi Linux/Unix-like. Non si tratta di un eseguibile generico ma di una libreria caricabile che può essere usata per manipolare processi e nascondere attività illecite.
+
+@@@
+rule ProcHider_Rootkit
+{
+ meta:
+  author = "HCF"
+  description = "detects LD_PRELOAD rootkit that hooks readdir/readdir64 to hide processes"
+  malware_family = "ProcHider"
+ strings:
+  $s1 = "readdir" ascii
+  $s2 = "/proc" ascii
+  $s3 = "/proc/%s/stat" ascii
+  $s4 = "Error in dlsym: %s\n" ascii
+ condition:
+  all of them and
+}
+
+yara prochider.yar 3b4e756212ea2ed01da98cceeb856449bb50d380339b5564e30cbe7fbfdae2d4
+ProcHider_Rootkit 3b4e756212ea2ed01da98cceeb856449bb50d380339b5564e30cbe7fbfdae2d4
+@@@
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:prochider/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
