@@ -55,9 +55,9 @@ body{
 }
 
 .full-img {
-    width: 100vw;
-    margin-left: calc(-1 * (100vw - 100%) / 2);
     display: block;
+    width: calc(100% + 40px);  /* compensi il padding del padre */
+    margin-left: -20px;        /* metà del padding */
 }
 
 .commento{
