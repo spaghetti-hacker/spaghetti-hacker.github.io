@@ -987,13 +987,13 @@ print(output)
 
 @@@
 ;riconoscere le codifiche:
-;Base64  → A-Z a-z 0-9 +/ con = finale.
-;Base32  → A-Z 2-7 con ==== finale.
-;Base58  → A-Z a-z 0-9 senza 0 O I l.
-;Hex     → 0-9 a-f lunghezza pari.
-;Decimal → solo cifre, valori 0-255 separati.
-;Binary  → solo 0 e 1, multipli di 8 bit.
-;Morse   → . - e spazi.
+;Base64  -> A-Z a-z 0-9 +/ con = finale.
+;Base32  -> A-Z 2-7 con ==== finale.
+;Base58  -> A-Z a-z 0-9 senza 0 O I l.
+;Hex     -> 0-9 a-f lunghezza pari.
+;Decimal -> solo cifre, valori 0-255 separati.
+;Binary  -> solo 0 e 1, multipli di 8 bit.
+;Morse   -> . - e spazi.
 
 ;decodifica rapida da terminale:
 echo "SGVsbG8=" | base64 -d
