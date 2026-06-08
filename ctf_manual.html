@@ -390,7 +390,7 @@ c                ;continua fino al prossimo breakpoint.
 cmp rax, rbx
 je  0x401200     ;salta se uguale (check ok).
 
-in hexedit o con python cambi l'opcode:
+;in hexedit o con radare2 cambi l'opcode:
 je  = 0x74   →   jmp = 0xeb  (salta sempre)
 je  = 0x74   →   jne = 0x75  (salta se diverso)
 
