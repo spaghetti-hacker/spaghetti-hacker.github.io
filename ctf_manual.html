@@ -567,7 +567,7 @@ MALWARE ~ HCF
 
 <a href="index.html">index.html</a>
 
-;l'analisi malware è reverse engineering con focus sulla sicurezza: capire cosa fa un campione malevolo senza lasciarlo girare libero. La regola d'oro è l'isolamento — analizza sempre in una sandbox o VM snapshottata.
+;l'analisi malware è reverse engineering con focus sulla sicurezza: capire cosa fa un campione malevolo senza lasciarlo girare libero. La regola d'oro è l'isolamento, analizza sempre in una sandbox o VM snapshottata.
 
 ;due approcci complementari: analisi statica (studia il binario senza eseguirlo) e analisi dinamica (lo esegui in ambiente controllato e osservi il comportamento).
 
@@ -575,84 +575,85 @@ MALWARE ~ HCF
 
 ;--- analisi statica ---
 
-;file + strings — primo passo sempre: identifica il tipo reale del file ed estrai stringhe significative.
+;file + strings, primo passo sempre: identifica il tipo reale del file ed estrai stringhe significative.
 
 @@@
-file campione
+;file campione
 strings campione
 strings campione | grep -iE "http|\.exe|HKEY|cmd|/bin|socket|connect|download"
 @@@
 
-;hash del campione — calcola l'hash prima di tutto. Serve per cercare il campione in database pubblici come VirusTotal senza caricarlo (i file caricati su VT sono pubblici).
+;hash del campione, calcola l'hash prima di tutto. Serve per cercare il campione in database pubblici come VirusTotal senza caricarlo (i file caricati su VT sono pubblici).
 
 @@@
 md5sum    campione
-sha256sum campione    # preferisci sha256
+sha256sum campione    
 
-# cerca l'hash su:
-# virustotal.com
-# malwarebazaar.abuse.ch
-# any.run
+;cerca l'hash su:
+;virustotal.com
+;malwarebazaar.abuse.ch
+;any.run
 @@@
 
-;binwalk — cerca firme di formato, file embedded e dati compressi all'interno di un file. Utile per campioni che nascondono payload aggiuntivi o dropper con file allegati.
+;binwalk: cerca firme di formato, file embedded e dati compressi all'interno di un file. Utile per campioni che nascondono payload aggiuntivi o dropper con file allegati.
 
 @@@
-binwalk campione          # ricognizione: mostra firme trovate
-binwalk -e campione       # estrae automaticamente i file trovati
-binwalk -M campione       # analisi ricorsiva sui file estratti
+binwalk campione          ;ricognizione: mostra firme trovate.
+binwalk -e campione       ;estrae automaticamente i file trovati.
+binwalk -M campione       ;analisi ricorsiva sui file estratti.
 @@@
 
-;analisi struttura PE (Windows) — per eseguibili Windows è fondamentale guardare l'Import Table: dice quali DLL e funzioni usa il programma.
+;analisi struttura PE (Windows), per eseguibili Windows è fondamentale guardare l'Import Table: dice quali DLL e funzioni usa il programma.
 
 @@@
-# import table sospette:
-# kernel32.dll  → CreateProcess, WriteFile, VirtualAlloc
-# ws2_32.dll    → socket, connect, send, recv  (rete)
-# advapi32.dll  → RegSetValue, OpenSCManager  (registry, servizi)
-# wininet.dll   → InternetOpen, HttpSendRequest  (HTTP)
+;import table sospette:
+;kernel32.dll  -> CreateProcess, WriteFile, VirtualAlloc.
+;ws2_32.dll    -> socket, connect, send, recv  (rete).
+;advapi32.dll  -> RegSetValue, OpenSCManager  (registry, servizi).
+;wininet.dll   -> InternetOpen, HttpSendRequest  (HTTP).
 
-# tool: PE-bear (GUI), pecheck (python), readpe (linux)
+;tool: PE-bear (GUI), pecheck (python), readpe (linux).
 readpe campione.exe
 @@@
 
 ;--- analisi dinamica ---
 
-;sandbox online — esegui il campione in ambiente controllato e registra tutto: file creati, connessioni di rete, chiavi di registry modificate, processi figli.
+;sandbox online: esegui il campione in ambiente controllato e registra tutto: file creati, connessioni di rete, chiavi di registry modificate, processi figli.
 
 @@@
-# any.run      → online, interattivo, free tier disponibile
-# cuckoo       → self-hosted, più controllo e privacy
-# hybrid-analysis.com → online, report dettagliati
+any.run      -> online, interattivo, free tier disponibile.
+cuckoo       -> self-hosted, più controllo e privacy.
+hybrid-analysis.com -> online, report dettagliati.
 
-# cosa osservare nel report:
-# - network activity  (connessioni, DNS, HTTP)
-# - dropped files     (file scritti su disco)
-# - persistence       (autorun, task scheduler, servizi)
-# - injected processes (process hollowing, dll injection)
+cosa osservare nel report:
+;network activity  (connessioni, DNS, HTTP).
+;dropped files     (file scritti su disco).
+;persistence       (autorun, task scheduler, servizi).
+;injected processes (process hollowing, dll injection).
 @@@
 
-;strace + ltrace — su Linux, intercetta le chiamate al kernel e alle librerie a runtime senza aprire un disassembler.
+;strace + ltrace: su Linux, intercetta le chiamate al kernel e alle librerie a runtime senza aprire un disassembler.
 
 @@@
-strace  ./campione           # syscall del kernel
-ltrace  ./campione           # chiamate a funzioni di libreria
-strace -e trace=network ./campione   # solo chiamate di rete
-strace -e trace=file ./campione      # solo accessi a file
+strace  ./campione           ;syscall del kernel.
+ltrace  ./campione           ;chiamate a funzioni di libreria.
+strace -e trace=network ./campione   ;solo chiamate di rete.
+strace -e trace=file ./campione      ;solo accessi a file.
 @@@
 
-;Wireshark / tcpdump — cattura il traffico di rete generato dal malware. Cerca connessioni a C2, exfiltrazione di dati, download di payload aggiuntivi.
+;Wireshark/tcpdump: cattura il traffico di rete generato dal malware. Cerca connessioni a C2, exfiltrazione di dati, download di payload aggiuntivi.
 
 @@@
 tcpdump -i eth0 -w capture.pcap
-# apri capture.pcap in Wireshark
-# filtri utili:
-# http || dns || ftp
-# tcp.port == 4444
-# ip.dst == x.x.x.x
+
+;apri capture.pcap in Wireshark
+;filtri utili:
+;http || dns || ftp
+;tcp.port == 4444
+;ip.dst == x.x.x.x
 @@@
 
-;cosa cercare — pattern comportamentali comuni.
+;cosa cercare: pattern comportamentali comuni.
 
 @@@
 # persistenza:
