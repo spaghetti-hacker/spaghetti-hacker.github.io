@@ -656,22 +656,22 @@ tcpdump -i eth0 -w capture.pcap
 ;cosa cercare: pattern comportamentali comuni.
 
 @@@
-# persistenza:
+;persistenza:
 HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 HKLM\Software\Microsoft\Windows\CurrentVersion\Run
-# cron job su Linux: /etc/cron*, /var/spool/cron
+;cron job su Linux: /etc/cron*, /var/spool/cron.
 
-# evasione:
-# - sleep lunghi prima dell'attività malevola
-# - controllo se gira in VM (CPUID, registry VMware/VirtualBox)
-# - offuscamento stringhe, packer (UPX, custom)
+;evasione:
+;sleep lunghi prima dell'attività malevola.
+;controllo se gira in VM (CPUID, registry VMware/VirtualBox).
+;offuscamento stringhe, packer (UPX, custom).
 
-# injection:
-# - VirtualAllocEx + WriteProcessMemory + CreateRemoteThread
-# - LD_PRELOAD su Linux per hooking di funzioni
+;injection:
+;VirtualAllocEx + WriteProcessMemory + CreateRemoteThread.
+;LD_PRELOAD su Linux per hooking di funzioni.
 @@@
 
-;YARA — linguaggio per scrivere regole di rilevamento basate su stringhe e pattern. Utile per identificare varianti della stessa famiglia di malware.
+;YARA: linguaggio per scrivere regole di rilevamento basate su stringhe e pattern. Utile per identificare varianti della stessa famiglia di malware.
 
 @@@
 rule Rootkit_ProcHider
@@ -689,12 +689,12 @@ rule Rootkit_ProcHider
 yara regola.yar campione
 @@@
 
-;ClamAV — antivirus open source da riga di comando. Utile per un check rapido e per la firma del campione.
+;ClamAV: antivirus open source da riga di comando. Utile per un check rapido e per la firma del campione.
 
 @@@
 clamscan ./campione
-clamscan -r ./directory/     # scansione ricorsiva
-freshclam                    # aggiorna il database delle firme
+clamscan -r ./directory/     ;scansione ricorsiva.
+freshclam                    ;aggiorna il database delle firme.
 @@@
 
 <a href="index.html">index.html</a>
