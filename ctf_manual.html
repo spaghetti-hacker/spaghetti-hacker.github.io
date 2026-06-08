@@ -297,28 +297,26 @@ REVERSE ~ HCF
 
 ;--- strumenti ---
 
-;il reverse engineering è l'arte di capire come funziona un programma partendo dal suo binario compilato, senza codice sorgente. Si ragiona per abduzione: si formulano ipotesi e si cerca conferma nel codice disassemblato.
-
-;abduzione: sillogismo in cui la premessa maggiore è certa, mentre la premessa minore è probabile — la conclusione è solo probabile ma verificabile.
+;il reverse engineering del software è l'arte di capire come funziona un programma partendo dal suo binario compilato, senza codice sorgente. Si ragiona per abduzione: si formulano ipotesi e si cerca conferma nel codice disassemblato.
 
 ;--- metodologia ---
 
 ;metodo: (1) osservi il sistema finito, (2) formuli ipotesi su come è stato progettato, (3) cerchi conferme o smentite testando quelle ipotesi.
 
 @@@
-# workflow base
-file   nomefile          # tipo di binario
-strings nomefile         # stringhe stampabili
-ltrace  ./nomefile       # chiamate a librerie a runtime
-strace  ./nomefile       # chiamate al kernel a runtime
+file   nomefile          ;tipo di binario.
+strings nomefile         ;stringhe stampabili.
+ltrace  ./nomefile       ;chiamate a librerie a runtime.
+strace  ./nomefile       ;chiamate al kernel a runtime.
 @@@
 
-;file — identifica il tipo reale del file senza guardare l'estensione. Ti dice: architettura (32/64 bit), ABI (ELF/PE), se è stripped (senza simboli di debug) o meno. I simboli sono i nomi delle funzioni, variabili e file sorgente che il compilatore può inserire nel binario per aiutare il debug.
+;file: identifica il tipo reale del file senza guardare l'estensione. Ti dice: architettura (32/64 bit), ABI (ELF/PE), se è stripped (senza simboli di debug) o meno. I simboli sono i nomi delle funzioni, variabili e file sorgente che il compilatore può inserire nel binario per aiutare il debug.
 
-;se file restituisce solo "data" il binario potrebbe essere offuscato, cifrato o in formato proprietario. Già un indizio.
+;se file restituisce solo "data" il binario potrebbe essere offuscato, cifrato o in formato proprietario. Già è un indizio.
+
+;esempi:
 
 @@@
-# esempi output di file
 nomefile: ELF 64-bit LSB executable, x86-64, not stripped
 nomefile: ELF 64-bit LSB executable, x86-64, stripped
 nomefile: PE32 executable (GUI) Intel 80386
@@ -326,84 +324,86 @@ nomefile: gzip compressed data
 nomefile: data
 @@@
 
-;strings — estrae tutte le stringhe ASCII/Unicode stampabili da un file binario. Anche su binari stripped le stringhe spesso restano intatte. Cerca: messaggi di errore, password hardcoded, URL, path di file, "flag{".
+;strings: estrae tutte le stringhe ASCII/Unicode stampabili da un file binario. Anche su binari stripped le stringhe spesso restano intatte. Cerca: messaggi di errore, password hardcoded, URL, path di file, "flag{".
 
 ;attenzione: strings non estrae dati cifrati, compressi o offuscati.
 
 @@@
 strings nomefile
-strings -n 8 nomefile        # solo stringhe >= 8 caratteri
-strings nomefile | grep flag  # filtra per keyword
+strings -n 8 nomefile        ;solo stringhe >= 8 caratteri
+strings nomefile | grep flag  ;filtra per keyword
 @@@
 
 ;--- analisi statica ---
 
-;analisi statica con radare2 — strumento da terminale per disassemblare e analizzare binari. Curva di apprendimento ripida ma indispensabile in CTF.
+;analisi statica con radare2, strumento da terminale per disassemblare e analizzare binari.
 
 @@@
-r2 -A nomefile   # apri e analizza automaticamente
-afl              # lista funzioni trovate
-pdf @ main       # disassembla la funzione main
-pdf @ sym.check  # disassembla funzione specifica
-s sym.check      # salta (seek) a una funzione
-iz               # mostra stringhe nel binario
-px 64 @ rsp      # dump 64 byte dallo stack pointer
-vv               # modalità visuale interattiva
+r2 -A nomefile   ;apri e analizza automaticamente.
+afl              ;lista funzioni trovate.
+pdf @ main       ;disassembla la funzione main.
+pdf @ sym.check  ;disassembla funzione specifica.
+s sym.check      ;salta (seek) a una funzione.
+iz               ;mostra stringhe nel binario.
+px 64 @ rsp      ;dump 64 byte dallo stack pointer.
+vv               ;modalità visuale interattiva.
 @@@
 
-;approccio consigliato in radare2: dividi il disassemblato in blocchi separati da ogni CALL. Studia le funzioni una ad una. Le CALL chiudono i blocchi e sono i punti di snodo della logica.
+;approccio consigliato in radare2: dividi il disassemblato in blocchi separati per ogni call. Studia le funzioni una ad una. Le call chiudono i blocchi e sono i punti di snodo della logica.
 
-;analisi statica con Ghidra — disassembler + decompiler gratuito. Trasforma il binario in pseudo-codice C leggibile. Consigliato per iniziare perché la decompilazione aiuta a capire la logica senza dover leggere solo assembly.
+;analisi statica con Ghidra: disassembler + decompiler gratuito. Trasforma il binario in pseudo-codice C leggibile. Consigliato per iniziare perché la decompilazione aiuta a capire la logica senza dover leggere solo assembly.
+
+;in Ghidra:
 
 @@@
-# in Ghidra:
-# File > Import File > nomefile
-# Window > Decompiler   (pseudo-C del binario)
-# Symbol Tree > Functions > main   (punto d'inizio)
-# Search > For Strings   (trova stringhe nel binario)
+File > Import File > nomefile
+Window > Decompiler   (pseudo-C del binario)
+Symbol Tree > Functions > main   (punto d'inizio)
+Search > For Strings   (trova stringhe nel binario)
 @@@
 
 ;--- analisi dinamica ---
 
-;analisi dinamica con GDB + pwndbg — esegui il binario passo-passo, esamina registri e stack, imposta breakpoint. pwndbg è un plugin che rende GDB molto più leggibile.
+;analisi dinamica con GDB + pwndbg: esegui il binario passo-passo, esamina registri e stack, imposta breakpoint. pwndbg è un plugin che rende GDB molto più leggibile.
 
 @@@
 gdb ./nomefile
-b main           # breakpoint sulla funzione main
-b *0x400806      # breakpoint su indirizzo specifico
-r                # run (esegui il programma)
-ni               # next instruction (step over)
-si               # step into (entra nelle funzioni)
-x/s $rdi         # leggi stringa all'indirizzo in rdi
-x/20wx $rsp      # dump stack (20 dword in hex)
-info registers   # stato di tutti i registri
-c                # continua fino al prossimo breakpoint
+b main           ;breakpoint sulla funzione main.
+b *0x400806      ;breakpoint su indirizzo specifico.
+r                ;run (esegui il programma).
+ni               ;next instruction (step over).
+si               ;step into (entra nelle funzioni).
+x/s $rdi         ;leggi stringa all'indirizzo in rdi.
+x/20wx $rsp      ;dump stack (20 dword in hex).
+info registers   ;stato di tutti i registri.
+c                ;continua fino al prossimo breakpoint.
 @@@
 
 ;calling convention x86-64 Linux (System V AMD64): i primi 6 argomenti vanno nei registri rdi, rsi, rdx, rcx, r8, r9 in quest'ordine. Il valore di ritorno va in rax. Sapere questo ti permette di capire cosa viene passato a ogni funzione.
 
-;binary patching — modifica diretta dei byte del binario per cambiarne il comportamento senza ricompilare. Caso classico: cambiare un salto condizionale per bypassare un controllo password.
+;binary patching: modifica diretta dei byte del binario per cambiarne il comportamento senza ricompilare. Caso classico: cambiare un salto condizionale per bypassare un controllo password.
+
+;esempio: bypassare un check
+;nel disassemblato trovi:
 
 @@@
-# esempio: bypassare un check
-# nel disassemblato trovi:
-#   cmp rax, rbx
-#   je  0x401200     ; salta se uguale (check ok)
-#
-# in hexedit o con python cambi l'opcode:
-# je  = 0x74   →   jmp = 0xeb  (salta sempre)
-# je  = 0x74   →   jne = 0x75  (salta se diverso)
+cmp rax, rbx
+je  0x401200     ;salta se uguale (check ok).
 
-xxd nomefile | grep -n "74"    # cerca byte 0x74
-hexedit nomefile               # modifica interattivo
+in hexedit o con python cambi l'opcode:
+je  = 0x74   →   jmp = 0xeb  (salta sempre)
+je  = 0x74   →   jne = 0x75  (salta se diverso)
+
+xxd nomefile | grep -n "74"    ;cerca byte 0x74.
+hexedit nomefile               ;modifica interattivo.
 @@@
 
 ;objdump — tool GNU già installato su quasi tutti i sistemi Linux. Utile per un'occhiata rapida senza installare nulla.
 
 @@@
-objdump -d nomefile              # disassembla tutto
-objdump -d -M intel nomefile     # sintassi Intel (più leggibile)
-objdump -d nomefile | grep -A20 "<main>"   # solo main
+objdump -d nomefile              ;disassembla tutto.
+objdump -d -M intel nomefile     ;sintassi Intel (più leggibile).
+objdump -d nomefile | grep -A20 "<main>"   ;solo main.
 @@@
 
 <a href="index.html">index.html</a>
