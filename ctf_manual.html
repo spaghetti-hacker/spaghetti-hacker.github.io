@@ -425,35 +425,36 @@ PWN ~ HCF
 
 ;mindset: ogni input dell'utente è una superficie d'attacco. Cerca dove i dati vanno in memoria senza essere validati. La domanda chiave è: posso far eseguire al programma qualcosa che non dovrebbe?
 
-;prima di tutto: checksec. Mostra le protezioni attive sul binario e guida la scelta della tecnica.
+;prima di tutto: checksec. Mostra le protezioni attive sul binario e ti guida nella scelta della tecnica.
 
 @@@
 checksec --file=./vuln
 
-# output tipico:
-# RELRO:    Partial RELRO
-# Stack:    No canary found    ← overflow classico possibile
-# NX:       NX enabled         ← no shellcode sullo stack
-# PIE:      No PIE             ← indirizzi fissi, più facile
-# RPATH:    No RPATH
+;output tipico:
+RELRO:    Partial RELRO
+Stack:    No canary found    ;overflow classico possibile
+NX:       NX enabled         ;no shellcode sullo stack
+PIE:      No PIE             ;indirizzi fissi, più facile
+RPATH:    No RPATH
 @@@
 
-;NX (No-eXecute): lo stack non è eseguibile. Se attivo non puoi mettere shellcode sullo stack — devi usare ROP (Return Oriented Programming). Se disattivo puoi iniettare shellcode direttamente.
+;NX (No-eXecute): lo stack non è eseguibile. Se attivo non puoi mettere shellcode sullo stack, devi usare ROP (Return Oriented Programming). Se è disattivato puoi iniettare shellcode direttamente.
 
-;stack canary: valore segreto piazzato prima del return address. Se sovrascritto, il programma termina. Rende più difficili i buffer overflow classici.
+;stack canary: valore segreto piazzato sullo stack prima del return address. Se sovrascritto, il programma termina. Rende più difficili i buffer overflow classici.
 
-;PIE (Position Independent Executable): gli indirizzi cambiano ad ogni esecuzione (come ASLR). Se disattivo gli indirizzi sono fissi e prevedibili.
+;PIE (Position Independent Executable): gli indirizzi cambiano ad ogni esecuzione (come ASLR). Se è disattivato gli indirizzi sono fissi e prevedibili.
 
 ;--- buffer overflow ---
 
-;vulnerabilità 1 — stack buffer overflow. Un buffer sullo stack viene riempito oltre la sua dimensione, sovrascrivendo il return address. Il programma salta dove diciamo noi.
+;stack buffer overflow. Un buffer sullo stack viene riempito oltre la sua dimensione, sovrascrivendo il return address. Il programma salta dove diciamo noi.
 
 @@@
-# funzioni pericolose da cercare nel disassemblato:
-# gets()    → VULNERABILE per definizione, nessun limite
-# scanf("%s", buf)  → nessun limite sulla dimensione
-# strcpy(dst, src)  → nessun controllo lunghezza
-# strcat(dst, src)  → nessun controllo lunghezza
+;funzioni pericolose da cercare nel disassemblato:
+
+gets()    -> VULNERABILE per definizione, nessun limite.
+scanf("%s", buf)  -> nessun limite sulla dimensione.
+strcpy(dst, src)  -> nessun controllo lunghezza.
+strcat(dst, src)  -> nessun controllo lunghezza.
 
 strings ./vuln | grep -E "gets|strcpy|scanf"
 objdump -d ./vuln | grep "call.*gets"
@@ -462,14 +463,17 @@ objdump -d ./vuln | grep "call.*gets"
 ;per sfruttare un overflow serve sapere quanti byte di padding servono prima di sovrascrivere il return address. Si usa un cyclic pattern.
 
 @@@
-# con pwntools:
+;con pwntools:
+
 from pwn import *
 cyclic(100)
-# genera: aaaabaaacaaadaaaeaaafaaagaaahaaai...
 
-# manda il pattern al programma → crash
-# il crash address ti dice l'offset esatto:
-cyclic_find(0x6161616b)   # → es. offset = 44
+;genera: aaaabaaacaaadaaaeaaafaaagaaahaaai...
+
+;manda il pattern al programma -> crash.
+;il crash address ti dice l'offset esatto:
+
+cyclic_find(0x6161616b)   ;es. offset = 44.
 @@@
 
 ;una volta trovato l'offset costruisci il payload: padding + indirizzo dove vuoi saltare.
@@ -490,44 +494,46 @@ p.interactive()
 
 ;--- format string ---
 
-;vulnerabilità 2 — format string. Se un printf usa direttamente l'input utente come stringa di formato, si può leggere e scrivere memoria arbitraria.
+;format string. Se un printf usa direttamente l'input utente come stringa di formato, si può leggere e scrivere memoria arbitraria.
 
 @@@
-# VULNERABILE:
-printf(user_input)           # l'utente controlla il formato
+printf(user_input)           ;l'utente controlla il formato
 
-# SICURO:
-printf("%s", user_input)     # formato fisso
+printf("%s", user_input)     ;sicuro, formato fisso
 
-# test: manda "%p %p %p %p" come input
-# se stampa indirizzi di memoria → vulnerabile
+;test: manda "%p %p %p %p" come input.
+;se stampa indirizzi di memoria -> vulnerabile.
 
-# lettura dallo stack:
-"%p"        # stampa un valore come puntatore
-"%x"        # stampa un valore in esadecimale
-"%7$p"      # stampa il 7° argomento (parametro posizionale)
+;lettura dallo stack:
 
-# scrittura in memoria:
+"%p"        ;stampa un valore come puntatore.
+"%x"        ;stampa un valore in esadecimale.
+"%7$p"      ;stampa il 7° argomento (parametro posizionale).
+
+;scrittura in memoria:
+
 "%n"        # scrive il numero di caratteri stampati finora
 @@@
 
 ;--- ROP ---
 
-;ROP (Return Oriented Programming) — quando NX è attivo non puoi eseguire shellcode. Si concatenano piccoli frammenti di codice già presenti nel binario (gadget) che terminano con ret, per costruire una catena di esecuzione.
+;ROP (Return Oriented Programming): quando NX è attivo non puoi eseguire shellcode. Si concatenano piccoli frammenti di codice già presenti nel binario (gadget) che terminano con ret, per costruire una catena di esecuzione.
 
 @@@
-# cerca gadget nel binario:
+;cerca gadget nel binario:
+
 ROPgadget --binary ./vuln --rop
 ROPgadget --binary ./vuln | grep "pop rdi ; ret"
 ROPgadget --binary ./vuln | grep "pop rsi ; pop r15 ; ret"
 
-# per chiamare system("/bin/sh") su x86-64:
-# 1. gadget: pop rdi ; ret
-# 2. indirizzo stringa "/bin/sh"
-# 3. indirizzo di system()
+;per chiamare system("/bin/sh") su x86-64:
+
+;gadget: pop rdi ; ret
+;indirizzo stringa "/bin/sh"
+;indirizzo di system()
 @@@
 
-;pwntools — libreria Python per costruire ed eseguire exploit. Gestisce connessioni, encoding, e interazione con il processo target.
+;pwntools: libreria Python per costruire ed eseguire exploit. Gestisce connessioni, encoding, e interazione con il processo target.
 
 @@@
 from pwn import *
