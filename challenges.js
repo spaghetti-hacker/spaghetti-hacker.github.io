@@ -41,6 +41,7 @@ const CHALLENGES = [
         challenges: [
             { title:"PCAP FTP",   diff:"easy",    pts:50, flag:"2be272137d271e45f39caaf5cd2ede54e8dc99517e044f28192c78d74187ae98",    file:"ch1.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{password}. Tool consigliato: [Wireshark]." },
             { title:"PCAP Telnet",   diff:"easy",    pts:50, flag:"c17beda8c96140db5cf5d7609224b06b0c465909abb0d3f58e53714bfd46bf10",    file:"ch2.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{password}. Tool consigliato: [Wireshark]." },
+            { title:"Stego",   diff:"easy",    pts:50, flag:"59eaf87128358cb2bed3dbf5ea21bfe5f77e069632c684a5a0e6c6f4fbe8709b",    file:"stego.jpg",   desc:"Cosa è nascosto nell'Acaro?. Tool consigliato: [steghide]." },
         ]
     },
 ];
