@@ -84,6 +84,8 @@ body{
     background:#0a3a2a;
 }
 
+.nav-entry > span.nav-label{ cursor:pointer; }
+
 .nav-sep{ color:#1a5a1a; flex-shrink:0; user-select:none; padding:0 2px; }
 
 .nav-entry .dropdown{
@@ -234,39 +236,49 @@ a:hover{
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label">REVERSING ▾</span>
+        <span class="nav-label" onclick="switchTab('rev');return false;">REVERSING ▾</span>
         <div class="dropdown">
-            <div class="drop-item"><a href="#" onclick="switchTab('rev');return false;">strumenti</a></div>
-            <div class="drop-item"><a href="#" onclick="switchTab('rev');return false;">metodologia</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('rev','rev-strumenti');return false;">strumenti</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('rev','rev-metodologia');return false;">metodologia</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('rev','rev-analisi-statica');return false;">analisi statica</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('rev','rev-analisi-dinamica');return false;">analisi dinamica</a></div>
         </div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label">PWN ▾</span>
+        <span class="nav-label" onclick="switchTab('pwn');return false;">PWN ▾</span>
         <div class="dropdown">
-            <div class="drop-item"><a href="#" onclick="switchTab('pwn');return false;">buffer overflow</a></div>
-            <div class="drop-item"><a href="#" onclick="switchTab('pwn');return false;">format string</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('pwn','pwn-buffer-overflow');return false;">buffer overflow</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('pwn','pwn-format-string');return false;">format string</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('pwn','pwn-rop');return false;">ROP</a></div>
         </div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label">MALWARE ▾</span>
+        <span class="nav-label" onclick="switchTab('malware');return false;">MALWARE ▾</span>
         <div class="dropdown">
-            <div class="drop-item"><a href="#" onclick="switchTab('malware');return false;">analisi statica</a></div>
-            <div class="drop-item"><a href="#" onclick="switchTab('malware');return false;">analisi dinamica</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('malware','malware-analisi-statica');return false;">analisi statica</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('malware','malware-analisi-dinamica');return false;">analisi dinamica</a></div>
         </div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <span class="nav-label">CRYPTO ▾</span>
+        <span class="nav-label" onclick="switchTab('crypto');return false;">CRYPTO ▾</span>
         <div class="dropdown">
-            <div class="drop-item"><a href="#" onclick="switchTab('crypto');return false;">classici</a></div>
-            <div class="drop-item"><a href="#" onclick="switchTab('crypto');return false;">moderna</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('crypto','crypto-classici');return false;">classici</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('crypto','crypto-moderna');return false;">moderna</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('crypto','crypto-strumenti');return false;">strumenti</a></div>
         </div>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
-        <a href="#" onclick="switchTab('general');return false;">GENERAL</a>
+        <span class="nav-label" onclick="switchTab('general');return false;">GENERAL ▾</span>
+        <div class="dropdown">
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('general','general-steganografia');return false;">steganografia</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('general','general-forensics');return false;">forensics</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('general','general-osint');return false;">OSINT</a></div>
+            <div class="drop-item"><a href="#" onclick="switchTabAnchor('general','general-misc');return false;">misc / coding</a></div>
+        </div>
     </div>
 </div>
 </nav>
@@ -984,7 +996,16 @@ echo "01001000" | python3 -c "import sys; print(chr(int(sys.stdin.read().strip()
 
 <script>
 /* ── renderer (stesso parser di proc_hider.html) ── */
+function slugify(tab, text){
+    return tab + '-' + text.toLowerCase()
+        .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e')
+        .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
+        .replace(/[ùúûü]/g,'u')
+        .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
 function renderSection(contentId, outputId) {
+    const tab = contentId.replace('content-','');
     const raw = document.getElementById(contentId).textContent;
     const lines = raw.split('\n');
     let i = 0;
@@ -1022,8 +1043,15 @@ function renderSection(contentId, outputId) {
         if(paragraphs.length > 0){
             inner += '<div class="commento">\n';
             for(const p of paragraphs){
-                const cleaned = p.replace(/\n/g, '<br>');
-                inner += '<p>' + cleaned + '</p>\n';
+                // detect section headings like ;--- titolo ---
+                const headingMatch = p.match(/^;---\s*(.+?)\s*---\s*$/);
+                if(headingMatch){
+                    const slug = slugify(tab, headingMatch[1]);
+                    inner += '<p id="' + slug + '" style="color:#9cff5f;margin-top:8px;">' + escCode(p) + '</p>\n';
+                } else {
+                    const cleaned = p.replace(/\n/g, '<br>');
+                    inner += '<p>' + cleaned + '</p>\n';
+                }
             }
             inner += '</div>';
         }
@@ -1060,16 +1088,38 @@ const rendered = {};
 function switchTab(id){
     TABS.forEach(t => {
         document.getElementById('panel-' + t).classList.remove('active');
-        document.getElementById('tab-' + t).classList.remove('active');
     });
     document.getElementById('panel-' + id).classList.add('active');
-    document.getElementById('tab-' + id).classList.add('active');
 
     if(!rendered[id]){
         renderSection('content-' + id, 'output-' + id);
         rendered[id] = true;
     }
     window.scrollTo(0, 0);
+}
+
+function switchTabAnchor(id, anchor){
+    TABS.forEach(t => {
+        document.getElementById('panel-' + t).classList.remove('active');
+    });
+    document.getElementById('panel-' + id).classList.add('active');
+
+    if(!rendered[id]){
+        renderSection('content-' + id, 'output-' + id);
+        rendered[id] = true;
+    }
+
+    // scroll after render (use rAF to ensure DOM is painted)
+    requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+            const el = document.getElementById(anchor);
+            if(el){
+                const navH = document.getElementById('navbar').offsetHeight;
+                const top = el.getBoundingClientRect().top + window.scrollY - navH - 8;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+        });
+    });
 }
 
 /* render iniziale: solo reversing */
