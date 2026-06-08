@@ -294,9 +294,13 @@ REVERSING ~ HCF
 
 <a href="index.html">index.html</a>
 
+;--- strumenti ---
+
 ;il reverse engineering è l'arte di capire come funziona un programma partendo dal suo binario compilato, senza codice sorgente. Si ragiona per abduzione: si formulano ipotesi e si cerca conferma nel codice disassemblato.
 
 ;abduzione: sillogismo in cui la premessa maggiore è certa, mentre la premessa minore è probabile — la conclusione è solo probabile ma verificabile.
+
+;--- metodologia ---
 
 ;metodo: (1) osservi il sistema finito, (2) formuli ipotesi su come è stato progettato, (3) cerchi conferme o smentite testando quelle ipotesi.
 
@@ -331,6 +335,8 @@ strings -n 8 nomefile        # solo stringhe >= 8 caratteri
 strings nomefile | grep flag  # filtra per keyword
 @@@
 
+;--- analisi statica ---
+
 ;analisi statica con radare2 — strumento da terminale per disassemblare e analizzare binari. Curva di apprendimento ripida ma indispensabile in CTF.
 
 @@@
@@ -355,6 +361,8 @@ vv               # modalità visuale interattiva
 # Symbol Tree > Functions > main   (punto d'inizio)
 # Search > For Strings   (trova stringhe nel binario)
 @@@
+
+;--- analisi dinamica ---
 
 ;analisi dinamica con GDB + pwndbg — esegui il binario passo-passo, esamina registri e stack, imposta breakpoint. pwndbg è un plugin che rende GDB molto più leggibile.
 
@@ -434,6 +442,8 @@ checksec --file=./vuln
 
 ;PIE (Position Independent Executable): gli indirizzi cambiano ad ogni esecuzione (come ASLR). Se disattivo gli indirizzi sono fissi e prevedibili.
 
+;--- buffer overflow ---
+
 ;vulnerabilità 1 — stack buffer overflow. Un buffer sullo stack viene riempito oltre la sua dimensione, sovrascrivendo il return address. Il programma salta dove diciamo noi.
 
 @@@
@@ -476,6 +486,8 @@ p.sendline(payload)
 p.interactive()
 @@@
 
+;--- format string ---
+
 ;vulnerabilità 2 — format string. Se un printf usa direttamente l'input utente come stringa di formato, si può leggere e scrivere memoria arbitraria.
 
 @@@
@@ -496,6 +508,8 @@ printf("%s", user_input)     # formato fisso
 # scrittura in memoria:
 "%n"        # scrive il numero di caratteri stampati finora
 @@@
+
+;--- ROP ---
 
 ;ROP (Return Oriented Programming) — quando NX è attivo non puoi eseguire shellcode. Si concatenano piccoli frammenti di codice già presenti nel binario (gadget) che terminano con ret, per costruire una catena di esecuzione.
 
@@ -705,7 +719,7 @@ echo "48656c6c6f" | xxd -r -p        # → Hello
 echo "Uryyb" | tr 'A-Za-z' 'N-ZA-Mn-za-m'  # ROT13 → Hello
 @@@
 
-;--- cifrari classici ---
+;--- classici ---
 
 ;caesar cipher — sostituzione con shift fisso sull'alfabeto. Attacco: prova tutti i 25 shift possibili (brute force banale) o analisi delle frequenze.
 
@@ -738,7 +752,7 @@ print(pt)"
 # key = ct XOR pt
 @@@
 
-;--- errori comuni nella crittografia moderna ---
+;--- moderna ---
 
 ;RSA — si rompe quasi sempre per errori di implementazione, non per forza bruta.
 
@@ -803,7 +817,7 @@ print(pt2)"
 pip install hashpumpy
 @@@
 
-;strumenti.
+;--- strumenti ---
 
 @@@
 # CyberChef:  gchq.github.io/CyberChef
