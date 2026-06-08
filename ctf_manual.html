@@ -866,106 +866,106 @@ GENERAL ~ HCF
 
 ;le sfide General (o Misc) sono il jolly della CTF: steganografia, OSINT, forensics, coding challenge e tutto ciò che non rientra nelle altre categorie. Richiedono creatività e approccio laterale.
 
-;mindset: "la flag è nascosta da qualche parte — devi sapere dove guardare". Se qualcosa sembra strano (un file troppo grande, metadati sospetti, output inaspettato) è lì.
-
 ;workflow base per ogni file ricevuto.
 
 @@@
-file       nomefile        # tipo reale
-strings    nomefile        # stringhe stampabili
-exiftool   nomefile        # metadati (Author, Comment, GPS...)
-binwalk    nomefile        # file nascosti all'interno
-xxd nomefile | tail        # guarda anche i byte finali del file
+file       nomefile        ;tipo reale.
+strings    nomefile        ;stringhe stampabili.
+exiftool   nomefile        ;metadati (Author, Comment, GPS...).
+binwalk    nomefile        ;file nascosti all'interno.
+xxd nomefile | tail        ;guarda anche i byte finali del file.
 @@@
 
 ;--- steganografia ---
 
-;steghide — nasconde/estrae dati in JPEG, BMP, WAV, AU. Supporta password. Prova sempre prima la password vuota.
+;steghide: nasconde/estrae dati in JPEG, BMP, WAV, AU. Supporta password. Prova sempre prima la password vuota.
 
 @@@
-steghide info    immagine.jpg        # info senza estrarre
-steghide extract -sf immagine.jpg    # estrai (chiede password)
-steghide extract -sf immagine.jpg -p ""          # password vuota
-steghide extract -sf immagine.jpg -p "password"  # password comune
+steghide info    immagine.jpg        ;info senza estrarre.
+steghide extract -sf immagine.jpg    ;estrai (chiede password).
+steghide extract -sf immagine.jpg -p ""          ;password vuota.
+steghide extract -sf immagine.jpg -p "password"  ;password comune.
 @@@
 
-;zsteg — analisi LSB specifica per PNG e BMP. Controlla tutti i canali automaticamente (R, G, B, A, combinazioni, bit plane).
+;zsteg: analisi LSB specifica per PNG e BMP. Controlla tutti i canali automaticamente (R, G, B, A, combinazioni, bit plane).
 
 @@@
-zsteg immagine.png           # analisi automatica tutti i canali
-zsteg -a immagine.png        # prova tutti i metodi disponibili
-zsteg -E "b1,rgb,lsb,xy" img # estrai canale specifico
+zsteg immagine.png           ;analisi automatica tutti i canali.
+zsteg -a immagine.png        ;prova tutti i metodi disponibili.
+zsteg -E "b1,rgb,lsb,xy" img ;estrai canale specifico.
 @@@
 
-;LSB (Least Significant Bit) steganography — nasconde dati nel bit meno significativo di ogni pixel. Impercettibile all'occhio ma rilevabile da strumenti. Un'immagine PNG da 1MP può contenere ~375KB di dati nascosti.
+;LSB (Least Significant Bit) steganography, nasconde dati nel bit meno significativo di ogni pixel. Impercettibile all'occhio ma rilevabile da strumenti. Un'immagine PNG da 1MP può contenere ~375KB di dati nascosti.
 
-;stegsolve — analisi visuale dei bit plane di un'immagine. Utile per trovare dati nascosti in canali cromatici specifici.
+;stegsolve, analisi visuale dei bit plane di un'immagine. Utile per trovare dati nascosti in canali cromatici specifici.
 
 @@@
 java -jar stegsolve.jar
-# prova: Image Combiner, Frame Browser, Bit Planes
-# filtra i canali R0, G0, B0 (bit meno significativi)
+;prova: Image Combiner, Frame Browser, Bit Planes.
+;filtra i canali R0, G0, B0 (bit meno significativi).
 @@@
 
-;binwalk su immagini — cerca file nascosti all'interno di immagini. Comune: ZIP appendato in fondo a un JPEG (un JPEG termina con FF D9 — tutto dopo è ignorato dai viewer ma recuperabile).
+;binwalk su immagini: cerca file nascosti all'interno di immagini. Comune: ZIP appendato in fondo a un JPEG (un JPEG termina con FF D9 — tutto dopo è ignorato dai viewer ma recuperabile).
 
 @@@
 binwalk -e immagine.jpg
-# cerca anche manualmente:
-xxd immagine.jpg | grep -a "PK"      # firma ZIP
-xxd immagine.jpg | grep -a "7z"      # firma 7zip
+
+;cerca anche manualmente:
+
+xxd immagine.jpg | grep -a "PK"      ;firma ZIP.
+xxd immagine.jpg | grep -a "7z"      ;firma 7zip.
 @@@
 
 ;--- forensics ---
 
-;Wireshark — analisi di file PCAP. Segui le stream TCP/HTTP per ricostruire conversazioni e trovare dati trasmessi in chiaro.
+;Wireshark: analisi di file PCAP. Segui le stream TCP/HTTP per ricostruire conversazioni e trovare dati trasmessi in chiaro.
 
 @@@
-# apri il file .pcap in Wireshark
-# Click destro su un pacchetto → Follow → TCP Stream
-# File → Export Objects → HTTP  (estrai file trasferiti)
-# filtri:
-# http.request.method == "POST"
-# dns
-# ftp-data
-# frame contains "flag"
+;apri il file .pcap in Wireshark.
+;Click destro su un pacchetto -> Follow -> TCP Stream.
+;File → Export Objects -> HTTP (estrai file trasferiti).
+;filtri:
+;http.request.method == "POST"
+;dns
+;ftp-data
+;frame contains "flag"
 @@@
 
-;Volatility — analisi di memory dump. Estrai processi, connessioni, password, file aperti da un'immagine della RAM.
+;Volatility: analisi di memory dump. Estrai processi, connessioni, password, file aperti da un'immagine della RAM.
 
 @@@
-vol.py -f dump.mem imageinfo         # identifica versione OS
-vol.py -f dump.mem --profile=Win7SP1x64 pslist    # processi
-vol.py -f dump.mem --profile=Win7SP1x64 netscan   # connessioni
-vol.py -f dump.mem --profile=Win7SP1x64 filescan  # file aperti
+vol.py -f dump.mem imageinfo         ;identifica versione OS.
+vol.py -f dump.mem --profile=Win7SP1x64 pslist    ;processi.
+vol.py -f dump.mem --profile=Win7SP1x64 netscan   ;connessioni.
+vol.py -f dump.mem --profile=Win7SP1x64 filescan  ;file aperti.
 vol.py -f dump.mem --profile=Win7SP1x64 dumpfiles -Q 0xaddr -D ./out/
-vol.py -f dump.mem --profile=Win7SP1x64 hashdump  # hash password
+vol.py -f dump.mem --profile=Win7SP1x64 hashdump  ;hash password.
 @@@
 
-;foremost / photorec — file carving da immagini disco: recupera file eliminati o nascosti cercando le magic byte dei formati (JPEG=FFD8FF, ZIP=504B, PDF=%PDF, PNG=89504E47).
+;foremost/photorec: file carving da immagini disco: recupera file eliminati o nascosti cercando le magic byte dei formati (JPEG=FFD8FF, ZIP=504B, PDF=%PDF, PNG=89504E47).
 
 @@@
 foremost -i disco.img -o output/
-photorec disco.img          # interfaccia guidata, più formati
+photorec disco.img    ;interfaccia guidata, più formati
 @@@
 
 ;--- OSINT ---
 
-;OSINT (Open Source Intelligence) — raccolta di informazioni da fonti pubbliche. In CTF spesso si tratta di trovare informazioni su una persona fittizia, una posizione geografica o un'organizzazione.
+;OSINT (Open Source Intelligence): raccolta di informazioni da fonti pubbliche. In CTF spesso si tratta di trovare informazioni su una persona fittizia, una posizione geografica o un'organizzazione.
 
 @@@
-# dati su persone/organizzazioni:
-# shodan.io          → dispositivi connessi a internet
-# theHarvester       → email, domini, host da fonti pubbliche
-# maltego            → visualizzazione relazioni tra entità
+;dati su persone/organizzazioni:
+;shodan.io          -> dispositivi connessi a internet.
+;theHarvester       -> email, domini, host da fonti pubbliche.
+;maltego            -> visualizzazione relazioni tra entità.
 
-# geolocalizzazione immagini:
-# google lens / yandex images → ricerca inversa
-# exiftool foto.jpg → GPS coordinates nei metadati
-# geohints.com       → indizi geografici nelle immagini
+;geolocalizzazione immagini:
+;google lens / yandex images -> ricerca inversa.
+;exiftool foto.jpg -> GPS coordinates nei metadati.
+;geohints.com       -> indizi geografici nelle immagini.
 
-# web archive:
-# web.archive.org    → versioni storiche di siti web
+;web archive:
+;web.archive.org    -> versioni storiche di siti web.
 @@@
 
 ;--- misc ---
@@ -986,16 +986,16 @@ print(output)
 ;tabella codifiche rapide.
 
 @@@
-# riconoscere le codifiche:
-# Base64  → A-Z a-z 0-9 +/ con = finale
-# Base32  → A-Z 2-7 con ==== finale
-# Base58  → A-Z a-z 0-9 senza 0 O I l
-# Hex     → 0-9 a-f lunghezza pari
-# Decimal → solo cifre, valori 0-255 separati
-# Binary  → solo 0 e 1, multipli di 8 bit
-# Morse   → . - e spazi
+;riconoscere le codifiche:
+;Base64  → A-Z a-z 0-9 +/ con = finale.
+;Base32  → A-Z 2-7 con ==== finale.
+;Base58  → A-Z a-z 0-9 senza 0 O I l.
+;Hex     → 0-9 a-f lunghezza pari.
+;Decimal → solo cifre, valori 0-255 separati.
+;Binary  → solo 0 e 1, multipli di 8 bit.
+;Morse   → . - e spazi.
 
-# decodifica rapida da terminale:
+;decodifica rapida da terminale:
 echo "SGVsbG8=" | base64 -d
 echo "48656c6c6f" | xxd -r -p
 echo "01001000" | python3 -c "import sys; print(chr(int(sys.stdin.read().strip(),2)))"
@@ -1004,13 +1004,13 @@ echo "01001000" | python3 -c "import sys; print(chr(int(sys.stdin.read().strip()
 ;strumenti online essenziali.
 
 @@@
-# CyberChef      gchq.github.io/CyberChef       → swiss army knife
-# dcode.fr       dcode.fr                        → cifrari classici
-# Cyberchef Magic mode                           → identifica codifiche
-# CrackStation   crackstation.net                → hash lookup
-# VirusTotal     virustotal.com                  → analisi file/URL
-# Shodan         shodan.io                       → OSINT dispositivi
-# Wayback Machine web.archive.org               → archivio web
+;CyberChef      gchq.github.io/CyberChef       -> swiss army knife
+;dcode.fr       dcode.fr                        -> cifrari classici
+;Cyberchef Magic mode                           -> identifica codifiche
+;CrackStation   crackstation.net                -> hash lookup
+;VirusTotal     virustotal.com                  -> analisi file/URL
+;Shodan         shodan.io                       -> OSINT dispositivi
+;Wayback Machine web.archive.org               -> archivio web
 @@@
 
 <a href="index.html">index.html</a>
