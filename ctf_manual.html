@@ -1032,7 +1032,6 @@ function renderSection(contentId, outputId) {
     while(i < lines.length && lines[i].trim() === '') i++;
 
     const title = lines[i] ? lines[i].trim() : '';
-    if(title && contentId === 'content-rev') document.title = title;
     i++;
 
     let inner = escCode(title);
