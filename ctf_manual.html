@@ -230,7 +230,7 @@ a:hover{
 <nav id="navbar">
 <div id="navbar-inner">
     <div class="nav-entry">
-        <a href="index.html">&lt;&lt; INDEX</a>
+        <a href="index.html">index.html</a>
     </div>
     <span class="nav-sep">|</span>
     <div class="nav-entry">
@@ -280,7 +280,7 @@ a:hover{
 <script id="content-rev" type="text/plain">
 REVERSING ~ HCF
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 
 ;il reverse engineering è l'arte di capire come funziona un programma partendo dal suo binario compilato, senza codice sorgente. Si ragiona per abduzione: si formulano ipotesi e si cerca conferma nel codice disassemblato.
 
@@ -385,7 +385,7 @@ objdump -d -M intel nomefile     # sintassi Intel (più leggibile)
 objdump -d nomefile | grep -A20 "<main>"   # solo main
 @@@
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 </script>
 <div id="output-rev"></div>
 </div>
@@ -397,7 +397,7 @@ objdump -d nomefile | grep -A20 "<main>"   # solo main
 <script id="content-pwn" type="text/plain">
 PWN ~ HCF
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 
 ;pwn (exploitation) riguarda lo sfruttamento di vulnerabilità nei programmi per ottenere controllo dell'esecuzione o accesso non autorizzato. Il target classico è sovrascrivere il return address sullo stack per reindirizzare il flusso del programma.
 
@@ -518,7 +518,7 @@ p.sendline(b'A' * 44 + p64(0xdeadbeef))
 p.interactive()
 @@@
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 </script>
 <div id="output-pwn"></div>
 </div>
@@ -530,7 +530,7 @@ p.interactive()
 <script id="content-malware" type="text/plain">
 MALWARE ANALYSIS ~ HCF
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 
 ;l'analisi malware è reverse engineering con focus sulla sicurezza: capire cosa fa un campione malevolo senza lasciarlo girare libero. La regola d'oro è l'isolamento — analizza sempre in una sandbox o VM snapshottata.
 
@@ -661,7 +661,7 @@ clamscan -r ./directory/     # scansione ricorsiva
 freshclam                    # aggiorna il database delle firme
 @@@
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 </script>
 <div id="output-malware"></div>
 </div>
@@ -673,7 +673,7 @@ freshclam                    # aggiorna il database delle firme
 <script id="content-crypto" type="text/plain">
 CRYPTO ~ HCF
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 
 ;le CTF crypto raramente richiedono di rompere AES o RSA "correttamente". Quasi sempre sfruttano implementazioni difettose, parametri sbagliati o algoritmi classici deboli. La crittografia si rompe nei dettagli.
 
@@ -812,7 +812,7 @@ from Crypto.PublicKey import RSA
 # sagemath.org
 @@@
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 </script>
 <div id="output-crypto"></div>
 </div>
@@ -824,7 +824,7 @@ from Crypto.PublicKey import RSA
 <script id="content-general" type="text/plain">
 GENERAL ~ HCF
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 
 ;le sfide General (o Misc) sono il jolly della CTF: steganografia, OSINT, forensics, coding challenge e tutto ciò che non rientra nelle altre categorie. Richiedono creatività e approccio laterale.
 
@@ -975,7 +975,7 @@ echo "01001000" | python3 -c "import sys; print(chr(int(sys.stdin.read().strip()
 # Wayback Machine web.archive.org               → archivio web
 @@@
 
-<a href="index.html">&lt;&lt;</a>
+<a href="index.html">index.html</a>
 </script>
 <div id="output-general"></div>
 </div>
