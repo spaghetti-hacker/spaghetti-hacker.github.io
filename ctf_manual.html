@@ -714,25 +714,25 @@ CRYPTO ~ HCF
 
 ;le CTF crypto raramente richiedono di rompere AES o RSA "correttamente". Quasi sempre sfruttano implementazioni difettose, parametri sbagliati o algoritmi classici deboli. La crittografia si rompe nei dettagli.
 
-;mindset: non cercare di forzare la crittografia — cerca l'errore nell'implementazione. "Don't roll your own crypto": chi lo fa sbaglia quasi sempre qualcosa.
+;mindset: non cercare di forzare la crittografia, cerca l'errore nell'implementazione. "Don't roll your own crypto": chi lo fa sbaglia quasi sempre qualcosa.
 
 ;prima di tutto: controlla se il testo è solo encodato (non cifrato). Base64, hex, URL encoding, ROT13 non sono crittografia. CyberChef con la ricetta "Magic" li riconosce automaticamente.
 
 @@@
-# riconoscere le codifiche comuni:
-# Base64:  caratteri A-Z a-z 0-9 +/ con padding =
-# Base32:  solo A-Z e 2-7, padding con ====
-# Hex:     solo 0-9 a-f, lunghezza pari
-# ROT13:   testo leggibile ma spostato di 13 lettere
+;riconoscere le codifiche comuni:
+;Base64:  caratteri A-Z a-z 0-9 +/ con padding =.
+;Base32:  solo A-Z e 2-7, padding con ====.
+;Hex:     solo 0-9 a-f, lunghezza pari.
+;ROT13:   testo leggibile ma spostato di 13 lettere.
 
-echo "SGVsbG8=" | base64 -d          # → Hello
-echo "48656c6c6f" | xxd -r -p        # → Hello
-echo "Uryyb" | tr 'A-Za-z' 'N-ZA-Mn-za-m'  # ROT13 → Hello
+echo "SGVsbG8=" | base64 -d          ;Hello
+echo "48656c6c6f" | xxd -r -p        ;Hello
+echo "Uryyb" | tr 'A-Za-z' 'N-ZA-Mn-za-m'  ;ROT13 -> Hello
 @@@
 
 ;--- classici ---
 
-;caesar cipher — sostituzione con shift fisso sull'alfabeto. Attacco: prova tutti i 25 shift possibili (brute force banale) o analisi delle frequenze.
+;caesar cipher: sostituzione con shift fisso sull'alfabeto. Attacco: prova tutti i 25 shift possibili (brute force banale) o analisi delle frequenze.
 
 @@@
 python3 -c "
@@ -742,15 +742,15 @@ for shift in range(26):
           if c.isalpha() else c for c in s))"
 @@@
 
-;vigenère cipher — Caesar con chiave ripetuta. Si rompe con il test di Kasiski per trovare la lunghezza della chiave, poi analisi delle frequenze su ogni sotto-sequenza.
+;vigenère cipher: Caesar con chiave ripetuta. Si rompe con il test di Kasiski per trovare la lunghezza della chiave, poi analisi delle frequenze su ogni sotto-sequenza.
 
 @@@
-# strumenti online:
-# dcode.fr/vigenere-cipher  → analisi automatica
-# guballa.de/vigenere        → cryptanalysis
+;strumenti online:
+;dcode.fr/vigenere-cipher  -> analisi automatica
+;guballa.de/vigenere       ->  cryptanalysis
 @@@
 
-;XOR cipher — operazione logica bit a bit usatissima per cifratura semplice. Se la chiave è corta o nota in parte si recupera facilmente.
+;XOR cipher: operazione logica bit a bit usatissima per cifratura semplice. Se la chiave è corta o nota in parte si recupera facilmente.
 
 @@@
 python3 -c "
@@ -759,37 +759,37 @@ key = b'KEY'
 pt = bytes(c ^ key[i % len(key)] for i,c in enumerate(ct))
 print(pt)"
 
-# XOR property: se conosci pt e ct puoi trovare key
-# key = ct XOR pt
+;XOR property: se conosci pt e ct puoi trovare key.
+;key = ct XOR pt
 @@@
 
-;--- moderna ---
+;--- crypto moderna ---
 
-;RSA — si rompe quasi sempre per errori di implementazione, non per forza bruta.
-
-@@@
-# errore 1: n piccolo o fattorizzabile
-# cerca n su factordb.com → se fattorizzato trovi p e q
-
-# errore 2: esponente e=3 con plaintext piccolo
-# se m^3 < n → m = cube_root(c)
-# python: from gmpy2 import iroot; m, exact = iroot(c, 3)
-
-# errore 3: stesso n usato due volte con e diversi (CRT attack)
-# errore 4: due chiavi con n1,n2 che condividono un fattore
-# gcd(n1, n2) → p comune!
-
-# tool automatico:
-# RsaCtfTool: python3 RsaCtfTool.py --publickey key.pem --uncipherfile ct.bin
-# dcode.fr/rsa-cipher
-@@@
-
-;AES-ECB — la modalità ECB cifra ogni blocco di 16 byte indipendentemente. Blocchi identici in chiaro producono blocchi identici in cifrato. Visibile nelle immagini cifrate con ECB: il pattern rimane riconoscibile.
+;RSA: si rompe quasi sempre per errori di implementazione, non per forza bruta.
 
 @@@
-# riconoscere ECB: se il ciphertext ha blocchi ripetuti ogni 16 byte → ECB
-# attacco chosen-plaintext: controlli il prefisso del testo in chiaro
-# e puoi dedurre il contenuto blocco per blocco
+;errore 1: n piccolo o fattorizzabile.
+;cerca n su factordb.com -> se fattorizzato trovi p e q.
+
+;errore 2: esponente e=3 con plaintext piccolo.
+;se m^3 < n -> m = cube_root(c).
+;python: from gmpy2 import iroot; m, exact = iroot(c, 3).
+
+;errore 3: stesso n usato due volte con e diversi (CRT attack).
+;errore 4: due chiavi con n1,n2 che condividono un fattore.
+;gcd(n1, n2) -> p comune!
+
+;tool automatico:
+;RsaCtfTool: python3 RsaCtfTool.py --publickey key.pem --uncipherfile ct.bin
+;dcode.fr/rsa-cipher
+@@@
+
+;AES-ECB: la modalità ECB cifra ogni blocco di 16 byte indipendentemente. Blocchi identici in chiaro producono blocchi identici in cifrato. Visibile nelle immagini cifrate con ECB: il pattern rimane riconoscibile.
+
+@@@
+;riconoscere ECB: se il ciphertext ha blocchi ripetuti ogni 16 byte → ECB.
+;attacco chosen-plaintext: controlli il prefisso del testo in chiaro.
+;e puoi dedurre il contenuto blocco per blocco.
 
 python3 -c "
 ct = bytes.fromhex('aabbccdd...')
@@ -797,16 +797,16 @@ blocks = [ct[i:i+16] for i in range(0, len(ct), 16)]
 print('ECB detectato!' if len(blocks) != len(set(blocks)) else 'ok')"
 @@@
 
-;nonce riutilizzato (AES-CTR / ChaCha20) — se lo stesso nonce viene usato due volte con la stessa chiave, lo XOR dei due ciphertext è uguale allo XOR dei due plaintext. Basta conoscere uno dei due testi.
+;nonce riutilizzato (AES-CTR / ChaCha20): se lo stesso nonce viene usato due volte con la stessa chiave, lo XOR dei due ciphertext è uguale allo XOR dei due plaintext. Basta conoscere uno dei due testi.
 
 @@@
-# proprietà fondamentale:
-# ct1 = pt1 XOR keystream
-# ct2 = pt2 XOR keystream
-# ct1 XOR ct2 = pt1 XOR pt2
+;proprietà fondamentale:
+;ct1 = pt1 XOR keystream.
+;ct2 = pt2 XOR keystream.
+;ct1 XOR ct2 = pt1 XOR pt2.
 
-# se conosci pt1:
-# pt2 = ct1 XOR ct2 XOR pt1
+;se conosci pt1:
+;pt2 = ct1 XOR ct2 XOR pt1.
 
 python3 -c "
 ct1 = bytes.fromhex('...')
@@ -816,37 +816,37 @@ pt2 = bytes(a^b^c for a,b,c in zip(ct1,ct2,pt1))
 print(pt2)"
 @@@
 
-;hash length extension — alcune funzioni hash (MD5, SHA1, SHA256) sono vulnerabili se usate come MAC nel modo sbagliato: HMAC(key, msg) = hash(key || msg).
+;hash length extension: alcune funzioni hash (MD5, SHA1, SHA256) sono vulnerabili se usate come MAC nel modo sbagliato: HMAC(key, msg) = hash(key || msg).
 
 @@@
-# se il server calcola: hash(secret || data)
-# e conosci len(secret) e hash(secret || data)
-# puoi calcolare hash(secret || data || padding || extra)
-# senza conoscere secret
+;se il server calcola: hash(secret || data).
+;e conosci len(secret) e hash(secret || data).
+;puoi calcolare hash(secret || data || padding || extra).
+;senza conoscere secret.
 
-# tool: hashpumpy (python), hash_extender
+;tool: hashpumpy (python), hash_extender.
 pip install hashpumpy
 @@@
 
 ;--- strumenti ---
 
 @@@
-# CyberChef:  gchq.github.io/CyberChef
-#   → "Magic" mode: identifica automaticamente la codifica
-#   → pipeline visuale: Base64 → XOR → SHA256 ecc.
+CyberChef:  gchq.github.io/CyberChef
+   → "Magic" mode: identifica automaticamente la codifica.
+   → pipeline visuale: Base64 → XOR → SHA256 ecc.
 
-# dcode.fr:   dcode.fr/cipher-identifier
-#   → identifica cifrari classici
-#   → morse, braille, codice navale, pigpen, ecc.
+dcode.fr:   dcode.fr/cipher-identifier
+   → identifica cifrari classici.
+   → morse, braille, codice navale, pigpen, ecc.
 
-# python + PyCryptodome:
+python + PyCryptodome:
 pip install pycryptodome
 from Crypto.Cipher import AES
 from Crypto.Util.number import long_to_bytes, bytes_to_long
 from Crypto.PublicKey import RSA
 
-# SageMath: per matematica avanzata (lattice, curve ellittiche)
-# sagemath.org
+SageMath: per matematica avanzata (lattice, curve ellittiche)
+sagemath.org
 @@@
 
 <a href="index.html">index.html</a>
