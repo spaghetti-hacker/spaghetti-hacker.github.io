@@ -10,7 +10,7 @@ const CHALLENGES = [
             { title:"Baby Rev 2",       diff:"med",   pts:80,  flag:"8c74e0dc17841f076a1f4e1f3f7d2552b20d1bb810e521e407936a8a50fb3381",        file:"baby_rev",            desc:"Reversing for dummies 2. La flag è flag{prima_parola_password}. Tool consigliati: [string, ltrace]." },
             { title:"sFunc",       diff:"med",   pts:100,  flag:"04e2b0d7d3159b6fe013687210aec7850da1f1b4555e16bb7bfb2e7a6234ea74",        file:"sw.txt",            desc:"Reversing della sFunc. Cerca di capire cosa fa la funzione. La flag è: flag{cosa fa la funzione in Inglese}." },
             { title:"Bypass Me",       diff:"med",   pts:100,  flag:"8816ef83bbdf2c1e8f9bdd2216935d95708cd15baeb649763912020317cd3519",        file:"bypassme.bin",            desc:"Prova a bypassare il controllo sulla password. Tool consigliati: [radare2, gdb]." },
-            { title:"Ping",       diff:"med",   pts:100,  flag:"0f48337311fb4aefe13d164b9ef5073b7ddc087afd15e884314e181544ae1e2f",        file:"ping",            desc:"Un eseguibile ping non convenzionale. Tool consigliati: [radare2, strings]" },
+            { title:"Ping",       diff:"med",   pts:100,  flag:"f764bb13f55c4c39eea46be7453c09ff955928942386466ad536cf09bf582810",        file:"ping",            desc:"Un eseguibile ping non convenzionale. Tool consigliati: [radare2, strings]" },
         ]
     },
     {
@@ -42,7 +42,7 @@ const CHALLENGES = [
         challenges: [
             { title:"PCAP FTP",   diff:"easy",    pts:50, flag:"2be272137d271e45f39caaf5cd2ede54e8dc99517e044f28192c78d74187ae98",    file:"ch1.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{password}. Tool consigliato: [Wireshark]." },
             { title:"PCAP Telnet",   diff:"easy",    pts:50, flag:"c17beda8c96140db5cf5d7609224b06b0c465909abb0d3f58e53714bfd46bf10",    file:"ch2.pcap",   desc:"Analizza il traffico di rete. La flag è: flag{password}. Tool consigliato: [Wireshark]." },
-            { title:"Stego",   diff:"easy",    pts:50, flag:"59eaf87128358cb2bed3dbf5ea21bfe5f77e069632c684a5a0e6c6f4fbe8709b",    file:"stego.jpg",   desc:"Cosa è nascosto nell'Acaro?. Tool consigliato: [steghide]." },
+            { title:"Stego",   diff:"easy",    pts:50, flag:"0ee55e14086f4f2e50b1dabf3776f9faeb51523c61388595bd8565c426be7fa4",    file:"stego.jpg",   desc:"Cosa è nascosto nell'Acaro?. Tool consigliato: [steghide]." },
         ]
     },
 ];
