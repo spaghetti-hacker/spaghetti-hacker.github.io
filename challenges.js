@@ -7,7 +7,7 @@ const CHALLENGES = [
         cat: "REVERSE",
         challenges: [
             { title:"Baby Rev",       diff:"easy",   pts:50,  flag:"7ca442e90fbe04d1d52da076f4383cf5e59bb8113b0ee72ec84f71dd5e5a33e6",        file:"hcf000",            desc:"Reversing for dummies. Trova la flag nel file. Tool consigliati: [file, string]." },
-            { title:"Baby Rev 2",       diff:"med",   pts:80,  flag:"305626cc14f6f34ffa449fe53dca94a8e78572bc2b249ec25e18490fab801697",        file:"baby_rev",            desc:"Reversing for dummies 2. La flag è flag{prima_parola_password}. Tool consigliati: [string, ltrace]." },
+            { title:"Baby Rev 2",       diff:"med",   pts:80,  flag:"8c74e0dc17841f076a1f4e1f3f7d2552b20d1bb810e521e407936a8a50fb3381",        file:"baby_rev",            desc:"Reversing for dummies 2. La flag è flag{prima_parola_password}. Tool consigliati: [string, ltrace]." },
             { title:"sFunc",       diff:"med",   pts:100,  flag:"04e2b0d7d3159b6fe013687210aec7850da1f1b4555e16bb7bfb2e7a6234ea74",        file:"sw.txt",            desc:"Reversing della sFunc. Cerca di capire cosa fa la funzione. La flag è: flag{cosa fa la funzione in Inglese}." },
             { title:"Bypass Me",       diff:"med",   pts:100,  flag:"8816ef83bbdf2c1e8f9bdd2216935d95708cd15baeb649763912020317cd3519",        file:"bypassme.bin",            desc:"Prova a bypassare il controllo sulla password. Tool consigliati: [radare2, gdb]." },
             { title:"Ping",       diff:"med",   pts:100,  flag:"0f48337311fb4aefe13d164b9ef5073b7ddc087afd15e884314e181544ae1e2f",        file:"ping",            desc:"Un eseguibile ping non convenzionale. Tool consigliati: [radare2, strings]" },
