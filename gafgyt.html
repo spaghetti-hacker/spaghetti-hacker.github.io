@@ -603,7 +603,6 @@ local_40 = "/x8r/x58/x99/x21/x8r/x58/x99/x21..."
 send(fd, &local_48, 0x5b4, 0)
 @@@
 
-;1460 = MTU Ethernet (1500) - IP header (20) - UDP header (8).
 ;il payload fisso ha dimensione 1460 byte (0x5b4). Il valore non corrisponde al massimo payload UDP su Ethernet (1472 byte), né è giustificato da considerazioni di frammentazione IP. Coincide con il tipico MSS TCP (1500 - 20 IP - 20 TCP), suggerendo il riutilizzo di una costante comune nei tool di flooding piuttosto che una scelta derivata dalle specifiche del protocollo UDP.
   
 @@@
