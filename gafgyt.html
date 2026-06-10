@@ -344,9 +344,9 @@ pcVar10 = strchr(pcVar1, 0x2c);
 ;fork() con ritorno -1 non viene gestita.
 ;accesso a variabili globali senza sincronizzazione (non thread-safe).
 
-=== VETTORI DI ATTACCO ===
+<p class="title">=== VETTORI DI ATTACCO ===</p>
 
---- TCP flood con IP spoofing (ftcp) ---
+<p class="title">--- TCP flood con IP spoofing (ftcp) ---</p>
 
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/ftcp.html" target="_blank" rel="noopener noreferrer">ftcp()</a>
 
@@ -416,7 +416,7 @@ call sym.csum                ;ricalcolo checksum IP
 
 ;dopo ogni modifica vengono ricalcolati i checksum TCP (tcpcsum) e IP (csum). Il loop interno conta i pacchetti per burst, quello esterno controlla la scadenza tramite time().
 
---- UDP flood con IP spoofing (SendUDP) ---
+<p class="title">--- UDP flood con IP spoofing (SendUDP) ---</p>
 
 ;firma:
 
@@ -465,7 +465,7 @@ udp_header[3] = 0
 
 ;l'assenza del checksum UDP e' intenzionale: su IPv4 il checksum UDP e' opzionale (RFC 768) e il kernel accetta pacchetti con checksum zero.
 
---- VSE flood (vseattack) ---
+<p class="title">--- VSE flood (vseattack) ---</p>
 
 ;firma:
 vseattack(addr, porta, durata, dimensione_pck, dimensione, pck_totali, limite_blocco_pck, millisecondi_di_pausa)
