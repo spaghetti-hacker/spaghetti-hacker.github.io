@@ -636,20 +636,22 @@ if (durata_in_sec + time_avvio <= time(NULL)) {
 
 <p class="title">--- PRNG predicibile ---</p>
 
+@@@
+seed = getpid()^time(0);
+@@@
+
 ;i due generatori di numeri casuali (libc srand e PRNG custom init_rand) vengono inizializzati con lo stesso seed:
 
 @@@
-seed = getpid() ^ time(0)
-
-0x403bd9  mov ebx, eax        ;ebx = time(0)
+0x403bd9  mov ebx, eax        ;ebx = time(0).
 0x403bdb  call sym.getpid
-0x403be0  xor eax, ebx        ;seed = getpid() ^ time(0)
+0x403be0  xor eax, ebx        ;seed = getpid()^time(0).
 0x403be4  call sym.srand
-0x403bfe  call sym.init_rand  ;stesso seed per il PRNG custom
+0x403bfe  call sym.init_rand  ;stesso seed per il PRNG custom.
 @@@
 
 ;l'XOR con il PID aggiunge entropia minima per differenziare istanze concorrenti sullo stesso host, ma il seed rimane predicibile. Un osservatore con visibilita' sul timestamp di avvio del processo puo' ricostruire il seed e predire la sequenza di IP sorgente generati, rendendo il flood tracciabile nonostante lo spoofing.
-;SendUDP tenta di mitigare questo limite con 50 iterazioni di mixing aggiuntivo (rand_cmwc ^ time -> srandom -> rand -> init_rand), ma poiche' anche time() e' osservabile, il miglioramento e' marginale. Questo e' un pattern ricorrente nei bot derivati da Mirai, dove la robustezza crittografica non e' una priorita'.
+;SendUDP tenta di mitigare questo limite con 50 iterazioni di mixing aggiuntivo (rand_cmwc ^ time -> srandom -> rand -> init_rand), ma poiche' anche time() e' osservabile, il miglioramento e' marginale. Questo e' un pattern ricorrente nei bot derivati da Mirai/Gafgyt, dove la robustezza crittografica non e' una priorita'.
 
 <p class="title">--- Spoofing e costruzione manuale dei pacchetti ---</p>
 
@@ -667,29 +669,24 @@ sendto(fd, packet_buf, packet_size, 0, &dest_addr, 0x10);
 ;aggiornamento parziale: solo i campi che variano, il resto rimane invariato.
 @@@
 
-;makeIPPacket() / makevsepacket(): popola header IP con IP sorgente random
-;Compilazione manuale header TCP o UDP (porte, flags, lunghezze)
-;makeRandomStr(): riempie il payload
-;tcpcsum() / csum(): calcolo checksum
-;sendto(): invio grezzo
-
+;makeIPPacket()/makevsepacket(): popola header IP con IP sorgente random.
+;Compilazione manuale header TCP o UDP (porte, flags, lunghezze).
+;makeRandomStr(): riempie il payload.
+;tcpcsum() / csum(): calcolo checksum.
+;sendto(): invio grezzo.
 ;ad ogni iterazione del loop vengono aggiornati solo i campi che variano (IP sorgente, porte, sequence number, identification), evitando di ricostruire l'intero pacchetto. I checksum vengono ricalcolati dopo ogni modifica.
-
 ;l'unica eccezione e' SendUDP, che non calcola il checksum UDP (campo impostato a 0): comportamento valido su IPv4 per RFC 768, accettato dal kernel ricevente.
 
 @@@
-udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
+udp_header[3] = 0 ;checksum UDP omesso, valido per RFC 768 su IPv4.
 @@@
 
 <p class="title">--- Obfuscation del payload HTTP ---</p>
 
 ;il payload "NAMESERVER " usato da SendHTTPHex e' conservato in memoria XOR-ato con chiave 0xCA. Si tratta di una tecnica di offuscamento statico minimale.
-
 ;decodifica in Python:
-
 ;bytes([b ^ 0xCA for b in encoded]) -> b"NAMESERVER " * N
-;chiave fissa hardcoded: non varia tra esecuzioni
-
+;chiave fissa hardcoded: non varia tra esecuzioni.
 ;non impedisce l'analisi dinamica, ma rende meno immediata l'identificazione del payload con grep o YARA sul binario a riposo. La chiave 0xCA e' hardcoded e non varia tra esecuzioni.
 
 <p class="title">--- Fingerprinting del C2 tramite getPortz ---</p>
@@ -703,7 +700,7 @@ udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
 /usr/sbin/telnetd -> valore "22"
 @@@
 
-;il valore trasmesso al C2 non e' una porta nel senso tradizionale, ma un indicatore di capability. La presenza di telnetd in particolare segnala la possibilita' di propagazione laterale, comportamento caratteristico di Mirai e derivati che si propagano sfruttando credenziali di default su dispositivi IoT raggiungibili via telnet.
+;il valore trasmesso al C2 non e' una porta nel senso tradizionale, ma un indicatore di capability.
 
 <p class="title">=== INDICATORI DI COMPROMISSIONE (IoC) ===</p>
 
