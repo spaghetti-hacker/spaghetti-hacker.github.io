@@ -210,8 +210,8 @@ mov rdi, "/usr/sbin/telnetd"
 call sym.access
 @@@
 
-;presenza di telnetd segnala possibilita' di propagazione laterale. Se il bot ha infettato un dispositivo che esegue telnetd, significa che si trova probabilmente in un segmento di rete popolato da altri dispositivi magari simili.
-;il risultato viene trasmesso al C2 nel beacon come indicatore di capability
+;se il bot ha infettato un dispositivo che esegue telnetd, significa che si trova probabilmente in un segmento di rete popolato da altri dispositivi magari simili.
+;il risultato viene trasmesso al C2 nel beacon come indicatore di capability.
 
 <p class="title">--- formato comandi ---</p>
 
