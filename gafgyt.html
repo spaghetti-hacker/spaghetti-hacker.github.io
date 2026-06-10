@@ -414,7 +414,6 @@ SendUDP(target_ip, dst_port, duration_sec, payload_size, pkt_count, cidr_prefix)
 @@@
 
 ;funzionalmente analoga a ftcp ma per il protocollo UDP. Apre una raw socket (AF_INET/SOCK_RAW/IPPROTO_UDP) con IP_HDRINCL e costruisce manualmente header IP e header UDP. La netmask CIDR e il calcolo dell'IP sorgente seguono lo stesso schema di ftcp.
-
 ;una differenza rilevante rispetto agli altri vettori e' l'inizializzazione del PRNG: prima del loop di flood, SendUDP esegue 50 iterazioni che mescolano rand_cmwc(), time(), srandom(), rand() e init_rand(), con l'obiettivo esplicito di massimizzare l'entropia degli IP sorgente generati.
 
 @@@
@@ -424,14 +423,14 @@ local_38 = 0x32;
        local_38--;
        if (local_38 == -1) break;
        tVar11 = time(NULL);
-       uVar8  = rand_cmwc();
-       srandom(uVar8 ^ (uint)tVar11);
-       iVar7  = rand();
+       uVar8 = rand_cmwc();
+       srandom(uVar8^(uint)tVar11);
+       iVar7 = rand();
        init_rand(iVar7);
    }
 @@@
 
-;mixing aggressivo: rand_cmwc ^ time -> srandom -> rand -> init_rand.
+;mixing aggressivo: rand_cmwc^time -> srandom -> rand -> init_rand.
 ;obiettivo: massimizzare l'imprevedibilita' degli IP sorgente spoofati.
 
 @@@
@@ -442,16 +441,12 @@ udp_header[3] = 0
 @@@
 
 ;header UDP prodotto (nessun checksum).  
-
 ;ad ogni pacchetto inviato vengono rerandomizzati:
-
 ;IP sorgente (getRandomIP con netmask CIDR).
 ;IP identification (offset 0x4 header IP).
 ;porta sorgente UDP.
 ;porta destinazione UDP (solo se dst_port == 0).
-
 ;il checksum IP viene ricalcolato ad ogni iterazione. Il payload viene generato una sola volta prima del loop tramite makeRandomStr() e non cambia tra un pacchetto e l'altro. La struttura a doppio loop gestisce burst di pkt_count pacchetti ripetuti fino allo scadere di duration_sec secondi.
-
 ;l'assenza del checksum UDP e' intenzionale: su IPv4 il checksum UDP e' opzionale (RFC 768) e il kernel accetta pacchetti con checksum zero.
 
 <p class="title">--- VSE flood (vseattack) ---</p>
