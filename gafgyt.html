@@ -758,8 +758,7 @@ T1106 Native API
 <p class="title">--- Persistence ---</p>
 
 T1543 Create or Modify System Process
-;double-fork con setsid() e chdir("/"): il processo si distacca completamente.
-;dal terminale di controllo e sopravvive alla chiusura della sessione originale.
+;double-fork con setsid() e chdir("/"): il processo si distacca completamente dal terminale di controllo e sopravvive alla chiusura della sessione originale.
 
 <p class="title">--- Defense Evasion ---</p>
 
@@ -782,7 +781,7 @@ T1016 System Network Configuration Discovery
 
 T1021.004 Remote Services: SSH
 ;getPortz() verifica la presenza di telnetd e trasmette il risultato al C2.
-;presenza di telnetd segnala segmento IoT con credenziali di default sfruttabili.
+;presenza di telnetd segnala probabile segmento IoT con magari credenziali di default sfruttabili.
 
 <p class="title">--- Command and Control ---</p>
 
@@ -796,8 +795,7 @@ T1095 Non-Application Layer Protocol
 T1571 Non-Standard Port
 ;connessione al C2 su porta 999, non standard per traffico di controllo.
 T1008 Fallback Channels
-;array commServer[] con meccanismo di failover: se un C2 non risponde.
-;currentServer viene incrementato e si tenta il server successivo.
+;array commServer[] con meccanismo di failover: se un C2 non risponde currentServer viene incrementato e si tenta il server successivo.
 
 <p class="title">--- Impact ---</p>
 
@@ -805,8 +803,7 @@ T1498.001 Network Denial of Service: Direct Network Flood
 ;vettori TCP, UDP, VSE, STDHEX: flood diretto con IP spoofing.
 ;IP sorgente randomizzati nella subnet CIDR per rendere difficile il filtraggio.
 T1498.002 Network Denial of Service: Reflection Amplification
-;vettore VSE: le query A2S_INFO verso server Valve possono essere usate.
-;per amplificazione, i server rispondono con payload maggiore della query.
+;vettore VSE: le query A2S_INFO verso server Valve possono essere usate per amplificazione, i server rispondono con payload maggiore della query.
 T1499.003 Endpoint Denial of Service: Application Exhaustion Flood
 ;vettore HTTPSTOMP: flood a livello applicativo contro endpoint Cloudflare.
 ;pattern apri/invia/chiudi senza keep-alive massimizza l'overhead TCP sul target.
