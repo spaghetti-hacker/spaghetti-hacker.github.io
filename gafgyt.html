@@ -343,11 +343,13 @@ pcVar10 = strchr(pcVar1, 0x2c);
 
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/ftcp.html" target="_blank" rel="noopener noreferrer">ftcp()</a>
 
+@@@
+ftcp(host, porta, durata, cidr_prefix, flag_tcp, payload_size, pck_per_burst)
+@@@
+
 ;firma:
 
 @@@
-ftcp(host, porta, durata, cidr_prefix, flag_tcp, payload_size, pck_per_burst)
-
 fd = socket(2, 3, 6)         ;AF_INET, SOCK_RAW, IPPROTO_TCP
 optval = 1
 setsockopt(fd, 0, 3, &optval, 4)
@@ -407,12 +409,11 @@ call sym.csum                ;ricalcolo checksum IP
 
 <p class="title">--- UDP flood con IP spoofing (SendUDP) ---</p>
 
-;firma:
-
 @@@
 SendUDP(target_ip, dst_port, duration_sec, payload_size, pkt_count, cidr_prefix)
 @@@
 
+;firma.
 ;funzionalmente analoga a ftcp ma per il protocollo UDP. Apre una raw socket (AF_INET/SOCK_RAW/IPPROTO_UDP) con IP_HDRINCL e costruisce manualmente header IP e header UDP. La netmask CIDR e il calcolo dell'IP sorgente seguono lo stesso schema di ftcp.
 ;una differenza rilevante rispetto agli altri vettori e' l'inizializzazione del PRNG: prima del loop di flood, SendUDP esegue 50 iterazioni che mescolano rand_cmwc(), time(), srandom(), rand() e init_rand(), con l'obiettivo esplicito di massimizzare l'entropia degli IP sorgente generati.
 
@@ -451,12 +452,11 @@ udp_header[3] = 0
 
 <p class="title">--- VSE flood (vseattack) ---</p>
 
-;firma:
-
 @@@
 vseattack(addr, porta, durata, dimensione_pck, dimensione, pck_totali, limite_blocco_pck, millisecondi_di_pausa)
 @@@
 
+;firma.
 ;VSE: sta per Valve Source Engine. Il flood imita le query A2S_INFO del protocollo di Valve, usate per richiedere informazioni ai server di giochi come CS e TF2. Il payload hardcoded e' "TSource Engine Query" seguito da dati randomici.
 
 @@@
@@ -504,13 +504,12 @@ if (limite_blocco_pck == idx) {
 
 ;HTTPSTOMP e' l'unico vettore che opera a livello applicativo anziche' di rete: non costruisce pacchetti raw e non usa IP spoofing, ma apre connessioni TCP reali verso il target. Questo lo rende inefficace contro infrastrutture che filtrano il traffico a livello 3, ma particolarmente adatto contro target protetti da CDN dove il flood di rete viene assorbito prima di raggiungere il server.
 
-;firme:
-
 @@@
 SendHTTPHex(comando, domain, proto, param_4, tempo, num_threads)
 sendHTTPtwo(comando, domain, proto, param_4, tempo, num_threads)
 @@@
 
+;firme.
 ;le due funzioni vengono chiamate in sequenza dallo stesso processo figlio. 
 ;SendHTTPHex genera num_threads processi figli tramite un loop di fork() a cascata (non N fork parallele dal padre, ma una catena padre->figlio->nipote). Ogni processo entra in un loop infinito che:
 
@@ -578,11 +577,13 @@ do {
 
 <p class="title">--- UDP flood con payload fisso (SendSTDHEX) ---</p>
 
+@@@
+SendSTDHEX(hostname, porta, durata_in_sec)
+@@@
+
 ;firma:
 
 @@@
-SendSTDHEX(hostname, porta, durata_in_sec)
-
 fd = socket(2, 2, 0)    ;AF_INET, SOCK_DGRAM, nessun IP spoofing
 IP = gethostbyname(hostname)
 @@@
