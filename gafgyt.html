@@ -304,7 +304,6 @@ __pid_t listFork(void) {
 ;il pid del nuovo figlio viene accodato.
 ;il vecchio buffer viene liberato con free().
 ;obj.pids viene aggiornato al nuovo puntatore.
-
 ;il figlio bypassa completamente questa logica e ritorna 0, replicando la semantica standard di fork(). L'effetto collaterale e' trasparente al chiamante: il padre riceve il pid del figlio, il figlio riceve 0, esattamente come con una fork diretta.
 
 @@@
