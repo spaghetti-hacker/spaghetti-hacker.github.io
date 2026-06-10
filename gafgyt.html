@@ -78,10 +78,16 @@ visite: <span id="visits">...</span>
 
 @@@
 sha256: d1dbef470a10fda891b37ca9011e900cfc4f927550e881c1c96883a95bd88501
+@@@
 
+;impronta crittografica SHA-256 del campione analizzato. Consente l'identificazione univoca del file e la correlazione con feed di threat intelligence, sandbox e repository malware.
+
+@@@
 file d1dbef470a10fda891b37ca9011e900cfc4f927550e881c1c96883a95bd88501
 ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped
 @@@
+
+;binario ELF x86-64 staticamente linkato e non stripped. La presenza dei simboli semplifica l'analisi statica e suggerisce un campione compilato senza particolare attenzione all'anti-analysis. Il linking statico riduce le dipendenze runtime e favorisce l'esecuzione su sistemi Linux eterogenei, caratteristica comune nei malware destinati a dispositivi IoT e server compromessi.
 
 ;tipologia: Bot DDoS Linux
 ;architettura: ELF x86-64
