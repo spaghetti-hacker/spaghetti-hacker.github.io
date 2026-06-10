@@ -150,6 +150,8 @@ main()
 
 ;la funzione initConnection() gestisce la connessione al C2. Itera su un array globale commServer[] di stringhe nel formato "host:porta", selezionando il server corrente tramite l'indice globale currentServer. Il parsing dell'indirizzo avviene con tre chiamate successive a strchr(':'):
 
+;reversing della funzione: <a href="https://spaghetti-hacker.github.io/init_connection.html" target="_blank" rel="noopener noreferrer">initConnection()</a>
+
 @@@
 commServer[] -> "5.2.65.150:999"   ;unico C2 identificato nel binario
 
@@ -253,6 +255,8 @@ jne <prossimo_blocco>
 
 ;ogni attacco viene eseguito in un processo figlio separato tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
 
+;reversing della funzione: <a href="https://spaghetti-hacker.github.io/list_fork.html" target="_blank" rel="noopener noreferrer">listFork()</a> 
+
 @@@
 __pid_t listFork(void) {
        __pid_t pid_fork;
@@ -330,6 +334,8 @@ pcVar10 = strchr(pcVar1, 0x2c);
 === VETTORI DI ATTACCO ===
 
 --- TCP flood con IP spoofing (ftcp) ---
+
+;reversing della funzione: <a href="https://spaghetti-hacker.github.io/ftcp.html" target="_blank" rel="noopener noreferrer">ftcp()</a>
 
 ;firma:
 
