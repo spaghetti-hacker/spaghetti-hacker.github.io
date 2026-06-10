@@ -319,8 +319,6 @@ call sym.free           ;libera vecchio array
 
 ;il garbage collector nel loop principale esegue waitpid(WNOHANG) su tutti i pid in pids[]. Per ogni figlio terminato, l'array viene compattato con uno shift-left e ridimensionato tramite una nuova coppia malloc/free.
 
-;se il target e' una lista di indirizzi separati da virgola, viene creato un processo figlio separato per ciascun target tramite strtok(",").
-
 @@@
 pcVar10 = strchr(pcVar1, 0x2c);   
 ;cerca ',' nel target
@@ -336,6 +334,8 @@ pcVar10 = strchr(pcVar1, 0x2c);
        }
    }
 @@@
+
+;se il target e' una lista di indirizzi separati da virgola, viene creato un processo figlio separato per ciascun target tramite strtok(",").
 
 <p class="title">=== VETTORI DI ATTACCO ===</p>
 
