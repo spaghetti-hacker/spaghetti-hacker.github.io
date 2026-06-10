@@ -495,7 +495,7 @@ if (limite_blocco_pck == idx) {
 ;porta di destinazione randomica se porta == 0.
 ;modalità 2 (dimensione_pck != 0x20): SOCK_RAW con IP_HDRINCL
 ;costruzione manuale dell'header IP+UDP.
-;IP spoofing tramite getRandomIP() con netmask calcolata da dimensione_pck.
+;IP spoofing tramite getRandomIP() con netmask calcolata da dimensione_pck/size_locale.
 ;rerandomizzazione ad ogni iterazione di: IP sorgente, porta sorgente, IP identification.
 ;ricalcolo checksum IP (csum) ad ogni pacchetto.
 ;il rate limiting e' implementato tramite usleep(millisecondi_di_pausa * 1000) ogni limite_blocco_pck pacchetti. La terminazione avviene per contatore (pck_totali) o per scadenza temporale (durata secondi).
