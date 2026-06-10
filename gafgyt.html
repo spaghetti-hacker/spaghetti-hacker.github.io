@@ -198,7 +198,7 @@ call sym.connectTimeout
 
 ;getPortz() verifica tramite access() la presenza di /usr/bin/python, /usr/bin/python3, /usr/bin/perl, /usr/sbin/telnetd. Il risultato informa il C2 sulle capability di esecuzione script e propagazione via telnet dell'host infetto.
 
-;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e credenziali di default. Coerente con meccanismi di propagazione osservati in varianti Gafgyt/Mirai. O magari gli autori di questo malware erano già a conoscenza del RCE in telnetd (Vulnerabilità Critica CVE-2026-24061).
+;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e credenziali di default. Coerente con meccanismi di propagazione osservati in varianti Gafgyt/Mirai. O magari gli autori di questo malware erano già a conoscenza del RCE in telnetd (Vulnerabilità Critica <a href="https://www.youtube.com/watch?v=sbhqPynPP5Q" target="_blank" rel="noopener noreferrer">CVE-2026-24061</a> CVE-2026-24061).
 
 @@@
 mov rdi, "/usr/bin/python"
