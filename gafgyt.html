@@ -581,7 +581,7 @@ do {
 SendSTDHEX(hostname, porta, durata_in_sec)
 @@@
 
-;firma:
+;firma.
 
 @@@
 fd = socket(2, 2, 0)    ;AF_INET, SOCK_DGRAM, nessun IP spoofing
@@ -609,8 +609,8 @@ send(fd, &local_48, 0x5b4, 0)
 if (0x31 < local_c) { ;ogni 50 iterazioni
     send(...);
     connect(fd, &struct_sockaddr_in, 0x10);
-    ;connect su UDP: non apre connessione reale, fissa solo il peer di default
-    ;chiamata DOPO send, ordine invertito rispetto al canone ma non causa errori
+    ;connect su UDP: non apre connessione reale, fissa solo il peer di default.
+    ;chiamata DOPO send, ordine invertito rispetto al canone ma non causa errori.
 }
 local_c++;
 @@@
@@ -621,20 +621,15 @@ local_c++;
 if (durata_in_sec + time_avvio <= time(NULL)) {
     close(fd);
     _exit(0);    
-    ;_exit vs exit: bypassa atexit/destructor
+    ;_exit vs exit: bypassa atexit/destructor.
 }
 @@@
 
 ;la terminazione bypassa qualunque handler atexit.
-
 ;la variante piu' minimale disponibile. Apre un socket UDP standard (AF_INET/SOCK_DGRAM) senza IP_HDRINCL: nessun IP spoofing, nessuna costruzione manuale degli header. La risoluzione del target avviene tramite gethostbyname() (funzione legacy, non thread-safe).
-
 ;il payload e' il pattern fisso "58 99 21" ripetuto per 1460 byte, conservato sia come byte grezzi in .data (offset 0x0040bae0) sia come stringa ASCII nella sezione dati. I due puntatori sullo stack vengono trasmessi contigui come unico buffer da 0x5b4 byte a send().
-
 ;il throttle e' implementato con un busy-loop: send() viene chiamata solo ogni 50 iterazioni del loop principale (contatore local_c > 0x31). Non c'e' usleep ne' rate limiting esplicito.
-
 ;la terminazione avviene confrontando time() con time_avvio + durata_in_sec, seguita da _exit(0) che bypassa qualunque handler atexit registrato.
-
 ;IoC specifico: il pattern "58 99 21" ripetuto nel traffico UDP e' sufficiente per una regola Snort/Suricata che identifichi questa variante.
 
 <p class="title">=== ASPETTI TECNICI RILEVANTI ===</p>
@@ -654,7 +649,6 @@ seed = getpid() ^ time(0)
 @@@
 
 ;l'XOR con il PID aggiunge entropia minima per differenziare istanze concorrenti sullo stesso host, ma il seed rimane predicibile. Un osservatore con visibilita' sul timestamp di avvio del processo puo' ricostruire il seed e predire la sequenza di IP sorgente generati, rendendo il flood tracciabile nonostante lo spoofing.
-
 ;SendUDP tenta di mitigare questo limite con 50 iterazioni di mixing aggiuntivo (rand_cmwc ^ time -> srandom -> rand -> init_rand), ma poiche' anche time() e' osservabile, il miglioramento e' marginale. Questo e' un pattern ricorrente nei bot derivati da Mirai, dove la robustezza crittografica non e' una priorita'.
 
 <p class="title">--- Spoofing e costruzione manuale dei pacchetti ---</p>
