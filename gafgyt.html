@@ -415,7 +415,7 @@ SendUDP(target_ip, dst_port, duration_sec, payload_size, pkt_count, cidr_prefix)
 
 ;firma.
 ;funzionalmente analoga a ftcp ma per il protocollo UDP. Apre una raw socket (AF_INET/SOCK_RAW/IPPROTO_UDP) con IP_HDRINCL e costruisce manualmente header IP e header UDP. La netmask CIDR e il calcolo dell'IP sorgente seguono lo stesso schema di ftcp.
-;una differenza rilevante rispetto agli altri vettori e' l'inizializzazione del PRNG: prima del loop di flood, SendUDP esegue 50 iterazioni che mescolano rand_cmwc(), time(), srandom(), rand() e init_rand(), con l'obiettivo esplicito di massimizzare l'entropia degli IP sorgente generati.
+;una differenza rilevante rispetto agli altri vettori e' l'inizializzazione del PRNG: prima del loop di flood, SendUDP esegue 50 iterazioni che mescolano rand_cmwc() e time() tramite XOR passato a srandom(); le chiamate a rand() e init_rand() presenti in SendUDP sono assenti in questo vettore.
 
 @@@
 local_38 = 0x32;    
@@ -566,6 +566,7 @@ do {
 
 ;pattern apri/invia/leggi_1byte/chiudi: no keep-alive, massimo overhead TCP.
 ;il path non inizia con '/', violando RFC 7230. Lo User-Agent viene scelto casualmente da un array di 36 stringhe hardcoded.
+;in sendHTTPtwo rand() viene invocato senza srand() precedente, rendendo la sequenza di selezione deterministica tra esecuzioni (seed di default = 1). La rotazione è quindi apparente piuttosto che casuale
 ;sendHTTPtwo opera sullo stesso schema ma costruisce richieste verso l'endpoint "/cdn-cgi/l/chk_captcha", percorso specifico del sistema antibot di Cloudflare. Probabilmente progettato per colpire il meccanismo di challenge.
 
 @@@
@@ -603,7 +604,7 @@ send(fd, &local_48, 0x5b4, 0)
 @@@
 
 ;1460 = MTU Ethernet (1500) - IP header (20) - UDP header (8).
-;il payload fisso ha dimensione 1460 byte. Tale valore è inferiore al massimo payload UDP trasportabile in un frame Ethernet standard (1472 byte con MTU 1500), ma evita comunque la frammentazione IP. La dimensione coincide invece con il tipico MSS TCP su Ethernet (1500 - 20 byte IP - 20 byte TCP), suggerendo il possibile riutilizzo di una costante comune in altri moduli o tool di flooding.
+;il payload fisso ha dimensione 1460 byte (0x5b4). Il valore non corrisponde al massimo payload UDP su Ethernet (1472 byte), né è giustificato da considerazioni di frammentazione IP. Coincide con il tipico MSS TCP (1500 - 20 IP - 20 TCP), suggerendo il riutilizzo di una costante comune nei tool di flooding piuttosto che una scelta derivata dalle specifiche del protocollo UDP.
   
 @@@
 if (0x31 < local_c) { ;ogni 50 iterazioni
@@ -652,6 +653,7 @@ seed = getpid()^time(0);
 
 ;l'XOR con il PID aggiunge entropia minima per differenziare istanze concorrenti sullo stesso host, ma il seed rimane predicibile. Un osservatore con visibilita' sul timestamp di avvio del processo puo' ricostruire il seed e predire la sequenza di IP sorgente generati, rendendo il flood tracciabile nonostante lo spoofing.
 ;SendUDP tenta di mitigare questo limite con 50 iterazioni di mixing aggiuntivo (rand_cmwc ^ time -> srandom -> rand -> init_rand), ma poiche' anche time() e' osservabile, il miglioramento e' marginale. Questo e' un pattern ricorrente nei bot derivati da Mirai/Gafgyt, dove la robustezza crittografica non e' una priorita'.
+;vseattack include lo stesso loop da 50 iterazioni nel branch SOCK_RAW, ma con sequenza ridotta: solo rand_cmwc() ^ time() -> srandom(), senza le chiamate finali a rand() e init_rand() presenti in SendUDP.
 
 <p class="title">--- Spoofing e costruzione manuale dei pacchetti ---</p>
 
