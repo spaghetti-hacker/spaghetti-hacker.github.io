@@ -511,8 +511,7 @@ SendHTTPHex(comando, domain, proto, param_4, tempo, num_threads)
 sendHTTPtwo(comando, domain, proto, param_4, tempo, num_threads)
 @@@
 
-;le due funzioni vengono chiamate in sequenza dallo stesso processo figlio. Opera a livello applicativo su connessioni TCP reali.
-
+;le due funzioni vengono chiamate in sequenza dallo stesso processo figlio. 
 ;SendHTTPHex genera num_threads processi figli tramite un loop di fork() a cascata (non N fork parallele dal padre, ma una catena padre->figlio->nipote). Ogni processo entra in un loop infinito che:
 
 @@@
@@ -534,7 +533,6 @@ while (true) {
 ;invia una richiesta HTTP malformata.
 ;legge 1 byte di risposta come sync point.
 ;chiude la connessione e ripete.
-
 ;il payload dell'URI e' la stringa "NAMESERVER " (11 byte) ripetuta per 265 byte, conservata in memoria XOR-ata con chiave 0xCA:
 
 @@@
@@ -545,7 +543,6 @@ memcpy(payload_nameserver, &encoded_nameserver_payload, 0x109)
 ;0x109 = 265 byte copiati da .data
 ;[0x84,0x8B,...] ^ 0xCA = "NAMESERVER "
 ;XOR con chiave fissa 0xCA: offuscamento statico minimale
-
 ;la richiesta prodotta e' del tipo:
 
 @@@
@@ -568,12 +565,9 @@ do {
 } while (true)
 @@@
 
-;pattern apri/invia/leggi 1byte/chiudi: no keep-alive, massimo overhead TCP.
-
+;pattern apri/invia/leggi_1byte/chiudi: no keep-alive, massimo overhead TCP.
 ;il path non inizia con '/', violando RFC 7230. Lo User-Agent viene scelto casualmente da un array di 36 stringhe hardcoded.
-
 ;sendHTTPtwo opera sullo stesso schema ma costruisce richieste verso l'endpoint "/cdn-cgi/l/chk_captcha", percorso specifico del sistema antibot di Cloudflare. Probabilmente progettato per colpire il meccanismo di challenge.
-sottostante.
 
 @@@
 "%s /cdn-cgi/l/chk_captcha HTTP/1.1\r\nHost: %s\r\n..."
