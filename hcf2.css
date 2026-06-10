@@ -80,7 +80,7 @@ body{
     white-space:normal;
 }
 
-.commento p{ margin-bottom:3px; }
+.commento p{ margin-bottom:5px; margin-top:5px;}
 .commento p:last-child{ margin-bottom:0; }
 
 a{
