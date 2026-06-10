@@ -710,7 +710,7 @@ sendto(fd, packet_buf, packet_size, 0, &dest_addr, 0x10);
 udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
 @@@
 
-<p class="title">--- Obfuscazione del payload HTTP ---</p>
+<p class="title">--- Obfuscation del payload HTTP ---</p>
 
 ;il payload "NAMESERVER " usato da SendHTTPHex e' conservato in memoria XOR-ato con chiave 0xCA. Si tratta di una tecnica di offuscamento statico minimale.
 
@@ -721,7 +721,7 @@ udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
 
 ;non impedisce l'analisi dinamica, ma rende meno immediata l'identificazione del payload con grep o YARA sul binario a riposo. La chiave 0xCA e' hardcoded e non varia tra esecuzioni.
 
---- Fingerprinting del C2 tramite getPortz ---
+<p class="title">--- Fingerprinting del C2 tramite getPortz ---</p>
 
 ;prima di trasmettere il beacon, il bot verifica la presenza di interpreti e demoni sull'host tramite access():
 
@@ -734,7 +734,7 @@ udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
 
 ;il valore trasmesso al C2 non e' una porta nel senso tradizionale, ma un indicatore di capability. La presenza di telnetd in particolare segnala la possibilita' di propagazione laterale, comportamento caratteristico di Mirai e derivati che si propagano sfruttando credenziali di default su dispositivi IoT raggiungibili via telnet.
 
-=== INDICATORI DI COMPROMISSIONE (IoC) ===
+<p class="title">=== INDICATORI DI COMPROMISSIONE (IoC) ===</p>
 
 @@@
 Tipo        Valore                      Contesto
@@ -750,7 +750,7 @@ Offset      0x0040bae0                  Payload grezzo SendSTDHEX in .data
 Offset      0x0040bca0                  Payload XOR SendHTTPHex in .data
 @@@
 
-=== NOTE FINALI ===
+<p class="title">=== NOTE FINALI ===</p>
 
 ;l'implementazione presenta diversi segnali di codice scritto senza attenzione alla robustezza: assenza di controllo sul valore di ritorno di malloc(), nessuna gestione di fork() con ritorno -1, strcpy() senza bounds checking in initConnection(), uso di gethostbyname() deprecata in SendSTDHEX, e accesso a variabili globali senza sincronizzazione. Questi pattern, combinati con la struttura generale del bot, gli indirizzi C2 hardcoded e i vettori di attacco disponibili, collocano il campione nella categoria dei bot DDoS derivati da Gafgyt/BASHLITE, diffusi in numerose varianti nel panorama delle minacce IoT/Linux.
 
@@ -758,7 +758,7 @@ Offset      0x0040bca0                  Payload XOR SendHTTPHex in .data
 
 ;l'implementazione di listFork() condivide con il resto del codice una scarsa attenzione alla robustezza: malloc() non viene verificato in caso di fallimento, fork() con ritorno -1 non viene gestita, e l'accesso all'array globale pids[] avviene senza sincronizzazione. In un contesto multiprocesso con attacchi paralleli su target multipli, una malloc() fallita corrompe silenziosamente lo stato globale senza alcun segnale di errore.
 
-=== ALCUNE STRINGHE ESTRATTE CON RADARE2 ===
+<p class="title">=== ALCUNE STRINGHE ESTRATTE CON RADARE2 ===</p>
 
 @@@
 5.2.65.150:999
@@ -779,9 +779,9 @@ TSource Engine Query + /x54/x53/x6f/x75/x72/x63/x65/x20/x45/x6e/x67/x69/x6e/x65/
 %s /cdn-cgi/l/chk_captcha HTTP/1.1\r\nHost: %s\r\nUser-Agent: %s\r\nConnection: close\r\n\r\n
 @@@
 
-=== MITRE ATT&CK ===
+<p class="title">=== MITRE ATT&CK ===</p>
 
---- Execution ---
+<p class="title">--- Execution ---</p>
 
 T1059 Command and Scripting Interpreter
 ;il beacon trasmette la presenza di python, python3, perl tramite getPortz().
@@ -791,13 +791,13 @@ T1106 Native API
 ;uso diretto di syscall Linux: fork(), socket(), sendto(), kill().
 ;nessun layer di astrazione, interazione diretta con il kernel.
 
---- Persistence ---
+<p class="title">--- Persistence ---</p>
 
 T1543 Create or Modify System Process
 ;double-fork con setsid() e chdir("/"): il processo si distacca completamente.
 ;dal terminale di controllo e sopravvive alla chiusura della sessione originale.
 
---- Defense Evasion ---
+<p class="title">--- Defense Evasion ---</p>
 
 T1027 Obfuscated Files or Information
 ;payload "NAMESERVER " conservato XOR-ato con chiave 0xCA in .data.
@@ -807,7 +807,7 @@ T1036 Masquerading
 ;User-Agent HTTP scelto casualmente da un array di 36 stringhe hardcoded.
 ;obiettivo: eludere filtri basati su User-Agent fisso.
 
---- Discovery ---
+<p class="title">--- Discovery --- </p>
 
 T1082 System Information Discovery
 ;getArch() rileva l'architettura CPU e la trasmette al C2 nel beacon.
@@ -816,13 +816,13 @@ T1016 System Network Configuration Discovery
 ;getOurIP() legge /proc/net/route per identificare l'interfaccia di default.
 ;ioctl(SIOCGIFHWADDR) recupera il MAC address.
 
---- Lateral Movement ---
+<p class="title">--- Lateral Movement ---</p>
 
 T1021.004 Remote Services: SSH
 ;getPortz() verifica la presenza di telnetd e trasmette il risultato al C2.
 ;presenza di telnetd segnala segmento IoT con credenziali di default sfruttabili.
 
---- Command and Control ---
+<p class="title">--- Command and Control ---</p>
 
 T1071.001 Application Layer Protocol: Web Protocols
 ;vettore HTTPSTOMP opera su HTTP verso endpoint Cloudflare.
@@ -839,7 +839,7 @@ T1008 Fallback Channels
 ;array commServer[] con meccanismo di failover: se un C2 non risponde.
 ;currentServer viene incrementato e si tenta il server successivo.
 
---- Impact ---
+<p class="title">--- Impact ---</p>
 
 T1498.001 Network Denial of Service: Direct Network Flood
 ;vettori TCP, UDP, VSE, STDHEX: flood diretto con IP spoofing.
