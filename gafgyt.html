@@ -722,7 +722,6 @@ Offset      0x0040bca0                  Payload XOR SendHTTPHex in .data
 
 ;l'implementazione presenta diversi segnali di codice scritto senza attenzione alla robustezza: assenza di controllo sul valore di ritorno di malloc(), nessuna gestione di fork() con ritorno -1, strcpy() senza bounds checking in initConnection(), uso di gethostbyname() deprecata in SendSTDHEX, e accesso a variabili globali senza sincronizzazione. Questi pattern, combinati con la struttura generale del bot, gli indirizzi C2 hardcoded e i vettori di attacco disponibili, collocano il campione nella categoria dei bot DDoS derivati da Gafgyt/BASHLITE, diffusi in numerose varianti nel panorama delle minacce IoT/Linux.
 ;il vettore HTTPSTOMP si distingue dagli altri per operare a livello applicativo senza IP spoofing, puntando specificatamente all'infrastruttura antibot di Cloudflare. Questa specializzazione suggerisce che il bot fosse utilizzato contro target protetti da CDN, dove i vettori di flood a livello di rete vengono assorbiti prima di raggiungere il server sottostante.
-;l'implementazione di listFork() condivide con il resto del codice una scarsa attenzione alla robustezza: malloc() non viene verificato in caso di fallimento, fork() con ritorno -1 non viene gestita, e l'accesso all'array globale pids[] avviene senza sincronizzazione. In un contesto multiprocesso con attacchi paralleli su target multipli, una malloc() fallita corrompe silenziosamente lo stato globale senza alcun segnale di errore.
 
 <p class="title">=== ALCUNE STRINGHE ESTRATTE CON RADARE2 ===</p>
 
