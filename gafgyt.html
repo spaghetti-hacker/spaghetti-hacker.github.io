@@ -518,7 +518,7 @@ if (limite_blocco_pck == idx) {
 
 ;il rate limiting e' implementato tramite usleep(millisecondi_di_pausa * 1000) ogni limite_blocco_pck pacchetti. La terminazione avviene per contatore (pck_totali) o per scadenza temporale (durata secondi).
 
---- HTTP flood (HTTPSTOMP) ---
+<p class="title">--- HTTP flood (HTTPSTOMP) ---</p>
 
 ;HTTPSTOMP e' l'unico vettore che opera a livello applicativo anziche' di rete: non costruisce pacchetti raw e non usa IP spoofing, ma apre connessioni TCP reali verso il target. Questo lo rende inefficace contro infrastrutture che filtrano il traffico a livello 3, ma particolarmente adatto contro target protetti da CDN dove il flood di rete viene assorbito prima di raggiungere il server.
 
@@ -600,7 +600,7 @@ sottostante.
 ;target specifico del sistema antibot Cloudflare.
 ;obiettivo: saturare il meccanismo di challenge, non il server sottostante.
 
---- UDP flood con payload fisso (SendSTDHEX) ---
+<p class="title">--- UDP flood con payload fisso (SendSTDHEX) ---</p>
 
 ;firma:
 
@@ -660,9 +660,9 @@ if (durata_in_sec + time_avvio <= time(NULL)) {
 
 ;IoC specifico: il pattern "58 99 21" ripetuto nel traffico UDP e' sufficiente per una regola Snort/Suricata che identifichi questa variante.
 
-=== ASPETTI TECNICI RILEVANTI ===
+<p class="title">=== ASPETTI TECNICI RILEVANTI ===</p>
 
---- PRNG predicibile ---
+<p class="title">--- PRNG predicibile ---</p>
 
 ;i due generatori di numeri casuali (libc srand e PRNG custom init_rand) vengono inizializzati con lo stesso seed:
 
@@ -680,7 +680,7 @@ seed = getpid() ^ time(0)
 
 ;SendUDP tenta di mitigare questo limite con 50 iterazioni di mixing aggiuntivo (rand_cmwc ^ time -> srandom -> rand -> init_rand), ma poiche' anche time() e' osservabile, il miglioramento e' marginale. Questo e' un pattern ricorrente nei bot derivati da Mirai, dove la robustezza crittografica non e' una priorita'.
 
---- Spoofing e costruzione manuale dei pacchetti ---
+<p class="title">--- Spoofing e costruzione manuale dei pacchetti ---</p>
 
 ;ftcp, SendUDP e vseattack (modalita' raw) costruiscono i pacchetti interamente in userspace tramite socket AF_INET/SOCK_RAW con IP_HDRINCL. La sequenza comune e':
 
@@ -710,7 +710,7 @@ sendto(fd, packet_buf, packet_size, 0, &dest_addr, 0x10);
 udp_header[3] = 0    ;checksum UDP omesso, valido per RFC 768 su IPv4
 @@@
 
---- Obfuscazione del payload HTTP ---
+<p class="title">--- Obfuscazione del payload HTTP ---</p>
 
 ;il payload "NAMESERVER " usato da SendHTTPHex e' conservato in memoria XOR-ato con chiave 0xCA. Si tratta di una tecnica di offuscamento statico minimale.
 
