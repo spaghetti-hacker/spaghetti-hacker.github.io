@@ -621,7 +621,7 @@ send(fd, &local_48, 0x5b4, 0)
 @@@
 
 ;1460 = MTU Ethernet (1500) - IP header (20) - UDP header (8).
-;massimizza il payload per singola trasmissione senza frammentazione.
+;il payload fisso ha dimensione 1460 byte. Tale valore è inferiore al massimo payload UDP trasportabile in un frame Ethernet standard (1472 byte con MTU 1500), ma evita comunque la frammentazione IP. La dimensione coincide invece con il tipico MSS TCP su Ethernet (1500 - 20 byte IP - 20 byte TCP), suggerendo il possibile riutilizzo di una costante comune in altri moduli o tool di flooding.
   
 @@@
 if (0x31 < local_c) { ;ogni 50 iterazioni
@@ -648,8 +648,6 @@ if (durata_in_sec + time_avvio <= time(NULL)) {
 ;la variante piu' minimale disponibile. Apre un socket UDP standard (AF_INET/SOCK_DGRAM) senza IP_HDRINCL: nessun IP spoofing, nessuna costruzione manuale degli header. La risoluzione del target avviene tramite gethostbyname() (funzione legacy, non thread-safe).
 
 ;il payload e' il pattern fisso "58 99 21" ripetuto per 1460 byte, conservato sia come byte grezzi in .data (offset 0x0040bae0) sia come stringa ASCII nella sezione dati. I due puntatori sullo stack vengono trasmessi contigui come unico buffer da 0x5b4 byte a send().
-
-;la dimensione di 1460 byte corrisponde alla MTU Ethernet (1500) meno gli header IP (20) e UDP (8): massimizza il payload per singola trasmissione senza frammentazione.
 
 ;il throttle e' implementato con un busy-loop: send() viene chiamata solo ogni 50 iterazioni del loop principale (contatore local_c > 0x31). Non c'e' usleep ne' rate limiting esplicito.
 
