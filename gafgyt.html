@@ -262,11 +262,8 @@ jne <prossimo_blocco>
 <p class="title">=== GESTIONE DEI PROCESSI FIGLI ===</p>
 
 ;ogni attacco viene eseguito in un processo figlio separato, tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
-
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/list_fork.html" target="_blank" rel="noopener noreferrer">listFork()</a> 
-
 ;osservazione:
-
 ;malloc non verificata.
 ;fork(-1) non gestita.
 ;stato globale fragile.
