@@ -193,7 +193,7 @@ call sym.connectTimeout
 
 ;getPortz() verifica tramite access() la presenza di /usr/bin/python, /usr/bin/python3, /usr/bin/perl, /usr/sbin/telnetd. Il risultato informa il C2 sulle capability di esecuzione script e propagazione via telnet dell'host infetto.
 
-;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e credenziali di default. Il C2 puo' usare questa informazione per istruire il bot a tentare propagazione laterale tramite brute-force delle credenziali, meccanismo di diffusione caratteristico di Gafgyt e Mirai.
+;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e credenziali di default. Coerente con meccanismi di propagazione osservati in varianti Gafgyt/Mirai. 
 
 @@@
 mov rdi, "/usr/bin/python"
@@ -258,6 +258,12 @@ jne <prossimo_blocco>
 ;ogni attacco viene eseguito in un processo figlio separato tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
 
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/list_fork.html" target="_blank" rel="noopener noreferrer">listFork()</a> 
+
+;osservazione:
+
+;malloc non verificata.
+;fork(-1) non gestita.
+;stato globale fragile.
 
 @@@
 __pid_t listFork(void) {
@@ -518,7 +524,7 @@ SendHTTPHex(comando, domain, proto, param_4, tempo, num_threads)
 sendHTTPtwo(comando, domain, proto, param_4, tempo, num_threads)
 @@@
 
-;le due funzioni vengono chiamate in sequenza dallo stesso processo figlio. Il comando HTTPSTOMP e' l'unico vettore che non usa IP spoofing: opera a livello applicativo su connessioni TCP reali.
+;le due funzioni vengono chiamate in sequenza dallo stesso processo figlio. Opera a livello applicativo su connessioni TCP reali.
 
 ;SendHTTPHex genera num_threads processi figli tramite un loop di fork() a cascata (non N fork parallele dal padre, ma una catena padre->figlio->nipote). Ogni processo entra in un loop infinito che:
 
@@ -579,7 +585,7 @@ do {
 
 ;il path non inizia con '/', violando RFC 7230. Lo User-Agent viene scelto casualmente da un array di 36 stringhe hardcoded.
 
-;sendHTTPtwo opera sullo stesso schema ma costruisce richieste verso l'endpoint "/cdn-cgi/l/chk_captcha", percorso specifico del sistema antibot di Cloudflare. L'obiettivo e' saturare il meccanismo di challenge piuttosto che il server
+;sendHTTPtwo opera sullo stesso schema ma costruisce richieste verso l'endpoint "/cdn-cgi/l/chk_captcha", percorso specifico del sistema antibot di Cloudflare. Probabilmente progettato per colpire il meccanismo di challenge.
 sottostante.
 
 @@@
@@ -602,8 +608,6 @@ IP = gethostbyname(hostname)
 
 ;la variante piu' minimale. Socket UDP standard senza IP_HDRINCL.
 ;gethostbyname: funzione legacy, non thread-safe, nessun controllo errori.
- 
-;il payload e' il pattern fisso "58 99 21" per 1460 byte:
  
 @@@
 local_48 = &DAT_0040bae0    ;ptr ai byte grezzi: 58 99 21 ripetuto.
@@ -800,10 +804,6 @@ T1036 Masquerading
 ;User-Agent HTTP scelto casualmente da un array di 36 stringhe hardcoded.
 ;obiettivo: eludere filtri basati su User-Agent fisso.
 
-T1070.006 Indicator Removal: Timestomp
-;seed PRNG basato su getpid() ^ time(0): entropia minima, ma ostacola.
-;la correlazione temporale tra istanze diverse dello stesso bot.
-
 --- Discovery ---
 
 T1082 System Information Discovery
@@ -812,9 +812,6 @@ T1082 System Information Discovery
 T1016 System Network Configuration Discovery
 ;getOurIP() legge /proc/net/route per identificare l'interfaccia di default.
 ;ioctl(SIOCGIFHWADDR) recupera il MAC address.
-
-T1057 Process Discovery
-;getpid() usato per differenziare istanze concorrenti nel seed PRNG.
 
 --- Lateral Movement ---
 
