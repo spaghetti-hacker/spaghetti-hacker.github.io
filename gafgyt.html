@@ -463,9 +463,8 @@ vseattack(addr, porta, durata, dimensione_pck, dimensione, pck_totali, limite_bl
 payload = "TSource Engine Query + /x54/x53/x6f/x75/x72/x63/x65..."
 @@@
 
-;stringa A2S_INFO hardcoded seguita da junk randomico
-
-;la funzione seleziona due modalita' operative in base al parametro dimensione_pck:
+;stringa A2S_INFO hardcoded seguita da junk randomico.
+;la funzione seleziona due modalita' operative in base al parametro dimensione_pck/size_locale:
 
 @@@
 if (size_locale == 0x20) {
@@ -491,18 +490,14 @@ if (limite_blocco_pck == idx) {
 @@@
 
 ;modalità 1 (dimensione_pck == 0x20): SOCK_DGRAM
-
 ;socket UDP standard.
 ;payload randomico allocato su heap.
 ;porta di destinazione randomica se porta == 0.
-
 ;modalità 2 (dimensione_pck != 0x20): SOCK_RAW con IP_HDRINCL
-
 ;costruzione manuale dell'header IP+UDP.
 ;IP spoofing tramite getRandomIP() con netmask calcolata da dimensione_pck.
 ;rerandomizzazione ad ogni iterazione di: IP sorgente, porta sorgente, IP identification.
 ;ricalcolo checksum IP (csum) ad ogni pacchetto.
-
 ;il rate limiting e' implementato tramite usleep(millisecondi_di_pausa * 1000) ogni limite_blocco_pck pacchetti. La terminazione avviene per contatore (pck_totali) o per scadenza temporale (durata secondi).
 
 <p class="title">--- HTTP flood (HTTPSTOMP) ---</p>
