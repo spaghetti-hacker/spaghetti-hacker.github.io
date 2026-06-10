@@ -354,8 +354,8 @@ setsockopt(fd, 0, 3, &optval, 4)
 @@@
 
 ;IP_HDRINCL: il programma costruisce l'header IP manualmente.
-
-;costruisce pacchetti IP/TCP raw con IP_HDRINCL, randomizzando l'IP sorgente ad ogni iterazione entro la subnet definita dal prefisso CIDR. ;la netmask viene calcolata come:
+;costruisce pacchetti IP/TCP raw con IP_HDRINCL, randomizzando l'IP sorgente ad ogni iterazione entro la subnet definita dal prefisso CIDR. 
+;la netmask viene calcolata come:
 
 @@@
 netmask = -(1 << (32 - cidr_prefix))
@@ -363,9 +363,7 @@ netmask = -(1 << (32 - cidr_prefix))
 
 ;es. cidr_prefix=24 -> 0xFFFFFF00 (/24).
 ;es. cidr_prefix=0  -> netmask=0, IP random su tutto lo spazio IPv4.
-
 ;se cidr_prefix e' 0, gli IP sorgente vengono generati su tutto lo spazio IPv4.
-
 ;i flag TCP vengono configurati tramite parsing di una stringa separata da virgole. I valori supportati sono: "syn", "rst", "fin", "ack", "psh", "all". Il confronto avviene tramite repe cmpsb inline (equivalente a strncmp). Il valore "all" attiva simultaneamente SYN|RST|FIN|ACK|PSH.
 
 @@@
@@ -389,9 +387,7 @@ or edx, 8    ;PSH
 @@@
 
 ;"all" attiva tutti i flag contemporaneamente
-
 ;ad ogni iterazione del loop di flood vengono rerandomizzati:
-
 ;IP sorgente (offset 0xc dell'header IP).
 ;IP identification (offset 0x4).
 ;sequence number TCP (offset 0x4 dell'header TCP).
