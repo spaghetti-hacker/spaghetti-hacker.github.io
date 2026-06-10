@@ -95,11 +95,11 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 ;famiglia: Gafgyt (aka BASHLITE).
 ;denominazione interna: "Snoopy" (stringa hardcoded in .rodata).
 
---- nota metodologica ---
+<p class="title">--- nota metodologica ---</p>
 
 ;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo il mapping e la rinomina delle variabili, la ricostruzione del flusso di controllo e l'identificazione delle strutture dati. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, in funzione di supporto: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente documento. Nessuna parte dell'analisi tecnica e' stata delegata o generata automaticamente. 
 
---- vespa crabro ---
+<p class="title">--- vespa crabro ---</p>
 
 ;il calabrone (Vespa crabro) e' il vespide piu' grande presente in Europa, capace di raggiungere i 35 millimetri di lunghezza. Vive in colonie organizzate intorno a un nido centrale, dal quale le operaie si disperdono autonomamente nel territorio seguendo segnali chimici condivisi. Quando il nido viene percepito come minacciato, piu' individui reagiscono simultaneamente e in modo coordinato, producendo un effetto di attacco collettivo che appare sincronizzato pur nascendo da impulsi distribuiti. Ogni individuo e' perfettamente funzionale in autonomia, ma il danno reale emerge dalla sovrapposizione di piu' azioni parallele sullo stesso bersaglio. Il calabrone e' inoltre noto per la capacita' di colpire bersagli specifici con precisione, e per la persistenza: non abbandona il bersaglio fino al termine della minaccia percepita o allo scadere della risposta biologica che ne ha innescato il comportamento.
 
@@ -115,7 +115,7 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 
 ;per struttura, vettori di attacco e pattern implementativi, il campione e' compatibile con la famiglia Gafgyt e i suoi derivati.
 
-=== ARCHITETTURA GENERALE ===
+<p class="title">=== ARCHITETTURA GENERALE ===</p>
 
 @@@
 main()
@@ -151,9 +151,9 @@ main()
      +-- reconnect se recvLine() == -1.
 @@@
 
-=== PROTOCOLLO C2 ===
+<p class="title">=== PROTOCOLLO C2 ===</p>
 
---- connessione ---
+<p class="title">--- connessione ---</p>
 
 ;la funzione initConnection() gestisce la connessione al C2. Itera su un array globale commServer[] di stringhe nel formato "host:porta", selezionando il server corrente tramite l'indice globale currentServer. Il parsing dell'indirizzo avviene con tre chiamate successive a strchr(':'):
 
@@ -188,7 +188,7 @@ call sym.connectTimeout
 
 ;porta di default hardcoded: 0x1b46 (6982). La porta C2 effettiva e' 999.
 
---- beacon iniziale ---
+<p class="title">--- beacon iniziale ---</p>
 
 ;dopo la connessione, il bot trasmette:
 
@@ -214,7 +214,7 @@ call sym.access
 ;presenza di telnetd segnala possibilita' di propagazione laterale. Se il bot ha infettato un dispositivo che esegue telnetd, significa che si trova probabilmente in un segmento di rete popolato da altri dispositivi magari simili.
 ;il risultato viene trasmesso al C2 nel beacon come indicatore di capability
 
---- formato comandi ---
+<p class="title">--- formato comandi ---</p>
 
 @@@
 !<bot-id> <COMANDO> [arg1] [arg2] ... [argN]
@@ -222,7 +222,7 @@ call sym.access
 
 ;il parsing avanza byte per byte cercando '!' come prefisso e ' ' come separatore dopo il bot-id. Il nome del comando viene convertito in uppercase prima del confronto. Gli argomenti vengono tokenizzati con strtok() e copiati in buffer heap dedicati, costruendo un array argv[]-like passato a processCmd().
 
---- comandi supportati ---
+<p class="title">--- comandi supportati ---</p>
 
 @@@
 COMANDO     FUNZIONE        VETTORE
@@ -258,7 +258,7 @@ jne <prossimo_blocco>
 
 ;i tre comandi di stop sono implementati come tre blocchi distinti con confronto case-sensitive. La ridondanza e' intenzionale: il bot accetta il comando indipendentemente dalla capitalizzazione ricevuta.
 
-=== GESTIONE DEI PROCESSI FIGLI ===
+<p class="title">=== GESTIONE DEI PROCESSI FIGLI ===</p>
 
 ;ogni attacco viene eseguito in un processo figlio separato tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
 
