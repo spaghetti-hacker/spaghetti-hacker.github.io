@@ -93,6 +93,16 @@ a{
     display: inline-block;
 }
 
+title{
+    color:#ffffff;
+    border:1px solid transparent;
+    text-decoration:none;
+    /*background:#3a9070;*/
+    background:#00ffff;
+    line-height: 1.2 !important;
+    display: inline-block;
+}
+
 a:hover{
     color:#9cff5f;
     border:1px solid transparent;
