@@ -259,7 +259,7 @@ jne <prossimo_blocco>
 
 <p class="title">=== GESTIONE DEI PROCESSI FIGLI ===</p>
 
-;ogni attacco viene eseguito in un processo figlio separato tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
+;ogni attacco viene eseguito in un processo figlio separato, tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
 
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/list_fork.html" target="_blank" rel="noopener noreferrer">listFork()</a> 
 
@@ -326,22 +326,16 @@ pcVar10 = strchr(pcVar1, 0x2c);
 ;cerca ',' nel target
    if (pcVar10 == NULL) {
        iVar7 = listFork();
-       ;target singolo: un solo figlio
+       ;target singolo: un solo figlio.
    } else {
        local_c8 = strtok(pcVar1, ",");
        while (local_c8 != NULL) {
            iVar7 = listFork();
-           ;un figlio per ogni token
+           ;un figlio per ogni token.
            local_c8 = strtok(NULL, ",");
        }
    }
 @@@
-
-;limitazioni implementative:
-
-;malloc() non viene verificato in caso di fallimento.
-;fork() con ritorno -1 non viene gestita.
-;accesso a variabili globali senza sincronizzazione (non thread-safe).
 
 <p class="title">=== VETTORI DI ATTACCO ===</p>
 
