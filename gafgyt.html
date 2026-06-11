@@ -304,18 +304,43 @@ __pid_t listFork(void) {
 ;il figlio bypassa completamente questa logica e ritorna 0, replicando la semantica standard di fork(). L'effetto collaterale e' trasparente al chiamante: il padre riceve il pid del figlio, il figlio riceve 0, esattamente come con una fork diretta.
 
 @@@
-mov edx, 1              ;WNOHANG
+mov edi, dword [obj.pids + i*4]    ;pid = pids[i]
+mov esi, 0                         ;wstatus = NULL
+mov edx, 1                         ;WNOHANG
 call sym.waitpid
 test eax, eax
-jle <skip>              ;figlio ancora vivo o errore
-mov dword [rcx], eax    ;pids[i-1] = pids[i]  <- shift left
-mov dword [rax], 0      ;pids[numpids-1] = 0
-dec rax                 ;numpids--
-call sym.malloc         ;realloc manuale: (numpids+1)*4
-call sym.free           ;libera vecchio array
+jle <skip>                         ;eax == 0 → figlio ancora vivo
+                                   ;eax  < 0 → errore
+                                   ;altrimenti: figlio terminato, procedi
+mov dword [rcx], eax               ; pids[i-1] = pids[i]
+mov dword [rax], 0                 ; pids[numpids-1] = 0
 @@@
 
-;il garbage collector nel loop principale esegue waitpid(WNOHANG) su tutti i pid in pids[]. Per ogni figlio terminato, l'array viene compattato con uno shift-left e ridimensionato tramite una nuova coppia malloc/free.
+;compattazione array: shift-left da i a numpids
+;for (j = i; j < numpids; j++) pids[j-1] = pids[j]
+;azzera l'ultimo slot liberato
+
+@@@
+dec qword [obj.numpids]            ;numpids--
+@@@
+												     
+;aggiorna il contatore globale
+
+@@@
+lea rdi, [numpids*4 + 4]           ; size = (numpids+1)*4
+call sym.malloc                    ; new_buf = malloc(size)
+@@@
+
+;realloc manuale: alloca nuovo buffer, copia, libera il vecchio
+
+@@@
+mov rdi, qword [obj.pids]
+call sym.free                      ; free(old_pids)
+mov qword [obj.pids], rax          ; pids = new_buf
+@@@
+
+;loop di copia da pids[] a new_buf[].
+;il garbage collector nel loop principale esegue waitpid(WNOHANG) su ciascun pid presente in pids[]. Per ogni figlio risultato terminato, l'array viene compattato mediante shift-left degli elementi successivi, l'ultimo slot viene azzerato, il contatore globale numpids viene decrementato e il buffer viene ridimensionato tramite una coppia malloc/free manuale.
 
 @@@
 pcVar10 = strchr(pcVar1, 0x2c);   
