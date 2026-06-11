@@ -76,7 +76,7 @@ GAFGYT ~ HCF
 
 visite: <span id="visits">...</span>
 
-<p class="title">section .INTRODUZIONE ===</p>
+<p class="title">section .INTRODUZIONE</p>
 
 @@@
 sha256: d1dbef470a10fda891b37ca9011e900cfc4f927550e881c1c96883a95bd88501
@@ -106,7 +106,7 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 
 ;music/mashup by Bz Akira Santjago/HCF: <a href="https://bzakirasantjago.blogspot.com/2026/05/the-wasp-bz-akira-santjago.html" target="_blank" rel="noopener noreferrer">The Wasp</a>
 
-<p class="title">=== EXECUTIVE SUMMARY ===</p>
+<p class="title">section .EXECUTIVE_SUMMARY</p>
 
 ;Gafgyt e' un bot DDoS per Linux (ELF x86-64) con architettura Command & Control classica. Il binario si connette a un server remoto, si autentica con un beacon iniziale contenente informazioni sull'host infetto, e attende comandi per lanciare attacchi di tipo flood verso target arbitrari.
 
@@ -116,7 +116,7 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 
 ;per struttura, vettori di attacco e pattern implementativi, il campione e' compatibile con la famiglia Gafgyt e i suoi derivati.
 
-<p class="title">=== ARCHITETTURA GENERALE ===</p>
+<p class="title">section .ARCHITETTURA_GENERALE</p>
 
 @@@
 main()
@@ -152,9 +152,9 @@ main()
      +-- reconnect se recvLine() == -1.
 @@@
 
-<p class="title">=== PROTOCOLLO C2 ===</p>
+<p class="title">section .PROTOCOLLO_C2</p>
 
-<p class="title">--- connessione ---</p>
+<p class="title">_connessione:</p>
 
 ;la funzione initConnection() gestisce la connessione al C2. Itera su un array globale commServer[] di stringhe nel formato "host:porta", selezionando il server corrente tramite l'indice globale currentServer. Il parsing dell'indirizzo avviene con tre chiamate successive a strchr(':'):
 
@@ -189,7 +189,7 @@ call sym.connectTimeout
 
 ;porta di default hardcoded: 0x1b46 (6982). La porta del C2 effettiva e' 999.
 
-<p class="title">--- Beacon Iniziale ---</p>
+<p class="title">_Beacon_Iniziale:</p>
 
 ;dopo la connessione, il bot trasmette:
 
@@ -215,7 +215,7 @@ call sym.access
 ;se il bot ha infettato un dispositivo che esegue telnetd, significa che si trova probabilmente in un segmento di rete popolato da altri dispositivi magari simili.
 ;il risultato viene trasmesso al C2 nel beacon come indicatore di capability.
 
-<p class="title">--- Formato Comandi ---</p>
+<p class="title">_Formato_Comandi:</p>
 
 @@@
 !<bot-id> <COMANDO> [arg1] [arg2] ... [argN]
@@ -223,7 +223,7 @@ call sym.access
 
 ;il parsing avanza byte per byte cercando '!' come prefisso e ' ' come separatore dopo il bot-id. Il nome del comando viene convertito in uppercase prima del confronto. Gli argomenti vengono tokenizzati con strtok() e copiati in buffer heap dedicati, costruendo un array argv[]-like passato a processCmd().
 
-<p class="title">--- Comandi Supportati ---</p>
+<p class="title">_Comandi_Supportati:</p>
 
 @@@
 COMANDO     FUNZIONE        VETTORE
@@ -259,7 +259,7 @@ jne <prossimo_blocco>
 
 ;i tre comandi di stop sono implementati come tre blocchi distinti con confronto case-sensitive. La ridondanza e' intenzionale: il bot accetta il comando indipendentemente dalla capitalizzazione ricevuta.
 
-<p class="title">=== GESTIONE DEI PROCESSI FIGLI ===</p>
+<p class="title">section .GESTIONE_DEI_PROCESSI_FIGLI</p>
 
 ;ogni attacco viene eseguito in un processo figlio separato, tramite listFork(), wrapper attorno a fork() che mantiene aggiornato l'array globale pids[].
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/list_fork.html" target="_blank" rel="noopener noreferrer">listFork()</a> 
@@ -335,9 +335,9 @@ pcVar10 = strchr(pcVar1, 0x2c);
 
 ;se il target e' una lista di indirizzi separati da virgola, viene creato un processo figlio separato per ciascun target tramite strtok(",").
 
-<p class="title">=== VETTORI DI ATTACCO ===</p>
+<p class="title">section .VETTORI_DI_ATTACCO</p>
 
-<p class="title">--- TCP flood con IP spoofing (ftcp) ---</p>
+<p class="title">_TCP_flood_con_IP_spoofing_(ftcp):</p>
 
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/ftcp.html" target="_blank" rel="noopener noreferrer">ftcp()</a>
 
@@ -405,7 +405,7 @@ call sym.csum                ;ricalcolo checksum IP
 
 ;dopo ogni modifica vengono ricalcolati i checksum TCP (tcpcsum) e IP (csum). Il loop interno conta i pacchetti per burst, quello esterno controlla la scadenza tramite time().
 
-<p class="title">--- UDP flood con IP spoofing (SendUDP) ---</p>
+<p class="title">_UDP_flood_con_IP_spoofing_(SendUDP):</p>
 
 @@@
 SendUDP(target_ip, dst_port, duration_sec, payload_size, pkt_count, cidr_prefix)
@@ -448,7 +448,7 @@ udp_header[3] = 0
 ;il checksum IP viene ricalcolato ad ogni iterazione. Il payload viene generato una sola volta prima del loop tramite makeRandomStr() e non cambia tra un pacchetto e l'altro. La struttura a doppio loop gestisce burst di pkt_count pacchetti ripetuti fino allo scadere di duration_sec secondi.
 ;l'assenza del checksum UDP e' intenzionale: su IPv4 il checksum UDP e' opzionale (RFC 768) e il kernel accetta pacchetti con checksum zero.
 
-<p class="title">--- VSE flood (vseattack) ---</p>
+<p class="title">_VSE_flood_(vseattack):</p>
 
 @@@
 vseattack(addr, porta, durata, dimensione_pck, dimensione, pck_totali, limite_blocco_pck, millisecondi_di_pausa)
@@ -498,7 +498,7 @@ if (limite_blocco_pck == idx) {
 ;ricalcolo checksum IP (csum) ad ogni pacchetto.
 ;il rate limiting e' implementato tramite usleep(millisecondi_di_pausa * 1000) ogni limite_blocco_pck pacchetti. La terminazione avviene per contatore (pck_totali) o per scadenza temporale (durata secondi).
 
-<p class="title">--- HTTP flood (HTTPSTOMP) ---</p>
+<p class="title">_HTTP_flood_(HTTPSTOMP):</p>
 
 ;HTTPSTOMP e' l'unico vettore che opera a livello applicativo anziche' di rete: non costruisce pacchetti raw e non usa IP spoofing, ma apre connessioni TCP reali verso il target. Questo lo rende inefficace contro infrastrutture che filtrano il traffico a livello 3, ma particolarmente adatto contro target protetti da CDN dove il flood di rete viene assorbito prima di raggiungere il server.
 
@@ -574,7 +574,7 @@ do {
 ;target specifico del sistema antibot Cloudflare.
 ;obiettivo: saturare il meccanismo di challenge, non il server sottostante.
 
-<p class="title">--- UDP flood con payload fisso (SendSTDHEX) ---</p>
+<p class="title">_UDP_flood_con_payload_fisso_(SendSTDHEX):</p>
 
 @@@
 SendSTDHEX(hostname, porta, durata_in_sec)
@@ -630,9 +630,9 @@ if (durata_in_sec + time_avvio <= time(NULL)) {
 ;la terminazione avviene confrontando time() con time_avvio + durata_in_sec, seguita da _exit(0) che bypassa qualunque handler atexit registrato.
 ;IoC specifico: il pattern "58 99 21" ripetuto nel traffico UDP e' sufficiente per una regola Snort/Suricata che identifichi questa variante.
 
-<p class="title">=== ASPETTI TECNICI RILEVANTI ===</p>
+<p class="title">section .ASPETTI_TECNICI_RILEVANTI</p>
 
-<p class="title">--- PRNG predicibile ---</p>
+<p class="title">_PRNG_predicibile:</p>
 
 @@@
 seed = getpid()^time(0);
