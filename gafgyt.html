@@ -302,8 +302,8 @@ test eax, eax
 jle <skip>                         ;eax == 0 → figlio ancora vivo
                                    ;eax  < 0 → errore
                                    ;altrimenti: figlio terminato, procedi
-mov dword [rcx], eax               ; pids[i-1] = pids[i]
-mov dword [rax], 0                 ; pids[numpids-1] = 0
+mov dword [rcx], eax               ;pids[i-1] = pids[i]
+mov dword [rax], 0                 ;pids[numpids-1] = 0
 @@@
 
 ;compattazione array: shift-left da i a numpids
