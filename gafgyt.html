@@ -591,6 +591,7 @@ do {
 ;il path non inizia con '/', violando RFC 7230. Lo User-Agent viene scelto casualmente da un array di 36 stringhe hardcoded.
 ;in sendHTTPtwo rand() viene invocato senza srand() precedente, rendendo la sequenza di selezione deterministica tra esecuzioni (seed di default = 1). La rotazione è quindi apparente piuttosto che casuale
 ;sendHTTPtwo opera sullo stesso schema ma costruisce richieste verso l'endpoint "/cdn-cgi/l/chk_captcha", percorso specifico del sistema antibot di Cloudflare. Probabilmente progettato per colpire il meccanismo di challenge.
+;in sendHTTPtwo il quarto argomento della sprintf, uno User-Agent casuale selezionato come useragents[rand() % 0x24], viene caricato in r9 ma non corrisponde ad alcun %s nella format string e non viene consumato. Si tratta di un argomento spurio, residuo di una versione precedente del codice che probabilmente includeva un quarto specificatore;per ruotare lo User-Agent casualmente, funzionalità poi rimossa dalla format string senza rimuovere il codice di preparazione dell'argomento. In SendHTTPHex lo stesso slot è invece consumato correttamente.
 
 @@@
 "%s /cdn-cgi/l/chk_captcha HTTP/1.1\r\nHost: %s\r\n..."
@@ -626,7 +627,7 @@ local_40 = "/x8r/x58/x99/x21/x8r/x58/x99/x21..."
 send(fd, &local_48, 0x5b4, 0)
 @@@
 
-;il payload fisso ha dimensione 1460 byte (0x5b4). Il valore non corrisponde al massimo payload UDP su Ethernet (1472 byte), né è giustificato da considerazioni di frammentazione IP. Coincide con il tipico MSS TCP (1500 - 20 IP - 20 TCP), suggerendo il riutilizzo di una costante comune nei tool di flooding piuttosto che una scelta derivata dalle specifiche del protocollo UDP. MSS sta per Maximum Segment Size ed è un parametro TCP che indica la dimensione massima del payload che un segmento TCP può trasportare.
+;il payload ha dimensione 1460 byte (0x5b4). Il valore tecnicamente corretto per massimizzare un payload UDP su Ethernet sarebbe 1472 byte (MTU 1500 - 20 header IP - 8 header UDP). 1460 coincide invece con il tipico MSS TCP (1500 - 20 IP - 20 TCP), parametro che non ha applicazione diretta in UDP. Suggerisce il riutilizzo di una costante comune nei tool di flooding piuttosto che una scelta derivata dalle specifiche del protocollo.
   
 @@@
 if (0x31 < local_c) { ;ogni 50 iterazioni
