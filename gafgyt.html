@@ -327,16 +327,16 @@ dec qword [obj.numpids]            ;numpids--
 ;aggiorna il contatore globale
 
 @@@
-lea rdi, [numpids*4 + 4]           ; size = (numpids+1)*4
-call sym.malloc                    ; new_buf = malloc(size)
+lea rdi, [numpids*4 + 4]           ;size = (numpids+1)*4
+call sym.malloc                    ;new_buf = malloc(size)
 @@@
 
 ;realloc manuale: alloca nuovo buffer, copia, libera il vecchio
 
 @@@
 mov rdi, qword [obj.pids]
-call sym.free                      ; free(old_pids)
-mov qword [obj.pids], rax          ; pids = new_buf
+call sym.free                      ;free(old_pids)
+mov qword [obj.pids], rax          ;pids = new_buf
 @@@
 
 ;loop di copia da pids[] a new_buf[].
