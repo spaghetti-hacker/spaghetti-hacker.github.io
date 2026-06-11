@@ -199,7 +199,7 @@ call sym.connectTimeout
 
 ;getPortz() verifica tramite access() la presenza di /usr/bin/python, /usr/bin/python3, /usr/bin/perl, /usr/sbin/telnetd. Il risultato informa il C2 sulle capability di esecuzione script e presenza server telnetd.
 
-;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e magari credenziali di default. Coerente con meccanismi di propagazione osservati in varianti Gafgyt/Mirai. O magari gli autori erano già a conoscenza dell'RCE in telnetd (Vulnerabilità Critica <a href="https://www.youtube.com/watch?v=sbhqPynPP5Q" target="_blank" rel="noopener noreferrer">CVE-2026-24061</a>).
+;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e magari credenziali di default. Coerente con meccanismi di propagazione osservati in varianti Gafgyt/Mirai. Non è escluso che il fingerprinting fosse mirato a identificare host vulnerabili alla vuln CVE-2026-24061 (GNU Inetutils <= 2.7, bypass autenticazione remota ;via variabile USER="-f root"), che consente accesso root senza credenziali valide. (Vulnerabilità Critica <a href="https://www.youtube.com/watch?v=sbhqPynPP5Q" target="_blank" rel="noopener noreferrer">CVE-2026-24061</a>).
 
 @@@
 mov rdi, "/usr/bin/python"
