@@ -109,11 +109,8 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 <p class="title">section .EXECUTIVE_SUMMARY</p>
 
 ;Gafgyt e' un bot DDoS per Linux (ELF x86-64) con architettura Command & Control classica. Il binario si connette a un server remoto, si autentica con un beacon iniziale contenente informazioni sull'host infetto, e attende comandi per lanciare attacchi di tipo flood verso target arbitrari.
-
 ;supporta cinque vettori di attacco (TCP, UDP, VSE, HTTPSTOMP, STDHEX), con capacita' di IP spoofing tramite socket raw e costruzione manuale dei pacchetti.
-
 ;IoC identificato: server C2 all'indirizzo 5.2.65.150:999.
-
 ;per struttura, vettori di attacco e pattern implementativi, il campione e' compatibile con la famiglia Gafgyt e i suoi derivati.
 
 <p class="title">section .ARCHITETTURA_GENERALE</p>
@@ -157,11 +154,10 @@ main()
 <p class="title">_connessione:</p>
 
 ;la funzione initConnection() gestisce la connessione al C2. Itera su un array globale commServer[] di stringhe nel formato "host:porta", selezionando il server corrente tramite l'indice globale currentServer. Il parsing dell'indirizzo avviene con tre chiamate successive a strchr(':'):
-
 ;reversing della funzione: <a href="https://spaghetti-hacker.github.io/init_connection.html" target="_blank" rel="noopener noreferrer">initConnection()</a>
 
 @@@
-commServer[] -> "5.2.65.150:999"   ;unico C2 identificato nel binario
+commServer[] -> "5.2.65.150:999"   ;unico C2 identificato nel binario.
 
 [0x00403af9]
 mov rax, qword [rax*8 + obj.commServer]
@@ -190,7 +186,6 @@ call sym.connectTimeout
 <p class="title">_Beacon_Iniziale:</p>
 
 ;dopo la connessione, il bot trasmette:
-
 ;IP locale (ottenuto tramite getOurIP).
 ;architettura CPU (getArch, es. "x86_64").
 ;porta rilevante sull'host (getPortz).
