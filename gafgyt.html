@@ -184,9 +184,7 @@ call sym.connectTimeout
 @@@
 
 ;il tentativo di connessione ha un timeout di 30 secondi.
-
 ;la prima chiamata strchr verifica la presenza del separatore, la seconda legge la porta con atoi(), la terza tronca la stringa scrivendo '\0' sul carattere ':'. Il tentativo di connessione ha un timeout di 30 secondi (connectTimeout). In caso di fallimento, il chiamante ripete la chiamata incrementando currentServer, realizzando cosi' un meccanismo di failover.
-
 ;porta di default hardcoded: 0x1b46 (6982). La porta del C2 effettiva e' 999.
 
 <p class="title">_Beacon_Iniziale:</p>
@@ -196,9 +194,7 @@ call sym.connectTimeout
 ;IP locale (ottenuto tramite getOurIP).
 ;architettura CPU (getArch, es. "x86_64").
 ;porta rilevante sull'host (getPortz).
-
 ;getPortz() verifica tramite access() la presenza di /usr/bin/python, /usr/bin/python3, /usr/bin/perl, /usr/sbin/telnetd. Il risultato informa il C2 sulle capability di esecuzione script e presenza server telnetd.
-
 ;il valore "22" non rappresenta una porta ma un indicatore di capability trasmesso al C2 nel beacon. La presenza di telnetd e' significativa perche' segnala che il dispositivo infetto si trova probabilmente in un segmento di rete popolato da altri dispositivi IoT con telnet esposto e magari credenziali di default. Coerente con meccanismi di propagazione osservati in varianti Gafgyt/Mirai. Non è escluso che il fingerprinting fosse mirato a identificare host vulnerabili alla vuln CVE-2026-24061 (GNU Inetutils <= 2.7, bypass autenticazione remota ;via variabile USER="-f root"), che consente accesso root senza credenziali valide. (Vulnerabilità Critica <a href="https://www.youtube.com/watch?v=sbhqPynPP5Q" target="_blank" rel="noopener noreferrer">CVE-2026-24061</a>).
 
 @@@
