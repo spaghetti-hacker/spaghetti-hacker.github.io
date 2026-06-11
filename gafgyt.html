@@ -825,6 +825,34 @@ T1499.003 Endpoint Denial of Service: Application Exhaustion Flood
 
 <img src="https://spaghetti-hacker.github.io/gafgyt_vt.png" class="full-img">
 
+section .VIRUSTOTAL
+
+@@@
+sha256: d1dbef470a10fda891b37ca9011e900cfc4f927550e881c1c96883a95bd88501
+rilevamento: 42/65 vendor (64.6%).
+popular threat label: trojan.gafgyt/mirai.
+threat categories: trojan.
+family labels: gafgyt, mirai, ddos.
+@@@
+
+;il campione risulta rilevato da 42 vendor su 65 al momento della submission.
+;la convergenza delle family label su gafgyt/mirai conferma l'attribuzione condotta staticamente: nessuna discrepanza rilevante tra l'analisi manuale e la classificazione automatica dei motori AV.
+;denominazioni prevalenti per famiglia:
+
+@@@
+Vendor          Denominazione
+------          -------------
+BitDefender     Gen:Variant.Trojan.Linux.Gafgyt.5
+ESET-NOD32      A Variant Of Linux/Gafgyt.ARS
+Fortinet        ELF/Gafgyt.ANW!tr
+Kaspersky       HEUR:Backdoor.Linux.Gafgyt.a
+Elastic         Linux.Trojan.Gafgyt
+ClamAV          Unix.Dropper.Mirai-7139232-0
+Avira           EXP/ELF.Mirai.Z
+@@@
+
+;nota: la classificazione come "Mirai" da parte di alcuni vendor (Avira, ClamAV, Lionic) riflette la sovrapposizione di codice tra le due famiglie, ampiamente documentata nella letteratura. Il campione presenta caratteristiche implementative piu' coerenti con Gafgyt/BASHLITE, in particolare per la struttura del protocollo C2 e i vettori di attacco disponibili. Cynet assegna uno score di 99/100; MAX riporta "ai Score: 100". 23 vendor non rilevano il campione, verosimilmente per assenza di firme specifiche per questa variante o per limitazioni nei motori euristici applicati ai binari ELF staticamente linkati.
+
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 </script>
 <script>
