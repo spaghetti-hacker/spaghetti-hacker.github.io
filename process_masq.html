@@ -254,21 +254,17 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 @@@
 /*
-masq_demo.c
-
+;masq_demo.c
 ;riproduce la tecnica di process masquerading analizzata nel campione.
 ;usa la libc standard al posto delle funzioni custom del campione originale, il comportamento osservabile e' identico.
 
 ;compilazione:
-
-gcc -o masq_demo masq_demo.c
+;gcc -o masq_demo masq_demo.c
 
 ;uso:
-
-./masq_demo 
+;./masq_demo 
 
 ;verifica:
-
 ;ps aux | grep "ps aux"
 ;cat /proc/<PID>/cmdline | tr '\0' ' '
 ;cat /proc/<PID>/comm
