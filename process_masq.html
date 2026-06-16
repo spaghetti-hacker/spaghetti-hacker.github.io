@@ -316,9 +316,9 @@ prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
 
 fprintf(stderr, "[masq_demo] PID=%d in esecuzione — premi INVIO per uscire\n", getpid());
 fprintf(stderr, "[masq_demo] verifica con:\n");
-fprintf(stderr, "  ps aux | grep 'ps aux'\n");
-fprintf(stderr, "  cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
-fprintf(stderr, "  cat /proc/%d/comm\n", getpid());
+fprintf(stderr, "ps aux | grep 'ps aux'\n");
+fprintf(stderr, "cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
+fprintf(stderr, "cat /proc/%d/comm\n", getpid());
 
 getchar();
 return 0;
@@ -331,9 +331,9 @@ return 0;
 ./masq_demo
 [masq_demo] PID=38066 in esecuzione — premi INVIO per uscire
 [masq_demo] verifica con:
-  ps aux | grep 'ps aux'
-  cat /proc/38066/cmdline | tr '\0' ' ' && echo
-  cat /proc/38066/comm
+ps aux | grep 'ps aux'
+cat /proc/38066/cmdline | tr '\0' ' ' && echo
+cat /proc/38066/comm
 
 ps aux | grep 'ps aux'
 re         38066  0.0  0.0   2776  1584 pts/7    S+   16:26   0:00 ps aux
