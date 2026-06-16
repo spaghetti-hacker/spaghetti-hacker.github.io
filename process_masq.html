@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/process_masq.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="PROCESS MASQUERADING">
+<meta property="og:description" content=";analisi della tecnica di Process Masquerading.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/process_masq.png">
+
+
+<title>SOCK PRINTF</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/process_masq.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+PROCESS MASQUERADING ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+<p class="title">section .PROCESS_MASQUERADING</p>
+
+file 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4
+650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, strippe
+
+<p class="title">_Nota_Metodologica:</p>
+
+;l'analisi e' stata condotta manualmente con Ghidra per la decompilazione e radare2 per la verifica assembly. Il supporto di un modello linguistico (Claude, Anthropic) e' stato utilizzato nella fase interpretativa per la discussione dei pattern e la stesura del presente report. Tutte le conclusioni tecniche sono state verificate sul codice reale. Nessuna sandbox dinamica e' stata impiegata in questa fase.
+
+<p class="title">_Kallima:</p>
+
+;il Kallima, comunemente noto come farfalla foglia morta, è uno dei casi più studiati di mimetismo animale. Quando apre le ali mostra colori vivaci e appariscenti, arancio, blu, violetto. Quando le chiude scompare. La superficie ventrale delle ali riproduce con precisione anatomica una foglia secca: nervatura centrale, nervature secondarie, picciolo, macchie scure che imitano aree di necrosi fungina, bordi irregolari che simulano il deterioramento. Non imita una foglia sana, non imita una foglia generica. Imita specificamente una foglia che non vale la pena raccogliere. La caratteristica che rende il Kallima straordinario rispetto ad altri insetti mimetici è la scelta del modello. Un predatore che cerca prede vive e integre non si ferma su una foglia morta, la scarta prima ancora di esaminarla. Il Kallima non si nasconde dall'attenzione, si posiziona esattamente nel punto cieco cognitivo del predatore: la categoria di oggetti che vengono visti ma classificati immediatamente come irrilevanti.
+
+<p class="title">section .EXECUTIVE_SUMMARY</p>
+
+;il campione analizzato e' un malware ELF Linux che implementa una tecnica di process masquerading a tre livelli gia' nelle prime istruzioni della funzione main. Il processo si rinomina come "ps aux" coprendo contemporaneamente la cmdline visibile in /proc/PID/cmdline, il comm name in /proc/PID/comm e il contenuto di argv[0] in memoria. L'intera libc e' reimplementata staticamente nel binario, il che elimina le dipendenze dinamiche e rende opaca l'analisi statica iniziale. La struttura generale del campione indica capacita' di daemonizzazione, scansione ciclica di /proc e comunicazione di rete. Questo report si concentra esclusivamente sulla fase di mascheramento iniziale.
+
+<p class="title">section .IPOTESI_DI_ARCHITETTURA_GENERALE</p>
+
+@@@
+main()
+├── controllo argv[1]
+├── salvataggio path assoluto del binario
+├── process masquerading (tre livelli)
+├── setup rete
+├── fork/daemonizzazione
+├── setup signal handlers e timer
+└── loop principale
+    ├── scansione /proc (callback 1)
+    ├── scansione /proc (callback 2)
+    └── azione periodica ogni 7 cicli
+@@@
+
+<p class="title">section .LIBC_STATICA_CUSTOM</p>
+
+;la prima difficolta' incontrata nell'analisi e' l'assenza totale di importazioni dalla libc standard. L'autore ha riscritto da zero tutte le funzioni stringa e memoria, compilandole staticamente nel binario. Il riconoscimento e' avvenuto tramite le costanti caratteristiche delle implementazioni ottimizzate word-by-word.
+
+@@@
+while (uVar3 = *src,
+      (uVar3 + 0xfefefefefefefeff & ~uVar3 & 0x8080808080808080) == 0) {
+    *dst = uVar3;
+    src++;
+    dst++;
+}
+@@@
+
+;tecnica standard di null-byte detection su word a 64-bit, permette di copiare 8 byte per iterazione senza loop byte per byte.
+;0xfefefefefefefeff e 0x8080808080808080 sono le costanti canoniche del trick documentato in "Hacker's Delight" (Warren, 2002).
+
+;la stessa famiglia di costanti appare in ogni funzione per stringhe del campione. La motivazione e' triplice: nessun simbolo importato visibile nell'analisi statica iniziale, nessun hook EDR sulle funzioni libc, portabilita' su qualsiasi versione del kernel senza dipendenze da glibc.
+
+;la tabella seguente elenca le funzioni identificate:
+
+@@@
+Funzione ricostruita    Equivalente libc
+
+strcpy_opt              strcpy
+memccpy_opt             memccpy
+strlen_cs               strlen
+memset_cs               memset
+strcat_cs               strcat
+__errno_location        __errno_location
+syscall_ret_handler     wrapper interno glibc
+fd_to_procpath          nessun equivalente diretto
+readlink_wrapper        readlink
+safe_resolve_path       realpath
+get_absolute_parent_dir dirname + trailing slash
+@@@
+ 
+<p class="title">_syscall_ret_handler:</p>
+
+;ogni syscall grezza del campione e' seguita da una chiamata a questa funzione. Il kernel Linux restituisce gli errori come valori negativi in rax nell'intervallo [-4095, -1]. La libc standard converte questi valori in errno positivo e return -1, ma il campione non linka la libc. Questa funzione reimplementa esattamente quella conversione.
+
+@@@
+ulong syscall_ret_handler(ulong raw_result) {
+    if (raw_result > 0xfffffffffffff000) {
+        *__errno_location() = -(int)raw_result;
+        return 0xffffffffffffffff;
+    }
+    return raw_result;
+}
+@@@
+
+;0xfffffffffffff000 corrisponde a -4096 in complemento a due.
+;qualsiasi valore superiore e' un codice errore kernel negato.
+;__errno_location() accede a FS:0x3c, offset di errno nel TLS x86_64.
+;il valore di ritorno normalizzato e' sempre -1 in caso di errore.
+;il chiamante puo' quindi usare il semplice controllo if (ret < 0).
+
+<p class="title">_safe_resolve_path_e_fd_to_procpath:</p>
+
+;il campione risolve i path in modo canonico usando /proc/self/fd/ come meccanismo intermedio. Il motivo e' che argv[0] puo' essere un path relativo o contenere symlink: per ottenere il path assoluto reale del binario in esecuzione senza chiamare realpath() dalla libc, il campione apre il file con open(), ottiene il fd, costruisce il path /proc/self/fd/<fd> e chiama readlink() su di esso.
+
+@@@
+fd_to_procpath(buffer, fd):
+    strcpy(buffer, "/proc/self/fd/")
+    itoa(fd, buffer + 14)
+@@@
+
+;costruisce "/proc/self/fd/<N>" dove N e' il fd in forma decimale.
+;/proc/self/fd/N e' un symlink al file reale associato al fd.
+;readlink su questo path restituisce il path canonico assoluto.
+
+;itoa e' una sintesi, nel campione la conversione e' implementata inline.
+;con due loop: il primo conta le cifre, il secondo scrive i digit da destra a sinistra.
+;nessuna funzione itoa e' presente nel binario.
+
+;dopo readlink, safe_resolve_path esegue un controllo anti-TOCTOU confrontando i campi st_dev e st_ino ottenuti rispettivamente da fstat(fd) e stat(path).
+
+@@@
+fstat(fd, &stat_fd);
+stat(resolved_path, &stat_path);
+if (stat_fd.st_dev == stat_path.st_dev &&
+    stat_fd.st_ino == stat_path.st_ino) {
+    ...
+}
+@@@
+
+;fstat opera sul fd gia' aperto, non soggetto a race condition.
+;stat opera sul path, potrebbe essere stato modificato nel frattempo.
+;il confronto di st_dev e st_ino garantisce che fd e path puntino allo stesso inode.
+;se i valori divergono, errno viene settato a 40 (ELOOP: too many symbolic links).
+;questa scelta di errno e' imprecisa ma deliberata: segnala un problema su symlink.
+
+<p class="title">section .PROCESS MASQUERADING</p>
+
+;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione prima salva la propria posizione reale sul filesystem, poi sovrascrive ogni traccia del nome originale con la stringa "ps aux".
+
+strcat_cs(&DAT_0041b300, *argv);
+uVar4 = get_absolute_parent_dir(&DAT_0041b300);
+strcat_cs(&DAT_0041a300, uVar4);
+
+;argv[0] viene risolto in path assoluto canonico tramite safe_resolve_path.
+;get_absolute_parent_dir estrae il dirname e aggiunge trailing slash.
+;DAT_0041a300 contiene la directory base del malware per uso successivo.
+;es: "./malware" diventa "/home/user/malware_dir/".
+
+;il salvataggio del path reale precede il mascheramento perche' dopo la sovrascrittura argv[0] non e' piu' recuperabile.
+
+@@@
+iVar3 = strlen_cs(*argv);
+memset_cs(*argv, 0, iVar3);
+memccpy_cs(*argv, "ps aux", 0, iVar3);
+memccpy_cs(local_138, "ps aux", 0, 0x10);
+@@@
+
+;memset azzera argv[0] prima della sovrascrittura per eliminare ogni residuo.
+;il primo memccpy sovrascrive argv[0], agisce su /proc/PID/cmdline.
+;il secondo memccpy scrive in local_138 (16 byte), destinato a prctl PR_SET_NAME.
+;PR_SET_NAME agisce su /proc/PID/comm, visibile in top e negli strumenti di monitoring.
+;i tre livelli coperti sono: /proc/PID/cmdline, /proc/PID/comm, argv[0] in memoria.
+;la scelta di "ps aux" come nome di copertura non e' casuale. Quando un analista esegue ps aux per cercare processi sospetti, il malware appare nell'output come un'istanza del comando stesso. L'occhio umano tende a ignorare "ps aux" tra i risultati di ps aux perche' lo interpreta come il processo corrente.
+
+<p class="title">section .TTP_MITRE_ATT&CK</p>
+
+;il process masquerading analizzato in questo campione corrisponde alla tecnica T1036.005, Masquerading: Match Legitimate Name or Location del framework MITRE ATT&CK. La tecnica rientra nella tattica Defense Evasion (TA0005). Nel caso specifico il campione agisce su due artefatti distinti: argv[0] in memoria, che alimenta /proc/PID/cmdline, e il comm name tramite prctl PR_SET_NAME, che alimenta /proc/PID/comm. Entrambi i vettori sono esplicitamente citati nella descrizione della tecnica come superfici di mascheramento su sistemi Linux. La mitigazione M1022 suggerita da MITRE, Restrict File and Directory Permissions, non e' applicabile in questo contesto: il mascheramento avviene in memoria su strutture del processo stesso, non su file. Il rilevamento rimane affidato al confronto tra /proc/PID/exe e /proc/PID/cmdline, unico artefatto non modificabile dal processo senza privilegi di root.
+
+<p class="title">section .NOTE FINALI</p>
+
+;l'analisi copre esclusivamente la fase di inizializzazione e mascheramento. Il campione presenta ulteriori capacita' non analizzate in questo documento: scansione ciclica di /proc con due callback distinte, comunicazione di rete con socket, daemonizzazione tramite fork, e un'azione periodica ogni sette cicli del loop principale che non e' ancora stata identificata. L'analisi di queste componenti
+e' in corso.
+
+;il livello tecnico del campione e' elevato. La riscrittura completa della libc, la gestione corretta delle syscall grezze, il controllo anti-TOCTOU in safe_resolve_path e la scelta psicologicamente efficace del nome di copertura indicano un autore con conoscenza profonda degli internals Linux e delle tecniche di analisi forense. Il campione non e' attribuito a nessuna famiglia nota sulla base di questa analisi parziale.
+
+<p class="title">section .PROGRAMMA_IN_C_CHE_EMULA_IL_COMPORTAMENTO_DEL_MALWARE</p>
+
+@@@
+/*
+ * masq_demo.c
+ *
+ * Riproduce la tecnica di process masquerading analizzata nel campione
+ * linux.masq.psaux. Usa la libc standard al posto delle funzioni custom
+ * del campione originale, il comportamento osservabile e' identico.
+ *
+ * Compilazione:
+ *   gcc -o masq_demo masq_demo.c
+ *
+ * Uso:
+ *   ./masq_demo <qualsiasi_argomento>
+ *   es: ./masq_demo foo
+ *
+ * Verifica:
+ *   ps aux | grep "ps aux"
+ *   cat /proc/<PID>/cmdline | tr '\0' ' '
+ *   cat /proc/<PID>/comm
+ */
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/prctl.h>
+
+#define MASK_NAME "ps aux"
+
+int main(int argc, char *argv[])
+{
+    if (argc < 2) {
+        fprintf(stderr, "uso: %s <argomento>\n", argv[0]);
+        return 1;
+    }
+
+    /*
+     * Livello 1: sovrascrittura di argv[0] in memoria.
+     * Agisce su /proc/PID/cmdline, quello che ps aux mostra
+     * nella colonna COMMAND.
+     * Il memset preliminare azzera ogni residuo del nome originale
+     * prima di scrivere il nome di copertura, esattamente come nel campione.
+     */
+    size_t orig_len = strlen(argv[0]);
+    memset(argv[0], 0, orig_len);
+    strncpy(argv[0], MASK_NAME, orig_len);
+
+    /*
+     * Livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
+     * Agisce su /proc/PID/comm, quello che top, htop e systemd
+     * mostrano come nome del processo. Il limite del kernel per
+     * PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali),
+     * corrispondente al buffer local_138 da 0x10 byte nel campione.
+     */
+    prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
+
+    /*
+     * A questo punto i tre livelli sono coperti:
+     *   /proc/PID/cmdline  ->  "ps aux"
+     *   /proc/PID/comm     ->  "ps aux"
+     *   argv[0] in memoria ->  "ps aux" (azzerato e riscritto)
+     *
+     * Il processo rimane in esecuzione per permettere la verifica.
+     * Il PID viene stampato su stderr per trovarlo facilmente.
+     */
+    fprintf(stderr, "[masq_demo] PID=%d in esecuzione, premi INVIO per uscire\n",
+            getpid());
+    fprintf(stderr, "[masq_demo] verifica con:\n");
+    fprintf(stderr, "  ps aux | grep 'ps aux'\n");
+    fprintf(stderr, "  cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
+    fprintf(stderr, "  cat /proc/%d/comm\n", getpid());
+
+    getchar();
+    return 0;
+}
+@@@
+
+<p class="title">_proof_of_concept:</p>
+
+@@@
+./process_masquerading foo
+[masq_demo] PID=28314 in esecuzione, premi INVIO per uscire
+[masq_demo] verifica con:
+  ps aux | grep 'ps aux'
+  cat /proc/28314/cmdline | tr '\0' ' ' && echo
+  cat /proc/28314/comm
+
+ps aux | grep 'ps aux'
+re         28314  0.0  0.0   2776  1588 pts/2    S+   12:47   0:00 ps aux                 foo
+re         28533  0.0  0.0  12680  3504 pts/4    R+   12:47   0:00 ps aux
+re         28534  0.0  0.0   9108  2652 pts/4    S+   12:47   0:00 grep --color=auto ps aux
+
+cat /proc/28314/cmdline | tr '\0' ' ' && echo
+ps aux                 foo 
+cat /proc/28314/comm
+ps aux
+@@@
+
+;PID 28314 e' il processo mascherato, PID 28533 e' il vero ps aux lanciato per la verifica.
+;un analista che scorre l'output velocemente ignora entrambi: uno sembra il comando appena eseguito, l'altro un'istanza concorrente dello stesso.
+;/proc/28314/cmdline mostra "ps aux" seguito da "foo" perche' strncpy ha scritto il nome di copertura solo nei primi 6 byte di argv[0], lasciando il residuo del buffer originale dopo il terminatore null.
+;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo, il demo riproduce il comportamento in modo fedele ma non identico su questo dettaglio.
+;/proc/28314/comm mostra "ps aux" pulito senza residui: prctl PR_SET_NAME scrive in un buffer kernel separato, non soggetto al problema del residuo di argv[0].
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:processmasq/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
