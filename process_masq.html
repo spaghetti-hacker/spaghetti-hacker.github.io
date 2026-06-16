@@ -314,7 +314,7 @@ prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
 ;il PID viene stampato su stderr per trovarlo facilmente.
 */
 
-fprintf(stderr, "[masq_demo] PID=%d in esecuzione — premi INVIO per uscire\n", getpid());
+fprintf(stderr, "[masq_demo] PID=%d in esecuzione, premi INVIO per uscire\n", getpid());
 fprintf(stderr, "[masq_demo] verifica con:\n");
 fprintf(stderr, "ps aux | grep 'ps aux'\n");
 fprintf(stderr, "cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
