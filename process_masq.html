@@ -254,24 +254,25 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 @@@
 /*
- * masq_demo.c
- *
- * Riproduce la tecnica di process masquerading analizzata nel campione.
- * Usa la libc standard al posto delle funzioni custom
- * del campione originale, il comportamento osservabile e' identico.
- *
- * Compilazione:
- *   gcc -o masq_demo masq_demo.c
- *
- * Uso:
- *   ./masq_demo <qualsiasi_argomento>
- *   es: ./masq_demo foo
- *
- * Verifica:
- *   ps aux | grep "ps aux"
- *   cat /proc/<PID>/cmdline | tr '\0' ' '
- *   cat /proc/<PID>/comm
- */
+masq_demo.c
+
+;riproduce la tecnica di process masquerading analizzata nel campione.
+;usa la libc standard al posto delle funzioni custom del campione originale, il comportamento osservabile e' identico.
+
+;compilazione:
+
+gcc -o masq_demo masq_demo.c
+
+;uso:
+
+./masq_demo 
+
+;verifica:
+
+;ps aux | grep "ps aux"
+;cat /proc/<PID>/cmdline | tr '\0' ' '
+;cat /proc/<PID>/comm
+*/
 
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -297,7 +298,8 @@ strncpy(argv[0], MASK_NAME, orig_len);
 
 /*
 ;livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
-;agisce su /proc/PID/comm, quello che top, htop e systemd mostrano come nome del processo. Il limite del kernel per PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali), corrispondente al buffer local_138 da 0x10 byte nel campione.
+;agisce su /proc/PID/comm, quello che top, htop e systemd mostrano come nome del processo. 
+;il limite del kernel per PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali), corrispondente al buffer local_138 da 0x10 byte nel campione.
 */
 
 prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
