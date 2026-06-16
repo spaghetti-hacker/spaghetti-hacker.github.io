@@ -201,6 +201,19 @@ if (stat_fd.st_dev == stat_path.st_dev &&
 
 <p class="title">section .PROCESS MASQUERADING</p>
 
+@@@
+strcat_cs(&DAT_0041b300,*argv);
+uVar4 = get_absolute_parent_dir(&DAT_0041b300);
+strcat_cs(&DAT_0041a300,uVar4);
+uVar4 = *argv;
+iVar3 = strlen_cs(uVar4);
+uVar1 = argv[1];
+memset_cs(uVar4,0,(long)iVar3);
+memccpy_cs(*argv,"ps aux",0,(long)iVar3);
+memccpy_cs(local_138,"ps aux",0,0x10);
+prctl_cs(0xf,uVar1)
+@@@
+
 ;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione prima salva la propria posizione reale sul filesystem, poi sovrascrive ogni traccia del nome originale con la stringa "ps aux".
 
 @@@
