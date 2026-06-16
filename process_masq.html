@@ -76,7 +76,7 @@ PROCESS MASQUERADING ~ HCF
 
 visite: <span id="visits">...</span>
 
-<p class="title">section .PROCESS_MASQUERADING</p>
+<p class="title">section .INTRODUZIONE</p>
 
 file 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4
 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, stripped.
@@ -198,7 +198,7 @@ if (stat_fd.st_dev == stat_path.st_dev &&
 ;se i valori divergono, errno viene settato a 40 (ELOOP: too many symbolic links).
 ;questa scelta di errno e' imprecisa ma deliberata: segnala un problema su symlink.
 
-<p class="title">section .PROCESS MASQUERADING</p>
+<p class="title">section .PROCESS_MASQUERADING</p>
 
 @@@
 strcat_cs(&DAT_0041b300,*argv);
@@ -245,7 +245,7 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 ;il process masquerading analizzato in questo campione corrisponde alla tecnica T1036.005, Masquerading: Match Legitimate Name or Location del framework MITRE ATT&CK. La tecnica rientra nella tattica Defense Evasion (TA0005). Nel caso specifico il campione agisce su due artefatti distinti: argv[0] in memoria, che alimenta /proc/PID/cmdline, e il comm name tramite prctl PR_SET_NAME, che alimenta /proc/PID/comm. Entrambi i vettori sono esplicitamente citati nella descrizione della tecnica come superfici di mascheramento su sistemi Linux. La mitigazione M1022 suggerita da MITRE, Restrict File and Directory Permissions, non e' applicabile in questo contesto: il mascheramento avviene in memoria su strutture del processo stesso, non su file. Il rilevamento rimane affidato al confronto tra /proc/PID/exe e /proc/PID/cmdline, unico artefatto non modificabile dal processo senza privilegi di root.
 
-<p class="title">section .NOTE FINALI</p>
+<p class="title">section .NOTE_FINALI</p>
 
 ;l'analisi copre esclusivamente la fase di inizializzazione e mascheramento. Il campione presenta ulteriori capacita' non analizzate in questo documento: scansione ciclica di /proc con due callback distinte, comunicazione di rete con socket, daemonizzazione tramite fork, e un'azione periodica ogni sette cicli del loop principale che non e' ancora stata identificata. L'analisi di queste componenti e' in corso.
 ;il livello tecnico del campione e' elevato. La riscrittura completa della libc, la gestione corretta delle syscall grezze, il controllo anti-TOCTOU in safe_resolve_path e la scelta psicologicamente efficace del nome di copertura indicano un autore con conoscenza profonda degli internals Linux e delle tecniche di analisi forense. Il campione non e' attribuito a nessuna famiglia nota sulla base di questa analisi parziale.
