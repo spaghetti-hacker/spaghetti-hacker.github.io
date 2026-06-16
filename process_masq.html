@@ -79,11 +79,13 @@ visite: <span id="visits">...</span>
 <p class="title">section .PROCESS_MASQUERADING</p>
 
 file 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4
-650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, strippe
+650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, stripped.
 
 <p class="title">_Nota_Metodologica:</p>
 
-;l'analisi e' stata condotta manualmente con Ghidra per la decompilazione e radare2 per la verifica assembly. Il supporto di un modello linguistico (Claude, Anthropic) e' stato utilizzato nella fase interpretativa per la discussione dei pattern e la stesura del presente report. Tutte le conclusioni tecniche sono state verificate sul codice reale. Nessuna sandbox dinamica e' stata impiegata in questa fase.
+;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo il mapping e la rinomina delle variabili. L'intelligenza artificiale e' stata
+ utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul
+ materiale gia' analizzato e in parte per la stesura del presente write-up.
 
 <p class="title">_Kallima:</p>
 
@@ -111,7 +113,7 @@ main()
 
 <p class="title">section .LIBC_STATICA_CUSTOM</p>
 
-;la prima difficolta' incontrata nell'analisi e' l'assenza totale di importazioni dalla libc standard. L'autore ha riscritto da zero tutte le funzioni stringa e memoria, compilandole staticamente nel binario. Il riconoscimento e' avvenuto tramite le costanti caratteristiche delle implementazioni ottimizzate word-by-word.
+;la prima difficolta' incontrata nell'analisi e' l'assenza totale di importazioni dalla libc standard. L'autore ha riscritto da zero tutte le funzioni stringa e memoria, compilandole staticamente nel binario. Il riconoscimento di alcune funzioni e' avvenuto tramite le costanti caratteristiche delle implementazioni ottimizzate word-by-word.
 
 @@@
 while (uVar3 = *src,
@@ -124,9 +126,7 @@ while (uVar3 = *src,
 
 ;tecnica standard di null-byte detection su word a 64-bit, permette di copiare 8 byte per iterazione senza loop byte per byte.
 ;0xfefefefefefefeff e 0x8080808080808080 sono le costanti canoniche del trick documentato in "Hacker's Delight" (Warren, 2002).
-
 ;la stessa famiglia di costanti appare in ogni funzione per stringhe del campione. La motivazione e' triplice: nessun simbolo importato visibile nell'analisi statica iniziale, nessun hook EDR sulle funzioni libc, portabilita' su qualsiasi versione del kernel senza dipendenze da glibc.
-
 ;la tabella seguente elenca le funzioni identificate:
 
 @@@
@@ -178,12 +178,11 @@ fd_to_procpath(buffer, fd):
 ;costruisce "/proc/self/fd/<N>" dove N e' il fd in forma decimale.
 ;/proc/self/fd/N e' un symlink al file reale associato al fd.
 ;readlink su questo path restituisce il path canonico assoluto.
-
 ;itoa e' una sintesi, nel campione la conversione e' implementata inline.
 ;con due loop: il primo conta le cifre, il secondo scrive i digit da destra a sinistra.
 ;nessuna funzione itoa e' presente nel binario.
-
 ;dopo readlink, safe_resolve_path esegue un controllo anti-TOCTOU confrontando i campi st_dev e st_ino ottenuti rispettivamente da fstat(fd) e stat(path).
+;TOCTOU (Time Of Check, Time Of Use) è una race condition che si verifica quando un programma controlla un file tramite il suo percorso (check) e lo utilizza successivamente (use): tra le due operazioni un attaccante può sostituire il file o modificare un symlink, facendo sì che il programma operi su un oggetto diverso da quello verificato. Per mitigare questo problema, il campione apre prima il file ottenendo un file descriptor stabile, quindi confronta i campi st_dev e st_ino restituiti da fstat(fd) e stat(path) per verificare che il path risolto identifichi ancora lo stesso inode associato al file già aperto.
 
 @@@
 fstat(fd, &stat_fd);
@@ -204,15 +203,16 @@ if (stat_fd.st_dev == stat_path.st_dev &&
 
 ;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione prima salva la propria posizione reale sul filesystem, poi sovrascrive ogni traccia del nome originale con la stringa "ps aux".
 
+@@@
 strcat_cs(&DAT_0041b300, *argv);
 uVar4 = get_absolute_parent_dir(&DAT_0041b300);
 strcat_cs(&DAT_0041a300, uVar4);
+@@@
 
 ;argv[0] viene risolto in path assoluto canonico tramite safe_resolve_path.
 ;get_absolute_parent_dir estrae il dirname e aggiunge trailing slash.
 ;DAT_0041a300 contiene la directory base del malware per uso successivo.
 ;es: "./malware" diventa "/home/user/malware_dir/".
-
 ;il salvataggio del path reale precede il mascheramento perche' dopo la sovrascrittura argv[0] non e' piu' recuperabile.
 
 @@@
@@ -235,9 +235,7 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 <p class="title">section .NOTE FINALI</p>
 
-;l'analisi copre esclusivamente la fase di inizializzazione e mascheramento. Il campione presenta ulteriori capacita' non analizzate in questo documento: scansione ciclica di /proc con due callback distinte, comunicazione di rete con socket, daemonizzazione tramite fork, e un'azione periodica ogni sette cicli del loop principale che non e' ancora stata identificata. L'analisi di queste componenti
-e' in corso.
-
+;l'analisi copre esclusivamente la fase di inizializzazione e mascheramento. Il campione presenta ulteriori capacita' non analizzate in questo documento: scansione ciclica di /proc con due callback distinte, comunicazione di rete con socket, daemonizzazione tramite fork, e un'azione periodica ogni sette cicli del loop principale che non e' ancora stata identificata. L'analisi di queste componenti e' in corso.
 ;il livello tecnico del campione e' elevato. La riscrittura completa della libc, la gestione corretta delle syscall grezze, il controllo anti-TOCTOU in safe_resolve_path e la scelta psicologicamente efficace del nome di copertura indicano un autore con conoscenza profonda degli internals Linux e delle tecniche di analisi forense. Il campione non e' attribuito a nessuna famiglia nota sulla base di questa analisi parziale.
 
 <p class="title">section .PROGRAMMA_IN_C_CHE_EMULA_IL_COMPORTAMENTO_DEL_MALWARE</p>
@@ -246,8 +244,8 @@ e' in corso.
 /*
  * masq_demo.c
  *
- * Riproduce la tecnica di process masquerading analizzata nel campione
- * linux.masq.psaux. Usa la libc standard al posto delle funzioni custom
+ * Riproduce la tecnica di process masquerading analizzata nel campione.
+ * Usa la libc standard al posto delle funzioni custom
  * del campione originale, il comportamento osservabile e' identico.
  *
  * Compilazione:
@@ -286,6 +284,7 @@ int main(int argc, char *argv[])
      * Il memset preliminare azzera ogni residuo del nome originale
      * prima di scrivere il nome di copertura, esattamente come nel campione.
      */
+
     size_t orig_len = strlen(argv[0]);
     memset(argv[0], 0, orig_len);
     strncpy(argv[0], MASK_NAME, orig_len);
@@ -297,6 +296,7 @@ int main(int argc, char *argv[])
      * PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali),
      * corrispondente al buffer local_138 da 0x10 byte nel campione.
      */
+
     prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
 
     /*
@@ -308,8 +308,8 @@ int main(int argc, char *argv[])
      * Il processo rimane in esecuzione per permettere la verifica.
      * Il PID viene stampato su stderr per trovarlo facilmente.
      */
-    fprintf(stderr, "[masq_demo] PID=%d in esecuzione, premi INVIO per uscire\n",
-            getpid());
+
+    fprintf(stderr, "[masq_demo] PID=%d in esecuzione, premi INVIO per uscire\n", getpid());
     fprintf(stderr, "[masq_demo] verifica con:\n");
     fprintf(stderr, "  ps aux | grep 'ps aux'\n");
     fprintf(stderr, "  cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
