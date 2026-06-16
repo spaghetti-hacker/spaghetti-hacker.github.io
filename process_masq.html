@@ -285,16 +285,12 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2) {
-        fprintf(stderr, "uso: %s <argomento>\n", argv[0]);
-        return 1;
-    }
 
     /*
-     * Livello 1: sovrascrittura di argv[0] in memoria.
-     * Agisce su /proc/PID/cmdline, quello che ps aux mostra
+     * livello 1: sovrascrittura di argv[0] in memoria.
+     * agisce su /proc/PID/cmdline — quello che ps aux mostra
      * nella colonna COMMAND.
-     * Il memset preliminare azzera ogni residuo del nome originale
+     * il memset preliminare azzera ogni residuo del nome originale
      * prima di scrivere il nome di copertura, esattamente come nel campione.
      */
 
@@ -303,8 +299,8 @@ int main(int argc, char *argv[])
     strncpy(argv[0], MASK_NAME, orig_len);
 
     /*
-     * Livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
-     * Agisce su /proc/PID/comm, quello che top, htop e systemd
+     * livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
+     * agisce su /proc/PID/comm — quello che top, htop e systemd
      * mostrano come nome del processo. Il limite del kernel per
      * PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali),
      * corrispondente al buffer local_138 da 0x10 byte nel campione.
@@ -322,7 +318,7 @@ int main(int argc, char *argv[])
      * Il PID viene stampato su stderr per trovarlo facilmente.
      */
 
-    fprintf(stderr, "[masq_demo] PID=%d in esecuzione, premi INVIO per uscire\n", getpid());
+    fprintf(stderr, "[masq_demo] PID=%d in esecuzione — premi INVIO per uscire\n", getpid());
     fprintf(stderr, "[masq_demo] verifica con:\n");
     fprintf(stderr, "  ps aux | grep 'ps aux'\n");
     fprintf(stderr, "  cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
@@ -331,34 +327,34 @@ int main(int argc, char *argv[])
     getchar();
     return 0;
 }
-@@@
 
 <p class="title">_proof_of_concept:</p>
 
 @@@
-./process_masquerading foo
-[masq_demo] PID=28314 in esecuzione, premi INVIO per uscire
+./masq_demo
+[masq_demo] PID=38066 in esecuzione — premi INVIO per uscire
 [masq_demo] verifica con:
   ps aux | grep 'ps aux'
-  cat /proc/28314/cmdline | tr '\0' ' ' && echo
-  cat /proc/28314/comm
+  cat /proc/38066/cmdline | tr '\0' ' ' && echo
+  cat /proc/38066/comm
 
 ps aux | grep 'ps aux'
-re         28314  0.0  0.0   2776  1588 pts/2    S+   12:47   0:00 ps aux                 foo
-re         28533  0.0  0.0  12680  3504 pts/4    R+   12:47   0:00 ps aux
-re         28534  0.0  0.0   9108  2652 pts/4    S+   12:47   0:00 grep --color=auto ps aux
+re         38066  0.0  0.0   2776  1584 pts/7    S+   16:26   0:00 ps aux
+re         38302  0.0  0.0  12680  3528 pts/9    R+   16:26   0:00 ps aux
+re         38303  0.0  0.0   9108  2656 pts/9    S+   16:26   0:00 grep --color=auto ps aux
 
-cat /proc/28314/cmdline | tr '\0' ' ' && echo
-ps aux                 foo 
-cat /proc/28314/comm
+cat /proc/38066/cmdline | tr '\0' ' ' && echo
+ps aux
+
+cat /proc/38066/comm
 ps aux
 @@@
 
-;PID 28314 e' il processo mascherato, PID 28533 e' il vero ps aux lanciato per la verifica.
+;PID 38066 e' il processo mascherato, PID 38302 e' il vero ps aux lanciato per la verifica.
 ;un analista che scorre l'output velocemente ignora entrambi: uno sembra il comando appena eseguito, l'altro un'istanza concorrente dello stesso.
-;/proc/28314/cmdline mostra "ps aux" seguito da "foo" perche' strncpy ha scritto il nome di copertura solo nei primi 6 byte di argv[0], lasciando il residuo del buffer originale dopo il terminatore null.
-;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo, la demo riproduce il comportamento in modo fedele ma non identico su questo dettaglio.
-;/proc/28314/comm mostra "ps aux" pulito senza residui: prctl PR_SET_NAME scrive in un buffer kernel separato, non soggetto al problema del residuo di argv[0].
+;/proc/38066/cmdline mostra "ps aux".
+;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo.
+;/proc/38066/comm mostra "ps aux": prctl PR_SET_NAME scrive in un buffer kernel separato, non soggetto al problema del residuo di argv[0].
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 </script>
