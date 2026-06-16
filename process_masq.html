@@ -285,46 +285,41 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 int main(int argc, char *argv[])
 {
 
-    /*
-     * livello 1: sovrascrittura di argv[0] in memoria.
-     * agisce su /proc/PID/cmdline — quello che ps aux mostra
-     * nella colonna COMMAND.
-     * il memset preliminare azzera ogni residuo del nome originale
-     * prima di scrivere il nome di copertura, esattamente come nel campione.
-     */
+/*
+;livello 1: sovrascrittura di argv[0] in memoria.
+;agisce su /proc/PID/cmdline — quello che ps aux mostra nella colonna COMMAND.
+;il memset preliminare azzera ogni residuo del nome originale prima di scrivere il nome di copertura, esattamente come nel campione.
+*/
 
-    size_t orig_len = strlen(argv[0]);
-    memset(argv[0], 0, orig_len);
-    strncpy(argv[0], MASK_NAME, orig_len);
+size_t orig_len = strlen(argv[0]);
+memset(argv[0], 0, orig_len);
+strncpy(argv[0], MASK_NAME, orig_len);
 
-    /*
-     * livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
-     * agisce su /proc/PID/comm — quello che top, htop e systemd
-     * mostrano come nome del processo. Il limite del kernel per
-     * PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali),
-     * corrispondente al buffer local_138 da 0x10 byte nel campione.
-     */
+/*
+;livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
+;agisce su /proc/PID/comm, quello che top, htop e systemd mostrano come nome del processo. Il limite del kernel per PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali), corrispondente al buffer local_138 da 0x10 byte nel campione.
+*/
 
-    prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
+prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
 
-    /*
-     * A questo punto i tre livelli sono coperti:
-     *   /proc/PID/cmdline  ->  "ps aux"
-     *   /proc/PID/comm     ->  "ps aux"
-     *   argv[0] in memoria ->  "ps aux" (azzerato e riscritto)
-     *
-     * Il processo rimane in esecuzione per permettere la verifica.
-     * Il PID viene stampato su stderr per trovarlo facilmente.
-     */
+/*
+;a questo punto i tre livelli sono coperti:
+;/proc/PID/cmdline  -> "ps aux"
+;/proc/PID/comm     -> "ps aux"
+;argv[0] in memoria -> "ps aux" (azzerato e riscritto)
 
-    fprintf(stderr, "[masq_demo] PID=%d in esecuzione — premi INVIO per uscire\n", getpid());
-    fprintf(stderr, "[masq_demo] verifica con:\n");
-    fprintf(stderr, "  ps aux | grep 'ps aux'\n");
-    fprintf(stderr, "  cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
-    fprintf(stderr, "  cat /proc/%d/comm\n", getpid());
+;il processo rimane in esecuzione per permettere la verifica.
+;il PID viene stampato su stderr per trovarlo facilmente.
+*/
 
-    getchar();
-    return 0;
+fprintf(stderr, "[masq_demo] PID=%d in esecuzione — premi INVIO per uscire\n", getpid());
+fprintf(stderr, "[masq_demo] verifica con:\n");
+fprintf(stderr, "  ps aux | grep 'ps aux'\n");
+fprintf(stderr, "  cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
+fprintf(stderr, "  cat /proc/%d/comm\n", getpid());
+
+getchar();
+return 0;
 }
 
 <p class="title">_proof_of_concept:</p>
