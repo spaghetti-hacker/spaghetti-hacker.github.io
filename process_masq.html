@@ -357,7 +357,7 @@ ps aux
 ;PID 28314 e' il processo mascherato, PID 28533 e' il vero ps aux lanciato per la verifica.
 ;un analista che scorre l'output velocemente ignora entrambi: uno sembra il comando appena eseguito, l'altro un'istanza concorrente dello stesso.
 ;/proc/28314/cmdline mostra "ps aux" seguito da "foo" perche' strncpy ha scritto il nome di copertura solo nei primi 6 byte di argv[0], lasciando il residuo del buffer originale dopo il terminatore null.
-;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo, il demo riproduce il comportamento in modo fedele ma non identico su questo dettaglio.
+;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo, la demo riproduce il comportamento in modo fedele ma non identico su questo dettaglio.
 ;/proc/28314/comm mostra "ps aux" pulito senza residui: prctl PR_SET_NAME scrive in un buffer kernel separato, non soggetto al problema del residuo di argv[0].
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
