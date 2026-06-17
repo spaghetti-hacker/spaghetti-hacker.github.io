@@ -236,8 +236,8 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 ;memset azzera argv[0] prima della sovrascrittura per eliminare ogni residuo.
 ;il primo memccpy sovrascrive argv[0], agisce su /proc/PID/cmdline.
-;il secondo memccpy scrive in local_138 (16 byte), destinato a prctl PR_SET_NAME.
-;PR_SET_NAME modifica il nome del processo, che viene esposto in /proc/PID/comm e mostrato da strumenti come top e htop.
+;il secondo memccpy scrive "ps aux" in local_138 (16 byte).
+;PR_SET_NAME modifica il nome del processo (con argv[1]), che viene esposto in /proc/PID/comm e mostrato da strumenti come top e htop.
 
 ;il codice mostra tre interventi distinti sui dati di identificazione del processo:
 ;sovrascrittura di argv[0] in memoria.
