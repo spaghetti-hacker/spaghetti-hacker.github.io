@@ -225,7 +225,7 @@ strcat_cs(&DAT_0041a300, uVar4);
 ;get_absolute_parent_dir estrae il dirname e aggiunge trailing slash.
 ;DAT_0041a300 contiene la directory base del malware per uso successivo.
 ;es: "./malware" diventa "/home/user/malware_dir/".
-;il salvataggio del path reale precede il mascheramento perche' dopo la sovrascrittura argv[0] non e' piu' recuperabile.
+;il salvataggio del path reale avviene prima della modifica di argv[0], che potrebbe rendere il valore originale non immediatamente accessibile tramite interfacce standard.
 
 @@@
 iVar3 = strlen_cs(*argv);
@@ -237,7 +237,8 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 ;memset azzera argv[0] prima della sovrascrittura per eliminare ogni residuo.
 ;il primo memccpy sovrascrive argv[0], agisce su /proc/PID/cmdline.
 ;il secondo memccpy scrive in local_138 (16 byte), destinato a prctl PR_SET_NAME.
-;PR_SET_NAME agisce su /proc/PID/comm, visibile in top e negli strumenti di monitoring.
+;PR_SET_NAME modifica il nome del processo, che viene esposto in /proc/PID/comm e mostrato da strumenti come top e htop.
+
 ;il codice mostra tre interventi distinti sui dati di identificazione del processo:
 ;sovrascrittura di argv[0] in memoria.
 ;utilizzo di prctl(PR_SET_NAME, argv[1]) per il nome del processo (comm).
