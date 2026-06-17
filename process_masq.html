@@ -243,7 +243,7 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 ;sovrascrittura di argv[0] in memoria.
 ;utilizzo di prctl(PR_SET_NAME, argv[1]) per il nome del processo (comm).
 ;copia della stringa "ps aux" in buffer locali e globali.
-;queste operazioni impattano rispettivamente le rappresentazioni user-space del comando (argv) e il nome del processo (comm), mentre l'effetto su /proc/PID/cmdline è conseguenza indiretta della modifica di argv[0] in memoria.
+;queste operazioni impattano rispettivamente le rappresentazioni user-space del comando (argv) e il nome del processo (comm), mentre l'effetto su /proc/PID/cmdline riflette direttamente il contenuto di argv nello spazio di memoria del processo.
 ;la scelta di "ps aux" come nome di copertura non e' casuale. Quando un analista esegue ps aux per cercare processi sospetti, il malware può ridurre la distinguibilità del processo in output come ps, introducendo ambiguità con processi legittimi. L'occhio umano tende a ignorare la presenza della stringa "ps aux" può ridurre la rilevanza visiva del processo durante una rapida ispezione dell’output..
 
 <p class="title">section .TTP_MITRE_ATT&CK</p>
