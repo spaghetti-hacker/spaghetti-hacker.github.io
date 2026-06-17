@@ -248,14 +248,14 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 
 <p class="title">section .TTP_MITRE_ATT&CK</p>
 
-;il process masquerading analizzato in questo campione corrisponde alla tecnica T1036.005, Masquerading: Match Legitimate Name or Location del framework MITRE ATT&CK. La tecnica rientra nella tattica Defense Evasion (TA0005). Nel caso specifico il campione agisce su due artefatti distinti: argv[0] in memoria, che alimenta /proc/PID/cmdline, e il comm name tramite prctl PR_SET_NAME, che alimenta /proc/PID/comm. Entrambi i vettori sono esplicitamente citati nella descrizione della tecnica come superfici di mascheramento su sistemi Linux. Le mitigazioni basate su restrizioni del filesystem non sono sufficienti a prevenire questa tecnica, che opera principalmente in memoria. Il rilevamento rimane affidato al confronto tra /proc/PID/exe e /proc/PID/cmdline, unico artefatto non modificabile dal processo senza privilegi di root.
+;il process masquerading analizzato in questo campione corrisponde alla tecnica T1036.005, Masquerading: Match Legitimate Name or Location del framework MITRE ATT&CK. La tecnica rientra nella tattica Defense Evasion (TA0005). Nel caso specifico il campione agisce su due artefatti distinti: argv[0] in memoria, che alimenta /proc/PID/cmdline, e il comm name tramite prctl PR_SET_NAME, che alimenta /proc/PID/comm. Entrambi i vettori sono esplicitamente citati nella descrizione della tecnica come superfici di mascheramento su sistemi Linux. Le mitigazioni basate su restrizioni del filesystem non sono sufficienti a prevenire questa tecnica, che opera principalmente in memoria. Il rilevamento rimane affidato al confronto tra /proc/PID/exe e /proc/PID/cmdline, artefatto più difficile da alterare senza privilegi elevati.
 
 <p class="title">section .NOTE_FINALI</p>
 
 ;l'analisi copre esclusivamente la fase di inizializzazione e mascheramento. Il campione presenta ulteriori capacita' non analizzate in questo documento: scansione ciclica di /proc con due callback distinte, comunicazione di rete con socket, daemonizzazione tramite fork, e un'azione periodica ogni sette cicli del loop principale che non e' ancora stata identificata. L'analisi di queste componenti e' in corso.
-;il livello tecnico del campione e' elevato. La riscrittura completa della libc, la gestione corretta delle syscall grezze, il controllo anti-TOCTOU in safe_resolve_path e la scelta psicologicamente efficace del nome di copertura indicano un autore con conoscenza profonda degli internals Linux e delle tecniche di analisi forense. Il campione non e' attribuito a nessuna famiglia nota sulla base di questa analisi parziale.
+;il campione mostra caratteristiche compatibili con implementazioni avanzate di gestione low-level di Linux internals. La riscrittura completa della libc, la gestione corretta delle syscall grezze, il controllo anti-TOCTOU in safe_resolve_path e la scelta psicologicamente efficace del nome di copertura suggeriscono familiarità con meccanismi interni di Linux e tecniche di offuscamento a livello processo. Il campione non e' attribuito a nessuna famiglia nota sulla base di questa analisi parziale.
 
-<p class="title">section .PROGRAMMA_IN_C_CHE_EMULA_IL_COMPORTAMENTO_DEL_MALWARE</p>
+<p class="title">section .PROGRAMMA_IN_C_CHE_RIPRODUCE_PARZIALMENTE_IL_COMPORTAMENTO_OSSERVATO</p>
 
 @@@
 /*
