@@ -300,7 +300,7 @@ strncpy(argv[0], MASK_NAME, orig_len);
 /*
 ;livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
 ;agisce su /proc/PID/comm, quello che top, htop e systemd mostrano come nome del processo. 
-;il limite del kernel per PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali), corrispondente al buffer local_138 da 0x10 byte nel campione.
+;il limite del kernel per PR_SET_NAME e' 15 caratteri + terminatore null (16 byte totali).
 ;nota: nel campione reale il valore passato a PR_SET_NAME deriva da argv[1], quindi non è necessariamente costante. il PoC utilizza una stringa fissa per semplificazione dimostrativa.
 */
 
