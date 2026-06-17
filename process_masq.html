@@ -93,7 +93,7 @@ file 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4
 
 <p class="title">section .EXECUTIVE_SUMMARY</p>
 
-;il campione analizzato e' un malware ELF Linux che implementa una tecnica di process masquerading a tre livelli gia' nelle prime istruzioni della funzione main. Il processo modifica la propria identità in user-space tramite manipolazione di argv e utilizzo di prctl(PR_SET_NAME), influenzando la rappresentazione del processo in /proc/PID/cmdline /proc/PID/comm. L'intera libc e' reimplementata staticamente nel binario, il che elimina le dipendenze dinamiche e rende opaca l'analisi statica iniziale. La struttura generale del campione suggerisce possibili capacità di daemonizzazione, accesso a /proc e comunicazione di rete, che saranno confermate nelle sezioni successive dell’analisi. 
+;il campione analizzato e' un malware ELF Linux che implementa una tecnica di process masquerading a tre livelli gia' nelle prime istruzioni della funzione main. Il processo modifica la propria identità in user-space tramite manipolazione di argv e utilizzo di prctl(PR_SET_NAME), influenzando la rappresentazione del processo in /proc/PID/cmdline e /proc/PID/comm. L'intera libc e' reimplementata staticamente nel binario, il che elimina le dipendenze dinamiche e rende opaca l'analisi statica iniziale. La struttura generale del campione suggerisce possibili capacità di daemonizzazione, accesso a /proc e comunicazione di rete, che saranno confermate nelle sezioni successive dell’analisi. 
 
 <p class="title">section .IPOTESI_DI_ARCHITETTURA_GENERALE</p>
 
@@ -353,7 +353,7 @@ ps aux
 ;un analista che scorre l'output velocemente ignora entrambi: uno sembra il comando appena eseguito, l'altro un'istanza concorrente dello stesso.
 ;/proc/38066/cmdline mostra "ps aux".
 ;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo.
-;/proc/38066/comm mostra "ps aux": prctl PR_SET_NAME scrive in un buffer kernel separato, non soggetto al problema del residuo di argv[0].
+;/proc/38066/comm mostra "ps aux": prctl PR_SET_NAME scrive nel campo comm del task nel kernel.
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 </script>
