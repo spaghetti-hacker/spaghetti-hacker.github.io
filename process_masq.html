@@ -127,7 +127,7 @@ while (uVar3 = *src,
 ;tecnica standard di null-byte detection su word a 64-bit, permette di copiare 8 byte per iterazione senza loop byte per byte.
 ;0xfefefefefefefeff e 0x8080808080808080 sono le costanti canoniche del trick documentato in "Hacker's Delight" (Warren, 2002).
 ;la stessa famiglia di costanti appare in ogni funzione per stringhe del campione. La motivazione e' triplice: nessun simbolo importato visibile nell'analisi statica iniziale, nessun hook EDR sulle funzioni libc, portabilita' su qualsiasi versione del kernel senza dipendenze da glibc.
-;la tabella seguente elenca le funzioni identificate:
+;la tabella seguente elenca le varie funzioni identificate:
 
 @@@
 Funzione ricostruita    Equivalente libc
