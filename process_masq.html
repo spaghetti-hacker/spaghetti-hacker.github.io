@@ -93,7 +93,7 @@ file 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4
 
 <p class="title">section .EXECUTIVE_SUMMARY</p>
 
-;il campione analizzato e' un malware ELF Linux che implementa una tecnica di process masquerading a tre livelli gia' nelle prime istruzioni della funzione main. Il processo si rinomina come "ps aux" coprendo contemporaneamente la cmdline visibile in /proc/PID/cmdline, il comm name in /proc/PID/comm e il contenuto di argv[0] in memoria. L'intera libc e' reimplementata staticamente nel binario, il che elimina le dipendenze dinamiche e rende opaca l'analisi statica iniziale. La struttura generale del campione indica capacita' di daemonizzazione, scansione ciclica di /proc e comunicazione di rete. Questo report si concentra esclusivamente sulla fase di mascheramento iniziale.
+;il campione analizzato e' un malware ELF Linux che implementa una tecnica di process masquerading a tre livelli gia' nelle prime istruzioni della funzione main. Il processo modifica la propria identità in user-space tramite manipolazione di argv e utilizzo di prctl(PR_SET_NAME), influenzando la rappresentazione del processo in /proc/PID/cmdline /proc/PID/comm. L'intera libc e' reimplementata staticamente nel binario, il che elimina le dipendenze dinamiche e rende opaca l'analisi statica iniziale. La struttura generale del campione suggerisce possibili capacità di daemonizzazione, accesso a /proc e comunicazione di rete, che saranno confermate nelle sezioni successive dell’analisi. 
 
 <p class="title">section .IPOTESI_DI_ARCHITETTURA_GENERALE</p>
 
@@ -106,8 +106,8 @@ main()
 ├── fork/daemonizzazione
 ├── setup signal handlers e timer
 └── loop principale
-    ├── scansione /proc (callback 1)
-    ├── scansione /proc (callback 2)
+    ├── (possibile) scansione /proc (callback 1)
+    ├── (possibile) scansione /proc (callback 2)
     └── azione periodica ogni 7 cicli
 @@@
 
@@ -238,7 +238,11 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 ;il primo memccpy sovrascrive argv[0], agisce su /proc/PID/cmdline.
 ;il secondo memccpy scrive in local_138 (16 byte), destinato a prctl PR_SET_NAME.
 ;PR_SET_NAME agisce su /proc/PID/comm, visibile in top e negli strumenti di monitoring.
-;i tre livelli coperti sono: /proc/PID/cmdline, /proc/PID/comm, argv[0] in memoria.
+;il codice mostra tre interventi distinti sui dati di identificazione del processo:
+;sovrascrittura di argv[0] in memoria.
+;utilizzo di prctl(PR_SET_NAME, argv[1]) per il nome del processo (comm).
+;copia della stringa "ps aux" in buffer locali e globali.
+;queste operazioni impattano rispettivamente le rappresentazioni user-space del comando (argv) e il nome del processo (comm), mentre l'effetto su /proc/PID/cmdline è conseguenza indiretta della modifica di argv[0] in memoria.
 ;la scelta di "ps aux" come nome di copertura non e' casuale. Quando un analista esegue ps aux per cercare processi sospetti, il malware appare nell'output come un'istanza del comando stesso. L'occhio umano tende a ignorare "ps aux" tra i risultati di ps aux perche' lo interpreta come il processo corrente.
 
 <p class="title">section .TTP_MITRE_ATT&CK</p>
