@@ -103,7 +103,7 @@ main()
 ├── salvataggio path assoluto del binario
 ├── process masquerading (tre livelli)
 ├── setup rete
-├── fork/daemonizzazione
+├── (possibile) fork/daemonizzazione
 ├── setup signal handlers e timer
 └── loop principale
     ├── (possibile) scansione /proc (callback 1)
@@ -213,7 +213,7 @@ memccpy_cs(local_138,"ps aux",0,0x10);
 prctl_cs(0xf,uVar1)
 @@@
 
-;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione prima salva la propria posizione reale sul filesystem, poi sovrascrive ogni traccia del nome originale con la stringa "ps aux".
+;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione costruisce e conserva il path assoluto del binario e successivamente sovrascrive il contenuto di argv[0] e dei buffer di identificazione del processo con la stringa "ps aux".
 
 @@@
 strcat_cs(&DAT_0041b300, *argv);
