@@ -174,7 +174,7 @@ fd_to_procpath(buffer, fd):
     itoa(fd, buffer + 14)
 @@@
 
-;costruisce "/proc/self/fd/<N>" dove N e' il fd in forma decimale.
+;costruisce "/proc/self/fd/\<N\>" dove N e' il fd in forma decimale.
 ;/proc/self/fd/N e' un symlink al file reale associato al fd.
 ;readlink su questo path restituisce il path canonico assoluto.
 ;itoa e' una sintesi, nel campione la conversione e' implementata inline.
