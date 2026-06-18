@@ -113,7 +113,7 @@ main()
 
 <p class="title">section .LIBC_STATICA_CUSTOM</p>
 
-;la prima difficolta' incontrata nell'analisi e' l'assenza totale di importazioni dalla libc standard. L'autore ha riscritto da zero tutte le funzioni per la gestione delle stringhe e della memoria, compilandole staticamente nel binario. Il riconoscimento di alcune funzioni e' avvenuto tramite le costanti caratteristiche delle implementazioni ottimizzate word-by-word.
+;la prima difficolta' incontrata nell'analisi e' l'assenza totale di importazioni dalla libc standard. L'autore ha riscritto da zero tutte le funzioni per la gestione delle stringhe e della memoria, compilandole staticamente nel binario. La motivazione e' triplice: nessun simbolo importato visibile nell'analisi statica iniziale, nessun hook EDR sulle funzioni libc, portabilita' su qualsiasi versione del kernel senza dipendenze da glibc. Il riconoscimento di alcune funzioni e' avvenuto tramite le costanti caratteristiche delle implementazioni ottimizzate word-by-word.
 
 @@@
 while (uVar3 = *src,
@@ -126,7 +126,7 @@ while (uVar3 = *src,
 
 ;tecnica standard di null-byte detection su word a 64-bit, permette di copiare 8 byte per iterazione senza loop byte per byte.
 ;0xfefefefefefefeff e 0x8080808080808080 sono le costanti canoniche del trick documentato in "Hacker's Delight" (Warren, 2002).
-;la stessa famiglia di costanti appare in ogni funzione per stringhe del campione. La motivazione e' triplice: nessun simbolo importato visibile nell'analisi statica iniziale, nessun hook EDR sulle funzioni libc, portabilita' su qualsiasi versione del kernel senza dipendenze da glibc.
+;la stessa famiglia di costanti appare in ogni funzione per stringhe del campione. 
 ;la tabella seguente elenca le varie funzioni identificate:
 
 @@@
@@ -166,7 +166,7 @@ ulong syscall_ret_handler(ulong raw_result) {
 
 <p class="title">_safe_resolve_path_e_fd_to_procpath:</p>
 
-;il campione risolve i path in modo canonico usando /proc/self/fd/ come meccanismo intermedio. Il motivo e' che argv[0] puo' essere un path relativo o contenere symlink: per ottenere il path assoluto reale del binario in esecuzione senza chiamare realpath() dalla libc, il campione apre il file con open(), ottiene il fd, costruisce il path /proc/self/fd/<fd> e chiama readlink() su di esso.
+;il campione risolve i path in modo canonico usando /proc/self/fd/ come meccanismo intermedio. Il motivo e' che argv[0] puo' essere un path relativo o contenere symlink: per ottenere il path assoluto reale del binario in esecuzione senza chiamare realpath() dalla libc, il campione apre il file con open(), ottiene il fd, costruisce il path /proc/self/fd/<fd> e chiama la syscall readlink() su di esso.
 
 @@@
 fd_to_procpath(buffer, fd):
@@ -181,7 +181,7 @@ fd_to_procpath(buffer, fd):
 ;con due loop: il primo conta le cifre, il secondo scrive i digit da destra a sinistra.
 ;nessuna funzione itoa e' presente nel binario.
 ;dopo readlink, safe_resolve_path esegue un controllo anti-TOCTOU confrontando i campi st_dev e st_ino ottenuti rispettivamente da fstat(fd) e stat(path).
-;TOCTOU (Time Of Check, Time Of Use) è una race condition che si verifica quando un programma controlla un file tramite il suo percorso (check) e lo utilizza successivamente (use): tra le due operazioni un attaccante può sostituire il file o modificare un symlink, facendo sì che il programma operi su un oggetto diverso da quello verificato. Per mitigare questo problema, il campione apre prima il file ottenendo un file descriptor stabile, quindi confronta i campi st_dev e st_ino restituiti da fstat(fd) e stat(path) per verificare che il path risolto identifichi ancora lo stesso inode associato al file già aperto.
+;TOCTOU (Time Of Check, Time Of Use) è una race condition che si verifica quando un programma controlla un file tramite il suo percorso (check) e lo utilizza successivamente (use): tra le due operazioni un attaccante può sostituire il file o modificare un symlink, facendo sì che il programma operi su un oggetto diverso da quello verificato. Per mitigare questo problema, il campione apre prima il file ottenendo un file descriptor stabile, quindi confronta i campi st_dev e st_ino restituiti dalle syscall fstat(fd) e stat(path) per verificare che il path risolto identifichi ancora lo stesso inode associato al file già aperto.
 
 @@@
 fstat(fd, &stat_fd);
@@ -213,7 +213,7 @@ memccpy_cs(local_138,"ps aux",0,0x10);
 prctl_cs(0xf,uVar1)
 @@@
 
-;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione costruisce e conserva il path assoluto del binario e successivamente sovrascrive il contenuto di argv[0] e dei buffer di identificazione del processo con la stringa "ps aux".
+;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione costruisce e conserva il path assoluto del binario e successivamente sovrascrive il contenuto di argv[0] con la stringa "ps aux" e il contenuto di un buffer di identificazione del processo con la stringa passata attraverso argv[1].
 
 @@@
 strcat_cs(&DAT_0041b300, *argv);
