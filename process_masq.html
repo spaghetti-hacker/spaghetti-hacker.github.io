@@ -261,7 +261,8 @@ memccpy_cs(local_138, "ps aux", 0, 0x10);
 /*
 ;masq_demo.c
 ;riproduce la tecnica di process masquerading analizzata nel campione.
-;usa la libc standard al posto delle funzioni custom del campione originale, il comportamento osservabile e' identico.
+;usa la libc standard al posto delle funzioni custom del campione originale, il comportamento osservabile e' quasi identico.
+;nel campione reale il valore passato a PR_SET_NAME deriva da argv[1], quindi non è necessariamente costante. Il PoC utilizza una stringa fissa per semplificazione dimostrativa.
 
 ;compilazione:
 ;gcc -o masq_demo masq_demo.c
@@ -300,7 +301,6 @@ strncpy(argv[0], MASK_NAME, orig_len);
 /*
 ;livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
 ;agisce su /proc/PID/comm, quello che top, htop e systemd mostrano come nome del processo. 
-;nota: nel campione reale il valore passato a PR_SET_NAME deriva da argv[1], quindi non è necessariamente costante. Il PoC utilizza una stringa fissa per semplificazione dimostrativa.
 */
 
 prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
