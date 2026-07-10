@@ -76,11 +76,11 @@ PERSISTENCE ~ HCF
 
 visite: <span id="visits">...</span>
 
-section .INTRODUZIONE
+<p class="title">section .INTRODUZIONE</p>
 
 ;il presente write-up documenta l'analisi statica del meccanismo di persistenza implementato da un malware ELF a 32 bit, condotta tramite disassemblato e pseudocodice Hex-Rays in IDA Free. Dopo la demonizzazione, il campione esegue una fork() che separa il payload principale da un processo watchdog dedicato esclusivamente a garantire la sopravvivenza del malware: quest'ultimo mantiene una copia residente in memoria del proprio eseguibile e verifica periodicamente la presenza del file e del meccanismo di persistenza, ripristinando autonomamente ciò che risulta mancante.
 
-section .METADATI
+<p class="title">section .METADATI</p>
 
 Tipologia: Malware Linux ELF
 Architettura: x86 32 bit
@@ -89,11 +89,11 @@ Denominazione interna: Watchdog di persistenza e self-dropper
 file 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, stripped
 
-_Nota_Metodologica:
+<p class="title">_Nota_Metodologica:</p>
 
 ;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo il mapping e la rinomina delle variabili. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
 
-_Copidosoma_Floridanum:
+<p class="title">_Copidosoma_Floridanum:</p>
 
 ;questa vespa depone un solo uovo dentro il bruco ospite. Ma quell'uovo, invece di svilupparsi in un solo individuo, si divide (letteralmente un "fork" biologico) in centinaia o migliaia di embrioni geneticamente identici. Da questa divisione nascono due caste distinte:
 ;larve soldato: sterili, non si sviluppano mai in vespe adulte, non fanno nulla di "produttivo", il loro unico compito è pattugliare l'interno del bruco ospite e attaccare/uccidere eventuali larve di altre specie parassite che tentano di competere per le risorse dell'ospite.
@@ -102,13 +102,13 @@ _Copidosoma_Floridanum:
 ;c'è un evento di fork da un'unica origine (l'uovo/il processo originale) che genera due embrioni con ruoli completamente diversi.
 La casta soldato non contribuisce al "successo riproduttivo" individuale, esattamente come il watchdog non fa nulla di offensivo/utile per l'attaccante, esiste solo per proteggere la sopravvivenza del sistema nel suo complesso. Le larve soldato pattugliano attivamente e continuamente l'ambiente (l'ospite) cercando minacce, in modo molto simile al ciclo while(1) del watchdog che controlla periodicamente lo stato del sistema. Se elimini le larve riproduttive (il payload), le soldato continuano a pattugliare comunque, perché sono un ramo di sviluppo indipendente, proprio come il tuo watchdog sopravvive alla morte del payload. Il watchdog ha in più la funzione di ripristinare il payload eliminato.
 
-section .EXECUTIVE_SUMMARY
+<p class="title">section .EXECUTIVE_SUMMARY</p>
 
 ;il campione implementa la persistenza separando completamente tale funzione dal payload principale. Dopo la demonizzazione del processo viene eseguita una fork(). Il processo figlio assume il ruolo di watchdog permanente mentre il padre prosegue con l'esecuzione del payload. Il watchdog mantiene una copia residente dell'eseguibile, verifica periodicamente la presenza del file sul filesystem e lo ricrea automaticamente in caso di cancellazione. Parallelamente controlla che il meccanismo di persistenza sia ancora installato, reinstallandolo quando necessario. Questa architettura rende il malware resiliente ai tentativi di rimozione basati esclusivamente sulla cancellazione dell'eseguibile o della configurazione di persistenza.
 
-section .ANALISI_DELLA_TECNICA_DI_PERSISTENZA
+<p class="title">section .ANALISI_DELLA_TECNICA_DI_PERSISTENZA</p>
 
-_Architettura_Generale:
+<p class="title">_Architettura_Generale:</p>
 
 @@@
                  demonize_and_launch()
@@ -146,7 +146,7 @@ _Architettura_Generale:
 ;Il watchdog rimane attivo indipendentemente dall'esecuzione del payload.
 ;La cancellazione dell'eseguibile non interrompe il funzionamento del meccanismo di autoripristino.
 
-_Demonize_and_Launch:
+<p class="title">_Demonize_and_Launch:</p>
 
 @@@
 int demonize_and_launch()
@@ -176,7 +176,7 @@ int demonize_and_launch()
 ;prima ancora della fork() che separa payload e watchdog, il malware invoca demonize_and_launch(), che implementa una daemonizzazione UNIX classica a fork singolo. Il processo iniziale esegue un fork() e termina immediatamente nel ramo padre. Il figlio richiama poi setsid() per diventare session leader di una nuova sessione, chiude sistematicamente tutti i file descriptor ereditati (da quello più alto fino a 0, ricavati tramite il limite RLIMIT_NOFILE) e imposta la umask a 027, restringendo i permessi di default sui file che verrà a creare.
 ;va notato che questo fork è concettualmente distinto da quello analizzato in precedenza in main(): il primo realizza la daemonizzazione in senso classico, mentre il secondo separa esplicitamente il ramo payload dal ramo watchdog. Non si tratta quindi di un "doppio fork", bensì di due fork distinti con finalità differenti: daemonizzazione pulita del processo, la prima; biforcazione dei ruoli operativi, la seconda.
 
-_Separazione_Dei_Ruoli:
+<p class="title">_Separazione_Dei_Ruoli:</p>
 
 ;la prima operazione significativa consiste nella creazione di un nuovo processo tramite fork(). Da questo punto il malware divide le proprie responsabilità in due rami distinti.
 
@@ -198,7 +198,7 @@ if (!v4)
 ;il processo padre continua l'esecuzione del payload senza occuparsi del mantenimento del file.
 ;questa scelta riduce l'accoppiamento tra le varie componenti del malware. Il payload può terminare o essere interrotto senza compromettere il meccanismo incaricato di preservare la presenza del campione sul sistema.
 
-_Caricamento_Del_Binario_In_Memoria:
+<p class="title">_Caricamento_Del_Binario_In_Memoria:</p>
 
 ;prima di iniziare il monitoraggio, il watchdog acquisisce una copia completa del proprio eseguibile.
 
@@ -211,7 +211,7 @@ load_file_global_buffer(*argv);
 ;la copia in memoria costituisce la sorgente utilizzata per eventuali ricostruzioni del file.
 ;questa scelta elimina la dipendenza dal filesystem. Una volta acquisita la copia del binario, il malware non necessita più del file originale per ripristinarsi.
 
-_Watchdog_Del_File:
+<p class="title">_Watchdog_Del_File:</p>
 
 ;il processo figlio esegue un controllo periodico sull'esistenza dell'eseguibile.
 
@@ -250,7 +250,7 @@ LABEL_4:
 ;lo sleep tra i due controlli consecutivi riduce il consumo di CPU mantenendo un monitoraggio costante.
 ;l'algoritmo implementa un vero watchdog. Il malware non si limita ad installarsi una sola volta ma continua a verificare che tutti gli elementi necessari alla propria sopravvivenza rimangano presenti.
 
-_Autoripristino_Del_Binario:
+<p class="title">_Autoripristino_Del_Binario:</p>
 
 ;quando il file risulta assente il malware provvede immediatamente alla sua ricostruzione.
 
@@ -275,7 +275,7 @@ size_t write_file_and_chmod()
 ;il file ricreato risulta immediatamente eseguibile.
 ;il malware non effettua alcuna copia da un percorso alternativo né richiede il download di uno stage remoto. La sorgente del ripristino è sempre la copia residente mantenuta dal watchdog.
 
-_Verifica_Della_Persistenza:
+<p class="title">_Verifica_Della_Persistenza:</p>
 
 ;dopo ogni controllo sul file il malware verifica che il meccanismo di persistenza sia ancora presente.
 
@@ -344,7 +344,7 @@ size_t installa_la_persistenza()
 }
 @@@
 
-_Temporizzazione_Del_Watchdog:
+<p class="title">_Temporizzazione_Del_Watchdog:</p>
 
 ;l'attesa tra due iterazioni consecutive viene realizzata mediante una chiamata a select() con timeout.
 
@@ -368,19 +368,19 @@ int sleep_with_select(time_t seconds)
 
 ;l'utilizzo di select() permette di ottenere un comportamento equivalente ad una sleep() mantenendo un'interfaccia comunemente impiegata anche nelle applicazioni di rete.
 
-section .ASPETTI_TECNICI_RILEVANTI
+<p class="title">section .ASPETTI_TECNICI_RILEVANTI</p>
 
 ;il meccanismo di persistenza presenta tre caratteristiche degne di nota.
 ;la prima consiste nella netta separazione tra payload e watchdog. Il processo incaricato della persistenza non esegue alcuna attività riconducibile al payload principale.
 ;la seconda è rappresentata dalla presenza di una copia residente in memoria del binario. Questa scelta consente di rigenerare completamente l'eseguibile anche dopo una sua cancellazione.
 ;la terza riguarda la verifica continua dello stato del sistema. Il malware controlla periodicamente sia la presenza del file sia quella del meccanismo di persistenza, ripristinando esclusivamente gli elementi mancanti.
 
-section .NOTE_FINALI
+<p class="title">section .NOTE_FINALI</p>
 
 ;il componente analizzato non implementa una semplice routine di drop dell'eseguibile. La combinazione tra copia residente del binario, monitoraggio continuo del filesystem e reinstallazione della persistenza realizza un meccanismo di auto-ripristino progettato per resistere ai tentativi di bonifica più superficiali.
 ;la rimozione del solo eseguibile non risulta sufficiente a neutralizzare il malware. Finché il processo watchdog rimane in esecuzione, il campione è in grado di ricostruire autonomamente il proprio file e ripristinare il meccanismo di persistenza qualora venga rimosso.
 
-section .TTP_MITRE_ATTCK
+<p class="title">section .TTP_MITRE_ATTCK</p>
 
 ;mapping delle tecniche osservate secondo il framework MITRE ATT&CK. Alcune tecniche non hanno un mapping 1:1 perfetto poiché il comportamento osservato (watchdog di persistenza ridondante) è più granulare di quanto ATT&CK tipicamente cataloghi come singola tecnica.
 
@@ -406,11 +406,11 @@ TA0002: Execution
 Fork/daemonizzazione (demonize_and_launch() + doppio fork())
 Non mappa in modo pulito su una tecnica ATT&CK Linux specifica; è più un pattern implementativo comune ai daemon Unix legittimi (double-fork daemonization) riutilizzato qui per creare due rami di esecuzione indipendenti e sopravvivere alla terminazione del padre.
 
-section .IOC
+<p class="title">section .IOC</p>
 
 ;indicatori di compromissione ricavabili dall'analisi statica. Alcuni valori (marker string, hash) richiedono estrazione diretta dal binario campione, qui vengono indicati i pattern e le posizioni nel codice da cui estrarli.
 
-_IoC_di_tipo_host-based_(filesystem):
+<p class="title">_IoC_di_tipo_host-based_(filesystem):</p>
 
 SHA256: 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92
 Tipo file: ELF 32-bit LSB executable, Intel 80386, statically linked, stripped
@@ -422,7 +422,7 @@ Note: path non standard.
 Permessi file: 0755 (rwxr-xr-x) impostati programmaticamente via chmod() dopo ogni riscrittura.
 Note: comportamento anomalo se osservato ripetutamente sullo stesso file senza intervento utente.
 
-_IoC_comportamentali_(process-based):
+<p class="title">_IoC_comportamentali_(process-based):</p>
 
 Fork sequenziali con scopi distinti (daemonizzazione + biforcazione dei ruoli)
 Descrizione: il binario esegue due fork() in momenti diversi del proprio avvio, con finalità differenti. Il primo fork, interno a demonize_and_launch(), realizza una daemonizzazione SysV classica a fork singolo (padre che termina, figlio che chiama setsid() e si stacca dal controlling terminal). Il secondo fork, in main() subito dopo il ritorno da demonize_and_launch(), separa esplicitamente il processo in due rami persistenti: uno che prosegue con il payload, l'altro che entra nel loop infinito del watchdog. Non si tratta quindi di un pattern di double-fork daemonization in senso tecnico (che prevederebbe un secondo fork subito dopo setsid() per prevenire la riacquisizione di un controlling terminal), ma di due fork distinti e non contigui nel flusso di esecuzione.
