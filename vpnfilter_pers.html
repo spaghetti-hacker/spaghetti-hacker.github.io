@@ -425,6 +425,39 @@ Verifica ciclica di crontab
 Descrizione: apertura ripetuta di /etc/config/crontab in lettura ogni ~5s da parte dello stesso processo.
 Utilità per detection: pattern anomalo per un processo non di sistema, rilevabile via auditd su open()/fopen() verso quel path.
 
+<p class="title">section .YARA_RULES</p>
+
+rule VPNFilter_Persistence_Watchdog
+{
+    meta:
+        description = "Rileva pattern di persistenza self-healing stile VPNFilter: crontab non standard e formato entry cron"
+        author = "HCF"
+        date = "2026-07-11"
+        reference = "SHA256 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92"
+        malware_family = "VPNFilter"
+
+    strings:
+        $crontab_path = "/etc/config/crontab" ascii
+        $cron_entry_fmt = "*/5 * * * * %s" ascii
+        $sc_fork    = { B8 02 00 00 00 CD 80 }
+        $sc_chmod   = { B8 0F 00 00 00 CD 80 }
+        $sc_setsid  = { B8 42 00 00 00 CD 80 }
+        $sc_select  = { B8 8E 00 00 00 CD 80 }
+
+    condition:
+        uint32(0) == 0x464C457F and
+        uint8(4) == 1 and
+        filesize < 2MB and
+        $crontab_path and
+        $cron_entry_fmt
+        2 of ($sc_fork, $sc_chmod, $sc_setsid, $sc_select)
+}
+
+;la regola combina due categorie di indicatori indipendenti: stringhe testuali (path di persistenza non standard e formato della entry crontab) e pattern a livello di syscall (numero syscall caricato in eax, seguito da int 80h). Quest'ultima categoria si è resa necessaria perché il binario, essendo staticamente linkato e stripped, non espone i nomi delle funzioni libc (fork, chmod, setsid, select) come stringhe leggibili nella sezione .rodata: l'unico modo per intercettare staticamente l'uso di queste primitive è individuare l'immediate value caricato in eax immediatamente prima dell'interrupt 0x80.
+;ciascun opcode (sc_fork = 2, sc_chmod = 15, sc_setsid = 66, sc_select = 142) è stato estratto e validato byte per byte direttamente dal disassemblato in IDA Free, non ricavato da tabelle teoriche delle syscall x86, garantendo aderenza esatta al binario analizzato.
+;la condition richiede obbligatoriamente le due stringhe testuali (indicatori ad alta specificità) più almeno 2 dei 4 pattern syscall, bilanciando rigidità (per limitare i falsi positivi) e tolleranza (per intercettare eventuali varianti che modifichino l'ordine o il numero di syscall invocate nello stesso watchdog).
+;va tenuto presente che il pattern a 5+2 byte (mov eax, N seguito da int 80h) non è unico per costruzione: potrebbe in teoria comparire per coincidenza in codice non correlato, specialmente per valori di N molto comuni. Il peso probante della regola deriva quindi dalla combinazione con le stringhe di persistenza, non dai soli pattern syscall isolati.
+
 <p class="title">section .VIRUSTOTAL</p>
 
 <img src="https://spaghetti-hacker.github.io/persivt.png" class="full-img">
