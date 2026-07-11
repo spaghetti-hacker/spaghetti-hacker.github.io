@@ -381,16 +381,17 @@ int sleep_with_select(time_t seconds)
 
 TA0003: Persistence
 T1053.003: Scheduled Task/Job: Cron
-Il malware installa e verifica periodicamente una entry in /etc/config/crontab. La rilevanza tecnica: il path non è quello standard Debian/RHEL (/etc/crontab, /var/spool/cron/crontabs/).<br>
+Il malware installa e verifica periodicamente una entry in /etc/config/crontab. La rilevanza tecnica: il path non è quello standard Debian/RHEL (/etc/crontab, /var/spool/cron/crontabs/).
+
 TA0005: Stealth
 T1222.002: File and Directory Permissions Modification: Linux and Mac File and Directory Permissions Modification
 chmod(path, 0755) eseguito dopo ogni riscrittura del binario, per garantire che il file ricostruito resti eseguibile anche se le policy o un tentativo di hardening avessero modificato i permessi.
-<br>
+
 TA0003 + TA0005, comportamento non pienamente coperto da una singola tecnica
 T1053.003 + T1222.002 + comportamento di monitoraggio custom
 Concetto: "Redundant/self-healing persistence"
 Non esiste una singola tecnica ATT&CK che catturi con precisione il pattern watchdog dedicato che verifica e ripara sia il binario sia il meccanismo di persistenza in un loop indipendente dal payload.
-<br>
+
 TA0002: Execution
 Fork/daemonizzazione (demonize_and_launch() + doppio fork())
 Non mappa in modo pulito su una tecnica ATT&CK Linux specifica; è più un pattern implementativo comune ai daemon Unix legittimi (double-fork daemonization) riutilizzato qui per creare due rami di esecuzione indipendenti e sopravvivere alla terminazione del padre.
@@ -403,10 +404,10 @@ Non mappa in modo pulito su una tecnica ATT&CK Linux specifica; è più un patte
 SHA256: 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92
 Tipo file: ELF 32-bit LSB executable, Intel 80386, statically linked, stripped
 Note: hash del campione analizzato. Utile per lookup su VT/MalwareBazaar e per blocklist EDR/AV.
-<br>
+
 Path persistenza: /etc/config/crontab
 Note: path non standard.
-<br>
+
 Permessi file: 0755 (rwxr-xr-x) impostati programmaticamente via chmod() dopo ogni riscrittura.
 Note: comportamento anomalo se osservato ripetutamente sullo stesso file senza intervento utente.
 
@@ -414,11 +415,11 @@ Note: comportamento anomalo se osservato ripetutamente sullo stesso file senza i
 
 Fork sequenziali con scopi distinti (daemonizzazione + biforcazione dei ruoli)
 Descrizione: il binario esegue due fork() in momenti diversi del proprio avvio, con finalità differenti. Il primo fork, interno a demonize_and_launch(), realizza una daemonizzazione SysV classica a fork singolo (padre che termina, figlio che chiama setsid() e si stacca dal controlling terminal). Il secondo fork, in main() subito dopo il ritorno da demonize_and_launch(), separa esplicitamente il processo in due rami persistenti: uno che prosegue con il payload, l'altro che entra nel loop infinito del watchdog. Non si tratta quindi di un pattern di double-fork daemonization in senso tecnico (che prevederebbe un secondo fork subito dopo setsid() per prevenire la riacquisizione di un controlling terminal), ma di due fork distinti e non contigui nel flusso di esecuzione.
-<br>
+
 Timing periodico ~5s
 Descrizione: sleep_with_select(5) invocato ripetutamente in loop.
 Utilità per detection: comportamento "beacon-like" a bassa frequenza rilevabile tramite monitoraggio syscall (select() con timeout costante, assenza di file descriptor reali passati).
-<br>
+
 Verifica ciclica di crontab
 Descrizione: apertura ripetuta di /etc/config/crontab in lettura ogni ~5s da parte dello stesso processo.
 Utilità per detection: pattern anomalo per un processo non di sistema, rilevabile via auditd su open()/fopen() verso quel path.
