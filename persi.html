@@ -377,12 +377,10 @@ int sleep_with_select(time_t seconds)
 
 <p class="title">section .TTP_MITRE_ATTCK</p>
 
-;mapping delle tecniche osservate secondo il framework MITRE ATT&CK. Alcune tecniche non hanno un mapping 1:1 perfetto poiché il comportamento osservato (watchdog di persistenza ridondante) è più granulare di quanto ATT&CK tipicamente cataloghi come singola tecnica.
-<br>
+;mapping delle tecniche osservate secondo il framework MITRE ATT&CK. Alcune tecniche non hanno un mapping 1:1 perfetto poiché il comportamento osservato (watchdog di persistenza ridondante) è più granulare di quanto ATT&CK tipicamente cataloghi come singola tecnica.<br>
 TA0003: Persistence
 T1053.003: Scheduled Task/Job: Cron
-Il malware installa e verifica periodicamente una entry in /etc/config/crontab. La rilevanza tecnica: il path non è quello standard Debian/RHEL (/etc/crontab, /var/spool/cron/crontabs/).
-<br>
+Il malware installa e verifica periodicamente una entry in /etc/config/crontab. La rilevanza tecnica: il path non è quello standard Debian/RHEL (/etc/crontab, /var/spool/cron/crontabs/).<br>
 TA0005: Stealth
 T1222.002: File and Directory Permissions Modification: Linux and Mac File and Directory Permissions Modification
 chmod(path, 0755) eseguito dopo ogni riscrittura del binario, per garantire che il file ricostruito resti eseguibile anche se le policy o un tentativo di hardening avessero modificato i permessi.
