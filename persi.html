@@ -91,16 +91,13 @@ file 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
 
 <p class="title">_Nota_Metodologica:</p>
 
-;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo il mapping e la rinomina delle variabili. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
+;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo la rinomina delle variabili e delle funzioni. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
 
 <p class="title">_Copidosoma_Floridanum:</p>
 
 ;questa vespa depone un solo uovo dentro il bruco ospite. Ma quell'uovo, invece di svilupparsi in un solo individuo, si divide (letteralmente un "fork" biologico) in centinaia o migliaia di embrioni geneticamente identici. Da questa divisione nascono due caste distinte:
 ;larve soldato: sterili, non si sviluppano mai in vespe adulte, non fanno nulla di "produttivo", il loro unico compito è pattugliare l'interno del bruco ospite e attaccare/uccidere eventuali larve di altre specie parassite che tentano di competere per le risorse dell'ospite.
 ;larve riproduttive: quelle che effettivamente si sviluppano in vespe adulte e completano il ciclo vitale (il "payload" vero e proprio).
-
-;c'è un evento di fork da un'unica origine (l'uovo/il processo originale) che genera due embrioni con ruoli completamente diversi.
-La casta soldato non contribuisce al "successo riproduttivo" individuale, esattamente come il watchdog non fa nulla di offensivo/utile per l'attaccante, esiste solo per proteggere la sopravvivenza del sistema nel suo complesso. Le larve soldato pattugliano attivamente e continuamente l'ambiente (l'ospite) cercando minacce, in modo molto simile al ciclo while(1) del watchdog che controlla periodicamente lo stato del sistema. Se elimini le larve riproduttive (il payload), le soldato continuano a pattugliare comunque, perché sono un ramo di sviluppo indipendente, proprio come il tuo watchdog sopravvive alla morte del payload. Il watchdog ha in più la funzione di ripristinare il payload eliminato.
 
 <p class="title">section .EXECUTIVE_SUMMARY</p>
 
@@ -151,9 +148,9 @@ La casta soldato non contribuisce al "successo riproduttivo" individuale, esatta
 @@@
 int demonize_and_launch()
 {
-  int v0; // ebx
-  int v2; // [esp+0h] [ebp-8h]
-  int v3; // [esp+0h] [ebp-8h]
+  int v0; 
+  int v2; 
+  int v3; 
 
   if ( fork() > 0 )
     forse_exit(0);
@@ -291,11 +288,11 @@ if (!check_persistenza())
 @@@
 int check_persistenza()
 {
-  int v0; // edi
-  int v1; // esi
-  int v2; // ebx
-  int v4; // [esp+14h] [ebp-14h] BYREF
-  _DWORD v5[4]; // [esp+18h] [ebp-10h] BYREF
+  int v0; 
+  int v1; 
+  int v2;
+  int v4; 
+  _DWORD v5[4]; 
 
   v0 = 0;
   v1 = fopen("/etc/config/crontab", &unk_8088417);
@@ -324,14 +321,13 @@ LABEL_6:
 
 ;questa funzione ritorna 0 o 1 a seconda se viene trovata nel file /etc/config/crontab la stringa relativa al nome dell'eseguibile.
 ;implementa un check per vedere se il malware ha già infettato la macchina e implementato la persistenza.
-;il malware verifica se una riga contenente ìil proprio path/nome è già presente nel crontab.
 ;Il malware non reinstalla continuamente la persistenza ma interviene esclusivamente quando rileva una modifica dello stato del sistema.
 
 @@@
 size_t installa_la_persistenza()
 {
-  size_t result; // eax
-  int v1; // ebx
+  size_t result;
+  int v1; 
 
   result = fopen("/etc/config/crontab", "a");
   v1 = result;
@@ -365,7 +361,6 @@ int sleep_with_select(time_t seconds)
 ;tv_sec contiene il numero di secondi da attendere.
 ;tv_usec è impostato a 0, corrispondente a 0 microsecondi.
 ;la funzione implementa una pausa periodica senza introdurre un ciclo di busy waiting.
-
 ;l'utilizzo di select() permette di ottenere un comportamento equivalente ad una sleep() mantenendo un'interfaccia comunemente impiegata anche nelle applicazioni di rete.
 
 <p class="title">section .ASPETTI_TECNICI_RILEVANTI</p>
@@ -383,6 +378,8 @@ int sleep_with_select(time_t seconds)
 <p class="title">section .TTP_MITRE_ATTCK</p>
 
 ;mapping delle tecniche osservate secondo il framework MITRE ATT&CK. Alcune tecniche non hanno un mapping 1:1 perfetto poiché il comportamento osservato (watchdog di persistenza ridondante) è più granulare di quanto ATT&CK tipicamente cataloghi come singola tecnica.
+
+
 
 TA0003: Persistence
 
