@@ -100,7 +100,7 @@ a{
     /*background:#3a9070;*/
     line-height: 1.2 !important;
     display: inline-block;
-    margin-bottom:5px; margin-top:5px;
+    margin-bottom:5px !important; margin-top:5pxi !important;
 }
 
 a:hover{
