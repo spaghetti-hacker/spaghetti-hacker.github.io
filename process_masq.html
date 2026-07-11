@@ -363,26 +363,20 @@ ps aux
     const output = document.getElementById('output');
 
     let i = 0;
-
-    // salta righe vuote iniziali
     while(i < lines.length && lines[i].trim() === '') i++;
 
-    // prima riga non vuota = titolo
     const title = lines[i] ? lines[i].trim() : '';
     if(title){
         document.title = title;
     }
     i++;
 
-    // costruisce il contenuto dentro un unico div.article
-    // il titolo è il nodo di testo iniziale del box
     let inner = escCode(title);
-    i; // già avanzato
+    i;
 
     while(i < lines.length){
         const line = lines[i];
 
-        // blocco @@@ → codice pre-wrap
         if(line.trim() === '@@@'){
             i++;
             let block = '';
@@ -390,14 +384,11 @@ ps aux
                 block += lines[i] + '\n';
                 i++;
             }
-            i++; // salta @@@ di chiusura
-            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
-            //inner += escCode(block.replace(/\n$/, ''));
-	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            i++;
+            inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
             continue;
         }
 
-        // raccoglie testo fino al prossimo @@@
         let textLines = [];
         while(i < lines.length && lines[i].trim() !== '@@@'){
             textLines.push(lines[i]);
@@ -406,18 +397,22 @@ ps aux
 
         const paragraphs = splitParagraphs(textLines);
         if(paragraphs.length > 0){
-	    inner += '<div class="commento">\n';
+            inner += '<div class="commento">\n';
             for (const p of paragraphs){
-                const cleaned = p.replace(/\n/g, '<br>');
-                inner += '<p>' + cleaned + '</p>\n';
+                const trimmed = p.trim();
+                if (/^<p[\s>].*<\/p>$/s.test(trimmed)) {
+                    inner += trimmed + '\n';
+                } else {
+                    const cleaned = p.replace(/\n/g, '<br>');
+                    inner += '<p>' + cleaned + '</p>\n';
                 }
+            }
             inner += '</div>';
         }
     }
 
     output.innerHTML = '<div class="article">' + inner + '</div>';
 
-    // escapa solo il testo codice (non i commenti che possono avere HTML)
     function escCode(str){
         return str
             .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
