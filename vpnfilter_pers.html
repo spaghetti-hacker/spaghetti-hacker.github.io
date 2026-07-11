@@ -427,6 +427,7 @@ Utilità per detection: pattern anomalo per un processo non di sistema, rilevabi
 
 <p class="title">section .YARA_RULES</p>
 
+@@@
 rule VPNFilter_Persistence_Watchdog
 {
     meta:
@@ -449,9 +450,13 @@ rule VPNFilter_Persistence_Watchdog
         uint8(4) == 1 and
         filesize < 2MB and
         $crontab_path and
-        $cron_entry_fmt
+        $cron_entry_fmt and
         2 of ($sc_fork, $sc_chmod, $sc_setsid, $sc_select)
 }
+
+yara vpnfilter_persistence.yar 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
+VPNFilter_Persistence_Watchdog 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
+@@@
 
 ;la regola combina due categorie di indicatori indipendenti: stringhe testuali (path di persistenza non standard e formato della entry crontab) e pattern a livello di syscall (numero syscall caricato in eax, seguito da int 80h). Quest'ultima categoria si è resa necessaria perché il binario, essendo staticamente linkato e stripped, non espone i nomi delle funzioni libc (fork, chmod, setsid, select) come stringhe leggibili nella sezione .rodata: l'unico modo per intercettare staticamente l'uso di queste primitive è individuare l'immediate value caricato in eax immediatamente prima dell'interrupt 0x80.
 
