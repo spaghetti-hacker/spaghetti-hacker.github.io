@@ -64,7 +64,7 @@ body{
 .codeblock{
     background:#0a3a2a;
     padding:10px 14px;
-    margin:-5px 0px 25px -14px;
+    margin:-5px 0px 20px -14px;
     width:calc(100% + 28px);
     white-space:pre-wrap;
     overflow-wrap:anywhere;
@@ -80,7 +80,7 @@ body{
     white-space:normal;
 }
 
-.commento p{ margin-bottom:20px;}
+.commento p{ margin-bottom:15px;}
 .commento p:last-child{ margin-bottom:25px; }
 
 a{
