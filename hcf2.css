@@ -81,7 +81,7 @@ body{
 }
 
 .commento p{ margin-bottom:20px;}
-.commento p:last-child{ margin-bottom:0; }
+.commento p:last-child{ margin-bottom:25px; }
 
 a{
     color:#65E903;
