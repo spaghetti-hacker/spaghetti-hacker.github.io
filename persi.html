@@ -462,9 +462,7 @@ Utilità per detection: pattern anomalo per un processo non di sistema, rilevabi
                 i++;
             }
             i++; // salta @@@ di chiusura
-            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
-            //inner += escCode(block.replace(/\n$/, ''));
-	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
             continue;
         }
 
@@ -479,9 +477,16 @@ Utilità per detection: pattern anomalo per un processo non di sistema, rilevabi
         if(paragraphs.length > 0){
 	    inner += '<div class="commento">\n';
             for (const p of paragraphs){
-                const cleaned = p.replace(/\n/g, '<br>');
-                inner += '<p>' + cleaned + '</p>\n';
+                const trimmed = p.trim();
+                // se il paragrafo è già un tag <p ...>...</p> completo (es. <p class="title">),
+                // non wrapparlo di nuovo in un altro <p>
+                if (/^<p[\s>].*<\/p>$/s.test(trimmed)) {
+                    inner += trimmed + '\n';
+                } else {
+                    const cleaned = p.replace(/\n/g, '<br>');
+                    inner += '<p>' + cleaned + '</p>\n';
                 }
+            }
             inner += '</div>';
         }
     }
