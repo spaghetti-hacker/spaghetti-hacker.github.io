@@ -394,32 +394,32 @@ T1106: Native API
 
 <p class="title">section .IOC</p>
 
-;indicatori di compromissione ricavabili dall'analisi statica. Alcuni valori (marker string, hash) richiedono estrazione diretta dal binario campione, qui vengono indicati i pattern e le posizioni nel codice da cui estrarli.
+;indicatori di compromissione ricavabili dall'analisi statica. 
 
 <p class="title">_IoC_di_tipo_host-based_(filesystem):</p>
 
 SHA256: 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92
 Tipo file: ELF 32-bit LSB executable, Intel 80386, statically linked, stripped
-Note: hash del campione analizzato. Utile per lookup su VT/MalwareBazaar e per blocklist EDR/AV.
+;hash del campione analizzato. Utile per lookup su VT/MalwareBazaar e per blocklist EDR/AV.
 
 Path persistenza: /etc/config/crontab
-Note: path non standard.
+;path non standard.
 
 Permessi file: 0755 (rwxr-xr-x) impostati programmaticamente via chmod() dopo ogni riscrittura.
-Note: comportamento anomalo se osservato ripetutamente sullo stesso file senza intervento utente.
+;comportamento anomalo se osservato ripetutamente sullo stesso file senza intervento utente.
 
 <p class="title">_IoC_comportamentali_(process-based):</p>
 
 Fork sequenziali con scopi distinti (daemonizzazione + biforcazione dei ruoli)
-Descrizione: il binario esegue due fork() in momenti diversi del proprio avvio, con finalità differenti. Il primo fork, interno a demonize_and_launch(), realizza una daemonizzazione SysV classica a fork singolo (padre che termina, figlio che chiama setsid() e si stacca dal controlling terminal). Il secondo fork, in main() subito dopo il ritorno da demonize_and_launch(), separa esplicitamente il processo in due rami persistenti: uno che prosegue con il payload, l'altro che entra nel loop infinito del watchdog. Non si tratta quindi di un pattern di double-fork daemonization in senso tecnico (che prevederebbe un secondo fork subito dopo setsid() per prevenire la riacquisizione di un controlling terminal), ma di due fork distinti e non contigui nel flusso di esecuzione.
+;il binario esegue due fork() in momenti diversi del proprio avvio, con finalità differenti. Il primo fork, interno a demonize_and_launch(), realizza una daemonizzazione SysV classica a fork singolo (padre che termina, figlio che chiama setsid() e si stacca dal controlling terminal). Il secondo fork, in main() subito dopo il ritorno da demonize_and_launch(), separa esplicitamente il processo in due rami persistenti: uno che prosegue con il payload, l'altro che entra nel loop infinito del watchdog. Non si tratta quindi di un pattern di double-fork daemonization in senso tecnico (che prevederebbe un secondo fork subito dopo setsid() per prevenire la riacquisizione di un controlling terminal), ma di due fork distinti e non contigui nel flusso di esecuzione.
 
 Timing periodico ~5s
-Descrizione: sleep_with_select(5) invocato ripetutamente in loop.
-Utilità per detection: comportamento "beacon-like" a bassa frequenza rilevabile tramite monitoraggio syscall (select() con timeout costante, assenza di file descriptor reali passati).
+;sleep_with_select(5) invocato ripetutamente in loop.
+;comportamento "beacon-like" a bassa frequenza rilevabile tramite monitoraggio syscall (select() con timeout costante, assenza di file descriptor reali passati).
 
 Verifica ciclica di crontab
-Descrizione: apertura ripetuta di /etc/config/crontab in lettura ogni ~5s da parte dello stesso processo.
-Utilità per detection: pattern anomalo per un processo non di sistema, rilevabile via auditd su open()/fopen() verso quel path.
+;apertura ripetuta di /etc/config/crontab in lettura ogni ~5s da parte dello stesso processo.
+;pattern anomalo per un processo non di sistema, rilevabile via auditd su open()/fopen() verso quel path.
 
 <p class="title">section .YARA_RULES</p>
 
