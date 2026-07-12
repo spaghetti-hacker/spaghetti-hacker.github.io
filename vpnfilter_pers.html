@@ -411,7 +411,7 @@ Permessi file: 0755 (rwxr-xr-x) impostati programmaticamente via chmod() dopo og
 <p class="title">_IoC_comportamentali_(process-based):</p>
 
 Fork sequenziali con scopi distinti (daemonizzazione + biforcazione dei ruoli)
-;il binario esegue due fork() in momenti diversi del proprio avvio, con finalità differenti. Il primo fork, interno a demonize_and_launch(), realizza una daemonizzazione SysV classica a fork singolo (padre che termina, figlio che chiama setsid() e si stacca dal controlling terminal). Il secondo fork, in main() subito dopo il ritorno da demonize_and_launch(), separa esplicitamente il processo in due rami persistenti: uno che prosegue con il payload, l'altro che entra nel loop infinito del watchdog. Non si tratta quindi di un pattern di double-fork daemonization in senso tecnico (che prevederebbe un secondo fork subito dopo setsid() per prevenire la riacquisizione di un controlling terminal), ma di due fork distinti e non contigui nel flusso di esecuzione.
+;il binario esegue due fork() in momenti diversi del proprio avvio, con finalità differenti. Il primo fork, interno a demonize_and_launch(), realizza una daemonizzazione SysV classica a fork singolo (padre che termina, figlio che chiama setsid() e si stacca dal controlling terminal). Il secondo fork, in main() subito dopo il ritorno da demonize_and_launch(), separa esplicitamente il processo in due rami persistenti: uno che prosegue con il payload, l'altro che entra nel loop infinito del watchdog. 
 
 Timing periodico ~5s
 ;sleep_with_select(5) invocato ripetutamente in loop.
