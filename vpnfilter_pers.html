@@ -460,8 +460,6 @@ VPNFilter_Persistence_Watchdog 0e0094d9bd396a6594da8e21911a3982cd737b445f5915815
 
 ;la condition richiede obbligatoriamente le due stringhe testuali (indicatori ad alta specificità) più almeno 2 dei 4 pattern syscall, bilanciando rigidità (per limitare i falsi positivi) e tolleranza (per intercettare eventuali varianti che modifichino l'ordine o il numero di syscall invocate nello stesso watchdog).
 
-;va tenuto presente che il pattern a 5+2 byte (mov eax, N seguito da int 80h) non è unico per costruzione: potrebbe in teoria comparire per coincidenza in codice non correlato, specialmente per valori di N molto comuni. Il peso probante della regola deriva quindi dalla combinazione con le stringhe di persistenza, non dai soli pattern syscall isolati.
-
 <p class="title">section .VIRUSTOTAL</p>
 
 <img src="https://spaghetti-hacker.github.io/persivt.png" class="full-img">
