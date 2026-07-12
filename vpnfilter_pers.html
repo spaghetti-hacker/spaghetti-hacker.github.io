@@ -382,20 +382,20 @@ int sleep_with_select(time_t seconds)
 
 TA0003: Persistence
 T1053.003: Scheduled Task/Job: Cron
-Il malware installa e verifica periodicamente una entry in /etc/config/crontab. La rilevanza tecnica: il path non è quello standard Debian/RHEL (/etc/crontab, /var/spool/cron/crontabs/).
+;il malware installa e verifica periodicamente una entry in /etc/config/crontab. La rilevanza tecnica: il path non è quello standard Debian/RHEL (/etc/crontab, /var/spool/cron/crontabs/).
 
 TA0112: Defense Impairment
 T1222.002: File and Directory Permissions Modification: Linux and Mac Permissions
-chmod(path, 0755) eseguito programmaticamente dopo ogni riscrittura del binario. Con lo split v19 questa tecnica e' stata riclassificata sotto Defense Impairment anziche' Stealth: l'intento non e' mimetizzarsi, ma garantire forzatamente che il file ricostruito resti eseguibile anche se un tentativo di hardening o una policy avessero modificato i permessi, comportamento che rientra nella logica "rompere/neutralizzare un controllo" piuttosto che "confondersi con l'attivita' legittima". Data source suggerita: File: File Metadata, Process: OS API Execution
+;chmod(path, 0755) eseguito programmaticamente dopo ogni riscrittura del binario. Con lo split v19 questa tecnica e' stata riclassificata sotto Defense Impairment anziche' Stealth: l'intento non e' mimetizzarsi, ma garantire forzatamente che il file ricostruito resti eseguibile anche se un tentativo di hardening o una policy avessero modificato i permessi, comportamento che rientra nella logica "rompere/neutralizzare un controllo" piuttosto che "confondersi con l'attivita' legittima".
 
 TA0002: Execution
 T1106: Native API
-Il binario, essendo staticamente linkato e stripped, non espone i nomi delle funzioni libc (fork, chmod, setsid, select) come stringhe leggibili. L'invocazione diretta delle syscall via int 0x80 (senza passare per wrapper dinamici visibili) e' il pattern catturato da questa tecnica -- spesso utilizzata per evadere hook a livello di libreria o strumenti che monitorano le chiamate a funzioni di libc note.  Nota qualitativa: la sequenza demonize_and_launch() + fork() (biforcazione dei ruoli payload/watchdog) resta un pattern implementativo comune ai daemon Unix legittimi (double-fork daemonization), riutilizzato qui per creare due rami di esecuzione indipendenti e sopravvivere alla terminazione del padre. Non esiste una tecnica ATT&CK dedicata a questo pattern in se'; T1106 cattura la modalita' di invocazione (syscall dirette), non la semantica della daemonizzazione.  Data source suggerita: Process: OS API Execution
+;il binario, essendo staticamente linkato e stripped, non espone i nomi delle funzioni libc (fork, chmod, setsid, select) come stringhe leggibili. L'invocazione diretta delle syscall via int 0x80 (senza passare per wrapper dinamici visibili) e' il pattern catturato da questa tecnica, spesso utilizzata per evadere hook a livello di libreria o strumenti che monitorano le chiamate a funzioni di libc note.  Nota qualitativa: la sequenza demonize_and_launch() + fork() (biforcazione dei ruoli payload/watchdog) resta un pattern implementativo comune ai daemon Unix legittimi (double-fork daemonization), riutilizzato qui per creare due rami di esecuzione indipendenti e sopravvivere alla terminazione del padre. Non esiste una tecnica ATT&CK dedicata a questo pattern in se'; T1106 cattura la modalita' di invocazione (syscall dirette), non la semantica della daemonizzazione. 
 
 TA0003 + TA0112, comportamento non pienamente coperto da una singola tecnica
 T1053.003 + T1222.002 + comportamento di monitoraggio custom
 Concetto: "Redundant/self-healing persistence"
-Non esiste una singola tecnica ATT&CK che catturi con precisione il pattern watchdog dedicato che verifica e ripara sia il binario sia il meccanismo di persistenza in un loop indipendente dal payload. Il comportamento attraversa concettualmente sia Persistence (ripristino della cron entry) sia Defense Impairment (ripristino forzato dei permessi del file), coordinati da un unico processo watchdog.
+;non esiste una singola tecnica ATT&CK che catturi con precisione il pattern watchdog dedicato che verifica e ripara sia il binario sia il meccanismo di persistenza in un loop indipendente dal payload. Il comportamento attraversa concettualmente sia Persistence (ripristino della cron entry) sia Defense Impairment (ripristino forzato dei permessi del file), coordinati da un unico processo watchdog.
 
 <p class="title">section .IOC</p>
 
