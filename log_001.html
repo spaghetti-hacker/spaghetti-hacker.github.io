@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/log001.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="DEBUG ME">
+<meta property="og:description" content=";crackme che usa TracerPid come meccanismo anti-debug a tre stage.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/log001.png">
+
+
+<title>LOG.001</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/log001.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+LOG.001 ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+
+visite: <span id="visits">...</span>
+
+;la creatura che avevo seguito per giorni sembrava innocua. Aveva assunto l'aspetto di un organismo conosciuto, copiandone i tratti esterni. Le altre creature della colonia la lasciavano passare senza reagire. Solo osservandola più a lungo mi sono accorto che qualcosa non tornava. Inoltre se il suo corpo veniva distrutto, una parte nascosta rimaneva nel terreno di megaplast del pianeta e ricostruiva lentamente l'organismo.
+
+;il primo ricordo che ho della tecnologia non è un computer. È un libro. Si chiamava "Come funziona?".
+
+;sfogliavo pagine piene di sezioni, ingranaggi, fili e schemi colorati. Una lavatrice non era una scatola bianca, ma un meccanismo da capire. Un televisore non era un oggetto da usare, ma un organismo da esplorare. Forse è lì che è nato tutto. Oggi gli oggetti sono cambiati.
+Al posto delle lavatrici apro eseguibili ELF. Al posto degli ingranaggi trovo funzioni, registri, syscall e strutture dati.
+
+;ma la domanda è rimasta la stessa: "Come funziona?"
+
+;per me il reverse engineering non è rompere qualcosa. È esplorarla. È il processo di entrare in contatto con ciò che ancora non si conosce, con l'obiettivo di comprenderlo meglio. Non implica necessariamente trovare qualcosa di nuovo per l'umanità: può essere nuovo anche solo per chi esplora. 
+
+;incontri mille problemi durante il processo di reversing. È li che devi essere creativo, cercare la soluzione giusta per superare una problematica. Seguire l'ipotesi più probabile tra le decine che ti si prospettano davanti. È difficile ma anche molto divertente, giocoso. Eplorazione giocosa e intelligente. Ogni fase del reversing è un piccolo atto di hacking: rompere un'astrazione, superare una barriera, costruire una nuova comprensione di qualcosa che era stato progettato per rimanere opaco.
+
+;la grotta è silenziosa. L'umidità ricopre il metallo come muschio. Dai soffitti pendono cavi intrecciati alle radici di alberi biotenologici. Alcuni emettono una debole luce azzurra. Altri sembrano morti da anni. In lontananza si sente il ronzio di qualcosa di enorme.
+
+;ho imparato che su questo pianeta la vita non ha bisogno di materia organica per esistere. Alcune creature non possiedono zampe, ali o occhi. Non respirano, non dormono. Eppure si muovono attraverso le reti, cercano risorse, comunicano con la loro colonia e sviluppano strategie per non essere catturate.
+
+;oggi ho trovato un'altra creatura sconosciuta. Non so ancora se sia un predatore o un parassita. Ho raccolto il campione e inizierò l'analisi. Sembra una creatura velenosa.
+
+;un reverse engineer ricostruisce qualcosa che qualcun altro ha creato e che spesso fa di tutto per non essere compreso.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                const cleaned = p.replace(/\n/g, '<br>');
+                inner += '<p>' + cleaned + '</p>\n';
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+        for(const line of lines){
+            if(line.trim() === ''){
+                if(current.length > 0){
+                    result.push(current.join('\n'));
+                    current = [];
+                }
+            } else {
+                current.push(line);
+            }
+        }
+        if(current.length > 0) result.push(current.join('\n'));
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:log001/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
