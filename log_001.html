@@ -83,8 +83,8 @@ LOG.001
 
 Species: Unknown Silicon Life
 Common Name: Undefined
-Classification: Undefined
-Host: Linux ELF x86_64
+Classification: Unknown Silicon Life
+Host Environment: Linux ELF x86_64
 Observed Behavior: Injects code into remote processes
 Injection Methods: 
 - <code>/proc/&lt;pid&gt;/mem</code>
@@ -102,13 +102,13 @@ Status: Under Analysis
 
 ;il reverse engineering è esplorazione. È il processo di entrare in contatto con ciò che ancora non si conosce, con l'obiettivo di comprenderlo meglio. Non implica necessariamente trovare qualcosa di nuovo per l'umanità: può essere nuovo anche solo per chi esplora. 
 
-;durante il reversing incontri continuamente ostacoli. È li che devi essere creativo, cercare la soluzione giusta per superare un problema. Seguire l'ipotesi più probabile tra le decine che ti si prospettano davanti. È difficile ma anche molto divertente. Esplorazione giocosa e intelligente. Ogni fase del reversing è un piccolo atto di hacking: rompere un'astrazione, superare una barriera, ricostruire il funzionamento di qualcosa che è stato progettato per rimanere opaco..
+;durante il reversing incontri continuamente ostacoli. È lì che devi essere creativo, cercare la soluzione giusta per superare un problema. Seguire l'ipotesi più probabile tra le decine che ti si prospettano davanti. È difficile ma anche molto divertente. Esplorazione giocosa e intelligente. Ogni fase del reversing è un piccolo atto di hacking: rompere un'astrazione, superare una barriera, ricostruire il funzionamento di qualcosa che è stato progettato per rimanere opaco.
 
-;la grotta è silenziosa. L'umidità ricopre il metallo come muschio. Dai soffitti pendono cavi intrecciati alle radici di alberi biotech. Alcune piante emettono una debole luce azzurra. Altre diffondono nell'aria nuvole di spore provenienti da fiori dalle forme innaturali. In lontananza si sente il ronzio di qualcosa di enorme. Ci sono piccole e enormi creature tecno-organiche sul Pianeta Hacker.
+;la grotta è silenziosa. L'umidità ricopre il metallo come muschio. Dai soffitti pendono cavi intrecciati alle radici di alberi biotech. Alcune piante emettono una debole luce azzurra. Altre diffondono nell'aria nuvole di spore provenienti da fiori dalle forme innaturali. In lontananza si sente il ronzio di qualcosa di enorme. Ci sono creature tecno-organiche di ogni dimensione sul Pianeta Hacker.
 
 ;ma ho imparato che qui la vita può anche non avere bisogno di materia organica per esistere. Alcune creature non possiedono zampe, ali o occhi. Non respirano, non dormono. Eppure si muovono attraverso le reti, cercano risorse, comunicano con la loro colonia e sviluppano strategie per non essere catturate e sfuggire all'analisi.
 
-;oggi ho trovato un'altra Silicon Life sconosciuta. La classificazione è ancora incerta. Non so ancora se sia un predatore o un parassita. Ho raccolto il campione e ho iniziato l'analisi. Il suo comportamento ricorda quello di un organismo parassitario: individua un ospite compatibile, supera le sue difese e introduce al suo interno una parte del proprio codice. Una volta penetrato nell'organismo ospite, ne modifica il comportamento dall'interno. L'analisi del campione ha rivelato due modalità di injection. La prima utilizza l'accesso diretto alla memoria dell'organismo ospite attraverso /proc/<pid>/mem. La seconda sfrutta il meccanismo di controllo remoto fornito da ptrace(), permettendo alla creatura di modificare il comportamento del processo bersaglio.
+;oggi ho trovato un'altra Silicon Life sconosciuta. La classificazione è ancora incerta. Ho raccolto il campione e ho iniziato l'analisi. Il suo comportamento ricorda quello di un organismo parassitario: individua un ospite compatibile, supera le sue difese e introduce al suo interno una parte del proprio codice. Una volta penetrato nell'organismo ospite, ne modifica il comportamento dall'interno. L'analisi del campione ha rivelato due modalità di injection. La prima utilizza l'accesso diretto alla memoria dell'organismo ospite attraverso <code>/proc/<pid>/memi</code>. La seconda sfrutta il meccanismo di controllo remoto fornito da ptrace(), permettendo alla creatura di modificare il comportamento del processo bersaglio.
 
 ;un reverse engineer ricostruisce qualcosa che qualcun altro ha creato e che, spesso, è stato progettato per non essere compreso.
 
