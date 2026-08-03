@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:image" content="https://spaghetti-hacker.github.io/debug_me.png">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/trust_me.png">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="400">
 <meta property="og:title" content="TRUST ME">
@@ -11,7 +11,7 @@
 <meta property="og:type" content="article">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://spaghetti-hacker.github.io/debug_me.png">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/trust_me.png">
 
 
 <title>TRUST ME</title>
@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="wrapper">
-<img src="https://spaghetti-hacker.github.io/debug_me.png" alt="banner" style="width:100%;display:block;">
+<img src="https://spaghetti-hacker.github.io/trust_me.png" alt="banner" style="width:100%;display:block;">
 <div id="output"></div>
 </div>
 <!--
@@ -83,6 +83,8 @@ section .INTRODUZIONE
 _Nota_Metodologica:
 L'analisi è stata condotta con r2 (radare2) in modalità statica (disassembly di main, make_secret, hash) integrata da osservazione dinamica dei valori a runtime, necessaria per confermare che l'output del meccanismo di hashing è costante e indipendente dall'input utente.
 
+<img src="https://spaghetti-hacker.github.io/trust0.png" class="full-img">
+
 section .SETUP_INIZIALE
 
 ;la funzione main alloca un buffer heap di 0x5a byte tramite calloc, zero-inizializzato:
@@ -126,6 +128,8 @@ for (i = 0; i <= 0xC; i++)
 ;il risultato decodificato viene scritto in dest+0x3c, una regione del buffer separata da quella dove verra' poi copiato l'input utente
 
 ;la stringa decodificata da questo primo ciclo corrisponde alla password hardcoded `iUbh81!j*hn!`, confermata tramite analisi dinamica del contenuto di memoria a runtime.
+
+<img src="https://spaghetti-hacker.github.io/trust1.png" class="full-img">
 
 section .INTERAZIONE_UTENTE
 
