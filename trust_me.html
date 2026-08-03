@@ -81,13 +81,13 @@ section .INTRODUZIONE
 ;il binario implementa un finto meccanismo di autenticazione basato su password e hash.
 
 _Nota_Metodologica:
-L'analisi è stata condotta con r2 (radare2) in modalità statica (disassembly di main, make_secret, hash) integrata da osservazione dinamica dei valori a runtime, necessaria per confermare che l'output del meccanismo di hashing è costante e indipendente dall'input utente.
+L'analisi è stata condotta con r2 (radare2) e IDA Free in modalità statica (disassembly di main, make_secret, hash) integrata da osservazione dinamica dei valori a runtimei con gdb, necessaria per confermare che l'output del meccanismo di hashing è costante e indipendente dall'input utente.
 
 <img src="https://spaghetti-hacker.github.io/trust0.png" class="full-img">
 
 section .SETUP_INIZIALE
 
-;la funzione main alloca un buffer heap di 0x5a byte tramite calloc, zero-inizializzato:
+;la funzione main alloca un buffer heap di 0x5a (90 byte) tramite calloc, zero-inizializzato:
 
 @@@
 0x000013ee      mov esi, 1
@@ -97,9 +97,8 @@ section .SETUP_INIZIALE
 @@@
 
 ;calloc(nmemb=0x5a, size=1) alloca 90 byte azzerati sull'heap; ogni elemento è grande 1 byte.
-;il puntatore risultante viene salvato in dest e riutilizzato più volte nel corso di main.
-
-;subito dopo, un ciclo decodifica una stringa offuscata contenuta in obj.obf_bytes (indirizzo statico 0x2008), applicando uno XOR byte per byte con la chiave 0xaa, e scrive il risultato in dest a partire dall'offset +0x3c:
+;il puntatore risultante viene salvato in dest e riutilizzato più volte nel corso della funzione main.
+;subito dopo, un ciclo decodifica una stringa offuscata contenuta in obj.obf_bytes, applicando uno XOR byte per byte con la chiave 0xaa, e scrive il risultato in dest a partire dall'offset +0x3c:
 
 @@@
 0x00001411      lea rdx, obj.obf_bytes
@@ -124,16 +123,15 @@ for (i = 0; i <= 0xC; i++)
 
 ;xor eax, 0xffffffaa opera sul solo byte basso, la chiave effettiva e' 0xaa (170 decimale)
 ;Alla fine viene scritto solo dl, cioè gli 8 bit meno significativi di rdx.
-;il ciclo itera per 13 valori dell'indice (0..0xc inclusi, condizione jbe), decodificando la password hardcoded in chiaro
-;il risultato decodificato viene scritto in dest+0x3c, una regione del buffer separata da quella dove verra' poi copiato l'input utente
-
+;il ciclo itera per 13 valori dell'indice (0..0xc inclusi, condizione jbe), decodificando la password hardcoded in chiaro.
+;il risultato decodificato viene scritto in dest+0x3c, una regione del buffer separata da quella dove verra' poi copiato l'input utente.
 ;la stringa decodificata da questo primo ciclo corrisponde alla password hardcoded `iUbh81!j*hn!`, confermata tramite analisi dinamica del contenuto di memoria a runtime.
 
 <img src="https://spaghetti-hacker.github.io/trust1.png" class="full-img">
 
 section .INTERAZIONE_UTENTE
 
-Il programma richiede all'utente di impostare una password (fgets su un buffer da 0x32 byte) e la copia, senza alcun controllo di lunghezza aggiuntivo oltre al limite di fgets, nel buffer dest tramite strcpy:
+;il programma richiede all'utente di impostare una password (fgets su un buffer da 0x32 byte) e la copia, senza alcun controllo di lunghezza aggiuntivo oltre al limite di fgets, nel buffer dest tramite strcpy:
 
 @@@
 0x0000148f      mov rax, qword [dest]
@@ -141,9 +139,8 @@ Il programma richiede all'utente di impostare una password (fgets su un buffer d
 0x0000149c      call sym.imp.strcpy
 @@@
 
-;strcpy(dest, src) copia la password inserita dall'utente sovrascrivendo dest a partire dall'offset 0
-;nessuna verifica sulla dimensione di src rispetto alla capacita' di dest (0x5a byte totali): potenziale overflow se l'input supera i limiti imposti a monte da fgets, ma non sfruttabile ai fini di questo challenge poiche' fgets limita gia' l'input a 0x32 byte
-
+;strcpy(dest, src) copia la password inserita dall'utente sovrascrivendo dest a partire dall'offset 0.
+;nessuna verifica sulla dimensione di src rispetto alla capacita' di dest (0x5a byte totali): potenziale overflow se l'input supera i limiti imposti a monte da fgets, ma non sfruttabile ai fini di questo challenge poiche' fgets limita gia' l'input a 0x32 byte.
 ;segue una richiesta della lunghezza della password (convertita con atoi) e una stampa di debug che elenca, byte per byte, il contenuto decimale del buffer dest fino alla lunghezza indicata dall'utente:
 
 @@@
@@ -179,7 +176,6 @@ section .MECCANISMO_DI_VERIFICA
 
 ;strtoul(str, endptr, base=10) converte la stringa in un long unsigned.
 ;il valore risultante (var_f8h) sara' confrontato con l'hash "segreto" calcolato da make_secret.
-
 ;il cuore del meccanismo è la chiamata a make_secret, seguita dal confronto diretto con il valore inserito dall'utente:
 
 @@@
@@ -258,10 +254,10 @@ section .SFRUTTAMENTO
 
 _Passi_Riproducibili:
 
-1. decodifica statica di obj.obf_bytes con XOR 0xaa per ottenere la password hardcoded `iUbh81!j*hn!` (opzionale, utile solo per comprensione, non necessaria per il bypass)
-2. alla richiesta "Please set a password for your account", inserimento di un valore qualsiasi (non influisce sul risultato finale)
-3. alla richiesta "How many bytes in length is your password?", inserimento di un valore qualsiasi (usato solo per la stampa di debug, non per il controllo di sicurezza)
-4. alla richiesta "Enter your hash to access your account!", inserimento del valore costante `15237662580160011234`, ricavabile tramite breakpoint su make_secret o su hash in fase di analisi dinamica
+;decodifica statica di obj.obf_bytes con XOR 0xaa per ottenere la password hardcoded `iUbh81!j*hn!` (opzionale, utile solo per comprensione, non necessaria per il bypass).
+;alla richiesta "Please set a password for your account", inserimento di un valore qualsiasi (non influisce sul risultato finale).
+;alla richiesta "How many bytes in length is your password?", inserimento di un valore qualsiasi (usato solo per la stampa di debug, non per il controllo di sicurezza).
+;alla richiesta "Enter your hash to access your account!", inserimento del valore costante `15237662580160011234`, ricavabile tramite breakpoint su make_secret o su hash in fase di analisi dinamica.
 
 ;il superamento del controllo stampa il contenuto di flag.txt, risolvendo il challenge con `picoCTF{d0nt_XXXXX_XXXXX}`.
 
@@ -379,7 +375,7 @@ _Lezione_Tecnica:
 })();
 </script>
 <script>
-fetch("https://api.counterapi.dev/v1/:spaghettihacker/:debugme/up")
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:trustme/up")
   .then(res => res.json())
   .then(data => {
     const counter = data.count;
