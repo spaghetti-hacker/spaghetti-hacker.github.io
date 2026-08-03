@@ -137,7 +137,7 @@ section .INTERAZIONE_UTENTE
 ;strcpy(dest, src) copia la password inserita dall'utente sovrascrivendo dest a partire dall'offset 0. Nessuna verifica sulla dimensione di src rispetto alla capacita' di dest (0x5a byte totali): potenziale overflow se l'input supera i limiti imposti a monte da fgets, ma non sfruttabile ai fini di questo challenge poiche' fgets limita gia' l'input a 0x32 byte. Segue una richiesta della lunghezza della password (convertita con atoi) e una stampa di debug che elenca, byte per byte, il contenuto decimale del buffer dest fino alla lunghezza indicata dall'utente:
 
 @@@
-0x0000153b      lea rax, [0x000020a3]       ; "%d "
+0x0000153b      lea rax, [0x000020a3]       ;"%d "
 0x0000154a      call sym.imp.printf
 @@@
 
