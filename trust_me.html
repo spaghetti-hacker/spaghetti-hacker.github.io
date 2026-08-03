@@ -81,6 +81,7 @@ section .INTRODUZIONE
 ;il binario oggetto di analisi implementa un finto meccanismo di autenticazione basato su password e hash, presentato all'utente come un sistema di "account" personale: si imposta una password, se ne dichiara la lunghezza, e infine si fornisce un valore di hash per "sbloccare" l'accesso e visualizzare la flag. Il documento è organizzato seguendo il flusso di esecuzione del programma: allocazione e setup iniziale del buffer, interazione con l'utente, meccanismo di verifica, analisi dettagliata di make_secret e dell'algoritmo di hashing (djb2), fino ai passi di sfruttamento riproducibili e alle conclusioni sulla natura della vulnerabilità.
 
 _Nota_Metodologica:
+
 ;l'analisi è stata condotta con r2 (radare2) e IDA Free in modalità statica (disassembly di main, make_secret, hash) integrata da osservazione dinamica dei valori a runtimei con gdb, necessaria per confermare che l'output del meccanismo di hashing è costante e indipendente dall'input utente.
 
 <img src="https://spaghetti-hacker.github.io/trust0.png" class="full-img">
@@ -96,9 +97,7 @@ section .SETUP_INIZIALE
 0x000013fd      mov qword [dest], rax
 @@@
 
-;calloc(nmemb=0x5a, size=1) alloca 90 byte azzerati sull'heap; ogni elemento è grande 1 byte.
-;il puntatore risultante viene salvato in dest e riutilizzato più volte nel corso della funzione main.
-;subito dopo, un ciclo decodifica una stringa offuscata contenuta in obj.obf_bytes, applicando uno XOR byte per byte con la chiave 0xaa, e scrive il risultato in dest a partire dall'offset +0x3c:
+;calloc(nmemb=0x5a, size=1) alloca 90 byte azzerati sull'heap; ogni elemento è grande 1 byte. Il puntatore risultante viene salvato in dest e riutilizzato più volte nel corso della funzione main. Subito dopo, un ciclo decodifica una stringa offuscata contenuta in obj.obf_bytes, applicando uno XOR byte per byte con la chiave 0xaa, e scrive il risultato in dest a partire dall'offset +0x3c:
 
 @@@
 0x00001411      lea rdx, obj.obf_bytes
@@ -121,11 +120,7 @@ for (i = 0; i <= 0xC; i++)
 }
 @@@
 
-;xor eax, 0xffffffaa opera sul solo byte basso, la chiave effettiva e' 0xaa (170 decimale)
-;Alla fine viene scritto solo dl, cioè gli 8 bit meno significativi di rdx.
-;il ciclo itera per 13 valori dell'indice (0..0xc inclusi, condizione jbe), decodificando la password hardcoded in chiaro.
-;il risultato decodificato viene scritto in dest+0x3c, una regione del buffer separata da quella dove verra' poi copiato l'input utente.
-;la stringa decodificata da questo primo ciclo corrisponde alla password hardcoded `iUbh81!j*hn!`, confermata tramite analisi dinamica del contenuto di memoria a runtime.
+;xor eax, 0xffffffaa opera sul solo byte basso, la chiave effettiva e' 0xaa (170 decimale). Alla fine viene scritto solo dl, cioè gli 8 bit meno significativi di rdx. Il ciclo itera per 13 valori dell'indice (0..0xc inclusi, condizione jbe), decodificando la password hardcoded in chiaro. Il risultato decodificato viene scritto in dest+0x3c, una regione del buffer separata da quella dove verra' poi copiato l'input utente. La stringa decodificata da questo primo ciclo corrisponde alla password hardcoded `iUbh81!j*hn!`, confermata tramite analisi dinamica del contenuto di memoria a runtime.
 
 <img src="https://spaghetti-hacker.github.io/trust1.png" class="full-img">
 
@@ -139,17 +134,14 @@ section .INTERAZIONE_UTENTE
 0x0000149c      call sym.imp.strcpy
 @@@
 
-;strcpy(dest, src) copia la password inserita dall'utente sovrascrivendo dest a partire dall'offset 0.
-;nessuna verifica sulla dimensione di src rispetto alla capacita' di dest (0x5a byte totali): potenziale overflow se l'input supera i limiti imposti a monte da fgets, ma non sfruttabile ai fini di questo challenge poiche' fgets limita gia' l'input a 0x32 byte.
-;segue una richiesta della lunghezza della password (convertita con atoi) e una stampa di debug che elenca, byte per byte, il contenuto decimale del buffer dest fino alla lunghezza indicata dall'utente:
+;strcpy(dest, src) copia la password inserita dall'utente sovrascrivendo dest a partire dall'offset 0. Nessuna verifica sulla dimensione di src rispetto alla capacita' di dest (0x5a byte totali): potenziale overflow se l'input supera i limiti imposti a monte da fgets, ma non sfruttabile ai fini di questo challenge poiche' fgets limita gia' l'input a 0x32 byte. Segue una richiesta della lunghezza della password (convertita con atoi) e una stampa di debug che elenca, byte per byte, il contenuto decimale del buffer dest fino alla lunghezza indicata dall'utente:
 
 @@@
 0x0000153b      lea rax, [0x000020a3]       ; "%d "
 0x0000154a      call sym.imp.printf
 @@@
 
-;il formato "%d " stampa ciascun byte del buffer come intero con segno, separato da spazio.
-;questa stampa e' puramente diagnostica/di debug lasciata nel binario, non influisce sul controllo di autenticazione.
+;il formato "%d " stampa ciascun byte del buffer come intero con segno, separato da spazio. Questa stampa e' puramente diagnostica/di debug lasciata nel binario, non influisce sul controllo di autenticazione.
 
 _Nota_Osservazione:
 
@@ -160,8 +152,7 @@ _Nota_Osservazione:
 0x0000156b      jle 0x1520
 @@@
 
-;0x59 = 89 decimale, coerente con la capacita' massima del buffer allocato (0x5a = 90 byte, indice 0..89).
-;questo limite previene un over-read oltre il buffer allocato durante la stampa di debug, indipendentemente da quanto l'utente dichiari come lunghezza.
+;0x59 = 89 decimale, coerente con la capacita' massima del buffer allocato (0x5a = 90 byte, indice 0..89). Questo limite previene un over-read oltre il buffer allocato durante la stampa di debug, indipendentemente da quanto l'utente dichiari come lunghezza.
 
 section .MECCANISMO_DI_VERIFICA
 
@@ -174,9 +165,7 @@ section .MECCANISMO_DI_VERIFICA
 0x00001612      mov qword [var_f8h], rax
 @@@
 
-;strtoul(str, endptr, base=10) converte la stringa in un long unsigned.
-;il valore risultante (var_f8h) sara' confrontato con l'hash "segreto" calcolato da make_secret.
-;il cuore del meccanismo è la chiamata a make_secret, seguita dal confronto diretto con il valore inserito dall'utente:
+;strtoul(str, endptr, base=10) converte la stringa in un long unsigned. Il valore risultante (var_f8h) sara' confrontato con l'hash "segreto" calcolato da make_secret. Il cuore del meccanismo è la chiamata a make_secret, seguita dal confronto diretto con il valore inserito dall'utente:
 
 @@@
 0x00001672      call sym.make_secret
@@ -185,8 +174,7 @@ section .MECCANISMO_DI_VERIFICA
 0x0000168c      jne 0x172a
 @@@
 
-;se il valore ritornato da make_secret coincide con quanto digitato dall'utente, l'esecuzione prosegue verso la lettura e stampa di flag.txt.
-;in caso contrario si salta direttamente al cleanup (free + return), senza mostrare la flag.
+;se il valore ritornato da make_secret coincide con quanto digitato dall'utente, l'esecuzione prosegue verso la lettura e stampa di flag.txt. In caso contrario si salta direttamente al cleanup (free + return), senza mostrare la flag.
 
 _Analisi_di_make_secret:
 
@@ -201,9 +189,7 @@ _Analisi_di_make_secret:
 0x000013b5      jne 0x1378
 @@@
 
-;make_secret NON opera sul buffer dest passato come argomento contenente la password dell'utente.
-;ri-decodifica invece, da zero, la stessa area obj.obf_bytes gia' processata in setup iniziale, applicando di nuovo lo XOR con chiave 0xaa
-;il ciclo termina al primo byte nullo incontrato (test al, al / jne), tipico terminatore di stringa C.
+;make_secret NON opera sul buffer dest passato come argomento contenente la password dell'utente. Ri-decodifica invece, da zero, la stessa area obj.obf_bytes gia' processata in setup iniziale, applicando di nuovo lo XOR con chiave 0xaa. Il ciclo termina al primo byte nullo incontrato (test al, al / jne), tipico terminatore di stringa C.
 
 @@@
 0x000013b7      mov rax, qword [var_18h]
@@ -212,9 +198,7 @@ _Analisi_di_make_secret:
 0x000013c9      call sym.hash
 @@@
 
-;dopo la decodifica, viene forzato un byte null all'offset+0xc (troncamento a 12 caratteri).
-;la stringa risultante, di lunghezza fissa 12, viene passata a sym.hash.
-;il valore di ritorno di hash diventa anche il valore di ritorno di make_secret (nessuna ulteriore elaborazione dopo la call).
+;dopo la decodifica, viene forzato un byte null all'offset+0xc (troncamento a 12 caratteri). La stringa risultante, di lunghezza fissa 12, viene passata a sym.hash. Il valore di ritorno di hash diventa anche il valore di ritorno di make_secret (nessuna ulteriore elaborazione dopo la call).
 
 _Implicazione_Critica:
 
@@ -235,9 +219,7 @@ section .ALGORITMO_DI_HASH
 
 ;djb2 è un algoritmo di hashing non crittografico ideato da Daniel J. Bernstein, diffuso a partire dagli anni '90 grazie alla sua semplicità e velocità. Non è pensato per la sicurezza (non offre resistenza a collisioni intenzionali né proprietà crittografiche), ma per usi pratici come hash table, indicizzazione di stringhe o generazione rapida di checksum in software dove le performance contano più della robustezza contro un attaccante. Il suo funzionamento si basa su un seed iniziale "magico" (5381) e su un ciclo che, per ogni carattere della stringa, aggiorna l'hash con la formula hash = hash * 33 + c. Il fattore 33 (ottenuto efficientemente con uno shift a sinistra di 5 bit più un'addizione, come si vede nel disassembly) è stato scelto empiricamente da Bernstein per la sua buona distribuzione statistica degli output, pur non avendo una giustificazione teorica rigorosa. Proprio per l'assenza di garanzie crittografiche, l'uso di djb2 (o varianti come djb2a) in contesti di autenticazione o verifica di segreti — come in questo binario — è una scelta debole: l'algoritmo è deterministico, veloce da invertire per bruteforce su input corti, e in questo caso specifico il problema è aggravato dal fatto che l'input hashato non dipende nemmeno dai dati forniti dall'utente.
 
-;0x1505 = 5381 decimale, il seed classico dell'algoritmo djb2.
-;shl rax, 5 equivale a moltiplicare per 32 (2^5); sommando rax stesso si ottiene hash*33.
-;la formula complessiva e' hash = hash*33 + c, applicata ad ogni byte c della stringa in input.
+;0x1505 = 5381 decimale, il seed classico dell'algoritmo djb2. shl rax, 5 equivale a moltiplicare per 32 (2^5); sommando rax stesso si ottiene hash*33. La formula complessiva e' hash = hash*33 + c, applicata ad ogni byte c della stringa in input.
 
 @@@
 0x0000134f      mov dword [var_ch], eax
@@ -245,10 +227,7 @@ section .ALGORITMO_DI_HASH
 0x00001356      jne 0x131f
 @@@
 
-;il ciclo termina al byte nullo, confermando che l'input e' trattato come stringa C standard null-terminated.
-;nessuna dipendenza da lunghezza esplicita: il calcolo si basa unicamente sul terminatore.
-
-;poiché l'input a questa funzione (la password hardcoded troncata a 12 byte) è costante ad ogni esecuzione, anche il valore restituito da hash è costante. L'analisi dinamica ha confermato il valore `15237662580160011234` come output invariante di make_secret/hash.
+;il ciclo termina al byte nullo, confermando che l'input e' trattato come stringa C standard null-terminated. Nessuna dipendenza da lunghezza esplicita: il calcolo si basa unicamente sul terminatore. Poiché l'input a questa funzione (la password hardcoded troncata a 12 byte) è costante ad ogni esecuzione, anche il valore restituito da hash è costante. L'analisi dinamica ha confermato il valore `15237662580160011234` come output invariante di make_secret/hash.
 
 section .SFRUTTAMENTO
 
