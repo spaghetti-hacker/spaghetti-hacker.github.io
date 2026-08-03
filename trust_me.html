@@ -78,10 +78,10 @@ visite: <span id="visits">...</span>
 
 section .INTRODUZIONE
 
-;il binario implementa un finto meccanismo di autenticazione basato su password e hash.
+;il binario oggetto di analisi implementa un finto meccanismo di autenticazione basato su password e hash, presentato all'utente come un sistema di "account" personale: si imposta una password, se ne dichiara la lunghezza, e infine si fornisce un valore di hash per "sbloccare" l'accesso e visualizzare la flag. Il documento è organizzato seguendo il flusso di esecuzione del programma: allocazione e setup iniziale del buffer, interazione con l'utente, meccanismo di verifica, analisi dettagliata di make_secret e dell'algoritmo di hashing (djb2), fino ai passi di sfruttamento riproducibili e alle conclusioni sulla natura della vulnerabilità.
 
 _Nota_Metodologica:
-L'analisi è stata condotta con r2 (radare2) e IDA Free in modalità statica (disassembly di main, make_secret, hash) integrata da osservazione dinamica dei valori a runtimei con gdb, necessaria per confermare che l'output del meccanismo di hashing è costante e indipendente dall'input utente.
+;l'analisi è stata condotta con r2 (radare2) e IDA Free in modalità statica (disassembly di main, make_secret, hash) integrata da osservazione dinamica dei valori a runtimei con gdb, necessaria per confermare che l'output del meccanismo di hashing è costante e indipendente dall'input utente.
 
 <img src="https://spaghetti-hacker.github.io/trust0.png" class="full-img">
 
