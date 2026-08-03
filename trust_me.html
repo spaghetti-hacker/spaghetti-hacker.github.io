@@ -237,6 +237,8 @@ section .ALGORITMO_DI_HASH
 0x00001336      add rax, rdx
 @@@
 
+;djb2 è un algoritmo di hashing non crittografico ideato da Daniel J. Bernstein, diffuso a partire dagli anni '90 grazie alla sua semplicità e velocità. Non è pensato per la sicurezza (non offre resistenza a collisioni intenzionali né proprietà crittografiche), ma per usi pratici come hash table, indicizzazione di stringhe o generazione rapida di checksum in software dove le performance contano più della robustezza contro un attaccante. Il suo funzionamento si basa su un seed iniziale "magico" (5381) e su un ciclo che, per ogni carattere della stringa, aggiorna l'hash con la formula hash = hash * 33 + c. Il fattore 33 (ottenuto efficientemente con uno shift a sinistra di 5 bit più un'addizione, come si vede nel disassembly) è stato scelto empiricamente da Bernstein per la sua buona distribuzione statistica degli output, pur non avendo una giustificazione teorica rigorosa. Proprio per l'assenza di garanzie crittografiche, l'uso di djb2 (o varianti come djb2a) in contesti di autenticazione o verifica di segreti — come in questo binario — è una scelta debole: l'algoritmo è deterministico, veloce da invertire per bruteforce su input corti, e in questo caso specifico il problema è aggravato dal fatto che l'input hashato non dipende nemmeno dai dati forniti dall'utente.
+
 ;0x1505 = 5381 decimale, il seed classico dell'algoritmo djb2.
 ;shl rax, 5 equivale a moltiplicare per 32 (2^5); sommando rax stesso si ottiene hash*33.
 ;la formula complessiva e' hash = hash*33 + c, applicata ad ogni byte c della stringa in input.
