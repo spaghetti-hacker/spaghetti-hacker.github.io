@@ -246,6 +246,8 @@ _Natura_della_Vulnerabilita:
 
 ;il meccanismo di autenticazione presenta un difetto di design (non un memory corruption bug) classificabile come "hardcoded secret con verifica indipendente dall'input utente". L'apparente flusso: imposta password, dichiara lunghezza, fornisci hash, induce l'utente a credere che il valore di confronto derivi dalla password appena impostata. In realtà make_secret ignora completamente il buffer contenente l'input utente e ricalcola sempre l'hash della password originale offuscata in obj.obf_bytes. La vulnerabilità non nasce dal fidarsi ciecamente dell'utente, ma da un controllo di sicurezza che di fatto non verifica affatto l'input fornito, rendendo il meccanismo di autenticazione completamente cosmetico e aggirabile tramite semplice osservazione del valore costante atteso.
 
+<img src="https://spaghetti-hacker.github.io/trust2.png" class="full-img">
+
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 </script>
 <script>
