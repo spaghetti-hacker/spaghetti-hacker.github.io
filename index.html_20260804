@@ -604,11 +604,7 @@ a:hover{
     </div>
     <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry nav-desktop">
-        <a href="https://spaghetti-hacker.github.io" target="_blank" rel="noopener">HCF ▾</a>
-        <div class="dropdown" id="drop-hcf">
-            <div class="drop-item"><a href="mailto:hcf.mutiny@gmail.com">Email</a></div>
-            <div class="drop-item"><a href="https://github.com/spaghetti-hacker/" target="_blank" rel="noopener">GitHub</a></div>
-        </div>
+        <a href="https://spaghetti-hacker.github.io" target="_blank" rel="noopener">HCF</a>
     </div>
     <span class="nav-sep nav-desktop">|</span>
     <div class="nav-entry nav-desktop">
