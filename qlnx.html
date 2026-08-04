@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/trust_me.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="QLNX PROCESS INJECTION">
+<meta property="og:description" content=";reversing di un framework di process injection.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/trust_me.png">
+
+
+<title>QLNX PROCESS INJECTION</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/trust_me.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+;primo commento introduttivo.
+
+;secondo paragrafo del commento.
+
+@@@
+0x00400806 push rbp
+0x00400807 mov rbp, rsp
+@@@
+
+;commento sul blocco qui sopra.
+
+@@@
+0x004008ea ret
+@@@
+
+;commento finale.
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+================================================================
+-->
+<script id="content" type="text/plain">
+QLNX PROCESS INJECTION ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+visite: <span id="visits">...</span>
+
+Inside a Linux Process Injection Framework: Reverse Engineering the Injection Subsystem of Quasar Linux
+
+section .METADATI
+
+Tipologia campione     : ELF x86_64, Linux
+SHA-256                : ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545
+Architettura target    : x86_64
+Strumenti utilizzati   : IDA Free, analisi statica manuale, ricostruzione del flusso di controllo
+
+file ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf
+ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=01dce07561f9d271b9495c3685065548087723b7, for GNU/Linux 3.2.0, stripped
+
+_Nota_Metodologica:
+
+;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo la rinomina delle variabili e delle funzioni. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
+
+_Leucochloridium_paradoxum:
+
+;è un verme parassita (trematode) che utilizza le lumache terrestri come ospiti intermedi durante il proprio ciclo vitale. Una volta insediato nell'organismo della lumaca, sviluppa strutture pulsanti che invadono i peduncoli oculari, alterandone l'aspetto e influenzando il comportamento dell'ospite. Queste modifiche aumentano la probabilità che la lumaca venga predatata da un uccello, consentendo al parassita di completare il proprio ciclo biologico. Nell'intestino dell'uccello il verme adulto si riproduce sessualmente e produce uova. È uno degli esempi più noti di manipolazione del comportamento dell'ospite da parte di un organismo parassita.
+
+section .INTRODUZIONE
+
+;lo scope della presente analisi e' volutamente circoscritto al sottosistema di process injection del campione, e non copre l'impianto QLNX nella sua interezza. Il campione sottoposto ad analisi implementa infatti funzionalita' addizionali, rootkit a doppio livello (LD_PRELOAD/eBPF), backdoor PAM, raccolta di credenziali, tunneling di rete e rete mesh peer-to-peer, che esulano dal perimetro di questo documento e non vengono trattate.
+
+;l'obiettivo e' quindi circoscritto a:
+
+- ricostruire il funzionamento del dispatcher injection_manager() e la logica di selezione/fallback tra le tecniche disponibili;
+- documentare in dettaglio le due primitive di injection implementate (/proc/<pid>/mem e ptrace PTRACE_POKEDATA), incluso il meccanismo di rilevamento di Yama ptrace_scope;
+- fornire indicatori di compromissione e mapping MITRE ATT&CK relativi esclusivamente a questo modulo.
+
+;ogni riferimento alle altre componenti dell'impianto (sezione .VIRUSTOTAL inclusa) e' presente solo a titolo contestuale, per collocare il modulo di injection all'interno dell'architettura complessiva del malware, senza costituirne oggetto di analisi tecnica approfondita.
+
+;Linux non dispone di un equivalente diretto delle API Win32 (CreateRemoteThread, WriteProcessMemory). Il sistema operativo espone pero' due canali primari che assolvono la stessa funzione.
+
+;canali disponibili:
+
+- /proc/<pid>/mem: file speciale che rappresenta lo spazio di indirizzamento del processo. Permette lettura/scrittura tramite pread e pwrite, se il chiamante dispone dei permessi necessari.
+
+- ptrace: interfaccia di sistema pensata per debugger e tracer. Richieste rilevanti: PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA,
+PTRACE_GETREGS, PTRACE_SETREGS. Permette di sospendere il target, leggere/scrivere la memoria parola per parola e modificare i registri della CPU.
+
+;entrambi i canali richiedono un attach preventivo al processo vittima, che lo sospende e trasferisce al chiamante il diritto di ispezionarne e modificarne lo stato. Questo vincolo comune rappresenta il principale punto di osservabilita' per strumenti di detection basati su syscall monitoring. Una restrizione di sicurezza rilevante e' Yama ptrace_scope, parametro del kernel che limita quali processi possono tracciarne altri. Con un valore restrittivo, un processo non privilegiato non puo' fare attach a processi arbitrari, e questo vincolo si riflette direttamente sulla riuscita delle tecniche descritte. Il campione analizzato implementa entrambi i canali in un unico framework, con selezione e fallback descritti nelle sezioni successive.
+
+section .EXECUTIVE_SUMMARY
+
+;il campione implementa un sottosistema dedicato alla process injection. Il componente principale, injection_manager(), agisce come dispatcher tra differenti primitive Linux utilizzate per modificare un processo remoto. La funzione non contiene direttamente il codice del payload. Riceve una richiesta serializzata composta da:
+
+- target PID
+- payload binario
+- metodo di injection
+
+;e seleziona dinamicamente la tecnica da utilizzare.
+
+_Modalita'_Supportate:
+
+- scrittura diretta tramite /proc/<pid>/mem
+- scrittura controllata tramite ptrace(PTRACE_POKEDATA)
+
+;entrambe le tecniche convergono sullo stesso obiettivo: inserire codice nella memoria del processo target e trasferire il flusso esecutivo modificando il registro rip. Il dispatcher gestisce inoltre in modo esplicito la condizione in cui Yama ptrace_scope blocchi l'operazione per un chiamante non privilegiato, restituendo un messaggio di errore dedicato invece di fallire silenziosamente.
+
+@@@
+section .ARCHITETTURA_GENERALE
+
+  injection_manager()
+    |
+    +-- buffer_read_u32()        -> target_pid
+    +-- buffer_read_blob()       -> payload
+    +-- buffer_read_u32()        -> injection_method
+    |
+    v
+  Injection dispatcher
+    |
+    +----------------------------+
+    |                            |
+    v                            v
+  inject_via_proc_mem()    ptrace_write_and_redirect_execution()
+    |                            |
+    v                            v
+  /proc/PID/mem              PTRACE_POKEDATA
+    |                            |
+    +-------------+--------------+
+                  |
+                  v
+            rip = payload_address
+                  |
+                  v
+            esecuzione codice remoto
+@@@
+
+.section INJECTION_DISPATCHER
+
+;la funzione injection_manager() rappresenta il punto centrale del sottosistema. Il malware separa la logica di ricezione del comando dalla tecnica utilizzata per modificare il processo remoto, mantenendo un unico punto di controllo e permettendo di aggiungere metodi differenti senza modificare il protocollo di comando.
+
+@@@
+init_struct((__int64)request_reader, buffer, size);
+target_pid = buffer_read_u32((__int64)request_reader);
+payload = buffer_read_blob((__int64)request_reader, &payload_size);
+method = buffer_read_u32((__int64)request_reader);
+v5 = parser_ok((__int64)request_reader);
+@@@
+
+;la richiesta contiene tre elementi: target_pid identifica il processo vittima, payload contiene il codice da scrivere nella memoria remota, method seleziona la tecnica di injection. parser_ok() valida la struttura del buffer ricevuto, ma la chiamata avviene dopo la lettura dei singoli campi: la validazione e' quindi a posteriori rispetto al parsing.
+
+@@@
+if ( dword_25710 > 0 )
+{
+    stringa_di_risultato = "Yama ptrace_scope blocks non-root ptrace. Need root.";
+    if ( !dword_25728 )
+        goto LABEL_21;
+}
+@@@
+
+;dword_25710 e' un flag globale che indica se e' stata rilevata una restrizione Yama ptrace_scope attiva. dword_25728 rappresenta verosimilmente lo stato di privilegio del chiamante (root o meno). Se il chiamante non e' privilegiato e la restrizione e' attiva, l'esecuzione salta direttamente al messaggio di errore, evitando chiamate ptrace destinate a fallire.
+
+@@@
+if ( method )
+{
+    if ( method == 1 )
+        inject_via_proc_mem(target_pid, payload, payload_size);
+    else if ( method == 2 )
+        ptrace_write_and_redirect_execution(target_pid, payload, payload_size);
+}
+@@@
+
+_Selettore_method:
+
+Valore   Significato
+------   -----------
+0        modalita' automatica con fallback tra le due tecniche
+1        utilizzo esplicito di /proc/<pid>/mem
+2        utilizzo esplicito di ptrace(PTRACE_POKEDATA)
+altro    valore non riconosciuto -> "Unknown injection method"
+
+section .FALLBACK_MECHANISM
+
+;quando il metodo non viene specificato (method == 0), il malware tenta automaticamente la tecnica preferenziale e passa alla seconda in caso di errore.
+
+@@@
+if ( method == 0 )
+{
+    if ( enable_proc_mem &&
+         inject_via_proc_mem(target_pid, payload, payload_size) == 0 )
+    {
+        return success;
+    }
+
+    if ( ptrace_write_and_redirect_execution(target_pid,
+                                             payload,
+                                             payload_size) == 0 )
+    {
+        return success;
+    }
+}
+@@@
+
+;la modalita' automatica aumenta la compatibilita' del framework: il malware tenta prima /proc/<pid>/mem e utilizza ptrace come alternativa quando il primo metodo non e' disponibile. L'ordine dei controlli implementa una preferenza esplicita: /proc/<pid>/mem e' il canale primario, ptrace il canale di riserva.
+
+section .PROC_MEM_INJECTION
+
+;la prima tecnica utilizza il file speciale Linux /proc/<pid>/mem. La funzione effettua prima un attach tramite ptrace per ottenere il controllo del processo target.
+
+@@@
+if ( (unsigned int)ptrace_attach_and_wait(PID) == -1 )
+    return 0xFFFFFFFFLL;
+mem_PID = read_mem_PID(PID);
+@@@
+
+;ptrace_attach_and_wait() sospende il processo remoto tramite PTRACE_ATTACH e attende che il target raggiunga uno stato stoppato. Se l'attach fallisce (restrizioni Yama, permessi insufficienti), la funzione termina subito con errore. read_mem_PID() analizza /proc/<pid>/maps del target e individua l'area di memoria da usare come destinazione.
+
+@@@
+if ( !mem_PID || ptrace(PTRACE_GETREGS, PID, 0LL, v15) < 0 || (v7 = malloc(v3)) == 0LL )
+{
+    ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
+    return 0xFFFFFFFFLL;
+}
+@@@
+
+;prima della scrittura vengono verificate tre condizioni: indirizzo di memoria valido, lettura registri riuscita (PTRACE_GETREGS), allocazione del buffer di backup riuscita. Se una fallisce, il processo viene rilasciato (PTRACE_DETACH) senza modifiche.
+
+@@@
+pread(fd, backup, size, mem_PID);
+pwrite(fd, buffer, size, mem_PID);
+@@@
+
+;pread copia il contenuto originale della regione scelta in un buffer locale di backup. pwrite scrive il payload nella stessa regione. Se una delle due operazioni non restituisce la dimensione attesa, l'injection viene considerata fallita e il processo viene rilasciato senza toccare i registri.
+
+@@@
+v17 = mem_PID;
+ptrace(PTRACE_SETREGS, PID, 0LL, v16);
+ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
+@@@
+
+;v16 contiene la copia dei registri originali (letti con PTRACE_GETREGS) con il campo rip sovrascritto dall'indirizzo mem_PID. PTRACE_SETREGS applica questo stato al target, spostando il program counter sull'inizio del payload. PTRACE_DETACH rilascia il controllo e il processo riprende l'esecuzione dal nuovo rip.
+
+section. PTRACE_INJECTION
+
+;la seconda tecnica scrive nella memoria del processo remoto usando direttamente le primitive ptrace, senza passare da /proc/<pid>/mem.
+
+@@@
+while ( indice < size )
+{
+    if ( size - indice > 7 )
+    {
+        v11 = 8;
+    }
+    else
+    {
+        v10 = ptrace(PTRACE_PEEKDATA, PID, mem_PID + indice, 0LL);
+        v17[0] = v10;
+        v11 = size - indice;
+    }
+    qmemcpy(v17, (const void *)(buffer + v8), v11);
+    ptrace(PTRACE_POKEDATA, PID, mem_PID + indice, v17[0]);
+    indice += 8;
+}
+@@@
+
+;la scrittura avviene in blocchi da 8 byte (su un sistema Linux x86_64 questa word è di 8 byte [long = 64 bit]), poiche' PTRACE_POKEDATA opera solo con questa granularita'. Quando restano meno di 8 byte, la funzione esegue prima una PTRACE_PEEKDATA per leggere il contenuto originale della word di destinazione, cosi' da preservare i byte non appartenenti al payload nell'ultimo blocco parziale. A differenza della tecnica /proc/<pid>/mem, qui non c'e' un backup esplicito dell'intera regione originale: solo l'ultimo blocco parziale viene preservato tramite la PEEKDATA preventiva.
+
+section .EXECUTION_REDIRECT
+
+;la fase finale delle due tecniche coincide: dopo la scrittura del payload il malware modifica il registro instruction pointer del processo remoto.
+
+@@@
+v17[16] = mem_PID;
+ptrace(PTRACE_SETREGS, PID, 0LL, v17);
+ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
+@@@
+
+;v17[16] corrisponde, nella struttura di registri x86_64 usata da ptrace, al campo rip. Impostandolo su mem_PID, il program counter del processo vittima viene fatto puntare all'inizio della regione appena scritta. PTRACE_SETREGS applica la struttura modificata, PTRACE_DETACH rilascia il controllo: il processo riprende l'esecuzione autonomamente, ma eseguendo il payload iniettato al posto del proprio codice originale. In entrambe le tecniche non avviene un ripristino della memoria originale in questa fase: il payload rimane residente nello spazio di indirizzamento del processo vittima anche dopo il detach.
+
+section .OSSERVAZIONI_TECNICHE
+
+_Il_dispatcher:
+
+;injection_manager() non implementa una singola tecnica, ma funziona da livello superiore che separa comando ricevuto, decisione tecnica e backend operativo. Questo permette al framework di adattarsi a diverse configurazioni Linux, incluse quelle con restrizioni Yama attive.
+
+_Doppio_percorso_di_injection:
+
+;l'uso combinato di /proc/<pid>/mem e ptrace evidenzia un approccio orientato alla compatibilita'. Il malware non dipende da una singola primitiva: il fallback permette di continuare l'injection anche quando una tecnica e' limitata dalla configurazione del sistema.
+
+_Gestione_esplicita_di_Yama_ptrace_scope:
+
+;a differenza di un tentativo seguito da fallimento generico, il dispatcher verifica in anticipo lo stato del flag dword_25710 e produce un messaggio diagnostico dedicato quando la restrizione del kernel e' la causa del blocco. Questo suggerisce che l'autore abbia previsto deployment su sistemi hardened, dove Yama ptrace_scope e' tipicamente restrittivo di default.
+
+section .INDICATORI_DI_COMPROMISSIONE_(IOC)
+
+Tipo      Valore                                                  Contesto
+----      ------                                                  --------
+strings   "/proc/%d/mem"                                          accesso memoria processo remoto
+strings   "PTRACE_POKEDATA"                                       tecnica alternativa di scrittura memoria
+strings   "Injected %u bytes into PID %d via /proc/pid/mem"       messaggio di successo, metodo 1
+strings   "Injected %u bytes into PID %d via PTRACE_POKEDATA"     messaggio di successo, metodo 2
+strings   "Yama ptrace_scope blocks non-root ptrace. Need root."  errore per restrizione kernel
+strings   "Unknown injection method"                              errore per valore method non valido
+strings   "Invalid inject parameters"                             errore per parametri mancanti/malformati
+strings   "Injection into PID %d failed: %s"                      errore generico con strerror
+
+.section NOTE_FINALI
+
+;il componente analizzato implementa un vero e proprio framework modulare di process injection. L'elemento piu' rilevante non e' la singola API Linux utilizzata, ma la presenza di un dispatcher che riceve comandi esterni e seleziona dinamicamente il metodo di compromissione, con gestione esplicita delle condizioni ambientali che possono limitarne l'efficacia.
+
+_Schema_generale_del_modello_implementato:
+
+- identificazione del processo target.
+- caricamento del payload.
+- scrittura della memoria remota.
+- modifica del flusso di esecuzione.
+- esecuzione nel contesto del processo vittima.
+
+section .CONCLUSIONE
+
+;l'analisi del sottosistema di injection conferma un design orientato alla resilienza operativa piuttosto che alla sofisticazione della singola tecnica. Le due primitive impiegate sono entrambe note nell'ambito della sicurezza Linux, ma la loro combinazione in un unico dispatcher con logica di fallback e rilevamento di Yama ptrace_scope indica un livello di maturita' ingegneristica superiore alla media dei campioni che implementano una singola tecnica isolata.
+
+;dal punto di vista difensivo, i principali punti di osservabilita' restano:
+
+- syscall ptrace con richieste PTRACE_ATTACH, PTRACE_GETREGS, PTRACE_SETREGS e PTRACE_POKEDATA verso processi non correlati al chiamante.
+- apertura e scrittura su file /proc/<pid>/mem.
+
+;entrambi i canali richiedono privilegi coerenti con il contesto del processo target o una relazione di parentela riconosciuta dal kernel: ambienti con Yama ptrace_scope restrittivo riducono in modo significativo la superficie di attacco disponibile per questo framework.
+
+section .TTP_MITRE_ATTCK
+
+;mapping delle tecniche osservate secondo il framework MITRE ATT&CK Enterprise, versione v19 (28 aprile 2026). Nota metodologica: con il rilascio v19, MITRE ha ritirato la tattica "Defense Evasion" (TA0005), suddividendola in due nuove tattiche: Stealth (che eredita l'ID TA0005) e Defense Impairment (nuovo ID TA0112). Il process injection, in quanto tecnica orientata a mascherare l'esecuzione di codice malevolo all'interno di un processo legittimo piuttosto che a disabilitare direttamente un controllo di sicurezza, ricade sotto Stealth nella nuova tassonomia.
+
+;alcune tecniche non hanno un mapping 1:1 perfetto poiche' il comportamento osservato (dispatcher con fallback tra due canali di injection e rilevamento esplicito di una restrizione Yama ptrace_scope) e' piu' granulare di quanto ATT&CK tipicamente cataloghi come singola tecnica.
+
+TA0005: Stealth
+T1055: Process Injection
+;injection_manager() agisce da dispatcher centrale: riceve target_pid, payload e metodo di injection dalla richiesta serializzata, quindi seleziona dinamicamente il backend da utilizzare. La scrittura di codice nello spazio di indirizzamento di un processo remoto seguita dal dirottamento del flusso di esecuzione tramite modifica di rip corrisponde al comportamento core catalogato da questa tecnica padre.
+
+TA0005: Stealth
+T1055.008: Process Injection: Ptrace System Calls
+;ptrace_write_and_redirect_execution() utilizza in sequenza PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS e PTRACE_SETREGS per scrivere il payload a blocchi di 8 byte e reindirizzare l'esecuzione del processo target. La rilevanza tecnica: la scrittura avviene interamente tramite ptrace, senza mai aprire il file /proc/<pid>/mem.
+
+TA0005: Stealth
+T1055.009: Process Injection: Proc Memory
+;inject_via_proc_mem() scrive direttamente nello spazio di indirizzamento del target aprendo /proc/<pid>/mem e usando pread/pwrite, mantenendo comunque un attach ptrace preliminare per sospendere il processo e un aggiornamento finale dei registri per il redirect. Questa sotto-tecnica e T1055.008 sono trattate dal dispatcher come backend intercambiabili dello stesso obiettivo tattico, non come alternative mutuamente esclusive: la scelta tra le due dipende dal parametro method e, in modalita' automatica, da un ordine di preferenza con fallback.
+
+TA0002: Execution
+T1106: Native API
+;la scrittura di memoria remota e il controllo dei registri del processo target avvengono tramite chiamate dirette a ptrace, pread e pwrite, senza passare da wrapper applicativi di livello superiore.
+
+;il controllo del flag dword_25710 (rilevamento di una restrizione Yama ptrace_scope attiva sul sistema) e la conseguente selezione del canale di injection non trovano un mapping dedicato nel framework ATT&CK: si tratta di un meccanismo di adattamento alle condizioni dell'ambiente di esecuzione, funzionale alla riuscita di T1055.008 e T1055.009, ma non costituisce di per se' una tecnica catalogata separatamente.
+
+section .VIRUSTOTAL
+
+Hash campione (SHA256): ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545
+Detection score        : 33/63
+
+;il campione risulta gia' noto al momento dell'analisi, con un tasso di rilevamento pari a circa il 52% dei motori interrogati. Questo valore e' coerente con un sample gia' in circolazione da tempo, piuttosto che con un binario di nuova compilazione o con offuscamento mirato a evadere il rilevamento statico.
+
+;la maggioranza dei motori converge su un'unica attribuzione di famiglia, sebbene con convenzioni di naming diverse. Un primo gruppo di vendor (ALYac, Arcabit, BitDefender, eScan, GData, VIPRE, Emsisoft, Kaspersky) etichetta il campione come "Trojan.Linux.Quasar.A" o varianti equivalenti. Un secondo gruppo (Fortinet "Linux/Agent.AZW!tr", ESET-NOD32 "Linux/Agent.AZW Trojan", Sophos e ZoneAlarm "Linux/QLnx-A", TrendMicro e TrendMicro-HouseCall "Backdoor.Linux.QLNX.A", AhnLab-V3 "Trojan/Linux.RatAgent") utilizza invece la sigla QLnx/QLNX. Entrambi i cluster fanno riferimento alla stessa famiglia: Quasar Linux (QLNX), un impianto Linux completo con capacita' di accesso remoto, rootkit a doppio livello (LD_PRELOAD in userspace ed eBPF a livello kernel), backdoor PAM, raccolta di credenziali da ambienti di sviluppo e cloud, tunneling di rete e rete mesh peer-to-peer.
+
+;il sottosistema di process injection analizzato in questo report corrisponde a una singola funzionalita' del set di comandi C2 di QLNX. Il campione sottoposto a VirusTotal rappresenta quindi l'intero impianto, di cui il dispatcher analizzato in questo documento costituisce solo il modulo di injection.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                if(p.type === 'title'){
+                    inner += '<p class="title">' + p.text + '</p>\n';
+                } else {
+                    const cleaned = p.text.replace(/\n/g, '<br>');
+                    inner += '<p>' + cleaned + '</p>\n';
+                }
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+
+        function flush(){
+            if(current.length > 0){
+                result.push({ type: 'text', text: current.join('\n') });
+                current = [];
+            }
+        }
+
+        for(const line of lines){
+            const trimmed = line.trim();
+            if(trimmed === ''){
+                flush();
+            } else if(/^(section|_)/.test(trimmed)){
+                // riga "title": es. "section .CONCLUSIONI" o "_Natura_della_Vulnerabilita:"
+                flush();
+                result.push({ type: 'title', text: trimmed });
+            } else {
+                current.push(line);
+            }
+        }
+        flush();
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:trustme/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
