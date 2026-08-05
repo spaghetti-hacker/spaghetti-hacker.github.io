@@ -328,16 +328,16 @@ _Gestione_esplicita_di_Yama_ptrace_scope:
 
 section .INDICATORI_DI_COMPROMISSIONE_(IOC)
 
-Tipo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Valore&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                  Contesto
-----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                  --------
-strings&nbsp;&nbsp;&nbsp;   "/proc/%d/mem"&nbsp;&nbsp;&nbsp;&nbsp;                                          accesso memoria processo remoto
-strings&nbsp;&nbsp;&nbsp;   "PTRACE_POKEDATA"&nbsp;                                       tecnica alternativa di scrittura memoria
+Tipo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Valore&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                  Contesto
+----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                  --------
+strings&nbsp;&nbsp;&nbsp;   "/proc/%d/mem"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                          accesso memoria processo remoto
+strings&nbsp;&nbsp;&nbsp;   "PTRACE_POKEDATA"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                       tecnica alternativa di scrittura memoria
+strings&nbsp;&nbsp;&nbsp;   "Unknown injection method"&nbsp;                              errore per valore method non valido
+strings&nbsp;&nbsp;&nbsp;   "Invalid inject parameters"                             errore per parametri mancanti/malformati
+strings&nbsp;&nbsp;&nbsp;   "Injection into PID %d failed: %s"                      errore generico con strerror
 strings&nbsp;&nbsp;&nbsp;   "Injected %u bytes into PID %d via <code>/proc/&lt;pid&gt;/mem</code>"       successo, metodo 1
 strings&nbsp;&nbsp;&nbsp;   "Injected %u bytes into PID %d via PTRACE_POKEDATA"     successo, metodo 2
 strings&nbsp;&nbsp;&nbsp;   "Yama ptrace_scope blocks non-root ptrace. Need root."  restrizione kernel
-strings&nbsp;&nbsp;&nbsp;   "Unknown injection method"                              errore per valore method non valido
-strings&nbsp;&nbsp;&nbsp;   "Invalid inject parameters"                             errore per parametri mancanti/malformati
-strings&nbsp;&nbsp;&nbsp;   "Injection into PID %d failed: %s"                      errore generico con strerror
 
 .section NOTE_FINALI
 
