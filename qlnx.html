@@ -368,19 +368,23 @@ section .TTP_MITRE_ATTCK
 
 ;alcune tecniche non hanno un mapping 1:1 perfetto poiche' il comportamento osservato (dispatcher con fallback tra due canali di injection e rilevamento esplicito di una restrizione Yama ptrace_scope) e' piu' granulare di quanto ATT&CK tipicamente cataloghi come singola tecnica.
 
-TA0005: Stealth
+_TA0005_Stealth:
+
 T1055: Process Injection
 ;injection_manager() agisce da dispatcher centrale: riceve target_pid, payload e metodo di injection dalla richiesta serializzata, quindi seleziona dinamicamente il backend da utilizzare. La scrittura di codice nello spazio di indirizzamento di un processo remoto seguita dal dirottamento del flusso di esecuzione tramite modifica di rip corrisponde al comportamento core catalogato da questa tecnica padre.
 
-TA0005: Stealth
+_TA0005_Stealth:
+
 T1055.008: Process Injection: Ptrace System Calls
 ;ptrace_write_and_redirect_execution() utilizza in sequenza PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS e PTRACE_SETREGS per scrivere il payload a blocchi di 8 byte e reindirizzare l'esecuzione del processo target. La rilevanza tecnica: la scrittura avviene interamente tramite ptrace, senza mai aprire il file <code>/proc/&lt;pid&gt;/mem</code>.
 
-TA0005: Stealth
+_TA0005_Stealth:
+
 T1055.009: Process Injection: Proc Memory
 ;inject_via_proc_mem() scrive direttamente nello spazio di indirizzamento del target aprendo <code>/proc/&lt;pid&gt;/mem</code> e usando pread/pwrite, mantenendo comunque un attach ptrace preliminare per sospendere il processo e un aggiornamento finale dei registri per il redirect. Questa sotto-tecnica e T1055.008 sono trattate dal dispatcher come backend intercambiabili dello stesso obiettivo tattico, non come alternative mutuamente esclusive: la scelta tra le due dipende dal parametro method e, in modalita' automatica, da un ordine di preferenza con fallback.
 
-TA0002: Execution
+_TA0002_Execution:
+
 T1106: Native API
 ;la scrittura di memoria remota e il controllo dei registri del processo target avvengono tramite chiamate dirette a ptrace, pread e pwrite, senza passare da wrapper applicativi di livello superiore.
 
