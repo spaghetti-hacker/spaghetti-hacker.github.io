@@ -123,7 +123,7 @@ section .INTRODUZIONE
 
 ;Linux non dispone di un equivalente diretto delle API Win32 (CreateRemoteThread, WriteProcessMemory). Il sistema operativo espone pero' due canali primari che assolvono la stessa funzione.
 
-;canali disponibili:
+_Canali_disponibili:
 
 - <code>/proc/&lt;pid&gt;/mem</code>: file speciale che rappresenta lo spazio di indirizzamento del processo. Permette lettura/scrittura tramite pread e pwrite, se il chiamante dispone dei permessi necessari.
 
