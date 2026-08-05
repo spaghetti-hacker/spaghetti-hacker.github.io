@@ -88,7 +88,7 @@ _Nota_Metodologica:
 
 ;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo la rinomina delle variabili e delle funzioni. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
 
-_Leucochloridium_paradoxum:
+_Leucochloridium_Paradoxum:
 
 ;è un verme parassita (trematode) che utilizza le lumache terrestri come ospiti intermedi durante il proprio ciclo vitale. Una volta insediato nell'organismo della lumaca, sviluppa strutture pulsanti che invadono i peduncoli oculari, alterandone l'aspetto e influenzando il comportamento dell'ospite. Queste modifiche aumentano la probabilità che la lumaca venga predatata da un uccello, consentendo al parassita di completare il proprio ciclo biologico. Nell'intestino dell'uccello il verme adulto si riproduce sessualmente e produce uova. È uno degli esempi più noti di manipolazione del comportamento dell'ospite da parte di un organismo parassita.
 
@@ -99,7 +99,7 @@ ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf: ELF 64-bit
 
 Il campione è completamente stripped e non contiene simboli. I nomi delle funzioni riportati nel documento (injection_manager(), inject_via_proc_mem(), ptrace_write_and_redirect_execution(), ecc.) sono stati assegnati durante l'analisi.  Le strutture dati e il protocollo di comando sono stati ricostruiti osservando esclusivamente i flussi di controllo e gli accessi ai buffer.
 
-_Tabella_delle_funzioni_rinominate:
+_Tabella_Delle_Funzioni_Rinominate:
 
 Offset&nbsp;&nbsp;	Nome assegnato&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Motivazione
 ------&nbsp;&nbsp;  --------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -----------
@@ -123,7 +123,7 @@ section .INTRODUZIONE
 
 ;Linux non dispone di un equivalente diretto delle API Win32 (CreateRemoteThread, WriteProcessMemory). Il sistema operativo espone pero' due canali primari che assolvono la stessa funzione.
 
-_Canali_disponibili:
+_Canali_Disponibili:
 
 - <code>/proc/&lt;pid&gt;/mem</code>: file speciale che rappresenta lo spazio di indirizzamento del processo. Permette lettura/scrittura tramite pread e pwrite, se il chiamante dispone dei permessi necessari.
 
@@ -214,7 +214,7 @@ if ( method )
 }
 @@@
 
-_Selettore_method:
+_Selettore_Method:
 
 Valore&nbsp;&nbsp;&nbsp;Significato
 ------&nbsp;&nbsp;&nbsp;-----------
@@ -327,15 +327,15 @@ ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
 
 section .OSSERVAZIONI_TECNICHE
 
-_Il_dispatcher:
+_Il_Dispatcher:
 
 ;injection_manager() non implementa una singola tecnica, ma funziona da livello superiore che separa comando ricevuto, decisione tecnica e backend operativo. Questo permette al framework di adattarsi a diverse configurazioni Linux, incluse quelle con restrizioni Yama attive.
 
-_Doppio_percorso_di_injection:
+_Doppio_Percorso_Di_Injection:
 
 ;l'uso combinato di <code>/proc/&lt;pid&gt;/mem</code> e ptrace evidenzia un approccio orientato alla compatibilita'. Il malware non dipende da una singola primitiva: il fallback permette di continuare l'injection anche quando una tecnica e' limitata dalla configurazione del sistema.
 
-_Gestione_esplicita_di_Yama_ptrace_scope:
+_Gestione_Esplicita_Di_Yama_ptrace_scope:
 
 ;a differenza di un tentativo seguito da fallimento generico, il dispatcher verifica in anticipo lo stato del flag dword_25710 e produce un messaggio diagnostico dedicato quando la restrizione del kernel e' la causa del blocco. Questo suggerisce che l'autore abbia previsto deployment su sistemi hardened, dove Yama ptrace_scope e' tipicamente restrittivo di default.
 
@@ -356,7 +356,7 @@ section .NOTE_FINALI
 
 ;il componente analizzato implementa un vero e proprio framework modulare di process injection. L'elemento piu' rilevante non e' la singola API Linux utilizzata, ma la presenza di un dispatcher che riceve comandi esterni e seleziona dinamicamente il metodo di compromissione, con gestione esplicita delle condizioni ambientali che possono limitarne l'efficacia.
 
-_Schema_generale_del_modello_implementato:
+_Schema_Generale_Del_Modello_Implementato:
 
 - identificazione del processo target.
 - caricamento del payload.
