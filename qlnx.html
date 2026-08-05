@@ -102,7 +102,7 @@ section .INTRODUZIONE
 ;l'obiettivo e' quindi circoscritto a:
 
 - ricostruire il funzionamento del dispatcher injection_manager() e la logica di selezione/fallback tra le tecniche disponibili;
-- documentare in dettaglio le due primitive di injection implementate (/proc/<pid>/mem e ptrace PTRACE_POKEDATA), incluso il meccanismo di rilevamento di Yama ptrace_scope;
+- documentare in dettaglio le due primitive di injection implementate (<code>/proc/&lt;pid&gt;/mem</code> e ptrace PTRACE_POKEDATA), incluso il meccanismo di rilevamento di Yama ptrace_scope;
 - fornire indicatori di compromissione e mapping MITRE ATT&CK relativi esclusivamente a questo modulo.
 
 ;ogni riferimento alle altre componenti dell'impianto (sezione .VIRUSTOTAL inclusa) e' presente solo a titolo contestuale, per collocare il modulo di injection all'interno dell'architettura complessiva del malware, senza costituirne oggetto di analisi tecnica approfondita.
@@ -111,7 +111,7 @@ section .INTRODUZIONE
 
 ;canali disponibili:
 
-- /proc/<pid>/mem: file speciale che rappresenta lo spazio di indirizzamento del processo. Permette lettura/scrittura tramite pread e pwrite, se il chiamante dispone dei permessi necessari.
+- <code>/proc/&lt;pid&gt;/mem</code>: file speciale che rappresenta lo spazio di indirizzamento del processo. Permette lettura/scrittura tramite pread e pwrite, se il chiamante dispone dei permessi necessari.
 
 - ptrace: interfaccia di sistema pensata per debugger e tracer. Richieste rilevanti: PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA,
 PTRACE_GETREGS, PTRACE_SETREGS. Permette di sospendere il target, leggere/scrivere la memoria parola per parola e modificare i registri della CPU.
@@ -132,7 +132,7 @@ section .EXECUTIVE_SUMMARY
 
 _Modalita'_Supportate:
 
-- scrittura diretta tramite /proc/<pid>/mem
+- scrittura diretta tramite <code>/proc/&lt;pid&gt;/mem</code>
 - scrittura controllata tramite ptrace(PTRACE_POKEDATA)
 
 ;entrambe le tecniche convergono sullo stesso obiettivo: inserire codice nella memoria del processo target e trasferire il flusso esecutivo modificando il registro rip. Il dispatcher gestisce inoltre in modo esplicito la condizione in cui Yama ptrace_scope blocchi l'operazione per un chiamante non privilegiato, restituendo un messaggio di errore dedicato invece di fallire silenziosamente.
@@ -155,7 +155,7 @@ section .ARCHITETTURA_GENERALE
   inject_via_proc_mem()    ptrace_write_and_redirect_execution()
     |                            |
     v                            v
-  /proc/PID/mem              PTRACE_POKEDATA
+  /proc/<pid>/mem              PTRACE_POKEDATA
     |                            |
     +-------------+--------------+
                   |
@@ -206,7 +206,7 @@ _Selettore_method:
 Valore   Significato
 ------   -----------
 0        modalita' automatica con fallback tra le due tecniche
-1        utilizzo esplicito di /proc/<pid>/mem
+1        utilizzo esplicito di <code>/proc/&lt;pid&gt;/mem</code>
 2        utilizzo esplicito di ptrace(PTRACE_POKEDATA)
 altro    valore non riconosciuto -> "Unknown injection method"
 
@@ -232,11 +232,11 @@ if ( method == 0 )
 }
 @@@
 
-;la modalita' automatica aumenta la compatibilita' del framework: il malware tenta prima /proc/<pid>/mem e utilizza ptrace come alternativa quando il primo metodo non e' disponibile. L'ordine dei controlli implementa una preferenza esplicita: /proc/<pid>/mem e' il canale primario, ptrace il canale di riserva.
+;la modalita' automatica aumenta la compatibilita' del framework: il malware tenta prima <code>/proc/&lt;pid&gt;/mem</code> e utilizza ptrace come alternativa quando il primo metodo non e' disponibile. L'ordine dei controlli implementa una preferenza esplicita: <code>/proc/&lt;pid&gt;/mem</code> e' il canale primario, ptrace il canale di riserva.
 
 section .PROC_MEM_INJECTION
 
-;la prima tecnica utilizza il file speciale Linux /proc/<pid>/mem. La funzione effettua prima un attach tramite ptrace per ottenere il controllo del processo target.
+;la prima tecnica utilizza il file speciale Linux <code>/proc/&lt;pid&gt;/mem</code>. La funzione effettua prima un attach tramite ptrace per ottenere il controllo del processo target.
 
 <img src="https://spaghetti-hacker.github.io/qlnx1.png" class="full-img">
 
@@ -246,7 +246,7 @@ if ( (unsigned int)ptrace_attach_and_wait(PID) == -1 )
 mem_PID = read_mem_PID(PID);
 @@@
 
-;ptrace_attach_and_wait() sospende il processo remoto tramite PTRACE_ATTACH e attende che il target raggiunga uno stato stoppato. Se l'attach fallisce (restrizioni Yama, permessi insufficienti), la funzione termina subito con errore. read_mem_PID() analizza /proc/<pid>/maps del target e individua l'area di memoria da usare come destinazione.
+;ptrace_attach_and_wait() sospende il processo remoto tramite PTRACE_ATTACH e attende che il target raggiunga uno stato stoppato. Se l'attach fallisce (restrizioni Yama, permessi insufficienti), la funzione termina subito con errore. read_mem_PID() analizza <code>/proc/&lt;pid&gt;/maps</code> del target e individua l'area di memoria da usare come destinazione.
 
 @@@
 if ( !mem_PID || ptrace(PTRACE_GETREGS, PID, 0LL, v15) < 0 || (v7 = malloc(v3)) == 0LL )
@@ -275,7 +275,7 @@ ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
 
 section. PTRACE_INJECTION
 
-;la seconda tecnica scrive nella memoria del processo remoto usando direttamente le primitive ptrace, senza passare da /proc/<pid>/mem.
+;la seconda tecnica scrive nella memoria del processo remoto usando direttamente le primitive ptrace, senza passare da <code>/proc/&lt;pid&gt;/mem</code>.
 
 <img src="https://spaghetti-hacker.github.io/qlnx2.png" class="full-img">
 
@@ -298,7 +298,7 @@ while ( indice < size )
 }
 @@@
 
-;la scrittura avviene in blocchi da 8 byte (su un sistema Linux x86_64 questa word è di 8 byte [long = 64 bit]), poiche' PTRACE_POKEDATA opera solo con questa granularita'. Quando restano meno di 8 byte, la funzione esegue prima una PTRACE_PEEKDATA per leggere il contenuto originale della word di destinazione, cosi' da preservare i byte non appartenenti al payload nell'ultimo blocco parziale. A differenza della tecnica /proc/<pid>/mem, qui non c'e' un backup esplicito dell'intera regione originale: solo l'ultimo blocco parziale viene preservato tramite la PEEKDATA preventiva.
+;la scrittura avviene in blocchi da 8 byte (su un sistema Linux x86_64 questa word è di 8 byte [long = 64 bit]), poiche' PTRACE_POKEDATA opera solo con questa granularita'. Quando restano meno di 8 byte, la funzione esegue prima una PTRACE_PEEKDATA per leggere il contenuto originale della word di destinazione, cosi' da preservare i byte non appartenenti al payload nell'ultimo blocco parziale. A differenza della tecnica <code>/proc/&lt;pid&gt;/mem</code>, qui non c'e' un backup esplicito dell'intera regione originale: solo l'ultimo blocco parziale viene preservato tramite la PEEKDATA preventiva.
 
 section .EXECUTION_REDIRECT
 
@@ -320,7 +320,7 @@ _Il_dispatcher:
 
 _Doppio_percorso_di_injection:
 
-;l'uso combinato di /proc/<pid>/mem e ptrace evidenzia un approccio orientato alla compatibilita'. Il malware non dipende da una singola primitiva: il fallback permette di continuare l'injection anche quando una tecnica e' limitata dalla configurazione del sistema.
+;l'uso combinato di <code>/proc/&lt;pid&gt;/mem</code> e ptrace evidenzia un approccio orientato alla compatibilita'. Il malware non dipende da una singola primitiva: il fallback permette di continuare l'injection anche quando una tecnica e' limitata dalla configurazione del sistema.
 
 _Gestione_esplicita_di_Yama_ptrace_scope:
 
@@ -332,7 +332,7 @@ Tipo      Valore                                                  Contesto
 ----      ------                                                  --------
 strings   "/proc/%d/mem"                                          accesso memoria processo remoto
 strings   "PTRACE_POKEDATA"                                       tecnica alternativa di scrittura memoria
-strings   "Injected %u bytes into PID %d via /proc/pid/mem"       messaggio di successo, metodo 1
+strings   "Injected %u bytes into PID %d via <code>/proc/&lt;pid&gt;/mem</code>"       messaggio di successo, metodo 1
 strings   "Injected %u bytes into PID %d via PTRACE_POKEDATA"     messaggio di successo, metodo 2
 strings   "Yama ptrace_scope blocks non-root ptrace. Need root."  errore per restrizione kernel
 strings   "Unknown injection method"                              errore per valore method non valido
@@ -358,7 +358,7 @@ section .CONCLUSIONE
 ;dal punto di vista difensivo, i principali punti di osservabilita' restano:
 
 - syscall ptrace con richieste PTRACE_ATTACH, PTRACE_GETREGS, PTRACE_SETREGS e PTRACE_POKEDATA verso processi non correlati al chiamante.
-- apertura e scrittura su file /proc/<pid>/mem.
+- apertura e scrittura su file <code>/proc/&lt;pid&gt;/mem</code>.
 
 ;entrambi i canali richiedono privilegi coerenti con il contesto del processo target o una relazione di parentela riconosciuta dal kernel: ambienti con Yama ptrace_scope restrittivo riducono in modo significativo la superficie di attacco disponibile per questo framework.
 
@@ -374,11 +374,11 @@ T1055: Process Injection
 
 TA0005: Stealth
 T1055.008: Process Injection: Ptrace System Calls
-;ptrace_write_and_redirect_execution() utilizza in sequenza PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS e PTRACE_SETREGS per scrivere il payload a blocchi di 8 byte e reindirizzare l'esecuzione del processo target. La rilevanza tecnica: la scrittura avviene interamente tramite ptrace, senza mai aprire il file /proc/<pid>/mem.
+;ptrace_write_and_redirect_execution() utilizza in sequenza PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS e PTRACE_SETREGS per scrivere il payload a blocchi di 8 byte e reindirizzare l'esecuzione del processo target. La rilevanza tecnica: la scrittura avviene interamente tramite ptrace, senza mai aprire il file <code>/proc/&lt;pid&gt;/mem</code>.
 
 TA0005: Stealth
 T1055.009: Process Injection: Proc Memory
-;inject_via_proc_mem() scrive direttamente nello spazio di indirizzamento del target aprendo /proc/<pid>/mem e usando pread/pwrite, mantenendo comunque un attach ptrace preliminare per sospendere il processo e un aggiornamento finale dei registri per il redirect. Questa sotto-tecnica e T1055.008 sono trattate dal dispatcher come backend intercambiabili dello stesso obiettivo tattico, non come alternative mutuamente esclusive: la scelta tra le due dipende dal parametro method e, in modalita' automatica, da un ordine di preferenza con fallback.
+;inject_via_proc_mem() scrive direttamente nello spazio di indirizzamento del target aprendo <code>/proc/&lt;pid&gt;/mem</code> e usando pread/pwrite, mantenendo comunque un attach ptrace preliminare per sospendere il processo e un aggiornamento finale dei registri per il redirect. Questa sotto-tecnica e T1055.008 sono trattate dal dispatcher come backend intercambiabili dello stesso obiettivo tattico, non come alternative mutuamente esclusive: la scelta tra le due dipende dal parametro method e, in modalita' automatica, da un ordine di preferenza con fallback.
 
 TA0002: Execution
 T1106: Native API
