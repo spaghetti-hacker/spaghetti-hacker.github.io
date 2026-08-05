@@ -393,6 +393,8 @@ Detection score        : 33/63
 
 ;il campione risulta gia' noto al momento dell'analisi, con un tasso di rilevamento pari a circa il 52% dei motori interrogati. Questo valore e' coerente con un sample gia' in circolazione da tempo, piuttosto che con un binario di nuova compilazione o con offuscamento mirato a evadere il rilevamento statico.
 
+<img src="https://spaghetti-hacker.github.io/qlnxvt.png" class="full-img">
+
 ;la maggioranza dei motori converge su un'unica attribuzione di famiglia, sebbene con convenzioni di naming diverse. Un primo gruppo di vendor (ALYac, Arcabit, BitDefender, eScan, GData, VIPRE, Emsisoft, Kaspersky) etichetta il campione come "Trojan.Linux.Quasar.A" o varianti equivalenti. Un secondo gruppo (Fortinet "Linux/Agent.AZW!tr", ESET-NOD32 "Linux/Agent.AZW Trojan", Sophos e ZoneAlarm "Linux/QLnx-A", TrendMicro e TrendMicro-HouseCall "Backdoor.Linux.QLNX.A", AhnLab-V3 "Trojan/Linux.RatAgent") utilizza invece la sigla QLnx/QLNX. Entrambi i cluster fanno riferimento alla stessa famiglia: Quasar Linux (QLNX), un impianto Linux completo con capacita' di accesso remoto, rootkit a doppio livello (LD_PRELOAD in userspace ed eBPF a livello kernel), backdoor PAM, raccolta di credenziali da ambienti di sviluppo e cloud, tunneling di rete e rete mesh peer-to-peer.
 
 ;il sottosistema di process injection analizzato in questo report corrisponde a una singola funzionalita' del set di comandi C2 di QLNX. Il campione sottoposto a VirusTotal rappresenta quindi l'intero impianto, di cui il dispatcher analizzato in questo documento costituisce solo il modulo di injection.
