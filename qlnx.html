@@ -82,7 +82,7 @@ section .METADATI
 Tipologia campione     : ELF x86_64, Linux
 SHA-256                : ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545
 Architettura target    : x86_64
-Strumenti utilizzati   : IDA Free, analisi statica manuale, ricostruzione del flusso di controllo
+Strumenti utilizzati   : IDA Free, radare2
 
 file ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf
 ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=01dce07561f9d271b9495c3685065548087723b7, for GNU/Linux 3.2.0, stripped
@@ -113,8 +113,7 @@ section .INTRODUZIONE
 
 - <code>/proc/&lt;pid&gt;/mem</code>: file speciale che rappresenta lo spazio di indirizzamento del processo. Permette lettura/scrittura tramite pread e pwrite, se il chiamante dispone dei permessi necessari.
 
-- ptrace: interfaccia di sistema pensata per debugger e tracer. Richieste rilevanti: PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA,
-PTRACE_GETREGS, PTRACE_SETREGS. Permette di sospendere il target, leggere/scrivere la memoria parola per parola e modificare i registri della CPU.
+- ptrace: interfaccia di sistema pensata per debugger e tracer. Richieste rilevanti: PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS, PTRACE_SETREGS. Permette di sospendere il target, leggere/scrivere la memoria parola per parola e modificare i registri della CPU.
 
 ;entrambi i canali richiedono un attach preventivo al processo vittima, che lo sospende e trasferisce al chiamante il diritto di ispezionarne e modificarne lo stato. Questo vincolo comune rappresenta il principale punto di osservabilita' per strumenti di detection basati su syscall monitoring. Una restrizione di sicurezza rilevante e' Yama ptrace_scope, parametro del kernel che limita quali processi possono tracciarne altri. Con un valore restrittivo, un processo non privilegiato non puo' fare attach a processi arbitrari, e questo vincolo si riflette direttamente sulla riuscita delle tecniche descritte. Il campione analizzato implementa entrambi i canali in un unico framework, con selezione e fallback descritti nelle sezioni successive.
 
@@ -246,7 +245,7 @@ if ( (unsigned int)ptrace_attach_and_wait(PID) == -1 )
 mem_PID = read_mem_PID(PID);
 @@@
 
-;ptrace_attach_and_wait() sospende il processo remoto tramite PTRACE_ATTACH e attende che il target raggiunga uno stato stoppato. Se l'attach fallisce (restrizioni Yama, permessi insufficienti), la funzione termina subito con errore. read_mem_PID() analizza <code>/proc/&lt;pid&gt;/maps</code> del target e individua l'area di memoria da usare come destinazione.
+;ptrace_attach_and_wait() sospende il processo remoto tramite PTRACE_ATTACH e attende che il target raggiunga uno stato di stop. Se l'attach fallisce (restrizioni Yama, permessi insufficienti), la funzione termina subito con errore. read_mem_PID() analizza <code>/proc/&lt;pid&gt;/maps</code> del target e individua l'area di memoria da usare come destinazione.
 
 @@@
 if ( !mem_PID || ptrace(PTRACE_GETREGS, PID, 0LL, v15) < 0 || (v7 = malloc(v3)) == 0LL )
@@ -298,7 +297,7 @@ while ( indice < size )
 }
 @@@
 
-;la scrittura avviene in blocchi da 8 byte (su un sistema Linux x86_64 questa word è di 8 byte [long = 64 bit]), poiche' PTRACE_POKEDATA opera solo con questa granularita'. Quando restano meno di 8 byte, la funzione esegue prima una PTRACE_PEEKDATA per leggere il contenuto originale della word di destinazione, cosi' da preservare i byte non appartenenti al payload nell'ultimo blocco parziale. A differenza della tecnica <code>/proc/&lt;pid&gt;/mem</code>, qui non c'e' un backup esplicito dell'intera regione originale: solo l'ultimo blocco parziale viene preservato tramite la PEEKDATA preventiva.
+;la scrittura avviene in blocchi da 8 byte (su un sistema Linux x86_64 questa word è di 8 byte [long = 64 bit]), poiche' PTRACE_POKEDATA opera solo con questa granularita'. Quando restano meno di 8 byte, la funzione esegue prima una PTRACE_PEEKDATA per leggere il contenuto originale della word di destinazione, cosi' da preservare i byte non appartenenti al payload nell'ultimo blocco parziale. 
 
 section .EXECUTION_REDIRECT
 
@@ -310,7 +309,7 @@ ptrace(PTRACE_SETREGS, PID, 0LL, v17);
 ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
 @@@
 
-;v17[16] corrisponde, nella struttura di registri x86_64 usata da ptrace, al campo rip. Impostandolo su mem_PID, il program counter del processo vittima viene fatto puntare all'inizio della regione appena scritta. PTRACE_SETREGS applica la struttura modificata, PTRACE_DETACH rilascia il controllo: il processo riprende l'esecuzione autonomamente, ma eseguendo il payload iniettato al posto del proprio codice originale. In entrambe le tecniche non avviene un ripristino della memoria originale in questa fase: il payload rimane residente nello spazio di indirizzamento del processo vittima anche dopo il detach.
+;v17[16] corrisponde, nella struttura di registri x86_64 usata da ptrace, al campo rip. Impostandolo su mem_PID, il program counter del processo vittima viene fatto puntare all'inizio della regione appena scritta. PTRACE_SETREGS applica la struttura modificata, PTRACE_DETACH rilascia il controllo: il processo riprende l'esecuzione autonomamente, ma eseguendo il payload iniettato al posto del proprio codice originale. 
 
 section .OSSERVAZIONI_TECNICHE
 
@@ -339,7 +338,7 @@ strings&nbsp;&nbsp;&nbsp;   "Injected %u bytes into PID %d via <code>/proc/&lt;p
 strings&nbsp;&nbsp;&nbsp;   "Injected %u bytes into PID %d via PTRACE_POKEDATA"     successo, metodo 2
 strings&nbsp;&nbsp;&nbsp;   "Yama ptrace_scope blocks non-root ptrace. Need root."  restrizione kernel
 
-.section NOTE_FINALI
+section .NOTE_FINALI
 
 ;il componente analizzato implementa un vero e proprio framework modulare di process injection. L'elemento piu' rilevante non e' la singola API Linux utilizzata, ma la presenza di un dispatcher che riceve comandi esterni e seleziona dinamicamente il metodo di compromissione, con gestione esplicita delle condizioni ambientali che possono limitarne l'efficacia.
 
@@ -374,13 +373,13 @@ _T1055_Process_Injection:
 
 ;injection_manager() agisce da dispatcher centrale: riceve target_pid, payload e metodo di injection dalla richiesta serializzata, quindi seleziona dinamicamente il backend da utilizzare. La scrittura di codice nello spazio di indirizzamento di un processo remoto seguita dal dirottamento del flusso di esecuzione tramite modifica di rip corrisponde al comportamento core catalogato da questa tecnica padre.
 
-_T1055.008_Process_Injection_Ptrace_System_Calls:
-
-;ptrace_write_and_redirect_execution() utilizza in sequenza PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS e PTRACE_SETREGS per scrivere il payload a blocchi di 8 byte e reindirizzare l'esecuzione del processo target. La rilevanza tecnica: la scrittura avviene interamente tramite ptrace, senza mai aprire il file <code>/proc/&lt;pid&gt;/mem</code>.
-
 _T1055.009_Process_Injection_Proc_Memory:
 
 ;inject_via_proc_mem() scrive direttamente nello spazio di indirizzamento del target aprendo <code>/proc/&lt;pid&gt;/mem</code> e usando pread/pwrite, mantenendo comunque un attach ptrace preliminare per sospendere il processo e un aggiornamento finale dei registri per il redirect. Questa sotto-tecnica e T1055.008 sono trattate dal dispatcher come backend intercambiabili dello stesso obiettivo tattico, non come alternative mutuamente esclusive: la scelta tra le due dipende dal parametro method e, in modalita' automatica, da un ordine di preferenza con fallback.
+
+_T1055.008_Process_Injection_Ptrace_System_Calls:
+
+;ptrace_write_and_redirect_execution() utilizza in sequenza PTRACE_ATTACH, PTRACE_PEEKDATA, PTRACE_POKEDATA, PTRACE_GETREGS e PTRACE_SETREGS per scrivere il payload a blocchi di 8 byte e reindirizzare l'esecuzione del processo target. La rilevanza tecnica: la scrittura avviene interamente tramite ptrace, senza mai aprire il file <code>/proc/&lt;pid&gt;/mem</code>.
 
 _TA0002_Execution:
 
@@ -392,8 +391,8 @@ _T1106_Native_API:
 
 section .VIRUSTOTAL
 
-Hash campione (SHA256): ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545
-Detection score        : 33/63
+- hash campione (SHA256): ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545
+- detection score        : 33/63
 
 ;il campione risulta gia' noto al momento dell'analisi, con un tasso di rilevamento pari a circa il 52% dei motori interrogati. Questo valore e' coerente con un sample gia' in circolazione da tempo, piuttosto che con un binario di nuova compilazione o con offuscamento mirato a evadere il rilevamento statico.
 
