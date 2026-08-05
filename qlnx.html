@@ -203,12 +203,12 @@ if ( method )
 
 _Selettore_method:
 
-Valore   Significato
-------   -----------
-0        modalita' automatica con fallback tra le due tecniche
-1        utilizzo esplicito di <code>/proc/&lt;pid&gt;/mem</code>
-2        utilizzo esplicito di ptrace(PTRACE_POKEDATA)
-altro    valore non riconosciuto -> "Unknown injection method"
+Valore&nbsp;&nbsp;&nbsp;Significato
+------&nbsp;&nbsp;&nbsp;-----------
+0     &nbsp;&nbsp;&nbsp;modalita' automatica con fallback tra le due tecniche
+1     &nbsp;&nbsp;&nbsp;utilizzo esplicito di <code>/proc/&lt;pid&gt;/mem</code>
+2     &nbsp;&nbsp;&nbsp;utilizzo esplicito di ptrace(PTRACE_POKEDATA)
+altro &nbsp;&nbsp;&nbsp;valore non riconosciuto -> "Unknown injection method"
 
 section .FALLBACK_MECHANISM
 
