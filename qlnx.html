@@ -375,6 +375,8 @@ section .CONCLUSIONE
 
 ;entrambi i canali richiedono privilegi coerenti con il contesto del processo target o una relazione di parentela riconosciuta dal kernel: ambienti con Yama ptrace_scope restrittivo riducono in modo significativo la superficie di attacco disponibile per questo framework.
 
+;il valore tecnico del modulo non risiede nelle primitive impiegate, entrambe note nella letteratura Linux, bensì nella loro integrazione all'interno di un framework unico. Il dispatcher astrarre il backend di injection dal protocollo C2, consentendo al malware di selezionare dinamicamente la tecnica più adatta all'ambiente di esecuzione e rendendo l'implementazione facilmente estendibile con ulteriori primitive senza modificare il protocollo applicativo
+
 section .TTP_MITRE_ATTCK
 
 ;mapping delle tecniche osservate secondo il framework MITRE ATT&CK Enterprise, versione v19 (28 aprile 2026). Nota metodologica: con il rilascio v19, MITRE ha ritirato la tattica "Defense Evasion" (TA0005), suddividendola in due nuove tattiche: Stealth (che eredita l'ID TA0005) e Defense Impairment (nuovo ID TA0112). Il process injection, in quanto tecnica orientata a mascherare l'esecuzione di codice malevolo all'interno di un processo legittimo piuttosto che a disabilitare direttamente un controllo di sicurezza, ricade sotto Stealth nella nuova tassonomia.
