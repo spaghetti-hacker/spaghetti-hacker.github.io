@@ -118,6 +118,8 @@ PTRACE_GETREGS, PTRACE_SETREGS. Permette di sospendere il target, leggere/scrive
 
 ;entrambi i canali richiedono un attach preventivo al processo vittima, che lo sospende e trasferisce al chiamante il diritto di ispezionarne e modificarne lo stato. Questo vincolo comune rappresenta il principale punto di osservabilita' per strumenti di detection basati su syscall monitoring. Una restrizione di sicurezza rilevante e' Yama ptrace_scope, parametro del kernel che limita quali processi possono tracciarne altri. Con un valore restrittivo, un processo non privilegiato non puo' fare attach a processi arbitrari, e questo vincolo si riflette direttamente sulla riuscita delle tecniche descritte. Il campione analizzato implementa entrambi i canali in un unico framework, con selezione e fallback descritti nelle sezioni successive.
 
+<img src="https://spaghetti-hacker.github.io/qlnx0.png" class="full-img">
+
 section .EXECUTIVE_SUMMARY
 
 ;il campione implementa un sottosistema dedicato alla process injection. Il componente principale, injection_manager(), agisce come dispatcher tra differenti primitive Linux utilizzate per modificare un processo remoto. La funzione non contiene direttamente il codice del payload. Riceve una richiesta serializzata composta da:
@@ -236,6 +238,8 @@ section .PROC_MEM_INJECTION
 
 ;la prima tecnica utilizza il file speciale Linux /proc/<pid>/mem. La funzione effettua prima un attach tramite ptrace per ottenere il controllo del processo target.
 
+<img src="https://spaghetti-hacker.github.io/qlnx1.png" class="full-img">
+
 @@@
 if ( (unsigned int)ptrace_attach_and_wait(PID) == -1 )
     return 0xFFFFFFFFLL;
@@ -272,6 +276,8 @@ ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
 section. PTRACE_INJECTION
 
 ;la seconda tecnica scrive nella memoria del processo remoto usando direttamente le primitive ptrace, senza passare da /proc/<pid>/mem.
+
+<img src="https://spaghetti-hacker.github.io/qlnx2.png" class="full-img">
 
 @@@
 while ( indice < size )
