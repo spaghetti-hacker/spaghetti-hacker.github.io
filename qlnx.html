@@ -84,9 +84,6 @@ section .METADATI
 - architettura target    : x86_64
 - strumenti utilizzati   : IDA Free, radare2
 
-file ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf
-ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=01dce07561f9d271b9495c3685065548087723b7, for GNU/Linux 3.2.0, stripped
-
 _Nota_Metodologica:
 
 ;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo la rinomina delle variabili e delle funzioni. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
@@ -94,6 +91,23 @@ _Nota_Metodologica:
 _Leucochloridium_paradoxum:
 
 ;è un verme parassita (trematode) che utilizza le lumache terrestri come ospiti intermedi durante il proprio ciclo vitale. Una volta insediato nell'organismo della lumaca, sviluppa strutture pulsanti che invadono i peduncoli oculari, alterandone l'aspetto e influenzando il comportamento dell'ospite. Queste modifiche aumentano la probabilità che la lumaca venga predatata da un uccello, consentendo al parassita di completare il proprio ciclo biologico. Nell'intestino dell'uccello il verme adulto si riproduce sessualmente e produce uova. È uno degli esempi più noti di manipolazione del comportamento dell'ospite da parte di un organismo parassita.
+
+section .REVERSE_ENGINEERING_NOTES
+
+file ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf
+ea1d34b21b739a6bbf89b3f7e67978005cf7f3eda612cefc7eac1c8ead7c5545.elf: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=01dce07561f9d271b9495c3685065548087723b7, for GNU/Linux 3.2.0, stripped
+
+Il campione è completamente stripped e non contiene simboli. I nomi delle funzioni riportati nel documento (injection_manager(), inject_via_proc_mem(), ptrace_write_and_redirect_execution(), ecc.) sono stati assegnati durante l'analisi.  Le strutture dati e il protocollo di comando sono stati ricostruiti osservando esclusivamente i flussi di controllo e gli accessi ai buffer.
+
+_Tabella_delle_funzioni_rinominate:
+
+Offset	Nome assegnato	Motivazione
+------  --------------  -----------
+
+sub_A825  injection manager  dispatcher centrale
+sub_A4F6  inject_via_proc_mem usa /proc/pid/mem
+sub_A652  ptrace_write_and_redirect_execution usa ptrace
+sub_A44C  read_mem_PID
 
 section .INTRODUZIONE
 
