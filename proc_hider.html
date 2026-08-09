@@ -74,8 +74,6 @@ PROC HIDER ~ HCF
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 
-visite: <span id="visits">...</span>
-
 ;analisi libreria ELF 3b4e756212ea2ed01da98cceeb856449bb50d380339b5564e30cbe7fbfdae2d4
 
 ;il file analizzato è una libreria ELF a 64 bit (x86-64), non stripped. Essendo una .so e non contenendo una main, la sua modalità d'uso più probabile è tramite LD_PRELOAD, cioè come libreria caricata in anticipo per intercettare chiamate a funzioni standard, oppure un processo malevolo si aggancia al processo target (es. via ptrace) e invoca dlopen nel suo contesto per caricare la .so malevola. Questo è un tipico comportamento da rootkit userland, usato per nascondere processi.
