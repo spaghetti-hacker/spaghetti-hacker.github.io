@@ -74,8 +74,6 @@ DEBUG ME ~ HCF
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 
-visite: <span id="visits">...</span>
-
 ;ho analizzato il crackme DebugMe partendo dal disassembly prodotto da radare2 e dal decompilato generato da Ghidra. L'analisi ha seguito il flusso di esecuzione dall'entry point fino alla risoluzione completa dei tre stage.
 
 ;il punto di partenza è stato affiancare il disassembly di radare2, utile per una visione immediata dei flussi di controllo, al decompilato di Ghidra per disambiguare la struttura delle funzioni più dense. Il processo riceveva SIGFPE quasi subito: l'attenzione si è spostata sulla divisione a 0x1139 e sulla funzione chiamata prima. Un primo tentativo di patch statica per saltare il controllo anti-debug funziona per lo stage 1, ma rompe lo stage 2, il meccanismo SIGFPE non è solo un ostacolo da aggirare, è il vettore che trasferisce l'esecuzione nell'handler dove si svolge il resto del challenge. La soluzione LD_PRELOAD è emersa solo dopo aver capito che il comportamento corretto richiedeva che la funzione anti-debug ritornasse valori diversi a seconda della chiamata, qualcosa che una patch statica non può fare facilmente.

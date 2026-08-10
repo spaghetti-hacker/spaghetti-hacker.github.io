@@ -74,8 +74,6 @@ LIST FORK ~ HCF
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 
-visite: <span id="visits">...</span>
-
 ;la funzione listFork è una wrapper attorno alla syscall fork() che, oltre a creare un processo figlio, mantiene aggiornata una lista dinamica globale dei pid dei figli generati. L'implementazione ricorre a un pattern di riallocazione manuale della memoria: ad ogni invocazione nel ramo padre, l'array globale pids viene espanso di un elemento, il nuovo pid viene accodato e il vecchio buffer viene liberato.
 
 ;l'analisi è stata condotta con radare2/ghidra sul binario ELF x86-64, esaminando l'assembly prodotto dal compilatore e ricostruendo la semantica delle variabili locali e delle strutture dei dati globali.
