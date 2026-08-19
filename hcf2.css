@@ -126,4 +126,6 @@ a:hover{
 @media(max-width:768px){
     body{ padding:0; font-size:20px; }
     .article{ border-radius:0; font-size:20px; }
+    code{ font-size:20px; }
 }
+
