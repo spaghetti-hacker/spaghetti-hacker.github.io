@@ -143,9 +143,11 @@ _Modalita'_Supportate:
 
 ;entrambe le tecniche convergono sullo stesso obiettivo: inserire codice nella memoria del processo target e trasferire il flusso esecutivo modificando il registro rip. Il dispatcher gestisce inoltre in modo esplicito la condizione in cui Yama ptrace_scope blocchi l'operazione per un chiamante non privilegiato, restituendo un messaggio di errore dedicato invece di fallire silenziosamente.
 
-@@@
 section .ARCHITETTURA_GENERALE
 
+<img src="https://spaghetti-hacker.github.io/qlnx_tab2.png" class="full-img">
+
+@@@
   injection_manager()
     |
     +-- buffer_read_u32()        -> target_pid
