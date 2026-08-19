@@ -102,6 +102,14 @@ _Tabella_Delle_Funzioni_Rinominate:
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab1.png" class="full-img">
 
+Offset&nbsp;&nbsp;	Nome assegnato&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Motivazione
+------&nbsp;&nbsp;  --------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -----------
+
+sub_A825  injection_manager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  dispatcher centrale
+sub_A4F6  inject_via_proc_mem &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; utilizza /proc/pid/mem
+sub_A652  ptrace_write_and_redirect_execution&nbsp; utilizza ptrace
+sub_A44C  read_mem_PID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;individua la regione remota
+
 section .INTRODUZIONE
 
 ;lo scope della presente analisi e' volutamente circoscritto al sottosistema di process injection del campione, e non copre l'impianto QLNX nella sua interezza. Il campione sottoposto ad analisi implementa infatti funzionalita' addizionali, rootkit a doppio livello (LD_PRELOAD/eBPF), backdoor PAM, raccolta di credenziali, tunneling di rete e rete mesh peer-to-peer, che esulano dal perimetro di questo documento e non vengono trattate.
