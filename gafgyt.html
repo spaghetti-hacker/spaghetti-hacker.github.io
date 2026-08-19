@@ -113,39 +113,7 @@ ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stri
 
 <p class="title">section .ARCHITETTURA_GENERALE</p>
 
-@@@
-main()
- |
- +-- init PRNG: srand(getpid()^time(0)) + init_rand(stesso seed).
- |
- +-- getOurIP(): fingerprinting locale tramite socket UDP verso 8.8.8.8:53,
- |               lettura /proc/net/route, ioctl(SIOCGIFHWADDR).
- |
- +-- double-fork -> daemonizzazione
- |   fork() -> waitpid() -> exit()     ;processo originale.
- |   fork() -> exit()                  ;figlio1.
- |   setsid() + chdir("/")             ;figlio2: nuova sessione isolata.
- |   bsd_signal(SIGPIPE, SIG_IGN)      ;protezione da socket C2 chiusi.
- |
- +-- loop connessione C2
- |   initConnection() -> retry ogni 5s.
- |   beacon: getArch() + getPortz() + IP -> sockprintf().
- |
- +-- loop principale
-     |
-     +-- GC figli: waitpid(WNOHANG) su pids[].
-     |             compattazione array + realloc manuale.
-     |
-     +-- recvLine() ;blocca fino a nuova riga dal C2.
-     |
-     +-- parse: !<botid> <CMD> [arg1] [arg2] ...
-     |          toupper(CMD).
-     |          strtok() -> array argv[] su heap.
-     |
-     +-- processCmd(argc, argv).
-     |
-     +-- reconnect se recvLine() == -1.
-@@@
+<img src="https://spaghetti-hacker.github.io/gafgyt_tab3.png" class="full-img">
 
 <p class="title">section .PROTOCOLLO_C2</p>
 
