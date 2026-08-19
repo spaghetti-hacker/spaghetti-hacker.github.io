@@ -147,33 +147,6 @@ section .ARCHITETTURA_GENERALE
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab2.png" class="full-img">
 
-@@@
-  injection_manager()
-    |
-    +-- buffer_read_u32()        -> target_pid
-    +-- buffer_read_blob()       -> payload
-    +-- buffer_read_u32()        -> injection_method
-    |
-    v
-  Injection dispatcher
-    |
-    +----------------------------+
-    |                            |
-    v                            v
-  inject_via_proc_mem()    ptrace_write_and_redirect_execution()
-    |                            |
-    v                            v
-  /proc/<pid>/mem              PTRACE_POKEDATA
-    |                            |
-    +-------------+--------------+
-                  |
-                  v
-            rip = payload_address
-                  |
-                  v
-            esecuzione codice remoto
-@@@
-
 section .INJECTION_DISPATCHER
 
 ;la funzione injection_manager() rappresenta il punto centrale del sottosistema. Il malware separa la logica di ricezione del comando dalla tecnica utilizzata per modificare il processo remoto, mantenendo un unico punto di controllo e permettendo di aggiungere metodi differenti senza modificare il protocollo di comando.
