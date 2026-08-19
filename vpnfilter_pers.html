@@ -104,37 +104,8 @@ file 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
 ;analisi della tecnica di persistenza del malware VPNFilter.
 
 <p class="title">_Architettura_Generale:</p>
-@@@
-                 demonize_and_launch() [fork() interno]
-                         |
-                       fork()
-                    _____|_____
-                   |           |
-               processo     watchdog
-                payload         |
-                        sleep_with_select(5)
-                                |
-                         carica il proprio
-                         eseguibile in RAM
-                                |
-                      verifica presenza file
-                                |
-                +---------------+---------------+
-                |                               |
-             file presente                 file assente
-                |                               |
-        verifica persistenza             riscrive il binario
-                |                          chmod(0755)
-                +---------------+---------------+
-                                |
-                     persistenza presente?
-                                |
-                        no -> reinstalla
-                                |
-                      attesa tramite select()
-                                |
-                           ciclo infinito
-@@@
+
+<img src="https://spaghetti-hacker.github.io/vpnfilter_tab1.png" class="full-img">
 
 ;il malware separa completamente il payload dal meccanismo di persistenza.
 ;il watchdog rimane attivo indipendentemente dall'esecuzione del payload.
@@ -425,36 +396,7 @@ Verifica ciclica di crontab
 
 <p class="title">section .YARA_RULES</p>
 
-@@@
-rule VPNFilter_Persistence_Watchdog
-{
-    meta:
-        description = "Rileva pattern di persistenza self-healing stile VPNFilter: crontab non standard e formato entry cron"
-        author = "HCF"
-        date = "2026-07-11"
-        reference = "SHA256 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92"
-        malware_family = "VPNFilter"
-
-    strings:
-        $crontab_path = "/etc/config/crontab" ascii
-        $cron_entry_fmt = "*/5 * * * * %s" ascii
-        $sc_fork    = { B8 02 00 00 00 CD 80 }
-        $sc_chmod   = { B8 0F 00 00 00 CD 80 }
-        $sc_setsid  = { B8 42 00 00 00 CD 80 }
-        $sc_select  = { B8 8E 00 00 00 CD 80 }
-
-    condition:
-        uint32(0) == 0x464C457F and
-        uint8(4) == 1 and
-        filesize < 2MB and
-        $crontab_path and
-        $cron_entry_fmt and
-        2 of ($sc_fork, $sc_chmod, $sc_setsid, $sc_select)
-}
-
-yara vpnfilter_persistence.yar 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
-VPNFilter_Persistence_Watchdog 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
-@@@
+<img src="https://spaghetti-hacker.github.io/vpnfilter_tab2.png" class="full-img">
 
 ;la regola combina due categorie di indicatori indipendenti: stringhe testuali (path di persistenza non standard e formato della entry crontab) e pattern a livello di syscall (numero syscall caricato in eax, seguito da int 80h). Quest'ultima categoria si è resa necessaria perché il binario, essendo staticamente linkato e stripped, non espone i nomi delle funzioni libc (fork, chmod, setsid, select) come stringhe leggibili nella sezione .rodata: l'unico modo per intercettare staticamente l'uso di queste primitive è individuare l'immediate value caricato in eax immediatamente prima dell'interrupt 0x80.
 
