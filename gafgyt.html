@@ -719,19 +719,7 @@ udp_header[3] = 0 ;checksum UDP omesso, valido per RFC 768 su IPv4.
 
 <p class="title">section .INDICATORI_DI_COMPROMISSIONE_(IoC)</p>
 
-@@@
-Tipo        Valore                      Contesto
-----        ------                      --------
-IP:porta    5.2.65.150:999              Server C2 hardcoded in commServer[0]
-Stringa     "Snoopy."                   Banner nel segmento .rodata
-Stringa     "TSource Engine Query"      Payload VSE flood hardcoded
-Percorso    /cdn-cgi/l/chk_captcha      Target HTTP flood (Cloudflare bypass)
-Porta       6982 (0x1b46)               Porta C2 di default nel codice
-Bytes       58 99 21 (ripetuto)         Payload UDP fisso di SendSTDHEX
-Stringa     "NAMESERVER " (XOR 0xCA)    Payload URI di SendHTTPHex in .data
-Offset      0x0040bae0                  Payload grezzo SendSTDHEX in .data
-Offset      0x0040bca0                  Payload XOR SendHTTPHex in .data
-@@@
+<img src="https://spaghetti-hacker.github.io/gafgyt_tab1.png" class="full-img">
 
 <p class="title">section .NOTE_FINALI</p>
 
@@ -839,17 +827,7 @@ family labels: gafgyt, mirai, ddos.
 ;la convergenza delle family label su gafgyt/mirai conferma l'attribuzione condotta staticamente: nessuna discrepanza rilevante tra l'analisi manuale e la classificazione automatica dei motori AV.
 ;denominazioni prevalenti per famiglia:
 
-@@@
-Vendor          Denominazione
-------          -------------
-BitDefender     Gen:Variant.Trojan.Linux.Gafgyt.5
-ESET-NOD32      A Variant Of Linux/Gafgyt.ARS
-Fortinet        ELF/Gafgyt.ANW!tr
-Kaspersky       HEUR:Backdoor.Linux.Gafgyt.a
-Elastic         Linux.Trojan.Gafgyt
-ClamAV          Unix.Dropper.Mirai-7139232-0
-Avira           EXP/ELF.Mirai.Z
-@@@
+<img src="https://spaghetti-hacker.github.io/gafgyt_tab2.png" class="full-img">
 
 ;nota: la classificazione come "Mirai" da parte di alcuni vendor (Avira, ClamAV, Lionic) riflette la sovrapposizione di codice tra le due famiglie, ampiamente documentata nella letteratura. Il campione presenta caratteristiche implementative piu' coerenti con Gafgyt/BASHLITE, in particolare per la struttura del protocollo C2 e i vettori di attacco disponibili. 23 vendor non rilevano il campione, verosimilmente per assenza di firme specifiche per questa variante o per limitazioni nei motori euristici applicati ai binari ELF staticamente linkati.
 
