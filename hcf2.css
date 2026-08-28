@@ -96,7 +96,8 @@ code{
 .commento p:last-child{ margin-bottom:25px; }
 
 a{
-    color:#65E903;
+    /*color:#65E903;*/
+    color:#00ffff;
     border:1px solid transparent;
     text-decoration:none;
     /*background:#3a9070;*/
