@@ -119,7 +119,8 @@ a{
 }
 
 a:hover{
-    color:#9cff5f;
+    /*color:#9cff5f;*/
+    color:#00ffff;
     border:1px solid transparent;
     background:#3a9070;
 }
