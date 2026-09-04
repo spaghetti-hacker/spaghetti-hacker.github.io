@@ -134,19 +134,19 @@ section .ARCHITETTURA_GENERALE
 @@@
 main()
 |
-+-- strcpy(buf, argv[1]) ; overflow del buffer locale, nessun controllo di lunghezza
++-- strcpy(buf, argv[1]) ;overflow del buffer locale, nessun controllo di lunghezza
 |
-+-- controllo su lpp & 0xffff0000 ; vincolo di indirizzo, non protezione reale
++-- controllo su lpp & 0xffff0000 ;vincolo di indirizzo, non protezione reale
 |
 +-- tmp = *lpp
 |
-+-- **lpp = &buf ; doppia dereferenziazione, primitiva di scrittura
++-- **lpp = &buf ;doppia dereferenziazione, primitiva di scrittura
 |
 +-- exit(0)
 |
-+-- jmp [exit@GOT] ; lazy binding, salto indiretto
++-- jmp [exit@GOT] ;lazy binding, salto indiretto
 |
-+-- &buf ; shellcode eseguito al posto di exit reale
++-- &buf ;shellcode eseguito al posto di exit reale
 @@@
 
 section .PROTEZIONI_BINARIE
@@ -170,7 +170,7 @@ PIE: No PIE (0x8048000)
 
 ;No PIE, indirizzo base 0x8048000, e' la condizione che rende deterministico ogni indirizzo usato nell'exploit. exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) sono costanti a ogni esecuzione, perche' il binario viene sempre mappato allo stesso indirizzo base. Con PIE abilitato questi indirizzi cambierebbero a ogni run e l'exploit richiederebbe un leak preventivo.
 
-L'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
+;l'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
 
 section .VETTORI_DI_ATTACCO
 
@@ -278,13 +278,13 @@ tmp = *lpp;
 
 ;tmp viene assegnato prima della scrittura arbitraria e contiene il valore letto in *lpp, cioe' il contenuto della cella puntata da lpp al momento dell'esecuzione. Nel caso dell'exploit, lpp punta a exit@plt+2 (0x08049052), quindi tmp contiene 0x0804b200, l'indirizzo della GOT di exit.
 
-;La scrittura pericolosa avviene sulla riga precedente, tramite **lpp, non tramite *lpp. **lpp scrive &buf all'indirizzo contenuto in *lpp, cioe' in 0x0804b200, la cella GOT stessa. E' questa la cella corrotta, non la cella puntata direttamente da lpp.
+;la scrittura pericolosa avviene sulla riga precedente, tramite **lpp, non tramite *lpp. **lpp scrive &buf all'indirizzo contenuto in *lpp, cioe' in 0x0804b200, la cella GOT stessa. E' questa la cella corrotta, non la cella puntata direttamente da lpp.
 
-;Il fix commentato *lpp = tmp riscriverebbe 0x0804b200 nell'indirizzo 0x08049052, cioe' esattamente il valore che vi si trovava gia' prima di qualsiasi operazione. Quella cella (exit@plt+2, l'istruzione jmp) non viene mai alterata dall'exploit, quindi il fix agisce su un dato che non e' mai stato corrotto.
+;il fix commentato *lpp = tmp riscriverebbe 0x0804b200 nell'indirizzo 0x08049052, cioe' esattamente il valore che vi si trovava gia' prima di qualsiasi operazione. Quella cella (exit@plt+2, l'istruzione jmp) non viene mai alterata dall'exploit, quindi il fix agisce su un dato che non e' mai stato corrotto.
 
-;La cella realmente compromessa, 0x0804b200, non viene mai toccata dal fix. Il valore malevolo &buf resta scritto in GOT anche dopo l'esecuzione di *lpp = tmp, perche' quella riga non ha alcuna relazione con l'indirizzo GOT, ma solo con l'indirizzo di lpp stesso.
+;la cella realmente compromessa, 0x0804b200, non viene mai toccata dal fix. Il valore malevolo &buf resta scritto in GOT anche dopo l'esecuzione di *lpp = tmp, perche' quella riga non ha alcuna relazione con l'indirizzo GOT, ma solo con l'indirizzo di lpp stesso.
 
-Il fix commentato nasce probabilmente da un modello mentale in cui tmp salva il valore originale della locazione che sta per essere corrotta, utile a ripristinarla dopo l'uso. Questo modello e' corretto per una singola dereferenziazione, ma non regge in presenza di una doppia dereferenziazione: tmp salva il dato che punta al bersaglio reale, non il dato che si trova nel bersaglio reale. Per neutralizzare l'exploit servirebbe invece salvare e ripristinare il valore originale di **lpp, non di *lpp, oppure eliminare a monte la possibilita' di controllare lpp tramite il controllo sull'overflow di buf.
+;il fix commentato nasce probabilmente da un modello mentale in cui tmp salva il valore originale della locazione che sta per essere corrotta, utile a ripristinarla dopo l'uso. Questo modello e' corretto per una singola dereferenziazione, ma non regge in presenza di una doppia dereferenziazione: tmp salva il dato che punta al bersaglio reale, non il dato che si trova nel bersaglio reale. Per neutralizzare l'exploit servirebbe invece salvare e ripristinare il valore originale di **lpp, non di *lpp, oppure eliminare a monte la possibilita' di controllare lpp tramite il controllo sull'overflow di buf.
 
 section .EXPLOIT
 
@@ -357,7 +357,7 @@ uid=5004(vortex4) gid=5003(vortex3) groups=5003(vortex3)
 
 section .NOTE_FINALI
 
-L'aspetto didattico principale di vortex3 non e' il buffer overflow in se', ma il fatto che il programma offra gia' una primitiva write-what-where tramite **lpp = &buf. Il lavoro dell'attaccante si riduce a scegliere correttamente il valore di lpp, sfruttando la conoscenza della codifica dell'istruzione jmp in exit@plt per individuare una cella di memoria che, letta come dato, contiene l'indirizzo della GOT. Il vincolo sui NULL byte nell'input, imposto da strcpy su una stringa C, ha condizionato sia la scelta dell'indirizzo target sia la scrittura dello shellcode, obbligando l'uso di setreuid al posto di setuid per completare correttamente la transizione di privilegio.
+;l'aspetto didattico principale di vortex3 non e' il buffer overflow in se', ma il fatto che il programma offra gia' una primitiva write-what-where tramite **lpp = &buf. Il lavoro dell'attaccante si riduce a scegliere correttamente il valore di lpp, sfruttando la conoscenza della codifica dell'istruzione jmp in exit@plt per individuare una cella di memoria che, letta come dato, contiene l'indirizzo della GOT. Il vincolo sui NULL byte nell'input, imposto da strcpy su una stringa C, ha condizionato sia la scelta dell'indirizzo target sia la scrittura dello shellcode, obbligando l'uso di setreuid al posto di setuid per completare correttamente la transizione di privilegio.
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 </script>
