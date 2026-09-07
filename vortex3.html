@@ -174,7 +174,7 @@ PIE: No PIE (0x8048000)
 
 ;NX disabled indica che lo stack è eseguibile e permette quindi di utilizzare direttamente &buf come indirizzo dello shellcode. La primitiva di GOT overwrite, presa isolatamente, non dipende da NX; tuttavia, con NX abilitato, questo payload specifico non potrebbe eseguire lo shellcode sullo stack. Sarebbe quindi necessario modificare la fase finale dell'exploit, ad esempio reindirizzando il controllo verso una regione di memoria eseguibile.
 
-;No PIE, con base dell'eseguibile a 0x08048000, rende deterministici gli indirizzi del codice e dei dati appartenenti al binario principale. In particolare, exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) rimangono costanti tra le esecuzioni, evitando la necessità di un information leak per ricavare questi indirizzi. Gli indirizzi delle librerie condivise possono invece continuare a essere soggetti ad ASLR.
+;No PIE, con base dell'eseguibile a 0x08048000, rende deterministici gli indirizzi del codice e dei dati appartenenti al binario principale. In particolare, gli indirizzi di exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) relativi all'eseguibile principale sono deterministici tra le esecuzioni, evitando la necessità di un information leak per ricavarli. Gli indirizzi delle librerie condivise possono invece continuare a essere soggetti ad ASLR.
 
 ;l'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
 
@@ -197,7 +197,7 @@ tmp = *lpp;
 **lpp = (unsigned long) &buf;
 @@@
 
-;lpp punta normalmente a lp, che punta a val. Se lpp viene sovrascritto con un indirizzo arbitrario X, il programma scrive &buf in *X. Questo trasforma un semplice puntatore globale in una primitiva write-what-where. Il controllo (lpp & 0xffff0000) == 0x08040000 limita il valore di lpp all'intervallo 0x08040000–0x0804ffff, cioè a una regione di 64 KiB che comprende indirizzi del binario. Non impedisce però di scegliere arbitrariamente una locazione all'interno di tale intervallo.
+;lpp punta normalmente a lp, che punta a val. Se lpp viene sovrascritto con un indirizzo arbitrario X, il programma scrive &buf in *X. Questo trasforma un semplice puntatore globale in una primitiva write-what-where. Il controllo (lpp & 0xffff0000) == 0x08040000 limita il valore di lpp all'intervallo 0x08040000–0x0804ffff, che comprende le aree di memoria utilizzate dal binario. Non impedisce però di scegliere arbitrariamente una locazione all'interno di tale intervallo.
 
 _Overwrite_Della_GOT:
 
@@ -208,7 +208,7 @@ objdump -R /vortex/vortex3
 0804b200 R_386_JUMP_SLOT exit@GLIBC_2.0
 @@@
 
-;exit@GOT si trova all'indirizzo 0x0804b200. È una entry JUMP_SLOT, quindi soggetta a lazy binding. sovrascriverla con l'indirizzo di buf reindirizza l'esecuzione di exit() verso lo shellcode. il target scelto per la scrittura arbitraria non e' direttamente exit@GOT, ma exit@plt+2, per ragioni spiegate nella sezione successiva.
+;exit@GOT si trova all'indirizzo 0x0804b200. È una relocation R_386_JUMP_SLOT associata alla chiamata di exit() tramite PLT.
 
 _Bypass_Del_Filtro_NULL_Byte:
 
@@ -226,7 +226,7 @@ strace -f -e trace=setuid,setreuid,setresuid /vortex/vortex3 ...
 setuid(5004) = -1 EPERM
 @@@
 
-;il processo ha RUID pari all'utente chiamante, EUID e SUID entrambi 5004 per effetto del bit SUID. setuid confronta il valore richiesto con RUID e SUID del processo, non con l'EUID corrente. Poiche' il binario e' SUID, all'exec la SUID viene impostata a 5004 come l'EUID, quindi in teoria setuid(5004) dovrebbe avere successo; il tentativo di utilizzare direttamente la syscall setuid ha prodotto EPERM nel test effettuato con strace. Poiché l'obiettivo dell'exploit è ottenere esplicitamente RUID ed EUID pari a 5004, ho scelto di utilizzare direttamente la syscall setreuid, specificando entrambi gli UID invece di affidarmi al comportamento della singola setuid.
+;il tentativo di utilizzare direttamente la syscall setuid ha prodotto EPERM nel test effettuato con strace. Poiché l'obiettivo dell'exploit è ottenere esplicitamente RUID ed EUID pari a 5004, ho scelto di utilizzare direttamente la syscall setreuid, specificando entrambi gli UID.
 
 @@@
 xor eax, eax
@@ -254,7 +254,7 @@ ff 25 00 b2 04 08
 
 ;ff 25 e' l'opcode di jmp indiretto tramite indirizzo assoluto a 32 bit. I 4 byte successivi (00 b2 04 08) sono l'indirizzo della GOT in little-endian, cioe' 0x0804b200. L'indirizzo della GOT e' quindi codificato a partire dal terzo byte dell'istruzione, cioe' exit@plt+2. Da qui la scelta di 0x08049052 come target di lpp: quell'indirizzo, letto come dato, contiene il valore 0x0804b200, cioe' l'indirizzo reale della GOT di exit.
 
-_Lazy_Binding_E_Catena_Di_Dereferenziazione:
+_Catena_Di_Dereferenziazione_E_GOT_Overwrite:
 
 @@@
 lpp = 0x08049052 ;indirizzo scelto, punta dentro l'istruzione jmp di exit@plt.
@@ -262,9 +262,7 @@ lpp = 0x08049052 ;indirizzo scelto, punta dentro l'istruzione jmp di exit@plt.
 **lpp = *(0x0804b200) ;valore presente nella GOT di exit. 
 @@@
 
-;la GOT contiene la destinazione utilizzata dal jmp presente in exit@plt. Sovrascrivendo GOT[exit] con &buf, la successiva chiamata a exit() non viene più indirizzata verso la normale implementazione di exit, ma verso il buffer contenente lo shellcode.
-
-;il lazy binding normalmente risolve l'indirizzo reale di exit al primo utilizzo e lo scrive in GOT. Qui la doppia dereferenziazione del programma viene dirottata per scrivere &buf esattamente in quella cella. Dopo l'overwrite, GOT[exit] non contiene piu' l'indirizzo di libc ma l'indirizzo del buffer sullo stack. Questo e' il punto centrale dell'exploit: il programma stesso esegue **lpp = &buf, e la scelta di lpp fa si' che quella scrittura coincida esattamente con GOT[exit].
+;la GOT contiene la destinazione utilizzata dal jmp presente in exit@plt. La scelta di lpp = exit@plt+2 fa sì che *lpp venga interpretato come l'indirizzo della GOT di exit; di conseguenza, l'istruzione **lpp = &buf scrive direttamente &buf nella entry GOT[exit]. Quando il programma esegue successivamente exit(0), il jmp presente in exit@plt utilizza il valore appena scritto e trasferisce il controllo al buffer contenente lo shellcode.
 
 _Calcolo_Dell'_Offset_E_Struttura_Del_Payload:
 
