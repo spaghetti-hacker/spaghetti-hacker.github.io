@@ -168,13 +168,13 @@ NX: NX disabled
 PIE: No PIE (0x8048000)
 @@@
 
-;No RELRO significa che la GOT resta scrivibile per l'intera esecuzione del processo, non solo prima della prima chiamata a ogni funzione. Questo e' condizione necessaria per l'overwrite: con Full RELRO la GOT verrebbe risolta interamente al caricamento e resa read-only, rendendo impossibile la scrittura su exit@GOT.
+;No RELRO significa che le entry della GOT rimangono scrivibili durante l'esecuzione del processo. In particolare, GOT[exit] può essere modificata dalla primitiva di scrittura dell'exploit. Con Full RELRO, invece, la GOT viene resa read-only dopo le relocation, impedendo questo tipo di overwrite.
 
-;No canary found significa che l'overflow lineare in strcpy non incontra alcun valore di controllo tra buf e lpp. Con uno stack canary attivo il programma abortirebbe prima di raggiungere e sovrascrivere lpp, rendendo la variabile irraggiungibile.
+;No canary found indica che nello stack frame non è presente un canary che possa rilevare l'overflow al momento del controllo previsto dal compilatore. In questo caso, quindi, l'overflow può raggiungere lpp senza incontrare un meccanismo di terminazione basato sul canary. Il canary non è però il fulcro dell'exploit: ciò che conta è la possibilità di sovrascrivere lpp prima che venga utilizzato.
 
-;NX disabled indica che lo stack e' eseguibile, ma questo dettaglio e' irrilevante per l'exploit: lo shellcode non viene mai eseguito direttamente dallo stack tramite salto diretto, bensi' tramite l'overwrite di exit@GOT che punta a &buf. Anche con NX abilitato l'exploit funzionerebbe, perche' il meccanismo di innesco e' un jmp calcolato dalla GOT, non una tecnica di stack-smashing classica con ret-to-stack.
+;NX disabled indica che lo stack è eseguibile e permette quindi di utilizzare direttamente &buf come indirizzo dello shellcode. La primitiva di GOT overwrite, presa isolatamente, non dipende da NX; tuttavia, con NX abilitato, questo payload specifico non potrebbe eseguire lo shellcode sullo stack. Sarebbe quindi necessario modificare la fase finale dell'exploit, ad esempio reindirizzando il controllo verso una regione di memoria eseguibile.
 
-;No PIE, indirizzo base 0x8048000, e' la condizione che rende deterministico ogni indirizzo usato nell'exploit. exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) sono costanti a ogni esecuzione, perche' il binario viene sempre mappato allo stesso indirizzo base. Con PIE abilitato questi indirizzi cambierebbero a ogni run e l'exploit richiederebbe un leak preventivo.
+;No PIE, con base dell'eseguibile a 0x08048000, rende deterministici gli indirizzi del codice e dei dati appartenenti al binario principale. In particolare, exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) rimangono costanti tra le esecuzioni, evitando la necessità di un information leak per ricavare questi indirizzi. Gli indirizzi delle librerie condivise possono invece continuare a essere soggetti ad ASLR.
 
 ;l'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
 
@@ -197,7 +197,7 @@ tmp = *lpp;
 **lpp = (unsigned long) &buf;
 @@@
 
-;lpp punta normalmente a lp, che punta a val. Se lpp viene sovrascritto con un indirizzo arbitrario X, il programma scrive &buf in *X. Questo trasforma un semplice puntatore globale in una primitiva write-what-where. Il controllo (lpp & 0xffff0000) == 0x08040000 limita l'indirizzo scelto alla pagina di memoria del binario stesso, non impedisce la scrittura arbitraria all'interno di quella pagina.
+;lpp punta normalmente a lp, che punta a val. Se lpp viene sovrascritto con un indirizzo arbitrario X, il programma scrive &buf in *X. Questo trasforma un semplice puntatore globale in una primitiva write-what-where. Il controllo (lpp & 0xffff0000) == 0x08040000 limita il valore di lpp all'intervallo 0x08040000–0x0804ffff, cioè a una regione di 64 KiB che comprende indirizzi del binario. Non impedisce però di scegliere arbitrariamente una locazione all'interno di tale intervallo.
 
 _Overwrite_Della_GOT:
 
@@ -217,7 +217,7 @@ _Bypass_Del_Filtro_NULL_Byte:
 -bash: warning: command substitution: ignored null byte in input
 @@@
 
-;argv e' una stringa C, terminata da 0x00. strcpy si ferma al primo byte nullo incontrato. Qualsiasi indirizzo o istruzione contenente 0x00 tronca il payload prima del target. Questo vincolo obbliga sia l'indirizzo lpp sia lo shellcode a essere privi di byte nulli, condizionando la scelta del target GOT e la scrittura delle istruzioni assembly.
+;argv[1] è una stringa C e non può contenere byte 0x00 interni: il primo 0x00 rappresenta infatti il terminatore della stringa. strcpy copia la stringa sorgente fino al suo terminatore, ma non è quindi possibile utilizzare un 0x00 come byte intermedio del payload. Questo vincolo, ulteriormente evidente quando il payload viene costruito tramite command substitution della shell, obbliga sia l'indirizzo utilizzato per sovrascrivere lpp sia lo shellcode a essere privi di byte nulli.
 
 _Bypass_Privilegi_Tramite_setreuid:
 
@@ -226,7 +226,7 @@ strace -f -e trace=setuid,setreuid,setresuid /vortex/vortex3 ...
 setuid(5004) = -1 EPERM
 @@@
 
-;il processo ha RUID pari all'utente chiamante, EUID e SUID entrambi 5004 per effetto del bit SUID. setuid confronta il valore richiesto con RUID e SUID del processo, non con l'EUID corrente. Poiche' il binario e' SUID, all'exec la SUID viene impostata a 5004 come l'EUID, quindi in teoria setuid(5004) dovrebbe avere successo; l'EPERM osservato indica una causa non isolata con precisione (possibile discrepanza nel registro ebx al momento della syscall), non un limite strutturale della setuid stessa. Si e' quindi optato per setreuid, che imposta esplicitamente sia RUID sia EUID senza dipendere da questa ambiguita'.
+;il processo ha RUID pari all'utente chiamante, EUID e SUID entrambi 5004 per effetto del bit SUID. setuid confronta il valore richiesto con RUID e SUID del processo, non con l'EUID corrente. Poiche' il binario e' SUID, all'exec la SUID viene impostata a 5004 come l'EUID, quindi in teoria setuid(5004) dovrebbe avere successo; il tentativo di utilizzare direttamente la syscall setuid ha prodotto EPERM nel test effettuato con strace. Poiché l'obiettivo dell'exploit è ottenere esplicitamente RUID ed EUID pari a 5004, ho scelto di utilizzare direttamente la syscall setreuid, specificando entrambi gli UID invece di affidarmi al comportamento della singola setuid.
 
 @@@
 xor eax, eax
@@ -240,7 +240,7 @@ int 0x80
 
 ;syscall 0x46 = setreuid, imposta sia RUID sia EUID. 0x138c = 5004 decimale, l'UID target del binario SUID. ebx = nuovo RUID, ecx = nuovo EUID, entrambi 5004. xor + mov parziale evita byte nulli nell'immediato, a differenza di un mov eax, 5004 diretto.
 
-;setreuid(ruid, euid) è più esplicita: permette di specificare direttamente sia il nuovo RUID sia il nuovo EUID in un colpo solo, e non dipende dall'ambiguità di "quale singolo parametro passare a setuid". Impostando entrambi a 5004 esplicitamente, il risultato è deterministico indipendentemente da eventuali dettagli sottili nella logica di controllo di setuid da sola.
+;setreuid(ruid, euid) consente di specificare direttamente entrambi gli identificativi. Nel payload, ebx ed ecx vengono quindi caricati entrambi con 5004 (0x138c), rendendo esplicita la transizione verso l'identità privilegiata del livello vortex4.
 
 section .ASPETTI_TECNICI_RILEVANTI
 
@@ -257,10 +257,12 @@ ff 25 00 b2 04 08
 _Lazy_Binding_E_Catena_Di_Dereferenziazione:
 
 @@@
-lpp = 0x08049052 ; indirizzo scelto, punta dentro l'istruzione jmp di exit@plt.
-*lpp = 0x0804b200 ; valore letto in quell'indirizzo, e' l'indirizzo della GOT.
-**lpp = *(0x0804b200) ; valore correntemente presente in GOT, prima dell'overwrite e' l'indirizzo di libc.
+lpp = 0x08049052 ;indirizzo scelto, punta dentro l'istruzione jmp di exit@plt.
+*lpp = 0x0804b200 ;valore letto in quell'indirizzo, e' l'indirizzo della GOT.
+**lpp = *(0x0804b200) ;valore presente nella GOT di exit. 
 @@@
+
+;la GOT contiene la destinazione utilizzata dal jmp presente in exit@plt. Sovrascrivendo GOT[exit] con &buf, la successiva chiamata a exit() non viene più indirizzata verso la normale implementazione di exit, ma verso il buffer contenente lo shellcode.
 
 ;il lazy binding normalmente risolve l'indirizzo reale di exit al primo utilizzo e lo scrive in GOT. Qui la doppia dereferenziazione del programma viene dirottata per scrivere &buf esattamente in quella cella. Dopo l'overwrite, GOT[exit] non contiene piu' l'indirizzo di libc ma l'indirizzo del buffer sullo stack. Questo e' il punto centrale dell'exploit: il programma stesso esegue **lpp = &buf, e la scelta di lpp fa si' che quella scrittura coincida esattamente con GOT[exit].
 
@@ -290,7 +292,7 @@ tmp = *lpp;
 
 ;la cella realmente compromessa, 0x0804b200, non viene mai toccata dal fix. Il valore malevolo &buf resta scritto in GOT anche dopo l'esecuzione di *lpp = tmp, perche' quella riga non ha alcuna relazione con l'indirizzo GOT, ma solo con l'indirizzo di lpp stesso.
 
-;il fix commentato nasce probabilmente da un modello mentale in cui tmp salva il valore originale della locazione che sta per essere corrotta, utile a ripristinarla dopo l'uso. Questo modello e' corretto per una singola dereferenziazione, ma non regge in presenza di una doppia dereferenziazione: tmp salva il dato che punta al bersaglio reale, non il dato che si trova nel bersaglio reale. Per neutralizzare l'exploit servirebbe invece salvare e ripristinare il valore originale di **lpp, non di *lpp, oppure eliminare a monte la possibilita' di controllare lpp tramite il controllo sull'overflow di buf.
+;il fix commentato nasce probabilmente da un modello mentale in cui tmp salva il valore originale della locazione che si intende modificare, per poi ripristinarla dopo l'uso. Questo modello sarebbe corretto se la scrittura avvenisse tramite una singola dereferenziazione; qui però la scrittura avviene tramite una doppia dereferenziazione. tmp salva quindi il valore intermedio che identifica il bersaglio, non il contenuto della locazione che verrà effettivamente sovrascritta.
 
 section .EXPLOIT
 
@@ -360,7 +362,7 @@ uid=5004(vortex4) gid=5003(vortex3) groups=5003(vortex3)
 
 section .NOTE_FINALI
 
-;l'aspetto didattico principale di vortex3 non e' il buffer overflow in se', ma il fatto che il programma offra gia' una primitiva write-what-where tramite **lpp = &buf. Il lavoro dell'attaccante si riduce a scegliere correttamente il valore di lpp, sfruttando la conoscenza della codifica dell'istruzione jmp in exit@plt per individuare una cella di memoria che, letta come dato, contiene l'indirizzo della GOT. Il vincolo sui NULL byte nell'input, imposto da strcpy su una stringa C, ha condizionato sia la scelta dell'indirizzo target sia la scrittura dello shellcode, obbligando l'uso di setreuid al posto di setuid per completare correttamente la transizione di privilegio.
+;l'aspetto didattico principale di vortex3 non e' il buffer overflow in se', ma il fatto che il programma offra gia' una primitiva write-what-where tramite **lpp = &buf. Il lavoro dell'attaccante si riduce a scegliere correttamente il valore di lpp, sfruttando la conoscenza della codifica dell'istruzione jmp in exit@plt per individuare una cella di memoria che, letta come dato, contiene l'indirizzo della GOT. Il vincolo sui NULL byte nell'input, imposto dalla natura delle stringhe C utilizzate da strcpy, ha condizionato sia la scelta dell'indirizzo target sia la costruzione dello shellcode. Nella fase di privilege escalation ho quindi scelto setreuid, impostando esplicitamente RUID ed EUID a 5004.
 
 <a href="https://spaghetti-hacker.github.io/">index.html</a>
 </script>
