@@ -93,8 +93,7 @@ _Nota_Metodologica:
 
 section .EXECUTIVE_SUMMARY
 
-;il binario vortex3 e' un eseguibile SUID appartenente a vortex4, eseguibile dal gruppo vortex3. Contiene una funzione main vulnerabile a buffer overflow su strcpy, ma il vettore di sfruttamento reale non e' l'overflow classico dell'indirizzo di ritorno: e' la scrittura, tramite un puntatore a puntatore globale, di un valore arbitrario controllato dall'attaccante. Questo consente una primitiva write-what-where che viene puntata sulla GOT della funzione exit. La conseguenza e' l'esecuzione di shellcode al posto della chiamata di libreria exit(), con conseguente escalation a UID 5004.
-
+;il binario vortex3 e' un eseguibile SUID appartenente a vortex4, eseguibile dal gruppo vortex3. Contiene una funzione main vulnerabile a buffer overflow su strcpy, ma il vettore di sfruttamento reale non e' l'overflow classico dell'indirizzo di ritorno: e' la scrittura, tramite un puntatore a puntatore globale, di un valore arbitrario controllato dall'attaccante. Questo consente una primitiva write-what-where che viene puntata sulla GOT della funzione exit. La conseguenza e' il trasferimento del controllo allo shellcode al posto della normale destinazione di exit(), con conseguente escalation a UID 5004.
 
 section .CODICE_SORGENTE
 
@@ -150,7 +149,7 @@ main()
 |
 +-- exit(0)
 |
-+-- jmp [exit@GOT] ;lazy binding, salto indiretto
++-- jmp [exit@GOT] ;salto indiretto tramite GOT
 |
 +-- &buf ;shellcode eseguito al posto di exit reale
 @@@
@@ -174,7 +173,7 @@ PIE: No PIE (0x8048000)
 
 ;NX disabled indica che lo stack è eseguibile e permette quindi di utilizzare direttamente &buf come indirizzo dello shellcode. La primitiva di GOT overwrite, presa isolatamente, non dipende da NX; tuttavia, con NX abilitato, questo payload specifico non potrebbe eseguire lo shellcode sullo stack. Sarebbe quindi necessario modificare la fase finale dell'exploit, ad esempio reindirizzando il controllo verso una regione di memoria eseguibile.
 
-;No PIE, con base dell'eseguibile a 0x08048000, rende deterministici gli indirizzi del codice e dei dati appartenenti al binario principale. In particolare, gli indirizzi di exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) relativi all'eseguibile principale sono deterministici tra le esecuzioni, evitando la necessità di un information leak per ricavarli. Gli indirizzi delle librerie condivise possono invece continuare a essere soggetti ad ASLR.
+;No PIE significa che gli indirizzi relativi all'eseguibile principale sono deterministici tra le esecuzioni. In particolare, exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) possono essere utilizzati senza la necessità di un information leak. Gli indirizzi delle librerie condivise possono invece continuare a essere soggetti ad ASLR.
 
 ;l'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
 
@@ -270,7 +269,7 @@ _Calcolo_Dell'_Offset_E_Struttura_Del_Payload:
 payload = shellcode + b"A" * (132 - len(shellcode)) + p32(0x08049052)
 @@@
 
-;offset 132 determinato empiricamente con debugging, non calcolato a priori dalla sola dimensione di buf (128 byte). La differenza di 4 byte e' dovuta al layout dello stack frame, dove lpp risiede subito dopo buf con eventuale allineamento. L'ultimo p32 sovrascrive lpp con l'indirizzo 0x08049052, cioe' exit@plt+2. Il payload totale misura 136 byte: 43 di shellcode, 89 di padding, 4 dell'indirizzo target.
+;offset 132 determinato empiricamente con debugging e confermato tramite GDB. L'ultimo p32 sovrascrive lpp con l'indirizzo 0x08049052, cioe' exit@plt+2.
 
 section .ANALISI_DEL_FIX_COMMENTATO
 
@@ -303,7 +302,6 @@ context.os = "linux"
 
 BINARY = "/vortex/vortex3"
 
-LEVEL4_UID = 5004       # <-- UID corretto del livello 4
 OFFSET = 132
 lpp = 0x08049052
 
