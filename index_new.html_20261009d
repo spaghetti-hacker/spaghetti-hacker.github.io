@@ -23,7 +23,7 @@
     --green:#65E903;   /* verdino del vecchio sito */
     --cyan:#00ffff;    /* azzurrino link / hover */
     --sel:#0a3a2a;     /* sfondo selezione */
-    --sel2:#3a9070;   /* hover chiaro */
+    --sel2:#0a3a2a;   /* hover chiaro */
     --deep:#001c1c;    /* sfondo barre */
     --line:#1a3a1a;    /* bordi */
     --tint:#f1f8ee;    /* righe alterne su bianco */
@@ -41,7 +41,6 @@ a{color:inherit;text-decoration:none;}
     max-width:1024px;
     margin:0 auto;
     background:#fff;
-    min-height:100vh;
     border-left:1px solid var(--line);
     border-right:1px solid var(--line);
 }
@@ -122,11 +121,27 @@ a{color:inherit;text-decoration:none;}
 #list .r{white-space:nowrap;opacity:.7;}
 #list .t{min-width:0;overflow-wrap:anywhere;}
 
+/* ── popup descrizione ── */
+#tip{
+    position:fixed;
+    z-index:20;
+    display:none;
+    max-width:380px;
+    padding:6px 10px;
+    background:var(--deep);
+    color:var(--green);
+    border:1px dashed var(--green);
+    font-size:18px;
+    line-height:1.35;
+    pointer-events:none;
+    overflow-wrap:anywhere;
+}
+
 /* ── articolo ── */
 #article{
     background:#fff;
     color:#000;
-    padding:18px 14px 60px;
+    padding:18px 14px 18px;
     font-family:inherit;
     font-size:18px;
     line-height:1.35;
@@ -141,10 +156,22 @@ a{color:inherit;text-decoration:none;}
 #list ::selection{background:var(--sel2);color:var(--cyan);}
 
 @media(max-width:640px){
+    html,body{overflow-x:visible;}   /* annulla il clip: la pagina può scorrere di lato */
     body{font-size:13px;}
-    #article{font-size:12px;padding:12px 8px 40px;}
+    #article{
+        width:600px;                 /* ← il tuo limite */
+        max-width:none;
+        font-size:12px;
+        padding:12px 8px 12px;
+    }
+    #article img{
+        left:0;
+        transform:none;
+        max-width:100%;
+    }
     #list .r{display:none;}
 }
+
 </style>
 </head>
 <body>
@@ -157,6 +184,7 @@ a{color:inherit;text-decoration:none;}
     <div id="metabar" class="bar grey"></div>
     <pre id="article"></pre>
 </div>
+<div id="tip"></div>
 
 <script>
 /* ═══ DATI (stessi del sito attuale: aggiungi/modifica qui) ═══ */
@@ -164,20 +192,20 @@ const SECTIONS = [
 {
     n:"0x01", key:"malware", name:"MALWARE",
     posts:[
-        { title:"QLNX PROCESS INJECTION",           href:"qlnx2.html",           desc:"reversing di un framework di process injection.", date:"2026-08-05" },
-        { title:"vpnfilter_pers", href:"vpnfilter_pers.html", desc:"analisi di una tecnica malevola di persistenza.", date:"2026-07-12" },
-        { title:"process_masq",   href:"process_masq.html",   desc:"analisi di una tecnica malevola di process masquerading.", date:"2026-06-15" },
-        { title:"gafgyt",         href:"gafgyt.html",         desc:"reverse engineering di un malware della famiglia Gafgyt/Bashlite.", date:"2026-06-11" },
-        { title:"proc_hider",     href:"proc_hider.html",     desc:"re di un rootkit Linux che si inietta nei processi tramite LD_PRELOAD.", date:"2026-06-03" },
-        { title:"fork_flood",     href:"fork_flood.html",     desc:"re di un exploit Android con saturazione della process table tramite fork-bomb.", date:"2026-06-03" },
-        { title:"no_elf",         href:"no_elf.html",         desc:"reverse engineering di un ELF dropper con payload in memoria.", date:"2026-06-03" }
+        { title:"QLNX Process Injection",           href:"qlnx2.html",           desc:"reversing di un framework di process injection.", date:"2026-08-05" },
+        { title:"VPNFilter Persistence", href:"vpnfilter_pers2.html", desc:"analisi di una tecnica malevola di persistenza.", date:"2026-07-12" },
+        { title:"Process Masquerading",   href:"process_masq2.html",   desc:"analisi di una tecnica malevola di process masquerading.", date:"2026-06-15" },
+        { title:"Gafgyt",         href:"gafgyt2.html",         desc:"reverse engineering di un malware della famiglia Gafgyt/Bashlite.", date:"2026-06-11" },
+        { title:"Proc Hider",     href:"proc_hider2.html",     desc:"re di un rootkit Linux che si inietta nei processi tramite LD_PRELOAD.", date:"2026-06-03" },
+        { title:"Fork Flood",     href:"fork_flood2.html",     desc:"re di un exploit Android con saturazione della process table tramite fork-bomb.", date:"2026-06-03" },
+        { title:"No ELF",         href:"no_elf3.html",         desc:"reverse engineering di un ELF dropper con payload in memoria.", date:"2026-06-03" }
     ]
 },
 {
     n:"0x02", key:"reverse", name:"REVERSE",
     posts:[
-        { title:"crackme con finto meccanismo di autenticazione basato su password e hash.",      href:"hard_coded2.html",      desc:"crackme con finto meccanismo di autenticazione basato su password e hash.", date:"2026-08-03" },
-        { title:"debug_me",        href:"debug_me.html",        desc:"crackme che usa TracerPid come meccanismo anti-debug a tre stage.", date:"2026-06-02" },
+        { title:"Hard Coded",      href:"hard_coded2.html",      desc:"crackme con finto meccanismo di autenticazione basato su password e hash.", date:"2026-08-03" },
+        { title:"Debug Me",        href:"debug_me2.html",        desc:"crackme che usa TracerPid come meccanismo anti-debug a tre stage.", date:"2026-06-02" },
         { title:"ftcp",            href:"ftcp.html",            desc:"reversing della funzione ftcp, estratta da un binario malevolo.", date:"2026-05-27" },
         { title:"list_fork",       href:"list_fork.html",       desc:"reversing della funzione listFork, estratta da un binario malevolo.", date:"2026-05-26" },
         { title:"xorcist",         href:"xorcist.html",         desc:"crackme con password offuscata tramite XOR e semplice controllo anti-debug.", date:"2026-05-26" },
@@ -191,9 +219,8 @@ const SECTIONS = [
 {
     n:"0x03", key:"ctf", name:"CTF & VR",
     posts:[
-        { title:"vortex3",    href:"vortex3.html", desc:"CTF OverTheWire: GOT overwrite via doppia dereferenziazione controllata.", date:"2026-06-02" },
-        { title:"asm",        href:"asm.html",     desc:"shellcode injection sotto SECCOMP con filename fuori misura.", date:"2026-05-26" },
-        { title:"CasaMatta CTF", href:"ctf.html",  desc:"Capture The Flag della CasaMatta.", date:"2026-05-25" }
+        { title:"Vortex3",    href:"vortex32.html", desc:"CTF OverTheWire: GOT overwrite via doppia dereferenziazione controllata.", date:"2026-06-02" },
+        { title:"asm",        href:"asm.html",     desc:"shellcode injection sotto SECCOMP con filename fuori misura.", date:"2026-05-26" }
     ]
 },
 {
@@ -266,6 +293,33 @@ function renderList(){
             openPost(p, true);
         }));
 }
+
+/* ═══ POPUP DESCRIZIONE (hover sulle righe) ═══ */
+function setupTip(){
+    const tip = $("tip"), list = $("list");
+    const place = e => {
+        const w = tip.offsetWidth, h = tip.offsetHeight;
+        let x = e.clientX + 14, y = e.clientY + 18;
+        if(x + w > innerWidth - 8)  x = Math.max(8, e.clientX - w - 14);
+        if(y + h > innerHeight - 8) y = Math.max(8, e.clientY - h - 14);
+        tip.style.left = x + "px";
+        tip.style.top  = y + "px";
+    };
+    list.addEventListener("mousemove", e => {
+        const row = e.target.closest("a.row");
+        const p = row && curCat.posts[+row.dataset.i];
+        if(!p || !p.desc){ tip.style.display = "none"; return; }
+        if(tip.dataset.i !== row.dataset.i || tip.style.display !== "block"){
+            tip.textContent = p.desc;
+            tip.dataset.i = row.dataset.i;
+            tip.style.display = "block";
+        }
+        place(e);
+    });
+    list.addEventListener("mouseleave", () => { tip.style.display = "none"; });
+    addEventListener("scroll", () => { tip.style.display = "none"; }, { passive:true });
+}
+//setupTip();
 
 function clearArticle(){
     curPost = null;
@@ -347,8 +401,7 @@ async function openPost(p, push, scroll = true){
 	pre.innerHTML = htmlToArticle(html, p.href);
     }catch(e){
         if(curPost !== p) return;
-        pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n" +
-            "Se apri il file con file:// il browser blocca fetch(): usa un web server (o GitHub Pages).";
+        pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n";
     }
     if(scroll) scrollToViewer();
 }
