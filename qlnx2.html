@@ -27,7 +27,6 @@ Il campione è completamente stripped e non contiene simboli. I nomi delle funzi
 _Tabella_Delle_Funzioni_Rinominate:
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab1.png" class="full-img">
-
 section .INTRODUZIONE
 
 ;lo scope della presente analisi e' volutamente circoscritto al sottosistema di process injection del campione, e non copre l'impianto QLNX nella sua interezza. Il campione sottoposto ad analisi implementa infatti funzionalita' addizionali, rootkit a doppio livello (LD_PRELOAD/eBPF), backdoor PAM, raccolta di credenziali, tunneling di rete e rete mesh peer-to-peer, che esulano dal perimetro di questo documento e non vengono trattate.
@@ -51,7 +50,6 @@ _Canali_Disponibili:
 ;entrambi i canali richiedono un attach preventivo al processo vittima, che lo sospende e trasferisce al chiamante il diritto di ispezionarne e modificarne lo stato. Questo vincolo comune rappresenta il principale punto di osservabilita' per strumenti di detection basati su syscall monitoring. Una restrizione di sicurezza rilevante e' Yama ptrace_scope, parametro del kernel che limita quali processi possono tracciarne altri. Con un valore restrittivo, un processo non privilegiato non puo' fare attach a processi arbitrari, e questo vincolo si riflette direttamente sulla riuscita delle tecniche descritte. Il campione analizzato implementa entrambi i canali in un unico framework, con selezione e fallback descritti nelle sezioni successive.
 
 <img src="https://spaghetti-hacker.github.io/qlnx0.png" class="full-img">
-
 section .EXECUTIVE_SUMMARY
 
 ;il campione implementa un sottosistema dedicato alla process injection. Il componente principale, injection_manager(), agisce come dispatcher tra differenti primitive Linux utilizzate per modificare un processo remoto. La funzione non contiene direttamente il codice del payload. Riceve una richiesta serializzata composta da:
@@ -72,7 +70,6 @@ _Modalita'_Supportate:
 section .ARCHITETTURA_GENERALE
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab2.png" class="full-img">
-
 section .INJECTION_DISPATCHER
 
 ;la funzione injection_manager() rappresenta il punto centrale del sottosistema. Il malware separa la logica di ricezione del comando dalla tecnica utilizzata per modificare il processo remoto, mantenendo un unico punto di controllo e permettendo di aggiungere metodi differenti senza modificare il protocollo di comando.
@@ -105,7 +102,6 @@ if ( method )
 _Selettore_Method:
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab3.png" class="full-img">
-
 section .FALLBACK_MECHANISM
 
 ;quando il metodo non viene specificato (method == 0), il malware tenta automaticamente la tecnica preferenziale e passa alla seconda in caso di errore.
@@ -133,7 +129,6 @@ section .PROC_MEM_INJECTION
 ;la prima tecnica utilizza il file speciale Linux <code>/proc/&lt;pid&gt;/mem</code>. La funzione effettua prima un attach tramite ptrace per ottenere il controllo del processo target.
 
 <img src="https://spaghetti-hacker.github.io/qlnx1.png" class="full-img">
-
 if ( (unsigned int)ptrace_attach_and_wait(PID) == -1 )
     return 0xFFFFFFFFLL;
 mem_PID = read_mem_PID(PID);
@@ -164,7 +159,6 @@ section. PTRACE_INJECTION
 ;la seconda tecnica scrive nella memoria del processo remoto usando direttamente le primitive ptrace, senza passare da <code>/proc/&lt;pid&gt;/mem</code>.
 
 <img src="https://spaghetti-hacker.github.io/qlnx2.png" class="full-img">
-
 while ( indice < size )
 {
     if ( size - indice > 7 )
@@ -211,7 +205,6 @@ _Gestione_Esplicita_Di_Yama_ptrace_scope:
 section .INDICATORI_DI_COMPROMISSIONE_(IOC)
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab4.png" class="full-img">
-
 section .NOTE_FINALI
 
 ;il componente analizzato implementa un vero e proprio framework modulare di process injection. L'elemento piu' rilevante non e' la singola API Linux utilizzata, ma la presenza di un dispatcher che riceve comandi esterni e seleziona dinamicamente il metodo di compromissione, con gestione esplicita delle condizioni ambientali che possono limitarne l'efficacia.
@@ -273,7 +266,6 @@ section .VIRUSTOTAL
 ;il campione risulta gia' noto al momento dell'analisi, con un tasso di rilevamento pari a circa il 52% dei motori interrogati. Questo valore e' coerente con un sample gia' in circolazione da tempo, piuttosto che con un binario di nuova compilazione o con offuscamento mirato a evadere il rilevamento statico.
 
 <img src="https://spaghetti-hacker.github.io/qlnxvt.png" class="full-img">
-
 ;la maggioranza dei motori converge su un'unica attribuzione di famiglia, sebbene con convenzioni di naming diverse. Un primo gruppo di vendor (ALYac, Arcabit, BitDefender, eScan, GData, VIPRE, Emsisoft, Kaspersky) etichetta il campione come "Trojan.Linux.Quasar.A" o varianti equivalenti. Un secondo gruppo (Fortinet "Linux/Agent.AZW!tr", ESET-NOD32 "Linux/Agent.AZW Trojan", Sophos e ZoneAlarm "Linux/QLnx-A", TrendMicro e TrendMicro-HouseCall "Backdoor.Linux.QLNX.A", AhnLab-V3 "Trojan/Linux.RatAgent") utilizza invece la sigla QLnx/QLNX. Entrambi i cluster fanno riferimento alla stessa famiglia: Quasar Linux (QLNX), un impianto Linux completo con capacita' di accesso remoto, rootkit a doppio livello (LD_PRELOAD in userspace ed eBPF a livello kernel), backdoor PAM, raccolta di credenziali da ambienti di sviluppo e cloud, tunneling di rete e rete mesh peer-to-peer.
 
 ;il sottosistema di process injection analizzato in questo report corrisponde a una singola funzionalita' del set di comandi C2 di QLNX. Il campione sottoposto a VirusTotal rappresenta quindi l'intero impianto, di cui il dispatcher analizzato in questo documento costituisce solo il modulo di injection.
