@@ -1,5 +1,7 @@
 Hard Coded ~ HCF
 
+Crackme con finto meccanismo di autenticazione basato su password e hash.
+
 section .INTRODUZIONE
 
 ;il binario oggetto di analisi implementa un finto meccanismo di autenticazione basato su password e hash: si imposta una password, se ne dichiara la lunghezza, e infine si fornisce un valore di hash per "sbloccare" l'accesso e visualizzare la flag. Il documento è organizzato seguendo il flusso di esecuzione del programma: allocazione e setup iniziale del buffer, interazione con l'utente, meccanismo di verifica, analisi dettagliata di make_secret e dell'algoritmo di hashing (djb2), fino allo sfruttamento e alle conclusioni sulla natura della vulnerabilità.
