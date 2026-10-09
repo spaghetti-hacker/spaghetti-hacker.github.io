@@ -122,22 +122,6 @@ a{color:inherit;text-decoration:none;}
 #list .r{white-space:nowrap;opacity:.7;}
 #list .t{min-width:0;overflow-wrap:anywhere;}
 
-/* ── popup descrizione ── */
-#tip{
-    position:fixed;
-    z-index:20;
-    display:none;
-    max-width:380px;
-    padding:6px 10px;
-    background:var(--deep);
-    color:var(--green);
-    border:1px solid var(--green);
-    font-size:14px;
-    line-height:1.35;
-    pointer-events:none;
-    overflow-wrap:anywhere;
-}
-
 /* ── articolo ── */
 #article{
     background:#fff;
@@ -173,7 +157,6 @@ a{color:inherit;text-decoration:none;}
     <div id="metabar" class="bar grey"></div>
     <pre id="article"></pre>
 </div>
-<div id="tip"></div>
 
 <script>
 /* ═══ DATI (stessi del sito attuale: aggiungi/modifica qui) ═══ */
@@ -193,7 +176,7 @@ const SECTIONS = [
 {
     n:"0x02", key:"reverse", name:"REVERSE",
     posts:[
-        { title:"hard_coded",      href:"hard_coded.html",      desc:"crackme con finto meccanismo di autenticazione basato su password e hash.", date:"2026-08-03" },
+        { title:"crackme con finto meccanismo di autenticazione basato su password e hash.",      href:"hard_coded2.html",      desc:"crackme con finto meccanismo di autenticazione basato su password e hash.", date:"2026-08-03" },
         { title:"debug_me",        href:"debug_me.html",        desc:"crackme che usa TracerPid come meccanismo anti-debug a tre stage.", date:"2026-06-02" },
         { title:"ftcp",            href:"ftcp.html",            desc:"reversing della funzione ftcp, estratta da un binario malevolo.", date:"2026-05-27" },
         { title:"list_fork",       href:"list_fork.html",       desc:"reversing della funzione listFork, estratta da un binario malevolo.", date:"2026-05-26" },
@@ -283,33 +266,6 @@ function renderList(){
             openPost(p, true);
         }));
 }
-
-/* ═══ POPUP DESCRIZIONE (hover sulle righe) ═══ */
-function setupTip(){
-    const tip = $("tip"), list = $("list");
-    const place = e => {
-        const w = tip.offsetWidth, h = tip.offsetHeight;
-        let x = e.clientX + 14, y = e.clientY + 18;
-        if(x + w > innerWidth - 8)  x = Math.max(8, e.clientX - w - 14);
-        if(y + h > innerHeight - 8) y = Math.max(8, e.clientY - h - 14);
-        tip.style.left = x + "px";
-        tip.style.top  = y + "px";
-    };
-    list.addEventListener("mousemove", e => {
-        const row = e.target.closest("a.row");
-        const p = row && curCat.posts[+row.dataset.i];
-        if(!p || !p.desc){ tip.style.display = "none"; return; }
-        if(tip.dataset.i !== row.dataset.i || tip.style.display !== "block"){
-            tip.textContent = p.desc;
-            tip.dataset.i = row.dataset.i;
-            tip.style.display = "block";
-        }
-        place(e);
-    });
-    list.addEventListener("mouseleave", () => { tip.style.display = "none"; });
-    addEventListener("scroll", () => { tip.style.display = "none"; }, { passive:true });
-}
-setupTip();
 
 function clearArticle(){
     curPost = null;
