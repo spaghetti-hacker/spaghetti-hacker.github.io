@@ -18,12 +18,6 @@ _Nota_Metodologica:
 
 ;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo la rinomina delle variabili e delle funzioni. L'intelligenza artificiale e' stata utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul materiale gia' analizzato e in parte per la stesura del presente write-up.
 
-_Copidosoma_Floridanum:
-
-;questa vespa depone un solo uovo dentro il bruco ospite. Ma quell'uovo, invece di svilupparsi in un solo individuo, si divide (letteralmente un "fork" biologico) in centinaia o migliaia di embrioni geneticamente identici. Da questa divisione nascono due caste distinte:
-;larve soldato: sterili, non si sviluppano mai in vespe adulte, non fanno nulla di "produttivo", il loro unico compito è pattugliare l'interno del bruco ospite e attaccare/uccidere eventuali larve di altre specie parassite che tentano di competere per le risorse dell'ospite.
-;larve riproduttive: quelle che effettivamente si sviluppano in vespe adulte e completano il ciclo vitale (il "payload" vero e proprio).
-
 section .EXECUTIVE_SUMMARY
 
 ;il campione implementa la persistenza separando completamente tale funzione dal payload principale. Dopo la demonizzazione del processo viene eseguita una fork(). Il processo figlio assume il ruolo di watchdog permanente mentre il padre prosegue con l'esecuzione del payload. Il watchdog mantiene una copia residente dell'eseguibile, verifica periodicamente la presenza del file sul filesystem e lo ricrea automaticamente in caso di cancellazione. Parallelamente controlla che il meccanismo di persistenza sia ancora installato, reinstallandolo quando necessario. Questa architettura rende il malware resiliente ai tentativi di rimozione basati esclusivamente sulla cancellazione dell'eseguibile o della configurazione di persistenza.
