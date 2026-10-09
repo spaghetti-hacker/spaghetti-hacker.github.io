@@ -156,14 +156,25 @@ a{color:inherit;text-decoration:none;}
 #list ::selection{background:var(--sel2);color:var(--cyan);}
 
 @media(max-width:640px){
+    html,body{overflow-x:visible;}
     body{font-size:13px;}
+
+    #app{
+        width:600px;                 /* ← il tuo limite */
+        max-width:none;
+    }
+
+    /* parti fisse: larghe quanto lo schermo e bloccate a sinistra */
+    #banner,#cats,#catbar,#list,#titlebar,#metabar{
+        position:sticky;
+        left:0;
+        width:100vw;
+    }
+    #cats{top:0;}                    /* il menù resta fisso anche in verticale */
+
     #article{
         font-size:12px;
         padding:12px 8px 12px;
-        overflow-x:auto;         /* scorre solo l'articolo */
-    }
-    #article .wrap{
-        width:600px;             /* ← il tuo limite */
     }
     #article img{
         left:0;
@@ -399,8 +410,7 @@ async function openPost(p, push, scroll = true){
         if(!res.ok) throw new Error("HTTP " + res.status);
         const html = await res.text();
         if(curPost !== p) return; /* nel frattempo ne hai aperto un altro */
-	//pre.innerHTML = htmlToArticle(html, p.href);
-	pre.innerHTML = `<div class="wrap">${htmlToArticle(html, p.href)}</div>`;
+	pre.innerHTML = htmlToArticle(html, p.href);
     }catch(e){
         if(curPost !== p) return;
         pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n";
