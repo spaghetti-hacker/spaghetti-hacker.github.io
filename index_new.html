@@ -236,7 +236,7 @@ function renderList(){
 
 function clearArticle(){
     curPost = null;
-    $("titlebar").innerHTML = `<span>Title : <span class="n">—</span></span>`;
+    $("titlebar").innerHTML = `<span><span class="n">—</span></span>`;
     $("article").textContent = "";
 }
 
@@ -270,7 +270,7 @@ function htmlToText(html){
 async function openPost(p, push){
     curPost = p;
     renderList();
-    $("titlebar").innerHTML = `<span>Title : <span class="n">${esc(p.title)}</span></span>` +
+    $("titlebar").innerHTML = `<span><span class="n">${esc(p.title)}</span></span>` +
         `<span><a href="${esc(p.href)}" target="_blank" rel="noopener noreferrer">View as page ↗</a></span>`;
     $("metabar").innerHTML = `<span><span class="n">${esc(p.cat)}</span></span>` +
         `<span class="n">${esc(p.date)}</span>`;
