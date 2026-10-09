@@ -31,7 +31,38 @@ section .EXECUTIVE_SUMMARY
 
 section .ARCHITETTURA_GENERALE
 
-<img src="https://spaghetti-hacker.github.io/gafgyt_tab3.png" class="full-img">
+main()
+ |
+ +-- init PRNG: srand(getpid()^time(0)) + init rand(stesso seed).
+ |
+ +-- getOurIP(): fingerprinting locale tramite socket UDP verso 8.8.8.8:53,
+ |               lettura /proc/net/route, ioctl(SIOCGIFHWADDR).
+ |
+ +-- double-fork -> daemonizzazione
+ |   fork() -> waitpid() -> exit()       ;processo originale.
+ |   fork() -> exit()                    ;figlio1.
+ |   setsid() + chdir("/")               ;figlio2: nuova sessione isolata.
+ |   bsd_signal(SIGPIPE, SIG_IGN)        ;protezione da socket C2 chiusi.
+ |
+ +-- loop connessione C2
+ |   initConnection() -> retry ogni 5s.
+ |   beacon: getArch() + getPortz() + IP -> sockprintf().
+ |
+ +-- loop principale
+     |
+     +-- GC figli: waitpid(WNOHANG) su pids[].
+     |             compattazione array + realloc manuale.
+     |
+     +-- recvline() ;blocca fino a nuova riga dal C2.
+     |
+     +-- parse: !<botid> <CMD> [arg1] [arg2] ...
+     |          toupper(CMD).
+     |          strtok() -> array argv[] su heap.
+     |
+     +-- processCmd(argc, argv).
+     |
+     +-- reconnect se recvLine() == -1.
+
 section .PROTOCOLLO_C2
 
 ;sezione relativa al protocollo del Command & Control.
@@ -516,7 +547,18 @@ _Fingerprinting_del_C2_tramite_getPortz:
 
 section .INDICATORI_DI_COMPROMISSIONE_(IoC)
 
-<img src="https://spaghetti-hacker.github.io/gafgyt_tab1.png" class="full-img">
+Tipo        Valore                         Contesto
+----        ------                         --------
+IP:porta    5.2.65.150:999                 Server C2 hardcoded in commServer[0]
+Stringa     "Snoopy."                      Banner nel segmento .rodata
+Stringa     "TSource Engine Query"         Payload VSE flood hardcoded
+Percorso    /cdn-cgi/l/chk_captcha         Target HTTP flood (Cloudflare bypass)
+Porta       6982 (0x1b46)                  Porta C2 di default nel codice
+Bytes       58 99 21 (ripetuto)            Payload UDP fisso di SendSTDHEX
+Stringa     "NAMESERVER " (XOR 0xCA)       Payload URI di SendHTTPHex in .data
+Offset      0x0040bae0                     Payload grezzo SendSTDHEX in .data
+Offset      0x0040bca0                     Payload XOR SendHTTPHex in .data
+
 section .NOTE_FINALI
 
 ;l'implementazione presenta diversi segnali di codice scritto senza attenzione alla robustezza: assenza di controllo sul valore di ritorno di malloc(), nessuna gestione di fork() con ritorno -1, strcpy() senza bounds checking in initConnection(), uso di gethostbyname() deprecata in SendSTDHEX, e accesso a variabili globali senza sincronizzazione. Questi pattern, combinati con la struttura generale del bot, gli indirizzi C2 hardcoded e i vettori di attacco disponibili, collocano il campione nella categoria dei bot DDoS derivati da Gafgyt/BASHLITE, diffusi in numerose varianti nel panorama delle minacce IoT/Linux.
@@ -618,5 +660,14 @@ family labels: gafgyt, mirai, ddos.
 ;la convergenza delle family label su gafgyt/mirai conferma l'attribuzione condotta staticamente: nessuna discrepanza rilevante tra l'analisi manuale e la classificazione automatica dei motori AV.
 ;denominazioni prevalenti per famiglia:
 
-<img src="https://spaghetti-hacker.github.io/gafgyt_tab2.png" class="full-img">
+Vendor          Denominazione
+------          -------------
+BitDefender     Gen:Variant.Trojan.Linux.Gafgyt.5
+ESET-NOD32      A Variant Of Linux/Gafgyt.ARS
+Fortinet        ELF/Gafgyt.ANW!tr
+Kaspersky       HEUR:Backdoor.Linux.Gafgyt.a
+Elastic         Linux.Trojan.Gafgyt
+ClamAV          Unix.Dropper.Mirai-7139232-0
+Avira           EXP/ELF.Mirai.Z
+
 ;nota: la classificazione come "Mirai" da parte di alcuni vendor (Avira, ClamAV, Lionic) riflette la sovrapposizione di codice tra le due famiglie, ampiamente documentata nella letteratura. Il campione presenta caratteristiche implementative piu' coerenti con Gafgyt/BASHLITE, in particolare per la struttura del protocollo C2 e i vettori di attacco disponibili. 23 vendor non rilevano il campione, verosimilmente per assenza di firme specifiche per questa variante o per limitazioni nei motori euristici applicati ai binari ELF staticamente linkati.
