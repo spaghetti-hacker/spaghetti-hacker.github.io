@@ -1,0 +1,255 @@
+Process Masquerading ~ HCF
+
+Analisi di una Tecnica Malevola di Process Masquerading.
+
+section .INTRODUZIONE
+
+file 650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4
+650971d785224bf9680dca1cc43ce5546a9afb78dcf6baf4944862816ab6f4f4: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, stripped.
+
+_Nota_Metodologica:
+
+;l'analisi dei disassemblati e dei decompilati e' stata condotta interamente a mano, includendo il mapping e la rinomina delle variabili. L'intelligenza artificiale e' stata
+ utilizzata esclusivamente nella fase finale del lavoro, come supporto all'analisi: per validare alcune ipotesi interpretative, per effettuare una revisione degli errori sul
+ materiale gia' analizzato e in parte per la stesura del presente write-up.
+
+section .EXECUTIVE_SUMMARY
+
+;il campione analizzato e' un malware ELF Linux che implementa una tecnica di process masquerading a tre livelli gia' nelle prime istruzioni della funzione main. Il processo modifica la propria identità in user-space tramite manipolazione di argv e utilizzo di prctl(PR_SET_NAME), influenzando la rappresentazione del processo in /proc/PID/cmdline e /proc/PID/comm. L'intera libc e' reimplementata staticamente nel binario, il che elimina le dipendenze dinamiche e rende opaca l'analisi statica iniziale. La struttura generale del campione suggerisce possibili capacità di daemonizzazione, accesso a /proc e comunicazione di rete, che saranno confermate nelle sezioni successive dell’analisi. 
+
+section .IPOTESI_DI_ARCHITETTURA_GENERALE
+
+main()
+├── controllo argv[1]
+├── salvataggio path assoluto del binario
+├── process masquerading (tre livelli)
+├── setup rete
+├── (possibile) fork/daemonizzazione
+├── setup signal handlers e timer
+└── loop principale
+    ├── (possibile) scansione /proc (callback 1)
+    ├── (possibile) scansione /proc (callback 2)
+    └── azione periodica ogni 7 cicli
+
+section .LIBC_STATICA_CUSTOM
+
+;la prima difficolta' incontrata nell'analisi e' l'assenza totale di importazioni dalla libc standard. L'autore ha riscritto da zero tutte le funzioni per la gestione delle stringhe e della memoria, compilandole staticamente nel binario. La motivazione e' triplice: nessun simbolo importato visibile nell'analisi statica iniziale, nessun hook EDR sulle funzioni libc, portabilita' su qualsiasi versione del kernel senza dipendenze da glibc. Il riconoscimento di alcune funzioni e' avvenuto tramite le costanti caratteristiche delle implementazioni ottimizzate word-by-word.
+
+while (uVar3 = *src,
+      (uVar3 + 0xfefefefefefefeff & ~uVar3 & 0x8080808080808080) == 0) {
+    *dst = uVar3;
+    src++;
+    dst++;
+}
+
+;tecnica standard di null-byte detection su word a 64-bit, permette di copiare 8 byte per iterazione senza loop byte per byte.
+;0xfefefefefefefeff e 0x8080808080808080 sono le costanti canoniche del trick documentato in "Hacker's Delight" (Warren, 2002).
+;la stessa famiglia di costanti appare in ogni funzione per stringhe del campione. 
+;la tabella seguente elenca le varie funzioni identificate:
+
+Funzione ricostruita    Equivalente libc
+strcpy_opt              strcpy
+memccpy_opt             memccpy
+strlen_cs               strlen
+memset_cs               memset
+strcat_cs               strcat
+__errno_location        __errno_location
+syscall_ret_handler     wrapper interno glibc
+fd_to_procpath          nessun equivalente diretto
+readlink_wrapper        readlink
+safe_resolve_path       realpath
+get_absolute_parent_dir dirname + trailing slash
+ 
+_syscall_ret_handler:
+
+;ogni syscall grezza del campione e' seguita da una chiamata a questa funzione. Il kernel Linux restituisce gli errori come valori negativi in rax nell'intervallo [-4095, -1]. La libc standard converte questi valori in errno positivo e return -1, ma il campione non linka la libc. Questa funzione reimplementa esattamente quella conversione.
+
+ulong syscall_ret_handler(ulong raw_result) {
+    if (raw_result > 0xfffffffffffff000) {
+        *__errno_location() = -(int)raw_result;
+        return 0xffffffffffffffff;
+    }
+    return raw_result;
+}
+
+;0xfffffffffffff000 corrisponde a -4096 in complemento a due.
+;qualsiasi valore superiore e' un codice errore kernel negato.
+;__errno_location() accede a FS:0x3c, offset di errno nel TLS x86_64.
+;il valore di ritorno normalizzato e' sempre -1 in caso di errore.
+;il chiamante puo' quindi usare il semplice controllo if (ret < 0).
+
+_safe_resolve_path_e_fd_to_procpath:
+
+;il campione risolve i path in modo canonico usando /proc/self/fd/ come meccanismo intermedio. Il motivo e' che argv[0] puo' essere un path relativo o contenere symlink: per ottenere il path assoluto reale del binario in esecuzione senza chiamare realpath() dalla libc, il campione apre il file con open(), ottiene il fd, costruisce il path /proc/self/fd/<fd> e chiama la syscall readlink() su di esso.
+
+fd_to_procpath(buffer, fd):
+    strcpy(buffer, "/proc/self/fd/")
+    itoa(fd, buffer + 14)
+
+;costruisce /proc/self/fd/N dove N e' il fd in forma decimale.
+;/proc/self/fd/N e' un symlink al file reale associato al fd.
+;readlink su questo path restituisce il path canonico assoluto.
+;itoa e' una sintesi, nel campione la conversione e' implementata inline.
+;con due loop: il primo conta le cifre, il secondo scrive i digit da destra a sinistra.
+;nessuna funzione itoa e' presente nel binario.
+;dopo readlink, safe_resolve_path esegue un controllo anti-TOCTOU confrontando i campi st_dev e st_ino ottenuti rispettivamente da fstat(fd) e stat(path).
+;TOCTOU (Time Of Check, Time Of Use) è una race condition che si verifica quando un programma controlla un file tramite il suo percorso (check) e lo utilizza successivamente (use): tra le due operazioni un attaccante può sostituire il file o modificare un symlink, facendo sì che il programma operi su un oggetto diverso da quello verificato. Per mitigare questo problema, il campione apre prima il file ottenendo un file descriptor stabile, quindi confronta i campi st_dev e st_ino restituiti dalle syscall fstat(fd) e stat(path) per verificare che il path risolto identifichi ancora lo stesso inode associato al file già aperto.
+
+fstat(fd, &stat_fd);
+stat(resolved_path, &stat_path);
+if (stat_fd.st_dev == stat_path.st_dev &&
+    stat_fd.st_ino == stat_path.st_ino) {
+    ...
+}
+
+;fstat opera sul fd gia' aperto, non soggetto a race condition.
+;stat opera sul path, potrebbe essere stato modificato nel frattempo.
+;il confronto di st_dev e st_ino garantisce che fd e path puntino allo stesso inode.
+;se i valori divergono, errno viene settato a 40 (ELOOP: too many symbolic links).
+;questa scelta di errno e' imprecisa ma deliberata: segnala un problema su symlink.
+
+section .PROCESS_MASQUERADING
+
+strcat_cs(&DAT_0041b300,*argv);
+uVar4 = get_absolute_parent_dir(&DAT_0041b300);
+strcat_cs(&DAT_0041a300,uVar4);
+uVar4 = *argv;
+iVar3 = strlen_cs(uVar4);
+uVar1 = argv[1];
+memset_cs(uVar4,0,(long)iVar3);
+memccpy_cs(*argv,"ps aux",0,(long)iVar3);
+memccpy_cs(local_138,"ps aux",0,0x10);
+prctl_cs(0xf,uVar1)
+
+;il mascheramento avviene nelle prime istruzioni della main, prima di qualsiasi altra operazione. Il campione costruisce e conserva il path assoluto del binario e successivamente sovrascrive il contenuto di argv[0] con la stringa "ps aux" e il contenuto di un buffer di identificazione del processo con la stringa passata attraverso argv[1].
+
+strcat_cs(&DAT_0041b300, *argv);
+uVar4 = get_absolute_parent_dir(&DAT_0041b300);
+strcat_cs(&DAT_0041a300, uVar4);
+
+;argv[0] viene risolto in path assoluto canonico tramite safe_resolve_path.
+;get_absolute_parent_dir estrae il dirname e aggiunge trailing slash.
+;DAT_0041a300 contiene la directory base del malware per uso successivo.
+;es: "./malware" diventa "/home/user/malware_dir/".
+;il salvataggio del path reale avviene prima della modifica di argv[0], che potrebbe rendere il valore originale non immediatamente accessibile tramite interfacce standard.
+
+iVar3 = strlen_cs(*argv);
+memset_cs(*argv, 0, iVar3);
+memccpy_cs(*argv, "ps aux", 0, iVar3);
+memccpy_cs(local_138, "ps aux", 0, 0x10);
+
+;memset azzera argv[0] prima della sovrascrittura per eliminare ogni residuo.
+;il primo memccpy sovrascrive argv[0], agisce su /proc/PID/cmdline.
+;il secondo memccpy scrive "ps aux" in local_138 (16 byte).
+;nel flusso decompilato, il valore passato a PR_SET_NAME deriva direttamente da argv[1], mentre il buffer local_138 appare come struttura di supporto utilizzata durante la costruzione del payload di mascheramento.
+;PR_SET_NAME modifica il nome del processo (con argv[1]), che viene esposto in /proc/PID/comm e mostrato da strumenti come top e htop.
+;il codice mostra tre interventi distinti sui dati di identificazione del processo:
+;sovrascrittura di argv[0] in memoria.
+;utilizzo di prctl(PR_SET_NAME, argv[1]) per il nome del processo (comm).
+;copia della stringa "ps aux" in buffer locali e globali.
+;queste operazioni impattano rispettivamente le rappresentazioni user-space del comando (argv) e il nome del processo (comm), mentre l'effetto su /proc/PID/cmdline riflette direttamente il contenuto di argv nello spazio di memoria del processo.
+;la scelta di "ps aux" come nome di copertura non e' casuale. Quando un analista usa ps aux per cercare processi sospetti, il malware si camuffa modificando il proprio nome così che appaia simile a un processo legittimo, rendendo più difficile distinguerlo dagli altri.
+
+section .TTP_MITRE_ATT&CK
+
+;il process masquerading analizzato in questo campione corrisponde alla tecnica T1036.005, Masquerading: Match Legitimate Name or Location del framework MITRE ATT&CK. La tecnica rientra nella tattica Defense Evasion (TA0005). Nel caso specifico il campione agisce su due artefatti distinti: argv[0] in memoria, che alimenta /proc/PID/cmdline, e il comm name tramite prctl PR_SET_NAME, che alimenta /proc/PID/comm. Entrambi i vettori sono esplicitamente citati nella descrizione della tecnica come superfici di mascheramento su sistemi Linux. Le mitigazioni basate su restrizioni del filesystem non sono sufficienti a prevenire questa tecnica, che opera principalmente in memoria. Il rilevamento rimane affidato al confronto tra /proc/PID/exe e /proc/PID/cmdline, artefatto (/proc/PID/exe) più difficile da alterare senza privilegi elevati.
+
+section .NOTE_FINALI
+
+;l'analisi copre esclusivamente la fase di inizializzazione e mascheramento. Il campione presenta ulteriori capacita' non analizzate in questo documento: scansione ciclica di /proc con due callback distinte, comunicazione di rete con socket, daemonizzazione tramite fork, e un'azione periodica ogni sette cicli del loop principale che non e' ancora stata identificata. L'analisi di queste componenti e' in corso.
+;il campione mostra caratteristiche compatibili con implementazioni avanzate di gestione low-level di Linux internals. La riscrittura completa della libc, la gestione corretta delle syscall grezze, il controllo anti-TOCTOU in safe_resolve_path e la scelta psicologicamente efficace del nome di copertura suggeriscono familiarità con meccanismi interni di Linux e tecniche di offuscamento a livello processo. Il campione non e' attribuito a nessuna famiglia nota sulla base di questa analisi parziale.
+
+section .PROGRAMMA_IN_C_CHE_RIPRODUCE_PARZIALMENTE_IL_COMPORTAMENTO_OSSERVATO
+
+/*
+;masq_demo.c
+;riproduce la tecnica di process masquerading analizzata nel campione.
+;usa la libc standard al posto delle funzioni custom del campione originale, il comportamento osservabile e' quasi identico.
+;nel campione reale il valore passato a PR_SET_NAME deriva da argv[1], quindi non è necessariamente costante. Il PoC utilizza una stringa fissa per semplificazione dimostrativa.
+
+;compilazione:
+;gcc -o masq_demo masq_demo.c
+
+;uso:
+;./masq_demo 
+
+;verifica:
+;ps aux | grep "ps aux"
+;cat /proc/<PID>/cmdline | tr '\0' ' '
+;cat /proc/<PID>/comm
+*/
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/prctl.h>
+
+#define MASK_NAME "ps aux"
+
+int main(int argc, char *argv[])
+{
+
+/*
+;livello 1: sovrascrittura di argv[0] in memoria.
+;agisce su /proc/PID/cmdline, quello che ps aux mostra nella colonna COMMAND.
+;il memset preliminare azzera ogni residuo del nome originale prima di scrivere il nome di copertura, esattamente come nel campione.
+*/
+
+size_t orig_len = strlen(argv[0]);
+memset(argv[0], 0, orig_len);
+strncpy(argv[0], MASK_NAME, orig_len);
+
+/*
+;livello 2: rinomina del comm name tramite prctl PR_SET_NAME.
+;agisce su /proc/PID/comm, quello che top, htop e systemd mostrano come nome del processo. 
+*/
+
+prctl(PR_SET_NAME, MASK_NAME, 0, 0, 0);
+
+/*
+;a questo punto i tre livelli sono coperti:
+;/proc/PID/cmdline  -> "ps aux"
+;/proc/PID/comm     -> "ps aux"
+;argv[0] in memoria -> "ps aux" (azzerato e riscritto)
+
+;il processo rimane in esecuzione per permettere la verifica.
+;il PID viene stampato su stderr per trovarlo facilmente.
+*/
+
+fprintf(stderr, "[masq_demo] PID=%d in esecuzione, premi INVIO per uscire\n", getpid());
+fprintf(stderr, "[masq_demo] verifica con:\n");
+fprintf(stderr, "ps aux | grep 'ps aux'\n");
+fprintf(stderr, "cat /proc/%d/cmdline | tr '\\0' ' ' && echo\n", getpid());
+fprintf(stderr, "cat /proc/%d/comm\n", getpid());
+
+getchar();
+return 0;
+}
+
+_proof_of_concept:
+
+./masq_demo
+[masq_demo] PID=38066 in esecuzione, premi INVIO per uscire
+[masq_demo] verifica con:
+ps aux | grep 'ps aux'
+cat /proc/38066/cmdline | tr '\0' ' ' && echo
+cat /proc/38066/comm
+
+ps aux | grep 'ps aux'
+re         38066  0.0  0.0   2776  1584 pts/7    S+   16:26   0:00 ps aux
+re         38302  0.0  0.0  12680  3528 pts/9    R+   16:26   0:00 ps aux
+re         38303  0.0  0.0   9108  2656 pts/9    S+   16:26   0:00 grep --color=auto ps aux
+
+cat /proc/38066/cmdline | tr '\0' ' ' && echo
+ps aux
+
+cat /proc/38066/comm
+ps aux
+
+;PID 38066 e' il processo mascherato, PID 38302 e' il vero ps aux lanciato per la verifica.
+;un analista che scorre l'output velocemente ignora entrambi: uno sembra il comando appena eseguito, l'altro un'istanza concorrente dello stesso.
+;/proc/38066/cmdline mostra "ps aux".
+;nel campione reale memset_cs azzera l'intero buffer prima della sovrascrittura, eliminando qualsiasi residuo.
+;/proc/38066/comm mostra "ps aux": prctl PR_SET_NAME scrive nel campo comm del task nel kernel.
