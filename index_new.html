@@ -215,7 +215,7 @@ let curPost = null;
 /* ═══ RENDER ═══ */
 function renderCats(){
     $("cats").innerHTML =
-        `<span class="lbl">Categories:</span>` +
+        `<span class="lbl"></span>` +
         CATS.map(c => `<a data-k="${c.key}" class="${curCat && curCat.key===c.key ? "active" : ""}">[ ${esc(c.name)} ]</a>`).join(" ");
     $("cats").querySelectorAll("a").forEach(a =>
         a.addEventListener("click", () => go(a.dataset.k)));
@@ -223,7 +223,7 @@ function renderCats(){
 
 function renderList(){
     $("catbar").innerHTML =
-        `<span>Category : <span class="n">${esc(curCat.name)}</span> | Articles : <span class="n">${curCat.posts.length}</span></span>` +
+        `<span><span class="n">${esc(curCat.name)}</span> | Articles : <span class="n">${curCat.posts.length}</span></span>` +
         `<span>SPAGHETTI HACKER</span>`;
     $("list").innerHTML = curCat.posts.map((p,i) =>
         `<a class="row${curPost===p ? " sel" : ""}" data-i="${i}">` +
@@ -273,7 +273,7 @@ async function openPost(p, push){
     renderList();
     $("titlebar").innerHTML = `<span>Title : <span class="n">${esc(p.title)}</span></span>` +
         `<span><a href="${esc(p.href)}" target="_blank" rel="noopener noreferrer">View as page ↗</a></span>`;
-    $("metabar").innerHTML = `<span>Category : <span class="n">${esc(p.cat)}</span></span>` +
+    $("metabar").innerHTML = `<span><span class="n">${esc(p.cat)}</span></span>` +
         `<span class="n">${esc(p.date)}</span>`;
 
     if(push) history.replaceState(null, "", `#${curCat.key}/${encodeURIComponent(p.title)}`);
