@@ -156,18 +156,17 @@ a{color:inherit;text-decoration:none;}
 #list ::selection{background:var(--sel2);color:var(--cyan);}
 
 @media(max-width:640px){
+    html,body{overflow-x:visible;}   /* annulla il clip: la pagina può scorrere di lato */
     body{font-size:13px;}
     #article{
+        width:900px;                 /* ← il tuo limite */
+        max-width:none;
         font-size:12px;
         padding:12px 8px 12px;
-        white-space:pre;         /* niente a capo automatico */
-        overflow-wrap:normal;    /* niente spezzatura delle parole */
-        overflow-x:auto;         /* scorri col dito se la riga è lunga */
     }
     #article img{
         left:0;
-        transform:none;          /* il trucco del centrato fuori contenitore
-                                    non funziona dentro un'area scorrevole */
+        transform:none;
         max-width:100%;
     }
     #list .r{display:none;}
