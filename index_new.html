@@ -390,8 +390,7 @@ async function openPost(p, push, scroll = true){
 	pre.innerHTML = htmlToArticle(html, p.href);
     }catch(e){
         if(curPost !== p) return;
-        pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n" +
-            "Se apri il file con file:// il browser blocca fetch(): usa un web server (o GitHub Pages).";
+        pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n";
     }
     if(scroll) scrollToViewer();
 }
