@@ -248,20 +248,13 @@ function renderList(){
     $("catbar").innerHTML =
         `<span><span class="n">${esc(curCat.name)}</span>: <span class="n">${curCat.posts.length}</span></span>` +
         `<span>SPAGHETTI HACKER</span>`;
-    $("list").innerHTML = curCat.posts.map((p,i) => {
-        const ext = isExternal(p.href);
-        const attrs = ext ? ` href="${esc(p.href)}" target="_blank" rel="noopener noreferrer"` : "";
-        return `<a class="row${curPost===p ? " sel" : ""}" data-i="${i}"${attrs}>` +
-          `<span class="t">${esc(p.title)}${ext ? " ↗" : ""}</span>` +
+    $("list").innerHTML = curCat.posts.map((p,i) =>
+        `<a class="row${curPost===p ? " sel" : ""}" data-i="${i}">` +
+          `<span class="t">${esc(p.title)}${isExternal(p.href) ? " ↗" : ""}</span>` +
           `<span class="r">${esc(p.date)}</span>` +
-        `</a>`;
-    }).join("");
+        `</a>`).join("");
     $("list").querySelectorAll("a.row").forEach(a =>
-        a.addEventListener("click", () => {
-            const p = curCat.posts[+a.dataset.i];
-            if(isExternal(p.href)) return;   /* ci pensa il browser: nuova tab */
-            openPost(p, true);
-        }));
+        a.addEventListener("click", () => openPost(curCat.posts[+a.dataset.i], true)));
 }
 
 function clearArticle(){
