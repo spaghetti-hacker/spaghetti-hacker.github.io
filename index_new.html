@@ -223,7 +223,7 @@ function renderCats(){
 
 function renderList(){
     $("catbar").innerHTML =
-        `<span><span class="n">${esc(curCat.name)}</span> | Articles : <span class="n">${curCat.posts.length}</span></span>` +
+        `<span><span class="n">${esc(curCat.name)}</span>: <span class="n">${curCat.posts.length}</span></span>` +
         `<span>SPAGHETTI HACKER</span>`;
     $("list").innerHTML = curCat.posts.map((p,i) =>
         `<a class="row${curPost===p ? " sel" : ""}" data-i="${i}">` +
