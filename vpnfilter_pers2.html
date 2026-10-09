@@ -28,7 +28,40 @@ section .ANALISI_DELLA_TECNICA_DI_PERSISTENZA
 
 _Architettura_Generale:
 
-<img src="https://spaghetti-hacker.github.io/vpnfilter_tab1.png" class="full-img">
+demonize_and_launch() [fork() interno]
+                  |
+                fork()
+                  |
+            -------------
+            |           |
+        processo     watchdog
+        payload         |
+                        |
+                sleep_with_select(5)
+                        |
+                carica il proprio
+                eseguibile in RAM
+                        |
+                verifica presenza file
+                        |
+          +-------------+---------------+
+          |                             |
+          |                             |
+    file presente                 file assente
+          |                             |
+    verifica persistenza        riscrive il binario
+                                      chmod(0755)
+          |                             |
+          +-------------+---------------+
+                        |
+                persistenza presente?
+                        |
+                  no -> reinstalla
+                        |
+                attesa tramite select()
+                        |
+                   ciclo infinito
+
 ;il malware separa completamente il payload dal meccanismo di persistenza.
 ;il watchdog rimane attivo indipendentemente dall'esecuzione del payload.
 ;la cancellazione dell'eseguibile non interrompe il funzionamento del meccanismo di autoripristino.
@@ -317,7 +350,6 @@ Verifica ciclica di crontab
 
 section .YARA_RULES
 
-```yara
 rule VPNFilter_Persistence_Watchdog
 {
     meta:
@@ -343,14 +375,12 @@ rule VPNFilter_Persistence_Watchdog
         $cron_entry_fmt and
         2 of ($sc_fork, $sc_chmod, $sc_setsid, $sc_select)
 }
-```
 
 yara vpnfilter_persistence.yar
 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
 VPNFilter_Persistence_Watchdog
 0e0094d9bd396a6594da8e21911a3982cd737b445f591581560d766755097d92.elf
 
-<img src="https://spaghetti-hacker.github.io/vpnfilter_tab2.png" class="full-img">
 ;la regola combina due categorie di indicatori indipendenti: stringhe testuali (path di persistenza non standard e formato della entry crontab) e pattern a livello di syscall (numero syscall caricato in eax, seguito da int 80h). Quest'ultima categoria si è resa necessaria perché il binario, essendo staticamente linkato e stripped, non espone i nomi delle funzioni libc (fork, chmod, setsid, select) come stringhe leggibili nella sezione .rodata: l'unico modo per intercettare staticamente l'uso di queste primitive è individuare l'immediate value caricato in eax immediatamente prima dell'interrupt 0x80.
 
 ;ciascun opcode (sc_fork = 2, sc_chmod = 15, sc_setsid = 66, sc_select = 142) è stato estratto e validato byte per byte direttamente dal disassemblato in IDA Free, non ricavato da tabelle teoriche delle syscall x86, garantendo aderenza esatta al binario analizzato.
