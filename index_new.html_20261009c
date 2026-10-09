@@ -28,7 +28,7 @@
     --line:#1a3a1a;    /* bordi */
     --tint:#f1f8ee;    /* righe alterne su bianco */
 }
-html,body{background:#0c0d10;overflow-x:clip;}
+html,body{background:#0c0d10;}
 body{
     font-family:jbmono,"Courier New",Courier,monospace;
     font-size:18px;
@@ -227,9 +227,6 @@ const CATS = [
     ...SECTIONS.map(s => ({ ...s, posts:s.posts.map(p => ({ ...p, cat:s.name })) }))
 ];
 
-/* pagina mostrata all'avvio e al cambio categoria */
-const INTRO = { title:"INTRODUZIONE", href:"introduzione.html", desc:"", date:"", cat:"HOME" };
-
 /* ═══ UTILITÀ ═══ */
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -269,6 +266,8 @@ function renderList(){
 
 function clearArticle(){
     curPost = null;
+    $("titlebar").innerHTML = `<span><span class="n">—</span></span>`;
+    $("article").textContent = "";
 }
 
 /* ═══ NAVIGAZIONE ═══ */
@@ -278,8 +277,24 @@ function go(key, push = true){
     clearArticle();
     renderCats();
     renderList();
-    openPost(INTRO, false, false);
     if(push) location.hash = c.key;
+}
+
+/* HTML → testo semplice (mantiene i blocchi <pre> e gli a capo) */
+function htmlToText(html){
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    doc.querySelectorAll("script,style,nav,noscript,link,meta").forEach(e => e.remove());
+    const body = doc.body;
+    body.querySelectorAll("br").forEach(b => b.replaceWith("\n"));
+    body.querySelectorAll("p,div,h1,h2,h3,h4,h5,h6,li,tr,section,article,blockquote").forEach(e => {
+        e.insertAdjacentText("afterend", "\n");
+    });
+    body.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach(e => {
+        e.insertAdjacentText("beforebegin", "\n");
+    });
+    let t = body.textContent || "";
+    t = t.replace(/\r/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{4,}/g, "\n\n\n");
+    return t.trim();
 }
 
 /* HTML → testo semplice + immagini (mantiene <pre>, a capo e <img>) */
@@ -317,7 +332,7 @@ function htmlToArticle(html, baseHref){
     });
 }
 
-async function openPost(p, push, scroll = true){
+async function openPost(p, push){
     curPost = p;
     renderList();
     $("titlebar").innerHTML = `<span><span class="n">${esc(p.title)}</span></span>`;
@@ -334,7 +349,7 @@ async function openPost(p, push, scroll = true){
             `${esc(p.title)}\n${"=".repeat(p.title.length)}\n\n` +
             `${esc(p.desc)}\n\n` +
             `URL : <a href="${esc(p.href)}" target="_blank" rel="noopener noreferrer">${esc(p.href)}</a>\n`;
-        if(scroll) scrollToViewer();
+        scrollToViewer();
         return;
     }
 
@@ -344,13 +359,14 @@ async function openPost(p, push, scroll = true){
         if(!res.ok) throw new Error("HTTP " + res.status);
         const html = await res.text();
         if(curPost !== p) return; /* nel frattempo ne hai aperto un altro */
+        //pre.textContent = htmlToText(html);
 	pre.innerHTML = htmlToArticle(html, p.href);
     }catch(e){
         if(curPost !== p) return;
         pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n" +
             "Se apri il file con file:// il browser blocca fetch(): usa un web server (o GitHub Pages).";
     }
-    if(scroll) scrollToViewer();
+    scrollToViewer();
 }
 
 function scrollToViewer(){
