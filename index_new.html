@@ -216,7 +216,7 @@ let curPost = null;
 function renderCats(){
     $("cats").innerHTML =
         `<span class="lbl"></span>` +
-        CATS.map(c => `<a data-k="${c.key}" class="${curCat && curCat.key===c.key ? "active" : ""}">[ ${esc(c.name)} ]</a>`).join(" ");
+        CATS.map(c => `<a data-k="${c.key}" class="${curCat && curCat.key===c.key ? "active" : ""}">[${esc(c.name)}]</a>`).join(" ");
     $("cats").querySelectorAll("a").forEach(a =>
         a.addEventListener("click", () => go(a.dataset.k)));
 }
