@@ -157,9 +157,22 @@ a{color:inherit;text-decoration:none;}
 
 @media(max-width:640px){
     body{font-size:13px;}
-    #article{font-size:12px;padding:12px 8px 12px;}
+    #article{
+        font-size:12px;
+        padding:12px 8px 12px;
+        white-space:pre;         /* niente a capo automatico */
+        overflow-wrap:normal;    /* niente spezzatura delle parole */
+        overflow-x:auto;         /* scorri col dito se la riga è lunga */
+    }
+    #article img{
+        left:0;
+        transform:none;          /* il trucco del centrato fuori contenitore
+                                    non funziona dentro un'area scorrevole */
+        max-width:100%;
+    }
     #list .r{display:none;}
 }
+
 </style>
 </head>
 <body>
