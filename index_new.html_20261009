@@ -57,14 +57,6 @@ a{color:inherit;text-decoration:none;}
     height:auto;
 }
 
-#article img{
-    display:block;
-    max-width:100%;
-    height:auto;
-    margin:10px 0;
-    border:1px solid var(--line);
-}
-
 /* ── barra categorie (come la barra issue di Phrack) ── */
 #cats{
     background:var(--deep);
@@ -287,41 +279,6 @@ function htmlToText(html){
     return t.trim();
 }
 
-/* HTML → testo semplice + immagini (mantiene <pre>, a capo e <img>) */
-function htmlToArticle(html, baseHref){
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    doc.querySelectorAll("script,style,nav,noscript,link,meta").forEach(e => e.remove());
-    const body = doc.body;
-    const base = new URL(baseHref, location.href);
-
-    /* immagini → segnaposto @@IMG0@@, @@IMG1@@ ... */
-    const imgs = [];
-    body.querySelectorAll("img").forEach(img => {
-        const src = img.getAttribute("src");
-        if(!src){ img.remove(); return; }
-        let url;
-        try{ url = new URL(src, base).href; }catch(e){ img.remove(); return; }
-        imgs.push({ src:url, alt:img.getAttribute("alt") || "" });
-        img.replaceWith(doc.createTextNode(`@@IMG${imgs.length-1}@@`));
-    });
-
-    body.querySelectorAll("br").forEach(b => b.replaceWith("\n"));
-    body.querySelectorAll("p,div,h1,h2,h3,h4,h5,h6,li,tr,section,article,blockquote").forEach(e => {
-        e.insertAdjacentText("afterend", "\n");
-    });
-    body.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach(e => {
-        e.insertAdjacentText("beforebegin", "\n");
-    });
-    let t = body.textContent || "";
-    t = t.replace(/\r/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{4,}/g, "\n\n\n").trim();
-
-    /* escape del testo, poi rimetto le immagini */
-    return esc(t).replace(/@@IMG(\d+)@@/g, (m, i) => {
-        const im = imgs[+i];
-        return im ? `<img src="${esc(im.src)}" alt="${esc(im.alt)}">` : "";
-    });
-}
-
 async function openPost(p, push){
     curPost = p;
     renderList();
@@ -349,8 +306,7 @@ async function openPost(p, push){
         if(!res.ok) throw new Error("HTTP " + res.status);
         const html = await res.text();
         if(curPost !== p) return; /* nel frattempo ne hai aperto un altro */
-        //pre.textContent = htmlToText(html);
-	pre.innerHTML = htmlToArticle(html, p.href);
+        pre.textContent = htmlToText(html);
     }catch(e){
         if(curPost !== p) return;
         pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n" +
