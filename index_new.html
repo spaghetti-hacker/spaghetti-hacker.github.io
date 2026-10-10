@@ -187,6 +187,9 @@ a{color:inherit;text-decoration:none;}
 
 <script>
 /* ═══ DATI (stessi del sito attuale: aggiungi/modifica qui) ═══ */
+
+const HOME_URL = "https://spaghetti-hacker.github.io/"; 
+
 const SECTIONS = [
 {
     n:"0x01", key:"malware", name:"MALWARE",
@@ -267,7 +270,8 @@ let curPost = null;
 /* ═══ RENDER ═══ */
 function renderCats(){
     $("cats").innerHTML =
-        `<span class="lbl"></span>` +
+	`<a href="${esc(HOME_URL)}">[HOME]</a> ` +
+        //`<span class="lbl"></span>` +
         CATS.map(c => `<a data-k="${c.key}" class="${curCat && curCat.key===c.key ? "active" : ""}">[${esc(c.name)}]</a>`).join(" ");
     $("cats").querySelectorAll("a").forEach(a =>
         a.addEventListener("click", () => go(a.dataset.k)));
