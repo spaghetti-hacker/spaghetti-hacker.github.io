@@ -1,6 +1,6 @@
 ftcp ~ HCF
 
-Reverse Engineering della funzione listFork, estratta da un binario malevolo
+Reverse Engineering della funzione ftcp, estratta da un binario malevolo
 
 ;la funzione ftcp implementa un attacco di tipo TCP flood con IP spoofing. Accetta come parametri l'host target, la porta, la durata dell'attacco, un prefisso CIDR per la generazione degli IP sorgente, una stringa di flag TCP, la dimensione del payload e il numero di pacchetti per burst. Costruisce manualmente pacchetti IP/TCP raw, randomizzando l'IP sorgente ad ogni iterazione per rendere difficile il tracciamento e il filtraggio.
 
