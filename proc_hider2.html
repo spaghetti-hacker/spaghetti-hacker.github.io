@@ -67,7 +67,7 @@ sym.get_process_name
 0x00001555 test eax, eax
 0x00001557 je 0x157b
 
-;chiama get_process_name per estrarre il nome del processo corrispondente a quella entry numerica di /proc (ricavato dal file /proc/<pid>/stat).
+;chiama get_process_name per estrarre il nome del processo corrispondente a quella entry numerica di /proc (ricavato dal file /proc/\<pid\>/stat).
 
 0x00001559 mov rdx, qword [obj.process_to_filter]
 0x00001560 lea rax, [var_110h]
