@@ -1,69 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XORCIST ~ HCF</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="stylesheet" href="hcf2.css">
-</head>
-<body>
-<div class="wrapper">
-<img src="https://spaghetti-hacker.github.io/xorcist.png" alt="banner" style="width:100%;display:block;">
-<div id="output"></div>
-</div>
-
-<!--
-================================================================
-SCRIVI QUI IL TUO CONTENUTO
-================================================================
-
-REGOLE:
-  - La prima riga non vuota diventa il titolo della pagina
-    e l'intestazione del box (es. "NO_ELF ~ HCF")
-
-  - @@@...@@@ → blocco codice/assembly (pre-wrap, sfondo scuro)
-
-  - Testo normale → commento (colore muted, paragrafi separati
-    da righe vuote)
-
-  - I link si scrivono normalmente in HTML: <a href="...">testo</a>
-    Il parser li lascia passare nei commenti senza escapare.
-
-  - Tutto il contenuto finisce dentro un unico div.article,
-    esattamente come in no_elf.html.
-
-================================================================
-ESEMPIO:
-
-NO_ELF ~ HCF
-
-<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
-
-;primo commento introduttivo.
-
-;secondo paragrafo del commento.
-
-@@@
-0x00400806 push rbp
-0x00400807 mov rbp, rsp
-@@@
-
-;commento sul blocco qui sopra.
-
-@@@
-0x004008ea ret
-@@@
-
-;commento finale.
-<a href="https://spaghetti-hacker.github.io/">&lt;&lt;</a>
-================================================================
--->
-<script id="content" type="text/plain">
-XORCIST ~ HCF
-
-<a href="https://spaghetti-hacker.github.io/">index.html</a>
-visite: <span id="visits">...</span>
+XORcist ~ HCF
 
 ;il binario implementa un semplice meccanismo di autenticazione racchiuso in diversi livelli di offuscamento e logica anti-analisi.
 
@@ -73,7 +8,6 @@ visite: <span id="visits">...</span>
 
 ;questo meccanismo funge da misura anti-analisi di base per scoraggiare l'ispezione dinamica durante l'esecuzione.
 
-@@@
 [0x00001445]> s fcn.00001258
 [0x00001258]> pdf
 0x00001258      push rbp
@@ -90,11 +24,9 @@ visite: <span id="visits">...</span>
 0x0000128b      mov qword [stream], rax
 0x00001292      cmp qword [stream], 0
 0x0000129a      jne 0x12ff
-@@@
 
 ;la funzione fopen fallisce restituendo NULL, altrimenti restituisce un puntatore ad una struttura FILE
 
-@@@
 0x0000129c      mov eax, 0
 0x000012a1      jmp 0x1333
 0x000012a6      lea rcx, str.TracerPid:     ;"TracerPid:"
@@ -103,14 +35,11 @@ visite: <span id="visits">...</span>
 0x000012b9      mov rsi, rcx                ;const char *s2
 0x000012bc      mov rdi, rax                ;const char *s1
 0x000012bf      call sym.imp.strncmp        ;int strncmp(const char *s1, const char *s2, size_t n)
-@@@
 
 ;controlla se nel buffer letto da fgets c'è la stringa TracerPid, facendo una strncmp dei prima 10 byte
 
-@@@
 0x000012c4      test eax, eax
 0x000012c6      jne 0x12ff
-@@@
 
 ;0 le stringhe sono uguali nei primi n caratteri (o fino al '\0')
 ;< 0 s1 è minore di s2
@@ -118,61 +47,46 @@ visite: <span id="visits">...</span>
 
 ;quindi cerca questa stringa fino a quando non legge più niente e nel caso la trova:
 
-@@@
 0x000012c8      lea rax, [str]
 0x000012cf      add rax, 0xa
 0x000012d3      mov rdi, rax                ;const char *str
 0x000012d6      call sym.imp.atoi           ;int atoi(const char *str)
-@@@
 
 ;prende il pid che sta tracciando il processo e lo trasforma in numero
 
-@@@
 0x000012db      mov dword [var_11ch], eax
-@@@
 
 ;mette questo numero letto in var_11ch
 
-@@@
 0x000012e1      mov rax, qword [stream]
 0x000012e8      mov rdi, rax                ;FILE *stream
 0x000012eb      call sym.imp.fclose         ;int fclose(FILE *stream)
-@@@
 
 ;chiude il file
 
-@@@
 0x000012f0      cmp dword [var_11ch], 0
 0x000012f7      setne al
-@@@
 
 ;controlla se var_11ch è valorizzato o 0, in caso non è uguale a 0 setta al e poi esce
 
-@@@
 0x000012fa      movzx eax, al
 0x000012fd      jmp 0x1333
-@@@
 
 ;fopen riuscito
 
-@@@
 0x000012ff      mov rdx, qword [stream]     ;FILE *stream
 0x00001306      lea rax, [str]
 0x0000130d      mov esi, 0x100              ;int size
 0x00001312      mov rdi, rax                ;char *s
 0x00001315      call sym.imp.fgets          ;char *fgets(char *s, int size, FILE *stream)
-@@@
 
 ;fa una fgets dal file che ha appena aperto, da 0x100 byte; fgets restituisce un puntatore al buffer appena letto o NULL se fallisce
 
-@@@
 0x0000131a      test rax, rax
 0x0000131d      jne 0x12a6
-@@@
 
 ;qui fallisce fgets, chiude il file ed esce
 
-@@@
 0x0000131f      mov rax, qword [stream]
 0x00001326      mov rdi, rax                ;FILE *stream
 0x00001329      call sym.imp.fclose         ;int fclose(FILE *stream)
@@ -221,7 +135,6 @@ check_canary:
   }
   return risultato;
 }
-@@@
 
 ;meccanismo di recupero della password
 
@@ -229,7 +142,6 @@ check_canary:
 
 ;all'interno di questa routine, una sequenza di byte statici viene copiata in un buffer sullo stack. Questa sequenza rappresenta la password cifrata memorizzata nella sezione dati del binario.
 
-@@@
 bool FUN_00101349(char *input)
 {
   int iVar1;
@@ -272,7 +184,6 @@ void FUN_00101209(long buffer)
 0010202f ca
 00102030 c5
 00102031 00
-@@@
 
 ;routine di decifratura
 
@@ -283,7 +194,6 @@ void FUN_00101209(long buffer)
 
 ;questo produce la password in chiaro in memoria durante l'esecuzione.
 
-@@@
 bytes_data = [0xDD, 0xDA, 0xF6, 0xD9, 0xC4, 0xC6, 0xF6, 0xCE, 0xC7, 0xCE, 0xF6, 0xC0, 0xCA, 0xC5]
 key = 0xA9
 result = bytes([b ^ key for b in bytes_data])
@@ -294,109 +204,3 @@ print("XOR result (str):", result.decode('ascii', errors='replace'))
 What's the password?
 ts_pmo_gng_icl
 Logged in as root.
-@@@
-
-<a href="https://spaghetti-hacker.github.io/">index.html</a>
-</script>
-
-<script>
-(function(){
-    const raw = document.getElementById('content').textContent;
-    const lines = raw.split('\n');
-    const output = document.getElementById('output');
-
-    let i = 0;
-
-    // salta righe vuote iniziali
-    while(i < lines.length && lines[i].trim() === '') i++;
-
-    // prima riga non vuota = titolo
-    const title = lines[i] ? lines[i].trim() : '';
-    if(title){
-        document.title = title + ' | HCF';
-    }
-    i++;
-
-    // costruisce il contenuto dentro un unico div.article
-    // il titolo è il nodo di testo iniziale del box
-    let inner = escCode(title);
-    i; // già avanzato
-
-    while(i < lines.length){
-        const line = lines[i];
-
-        // blocco @@@ → codice pre-wrap
-        if(line.trim() === '@@@'){
-            i++;
-            let block = '';
-            while(i < lines.length && lines[i].trim() !== '@@@'){
-                block += lines[i] + '\n';
-                i++;
-            }
-            i++; // salta @@@ di chiusura
-            // il codice viene escapato tranne &lt; &gt; &amp; già scritti
-            inner += '<pre class="codeblock">' + escCode(block.replace(/\n$/, '')) + '</pre>';
-            continue;
-        }
-
-        // raccoglie testo fino al prossimo @@@
-        let textLines = [];
-        while(i < lines.length && lines[i].trim() !== '@@@'){
-            textLines.push(lines[i]);
-            i++;
-        }
-
-        const paragraphs = splitParagraphs(textLines);
-        if(paragraphs.length > 0){
-	    inner += '<div class="commento">\n';
-            for (const p of paragraphs){
-                const cleaned = p.replace(/\n/g, '<br>');
-                inner += '<p>' + cleaned + '</p>\n';
-                }
-            inner += '</div>';
-        }
-    }
-
-    output.innerHTML = '<div class="article">' + inner + '</div>';
-
-    // escapa solo il testo codice (non i commenti che possono avere HTML)
-    function escCode(str){
-        return str
-            .replace(/&(?!(?:amp|lt|gt|quot|#\d+);)/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-    }
-
-    function splitParagraphs(lines){
-        const result = [];
-        let current = [];
-        for(const line of lines){
-            if(line.trim() === ''){
-                if(current.length > 0){
-                    result.push(current.join('\n'));
-                    current = [];
-                }
-            } else {
-                current.push(line);
-            }
-        }
-        if(current.length > 0) result.push(current.join('\n'));
-        return result;
-    }
-})();
-</script>
-<script>
-fetch("https://api.counterapi.dev/v1/:spaghettihacker/:xor/up")
-  .then(res => res.json())
-  .then(data => {
-    const counter = data.count;
-
-    document.getElementById("visits").innerText =
-      counter !== undefined ? counter : "error";
-  })
-  .catch(() => {
-    document.getElementById("visits").innerText = "error";
-  });
-</script>
-</body>
-</html>
