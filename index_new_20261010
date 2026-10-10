@@ -29,8 +29,6 @@
     --tint:#f1f8ee;    /* righe alterne su bianco */
 }
 html,body{background:#0c0d10;overflow-x:clip;}
-/* niente scroll anchoring: evita correzioni automatiche dello scroll quando il DOM cambia */
-html,body,#app{overflow-anchor:none;}
 body{
     font-family:jbmono,"Courier New",Courier,monospace;
     font-size:18px;
@@ -379,9 +377,7 @@ function htmlToArticle(html, baseHref){
 
 async function openPost(p, push, scroll = true){
     curPost = p;
-    /* aggiorno solo la riga selezionata invece di rifare tutta la lista */
-    $("list").querySelectorAll("a.row").forEach(a =>
-        a.classList.toggle("sel", curCat.posts[+a.dataset.i] === p));
+    renderList();
     $("titlebar").innerHTML = `<span><span class="n">${esc(p.title)}</span></span>`;
     $("metabar").innerHTML = `<span><span class="n">${esc(p.cat)}</span></span>` +
         `<span class="n">${esc(p.date)}</span>`;
@@ -400,38 +396,19 @@ async function openPost(p, push, scroll = true){
         return;
     }
 
-    /* NON svuoto l'articolo: tengo il vecchio contenuto (e quindi l'altezza
-       della pagina) finché il nuovo non è pronto, così lo scroll non salta */
-    const keepH = pre.offsetHeight;
-    pre.style.minHeight = keepH + "px";
-
-    /* costruisco il nuovo contenuto in un nodo staccato dal DOM */
-    const box = document.createElement("div");
-    box.className = "wrap";
+    pre.textContent = "loading " + p.href + " ...";
     try{
         const res = await fetch(p.href);
         if(!res.ok) throw new Error("HTTP " + res.status);
         const html = await res.text();
         if(curPost !== p) return; /* nel frattempo ne hai aperto un altro */
-        box.innerHTML = htmlToArticle(html, p.href);
+	//pre.innerHTML = htmlToArticle(html, p.href);
+	pre.innerHTML = `<div class="wrap">${htmlToArticle(html, p.href)}</div>`;
     }catch(e){
         if(curPost !== p) return;
-        box.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n";
+        pre.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n";
     }
-
-    /* aspetto le immagini (max 3s) PRIMA di mostrare e scrollare:
-       così l'altezza finale è già nota e il punto d'arrivo non si sposta */
-    const waits = [...box.querySelectorAll("img")].map(im => new Promise(r => {
-        if(im.complete) return r();
-        im.addEventListener("load", r, { once:true });
-        im.addEventListener("error", r, { once:true });
-    }));
-    await Promise.race([Promise.all(waits), new Promise(r => setTimeout(r, 3000))]);
-    if(curPost !== p) return;
-
-    pre.replaceChildren(box);
-    pre.style.minHeight = "";
-    if(scroll) requestAnimationFrame(scrollToViewer);
+    if(scroll) scrollToViewer();
 }
 
 //function scrollToViewer(){
