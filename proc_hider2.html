@@ -67,7 +67,7 @@ sym.get_process_name
 0x00001555 test eax, eax
 0x00001557 je 0x157b
 
-;chiama get_process_name per estrarre il nome del processo corrispondente a quella entry numerica di /proc (ricavato dal file /proc/\<pid\>/stat).
+;chiama get_process_name per estrarre il nome del processo corrispondente a quella entry numerica di /proc (ricavato dal file /proc/(pid)/stat).
 
 0x00001559 mov rdx, qword [obj.process_to_filter]
 0x00001560 lea rax, [var_110h]
@@ -96,7 +96,7 @@ sym.get_process_name
 0x000012e1 call sym.imp.fopen
 0x000012f8 call sym.imp.fgets
 
-;costruisce il path /proc/<pid>/stat, lo apre e legge la prima riga contenente informazioni sul processo.
+;costruisce il path /proc/(pid)/stat, lo apre e legge la prima riga contenente informazioni sul processo.
 
 0x00001349 lea rsi, str._d______s ; "%d (%[^)]s"
 0x00001358 call sym.imp.__isoc99_sscanf
@@ -108,7 +108,7 @@ sym.get_process_name
 ;la libreria implementa due hook (readdir e readdir64) per garantire compatibilità.
 ;utilizza dlsym(RTLD_NEXT, ...) per risolvere e richiamare la funzione originale.
 ;funziona solo quando si esplora la directory /proc.
-;per ogni entry numerica (pid), apre /proc/<pid>/stat e ottiene il nome del processo.
+;per ogni entry numerica (pid), apre /proc/(pid)/stat e ottiene il nome del processo.
 ;se il nome coincide con process_to_filter, quella entry viene nascosta.
 ;in altre parole, si tratta di un rootkit userland via LD_PRELOAD che rende invisibile un processo specifico agli strumenti di monitoring basati su /proc.
 
