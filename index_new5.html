@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.2">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self'; frame-src 'none';">
+<title>SPAGHETTI HACKER</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+@font-face{
+    font-family:jbmono;
+    src:url("JetBrainsMonoNL-Medium.ttf") format("truetype");
+    font-style:normal;
+    font-weight:normal;
+}
+*{
+    margin:0;padding:0;box-sizing:border-box;
+    font-family: monospace, jbmono,"DejaVu Sans Mono","Liberation Mono",Consolas,Menlo,monospace !important;
+    font-style:normal !important;
+    font-synthesis:none;
+}
+:root{
+    --green:#65E903;   /* verdino del vecchio sito */
+    --cyan:#00ffff;    /* azzurrino link / hover */
+    --sel:#0a3a2a;     /* sfondo selezione */
+    --sel2:#0a3a2a;   /* hover chiaro */
+    --deep:#001c1c;    /* sfondo barre */
+    --line:#1a3a1a;    /* bordi */
+    --tint:#f1f8ee;    /* righe alterne su bianco */
+}
+html,body{background:#0c0d10;overflow-x:clip;}
+/* niente scroll anchoring: evita correzioni automatiche dello scroll quando il DOM cambia */
+html,body,#app{overflow-anchor:none;}
+body{
+    font-family:jbmono,"Courier New",Courier,monospace;
+    font-size:18px;
+    line-height:1.2;
+    color:#000;
+}
+a{color:inherit;text-decoration:none;}
+
+#app{
+    max-width:1024px;
+    margin:0 auto;
+    background:#fff;
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+}
+
+#banner{
+    background:var(--deep);
+    border-bottom:1px solid var(--line);
+    line-height:0;            /* elimina lo spazio vuoto sotto l'immagine */
+}
+#banner img{
+    display:block;
+    width:100%;
+    height:auto;
+}
+
+#article img{
+    display:block;
+    width:auto;
+    height:auto;
+    max-width:100vw;
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+    margin:10px 0;
+}
+
+/* ── barra categorie (come la barra issue di Phrack) ── */
+#cats{
+    background:var(--deep);
+    color:var(--green);
+    padding:0px 10px;
+    text-align:center;
+    line-height:1.2;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+#cats .lbl{color:var(--green);opacity:.6;margin-right:6px;}
+#cats a{
+    display:inline-block;
+    color:var(--green);
+    padding:2px 4px;
+    cursor:pointer;
+}
+#cats a:hover{background:var(--sel);color:var(--cyan);}
+#cats a.active{background:var(--sel);color:var(--cyan);}
+
+/* ── barre di stato ── */
+.bar{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:6px 10px;
+    border-bottom:1px solid var(--line);
+}
+.bar.dark{background:var(--deep);color:var(--green);}
+.bar.grey{background:var(--sel);color:var(--green);}
+.bar span.n{font-weight:normal;color:var(--cyan);}
+.bar a{color:var(--cyan);}
+.bar a:hover{background:var(--sel2);}
+
+/* ── lista articoli ── */
+#list a.row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:2px 10px;
+    border-bottom:1px solid var(--line);
+    background:var(--deep);
+    color:var(--green);
+    cursor:pointer;
+}
+#list a.row:nth-child(even){background:#012626;}
+#list a.row:hover{background:var(--sel2);color:var(--cyan);}
+#list a.row.sel{background:var(--sel);color:var(--cyan);}
+#list .r{white-space:nowrap;opacity:.7;}
+#list .t{min-width:0;overflow-wrap:anywhere;}
+
+/* ── popup descrizione ── */
+#tip{
+    position:fixed;
+    z-index:20;
+    display:none;
+    max-width:380px;
+    padding:6px 10px;
+    background:var(--deep);
+    color:var(--green);
+    border:1px dashed var(--green);
+    font-size:18px;
+    line-height:1.35;
+    pointer-events:none;
+    overflow-wrap:anywhere;
+}
+
+/* ── articolo ── */
+#article{
+    background:#fff;
+    color:#000;
+    padding:18px 14px 18px;
+    font-family:inherit;
+    font-size:18px;
+    line-height:1.35;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    border:0;
+}
+#article a{color:var(--sel);text-decoration:underline;}
+#article a:hover{background:var(--sel);color:var(--cyan);}
+#article ::selection,
+#list ::selection{background:var(--sel);color:var(--cyan);}
+#list ::selection{background:var(--sel2);color:var(--cyan);}
+
+@media(max-width:640px){
+    body{font-size:13px;}
+    #article{
+        font-size:12px;
+        padding:12px 8px 12px;
+        overflow-x:auto;         /* scorre solo l'articolo */
+    }
+    #article .wrap{
+        width:600px;             /* ← il tuo limite */
+    }
+    #article img{
+        left:0;
+        transform:none;
+        max-width:100%;
+    }
+    #list .r{display:none;}
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+    <div id="banner"><img src="bannerphr.png" alt="SPAGHETTI HACKER"></div>
+    <div id="cats"></div>
+    <div id="catbar" class="bar dark"></div>
+    <div id="list"></div>
+    <div id="titlebar" class="bar dark"></div>
+    <div id="metabar" class="bar grey"></div>
+    <pre id="article"></pre>
+</div>
+<div id="tip"></div>
+
+<script>
+/* ═══ DATI (stessi del sito attuale: aggiungi/modifica qui) ═══ */
+
+const HOME_URL = "https://spaghetti-hacker.github.io/"; 
+
+const SECTIONS = [
+{
+    n:"0x01", key:"malware", name:"MALWARE",
+    posts:[
+        { title:"QLNX Process Injection",           href:"qlnx2.html",           desc:"reversing di un framework di process injection.", date:"2026-08-05" },
+        { title:"VPNFilter Persistence", href:"vpnfilter_pers2.html", desc:"analisi di una tecnica malevola di persistenza.", date:"2026-07-12" },
+        { title:"Process Masquerading",   href:"process_masq2.html",   desc:"analisi di una tecnica malevola di process masquerading.", date:"2026-06-15" },
+        { title:"Gafgyt",         href:"gafgyt2.html",         desc:"reverse engineering di un malware della famiglia Gafgyt/Bashlite.", date:"2026-06-11" },
+        { title:"Proc Hider",     href:"proc_hider2.html",     desc:"re di un rootkit Linux che si inietta nei processi tramite LD_PRELOAD.", date:"2026-06-03" },
+        { title:"Fork Flood",     href:"fork_flood2.html",     desc:"re di un exploit Android con saturazione della process table tramite fork-bomb.", date:"2026-06-03" },
+        { title:"No ELF",         href:"no_elf3.html",         desc:"reverse engineering di un ELF dropper con payload in memoria.", date:"2026-06-03" }
+    ]
+},
+{
+    n:"0x02", key:"reverse", name:"REVERSE",
+    posts:[
+        { title:"Hard Coded",      href:"hard_coded2.html",      desc:"crackme con finto meccanismo di autenticazione basato su password e hash.", date:"2026-08-03" },
+        { title:"Debug Me",        href:"debug_me2.html",        desc:"crackme che usa TracerPid come meccanismo anti-debug a tre stage.", date:"2026-06-02" },
+        { title:"ftcp",            href:"ftcp2.html",            desc:"reversing della funzione ftcp, estratta da un binario malevolo.", date:"2026-05-27" },
+        { title:"List Fork",       href:"list_fork2.html",       desc:"reversing della funzione listFork, estratta da un binario malevolo.", date:"2026-05-26" },
+        { title:"XORcist",         href:"xorcist2.html",         desc:"crackme con password offuscata tramite XOR e semplice controllo anti-debug.", date:"2026-05-26" },
+        { title:"Recv Line",       href:"recv_line2.html",       desc:"reversing della funzione recvLine, estratta da un binario malevolo.", date:"2026-05-07" },
+        { title:"Sock Printf",     href:"sock_printf2.html",     desc:"reversing della funzione sockprintf, estratta da un binario malevolo.", date:"2026-05-07" },
+        { title:"Init Connection", href:"init_connection2.html", desc:"re della funzione initConnection, estratta da un binario malevolo.", date:"2026-05-06" },
+        { title:"Find String",     href:"find_string2.html",     desc:"reversing di una semplice routine di ricerca stringa in un array di stringhe.", date:"2026-04-23" },
+        { title:"Get Number",      href:"get_number2.html",      desc:"shellcode-as-png, crackme con vincolo temporizzato.", date:"2025-01-28" }
+    ]
+},
+{
+    n:"0x03", key:"ctf", name:"CTF & VR",
+    posts:[
+        { title:"Vortex3",    href:"vortex32.html", desc:"CTF OverTheWire: GOT overwrite via doppia dereferenziazione controllata.", date:"2026-06-02" },
+        { title:"ASM",        href:"asm3.html",     desc:"shellcode injection sotto SECCOMP con filename fuori misura.", date:"2026-05-26" }
+    ]
+},
+{
+    n:"0x04", key:"link", name:"LINK",
+    posts:[
+        { title:"Bz Akira Santjago",      href:"https://bzakirasantjago.blogspot.com", desc:"portale Hacker Artist Bz.", date:"2023-03-18" },
+        { title:"Old Spaghetti Hacker",   href:"https://spaghetti-hacker.blogfree.net", desc:"vecchio portale di Spaghetti Hacker.", date:"2023-03-18" },
+        { title:"Linux Syscall Table 64", href:"https://filippo.io/linux-syscall-table/", desc:"syscall Linux x86_64.", date:"2023-03-18" },
+        { title:"Linux Syscall Table 32", href:"https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_32.tbl", desc:"syscall Linux x86.", date:"2023-03-18" },
+        { title:"CyberChef",              href:"https://gchq.github.io/CyberChef/", desc:"web app open source per analizzare, convertire e manipolare dati.", date:"2023-01-05" },
+        { title:"Decompiler Explorer",    href:"https://dogbolt.org/", desc:"confronta come diversi decompiler ricostruiscono lo stesso codice.", date:"2023-04-12" },
+        { title:"SecurityWeek",           href:"https://www.securityweek.com/", desc:"notizie e analisi di cybersecurity.", date:"2023-04-12" },
+        { title:"The Hacker News",        href:"https://thehackernews.com/", desc:"notizie quotidiane su vulnerabilità, malware, data breach, ransomware.", date:"2023-04-12" },
+        { title:"Openwall",               href:"https://www.openwall.com/lists/oss-security/", desc:"la fonte quotidiana per le CVE reali: disclosure, patch, discussioni tecniche.", date:"2023-04-12" },
+        { title:"The Trail of Bits Blog", href:"https://blog.trailofbits.com/", desc:"Vulnerability Research, Binary Analysis & Security Engineering.", date:"2023-04-12" },
+        { title:"Binarly",                href:"https://www.binarly.io/blog", desc:"firmware, UEFI, vulnerabilità e reverse engineering.", date:"2023-04-12" },
+        { title:"BleepingComputer",       href:"https://www.bleepingcomputer.com/", desc:"notizie, guide tecniche, analisi di malware e vulnerabilità.", date:"2023-04-12" }
+    ]
+}
+];
+
+/* categoria speciale RECENT (calcolata) */
+const RECENT_COUNT = 10;
+const recent = SECTIONS.filter(s => s.key !== "link")
+    .flatMap(s => s.posts.map(p => ({ ...p, cat:s.name })))
+    .sort((a,b) => new Date(b.date) - new Date(a.date))
+    .slice(0, RECENT_COUNT);
+
+const CATS = [
+    { key:"recent", name:"RECENT", n:"0x00", posts:recent },
+    ...SECTIONS.map(s => ({ ...s, posts:s.posts.map(p => ({ ...p, cat:s.name })) }))
+];
+
+/* pagina mostrata all'avvio e al cambio categoria */
+const INTRO = { title:"whoami", href:"introduzione.html", desc:"", date:"", cat:"HOME" };
+
+/* ═══ UTILITÀ ═══ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const isExternal = h => /^https?:\/\//i.test(h);
+
+let curCat = null;
+let curPost = null;
+
+/* ═══ RENDER ═══ */
+function renderCats(){
+    $("cats").innerHTML =
+	`<a href="${esc(HOME_URL)}">[HOME]</a> ` +
+        //`<span class="lbl"></span>` +
+        CATS.map(c => `<a data-k="${c.key}" class="${curCat && curCat.key===c.key ? "active" : ""}">[${esc(c.name)}]</a>`).join(" ");
+    $("cats").querySelectorAll("a").forEach(a =>
+        a.addEventListener("click", () => go(a.dataset.k)));
+}
+
+function renderList(){
+    $("catbar").innerHTML =
+        `<span><span class="n">${esc(curCat.name)}</span>: <span class="n">${curCat.posts.length}</span></span>` +
+        `<span>SPAGHETTI HACKER</span>`;
+    $("list").innerHTML = curCat.posts.map((p,i) => {
+        const ext = isExternal(p.href);
+        const attrs = ext ? ` href="${esc(p.href)}" target="_blank" rel="noopener noreferrer"` : "";
+        return `<a class="row${curPost===p ? " sel" : ""}" data-i="${i}"${attrs}>` +
+          `<span class="t">${esc(p.title)}${ext ? " ↗" : ""}</span>` +
+          `<span class="r">${esc(p.date)}</span>` +
+        `</a>`;
+    }).join("");
+    $("list").querySelectorAll("a.row").forEach(a =>
+        a.addEventListener("click", () => {
+            const p = curCat.posts[+a.dataset.i];
+            if(isExternal(p.href)) return;   /* ci pensa il browser: nuova tab */
+            openPost(p, true);
+        }));
+}
+
+/* ═══ POPUP DESCRIZIONE (hover sulle righe) ═══ */
+function setupTip(){
+    const tip = $("tip"), list = $("list");
+    const place = e => {
+        const w = tip.offsetWidth, h = tip.offsetHeight;
+        let x = e.clientX + 14, y = e.clientY + 18;
+        if(x + w > innerWidth - 8)  x = Math.max(8, e.clientX - w - 14);
+        if(y + h > innerHeight - 8) y = Math.max(8, e.clientY - h - 14);
+        tip.style.left = x + "px";
+        tip.style.top  = y + "px";
+    };
+    list.addEventListener("mousemove", e => {
+        const row = e.target.closest("a.row");
+        const p = row && curCat.posts[+row.dataset.i];
+        if(!p || !p.desc){ tip.style.display = "none"; return; }
+        if(tip.dataset.i !== row.dataset.i || tip.style.display !== "block"){
+            tip.textContent = p.desc;
+            tip.dataset.i = row.dataset.i;
+            tip.style.display = "block";
+        }
+        place(e);
+    });
+    list.addEventListener("mouseleave", () => { tip.style.display = "none"; });
+    addEventListener("scroll", () => { tip.style.display = "none"; }, { passive:true });
+}
+//setupTip();
+
+function clearArticle(){
+    curPost = null;
+}
+
+/* ═══ NAVIGAZIONE ═══ */
+function go(key, push = true){
+    const c = CATS.find(c => c.key === key) || CATS[0];
+    curCat = c;
+    clearArticle();
+    renderCats();
+    renderList();
+    openPost(INTRO, false, false);
+    if(push) location.hash = c.key;
+}
+
+/* HTML → testo semplice + immagini (mantiene <pre>, a capo e <img>) */
+function htmlToArticle(html, baseHref){
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    doc.querySelectorAll("script,style,nav,noscript,link,meta").forEach(e => e.remove());
+    const body = doc.body;
+    const base = new URL(baseHref, location.href);
+
+    /* immagini → segnaposto @@IMG0@@, @@IMG1@@ ... */
+    const imgs = [];
+    body.querySelectorAll("img").forEach(img => {
+        const src = img.getAttribute("src");
+        if(!src){ img.remove(); return; }
+        let url;
+        try{ url = new URL(src, base).href; }catch(e){ img.remove(); return; }
+        imgs.push({ src:url, alt:img.getAttribute("alt") || "" });
+        img.replaceWith(doc.createTextNode(`@@IMG${imgs.length-1}@@`));
+    });
+
+    body.querySelectorAll("br").forEach(b => b.replaceWith("\n"));
+    body.querySelectorAll("p,div,h1,h2,h3,h4,h5,h6,li,tr,section,article,blockquote").forEach(e => {
+        e.insertAdjacentText("afterend", "\n");
+    });
+    body.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach(e => {
+        e.insertAdjacentText("beforebegin", "\n");
+    });
+    let t = body.textContent || "";
+    t = t.replace(/\r/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{4,}/g, "\n\n\n").trim();
+
+    /* escape del testo, poi rimetto le immagini */
+    return esc(t).replace(/@@IMG(\d+)@@/g, (m, i) => {
+        const im = imgs[+i];
+        return im ? `<img src="${esc(im.src)}" alt="${esc(im.alt)}">` : "";
+    });
+}
+
+async function openPost(p, push, scroll = true){
+    curPost = p;
+    /* aggiorno solo la riga selezionata invece di rifare tutta la lista */
+    $("list").querySelectorAll("a.row").forEach(a =>
+        a.classList.toggle("sel", curCat.posts[+a.dataset.i] === p));
+    $("titlebar").innerHTML = `<span><span class="n">${esc(p.title)}</span></span>`;
+    $("metabar").innerHTML = `<span><span class="n">${esc(p.cat)}</span></span>` +
+        `<span class="n">${esc(p.date)}</span>`;
+
+    if(push) history.replaceState(null, "", `#${curCat.key}/${encodeURIComponent(p.title)}`);
+
+    const pre = $("article");
+
+    /* link esterni: non scaricabili (CSP/CORS) → scheda testuale con link */
+    if(isExternal(p.href)){
+        pre.innerHTML =
+            `${esc(p.title)}\n${"=".repeat(p.title.length)}\n\n` +
+            `${esc(p.desc)}\n\n` +
+            `URL : <a href="${esc(p.href)}" target="_blank" rel="noopener noreferrer">${esc(p.href)}</a>\n`;
+        if(scroll) scrollToViewer();
+        return;
+    }
+
+    /* NON svuoto l'articolo: tengo il vecchio contenuto (e quindi l'altezza
+       della pagina) finché il nuovo non è pronto, così lo scroll non salta */
+    const keepH = pre.offsetHeight;
+    pre.style.minHeight = keepH + "px";
+
+    /* costruisco il nuovo contenuto in un nodo staccato dal DOM */
+    const box = document.createElement("div");
+    box.className = "wrap";
+    try{
+        const res = await fetch(p.href);
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        const html = await res.text();
+        if(curPost !== p) return; /* nel frattempo ne hai aperto un altro */
+        box.innerHTML = htmlToArticle(html, p.href);
+    }catch(e){
+        if(curPost !== p) return;
+        box.textContent = "errore nel caricamento di " + p.href + "\n(" + e.message + ")\n\n";
+    }
+
+    /* aspetto le immagini (max 3s) PRIMA di mostrare e scrollare:
+       così l'altezza finale è già nota e il punto d'arrivo non si sposta */
+    const waits = [...box.querySelectorAll("img")].map(im => new Promise(r => {
+        if(im.complete) return r();
+        im.addEventListener("load", r, { once:true });
+        im.addEventListener("error", r, { once:true });
+    }));
+    await Promise.race([Promise.all(waits), new Promise(r => setTimeout(r, 3000))]);
+    if(curPost !== p) return;
+
+    pre.replaceChildren(box);
+    pre.style.minHeight = "";
+    if(scroll) requestAnimationFrame(scrollToViewer);
+}
+
+//function scrollToViewer(){
+//    $("titlebar").scrollIntoView({ behavior:"smooth", block:"start" });
+//}
+
+function scrollToViewer(){
+    const h = $("cats").offsetHeight;                       // altezza reale della barra sticky
+    const y = $("titlebar").getBoundingClientRect().top + window.scrollY - h;
+    window.scrollTo({ top:y, behavior:"smooth" });
+}
+
+/* ═══ ROUTING via hash: #malware oppure #malware/qlnx ═══ */
+function route(){
+    const h = decodeURIComponent(location.hash.replace(/^#/, ""));
+    const [k, t] = h.split("/");
+    go(k || "recent", false);
+    if(t){
+        const p = curCat.posts.find(p => p.title === t);
+        if(p) openPost(p, false);
+    }
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
