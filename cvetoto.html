@@ -1,16 +1,16 @@
 section .INTRODUZIONE
 
-Questo lavoro nasce dall'idea di affrontare una CVE non soltanto dal punto di vista della sua riproduzione, ma attraverso un vero e proprio processo di reversing della vulnerabilità.
+;questo lavoro nasce dall'idea di analizzare una CVE non soltanto dal punto di vista della sua riproduzione, ma attraverso un vero e proprio processo di reversing della vulnerabilità.
 
-L'analisi parte dalla CVE-2025-45867, relativa al router TOTOLINK A3002R e a un buffer overflow presente nella gestione delle richieste HTTP del web server embedded. A partire dalle informazioni disponibili sulla vulnerabilità, l'obiettivo è stato ricostruire il percorso tecnico che conduce dalla descrizione della CVE al difetto concreto presente nel firmware.
+;l'analisi parte dalla CVE-2025-45867, relativa al router TOTOLINK A3002R e a un buffer overflow presente nella gestione delle richieste HTTP del web server embedded. A partire dalle informazioni disponibili sulla vulnerabilità, l'obiettivo è stato ricostruire il percorso tecnico che conduce dalla descrizione della CVE al difetto concreto presente nel firmware.
 
-Il lavoro è stato quindi sviluppato secondo un approccio progressivo. In una prima fase è stato analizzato il firmware a freddo, procedendo con l'estrazione dell'immagine, l'identificazione dell'architettura e la separazione dei componenti principali, fino ad arrivare all'individuazione del kernel Linux e del filesystem userspace. Successivamente, attraverso l'analisi statica del binario "boa", è stato possibile seguire il percorso di elaborazione della richiesta HTTP e risalire alla funzione responsabile della copia non controllata dei dati ricevuti dall'utente.
+;il lavoro è stato quindi sviluppato secondo un approccio progressivo. In una prima fase è stato analizzato il firmware a freddo, procedendo con l'estrazione dell'immagine, l'identificazione dell'architettura e la separazione dei componenti principali, fino ad arrivare all'individuazione del kernel Linux e del filesystem userspace. Successivamente, attraverso l'analisi statica del binario "boa", è stato possibile seguire il percorso di elaborazione della richiesta HTTP e risalire alla funzione responsabile della copia non controllata dei dati ricevuti dall'utente.
 
-La seconda fase ha portato l'analisi dal codice al comportamento reale. Il firmware è stato emulato tramite FirmAE e QEMU, permettendo di interagire con la sua interfaccia web e di inviare una richiesta costruita appositamente per riprodurre la condizione di overflow. L'osservazione del crash e dei registri MIPS ha infine fornito la conferma dinamica che il dato controllato dall'input HTTP raggiunge effettivamente lo stack del processo "boa" e ne provoca la corruzione.
+;la seconda fase ha portato l'analisi dal codice al comportamento reale. Il firmware è stato emulato tramite FirmAE e QEMU, permettendo di interagire con la sua interfaccia web e di inviare una richiesta costruita appositamente per riprodurre la condizione di overflow. L'osservazione del crash e dei registri MIPS ha infine fornito la conferma dinamica che il dato controllato dall'input HTTP raggiunge effettivamente lo stack del processo "boa" e ne provoca la corruzione.
 
-L'obiettivo di questo write-up non è quindi soltanto dimostrare che la CVE è riproducibile, ma mostrare come si può risalire dalla vulnerabilità documentata alla sua implementazione concreta all'interno di un firmware embedded, combinando analisi statica e dinamica.
+;l'obiettivo di questo write-up non è quindi soltanto dimostrare che la CVE è riproducibile, ma mostrare come si può risalire dalla vulnerabilità documentata alla sua implementazione concreta all'interno di un firmware embedded, combinando analisi statica e dinamica.
 
-In questo senso, la CVE diventa il punto di partenza dell'indagine, mentre il vero oggetto del reversing è il percorso che collega l'input controllato dall'attaccante, il codice vulnerabile e la corruzione dello stato del processo.
+;in questo senso, la CVE diventa il punto di partenza dell'indagine, mentre il vero oggetto del reversing è il percorso che collega l'input controllato dall'attaccante, il codice vulnerabile e la corruzione dello stato del processo.
 
 section .METADATI
 
