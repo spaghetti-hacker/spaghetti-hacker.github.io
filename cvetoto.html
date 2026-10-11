@@ -199,12 +199,6 @@ docker run -it --rm -v /dev:/dev -v ~/FirmAE:/work/FirmAE -v ~/firmware:/work/fi
 
 ;-d avvia la modalita' debug/manuale di FirmAE; il framework esegue due fasi QEMU in sequenza: una fase "initial" con rete utente virtuale per osservare come il firmware si autoconfigura, e una fase "final" con interfaccia tap reale (tap1_0, container 192.168.0.2, firmware 192.168.0.1)
 
-;l'esito positivo dell'emulazione e' segnalato da una riga di log del tipo:
-
-192.168.0.1 true true 17.46 22.47
-
-;i due valori "true true" indicano rispettivamente esito positivo del ping ICMP e della richiesta HTTP sulla porta 80 verso l'IP emulato: se entrambi sono true il firmware espone rete e web server funzionanti.
-
 _Accesso_alla_UI_via_proxy:
 
 ;l'IP emulato (192.168.0.1) coincide con l'IP del mio router fisico, quindi non e' raggiungibile in modo pulito dal browser host. La soluzione adottata e' un reverse proxy nginx dentro il container, con riscrittura del corpo delle risposte per sostituire ogni occorrenza di 192.168.0.1 con l'indirizzo:porta del proxy:
