@@ -228,9 +228,7 @@ server {
 ;sub_filter_types * estende la riscrittura a tutti i content-type, necessario perche' la stringa dell'IP compare anche in file .js serviti con mime type diverso da text/html.
 
 <img src="https://spaghetti-hacker.github.io/cvetoto1.png" class="full-img">
-
 <img src="https://spaghetti-hacker.github.io/cvetoto2.png" class="full-img">
-
 _Cattura_sessione_e_invio_payload:
 
 ;con Burp Suite in intercettazione (listener 127.0.0.1:8087) viene effettuato login con credenziali di default e catturato il token sessionCheck dalla richiesta POST reale verso /boafrm/formIpv6Setup navigando su Advanced -> IPv6 Setup. Il payload di test satura static_dns1 con una sequenza di byte 'A':
@@ -267,7 +265,6 @@ caught SIGSEGV, dumping core in /tmp
 ;dopo il crash la porta 80 smette di rispondere e il proxy nginx restituisce 502 Bad Gateway alle richieste successive, fino al riavvio di boa da parte del watchdog del firmware.
 
 <img src="https://spaghetti-hacker.github.io/cvetoto3.png" class="full-img">
-
 section .PROOF_OF_CONCEPT
 
 ;il PoC completo e' una singola richiesta HTTP POST verso l'endpoint vulnerabile, con sessione amministrativa valida e static_dns1 riempito oltre la capacita' del buffer di destinazione:
