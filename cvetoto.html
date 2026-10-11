@@ -169,7 +169,7 @@ void FUN_0045304c(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   if (local_34[4] == 0) {
     if (iVar3 == 1) {
       pcVar1 = (char *)FUN_0040f2b4(param_1,"static_dns1","");
-      strcpy(acStack_f8,pcVar1);
+      <mark>strcpy(acStack_f8,pcVar1);</mark>
       pcVar1 = "static_dns2";
 LAB_00453600:
       pcVar1 = (char *)FUN_0040f2b4(param_1,pcVar1,"");
@@ -251,7 +251,7 @@ caught SIGSEGV, dumping core in /tmp
 [  429.807302] $ 8   : 00000001 0000000a 00000000 ffffffff
 [  429.807426] $12   : 77745000 f0000000 00000001 774715d8
 [  429.807549] $16   : 00000293 7775f770 00000006 77490f70
-[  429.807677] $20   : 41414141 41414141 41414141 004611a8
+<mark>[  429.807677] $20   : 41414141 41414141 41414141 004611a8</mark>
 [  429.807799] $24   : 77470000 774a1e50
 [  429.807948] $28   : 774ccdb0 7fd6fc50 00490000 7749d354
 [  429.808153] Hi    : 0000007e
