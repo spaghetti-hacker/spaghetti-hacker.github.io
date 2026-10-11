@@ -216,15 +216,13 @@ server {
         proxy_redirect http://192.168.0.1/ http://172.17.0.2:8080/;
         proxy_set_header Host 192.168.0.1;
         proxy_set_header Accept-Encoding "";
-        sub_filter '"192.168.0.1"' '"172.17.0.2:8080"';
-        sub_filter 'http://192.168.0.1' 'http://172.17.0.2:8080';
         sub_filter '192.168.0.1' '172.17.0.2:8080';
         sub_filter_once off;
         sub_filter_types *;
     }
 }
 
-;proxy_set_header Accept-Encoding "" forza il backend a non comprimere la risposta; senza questa riga sub_filter riceverebbe un body gzip e non troverebbe le stringhe da sostituire, lasciando intatto il redirect verso l'IP reale.
+;proxy_set_header Accept-Encoding "" forza il backend a non comprimere la risposta; senza questa riga sub_filter riceverebbe un body gzip e non troverebbe le stringhe da sostituire, lasciando intatti gli URL con l’IP reale nel body della risposta.
 
 ;sub_filter_types * estende la riscrittura a tutti i content-type, necessario perche' la stringa dell'IP compare anche in file .js serviti con mime type diverso da text/html.
 
