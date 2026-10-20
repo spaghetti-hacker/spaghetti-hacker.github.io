@@ -122,6 +122,10 @@ body{
     min-height:1em;
 }
 
+.frase{
+    text-align:center;
+}
+
 .dim{
     color:#65E903;
 }
@@ -798,8 +802,9 @@ async function boot(){
     /* frase casuale da frasi.txt, sotto il banner e prima della riga HCF */
     const frase = await loadFrase();
     if(frase){
-        line(`<span class="dim">;${esc(frase)}</span>`);
-        line();
+      const f = line(`<span class="dim">;${esc(frase)}</span>`);
+      f.classList.add("frase");
+      line();
     }
 
     line('<div class="post-row"><span class="post-row-img"><img class="post-img" src="logo_old_spa22.png" alt=""></span><span class="post-row-body"><span class="dim"><a href="https://spaghetti-hacker.github.io">HCF</a> ;hacker artist, reverse engineer, battle programmer, malware & cybersecurity analyst</span></span></div>');
