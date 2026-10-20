@@ -300,8 +300,23 @@ function renderCats(){
 	`<a href="${esc(HOME_URL)}">[HOME]</a> ` +
         //`<span class="lbl"></span>` +
         CATS.map(c => `<a data-k="${c.key}" class="${curCat && curCat.key===c.key ? "active" : ""}">[${esc(c.name)}]</a>`).join(" ");
-    $("cats").querySelectorAll("a").forEach(a =>
-        a.addEventListener("click", () => go(a.dataset.k)));
+    $("cats").querySelectorAll("a[data-k]").forEach(a =>
+        a.addEventListener("click", () => {
+            go(a.dataset.k);
+            scrollToList();
+        }));
+}
+
+/* riporta la vista all'inizio della lista articoli (sotto la barra sticky) */
+function scrollToList(){
+    const h = $("cats").offsetHeight;
+    const y = $("catbar").getBoundingClientRect().top + window.scrollY - h;
+    window.scrollTo({ top:Math.max(0, y), behavior:"auto" });
+    /* secondo passaggio dopo il re-render/hashchange, per sicurezza */
+    requestAnimationFrame(() => {
+        const y2 = $("catbar").getBoundingClientRect().top + window.scrollY - h;
+        window.scrollTo({ top:Math.max(0, y2), behavior:"auto" });
+    });
 }
 
 function renderList(){
