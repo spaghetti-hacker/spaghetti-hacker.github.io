@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src https://api.counterapi.dev https://hn.algolia.com https://services.nvd.nist.gov; font-src 'self'; img-src 'self' https://img.youtube.com; frame-src 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src 'self' https://api.counterapi.dev https://hn.algolia.com https://services.nvd.nist.gov; font-src 'self'; img-src 'self' https://img.youtube.com; frame-src 'none';">
 <title>SPAGHETTI HACKER</title>
 <link rel="icon" type="image/png" href="favicon.png">
 
@@ -758,6 +758,24 @@ async function type(el, text, speed = 16){
 }
 
 /* ═══════════════════════════════════════════════
+   FRASE CASUALE (frasi.txt: una frase per riga, # = commento)
+═══════════════════════════════════════════════ */
+async function loadFrase(){
+    try{
+        const res = await fetch("frasi.txt", { cache: "no-store" });
+        if(!res.ok) throw new Error();
+        const righe = (await res.text())
+            .split(/\r?\n/)
+            .map(s => s.trim())
+            .filter(s => s && !s.startsWith("#"));
+        if(!righe.length) return null;
+        return righe[Math.floor(Math.random() * righe.length)];
+    }catch{
+        return null; /* file assente: nessuna frase, il boot prosegue */
+    }
+}
+
+/* ═══════════════════════════════════════════════
    BOOT SEQUENCE
 ═══════════════════════════════════════════════ */
 async function boot(){
@@ -776,6 +794,13 @@ async function boot(){
     banner.className = "banner";
     banner.innerHTML = `<img src="banner22.png" alt="Spaghetti Hacker BBS">`;
     root.appendChild(banner);
+
+    /* frase casuale da frasi.txt, sotto il banner e prima della riga HCF */
+    const frase = await loadFrase();
+    if(frase){
+        line(`<span class="dim">;${esc(frase)}</span>`);
+        line();
+    }
 
     line('<div class="post-row"><span class="post-row-img"><img class="post-img" src="logo_old_spa22.png" alt=""></span><span class="post-row-body"><span class="dim"><a href="https://spaghetti-hacker.github.io">HCF</a> ;hacker artist, reverse engineer, battle programmer, malware & cybersecurity analyst</span></span></div>');
 
