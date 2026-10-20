@@ -126,6 +126,13 @@ body{
     text-align:center;
 }
 
+.frase .dim{
+    color:#00ffff;
+    background:#0a3a2a;
+    display:inline-block;
+    line-height:1.2;
+}
+
 .dim{
     color:#65E903;
 }
@@ -804,6 +811,7 @@ async function boot(){
     if(frase){
       const f = line(`<span class="dim">;${esc(frase)}</span>`);
       f.classList.add("frase");
+      line();
       line();
     }
 
