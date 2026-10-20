@@ -1,3 +1,3 @@
-When the operating system transitions from ring 3 to ring 0, it saves state information on the stack.
-Il "Reverse engineering" è l'esigenza, la pretesa da parte degli utenti di poter aprire, esplorare, modificare la tecnologia, secondo le proprie esigenze, ampliare e quindi sviluppare nuove caratteristiche per adattare ogni cosa al quadro tecnologico, che è sempre in evoluzione. 
-Everything is Open Source if you can Reverse Engineer.
+log.000: When the operating system transitions from ring 3 to ring 0, it saves state information on the stack.
+log.001: Il "Reverse engineering" è l'esigenza, la pretesa da parte degli utenti di poter aprire, esplorare, modificare la tecnologia, secondo le proprie esigenze, ampliare e quindi sviluppare nuove caratteristiche per adattare ogni cosa al quadro tecnologico, che è sempre in evoluzione. 
+log.002: Everything is Open Source if you can Reverse Engineer.
