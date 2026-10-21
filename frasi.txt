@@ -1,3 +1,4 @@
 log.002: When the operating system transitions from ring 3 to ring 0, it saves state information on the stack.
 log.001: Il "Reverse Engineering" è l'esigenza, la pretesa da parte degli utenti di poter aprire, esplorare, modificare la tecnologia, secondo le proprie esigenze, ampliare e quindi sviluppare nuove caratteristiche per adattare ogni cosa al quadro tecnologico, che è sempre in evoluzione. 
 log.000: Everything is Open Source if you can Reverse Engineer.
+log.004: The e_entry field denotes the entry point of the binary; this is the virtual address at which execution should start.
