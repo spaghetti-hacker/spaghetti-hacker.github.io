@@ -5,13 +5,13 @@ ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f: ELF 64-bit LSB
 
 ;è un binario ELF 64-bit statico senza section header: il file è un eseguibile puro, simboli e sezioni sono stati strippati per complicare l’analisi.
 
------------------------------------------------------------------------------
+------------------------------------
 
 objdump -D -M intel ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
 
 ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f: file format elf64-x86-64
 
------------------------------------------------------------------------------
+------------------------------------
 
 strings ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
 h5tH1X'H-
@@ -25,7 +25,7 @@ M D-+
 3F:`
 |5V:`J
 
------------------------------------------------------------------------------
+------------------------------------
 
 readelf -l ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
 
@@ -45,7 +45,7 @@ Dynamic symbol information is not available for displaying symbols.
 
 ;il binario non presenta intestazioni classiche (niente symbol table, niente section headers) ed è interamente statico. Questo rende l'analisi più complessa, poiché l'autore ha deliberatamente ridotto i metadati disponibili per i tool standard (es. readelf, strings).
 
------------------------------------------------------------------------------
+------------------------------------
 
 ;il flusso del malware può essere riassunto in tre fasi principali:
 
@@ -184,7 +184,7 @@ Dump of assembler code from 0x4001fe to 0x4002c6:
 
 ;jump: trasferisce l'esecuzione alla shellcode scaricata dal server remoto. Questo è il cuore del malware: il payload vero e proprio non è nel binario, ma viene scaricato a runtime dal C2.
 
------------------------------------------------------------------------------
+------------------------------------
 
 ;Indicatori di Compromissione (IoC)
 
@@ -220,7 +220,7 @@ rule Looper_Malware
 yara Looper.yar ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
 Looper_Malware ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
 
------------------------------------------------------------------------------
+------------------------------------
 
 ;rilevazione AV
 
@@ -243,7 +243,6 @@ End Date: 2025:09:02 05:26:48
 ;nessuna rilevazione con clamscan
 
 <img src="https://spaghetti-hacker.github.io/looper.png" class="full-img">
-
 ;questa schermata mostra l'analisi su VirusTotal di un file ELF a 64 bit di dimensioni molto ridotte (655 byte).
 
 ;i motori AV lo classificano in maniera abbastanza coerente con etichette che ruotano attorno a:
