@@ -251,7 +251,7 @@ End Date: 2025:09:02 05:26:48
 ;Marte / Shelma (famiglie note di shellcode Linux rilevati genericamente)
 ;Backdoor / Exploit payloads (alcuni motori lo vedono come codice prodotto da Metasploit o simili)
 
------------------------------------------------------------------------------
+------------------------------------
 
 ;conclusione
 
@@ -264,7 +264,7 @@ End Date: 2025:09:02 05:26:48
 
 ;mancata rilevazione da parte di ClamAV, dimostrando che alle volte le firme statiche tradizionali non sono efficaci contro questo approccio. Questo tipo di malware mostra chiaramente come gli attaccanti stiano investendo in tecniche polimorfiche e runtime per aggirare controlli statici e AV signature-based.
 
------------------------------------------------------------------------------
+------------------------------------
 
 ;per verificare il comportamento del malware e osservare l'esecuzione della shellcode scaricata, sono stati creati due semplici server TCP in Python.
 
@@ -303,7 +303,7 @@ Trace/breakpoint trap (core dumped)
 
 ;qui vediamo chiaramente le syscall principali: mmap (alloca memoria RWE), socket e connect al server Python, read dei 126 byte inviati, e infine l'esecuzione che termina con un SIGTRAP, come previsto dal byte int3 (\xcc).
 
------------------------------------------------------------------------------
+------------------------------------
 
 ;server 2: shellcode realistica (/bin/sh)
 
