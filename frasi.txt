@@ -5,3 +5,4 @@ log.004: The e_entry field denotes the entry point of the binary; this is the vi
 log.005: The CMP instruction compares two operands and sets the appropriate conditional code in EFLAGS; it compares two numbers by subtracting one from another
 without updating the result. The TEST instruction does the same thing except
 it performs a logical AND between the two operands.
+log.006: I reverse, therefore I am.
