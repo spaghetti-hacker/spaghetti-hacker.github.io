@@ -796,6 +796,41 @@ async function loadFrase(){
 }
 
 /* ═══════════════════════════════════════════════
+   NEWS SECURITYWEEK (news_sw.json generato da update_news.py)
+═══════════════════════════════════════════════ */
+async function loadSecNews(count = 3){
+    try{
+        const res = await fetch("news_sw.json", { cache: "no-store" });
+        if(!res.ok) throw new Error();
+        const items = (await res.json())
+            .filter(n => n && n.title && /^https:\/\//.test(n.link))
+            .slice(0, count);
+        if(!items.length) return;
+
+        const logo = "logo_old_spa22.png";
+        out(" ");
+        out(
+            `<div class="post-row">` +
+            `<span class="post-row-img"><img class="post-img" src="${logo}" alt="" aria-hidden="true"></span>` +
+            `<span class="post-row-body" style="color:#65E903">[0x05] SECURITYWEEK :: VULNERABILITIES</span>` +
+            `</div>`
+        );
+        items.forEach(n => {
+            out(
+                `<div class="post-row">` +
+                `<span class="post-row-img"><img class="post-img" src="${logo}" alt="" aria-hidden="true"></span>` +
+                `<span class="post-row-body">` +
+                `<a href="${esc(n.link)}" target="_blank" rel="noopener noreferrer">${esc(n.title)}</a>` +
+                (n.date ? `<span class="dim"> ;${esc(n.date)}</span>` : "") +
+                `</span></div>`
+            );
+        });
+    }catch{
+        /* file assente o non valido: nessuna news, il boot prosegue */
+    }
+}
+
+/* ═══════════════════════════════════════════════
    BOOT SEQUENCE
 ═══════════════════════════════════════════════ */
 async function boot(){
@@ -838,6 +873,10 @@ async function boot(){
     });
 
     await wait(300);
+
+    /* 3 news da SecurityWeek (news_sw.json, aggiornato con update_news.py), prima di RECENT */
+    await loadSecNews(3);
+
     const isMobile = window.matchMedia("(max-width:640px)").matches;
     if(isMobile){
         COMMANDS.recent();
@@ -1060,10 +1099,13 @@ const COMMANDS = {
         });
     },
 
-    async news(args){
+    /* opts.count = numero di news (default 5); opts.quiet = niente "fetching...", timeout e nessun errore a schermo (usato dalla home) */
+    async news(args, opts = {}){
+        const count = opts.count || 5;
+        const quiet = !!opts.quiet;
         const keyword = args ? args.replace(/^["']|["']$/g, "").trim() : "";
         const label = keyword ? `<span class="dim">keyword: ${esc(keyword)}</span>` : "";
-        out(`<span class="dim">fetching feed... ${label}</span>`);
+        if(!quiet) out(`<span class="dim">fetching feed... ${label}</span>`);
 
         const NEWS_LOGO = {
             "cyber":              "logo_old_spa22.png",
@@ -1074,13 +1116,13 @@ const COMMANDS = {
 
         try {
             const base = keyword
-                ? `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=5&query=${encodeURIComponent(keyword)}`
-                : `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=5`;
-            const res = await fetch(base);
+                ? `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=${count}&query=${encodeURIComponent(keyword)}`
+                : `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=${count}`;
+            const res = await fetch(base, quiet ? { signal: AbortSignal.timeout(5000) } : undefined);
             if(!res.ok) throw new Error();
             const data = await res.json();
             const posts = data.hits;
-            if(!posts.length){ out(`<span class="err">;nessun risultato</span>`); return; }
+            if(!posts.length){ if(!quiet) out(`<span class="err">;nessun risultato</span>`); return; }
             out(" ");
             const title = keyword ? `HACKER NEWS :: ${esc(keyword).toUpperCase()}` : "HACKER NEWS";
             {
@@ -1104,7 +1146,7 @@ const COMMANDS = {
                 );
             });
         } catch {
-            out(`<span class="err">;errore nel recupero del feed</span>`);
+            if(!quiet) out(`<span class="err">;errore nel recupero del feed</span>`);
         }
     },
 
