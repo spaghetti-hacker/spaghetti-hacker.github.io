@@ -19,7 +19,7 @@ from pathlib import Path
 
 # ── aggiungi qui i feed: "name" è l'etichetta mostrata nella home ──
 FEEDS = [
-    {"name": "SECURITYWEEK", "url": "https://feeds.feedburner.com/securityweek"},
+    {"name": "GENERAL", "url": "https://feeds.feedburner.com/securityweek"},
     {"name": "VULNERABILITIES", "url": "https://www.securityweek.com/category/vulnerabilities/feed/"},
     {"name": "ICS-OT", "url": "https://www.securityweek.com/category/ics-ot/feed/"},
 ]
