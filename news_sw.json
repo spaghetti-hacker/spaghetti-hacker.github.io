@@ -3,6 +3,11 @@
  "updated": "2026-10-29",
  "items": [
   {
+   "title": "Adobe, Veeam, Juniper Networks Patch Critical Vulnerabilities",
+   "link": "https://www.securityweek.com/adobe-veeam-juniper-networks-patch-critical-vulnerabilities/",
+   "date": "2026-10-29"
+  },
+  {
    "title": "Cisco SD-WAN Zero-Day Exploitation Tied to Volt Typhoon’s ‘Silent Train’ Network",
    "link": "https://www.securityweek.com/cisco-sd-wan-zero-day-exploitation-tied-to-volt-typhoons-silent-train-network/",
    "date": "2026-10-29"
@@ -46,11 +51,6 @@
    "title": "CISA Warns of Node2Shell Exploitation as Honeypots Log Attack Attempts",
    "link": "https://www.securityweek.com/cisa-warns-of-node2shell-exploitation-as-honeypots-log-attack-attempts/",
    "date": "2026-10-28"
-  },
-  {
-   "title": "Tailscale Rushes Patches After Uncoordinated Disclosure of ‘Tailworm’ Flaws",
-   "link": "https://www.securityweek.com/tailscale-rushes-patches-after-uncoordinated-disclosure-of-tailworm-flaws/",
-   "date": "2026-10-27"
   }
  ]
 }
