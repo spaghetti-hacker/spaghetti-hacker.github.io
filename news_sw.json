@@ -1,7 +1,12 @@
 {
- "source": "VULNERABILITIES",
+ "source": "SECURITYWEEK",
  "updated": "2026-10-29",
  "items": [
+  {
+   "title": "Hackers Steal 2.6 Million Records From Sony’s Japanese ISP So-net",
+   "link": "https://www.securityweek.com/hackers-steal-2-6-million-records-from-sonys-japanese-isp-so-net/",
+   "date": "2026-10-29"
+  },
   {
    "title": "Cisco SD-WAN Zero-Day Exploitation Tied to Volt Typhoon’s ‘Silent Train’ Network",
    "link": "https://www.securityweek.com/cisco-sd-wan-zero-day-exploitation-tied-to-volt-typhoons-silent-train-network/",
@@ -13,9 +18,24 @@
    "date": "2026-10-29"
   },
   {
+   "title": "HHS Filing Puts iRhythm Data Breach Toll at 8.2 Million",
+   "link": "https://www.securityweek.com/hhs-filing-puts-irhythm-data-breach-toll-at-8-2-million/",
+   "date": "2026-10-29"
+  },
+  {
    "title": "Chinese Hackers Quietly Used Low-Severity ESXi Logging Flaw as Zero-Day",
    "link": "https://www.securityweek.com/chinese-hackers-quietly-used-low-severity-esxi-logging-flaw-as-zero-day/",
    "date": "2026-10-29"
+  },
+  {
+   "title": "Ukrainian Hive and Nefilim Ransomware Affiliate Gets 70 Months in US Prison",
+   "link": "https://www.securityweek.com/ukrainian-hive-and-nefilim-ransomware-affiliate-gets-70-months-in-us-prison/",
+   "date": "2026-10-28"
+  },
+  {
+   "title": "Upwind Security Raises $400 Million at $3.8 Billion Valuation",
+   "link": "https://www.securityweek.com/upwind-security-raises-400-million-at-3-8-billion-valuation/",
+   "date": "2026-10-28"
   },
   {
    "title": "Chrome and Firefox Updates Patch Over 200 Vulnerabilities",
@@ -31,26 +51,6 @@
    "title": "China-Linked Hackers Exploit PHP2Shell to Root Firewalls",
    "link": "https://www.securityweek.com/china-linked-hackers-exploit-php2shell-to-root-firewalls/",
    "date": "2026-10-28"
-  },
-  {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "Hackers Start Probing Fresh Oracle EBS Vulnerability",
-   "link": "https://www.securityweek.com/hackers-start-probing-fresh-oracle-ebs-vulnerability/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "CISA Warns of Node2Shell Exploitation as Honeypots Log Attack Attempts",
-   "link": "https://www.securityweek.com/cisa-warns-of-node2shell-exploitation-as-honeypots-log-attack-attempts/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "Tailscale Rushes Patches After Uncoordinated Disclosure of ‘Tailworm’ Flaws",
-   "link": "https://www.securityweek.com/tailscale-rushes-patches-after-uncoordinated-disclosure-of-tailworm-flaws/",
-   "date": "2026-10-27"
   }
  ]
 }
