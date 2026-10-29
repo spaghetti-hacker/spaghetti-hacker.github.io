@@ -624,18 +624,30 @@ a.on, a.on:hover{
     margin-top:12px;
 }
 
+/* riserva sempre lo spazio della barra di scorrimento: niente "salti" di larghezza quando i risultati sono pochi */
+html{
+    overflow-y:scroll;
+}
+
 #tbl{
     width:100%;
     border-collapse:collapse;
+    table-layout:fixed;   /* colonne a larghezza fissa: non cambiano con i filtri */
     margin-top:6px;
 }
+
+#tbl th:nth-child(1){ width:17ch; }  /* CVE-2026-12345 */
+#tbl th:nth-child(2){ width:12ch; }  /* 2026-10-29 */
+#tbl th:nth-child(3){ width:11ch; }  /* 10.0 CRIT */
+#tbl th:nth-child(4){ width:7ch; }   /* [KEV] */
+/* la quinta (DESCRIPTION) prende lo spazio rimanente */
 
 #tbl th{
     text-align:left;
     font-weight:normal;
     color:#65E903;
-    padding:2px 14px 2px 0;
-    border-bottom:1px dashed #65E903;
+    padding:2px 14px 1.2em 0;   /* una riga vuota tra intestazione e dati */
+    border-bottom:0;
     white-space:nowrap;
 }
 
@@ -709,7 +721,7 @@ a.on, a.on:hover{
     <div class="post-row">
         <span class="post-row-img"><img class="post-img" src="cve_logo.png" alt="" aria-hidden="true"></span>
         <span class="post-row-body">
-            <span style="color:#65E903">[0x06] CVE DATABASE</span><br>
+            <span style="color:#65E903">[0x06] CVE DATABASE</span><br><br>
             <span class="dim" id="meta">;caricamento...</span>
         </span>
     </div>
@@ -917,7 +929,7 @@ async function load(){
     const upd = String(DB.updated || "");
     const ageH = (Date.now() - Date.parse(upd)) / 3600000;
     let meta = `;CVE pubblicate negli ultimi ${esc(DB.window_days)} giorni con CVSS &gt;= ${esc(DB.min_score)} ;fonti: NVD, CISA KEV ;aggiornato ${esc(upd.replace("T", " ").slice(0, 16))} UTC`;
-    if(ageH > 36) meta += ` <span class="err">;dati vecchi di ${Math.round(ageH)} ore</span>`;
+    if(ageH > 36) meta += ` <span class="err">| dati vecchi di ${Math.round(ageH)} ore</span>`;
     if(DB.kev_checked === false) meta += ` <span class="err">;flag KEV non disponibile</span>`;
     else meta += ` ;KEV: ${kevCount}`;
     $("meta").innerHTML = meta;
