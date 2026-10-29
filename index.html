@@ -623,6 +623,7 @@ a:hover{
             <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news reverse engineering');">Reverse Engineering</a></div>
             <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('news malware analysis');">Malware Analysis</a></div>
             <div class="drop-item"><a href="#" onclick="event.preventDefault();scrollToOutput=true;runCommand('cve');">CVE</a></div>
+            <div class="drop-item"><a href="cve.html">CVE Database</a></div>
         </div>
     </div>
     <div class="nav-entry nav-desktop">
@@ -816,7 +817,7 @@ async function loadSecNews(count = 3){
         out(
             `<div class="post-row">` +
             `<span class="post-row-img"><img class="post-img" src="${logo}" alt="" aria-hidden="true"></span>` +
-            `<span class="post-row-body" style="color:#65E903">[0x05] SECURITYWEEK :: ${esc(source)}</span>` +
+            `<span class="post-row-body" style="color:#65E903">[0x05] ${esc(source)}</span>` +
             `</div>`
         );
         items.forEach(n => {
