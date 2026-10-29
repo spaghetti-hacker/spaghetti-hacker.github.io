@@ -928,10 +928,10 @@ async function load(){
     const kevCount = DB.items.filter(i => i.kev).length;
     const upd = String(DB.updated || "");
     const ageH = (Date.now() - Date.parse(upd)) / 3600000;
-    let meta = `;CVE pubblicate negli ultimi ${esc(DB.window_days)} giorni con CVSS &gt;= ${esc(DB.min_score)} | fonti: NVD, CISA KEV | aggiornato ${esc(upd.replace("T", " ").slice(0, 16))} UTC`;
+    let meta = `;CVE pubblicate negli ultimi ${esc(DB.window_days)} giorni con CVSS &gt;= ${esc(DB.min_score)} ;fonti: NVD, CISA KEV ;aggiornato ${esc(upd.replace("T", " ").slice(0, 16))} UTC`;
     if(ageH > 36) meta += ` <span class="err">| dati vecchi di ${Math.round(ageH)} ore</span>`;
-    if(DB.kev_checked === false) meta += ` <span class="err">| flag KEV non disponibile</span>`;
-    else meta += ` | KEV: ${kevCount}`;
+    if(DB.kev_checked === false) meta += ` <span class="err">;flag KEV non disponibile</span>`;
+    else meta += ` ;KEV: ${kevCount}`;
     $("meta").innerHTML = meta;
 
     if(DB.kev_checked === false) $("kevrow").style.display = "none";
