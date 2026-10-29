@@ -3,6 +3,11 @@
  "updated": "2026-10-29",
  "items": [
   {
+   "title": "Hackers Steal 2.6 Million Records From Sony’s Japanese ISP So-net",
+   "link": "https://www.securityweek.com/hackers-steal-2-6-million-records-from-sonys-japanese-isp-so-net/",
+   "date": "2026-10-29"
+  },
+  {
    "title": "Cisco SD-WAN Zero-Day Exploitation Tied to Volt Typhoon’s ‘Silent Train’ Network",
    "link": "https://www.securityweek.com/cisco-sd-wan-zero-day-exploitation-tied-to-volt-typhoons-silent-train-network/",
    "date": "2026-10-29"
@@ -45,11 +50,6 @@
   {
    "title": "China-Linked Hackers Exploit PHP2Shell to Root Firewalls",
    "link": "https://www.securityweek.com/china-linked-hackers-exploit-php2shell-to-root-firewalls/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
    "date": "2026-10-28"
   }
  ]
