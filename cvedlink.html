@@ -1,0 +1,346 @@
+CVE-2026-118579: REVERSE ENGINEERING STATICO DI UNA BACKDOOR ROOT NEL FIRMWARE D-LINK DIR-505
+
+Autore: HCF
+Target: D-Link DIR-505 A1, firmware 1.10B02
+CVE: CVE-2026-118579
+Architettura: MIPS 
+Tipologia: analisi statica di firmware embedded
+Strumenti: Binwalk, sasquatch, Docker, Ghidra, objdump, readelf, strings
+Componenti rilevanti: my_cgi.cgi, system_manager, libputil.so, tftpd
+Impatto potenziale: attivazione non autenticata di servizi privilegiati;
+Stato della verifica: catena ricostruita staticamente; 
+
+section .NOTA_METODOLOGICA
+
+;questo report documenta un'analisi statica del firmware D-Link DIR-505 A1 1.10B02. L'obiettivo è ricostruire il percorso che collega un endpoint CGI nascosto a una funzione in grado di avviare servizi privilegiati.
+
+;le conclusioni si basano sul filesystem estratto, sul codice decompilato e sull'assembly dei binari analizzati, oltre che sui simboli e sulle stringhe presenti nelle librerie. L'analisi ha ricostruito il flusso dal controllo dei parametri in my_cgi.cgi, all'invio del segnale 44 a system_manager, fino alla funzione execute_cmd_func1 in libputil.so.
+
+section .EXECUTIVE_SUMMARY
+
+;l'analisi ha individuato un endpoint CGI non evidente dal nome del file, una sequenza di cinque valori hardcoded e un meccanismo di attivazione basato sul segnale 0x2c (44 decimale).
+
+;il percorso ricostruito è il seguente:
+
+1. Il server web associa /secmark1524.cgi al file /www/my_cgi.cgi.
+2. my_cgi.cgi verifica che la richiesta contenga cinque parametri e che SCRIPT_NAME corrisponda all'endpoint atteso.
+3. Il codice confronta i valori ricevuti con cinque stringhe hardcoded. Se tutti i confronti hanno esito positivo e check_tftpd() restituisce 0, il CGI invia il segnale 44 al processo identificato da /var/run/system_manager.pid.
+4. system_manager registra un handler per il segnale 44.
+5. L'handler effettua un salto indiretto risolto tramite la Global Offset Table (GOT). Il valore presente all'indirizzo 0x4164fc punta a execute_cmd_func1, funzione esportata da libputil.so.
+6. execute_cmd_func1 contiene chiamate che avviano tftpd, webfile_monitor e telnetd -l /bin/sh, attivano indicatori di modalità test e scrivono il PIN WPS in un file sotto /www.
+
+;il dato più significativo non è il singolo endpoint, ma la convergenza di evidenze indipendenti: alias CGI, controlli rigidi su token, invio del segnale, registrazione dell'handler, risoluzione della destinazione tramite GOT e comandi di attivazione presenti nella libreria condivisa.
+
+;il codice analizzato è compatibile con una backdoor attivabile tramite una richiesta HTTP non autenticata. La shell Telnet root e l'accessibilità remota effettiva, tuttavia, richiedono una verifica dinamica sul dispositivo o in un ambiente di emulazione adeguato. 
+
+section .ARCHITETTURA_GENERALE
+
+Flusso principale ricostruito:
+
+Client HTTP
+    |
+    v
+/secmark1524.cgi
+    |
+    | alias del server web
+    v
+/www/my_cgi.cgi
+    |
+    | POST con cinque parametri
+    | verifica di SCRIPT_NAME e token hardcoded
+    | check_tftpd() == 0
+    v
+send_signal("/var/run/system_manager.pid", 0x2c)
+    |
+    v
+system_manager
+    |
+    | handler registrato per il segnale 44
+    | salto indiretto tramite GOT
+    v
+libputil.so:execute_cmd_func1()
+    |
+    +--> tftpd &
+    +--> webfile_monitor &
+    +--> telnetd -l /bin/sh &
+    +--> eventuale arresto di wpa_supplicant
+    +--> scrittura del PIN WPS
+    +--> attivazione della modalità test
+    +--> generate_chklst & e set_leds(2)
+
+;lo schema rappresenta il flusso ricostruito dal codice. L'esito operativo di ogni passaggio dipende anche dallo stato del dispositivo e dal comportamento dei servizi coinvolti.
+
+section .ESTRAZIONE_DEL_FIRMWARE
+
+;il primo ostacolo è stato l'accesso al filesystem. L'immagine SquashFS del firmware utilizza parametri LZMA non gestiti correttamente dall'estrattore standard, che restituisce l'errore:
+
+lzma uncompress failed with error code 9
+
+;per estrarre il filesystem è stato preparato un ambiente Docker basato su Ubuntu 18.04, nel quale compilare sasquatch, una variante patchata di unsquashfs utilizzata per filesystem SquashFS con caratteristiche non standard.
+
+FROM ubuntu:18.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git build-essential python3 wget \
+    liblzma-dev liblzo2-dev zlib1g-dev \
+    mtd-utils gzip bzip2 tar arj lhasa cabextract \
+    p7zip-full p7zip-rar sleuthkit binwalk \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/devttys0/sasquatch.git /tmp/sasquatch && \
+    cd /tmp/sasquatch && ./build.sh && \
+    rm -rf /tmp/sasquatch
+
+WORKDIR /workdir
+ENTRYPOINT ["binwalk"]
+
+;il container isola le dipendenze dell'estrazione dall'ambiente host. La compilazione di sasquatch fornisce un estrattore adatto alla variante SquashFS incontrata. Il filesystem risultante è stato individuato sotto squashfs-root.
+
+;l'esecuzione di binwalk -e -M sul componente firmware ha consentito di accedere ai binari del sistema, tra cui /usr/bin/my_cgi.cgi, /usr/bin/system_manager, /usr/bin/tftpd e /lib/libputil.so.
+
+section .ENDPOINT_CGI_E_TOKEN_DI_ATTIVAZIONE
+
+_Nascosto_non_significa_assente:
+
+;il percorso /secmark1524.cgi non corrisponde a un file autonomo nel filesystem estratto. La configurazione CGI del server web contiene invece un alias:
+
+alias.url += ( "/secmark1524.cgi" => "/www/my_cgi.cgi" )
+
+;l'alias collega un endpoint HTTP a un eseguibile CGI con un nome diverso. Per questo motivo una ricerca limitata ai file fisici non individua direttamente secmark1524.cgi: è necessario esaminare anche la configurazione del server web.
+
+;nel filesystem, il binario eseguibile reale risiede in /usr/bin/my_cgi.cgi. Il percorso /www/my_cgi.cgi referenziato nella configurazione corrisponde a un symlink nella document root del web server che punta al binario di sistema, un pattern architetturale standard nei firmware embedded per mantenere separati i file di configurazione web dai binari compilati.
+
+_Validazione_della_richiesta:
+
+;i cinque parametri attesi vengono confrontati tramite strcmp con valori hardcoded nel binario. Per ragioni di responsible disclosure i valori esatti non vengono riportati in questo documento. Uno dei cinque valori risulta codificato in Base64 e, una volta decodificato, corrisponde al nome di uno dei servizi di sistema coinvolti nella catena (tftpd).
+
+;l'analisi di main in my_cgi.cgi mostra il controllo del numero di parametri e del nome dello script:
+
+pcVar2 = malloc(0x7490a);
+memset(pcVar2, 0, 0x7490a);
+local_34 = get_input_entries(pcVar2, lVar4);
+
+if (local_34 == 5) {
+    pcVar6 = getenv("SCRIPT_NAME");
+    iVar3 = strcmp(pcVar6, "/secmark1524.cgi");
+    if (iVar3 != 0)
+        goto LAB_0040af74;
+}
+
+<img src="https://spaghetti-hacker.github.io/DLinkmainOK.png" class="full-img">
+
+;il CGI accetta questo ramo solo quando get_input_entries() restituisce esattamente 5 e SCRIPT_NAME coincide con /secmark1524.cgi. Il controllo sul nome dello script lega la logica speciale all'endpoint previsto. 
+
+;i cinque parametri individuati nella logica di confronto sono:
+
+accu         
+pass         
+code         
+hash         
+cmds         
+
+;il ramo speciale viene raggiunto quando tutti e cinque i confronti hanno esito positivo. dGZ0cGQ= è la rappresentazione Base64 della stringa "tftpd". Nel codice descritto, il valore viene usato come token confrontato con una stringa attesa: non è evidenza di una Command Injection arbitraria tramite il parametro cmds.
+
+_Trigger_e_condizione_sul_servizio:
+
+if (iVar5 == 5) {
+    iVar3 = check_tftpd();
+    if (iVar3 == 0) {
+        send_signal("/var/run/system_manager.pid", 0x2c);
+        print_ok_msg();
+    }
+}
+
+<img src="https://spaghetti-hacker.github.io/DLinkmain2OK.png" class="full-img">
+
+;il valore iVar5 == 5 indica che tutti i controlli previsti sono andati a buon fine. check_tftpd() verifica se tftpd risulta già attivo. Solo quando restituisce 0 il CGI invoca send_signal() con il segnale 0x2c, pari a 44 decimale, e restituisce il messaggio di successo. Il messaggio HTTP non prova da solo che l'handler abbia completato tutte le azioni successive.
+
+;0x2c (44 decimale, che corrisponde a SIGRTMIN+10 o un segnale realtime riservato, a seconda della definizione nel kernel specifico, ma gestito qui in modo custom.
+
+section .CHECK_TFTPD
+
+;la funzione check_tftpd, esportata da libputil.so, è stata individuata tramite la tabella dei simboli dinamici:
+
+readelf -W --dyn-syms ./lib/libputil.so | grep check_tftpd
+
+90: 00007220   456 FUNC GLOBAL DEFAULT 6 check_tftpd
+
+;il decompilato mostra che la funzione esegue ps tramite popen e cerca la sottostringa tftpd nell'output:
+
+strcpy(acStack_c8, "ps");
+uVar2 = 0;
+__stream = popen(acStack_c8, "r");
+
+if (__stream != (FILE *)0x0) {
+    do {
+        pcVar1 = fgets(acStack_8c, 0x78, __stream);
+        if (pcVar1 == (char *)0x0) {
+            uVar2 = 0;
+            goto LAB_000173b8;
+        }
+        pcVar1 = strstr(acStack_8c, "tftpd");
+    } while (pcVar1 == (char *)0x0);
+
+    ...
+    uVar2 = 1;
+}
+
+<img src="https://spaghetti-hacker.github.io/DLinklibputil.png" class="full-img">
+
+;la funzione restituisce 1 quando trova "tftpd" nell'output di ps e 0 quando non lo trova o quando non riesce a leggere altre righe. È quindi più preciso descriverla come un controllo testuale dei processi, non come una verifica robusta dello stato del servizio. Il nome tftpd potrebbe comparire nell'output anche in circostanze che richiedono una valutazione più approfondita.
+
+section .IL_COLLEGAMENTO_TRAMITE_SIGNAL_HANDLER
+
+_Registrazione_del_segnale:
+
+;nel disassemblato di system_manager, il codice registra più handler tramite chiamate indirette alla funzione signal. Il frammento relativo al segnale 44 è:
+
+404578: 26054ca0  addiu a1, s0, 19616
+40457c: 8f998048  lw    t9, -32696(gp)
+404580: 00000000  nop
+404584: 0320f809  jalr  t9
+404588: 2404002c  li    a0, 44
+
+;nella convenzione di chiamata MIPS usata dal binario, a0 contiene il primo argomento e a1 il secondo. Il valore 44 viene quindi passato alla funzione caricata in t9, identificata nel contesto come signal(), mentre a1 contiene il puntatore all'handler calcolato da s0 + 19616. La registrazione collega il segnale 44 alla funzione handler che inizia all'indirizzo 0x404ca0.
+
+;il codice registra anche handler per altri segnali, tra cui 32, 33, 34, 39, 40 e 41. Il segnale 44 non è quindi l'unico segnale gestito dal demone.
+
+_Limite_del_decompilato:
+
+Ghidra rappresenta il ramo relativo a 0x2c con una chiamata indiretta:
+
+if (param_1 == 0x2c) {
+    (**(code **)(in_t9 + 0x1185c))();
+    return;
+}
+
+;il decompilatore non ha ricostruito correttamente la destinazione del salto indiretto. L'espressione in_t9 + 0x1185c non va trattata automaticamente come un indirizzo assoluto né come prova dell'identità della funzione chiamata. Per risolvere il target è necessario tornare alle istruzioni MIPS e ricostruire il riferimento alla GOT.
+
+
+<img src="https://spaghetti-hacker.github.io/DLinkregister.png" class="full-img">
+_Risoluzione_della_destinazione:
+
+404d88: lw      t9, -32660(gp)
+404d8c: lw      ra, 36(sp)
+404d90: lw      s1, 32(sp)
+404d94: lw      s0, 28(sp)
+404d98: jr      t9
+404d9c: addiu   sp, sp, 40
+
+;l'istruzione lw t9, -32660(gp) carica in t9 un puntatore da una posizione relativa al registro gp. jr t9 trasferisce il controllo all'indirizzo caricato: si tratta di un salto di coda, non di una normale chiamata seguita da un ritorno a questo punto. L'istruzione addiu nel delay slot completa il ripristino dello stack.
+
+;con il valore di gp ricostruito nel contesto della funzione:
+
+gp       = 0x41e490
+offset   = -32660 = -0x7f94
+indirizzo GOT = 0x41e490 - 0x7f94 = 0x4164fc
+
+;la voce all'indirizzo 0x4164fc è:
+
+004164fc  00 40 57 80  addr  <EXTERNAL>::execute_cmd_func1
+
+;la voce GOT punta a execute_cmd_func1, simbolo esterno risolto tramite la libreria condivisa. La risoluzione del puntatore collega il ramo del signal handler alla funzione esportata con quel nome. È questo passaggio, ricostruito dall'assembly e verificato sulla GOT, a superare l'ambiguità del pseudocodice generato da Ghidra.
+
+section .LA_FUNZIONE execute_cmd_func1
+
+La ricerca del simbolo nei binari condivisi individua execute_cmd_func1 in libputil.so. Il decompilato mostra la sequenza di azioni associata al trigger:
+
+iVar1 = check_tftpd();
+if (iVar1 == 0) {
+    system("tftpd &");
+}
+
+iVar1 = check_webfile_monitor();
+if (iVar1 == 0) {
+    system("webfile_monitor &");
+}
+
+system("telnetd -l /bin/sh &");
+
+if ((byte)(which_mode - 3U) < 2) {
+    system("killall wpa_supplicant &");
+}
+
+<img src="https://spaghetti-hacker.github.io/DLinklibputil2.png" class="full-img">
+
+;se check_tftpd() restituisce 0, la funzione avvia tftpd in background. Lo stesso schema condizionale viene usato per webfile_monitor. La chiamata telnetd -l /bin/sh avvia un demone Telnet configurato per eseguire /bin/sh come programma di login. Il frammento indica una shell non protetta da un meccanismo di autenticazione esplicitato nel comando.
+
+;la funzione contiene inoltre queste operazioni:
+
+local_18 = 0;
+local_14 = 0;
+local_10 = 0;
+get_mp_wps_pin(&local_18);
+_system("echo wps_default_pin=%s > /www/wps_default_pin.txt", &local_18);
+
+system("killall udhcpc &");
+_system("echo 1 >> %s", "/tmp/test_mode");
+_system("echo test_mode=1 > %s", "/www/test_mode.txt");
+
+system("generate_chklst &");
+set_leds(2);
+
+;la funzione recupera il PIN WPS e lo scrive in /www/wps_default_pin.txt. Crea o aggiorna inoltre indicatori della modalità test in /tmp/test_mode e /www/test_mode.txt, avvia generate_chklst, arresta udhcpc e richiama set_leds(2). La combinazione di servizi di manutenzione, shell e modifiche allo stato operativo potrebbe essere coerente con una routine diagnostica privilegiata.
+
+;_system: probabile artefatto di decompilazione per una sequenza snprintf + system, o wrapper proprietario
+
+section .EVIDENZE_SU_TFTPD
+
+;nel binario /usr/bin/tftpd è presente la stringa:
+
+echo tftpd_ready=1 > /www/tftpd_ready.txt
+
+;la stringa indica che il programma contiene codice destinato a scrivere il file di stato /www/tftpd_ready.txt.
+
+section .IMPATTO_E_CLASSIFICAZIONE
+
+;le evidenze statiche supportano la presenza nel firmware di un percorso di attivazione non documentato che parte da un endpoint CGI e raggiunge una funzione di manutenzione con comandi privilegiati. La classificazione del rischio deve però distinguere le proprietà osservate direttamente dalle condizioni non ancora verificate dinamicamente.
+
+Aspetto                         Evidenza disponibile
+
+Endpoint CGI                    Alias verso /www/my_cgi.cgi nella configurazione
+Autenticazione del trigger      Nel ramo analizzato, i cinque token hardcoded
+                                costituiscono il controllo applicativo osservato
+Attivazione                     Invio del segnale 0x2c al PID letto dal file
+                                /var/run/system_manager.pid
+Destinazione del signal handler GOT 0x4164fc risolta a execute_cmd_func1
+                                in libputil.so
+Shell Telnet                    Comando telnetd -l /bin/sh presente nella funzione
+TFTP                            Comando tftpd & e stringa relativa al file
+                                /www/tftpd_ready.txt presenti nel firmware
+Modalità test                   Scrittura di /tmp/test_mode e
+                                /www/test_mode.txt
+PIN WPS                         Scrittura prevista in /www/wps_default_pin.txt
+
+;il percorso è compatibile con una compromissione critica qualora l'endpoint sia raggiungibile da un attaccante non autenticato e la catena venga eseguita con i privilegi del processo che gestisce i servizi. La gravità effettiva dipende anche dall'esposizione dell'interfaccia web, dalla configurazione del dispositivo e dal comportamento runtime dei demoni.
+
+;non viene assegnato qui un punteggio CVSS definitivo. Il valore 10.0 riportato in alcune descrizioni preliminari va considerato una stima da verificare rispetto al vettore effettivo, alla raggiungibilità, ai privilegi richiesti e all'impatto dimostrato. Analogamente, l'espressione Remote Root Shell descrive il comportamento suggerito dal codice, non un risultato di test end-to-end documentato in questo report.
+
+section .INDICATORI_DI_COMPROMISSIONE
+
+Gli artefatti seguenti sono indicatori potenziali dell'attivazione della routine. La loro assenza non esclude necessariamente un'attivazione precedente, mentre la loro presenza deve essere interpretata nel contesto del dispositivo.
+
+Indicatore                                  Interpretazione
+
+/www/tftpd_ready.txt                        File di stato previsto dal codice
+                                            di /usr/bin/tftpd
+/www/test_mode.txt con test_mode=1          Indicatore scritto da execute_cmd_func1
+/tmp/test_mode                              File creato/aggiornato dalla routine
+/www/wps_default_pin.txt                    File contenente il PIN WPS recuperato
+Processo tftpd                              Coerente con l'avvio del servizio TFTP
+Processo webfile_monitor                    Coerente con l'avvio del monitor
+Processo telnetd con /bin/sh                Coerente con il comando di shell Telnet
+Cambiamento anomalo dei LED                 Possibile effetto della chiamata set_leds(2)
+
+;questi indicatori derivano dalle stringhe e dalle chiamate individuate nel codice. Non tutti sono necessariamente esclusivi della backdoor: in particolare, processi o file di stato potrebbero essere presenti anche durante operazioni legittime di manutenzione. È opportuno correlare più indicatori con log, configurazione e stato del dispositivo.
+
+section .CONCLUSIONI
+
+;l'analisi ha ricostruito un percorso tecnico significativo all'interno del firmware D-Link DIR-505 A1 1.10B02. Un alias del server web espone un CGI che accetta una specifica combinazione di cinque valori hardcoded. Quando il controllo sullo stato di tftpd restituisce 0, il CGI invia il segnale 44 a system_manager.
+
+;il passaggio decisivo è stato l'esame dell'assembly MIPS. Il pseudocodice di Ghidra mostrava una destinazione indiretta fuorviante; il caricamento gp-relative a -32660, il calcolo dell'indirizzo 0x4164fc e la voce GOT associata a execute_cmd_func1 hanno permesso di ricostruire la destinazione del salto. La funzione, individuata in libputil.so, contiene comandi per avviare servizi di manutenzione, una shell Telnet tramite /bin/sh e la scrittura di file relativi alla modalità test e al PIN WPS.
+
+;nel complesso, le evidenze sono fortemente compatibili con una backdoor o un hook di manutenzione privilegiato esposto attraverso il livello CGI. La formulazione più rigorosa, in assenza di una dimostrazione dinamica documentata, è che il firmware contiene una catena statica di attivazione con potenziale impatto critico, inclusa l'esecuzione di telnetd -l /bin/sh.
+
+;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
