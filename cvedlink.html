@@ -12,6 +12,7 @@ Strumenti: Binwalk, sasquatch, Docker, Ghidra, objdump, readelf, strings
 Componenti rilevanti: my_cgi.cgi, system_manager, libputil.so, tftpd
 Impatto potenziale: attivazione non autenticata di servizi privilegiati;
 Stato della verifica: catena ricostruita staticamente; 
+Tag: Firmware Analysis, Reverse Engineering, Defensive Security, IoT Research
 
 section .NOTA_METODOLOGICA
 
@@ -138,11 +139,11 @@ if (local_34 == 5) {
 
 ;i cinque parametri individuati nella logica di confronto sono:
 
-accu         
-pass         
-code         
-hash         
-cmds         
+accu  : [REDACTED]
+pass  : [REDACTED]
+code  : [REDACTED]
+hash  : [REDACTED]
+cmds  : [REDACTED] (rappresentazione Base64 del nome del servizio)
 
 ;il ramo speciale viene raggiunto quando tutti e cinque i confronti hanno esito positivo. [REDACTED] è la rappresentazione Base64 della stringa "tftpd". Nel codice descritto, il valore viene usato come token confrontato con una stringa attesa: non è evidenza di una Command Injection arbitraria tramite il parametro cmds.
 
