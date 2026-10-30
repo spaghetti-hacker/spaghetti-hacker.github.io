@@ -25,12 +25,12 @@ section .EXECUTIVE_SUMMARY
 
 ;il percorso ricostruito è il seguente:
 
-1. Il server web associa /secmark1524.cgi al file /www/my_cgi.cgi.
-2. my_cgi.cgi verifica che la richiesta contenga cinque parametri e che SCRIPT_NAME corrisponda all'endpoint atteso.
-3. Il codice confronta i valori ricevuti con cinque stringhe hardcoded. Se tutti i confronti hanno esito positivo e check_tftpd() restituisce 0, il CGI invia il segnale 44 al processo identificato da /var/run/system_manager.pid.
-4. system_manager registra un handler per il segnale 44.
-5. L'handler effettua un salto indiretto risolto tramite la Global Offset Table (GOT). Il valore presente all'indirizzo 0x4164fc punta a execute_cmd_func1, funzione esportata da libputil.so.
-6. execute_cmd_func1 contiene chiamate che avviano tftpd, webfile_monitor e telnetd -l /bin/sh, attivano indicatori di modalità test e scrivono il PIN WPS in un file sotto /www.
+1) Il server web associa /secmark1524.cgi al file /www/my_cgi.cgi.
+2) my_cgi.cgi verifica che la richiesta contenga cinque parametri e che SCRIPT_NAME corrisponda all'endpoint atteso.
+3) Il codice confronta i valori ricevuti con cinque stringhe hardcoded. Se tutti i confronti hanno esito positivo e check_tftpd() restituisce 0, il CGI invia il segnale 44 al processo identificato da /var/run/system_manager.pid.
+4) system_manager registra un handler per il segnale 44.
+5) L'handler effettua un salto indiretto risolto tramite la Global Offset Table (GOT). Il valore presente all'indirizzo 0x4164fc punta a execute_cmd_func1, funzione esportata da libputil.so.
+6) execute_cmd_func1 contiene chiamate che avviano tftpd, webfile_monitor e telnetd -l /bin/sh, attivano indicatori di modalità test e scrivono il PIN WPS in un file sotto /www.
 
 ;il dato più significativo non è il singolo endpoint, ma la convergenza di evidenze indipendenti: alias CGI, controlli rigidi su token, invio del segnale, registrazione dell'handler, risoluzione della destinazione tramite GOT e comandi di attivazione presenti nella libreria condivisa.
 
