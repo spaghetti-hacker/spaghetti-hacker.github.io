@@ -19,6 +19,8 @@ section .NOTA_METODOLOGICA
 
 ;le conclusioni si basano sul filesystem estratto, sul codice decompilato e sull'assembly dei binari analizzati, oltre che sui simboli e sulle stringhe presenti nelle librerie. L'analisi ha ricostruito il flusso dal controllo dei parametri in my_cgi.cgi, all'invio del segnale 44 a system_manager, fino alla funzione execute_cmd_func1 in libputil.so.
 
+;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
+
 section .EXECUTIVE_SUMMARY
 
 ;l'analisi ha individuato un endpoint CGI non evidente dal nome del file, una sequenza di cinque valori hardcoded e un meccanismo di attivazione basato sul segnale 0x2c (44 decimale).
