@@ -1,56 +1,56 @@
 {
- "source": "VULNERABILITIES",
+ "source": "GENERAL",
  "updated": "2026-10-30",
  "items": [
+  {
+   "title": "TeamViewer Flaw Could Let Malicious Hosts Take Over Support Technicians’ Machines",
+   "link": "https://www.securityweek.com/teamviewer-flaw-could-let-malicious-hosts-take-over-support-technicians-machines/",
+   "date": "2026-10-30"
+  },
+  {
+   "title": "$6 Billion Binance Hack Bears Hallmarks of North Korea’s TraderTraitor",
+   "link": "https://www.securityweek.com/6-billion-binance-hack-bears-hallmarks-of-north-koreas-tradertraitor/",
+   "date": "2026-10-30"
+  },
+  {
+   "title": "When Risk Becomes Personal: What Security Leaders Can Learn From a Cancer Diagnosis",
+   "link": "https://www.securityweek.com/when-risk-becomes-personal-what-security-leaders-can-learn-from-a-cancer-diagnosis/",
+   "date": "2026-10-29"
+  },
+  {
+   "title": "Google Touts Powerful Cybersecurity Capabilities in Gemini 4 Carbon Model",
+   "link": "https://www.securityweek.com/google-says-gemini-4-carbon-leads-in-finding-exploiting-and-fixing-vulnerabilities/",
+   "date": "2026-10-29"
+  },
+  {
+   "title": "How Secure Are US Elections? Voting Machine Risks and the Growing Threat of AI",
+   "link": "https://www.securityweek.com/how-secure-are-us-elections-voting-machine-risks-and-the-growing-threat-of-ai/",
+   "date": "2026-10-29"
+  },
+  {
+   "title": "Cisco Open Sources Quarry to Catch AI Agent Attacks Hidden in Harmless Steps",
+   "link": "https://www.securityweek.com/cisco-open-sources-quarry-to-catch-ai-agent-attacks-hidden-in-harmless-steps/",
+   "date": "2026-10-29"
+  },
   {
    "title": "Adobe, Veeam, Juniper Networks Patch Critical Vulnerabilities",
    "link": "https://www.securityweek.com/adobe-veeam-juniper-networks-patch-critical-vulnerabilities/",
    "date": "2026-10-29"
   },
   {
-   "title": "Cisco SD-WAN Zero-Day Exploitation Tied to Volt Typhoon’s ‘Silent Train’ Network",
-   "link": "https://www.securityweek.com/cisco-sd-wan-zero-day-exploitation-tied-to-volt-typhoons-silent-train-network/",
+   "title": "BAE Says No Data Extracted in Incident Hitting Bankruptcy Courts",
+   "link": "https://www.securityweek.com/bae-says-no-data-extracted-in-incident-hitting-bankruptcy-courts/",
    "date": "2026-10-29"
   },
   {
-   "title": "Attackers Exploit Second Cisco Firewall VPN Zero-Day Since August",
-   "link": "https://www.securityweek.com/attackers-exploit-second-cisco-firewall-vpn-zero-day-since-august/",
+   "title": "Over 41,000 DHS Employee Records Leaked Online",
+   "link": "https://www.securityweek.com/over-41000-dhs-employee-records-leaked-online/",
    "date": "2026-10-29"
   },
   {
-   "title": "Chinese Hackers Quietly Used Low-Severity ESXi Logging Flaw as Zero-Day",
-   "link": "https://www.securityweek.com/chinese-hackers-quietly-used-low-severity-esxi-logging-flaw-as-zero-day/",
+   "title": "Hackers Steal 2.6 Million Records From Sony’s Japanese ISP So-net",
+   "link": "https://www.securityweek.com/hackers-steal-2-6-million-records-from-sonys-japanese-isp-so-net/",
    "date": "2026-10-29"
-  },
-  {
-   "title": "Chrome and Firefox Updates Patch Over 200 Vulnerabilities",
-   "link": "https://www.securityweek.com/chrome-and-firefox-updates-patch-over-200-vulnerabilities/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "TLS Flaws Found in GoAhead Web Server Used in Hundreds of Millions of Devices",
-   "link": "https://www.securityweek.com/tls-flaws-found-in-goahead-web-server-used-in-hundreds-of-millions-of-devices/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "China-Linked Hackers Exploit PHP2Shell to Root Firewalls",
-   "link": "https://www.securityweek.com/china-linked-hackers-exploit-php2shell-to-root-firewalls/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "Hackers Start Probing Fresh Oracle EBS Vulnerability",
-   "link": "https://www.securityweek.com/hackers-start-probing-fresh-oracle-ebs-vulnerability/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "CISA Warns of Node2Shell Exploitation as Honeypots Log Attack Attempts",
-   "link": "https://www.securityweek.com/cisa-warns-of-node2shell-exploitation-as-honeypots-log-attack-attempts/",
-   "date": "2026-10-28"
   }
  ]
 }
