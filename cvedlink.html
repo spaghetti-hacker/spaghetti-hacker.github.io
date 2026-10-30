@@ -1,5 +1,11 @@
 CVE-2026-118579: REVERSE ENGINEERING STATICO DI UNA BACKDOOR ROOT NEL FIRMWARE D-LINK DIR-505
 
+section .INTRODUZIONE
+
+Il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di bypassare i controlli di autenticazione e attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica rigorosa del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
+
+section .METADATI
+
 Autore: HCF
 Target: D-Link DIR-505 A1, firmware 1.10B02
 CVE: CVE-2026-118579
