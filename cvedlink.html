@@ -116,7 +116,7 @@ alias.url += ( "/secmark1524.cgi" => "/www/my_cgi.cgi" )
 
 _Validazione_della_richiesta:
 
-;i cinque parametri attesi vengono confrontati tramite strcmp con valori hardcoded nel binario. Per ragioni di responsible disclosure i valori esatti non vengono riportati in questo documento. Uno dei cinque valori risulta codificato in Base64 e, una volta decodificato, corrisponde al nome di uno dei servizi di sistema coinvolti nella catena (tftpd).
+;i cinque parametri attesi vengono confrontati tramite strcmp con valori hardcoded nel binario. Per ragioni etiche i valori esatti non vengono riportati in questo documento. Uno dei cinque valori risulta codificato in Base64 e, una volta decodificato, corrisponde al nome di uno dei servizi di sistema coinvolti nella catena (tftpd).
 
 ;l'analisi di main in my_cgi.cgi mostra il controllo del numero di parametri e del nome dello script:
 
