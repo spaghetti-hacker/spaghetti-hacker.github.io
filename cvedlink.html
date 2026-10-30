@@ -129,7 +129,6 @@ if (local_34 == 5) {
 }
 
 <img src="https://spaghetti-hacker.github.io/DLinkmainOK.png" class="full-img">
-
 ;il CGI accetta questo ramo solo quando get_input_entries() restituisce esattamente 5 e SCRIPT_NAME coincide con /secmark1524.cgi. Il controllo sul nome dello script lega la logica speciale all'endpoint previsto. 
 
 ;i cinque parametri individuati nella logica di confronto sono:
@@ -153,7 +152,6 @@ if (iVar5 == 5) {
 }
 
 <img src="https://spaghetti-hacker.github.io/DLinkmain2OK.png" class="full-img">
-
 ;il valore iVar5 == 5 indica che tutti i controlli previsti sono andati a buon fine. check_tftpd() verifica se tftpd risulta già attivo. Solo quando restituisce 0 il CGI invoca send_signal() con il segnale 0x2c, pari a 44 decimale, e restituisce il messaggio di successo. Il messaggio HTTP non prova da solo che l'handler abbia completato tutte le azioni successive.
 
 ;0x2c (44 decimale, che corrisponde a SIGRTMIN+10 o un segnale realtime riservato, a seconda della definizione nel kernel specifico, ma gestito qui in modo custom.
@@ -187,7 +185,6 @@ if (__stream != (FILE *)0x0) {
 }
 
 <img src="https://spaghetti-hacker.github.io/DLinklibputil.png" class="full-img">
-
 ;la funzione restituisce 1 quando trova "tftpd" nell'output di ps e 0 quando non lo trova o quando non riesce a leggere altre righe. È quindi più preciso descriverla come un controllo testuale dei processi, non come una verifica robusta dello stato del servizio. Il nome tftpd potrebbe comparire nell'output anche in circostanze che richiedono una valutazione più approfondita.
 
 section .IL_COLLEGAMENTO_TRAMITE_SIGNAL_HANDLER
@@ -263,7 +260,6 @@ if ((byte)(which_mode - 3U) < 2) {
 }
 
 <img src="https://spaghetti-hacker.github.io/DLinklibputil2.png" class="full-img">
-
 ;se check_tftpd() restituisce 0, la funzione avvia tftpd in background. Lo stesso schema condizionale viene usato per webfile_monitor. La chiamata telnetd -l /bin/sh avvia un demone Telnet configurato per eseguire /bin/sh come programma di login. Il frammento indica una shell non protetta da un meccanismo di autenticazione esplicitato nel comando.
 
 ;la funzione contiene inoltre queste operazioni:
