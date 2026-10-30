@@ -1,7 +1,27 @@
 {
- "source": "VULNERABILITIES",
+ "source": "GENERAL",
  "updated": "2026-10-30",
  "items": [
+  {
+   "title": "PHP2Shell Attacks Root Palo Alto Firewalls but Fail Against WordPress",
+   "link": "https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/",
+   "date": "2026-10-30"
+  },
+  {
+   "title": "In Other News: Anthropic Breach Dispute, UEFI Flaw Hits Most Servers, Cloudflare AI Data Leak",
+   "link": "https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/",
+   "date": "2026-10-30"
+  },
+  {
+   "title": "Passkeys Are Better Than Passwords. But They Are Not Enough.",
+   "link": "https://www.securityweek.com/passkeys-are-better-than-passwords-but-they-are-not-enough/",
+   "date": "2026-10-30"
+  },
+  {
+   "title": "Bulletproof Host Virtualine Loses Its Domain to FBI Seizure",
+   "link": "https://www.securityweek.com/bulletproof-host-virtualine-loses-its-domain-to-fbi-seizure/",
+   "date": "2026-10-30"
+  },
   {
    "title": "Fresh WordPress Vulnerability in Attackers’ Crosshairs",
    "link": "https://www.securityweek.com/fresh-wordpress-vulnerability-in-attackers-crosshairs/",
@@ -10,6 +30,11 @@
   {
    "title": "Drupal Commerce Core Vulnerability Exploited Against Online Stores",
    "link": "https://www.securityweek.com/drupal-commerce-core-vulnerability-exploited-against-online-stores/",
+   "date": "2026-10-30"
+  },
+  {
+   "title": "$2 Million+ Drained From Polymarket Traders in New Supply Chain Attack",
+   "link": "https://www.securityweek.com/2-million-drained-from-polymarket-traders-in-new-supply-chain-attack/",
    "date": "2026-10-30"
   },
   {
@@ -23,34 +48,9 @@
    "date": "2026-10-30"
   },
   {
-   "title": "Adobe, Veeam, Juniper Networks Patch Critical Vulnerabilities",
-   "link": "https://www.securityweek.com/adobe-veeam-juniper-networks-patch-critical-vulnerabilities/",
-   "date": "2026-10-29"
-  },
-  {
-   "title": "Cisco SD-WAN Zero-Day Exploitation Tied to Volt Typhoon’s ‘Silent Train’ Network",
-   "link": "https://www.securityweek.com/cisco-sd-wan-zero-day-exploitation-tied-to-volt-typhoons-silent-train-network/",
-   "date": "2026-10-29"
-  },
-  {
-   "title": "Attackers Exploit Second Cisco Firewall VPN Zero-Day Since August",
-   "link": "https://www.securityweek.com/attackers-exploit-second-cisco-firewall-vpn-zero-day-since-august/",
-   "date": "2026-10-29"
-  },
-  {
-   "title": "Chinese Hackers Quietly Used Low-Severity ESXi Logging Flaw as Zero-Day",
-   "link": "https://www.securityweek.com/chinese-hackers-quietly-used-low-severity-esxi-logging-flaw-as-zero-day/",
-   "date": "2026-10-29"
-  },
-  {
-   "title": "Chrome and Firefox Updates Patch Over 200 Vulnerabilities",
-   "link": "https://www.securityweek.com/chrome-and-firefox-updates-patch-over-200-vulnerabilities/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "TLS Flaws Found in GoAhead Web Server Used in Hundreds of Millions of Devices",
-   "link": "https://www.securityweek.com/tls-flaws-found-in-goahead-web-server-used-in-hundreds-of-millions-of-devices/",
-   "date": "2026-10-28"
+   "title": "$6 Billion Binance Hack Bears Hallmarks of North Korea’s TraderTraitor",
+   "link": "https://www.securityweek.com/6-billion-binance-hack-bears-hallmarks-of-north-koreas-tradertraitor/",
+   "date": "2026-10-30"
   }
  ]
 }
