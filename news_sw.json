@@ -1,6 +1,6 @@
 {
  "source": "VULNERABILITIES",
- "updated": "2026-10-30",
+ "updated": "2026-10-31",
  "items": [
   {
    "title": "PHP2Shell Attacks Root Palo Alto Firewalls but Fail Against WordPress",
