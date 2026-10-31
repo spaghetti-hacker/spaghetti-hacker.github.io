@@ -26,7 +26,7 @@ DESC_MAX = 400
 
 NVD_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-OUT_FILE = Path(__file__).with_name("/home/re/Desktop/SpaghettiHacker/spaghetti-hacker.github.io/cve_db.json")
+OUT_FILE = Path("/home/re/Desktop/SpaghettiHacker/spaghetti-hacker.github.io/cve_db.json")
 
 API_KEY = os.environ.get("NVD_API_KEY", "").strip()
 # senza chiave ~5 richieste / 30 s; con chiave ~50 / 30 s
