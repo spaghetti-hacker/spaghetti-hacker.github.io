@@ -2,17 +2,17 @@ CVE-2026-118579: REVERSE ENGINEERING STATICO DI UNA BACKDOOR ROOT NEL FIRMWARE D
 
 section .INTRODUZIONE
 
-;il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di bypassare i controlli di autenticazione e attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica rigorosa del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
+;il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di bypassare i controlli di autenticazione e attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
 
 section .CVE-2026-118579
 
-;una vulnerabilità nella funzione principale dello script di gestione web /secmark1524.cgi sul D-Link DIR-505 (firmware 1.10B02) consente a un utente malintenzionato di manipolare gli argomenti accu/pass/code/hash/cmds e creare una backdoor. Un utente malintenzionato in grado di raggiungere l'interfaccia web del router tramite la rete può ottenere il controllo del dispositivo, ed è disponibile un exploit pubblico.
+;una vulnerabilità (CWE-912 - Hidden Functionality) nella funzione principale dello script di gestione web /secmark1524.cgi sul D-Link DIR-505 (firmware 1.10B02) consente a un utente malintenzionato di manipolare gli argomenti accu/pass/code/hash/cmds e creare una backdoor. Un utente malintenzionato in grado di raggiungere l'interfaccia web del router tramite la rete può ottenere il controllo del dispositivo, ed è disponibile un exploit pubblico.
 
 _Come_Verificare:
 
-- controlla la versione del firmware nella pagina di amministrazione del router o nella schermata di stato; la versione interessata è la 1.10B02.
-- verifica se l'interfaccia di gestione web è raggiungibile da Internet, ad esempio dall'esterno della tua rete.
-- controlla la presenza di richieste sconosciute /secmark1524.cgi nei log del server web o nei log di accesso del router, se questi vengono conservati.
+- controllare la versione del firmware nella pagina di amministrazione del router o nella schermata di stato; la versione interessata è la 1.10B02.
+- verificare se l'interfaccia di gestione web è raggiungibile da Internet, ad esempio dall'esterno della tua rete.
+- controllare la presenza di richieste sconosciute /secmark1524.cgi nei log del server web o nei log di accesso del router, se questi vengono conservati.
 
 _Soluzione:
 
@@ -33,8 +33,8 @@ Fonte Firmware: https://drivers.softpedia.com/get/Router-Switch-Access-Point/D-L
 Riferimenti:
 - https://vuldb.com/cve/CVE-2026-118579
 - https://nvd.nist.gov/vuln/detail/cve-2026-118579
-Impatto potenziale: attivazione non autenticata di servizi privilegiati;
-Stato della verifica: catena ricostruita staticamente; 
+Impatto potenziale: attivazione non autenticata di servizi privilegiati
+Stato della verifica: catena ricostruita staticamente 
 Tag: Firmware Analysis, Reverse Engineering, Defensive Security, IoT Research
 
 section .NOTA_METODOLOGICA
@@ -60,7 +60,7 @@ section .EXECUTIVE_SUMMARY
 
 ;il dato più significativo non è il singolo endpoint, ma la convergenza di evidenze indipendenti: alias CGI, controlli rigidi su token, invio del segnale, registrazione dell'handler, risoluzione della destinazione tramite GOT e comandi di attivazione presenti nella libreria condivisa.
 
-;il codice analizzato è compatibile con una backdoor attivabile tramite una richiesta HTTP non autenticata. La shell Telnet root e l'accessibilità remota effettiva, tuttavia, richiedono una verifica dinamica sul dispositivo o in un ambiente di emulazione adeguato. 
+;il codice analizzato è compatibile con una backdoor (o un hook di manutenzione privilegiato) attivabile tramite una richiesta HTTP non autenticata. La shell Telnet root e l'accessibilità remota effettiva, tuttavia, richiedono una verifica dinamica sul dispositivo o in un ambiente di emulazione adeguato. 
 
 section .ARCHITETTURA_GENERALE
 
@@ -129,8 +129,6 @@ ENTRYPOINT ["binwalk"]
 ;l'esecuzione di binwalk -e -M sul componente firmware ha consentito di accedere ai binari del sistema, tra cui /usr/bin/my_cgi.cgi, /usr/bin/system_manager, /usr/bin/tftpd e /lib/libputil.so.
 
 section .ENDPOINT_CGI_E_TOKEN_DI_ATTIVAZIONE
-
-_Nascosto_non_significa_assente:
 
 ;il percorso /secmark1524.cgi non corrisponde a un file autonomo nel filesystem estratto. La configurazione CGI del server web contiene invece un alias:
 
@@ -338,8 +336,6 @@ Modalità test                   Scrittura di /tmp/test_mode e
 PIN WPS                         Scrittura prevista in /www/wps_default_pin.txt
 
 ;il percorso è compatibile con una compromissione critica qualora l'endpoint sia raggiungibile da un attaccante non autenticato e la catena venga eseguita con i privilegi del processo che gestisce i servizi. La gravità effettiva dipende anche dall'esposizione dell'interfaccia web, dalla configurazione del dispositivo e dal comportamento runtime dei demoni.
-
-;non viene assegnato qui un punteggio CVSS definitivo. Il valore 10.0 riportato in alcune descrizioni preliminari va considerato una stima da verificare rispetto al vettore effettivo, alla raggiungibilità, ai privilegi richiesti e all'impatto dimostrato. Analogamente, l'espressione Remote Root Shell descrive il comportamento suggerito dal codice, non un risultato di test end-to-end documentato in questo report.
 
 section .INDICATORI_DI_COMPROMISSIONE
 
