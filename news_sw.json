@@ -3,6 +3,16 @@
  "updated": "2026-11-02",
  "items": [
   {
+   "title": "Revolve Data Breach Impacts at Least 180,000 People",
+   "link": "https://www.securityweek.com/revolve-data-breach-impacts-at-least-180000-people/",
+   "date": "2026-11-02"
+  },
+  {
+   "title": "Google Introduces $250,000 Root-in-Cloud Bug Bounty Reward",
+   "link": "https://www.securityweek.com/google-introduces-250000-root-in-cloud-bug-bounty-reward/",
+   "date": "2026-11-02"
+  },
+  {
    "title": "Malicious Claude Code Extension Served in Cursor Supply Chain Attack",
    "link": "https://www.securityweek.com/malicious-claude-code-extension-served-in-cursor-supply-chain-attack/",
    "date": "2026-11-02"
@@ -40,16 +50,6 @@
   {
    "title": "PHP2Shell Attacks Root Palo Alto Firewalls but Fail Against WordPress",
    "link": "https://www.securityweek.com/php2shell-attacks-root-palo-alto-firewalls-but-fail-against-wordpress/",
-   "date": "2026-10-30"
-  },
-  {
-   "title": "In Other News: Anthropic Breach Dispute, UEFI Flaw Hits Most Servers, Cloudflare AI Data Leak",
-   "link": "https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/",
-   "date": "2026-10-30"
-  },
-  {
-   "title": "Passkeys Are Better Than Passwords. But They Are Not Enough.",
-   "link": "https://www.securityweek.com/passkeys-are-better-than-passwords-but-they-are-not-enough/",
    "date": "2026-10-30"
   }
  ]
