@@ -3,6 +3,11 @@
  "updated": "2026-11-02",
  "items": [
   {
+   "title": "Polymarket Returns $3.9 Million to Traders as DebugBear Cites DNS Hijack",
+   "link": "https://www.securityweek.com/polymarket-returns-3-9-million-to-traders-as-debugbear-cites-dns-hijack/",
+   "date": "2026-11-02"
+  },
+  {
    "title": "FBI Flags Over 600 Addresses Tied to North Korea’s Binance Heist",
    "link": "https://www.securityweek.com/fbi-flags-over-600-addresses-tied-to-north-koreas-binance-heist/",
    "date": "2026-11-02"
@@ -45,11 +50,6 @@
   {
    "title": "Fresh WordPress Vulnerability in Attackers’ Crosshairs",
    "link": "https://www.securityweek.com/fresh-wordpress-vulnerability-in-attackers-crosshairs/",
-   "date": "2026-10-30"
-  },
-  {
-   "title": "Drupal Commerce Core Vulnerability Exploited Against Online Stores",
-   "link": "https://www.securityweek.com/drupal-commerce-core-vulnerability-exploited-against-online-stores/",
    "date": "2026-10-30"
   }
  ]

@@ -2,7 +2,23 @@ CVE-2026-118579: REVERSE ENGINEERING STATICO DI UNA BACKDOOR ROOT NEL FIRMWARE D
 
 section .INTRODUZIONE
 
-Il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di bypassare i controlli di autenticazione e attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica rigorosa del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
+;il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di bypassare i controlli di autenticazione e attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica rigorosa del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
+
+section .CVE-2026-118579
+
+;una vulnerabilità nella funzione principale dello script di gestione web /secmark1524.cgi sul D-Link DIR-505 (firmware 1.10B02) consente a un utente malintenzionato di manipolare gli argomenti accu/pass/code/hash/cmds e creare una backdoor. Un utente malintenzionato in grado di raggiungere l'interfaccia web del router tramite la rete può ottenere il controllo del dispositivo, ed è disponibile un exploit pubblico.
+
+_Come_Verificare:
+
+- controlla la versione del firmware nella pagina di amministrazione del router o nella schermata di stato; la versione interessata è la 1.10B02.
+- verifica se l'interfaccia di gestione web è raggiungibile da Internet, ad esempio dall'esterno della tua rete.
+- controlla la presenza di richieste sconosciute /secmark1524.cgi nei log del server web o nei log di accesso del router, se questi vengono conservati.
+
+_Soluzione:
+
+- sconosciuta: le fonti non specificano una versione firmware corretta né un avviso del fornitore.
+- fino a quando non verrà confermata una soluzione, disabilitare l'amministrazione web remota e limitare l'accesso all'interfaccia di amministrazione agli indirizzi interni attendibili.
+- sostituire il dispositivo se il fornitore non pubblica una soluzione.
 
 section .METADATI
 
