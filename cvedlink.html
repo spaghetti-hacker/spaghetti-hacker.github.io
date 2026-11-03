@@ -366,4 +366,9 @@ section .CONCLUSIONI
 ;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc1.png" class="full-img">
+;la richiesta POST /secmark1524.cgi con esattamente cinque i campi hardcoded aggira la logica di autenticazione web e ordina al gestore di sistema (system_manager, segnale di runtime 44) di avviare un demone TFTP e non autenticato con privilegi di root e l'esecuzione di telnted -l /bin/sh. 
+
 <img src="https://spaghetti-hacker.github.io/dlinkpoc2.png" class="full-img">
+;un utente malintenzionato può quindi leggere file arbitrari dal dispositivo, incluso /etc/shadow.
+
+
