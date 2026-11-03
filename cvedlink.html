@@ -366,9 +366,9 @@ section .CONCLUSIONI
 ;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc1.png" class="full-img">
-;la richiesta POST /secmark1524.cgi con esattamente cinque i campi hardcoded aggira la logica di autenticazione web e ordina al gestore di sistema (system_manager, segnale di runtime 44) di avviare un demone TFTP e non autenticato con privilegi di root e l'esecuzione di telnted -l /bin/sh. 
+;la richiesta POST /secmark1524.cgi, contenente esattamente cinque campi hardcoded, consente di aggirare la logica di autenticazione dell'interfaccia web del dispositivo. La richiesta attiva una specifica funzionalità del gestore di sistema (system_manager) attraverso l'invio del segnale di runtime 44, inducendolo ad avviare un demone TFTP e a eseguire il comando telnted -l /bin/sh con privilegi di root, senza richiedere alcuna autenticazione preventiva. In questo modo, un attaccante remoto può ottenere l'accesso a una shell di sistema con privilegi elevati, compromettendo potenzialmente la sicurezza del dispositivo.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc2.png" class="full-img">
-;un utente malintenzionato può quindi leggere file arbitrari dal dispositivo, incluso /etc/shadow.
+;una volta ottenuto l'accesso alla shell, l'attaccante può sfruttare la shell per leggere file arbitrari presenti nel filesystem del dispositivo, inclusi file contenenti informazioni sensibili. Tra questi, /etc/shadow, che memorizza gli hash delle password degli account locali. L'esposizione di tali informazioni può consentire ulteriori attività di compromissione, come il tentativo di recuperare le password originali mediante attacchi offline agli hash estratti.
 
 
