@@ -1,7 +1,12 @@
 {
  "source": "GENERAL",
- "updated": "2026-11-02",
+ "updated": "2026-11-03",
  "items": [
+  {
+   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+   "date": "2026-11-03"
+  },
   {
    "title": "Cybersecurity M&A Roundup: 37 Deals Announced in October 2026",
    "link": "https://www.securityweek.com/cybersecurity-ma-roundup-37-deals-announced-in-october-2026/",
@@ -13,7 +18,7 @@
    "date": "2026-11-02"
   },
   {
-   "title": "Revolve Data Breach Impacts at Least 180,000 People",
+   "title": "Revolve Data Breach Impacts at Least 200,000 People",
    "link": "https://www.securityweek.com/revolve-data-breach-impacts-at-least-180000-people/",
    "date": "2026-11-02"
   },
@@ -46,11 +51,6 @@
    "title": "Ivanti Patches Two More Zero-Days Exploited in Connect Secure Attack Chain",
    "link": "https://www.securityweek.com/ivanti-patches-two-more-zero-days-exploited-in-connect-secure-attack-chain/",
    "date": "2026-11-02"
-  },
-  {
-   "title": "Northstar Security Exits Stealth With $7M to Expose Toxic Risk Combinations",
-   "link": "https://www.securityweek.com/northstar-security-exits-stealth-with-7m-to-expose-toxic-risk-combinations/",
-   "date": "2026-11-01"
   }
  ]
 }
