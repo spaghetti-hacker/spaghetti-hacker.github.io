@@ -2,12 +2,13 @@ CVE-2026-118579: REVERSE ENGINEERING E VERIFICA DINAMICA DI UNA BACKDOOR ROOT NE
 
 section .INTRODUZIONE
 
-;il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
+;il presente write-up documenta l'analisi della CVE-2026-118579 attraverso reverse engineering statico e verifica dinamica del firmware; la CVE-2026-118579 è una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
 
 section .CVE-2026-118579
 
-;una vulnerabilità (CWE-912 - Hidden Functionality) nella funzione principale dello script di gestione web /secmark1524.cgi sul D-Link DIR-505 (firmware 1.10B02) consente a un utente malintenzionato di manipolare gli argomenti accu/pass/code/hash/cmds e creare una backdoor. Un utente malintenzionato in grado di raggiungere l'interfaccia web del router tramite la rete può ottenere il controllo del dispositivo, ed è disponibile un exploit pubblico.
+;la descrizione pubblicata dalla CNA classifica il problema come CWE-912 (Hidden Functionality) e attribuisce la vulnerabilità alla manipolazione dei parametri accu/pass/code/hash/cmds nell'interfaccia Web Management CGI.
 
+;una vulnerabilità nella funzione principale dello script di gestione web /secmark1524.cgi sul D-Link DIR-505 (firmware 1.10B02) consente a un utente malintenzionato di manipolare gli argomenti accu/pass/code/hash/cmds e creare una backdoor. Un utente malintenzionato in grado di raggiungere l'interfaccia web del router tramite la rete può ottenere il controllo del dispositivo, ed è disponibile un exploit pubblico.
 
 _Come_Verificare:
 
@@ -75,7 +76,7 @@ section .EXECUTIVE_SUMMARY
 
 ;il dato più significativo non è il singolo endpoint, ma la convergenza di evidenze indipendenti: alias CGI, controlli rigidi su token, invio del segnale, registrazione dell'handler, risoluzione della destinazione tramite GOT e comandi di attivazione presenti nella libreria condivisa.
 
-;il codice analizzato è compatibile con una backdoor (o un hook di manutenzione privilegiato) attivabile tramite una richiesta HTTP non autenticata. La shell Telnet root e l'accessibilità remota effettiva, tuttavia, richiedono una verifica dinamica sul dispositivo o in un ambiente di emulazione adeguato. 
+;il codice analizzato è compatibile con una backdoor (o un hook di manutenzione privilegiato) attivabile tramite una richiesta HTTP non autenticata. La verifica dinamica in ambiente isolato ha confermato l'attivazione della shell Telnet con privilegi root. Il risultato dimostra il comportamento della catena nell'ambiente testato, senza implicare automaticamente che ogni configurazione del dispositivo sia raggiungibile da Internet.
 
 section .ARCHITETTURA_GENERALE
 
@@ -303,7 +304,7 @@ if ((byte)(which_mode - 3U) < 2) {
 }
 
 <img src="https://spaghetti-hacker.github.io/DLinklibputil2.png" class="full-img">
-;se check_tftpd() restituisce 0, la funzione avvia tftpd in background. Lo stesso schema condizionale viene usato per webfile_monitor. La chiamata telnetd -l /bin/sh avvia un demone Telnet configurato per eseguire /bin/sh come programma di login. Il frammento indica una shell non protetta da un meccanismo di autenticazione esplicitato nel comando.
+;se check_tftpd() restituisce 0, la funzione avvia tftpd in background. Lo stesso schema condizionale viene usato per webfile_monitor. La chiamata telnetd -l /bin/sh avvia un demone Telnet configurato per eseguire /bin/sh come programma di login. 
 
 ;la funzione contiene inoltre queste operazioni:
 
@@ -322,8 +323,6 @@ set_leds(2);
 
 ;la funzione recupera il PIN WPS e lo scrive in /www/wps_default_pin.txt. Crea o aggiorna inoltre indicatori della modalità test in /tmp/test_mode e /www/test_mode.txt, avvia generate_chklst, arresta udhcpc e richiama set_leds(2). La combinazione di servizi di manutenzione, shell e modifiche allo stato operativo potrebbe essere coerente con una routine diagnostica privilegiata.
 
-;_system: forse un artefatto di decompilazione per una sequenza snprintf + system, o wrapper proprietario
-
 section .EVIDENZE_SU_TFTPD
 
 ;nel binario /usr/bin/tftpd è presente la stringa:
@@ -334,17 +333,17 @@ echo tftpd_ready=1 > /www/tftpd_ready.txt
 
 section .IMPATTO_E_CLASSIFICAZIONE
 
-;le evidenze statiche supportano la presenza nel firmware di un percorso di attivazione non documentato che parte da un endpoint CGI e raggiunge una funzione di manutenzione con comandi privilegiati. La classificazione del rischio deve però distinguere le proprietà osservate direttamente dalle condizioni non ancora verificate dinamicamente.
+;le evidenze statiche e dinamiche supportano la presenza nel firmware di un percorso di attivazione non documentato che parte da un endpoint CGI e raggiunge una funzione di manutenzione con comandi privilegiati. La verifica dinamica ha confermato l'avvio di una shell Telnet con privilegi root nell'ambiente isolato. La raggiungibilità effettiva da parte di un attaccante dipende comunque dall'esposizione e dalla configurazione dell'interfaccia web.
 
 Aspetto                         Evidenza disponibile
 
 Endpoint CGI                    Alias verso /www/my_cgi.cgi nella configurazione
-Autenticazione del trigger      Nel ramo analizzato, i cinque token hardcoded
-                                costituiscono il controllo applicativo osservato
+Controllo Applicativo           Cinque token hardcoded verificati tramite 
+                                confronti nel CGI. 
 Attivazione                     Invio del segnale 0x2c al PID letto dal file
                                 /var/run/system_manager.pid
-Destinazione del signal handler GOT 0x4164fc risolta a execute_cmd_func1
-                                in libputil.so
+Destinazione del signal handler Riferimento GOT 0x4164fc associato da Ghidra al 
+                                simbolo execute_cmd_func1 in libputil.so
 Shell Telnet                    Comando telnetd -l /bin/sh presente nella funzione
 TFTP                            Comando tftpd & e stringa relativa al file
                                 /www/tftpd_ready.txt presenti nel firmware
@@ -354,7 +353,7 @@ PIN WPS                         Scrittura prevista in /www/wps_default_pin.txt
 
 ;il percorso è compatibile con una compromissione critica qualora l'endpoint sia raggiungibile da un attaccante non autenticato e la catena venga eseguita con i privilegi del processo che gestisce i servizi. La gravità effettiva dipende anche dall'esposizione dell'interfaccia web, dalla configurazione del dispositivo e dal comportamento runtime dei demoni.
 
-section .INDICATORI_DI_COMPROMISSIONE
+section .INDICATORI_POTENZIALI_DI_COMPROMISSIONE
 
 Gli artefatti seguenti sono indicatori potenziali dell'attivazione della routine. La loro assenza non esclude necessariamente un'attivazione precedente, mentre la loro presenza deve essere interpretata nel contesto del dispositivo.
 
@@ -378,9 +377,9 @@ section .CONCLUSIONI
 
 ;il passaggio decisivo è stato l'esame dell'assembly MIPS. Il pseudocodice di Ghidra mostrava una destinazione indiretta fuorviante; il caricamento gp-relative a -32660, il calcolo dell'indirizzo 0x4164fc e la voce GOT associata a execute_cmd_func1 hanno permesso di ricostruire la destinazione del salto. La funzione, individuata in libputil.so, contiene comandi per avviare servizi di manutenzione, una shell Telnet tramite /bin/sh e la scrittura di file relativi alla modalità test e al PIN WPS.
 
-;nel complesso, le evidenze sono fortemente compatibili con una backdoor o un hook di manutenzione privilegiato esposto attraverso il livello CGI. La formulazione più rigorosa, in assenza di una dimostrazione dinamica documentata, è che il firmware contiene una catena statica di attivazione con potenziale impatto critico, inclusa l'esecuzione di telnetd -l /bin/sh.
+;nel complesso, le evidenze statiche e dinamiche sono compatibili con una backdoor o un hook di manutenzione privilegiato esposto attraverso il livello CGI. La verifica in emulazione ha confermato l'attivazione di una shell con privilegi root nell'ambiente testato.
 
-;disclaimer: questo report descrive un'analisi statica/dinamica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
+;disclaimer: le verifiche dinamiche sono state effettuate esclusivamente in ambiente controllato e a scopo di ricerca e difesa.
 
 section .VERIFICA_DINAMICA
 
@@ -393,7 +392,7 @@ section .VERIFICA_DINAMICA
 ;le evidenze dinamiche confermano quindi che la catena non si limita alla presenza statica del comando telnetd -l /bin/sh, ma consente effettivamente di ottenere una shell con privilegi elevati nell'ambiente testato.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc1.png" class="full-img">
-;la richiesta POST /secmark1524.cgi, contenente esattamente cinque campi hardcoded, consente di aggirare la logica di autenticazione dell'interfaccia web del dispositivo. La richiesta attiva una specifica funzionalità del gestore di sistema (system_manager) attraverso l'invio del segnale di runtime 44, inducendolo ad avviare un demone TFTP e a eseguire il comando telnetd -l /bin/sh con privilegi di root, senza richiedere alcuna autenticazione preventiva. In questo modo, un attaccante remoto può ottenere l'accesso a una shell di sistema con privilegi elevati, compromettendo potenzialmente la sicurezza del dispositivo.
+;la richiesta POST /secmark1524.cgi, contenente esattamente cinque campi hardcoded, consente l'attivazione di servizi privilegiati. La richiesta attiva una specifica funzionalità del gestore di sistema (system_manager) attraverso l'invio del segnale di runtime 44, inducendolo ad avviare un demone TFTP e a eseguire il comando telnetd -l /bin/sh con privilegi di root, senza richiedere alcuna autenticazione preventiva. In questo modo, un attaccante remoto può ottenere l'accesso a una shell di sistema con privilegi elevati, compromettendo potenzialmente la sicurezza del dispositivo.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc2.png" class="full-img">
 ;una volta ottenuto l'accesso alla shell, l'attaccante può sfruttare la shell per leggere file arbitrari presenti nel filesystem del dispositivo, inclusi file contenenti informazioni sensibili. Tra questi, /etc/shadow, che memorizza gli hash delle password degli account locali. L'esposizione di tali informazioni può consentire ulteriori attività di compromissione, come il tentativo di recuperare le password originali mediante attacchi offline agli hash estratti.
