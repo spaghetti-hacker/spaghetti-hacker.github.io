@@ -126,6 +126,8 @@ ENTRYPOINT ["binwalk"]
 
 ;il container isola le dipendenze dell'estrazione dall'ambiente host. La compilazione di sasquatch fornisce un estrattore adatto alla variante SquashFS incontrata. Il filesystem risultante è stato individuato sotto squashfs-root.
 
+docker run --rm -it -v "$(pwd)":/workdir mybinwalk:latest -e -M /workdir/DIR-505_A1_FW110B02.bin
+
 ;l'esecuzione di binwalk -e -M sul componente firmware ha consentito di accedere ai binari del sistema, tra cui /usr/bin/my_cgi.cgi, /usr/bin/system_manager, /usr/bin/tftpd e /lib/libputil.so.
 
 section .ENDPOINT_CGI_E_TOKEN_DI_ATTIVAZIONE
@@ -263,7 +265,26 @@ indirizzo GOT = 0x41e490 - 0x7f94 = 0x4164fc
 
 004164fc  00 40 57 80  addr  <EXTERNAL>::execute_cmd_func1
 
-;la voce GOT punta a execute_cmd_func1, simbolo esterno risolto tramite la libreria condivisa. La risoluzione del puntatore collega il ramo del signal handler alla funzione esportata con quel nome. È questo passaggio, ricostruito dall'assembly e verificato sulla GOT, a superare l'ambiguità del pseudocodice generato da Ghidra.
+;la voce GOT individuata all'indirizzo 0x4164fc contiene il valore 0x00405780, associato da Ghidra al simbolo esterno execute_cmd_func1.
+
+;l'indirizzo 0x00405780 identifica una THUNK FUNCTION, ovvero uno stub di collegamento che trasferisce il controllo alla funzione esterna attraverso un ulteriore riferimento alla GOT.
+
+;la thunk esegue le seguenti istruzioni MIPS:
+
+00405780  lw    t9,-0x7ff0(gp)    ;carica il puntatore dalla GOT
+00405784  move  t7,ra            ;salva il return address
+00405788  jalr  t9               ;trasferisce il controllo alla funzione puntata
+0040578c  li    t8,0x1b          ;istruzione nello slot di delay
+
+;la catena di risoluzione è quindi:
+
+gp = 0x41e490
+offset -32660 (-0x7f94)
+indirizzo della voce GOT: 0x4164fc
+contenuto della voce GOT: 0x00405780
+destinazione intermedia: thunk execute_cmd_func1
+
+;la thunk recupera a sua volta il puntatore alla funzione effettiva dalla GOT tramite lw t9,-0x7ff0(gp) e trasferisce il controllo mediante jalr t9. Il simbolo execute_cmd_func1 è pertanto associato alla thunk da Ghidra; la destinazione effettiva dell'indirezione deve essere verificata esaminando il contenuto della relativa voce GOT al momento dell'esecuzione.
 
 section .LA_FUNZIONE execute_cmd_func1
 
@@ -366,7 +387,7 @@ section .CONCLUSIONI
 ;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc1.png" class="full-img">
-;la richiesta POST /secmark1524.cgi, contenente esattamente cinque campi hardcoded, consente di aggirare la logica di autenticazione dell'interfaccia web del dispositivo. La richiesta attiva una specifica funzionalità del gestore di sistema (system_manager) attraverso l'invio del segnale di runtime 44, inducendolo ad avviare un demone TFTP e a eseguire il comando telnted -l /bin/sh con privilegi di root, senza richiedere alcuna autenticazione preventiva. In questo modo, un attaccante remoto può ottenere l'accesso a una shell di sistema con privilegi elevati, compromettendo potenzialmente la sicurezza del dispositivo.
+;la richiesta POST /secmark1524.cgi, contenente esattamente cinque campi hardcoded, consente di aggirare la logica di autenticazione dell'interfaccia web del dispositivo. La richiesta attiva una specifica funzionalità del gestore di sistema (system_manager) attraverso l'invio del segnale di runtime 44, inducendolo ad avviare un demone TFTP e a eseguire il comando telnetd -l /bin/sh con privilegi di root, senza richiedere alcuna autenticazione preventiva. In questo modo, un attaccante remoto può ottenere l'accesso a una shell di sistema con privilegi elevati, compromettendo potenzialmente la sicurezza del dispositivo.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc2.png" class="full-img">
 ;una volta ottenuto l'accesso alla shell, l'attaccante può sfruttare la shell per leggere file arbitrari presenti nel filesystem del dispositivo, inclusi file contenenti informazioni sensibili. Tra questi, /etc/shadow, che memorizza gli hash delle password degli account locali. L'esposizione di tali informazioni può consentire ulteriori attività di compromissione, come il tentativo di recuperare le password originali mediante attacchi offline agli hash estratti.
