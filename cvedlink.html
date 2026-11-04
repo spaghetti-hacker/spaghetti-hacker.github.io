@@ -283,7 +283,7 @@ indirizzo GOT = 0x41e490 - 0x7f94 = 0x4164fc
 
 ;Ghidra identifica il riferimento come execute_cmd_func1, funzione esterna collegata a libputil.so. La risoluzione del riferimento tramite GOT consente di ricondurre il salto indiretto dell'handler alla funzione di attivazione dei servizi di manutenzione.
 
-section .LA_FUNZIONE execute_cmd_func1
+section .LA_FUNZIONE_EXECUTE_CMD_FUNC1
 
 La ricerca del simbolo nei binari condivisi individua execute_cmd_func1 in libputil.so. Il decompilato mostra la sequenza di azioni associata al trigger:
 
