@@ -1,12 +1,13 @@
-CVE-2026-118579: REVERSE ENGINEERING STATICO DI UNA BACKDOOR ROOT NEL FIRMWARE D-LINK DIR-505
+CVE-2026-118579: REVERSE ENGINEERING E VERIFICA DINAMICA DI UNA BACKDOOR ROOT NEL FIRMWARE D-LINK DIR-505
 
 section .INTRODUZIONE
 
-;il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di bypassare i controlli di autenticazione e attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
+;il presente write-up documenta l'analisi statica della CVE-2026-118579, una vulnerabilità critica presente nel firmware del router D-Link DIR-505 A1 (versione 1.10B02). Partendo da una classificazione iniziale generica, l'indagine ha ricostruito a livello di assembly MIPS e codice decompilato l'intera kill chain di una backdoor nascosta. Il percorso tracciato attraversa più binari di sistema, dal web server my_cgi.cgi al demone system_manager, fino alla libreria condivisa libputil.so, dimostrando come una specifica sequenza di token hardcoded, inviata tramite un endpoint CGI offuscato, sia in grado di attivare servizi privilegiati di manutenzione. L'obiettivo di questa analisi è fornire una mappatura tecnica del meccanismo, evidenziando le insidie dell'analisi statica su architetture embedded (come la risoluzione delle chiamate indirette tramite GOT) e fornendo indicatori di compromissione (IoC) utili per le attività di difesa e rilevamento.
 
 section .CVE-2026-118579
 
 ;una vulnerabilità (CWE-912 - Hidden Functionality) nella funzione principale dello script di gestione web /secmark1524.cgi sul D-Link DIR-505 (firmware 1.10B02) consente a un utente malintenzionato di manipolare gli argomenti accu/pass/code/hash/cmds e creare una backdoor. Un utente malintenzionato in grado di raggiungere l'interfaccia web del router tramite la rete può ottenere il controllo del dispositivo, ed è disponibile un exploit pubblico.
+
 
 _Come_Verificare:
 
@@ -20,30 +21,44 @@ _Soluzione:
 - fino a quando non verrà confermata una soluzione, disabilitare l'amministrazione web remota e limitare l'accesso all'interfaccia di amministrazione agli indirizzi interni attendibili.
 - sostituire il dispositivo se il fornitore non pubblica una soluzione.
 
+_Riferimenti_E_ATTRIBUIZIONE:
+
+;la vulnerabilità è registrata come CVE-2026-118579. Il record ufficiale attribuisce la segnalazione originaria a Walnut1337 (VulDB User), accreditato come reporter. VulDB è la CNA responsabile dell'assegnazione dell'identificativo CVE.
+
+;il riferimento pubblico associato alla vulnerabilità include il PoC disponibile nel repository GitHub dell'autore:
+
+;CVE: https://www.cve.org/CVERecord?id=CVE-2026-118579
+;VulDB: https://vuldb.com/vuln/428018
+
+;il presente lavoro non rivendica la scoperta originaria della vulnerabilità. Documenta un'attività indipendente di reverse engineering del firmware D-Link DIR-505 A1, versione 1.10B02, comprendente l'analisi dei binari, la ricostruzione del flusso di esecuzione e la verifica dinamica in ambiente di emulazione isolato.
+
 section .METADATI
 
 Autore: HCF
 Target: D-Link DIR-505 A1, firmware 1.10B02
 CVE: CVE-2026-118579
 Architettura: MIPS 
-Tipologia: analisi statica di firmware embedded
+Tipologia: reverse engineering statico e verifica dinamica in emulazione
 Strumenti: Binwalk, sasquatch, Docker, Ghidra, objdump, readelf, strings
 Componenti rilevanti: my_cgi.cgi, system_manager, libputil.so, tftpd
 Fonte Firmware: https://drivers.softpedia.com/get/Router-Switch-Access-Point/D-Link/D-Link-DIR-505-revA1-A2-Router-Firmware-110B02.shtml?spm=a2ty_o01.29997173.0.0.3c0fc921Jeo9I5#download
+SHA256 Firmware: 0c343abba009de2641eabb6305936c452df69d9bb341aa465dcc438d8fe06fb0
 Riferimenti:
 - https://vuldb.com/cve/CVE-2026-118579
 - https://nvd.nist.gov/vuln/detail/cve-2026-118579
-Impatto potenziale: attivazione non autenticata di servizi privilegiati
-Stato della verifica: catena ricostruita staticamente 
+Impatto potenziale: esecuzione di comandi privilegiati e accesso a shell root
+Stato della verifica: catena ricostruita staticamente e validata dinamicamente in ambiente isolato
 Tag: Firmware Analysis, Reverse Engineering, Defensive Security, IoT Research
 
 section .NOTA_METODOLOGICA
 
-;questo report documenta un'analisi statica del firmware D-Link DIR-505 A1 1.10B02. L'obiettivo è ricostruire il percorso che collega un endpoint CGI nascosto a una funzione in grado di avviare servizi privilegiati.
+;questo report documenta un'attività di reverse engineering statico e verifica dinamica del firmware D-Link DIR-505 A1 1.10B02.
 
-;le conclusioni si basano sul filesystem estratto, sul codice decompilato e sull'assembly dei binari analizzati, oltre che sui simboli e sulle stringhe presenti nelle librerie. L'analisi ha ricostruito il flusso dal controllo dei parametri in my_cgi.cgi, all'invio del segnale 44 a system_manager, fino alla funzione execute_cmd_func1 in libputil.so.
+;l'analisi statica è stata condotta sul filesystem estratto, sui binari MIPS, sul codice decompilato e sulle librerie condivise. L'obiettivo è ricostruire il percorso che collega l'endpoint CGI nascosto alla funzione responsabile dell'attivazione dei servizi privilegiati.
 
-;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
+;la ricostruzione è stata successivamente confrontata con il comportamento osservato in un ambiente di emulazione isolato, nel quale è stato verificato l'avvio del servizio Telnet e l'accesso a una shell con privilegi root.
+
+;disclaimer: le verifiche dinamiche sono state effettuate esclusivamente in ambiente controllato e a scopo di ricerca e difesa.
 
 section .EXECUTIVE_SUMMARY
 
@@ -55,7 +70,7 @@ section .EXECUTIVE_SUMMARY
 2) my_cgi.cgi verifica che la richiesta contenga cinque parametri e che SCRIPT_NAME corrisponda all'endpoint atteso.
 3) Il codice confronta i valori ricevuti con cinque stringhe hardcoded. Se tutti i confronti hanno esito positivo e check_tftpd() restituisce 0, il CGI invia il segnale 44 al processo identificato da /var/run/system_manager.pid.
 4) system_manager registra un handler per il segnale 44.
-5) L'handler effettua un salto indiretto risolto tramite la Global Offset Table (GOT). Il valore presente all'indirizzo 0x4164fc punta a execute_cmd_func1, funzione esportata da libputil.so.
+5) L'handler effettua un salto indiretto risolto tramite GOT. Ghidra associa il riferimento al simbolo execute_cmd_func1, collegato a libputil.so.
 6) execute_cmd_func1 contiene chiamate che avviano tftpd, webfile_monitor e telnetd -l /bin/sh, attivano indicatori di modalità test e scrivono il PIN WPS in un file sotto /www.
 
 ;il dato più significativo non è il singolo endpoint, ma la convergenza di evidenze indipendenti: alias CGI, controlli rigidi su token, invio del segnale, registrazione dell'handler, risoluzione della destinazione tramite GOT e comandi di attivazione presenti nella libreria condivisa.
@@ -183,7 +198,7 @@ if (iVar5 == 5) {
 <img src="https://spaghetti-hacker.github.io/DLinkmain2OK.png" class="full-img">
 ;il valore iVar5 == 5 indica che tutti i controlli previsti sono andati a buon fine. check_tftpd() verifica se tftpd risulta già attivo. Solo quando restituisce 0 il CGI invoca send_signal() con il segnale 0x2c, pari a 44 decimale, e restituisce il messaggio di successo. Il messaggio HTTP non prova da solo che l'handler abbia completato tutte le azioni successive.
 
-;0x2c (44 decimale, che corrisponde a SIGRTMIN+10 o un segnale realtime riservato, a seconda della definizione nel kernel specifico, ma gestito qui in modo custom.
+;0x2c (44 decimale, gestito da un handler custom.) 
 
 section .CHECK_TFTPD
 
@@ -261,30 +276,11 @@ gp       = 0x41e490
 offset   = -32660 = -0x7f94
 indirizzo GOT = 0x41e490 - 0x7f94 = 0x4164fc
 
-;la voce all'indirizzo 0x4164fc è:
+;la voce GOT all'indirizzo 0x4164fc è:
 
 004164fc  00 40 57 80  addr  <EXTERNAL>::execute_cmd_func1
 
-;la voce GOT individuata all'indirizzo 0x4164fc contiene il valore 0x00405780, associato da Ghidra al simbolo esterno execute_cmd_func1.
-
-;l'indirizzo 0x00405780 identifica una THUNK FUNCTION, ovvero uno stub di collegamento che trasferisce il controllo alla funzione esterna attraverso un ulteriore riferimento alla GOT.
-
-;la thunk esegue le seguenti istruzioni MIPS:
-
-00405780  lw    t9,-0x7ff0(gp)    ;carica il puntatore dalla GOT
-00405784  move  t7,ra            ;salva il return address
-00405788  jalr  t9               ;trasferisce il controllo alla funzione puntata
-0040578c  li    t8,0x1b          ;istruzione nello slot di delay
-
-;la catena di risoluzione è quindi:
-
-gp = 0x41e490
-offset -32660 (-0x7f94)
-indirizzo della voce GOT: 0x4164fc
-contenuto della voce GOT: 0x00405780
-destinazione intermedia: thunk execute_cmd_func1
-
-;la thunk recupera a sua volta il puntatore alla funzione effettiva dalla GOT tramite lw t9,-0x7ff0(gp) e trasferisce il controllo mediante jalr t9. Il simbolo execute_cmd_func1 è pertanto associato alla thunk da Ghidra; la destinazione effettiva dell'indirezione deve essere verificata esaminando il contenuto della relativa voce GOT al momento dell'esecuzione.
+;Ghidra identifica il riferimento come execute_cmd_func1, funzione esterna collegata a libputil.so. La risoluzione del riferimento tramite GOT consente di ricondurre il salto indiretto dell'handler alla funzione di attivazione dei servizi di manutenzione.
 
 section .LA_FUNZIONE execute_cmd_func1
 
@@ -326,7 +322,7 @@ set_leds(2);
 
 ;la funzione recupera il PIN WPS e lo scrive in /www/wps_default_pin.txt. Crea o aggiorna inoltre indicatori della modalità test in /tmp/test_mode e /www/test_mode.txt, avvia generate_chklst, arresta udhcpc e richiama set_leds(2). La combinazione di servizi di manutenzione, shell e modifiche allo stato operativo potrebbe essere coerente con una routine diagnostica privilegiata.
 
-;_system: probabile artefatto di decompilazione per una sequenza snprintf + system, o wrapper proprietario
+;_system: forse un artefatto di decompilazione per una sequenza snprintf + system, o wrapper proprietario
 
 section .EVIDENZE_SU_TFTPD
 
@@ -384,7 +380,17 @@ section .CONCLUSIONI
 
 ;nel complesso, le evidenze sono fortemente compatibili con una backdoor o un hook di manutenzione privilegiato esposto attraverso il livello CGI. La formulazione più rigorosa, in assenza di una dimostrazione dinamica documentata, è che il firmware contiene una catena statica di attivazione con potenziale impatto critico, inclusa l'esecuzione di telnetd -l /bin/sh.
 
-;disclaimer: questo report descrive un'analisi statica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
+;disclaimer: questo report descrive un'analisi statica/dinamica a scopo di ricerca e difesa. Le verifiche dinamiche devono essere svolte esclusivamente su dispositivi propri o in ambienti per i quali si dispone di autorizzazione esplicita.
+
+section .VERIFICA_DINAMICA
+
+;la ricostruzione statica della catena è stata affiancata da una verifica dinamica in ambiente di emulazione isolato.
+
+;dopo l'attivazione della funzionalità attraverso l'endpoint CGI, è stato verificato l'avvio del servizio Telnet e l'accesso alla shell /bin/sh.
+
+;la verifica dei privilegi ha confermato che la shell opera con privilegi root. Tra le prove effettuate è stata verificata la possibilità di leggere /etc/shadow, file normalmente accessibile esclusivamente a root o a soggetti dotati di privilegi equivalenti.
+
+;le evidenze dinamiche confermano quindi che la catena non si limita alla presenza statica del comando telnetd -l /bin/sh, ma consente effettivamente di ottenere una shell con privilegi elevati nell'ambiente testato.
 
 <img src="https://spaghetti-hacker.github.io/dlinkpoc1.png" class="full-img">
 ;la richiesta POST /secmark1524.cgi, contenente esattamente cinque campi hardcoded, consente di aggirare la logica di autenticazione dell'interfaccia web del dispositivo. La richiesta attiva una specifica funzionalità del gestore di sistema (system_manager) attraverso l'invio del segnale di runtime 44, inducendolo ad avviare un demone TFTP e a eseguire il comando telnetd -l /bin/sh con privilegi di root, senza richiedere alcuna autenticazione preventiva. In questo modo, un attaccante remoto può ottenere l'accesso a una shell di sistema con privilegi elevati, compromettendo potenzialmente la sicurezza del dispositivo.
