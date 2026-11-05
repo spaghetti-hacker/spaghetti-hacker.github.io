@@ -22,7 +22,7 @@
               "type": "object",
               "properties": {
                 "title": { "type": "string" },
-                "url": { "type": "string" }
+                "url": { "type": "string", "pattern": "^https://[^/]+/.+", "description": "URL diretto dell'articolo, mai la home del sito" }
               },
               "required": ["title", "url"],
               "additionalProperties": false
