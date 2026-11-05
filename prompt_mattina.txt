@@ -1,0 +1,26 @@
+Cerca sul web le notizie di cybersecurity più rilevanti degli ultimi 3 giorni e crea il file news_db.json seguendo lo schema allegato (news_schema.json).
+
+FONTI PRIVILEGIATE (in ordine di priorità)
+1. CISA, ACN (Agenzia per la Cybersicurezza Nazionale), CERT-FR, NCSC
+2. BleepingComputer, The Hacker News, SecurityWeek
+3. Cybersecurity Dive, The Record, Matrice Digitale, Red Hot Cyber
+Usa altre fonti solo se queste non coprono la notizia. Evita siti di aggregazione e blog che ripetono notizie altrui. Se una delle fonti privilegiate non è leggibile, dimmelo alla fine.
+
+COSA INCLUDERE
+- Da 12 a 20 notizie: vulnerabilità sfruttate attivamente, zero-day, ransomware, violazioni di dati, campagne di gruppi APT, attacchi alla supply chain, incidenti su infrastrutture e sistemi industriali, normative e fatti di mercato rilevanti.
+- Dai più spazio a Italia ed Europa, poi al resto del mondo.
+- Una sola voce per ogni fatto, anche se più fonti lo riportano: le altre fonti vanno in "sources".
+
+REGOLE SUL JSON
+- "updated": data e ora attuali in UTC. "window_days": 3.
+- "published": la data reale della notizia (YYYY-MM-DD), non quella di oggi per default.
+- Titoli e riassunti in italiano, parafrasati con parole tue: 2-4 frasi, senza copiare le frasi delle fonti.
+- "severity": valutazione tua tra CRITICAL (sfruttamento attivo diffuso, zero-day senza patch o impatto su infrastrutture critiche), HIGH (sfruttamento attivo o impatto serio), MEDIUM (rilevante ma contenuto), LOW (contesto, normative, mercato).
+- "category": una tra ransomware, vuln, breach, apt, malware, supply-chain, ics, policy, business.
+- "cves": solo i CVE citati esplicitamente dalle fonti, nel formato CVE-AAAA-NNNN. Non inventarne.
+- "sources": da 1 a 3 fonti per notizia. Ogni URL deve essere il link diretto all'articolo, mai la home del sito. Apri la pagina per verificarlo. Se non trovi l'URL esatto, usa un'altra fonte che lo abbia oppure togli la notizia.
+- Se un dato non è confermato (cifre stimate, attribuzioni, responsabili), scrivi che non è confermato.
+- "id" unico nel formato AAAA-MM-GG-NNN.
+
+CONSEGNA
+Consegnami solo il file news_db.json. Alla fine scrivi in due righe quante notizie ci sono e quali fonti non hai potuto leggere.
