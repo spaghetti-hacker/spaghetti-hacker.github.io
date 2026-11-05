@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "properties": {
+    "updated": { "type": "string", "description": "Data e ora di generazione in UTC, formato ISO 8601 (es. 2026-11-06T06:30:00Z)" },
+    "window_days": { "type": "integer", "description": "Giorni coperti dalle notizie" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Identificativo unico, es. 2026-11-06-001" },
+          "published": { "type": "string", "description": "Data della notizia, formato YYYY-MM-DD" },
+          "title": { "type": "string", "description": "Titolo breve in italiano" },
+          "category": { "type": "string", "enum": ["ransomware", "vuln", "breach", "apt", "malware", "supply-chain", "ics", "policy", "business"] },
+          "severity": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
+          "summary": { "type": "string", "description": "Riassunto di 2-4 frasi, parafrasato" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "cves": { "type": "array", "items": { "type": "string" }, "description": "Solo identificativi nel formato CVE-AAAA-NNNN" },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "url": { "type": "string" }
+              },
+              "required": ["title", "url"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["id", "published", "title", "category", "severity", "summary", "tags", "cves", "sources"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["updated", "window_days", "items"],
+  "additionalProperties": false
+}

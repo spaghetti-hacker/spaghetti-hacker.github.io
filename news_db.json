@@ -1,0 +1,232 @@
+{
+  "updated": "2026-11-05T10:40:00Z",
+  "window_days": 7,
+  "items": [
+    {
+      "id": "2026-11-05-001",
+      "published": "2026-11-05",
+      "title": "Attacchi ai sistemi di refrigerazione dei supermercati europei",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "Un'ondata di attacchi tra ottobre e novembre ha colpito controller di refrigerazione esposti in supermercati di Belgio, Svezia, Irlanda, Francia, Italia e altri Paesi. Si parla di oltre 100 negozi. Le cause indicate sono vulnerabilità nei controller industriali e accessi remoti poco protetti. L'Agenzia per la Cybersicurezza Nazionale ha emesso un'allerta.",
+      "tags": ["OT", "supermercati", "Danfoss"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/" },
+        { "title": "L'Altro Parlante", "url": "https://www.laltroparlante.it/frigoriferi-sotto-attacco/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-002",
+      "published": "2026-11-05",
+      "title": "Frigoriferi del servizio trasfusionale francese manomessi",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "Tra l'1 e il 2 novembre sono stati colpiti gli impianti frigoriferi di tre sedi dell'Établissement français du sang. Le sacche interessate sono state messe in sicurezza o trasferite e le autorità escludono rischi per i pazienti. Nessun legame accertato con gli attacchi ai supermercati e nessun responsabile identificato.",
+      "tags": ["sanità", "Francia", "ANSSI"],
+      "cves": [],
+      "sources": [
+        { "title": "PRP Channel", "url": "https://prpchannel.com/francia-hacker-nei-sistemi-frigoriferi-del-servizio-trasfusionale-colpite-tre-sedi" },
+        { "title": "Agenpress", "url": "https://agenpress.it/2026/11/05/francia-hacker-attaccano-i-frigoriferi-del-sangue-temperature-manomesse-da-30-a-110-gradi-nessun-rischio-per-i-pazienti" }
+      ]
+    },
+    {
+      "id": "2026-11-05-003",
+      "published": "2026-11-05",
+      "title": "Crédit Mutuel Arkéa: frodi tramite un fornitore esterno",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "La banca francese ha subito transazioni fraudolente e ha limitato temporaneamente i bonifici. Gli attaccanti sarebbero entrati dalla piattaforma di un fornitore esterno e avrebbero spostato fondi su altri istituti, poi convertiti in criptovalute. ZachXBT stima perdite oltre 133 milioni di dollari, cifra che la banca non ha confermato. Nessuna attribuzione pubblica.",
+      "tags": ["banche", "frode", "crypto"],
+      "cves": [],
+      "sources": [
+        { "title": "GBHackers", "url": "https://gbhackers.com/french-banking-giant-credit-mutuel-arkea-hit-by-cyberattack" }
+      ]
+    },
+    {
+      "id": "2026-11-05-004",
+      "published": "2026-11-05",
+      "title": "DigiCert conferma una violazione dei dati dei clienti",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Un sistema interno con dati archiviati dei clienti è stato esposto a Internet per un errore di configurazione dopo una migrazione. Coinvolti contatti aziendali e, in alcuni casi, documenti di identità. I servizi di certificazione, le credenziali di accesso e i certificati emessi non risultano interessati.",
+      "tags": ["PKI", "misconfigurazione"],
+      "cves": [],
+      "sources": [
+        { "title": "GBHackers", "url": "https://gbhackers.com/digicert-confirms-data-breach" },
+        { "title": "Cyber Security News", "url": "https://cybersecuritynews.com/digicert-confirms-data-breach" }
+      ]
+    },
+    {
+      "id": "2026-11-05-005",
+      "published": "2026-11-05",
+      "title": "Ransomware sfruttano la falla di GlobalProtect (Palo Alto Networks)",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Più gruppi ransomware stanno sfruttando una vulnerabilità ad alta gravità nel portale GlobalProtect di Palo Alto Networks. Chi espone il portale dovrebbe verificare le patch e controllare segnali di compromissione.",
+      "tags": ["VPN", "ransomware", "Palo Alto"],
+      "cves": [],
+      "sources": [
+        { "title": "Cybersecurity Dive", "url": "https://www.cybersecuritydive.com/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-006",
+      "published": "2026-11-05",
+      "title": "CISA aggiunge una falla del core di WordPress al catalogo KEV",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "La CISA ha inserito una vulnerabilità del core di WordPress nel catalogo delle vulnerabilità sfruttate attivamente, citando prove di exploit in corso.",
+      "tags": ["WordPress", "KEV", "CISA"],
+      "cves": [],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-007",
+      "published": "2026-11-05",
+      "title": "Xen: due falle permettono a una VM di leggere la memoria di altre VM",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Due vulnerabilità nell'hypervisor Xen consentono a una macchina virtuale guest malevola di leggere e scrivere la memoria di altre VM sullo stesso host, dom0 compreso.",
+      "tags": ["virtualizzazione", "Xen"],
+      "cves": [],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-001",
+      "published": "2026-11-04",
+      "title": "Campagna Poisoned Source: APT29 contro iPhone e Android",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Un attacco watering hole attribuito ad APT29 con confidenza medio-alta usa siti compromessi, domini falsi e lo script manomesso di Plerdy SEO Tracker per profilare i visitatori e consegnare catene di exploit specifiche per iOS o Android. Le catene sfruttano vulnerabilità già corrette: aggiornare i dispositivi è la difesa. La CISA ha aggiunto CVE-2024-27834 (WebKit) al catalogo KEV.",
+      "tags": ["APT29", "watering hole", "mobile", "KEV"],
+      "cves": ["CVE-2024-27834", "CVE-2026-20700"],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://bleepingcomputer.com/news/security/hackers-use-n-day-exploits-in-zero-click-attacks-on-ios-android-devices" },
+        { "title": "Matrice Digitale", "url": "https://www.matricedigitale.it/2026/11/05/apt29-apple-android-cve-2024-27834-cisa/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-002",
+      "published": "2026-11-04",
+      "title": "Ivanti corregge altri due zero-day in Connect Secure",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Ivanti ha rilasciato patch per due ulteriori zero-day di Connect Secure, sfruttati in una catena di attacco.",
+      "tags": ["Ivanti", "VPN", "zero-day"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-003",
+      "published": "2026-11-04",
+      "title": "cPGuard: aggiornamenti automatici dirottati per distribuire una backdoor",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "Gli attaccanti hanno compromesso l'infrastruttura di aggiornamento della suite di sicurezza web cPGuard per distribuire una backdoor e uno script che ruba dati.",
+      "tags": ["cPGuard", "backdoor", "hosting"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-004",
+      "published": "2026-11-04",
+      "title": "Estensione malevola per Claude Code distribuita in un attacco alla supply chain di Cursor",
+      "category": "supply-chain",
+      "severity": "MEDIUM",
+      "summary": "SecurityWeek segnala un attacco alla supply chain in cui un'estensione malevola per Claude Code è stata servita tramite Cursor. Gli sviluppatori dovrebbero verificare le estensioni installate.",
+      "tags": ["Cursor", "estensioni", "sviluppatori"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-005",
+      "published": "2026-11-04",
+      "title": "Google smantella la botnet XCPE: 1,3 milioni di dispositivi Android",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Google ha smantellato la botnet XCPE, composta da circa 1,3 milioni di dispositivi Android, in gran parte TV box. I dispositivi già infetti restano pericolosi anche dopo il takedown.",
+      "tags": ["botnet", "Android", "TV box"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/" },
+        { "title": "Yahoo Tech", "url": "https://tech.yahoo.com/cybersecurity/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-006",
+      "published": "2026-11-04",
+      "title": "mSecure: attacco al password manager, consigliato il reset delle credenziali",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "mSeven Software invita clienti attuali ed ex clienti di mSecure a cambiare le password, reimpostare la 2FA e rimuovere le passkey dopo un attacco che avrebbe esposto un database cliente cifrato.",
+      "tags": ["password manager", "2FA"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-007",
+      "published": "2026-11-04",
+      "title": "La Corea del Sud valuta uno zar della cybersicurezza",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Dopo una serie di incidenti, il governo sudcoreano considera un'autorità centrale di coordinamento della cybersicurezza, e prepara una strategia di risposta dopo la divulgazione delle vulnerabilità di PHP.",
+      "tags": ["governo", "Corea del Sud"],
+      "cves": [],
+      "sources": [
+        { "title": "UPI", "url": "https://www.upi.com/Top_News/World-News/2026/11/04/cybersecurity-czar-hacking/1481793824879/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-008",
+      "published": "2026-11-04",
+      "title": "Proofpoint rileva Varonis per 6,3 miliardi di dollari",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Secondo SecurityWeek, Proofpoint ha siglato un accordo interamente in contanti da 6,3 miliardi di dollari per acquisire Varonis. Nello stesso periodo si segnalano 37 operazioni di M&A in cybersecurity nel mese di ottobre.",
+      "tags": ["M&A", "Proofpoint", "Varonis"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/" }
+      ]
+    },
+    {
+      "id": "2026-11-03-001",
+      "published": "2026-11-03",
+      "title": "WorkOS: violazione tramite uno strumento di vendita interno",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "WorkOS riferisce che un attaccante ha usato uno strumento basato su AI per accedere a un'app di vendita interna, con esposizione di contatti aziendali e riepiloghi di comunicazioni con i clienti.",
+      "tags": ["SaaS", "AI"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/" }
+      ]
+    },
+    {
+      "id": "2026-11-03-002",
+      "published": "2026-11-03",
+      "title": "Ransomware 3AM contro una rete di scuole nel Regno Unito",
+      "category": "ransomware",
+      "severity": "MEDIUM",
+      "summary": "Un affiliato di 3AM ha cifrato circa 37 macchine su quasi 50 raggiunte partendo da un host non gestito. L'attacco è sospettato di essere stato assistito da AI.",
+      "tags": ["3AM", "scuole", "AI"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/" }
+      ]
+    }
+  ]
+}
