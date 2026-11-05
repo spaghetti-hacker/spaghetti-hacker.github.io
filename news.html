@@ -993,7 +993,7 @@ async function load(){
     const upd = String(DB.updated || "");
     const updMs = Date.parse(upd.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(upd) ? upd : upd + "Z");
     const ageH = (Date.now() - updMs) / 3600000;
-    let meta = `;notizie di cybersecurity degli ultimi ${esc(DB.window_days || "?")} giorni ;${DB.items.length} voci`;
+    let meta = `;notizie di cybersecurity degli ultimi giorni ;${DB.items.length} voci`;
     if(Number.isFinite(updMs)){
         const updLocal = new Date(updMs).toLocaleString("it-IT", { timeZone: "Europe/Rome", dateStyle: "short", timeStyle: "short" });
         meta += ` ;aggiornato ${esc(updLocal)}`;
