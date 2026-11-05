@@ -1,56 +1,56 @@
 {
- "source": "GENERAL",
+ "source": "ICS-OT",
  "updated": "2026-11-05",
  "items": [
-  {
-   "title": "Bank Phishing Sites Show Fake ‘Suspended’ Pages to Evade Takedowns",
-   "link": "https://www.securityweek.com/bank-phishing-sites-show-fake-suspended-pages-to-evade-takedowns/",
-   "date": "2026-11-05"
-  },
   {
    "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
    "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
    "date": "2026-11-05"
   },
   {
-   "title": "Cisco, WatchGuard Release Patches; SonicWall Won’t Fix GMS Flaws",
-   "link": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/",
-   "date": "2026-11-05"
+   "title": "Critical Node-RED Flaw Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+   "date": "2026-11-03"
   },
   {
-   "title": "The Agent Smith Dilemma: Governing Agentic Identities",
-   "link": "https://www.securityweek.com/the-agent-smith-dilemma-governing-agentic-identities/",
-   "date": "2026-11-05"
+   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+   "date": "2026-11-03"
   },
   {
-   "title": "CISO Conversations: Ryan Davis – The Unknown Is Where Security Meets Reality",
-   "link": "https://www.securityweek.com/ciso-conversations-ryan-davis-the-unknown-is-where-security-meets-reality/",
-   "date": "2026-11-05"
+   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
+   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
+   "date": "2026-10-28"
   },
   {
-   "title": "Zyxel Switch Hacks Blamed on Patched Flaw Actually Exploited a Zero-Day",
-   "link": "https://www.securityweek.com/zyxel-switch-hacks-blamed-on-patched-flaw-actually-exploited-a-zero-day/",
-   "date": "2026-11-05"
+   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
+   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
+   "date": "2026-10-27"
   },
   {
-   "title": "Russia-Linked Hackers Hit iOS, Android Devices With Exploit Chains via Watering Holes",
-   "link": "https://www.securityweek.com/russia-linked-hackers-hit-ios-android-devices-with-exploit-chains-via-watering-holes/",
-   "date": "2026-11-05"
+   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
+   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
+   "date": "2026-10-26"
   },
   {
-   "title": "OpenAI Finds GPT-6 Astra Quietly Holding Back on Internal Red-Teaming, Exploit Tasks",
-   "link": "https://www.securityweek.com/openai-finds-gpt-6-astra-quietly-holding-back-on-internal-red-teaming-exploit-tasks/",
-   "date": "2026-11-05"
+   "title": "Indurex Raises $8 Million to Expand Industrial Cybersecurity Platform",
+   "link": "https://www.securityweek.com/indurex-raises-8-million-to-expand-industrial-cybersecurity-platform/",
+   "date": "2026-10-22"
   },
   {
-   "title": "Sysdig Adds Runtime Security and Governance for AI Agents",
-   "link": "https://www.securityweek.com/sysdig-adds-runtime-security-and-governance-for-ai-agents/",
-   "date": "2026-11-04"
+   "title": "Accenture, Dragos, SANS Launch $10M Initiative to Defend Small US Utilities",
+   "link": "https://www.securityweek.com/accenture-dragos-sans-launch-10m-initiative-to-defend-small-us-utilities/",
+   "date": "2026-10-21"
   },
   {
-   "title": "Barracuda ESG Authentication Bypass Flaw Opens Path to Root",
-   "link": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/",
-   "date": "2026-11-04"
+   "title": "Siemens Software Center Vulnerability Exploited in ClickFix Malware Attacks",
+   "link": "https://www.securityweek.com/siemens-software-center-vulnerability-exploited-in-clickfix-malware-attacks/",
+   "date": "2026-10-19"
+  },
+  {
+   "title": "Supermarket Refrigeration Attack Widens to Copeland, Dixell Controllers",
+   "link": "https://www.securityweek.com/supermarket-refrigeration-attack-widens-to-copeland-dixell-controllers/",
+   "date": "2026-10-15"
   }
  ]
 }
