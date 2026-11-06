@@ -1,14 +1,55 @@
 {
-  "updated": "2026-11-05T11:25:00Z",
+  "updated": "2026-11-06T08:20:00Z",
   "window_days": 3,
   "items": [
     {
       "id": "2026-11-05-001",
       "published": "2026-11-05",
+      "title": "Frigoriferi hackerati in tutta Italia: casi in molte regioni, indaga la Polizia Postale",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "Da lunedì 2 novembre supermercati e aziende della filiera del freddo in Sicilia, Veneto, Friuli-Venezia Giulia, Trentino, Liguria, Toscana, Lazio, Abruzzo, Molise e Sardegna hanno trovato freezer e celle con temperature alterate: gli attaccanti avrebbero agito da remoto su setpoint, cicli di sbrinamento e allarmi, in alcuni casi disattivati o con display ingannevoli (a Finale Ligure lo sbrinamento è stato allungato fino a 256 minuti). Indagano la Polizia Postale e la DDA di Genova; l'ACN ha emesso un avviso urgente e convocato la filiera. NoName057(16) e Z-Pentest hanno rivendicato su Telegram, ma la loro responsabilità nei singoli casi non è provata; i danni indicati sono per lo più dichiarati dai gestori e non verificati, e non c'è un totale nazionale.",
+      "tags": ["supermercati", "Italia", "Polizia Postale", "ACN", "NoName057(16)"],
+      "cves": [],
+      "sources": [
+        { "title": "Adnkronos", "url": "https://www.adnkronos.com/cronaca/cyberattacchi-ai-supermercati-italia-freezer-treviso-isernia_1Q4JfMFueqhjdorqSiILmh" },
+        { "title": "Cyber Security 360", "url": "https://www.cybersecurity360.it/nuove-minacce/frigoriferi-hackerati-in-italia-tutti-i-casi-e-i-danni-accertati/" },
+        { "title": "ACN", "url": "https://www.acn.gov.it/portale/en/w/cybersicurezza-allerta-sulla-filiera-alimentare-e-della-catena-del-freddo-acn-richiama-gli-operatori-della-grande-distribuzione-e-della-logistica-alimentare-alle-misure-di-sicurezza-gia-indicate-dopo-gli-incidenti-in-francia" }
+      ]
+    },
+    {
+      "id": "2026-11-05-002",
+      "published": "2026-11-05",
+      "title": "ACN: eventi cyber gestiti dal CSIRT in aumento del 47%, ma pesa la maggiore capacità di rilevazione",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Secondo i dati del CSIRT Italia, nei primi sei mesi del 2026 gli eventi gestiti sono stati 2.171 contro 1.474 dello stesso periodo del 2025, e circa la metà (1.072) con impatto confermato. Crescono compromissione di credenziali, esposizione di dati e sfruttamento di vulnerabilità, mentre i casi di ransomware calano del 12% (da 206 a 181) e i DDoS diminuiscono, con una ripresa degli attacchi hacktivisti filorussi a settembre contro la pubblica amministrazione locale. L'ACN avverte che l'aumento va attribuito soprattutto a una migliore rilevazione e non indica una minaccia realmente maggiore.",
+      "tags": ["ACN", "CSIRT Italia", "statistiche", "ransomware"],
+      "cves": [],
+      "sources": [
+        { "title": "ANSA", "url": "https://www.ansa.it/sito/notizie/cronaca/2026/11/05/ansa-box-impennata-di-attacchi-cyber-47-nei-primi-6-mesi-dellanno_0b8d1a66-e984-4751-b1fe-e08702e6c7ba.html" }
+      ]
+    },
+    {
+      "id": "2026-11-05-003",
+      "published": "2026-11-05",
+      "title": "CERT-In: attore assistito da AI contro banche e crypto; clone di ARTEX con backdoor su Docker Hub",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "L'agenzia indiana CERT-In avvisa che un attore che chiama Crafty Falcon, assistito da AI, attacca banche, assicurazioni ed exchange di criptovalute con strumenti pubblici come ARTEX, PentAGI, Cairn e CyberStrikeAI. Un clone di ARTEX su GitHub (circa 2.449 stelle) scaricava da Docker Hub un'immagine modificata che, tramite il campo CAPTCHA, apre una shell root senza credenziali: è stata scoperta dal ricercatore Badbyte, ha circa 9.000 download e tra il 2 e il 4 novembre erano esposte 62 console. Il repository originale di ARTEX è stato rimosso, ma l'immagine con backdoor non risulta ritirata e non è indicata una correzione.",
+      "tags": ["ARTEX", "Docker Hub", "CERT-In", "AI offensiva"],
+      "cves": [],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/backdoored-docker-image-for-artex-ai.html" }
+      ]
+    },
+    {
+      "id": "2026-11-05-004",
+      "published": "2026-11-05",
       "title": "Zyxel GS1900: zero-day sfruttato anche dopo la patch precedente",
       "category": "vuln",
       "severity": "HIGH",
-      "summary": "Binarly sostiene che gli attacchi ai Zyxel GS1900, attribuiti a una falla già corretta (CVE-2026-7273), usavano in realtà uno zero-day diverso: una scrittura fuori dai limiti nel gestore delle richieste web, che consente a chi raggiunge l'interfaccia di gestione di eseguire comandi come root senza autenticazione. Zyxel ha pubblicato il firmware 2.90 Patch 3 per dieci modelli il 23 ottobre e l'avviso il 3 novembre; la Patch 2 non protegge. Secondo Binarly quasi 1.000 dispositivi sarebbero stati compromessi, dato non verificato in modo indipendente.",
+      "summary": "Binarly sostiene che gli attacchi agli switch Zyxel GS1900, attribuiti a una falla già corretta (CVE-2026-7273), usavano in realtà uno zero-day diverso: una scrittura fuori dai limiti nel programma CGI del firmware, che permette a un attaccante non autenticato di eseguire comandi con richieste HTTP manipolate. Zyxel ha pubblicato le correzioni il 23 ottobre per dieci modelli e l'avviso il 3 novembre, quindi la patch di giugno non protegge. Secondo Binarly quasi 1.000 dispositivi sarebbero stati compromessi, dato non verificato in modo indipendente.",
       "tags": ["Zyxel", "switch", "zero-day", "Binarly"],
       "cves": ["CVE-2026-107441", "CVE-2026-7273"],
       "sources": [
@@ -17,58 +58,45 @@
       ]
     },
     {
-      "id": "2026-11-05-002",
+      "id": "2026-11-05-005",
       "published": "2026-11-05",
-      "title": "GhostMap: un'app senza permessi può mandare in boot loop un Android 17",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Bitdefender ha mostrato che un APK appositamente malformato aggira i controlli di dimensione sui file ZIP e manda in crash ripetuto il processo di sistema, causando un boot loop persistente che blocca anche la modalità provvisoria. La prova è stata fatta su un Pixel 10 con Android 17. Google ha risposto a Bitdefender che il problema non richiede un aggiornamento di sicurezza e al momento non c'è una patch né un CVE; restano come rimedi il ripristino di fabbrica o l'eliminazione del file via ADB.",
-      "tags": ["Android", "Bitdefender", "boot loop"],
-      "cves": [],
-      "sources": [
-        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/ghostmap-android-flaw-lets-malicious-app-trigger-persistent-boot-loop/" }
-      ]
-    },
-    {
-      "id": "2026-11-05-003",
-      "published": "2026-11-05",
-      "title": "DigiCert conferma l'esposizione di dati archiviati dei clienti",
+      "title": "DreamHost conferma l'esposizione di credenziali FTP e sessioni webmail",
       "category": "breach",
       "severity": "MEDIUM",
-      "summary": "Dopo una migrazione di infrastruttura, un sistema interno con informazioni archiviate dei clienti è rimasto raggiungibile da Internet per un errore di configurazione. Sono stati esposti contatti aziendali e, in alcuni casi, documenti di identità. DigiCert afferma che i servizi di certificazione, le credenziali di accesso e i certificati emessi non sono coinvolti e che sta verificando quali persone vadano avvisate. Le informazioni arrivano da fonti secondarie: non ho trovato un articolo di una delle testate privilegiate.",
-      "tags": ["DigiCert", "misconfigurazione", "documenti di identità"],
+      "summary": "DreamHost descrive un attacco mirato al server che ospita il File Manager (files.dreamhost.com), attivo da circa agosto al 23 ottobre: sono esposti username e password FTP/SFTP di chi ha usato il File Manager in quel periodo, sessioni webmail di un numero limitato di utenti e forse contenuti di email e file sul server FTP. Non risultano accessi a pannelli di controllo o dati di fatturazione. La vulnerabilità sfruttata non è indicata e il responsabile non è noto.",
+      "tags": ["DreamHost", "hosting", "FTP", "webmail"],
       "cves": [],
       "sources": [
-        { "title": "GBHackers", "url": "https://gbhackers.com/digicert-confirms-data-breach" },
-        { "title": "Cyber Security News", "url": "https://cybersecuritynews.com/digicert-confirms-data-breach" }
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/dreamhost-confirms-data-breach-exposed-ftp-logins-and-webmail-sessions/" },
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/threatsday-apache-ofbiz-rce-dreamhost.html" }
       ]
     },
     {
       "id": "2026-11-04-001",
       "published": "2026-11-04",
-      "title": "Crédit Mutuel Arkéa: trasferimenti fraudolenti dall'account della banca",
-      "category": "breach",
+      "title": "Servizio trasfusionale francese: manomessi i frigoriferi di tre sedi, indaga l'ANSSI",
+      "category": "ics",
       "severity": "HIGH",
-      "summary": "La banca francese conferma un attacco sofisticato: gli aggressori sono entrati dalla piattaforma di un fornitore esterno e hanno trasferito fondi dall'account della stessa banca, senza toccare i conti dei clienti. Parte dei fondi convertiti è stata bloccata. L'analista ZachXBT stima perdite oltre 133 milioni di dollari; la banca non ha confermato la cifra, dice però di poterne convalidare l'ordine di grandezza. Nessuna attribuzione pubblica.",
-      "tags": ["banche", "Francia", "fornitore esterno", "crypto"],
+      "summary": "Un ignoto ha manipolato i controlli di temperatura delle celle frigorifere di tre sedi dell'Établissement français du sang, passando da un fornitore di impianti di refrigerazione, portando soglie di temperatura e sbrinamento a valori molto alti. Gli allarmi hanno segnalato l'anomalia, il personale ha ripreso il controllo e il plasma, anche quello destinato a farmaci, è stato spostato: l'ente dice che la sua integrità non è compromessa. L'ANSSI, con il Ministero della Salute, indaga e conosce compromissioni di controller Danfoss AK-SM/AK-SC e Copeland/Dixell xweb, da tenere fuori da Internet. Il legame con gli attacchi ai supermercati non è confermato.",
+      "tags": ["sanità", "Francia", "ANSSI", "Danfoss", "Copeland"],
       "cves": [],
       "sources": [
-        { "title": "The Record", "url": "https://therecord.media/french-bank-confirms-cyber-heist" },
-        { "title": "GBHackers", "url": "https://gbhackers.com/french-banking-giant-credit-mutuel-arkea-hit-by-cyberattack" }
+        { "title": "The Record", "url": "https://therecord.media/france-cyberattack-blood-refrigeration" },
+        { "title": "Cybersecurity Dive", "url": "https://www.cybersecuritydive.com/news/french-probe-cyberattack-blood-supply/873871/" }
       ]
     },
     {
       "id": "2026-11-04-002",
       "published": "2026-11-04",
-      "title": "Servizio trasfusionale francese: manomessi i frigoriferi di tre sedi",
-      "category": "ics",
+      "title": "Crédit Mutuel Arkéa: trasferimenti fraudolenti dall'account della banca",
+      "category": "breach",
       "severity": "HIGH",
-      "summary": "In tre depositi dell'Établissement français du sang sono state alterate le impostazioni di temperatura e sbrinamento. Secondo l'ente l'accesso è avvenuto tramite un fornitore terzo di apparecchiature di refrigerazione. I sistemi di allarme hanno segnalato subito le anomalie e i prodotti sono stati spostati; l'ente non riporta danni alla salute né perdite di sacche. È il primo caso della seconda ondata in Francia e il primo a colpire una struttura sanitaria. Nessun responsabile individuato e legame con gli attacchi ai supermercati non accertato.",
-      "tags": ["sanità", "Francia", "refrigerazione", "ANSSI"],
+      "summary": "La banca francese conferma un attacco sofisticato: gli aggressori sono entrati dalla piattaforma di un fornitore esterno e hanno trasferito fondi dall'account della stessa banca, senza toccare i conti dei clienti. Parte dei fondi convertiti è stata bloccata. L'analista ZachXBT stima perdite oltre 133 milioni di dollari; la banca non ha confermato la cifra ma dice di poterne convalidare l'ordine di grandezza. Nessuna attribuzione pubblica.",
+      "tags": ["banche", "Francia", "fornitore esterno", "crypto"],
       "cves": [],
       "sources": [
-        { "title": "The Record", "url": "https://therecord.media/france-cyberattack-blood-refrigeration" },
-        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/cyberattack-disrupts-blood-storage-refrigeration-systems-in-france/" }
+        { "title": "The Record", "url": "https://therecord.media/french-bank-confirms-cyber-heist" },
+        { "title": "Matrice Digitale", "url": "https://www.matricedigitale.it/2026/11/05/cyberattacco-credit-mutuel-arkea-frode-fornitore-fortuneo/" }
       ]
     },
     {
@@ -87,25 +115,52 @@
     {
       "id": "2026-11-04-004",
       "published": "2026-11-04",
-      "title": "Campagna Poisoned Source: APT29 contro iPhone e Android con exploit già corretti",
+      "title": "Binance: l'attacco da 6,3 miliardi partì da un finto colloquio di lavoro",
       "category": "apt",
       "severity": "HIGH",
-      "summary": "Secondo Sekoia, con confidenza medio-alta, il gruppo russo APT29 usa siti legittimi compromessi, domini falsi e lo script manomesso di Plerdy SEO Tracker per profilare i visitatori e consegnare catene di exploit per iOS o Android senza interazione. Il carico finale ruba cookie, dati del dispositivo e, su iOS 18.5, anche database di WhatsApp e Telegram. La CISA ha aggiunto CVE-2024-27834 (WebKit, corretta da Apple nel 2024) al catalogo KEV il 4 novembre: bastano aggiornamenti recenti di sistema e browser.",
-      "tags": ["APT29", "watering hole", "iOS", "Android", "KEV"],
-      "cves": ["CVE-2024-27834", "CVE-2026-20700"],
+      "summary": "Il rapporto di Binance (3 novembre) descrive una campagna di mesi: a giugno un ingegnere ha scaricato un pacchetto Homebrew manomesso cercando uno strumento di AI per il codice; a settembre un secondo ingegnere, contattato da finti recruiter, ha ricevuto un compito di programmazione con un repository malevolo e un componente zero-day non rilevato; il 20 ottobre gli attaccanti hanno preso il controllo di due sistemi anche con uno strumento AI interno e il 29 ottobre hanno colpito il servizio di firma dei wallet. Il furto è di circa 6,3 miliardi di dollari, di cui circa 2,85 miliardi congelati; l'FBI lo attribuisce al gruppo nordcoreano TraderTraitor, accusa respinta dalla Corea del Nord. La ricostruzione viene da Binance, non da un'indagine indipendente, e il ruolo dello strumento AI interno non è chiarito.",
+      "tags": ["Binance", "TraderTraitor", "Corea del Nord", "crypto"],
+      "cves": [],
       "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/hackers-exploit-patched-apple-flaw-to.html" },
-        { "title": "BleepingComputer", "url": "https://bleepingcomputer.com/news/security/hackers-use-n-day-exploits-in-zero-click-attacks-on-ios-android-devices" },
-        { "title": "SecurityWeek", "url": "https://www.securityweek.com/russia-linked-hackers-hit-ios-android-devices-with-exploit-chains-via-watering-holes/" }
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/rigged-coding-assignment-abused-ai-tool-opened-path-to-6-billion-binance-heist/" },
+        { "title": "Cybersecurity Dive", "url": "https://www.cybersecuritydive.com/news/binance-hack-north-korea-cryptocurrency-theft/873304/" }
       ]
     },
     {
       "id": "2026-11-04-005",
       "published": "2026-11-04",
+      "title": "Violazioni legate all'AI: WorkOS, Northflank e Trigger.dev, con lo strumento Artex",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "WorkOS ha reso noto un incidente del 30 ottobre in un'app interna del team vendite, con esposizione di contatti aziendali, storico degli account, comunicazioni con i clienti e dati d'uso dei prodotti. SecurityWeek lega gli attacchi a WorkOS e Chainstack allo strumento open source di pentest basato su AI Artex; Northflank e Trigger.dev hanno pubblicato incidenti simili, senza dettagli su cosa sia stato raggiunto. Non sono confermati il collegamento tra i tre casi né il coinvolgimento di Storm-0940, il gruppo cinese associato ad Artex.",
+      "tags": ["WorkOS", "Northflank", "Trigger.dev", "Artex", "AI"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/ai-linked-breaches-mount-as-workos-northflank-trigger-dev-disclose-hacks/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-006",
+      "published": "2026-11-04",
+      "title": "Campagna Poisoned Source: APT29 contro iPhone e Android con exploit già corretti",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Secondo Sekoia, con confidenza medio-alta, il gruppo russo APT29 usa siti legittimi compromessi, domini falsi e lo script manomesso di Plerdy SEO Tracker per profilare i visitatori e consegnare catene di exploit per iOS o Android senza interazione. Il carico finale ruba cookie, dati del dispositivo e, su iOS 18.5, anche database di WhatsApp e Telegram. La CISA ha aggiunto CVE-2024-27834 (WebKit, corretta da Apple nel 2024) al catalogo KEV: bastano aggiornamenti recenti di sistema e browser.",
+      "tags": ["APT29", "watering hole", "iOS", "Android", "KEV"],
+      "cves": ["CVE-2024-27834", "CVE-2026-20700"],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/apt29-linked-hackers-hijack-web.html" },
+        { "title": "The Hacker News – avviso CISA", "url": "https://thehackernews.com/2026/11/hackers-exploit-patched-apple-flaw-to.html" },
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/russia-linked-hackers-hit-ios-android-devices-with-exploit-chains-via-watering-holes/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-007",
+      "published": "2026-11-04",
       "title": "WordPress core: race condition sfruttata durante gli aggiornamenti completi",
       "category": "vuln",
       "severity": "HIGH",
-      "summary": "La CISA ha inserito nel catalogo KEV (3 novembre) CVE-2026-119977, una race condition di tipo TOCTOU nel core di WordPress che permette a un attaccante senza account di eseguire codice mentre è in corso un aggiornamento completo, sfruttando percorsi di staging prevedibili. Wordfence ha visto oltre 18.500 richieste verso i percorsi di installazione nelle prime 21 ore. Le patch sono uscite a fine ottobre, e le agenzie federali USA devono applicarle entro il 6 novembre.",
+      "summary": "La CISA ha inserito nel catalogo KEV (3 novembre) CVE-2026-119977, una race condition di tipo TOCTOU nel core di WordPress che permette a un attaccante senza account di eseguire codice mentre è in corso un aggiornamento completo, sfruttando percorsi di staging prevedibili. Wordfence ha visto oltre 18.500 richieste verso i percorsi di installazione nelle prime 21 ore. Le patch sono uscite a fine ottobre e le agenzie federali USA devono applicarle entro il 6 novembre.",
       "tags": ["WordPress", "KEV", "CISA", "Wordfence"],
       "cves": ["CVE-2026-119977"],
       "sources": [
@@ -113,12 +168,12 @@
       ]
     },
     {
-      "id": "2026-11-04-006",
+      "id": "2026-11-04-008",
       "published": "2026-11-04",
       "title": "Xen XSA-523: una VM malevola può leggere e scrivere la memoria delle altre",
       "category": "vuln",
       "severity": "HIGH",
-      "summary": "Due falle nel meccanismo di copia tra VM (grant copy) di Xen permettono a un guest malevolo di leggere e scrivere la memoria di altre macchine virtuali sullo stesso host, dom0 compreso. Sono interessate le versioni dalla 4.6 in poi; esistono patch per le serie 4.17-4.19 e per il ramo di sviluppo, mentre non c'è correzione per la 4.16 e precedenti e non sono note mitigazioni. L'avviso non segnala attacchi in corso. XCP-ng e Qubes OS hanno già rilasciato aggiornamenti che richiedono un riavvio.",
+      "summary": "Due falle nel meccanismo di copia tra VM (grant copy) di Xen permettono a un guest malevolo di leggere e scrivere la memoria di altre macchine virtuali sullo stesso host, dom0 compreso. Sono interessate le versioni dalla 4.6 in poi; esistono patch per le serie 4.17-4.19 e per il ramo di sviluppo, mentre non c'è correzione per la 4.16 e precedenti e non sono note mitigazioni. L'avviso non segnala attacchi in corso; XCP-ng e Qubes OS hanno già rilasciato aggiornamenti che richiedono un riavvio.",
       "tags": ["Xen", "virtualizzazione", "XCP-ng", "Qubes"],
       "cves": ["CVE-2026-102703", "CVE-2026-102704"],
       "sources": [
@@ -126,7 +181,7 @@
       ]
     },
     {
-      "id": "2026-11-04-007",
+      "id": "2026-11-04-009",
       "published": "2026-11-04",
       "title": "APT di Debian e Ubuntu: un attacco man-in-the-middle può sostituire pacchetti già verificati",
       "category": "vuln",
@@ -139,20 +194,59 @@
       ]
     },
     {
-      "id": "2026-11-04-008",
+      "id": "2026-11-04-010",
       "published": "2026-11-04",
-      "title": "Android, bollettino di novembre: 23 falle critiche, nessuna sfruttata finora",
+      "title": "Barracuda: bypass di autenticazione sull'Email Security Gateway e command injection in più prodotti",
       "category": "vuln",
       "severity": "HIGH",
-      "summary": "Il bollettino Android del 1 novembre corregge 216 vulnerabilità, di cui 23 critiche. La più grave è un heap buffer overflow nel framework (CVE-2026-58868) che può portare a esecuzione di codice da remoto senza interazione su Android 14-17; il livello di patch da applicare è 2026-11-01 o successivo. Google e MediaTek non riportano attacchi in corso e nessuna di queste falle risulta nel catalogo KEV al 3 novembre.",
-      "tags": ["Android", "patch", "Google", "MediaTek"],
-      "cves": ["CVE-2026-58868", "CVE-2026-58882", "CVE-2026-58876", "CVE-2026-58936"],
+      "summary": "CVE-2026-116606 (CVSS 9.3) è un bypass di autenticazione che interessa solo l'ESG precedente alla 9.4.0.030: tramite l'importazione di un backup manipolato permette di cambiare la configurazione globale. CVE-2026-111560 (CVSS 8.6) è una command injection nell'impostazione del fuso orario, con privilegi di amministratore, presente in ESG, Load Balancer ADC, Message Archiver, WAF e Web Security Gateway. Combinate danno accesso root; gli avvisi non parlano di sfruttamento attivo e Barracuda richiede privilegi admin per entrambe, mentre Mandiant sostiene che il bypass sull'ESG funzioni senza autenticazione.",
+      "tags": ["Barracuda", "ESG", "root", "Mandiant"],
+      "cves": ["CVE-2026-116606", "CVE-2026-111560"],
       "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/google-patches-critical-android-flaw.html" }
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/" }
       ]
     },
     {
-      "id": "2026-11-04-009",
+      "id": "2026-11-04-011",
+      "published": "2026-11-04",
+      "title": "SonicWall non correggerà due falle di GMS a fine vita, una con CVSS 9,1",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "SonicWall ha reso noto che le versioni 9.5.2 e precedenti di Global Management System, dichiarate a fine vita, sono affette da CVE-2026-109593 (CVSS 9,1), che permette senza autenticazione di leggere file interni, e da CVE-2026-109594 (CVSS 6,8), una SQL injection che richiede autenticazione. L'azienda non rilascerà patch né altre correzioni e consiglia di migrare a Network Security Manager. Non risultano sfruttamenti di queste due falle; la fonte ricorda però un'altra falla SonicWall già sfruttata (CVE-2026-102255, CVSS 10) corretta settimane fa.",
+      "tags": ["SonicWall", "GMS", "fine vita", "nessuna patch"],
+      "cves": ["CVE-2026-109593", "CVE-2026-109594", "CVE-2026-102255"],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/sonicwall-wont-patch-eol-gms-flaws-that.html" }
+      ]
+    },
+    {
+      "id": "2026-11-04-012",
+      "published": "2026-11-04",
+      "title": "Rails: falla critica in Active Storage con ImageMagick consente di scrivere file sul server",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "L'avviso GHSA-f3w6-w445-fwh9 (CVSS 9,8, senza CVE al momento) riguarda le versioni di Active Storage precedenti alla 8.0.5.2 e alla 8.1.4.1: un SVG caricato da un utente non autenticato può raggiungere il coder MSL di ImageMagick, che legge e scrive file indicati nello script, e su servizi Disk si possono leggere segreti come secret_key_base. Sono più esposte le app che usano :mini_magick con una policy ImageMagick permissiva e accettano upload non fidati. Rails dice di aver ricevuto la segnalazione di una catena d'attacco ma non indica sfruttamento; la serie 8.0 riceve correzioni solo fino al 7 novembre.",
+      "tags": ["Rails", "ImageMagick", "Active Storage"],
+      "cves": [],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/critical-rails-flaw-lets-attackers.html" }
+      ]
+    },
+    {
+      "id": "2026-11-04-013",
+      "published": "2026-11-04",
+      "title": "Chrome 157: 213 correzioni di sicurezza, sette critiche, nessun exploit noto",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Il nuovo Chrome corregge 213 vulnerabilità, di cui sette critiche (tra cui un buffer overflow in Dawn, la memoria in ANGLE e quattro use-after-free) e 77 gravi. Google non segnala attacchi in corso, ma l'aggiornamento è consigliato subito. Gli identificativi CVE delle falle critiche non sono riportati dalla fonte.",
+      "tags": ["Chrome", "browser", "patch"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/chrome-157-rolls-out-with-213-security-fixes-seven-rated-critical/" }
+      ]
+    },
+    {
+      "id": "2026-11-04-014",
       "published": "2026-11-04",
       "title": "Segreti di app Microsoft Entra rubati usati contro MSP e loro clienti",
       "category": "apt",
@@ -165,101 +259,16 @@
       ]
     },
     {
-      "id": "2026-11-04-010",
+      "id": "2026-11-04-015",
       "published": "2026-11-04",
-      "title": "mSecure: attacco al cloud del password manager, consigliato il reset delle credenziali",
+      "title": "Kyiv Independent violato: email false su un lancio nucleare inviate agli iscritti",
       "category": "breach",
       "severity": "MEDIUM",
-      "summary": "mSeven ha comunicato il 3 novembre di aver rilevato attività sospetta e invita a cambiare le password, reimpostare la 2FA e rimuovere le passkey. Secondo risposte di assistenza condivise dai clienti, sarebbe stato rubato un database cifrato di mSecure Cloud, ma la notifica ufficiale non lo dice. Non sono confermati i sistemi coinvolti, il numero di utenti, la dinamica e se l'attaccante possa accedere ai contenuti dei vault; l'azienda dichiara cifratura AES-256 e architettura zero-knowledge.",
-      "tags": ["password manager", "2FA", "passkey"],
+      "summary": "Degli hacker hanno violato il sistema di gestione del sito e un servizio di invio newsletter del Kyiv Independent, pubblicando messaggi falsi, subito rimossi, e mandando email in russo e inglese agli iscritti, tra cui il falso annuncio di un lancio nucleare su Kyiv. La testata sospetta attori russi in base al contenuto dei messaggi, senza prove tecniche, e dice che i dati bancari di soci e donatori non sono compromessi. Un precedente attacco all'app ucraina di allerta antiaerea non risulta collegato.",
+      "tags": ["Ucraina", "disinformazione", "media", "Russia"],
       "cves": [],
       "sources": [
-        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/msecure-password-manager-hack-prompts-password-reset-warnings/" },
-        { "title": "The Register", "url": "https://www.theregister.com/security/2026/11/03/password-manager-msecure-tells-users-to-change-passwords-wont-say-why/5307296" }
-      ]
-    },
-    {
-      "id": "2026-11-03-001",
-      "published": "2026-11-03",
-      "title": "Seconda ondata sui frigoriferi dei supermercati: oltre 100 negozi in nove Paesi europei",
-      "category": "ics",
-      "severity": "HIGH",
-      "summary": "Nella notte tra l'1 e il 2 novembre i controller di refrigerazione di oltre 100 negozi sono stati manomessi, con celle portate fino a 50 °C forzando i cicli di sbrinamento. I dispositivi indicati sono Danfoss e Copeland; il Belgio è il Paese più colpito e si segnalano casi anche in Italia, Finlandia e Portogallo. Nessuno ha rivendicato e non è chiaro come siano entrati gli attaccanti né se l'ondata sia legata a quella francese di ottobre. L'ACN ha richiamato gli operatori della grande distribuzione e della filiera del freddo alle misure di sicurezza già indicate dopo gli incidenti in Francia.",
-      "tags": ["supermercati", "Danfoss", "Copeland", "Italia", "ACN"],
-      "cves": [],
-      "sources": [
-        { "title": "SecurityWeek", "url": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/" },
-        { "title": "The Record", "url": "https://therecord.media/cyberattack-grocery-freezers-europe" },
-        { "title": "ACN", "url": "https://www.acn.gov.it/portale/en/w/cybersicurezza-allerta-sulla-filiera-alimentare-e-della-catena-del-freddo-acn-richiama-gli-operatori-della-grande-distribuzione-e-della-logistica-alimentare-alle-misure-di-sicurezza-gia-indicate-dopo-gli-incidenti-in-francia" }
-      ]
-    },
-    {
-      "id": "2026-11-03-002",
-      "published": "2026-11-03",
-      "title": "cPGuard: canale di aggiornamento compromesso, rubati hash e chiavi di circa 2.950 server",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "Con una chiave di firma rubata, gli attaccanti hanno diffuso il 2 novembre uno script malevolo tramite gli aggiornamenti di cPGuard (versioni 5.88.12-5.88.19), che ha raccolto hash delle password, chiavi SSH di root, password MySQL e cronologia della shell, e ha installato una backdoor setuid. Circa 2.950 server hanno eseguito lo script; il produttore OPSSHIELD dice di aver bloccato la distribuzione entro 12 ore e raccomanda di aggiornare alla 5.88.26 e ruotare password e chiavi. Sono stati sottratti anche i dati di fatturazione di circa 7.900 clienti.",
-      "tags": ["cPGuard", "OPSSHIELD", "backdoor", "hosting"],
-      "cves": [],
-      "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/cpguard-update-channel-hijacked-to.html" },
-        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/hackers-hijack-cpguard-autoupdate-to-deploy-backdoor-steal-data/" }
-      ]
-    },
-    {
-      "id": "2026-11-03-003",
-      "published": "2026-11-03",
-      "title": "Plugin WordPress CryptoPayment Gateway: falla CVSS 10 sfruttata e senza patch",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "Nelle versioni 1.2.1 e 1.2.2 manca un controllo di autorizzazione su un endpoint AJAX, e utenti non autenticati possono eseguire azioni amministrative: cancellare file, riscrivere la configurazione del gateway ed estrarre le credenziali dei wallet. Defused Cyber ha osservato tentativi di sfruttamento reali. Secondo WPScan non esiste una correzione e il plugin è stato rimosso dalla directory ufficiale il 28 agosto; si consiglia di eliminarlo e ruotare le chiavi dei wallet.",
-      "tags": ["WordPress", "plugin", "crypto", "zero-day"],
-      "cves": ["CVE-2026-81648"],
-      "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/attackers-target-unpatched.html" }
-      ]
-    },
-    {
-      "id": "2026-11-03-004",
-      "published": "2026-11-03",
-      "title": "WorkOS: violata un'app di vendita interna con uno strumento di attacco basato su AI",
-      "category": "breach",
-      "severity": "MEDIUM",
-      "summary": "WorkOS riferisce che un attaccante ha usato il framework ARTEX AI per accedere a un'app interna di vendita, con esposizione di contatti aziendali e riepiloghi di comunicazioni con i clienti. Non sono riuscito ad aprire l'articolo completo: i dettagli provengono dai risultati di ricerca delle fonti indicate e vanno verificati.",
-      "tags": ["WorkOS", "ARTEX", "AI", "SaaS"],
-      "cves": [],
-      "sources": [
-        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/workos-says-attacker-used-artex-ai-to-breach-internal-sales-app/" },
-        { "title": "Security.io", "url": "https://www.security.io/articles/2026/11/03/workos-ai-assisted-sales-data-breach" }
-      ]
-    },
-    {
-      "id": "2026-11-03-005",
-      "published": "2026-11-03",
-      "title": "Ransomware 3AM contro una rete scolastica britannica, sospetto uso di AI",
-      "category": "ransomware",
-      "severity": "MEDIUM",
-      "summary": "Secondo Bitdefender un affiliato di 3AM ha cifrato circa 37 dei 47 sistemi di una rete di scuole nel Regno Unito, dopo aver rubato credenziali di backup, creato account amministratori e relazioni di fiducia tra domini, e aver cercato di disattivare le protezioni endpoint, che hanno resistito. La tempistica dei comandi ripetuti fa pensare a un modello linguistico nel ciclo di attacco. Non è confermato se lo abbia eseguito in automatico, né chi scegliesse ogni comando: le tecniche restano convenzionali.",
-      "tags": ["3AM", "scuole", "Regno Unito", "AI", "Bitdefender"],
-      "cves": [],
-      "sources": [
-        { "title": "Hackread", "url": "https://hackread.com/3am-ransomware-uk-school-systems-ai-attack/" },
-        { "title": "eSecurity Planet", "url": "https://www.esecurityplanet.com/threats/news-3am-ransomware-uk-school-ai-attack-emea/" }
-      ]
-    },
-    {
-      "id": "2026-11-03-006",
-      "published": "2026-11-03",
-      "title": "NCSC: ransomware con malware basato su AI contro infrastrutture critiche entro il 2028",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "Nel rapporto State of the Cyber Nation l'agenzia britannica giudica altamente probabile che entro circa due anni malware basato su AI venga usato in un attacco ransomware contro infrastrutture critiche del Regno Unito. Il CEO Richard Horne sostiene che l'AI non creerà metodi nuovi ma renderà molto più rapido lo sfruttamento di debolezze trascurate da tempo, e chiede di trattare la sicurezza come requisito di base.",
-      "tags": ["NCSC", "AI", "ransomware", "infrastrutture critiche"],
-      "cves": [],
-      "sources": [
-        { "title": "NCSC", "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years" },
-        { "title": "Matrice Digitale", "url": "https://www.matricedigitale.it/2026/11/04/ncsc-ransomware-ai-infrastrutture-critiche-2028/" }
+        { "title": "The Record", "url": "https://therecord.media/ukraine-kyiv-independent-cyberattack" }
       ]
     }
   ]
