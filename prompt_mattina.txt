@@ -1,4 +1,4 @@
-Cerca sul web le notizie di cybersecurity più rilevanti degli ultimi 3 giorni e crea il file news_db.json seguendo lo schema allegato (news_schema.json).
+Cerca sul web le notizie di cybersecurity più rilevanti degli ultimi 3 giorni (oggi compreso) e crea il file news_db.json seguendo lo schema allegato (news_schema.json).
 
 FONTI PRIVILEGIATE (in ordine di priorità)
 1. CISA, ACN (Agenzia per la Cybersicurezza Nazionale), CERT-FR, NCSC
