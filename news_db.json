@@ -1,7 +1,35 @@
 {
-  "updated": "2026-11-06T08:20:00Z",
+  "updated": "2026-11-06T14:25:00Z",
   "window_days": 3,
   "items": [
+    {
+      "id": "2026-11-06-001",
+      "published": "2026-11-06",
+      "title": "Control Web Panel: backdoor nel web server cwpsrv, comandi eseguiti senza lasciare log",
+      "category": "malware",
+      "severity": "HIGH",
+      "summary": "XLab (QiAnXin) ha trovato una backdoor nel web server cwpsrv di Control Web Panel, un pannello gratuito per hosting Linux: uno script che si finge un aggiornamento (richiede già privilegi di root) sostituisce il binario, azzera i timestamp e riceve comandi tramite richieste con intestazioni X-Ngx-Integrity firmate, che non compaiono nei log di accesso. Le versioni prese di mira sono la 1.15.10 e la 1.24.0; il file non aveva rilevazioni su VirusTotal e un archivio con una copia è stato caricato dal Brasile il 30 settembre, segno di vittime reali, senza che sia noto quante. Non sono citati CVE né patch: si consiglia di ripristinare il cwpsrv originale, aggiornare, cambiare tutte le credenziali del pannello e considerare compromesso l'intero server.",
+      "tags": ["Control Web Panel", "backdoor", "hosting", "Linux", "XLab"],
+      "cves": [],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/hackers-hide-linux-backdoor-in-control.html" },
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/hackers-backdoor-linux-servers-using-trojanized-cwp-web-server/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-002",
+      "published": "2026-11-06",
+      "title": "Barracuda ESG: watchTowr dimostra la catena che dà accesso root senza credenziali",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "watchTowr ha pubblicato l'analisi di due falle: CVE-2026-116606 (CVSS 9,3), un bypass di autorizzazione che permette a un attaccante non autenticato di ripristinare un backup di configurazione manipolato, e CVE-2026-111560 (8,6), una command injection che esegue comandi come root ma richiede un account amministratore, ottenuto proprio col bypass. La catena senza credenziali vale solo per l'Email Security Gateway (corretto dalla 9.4.0.030): sugli altri cinque prodotti la seconda falla richiede un amministratore. Barracuda ha rilasciato patch per tutti i prodotti; le falle non sono nel catalogo KEV, non risultano attacchi e watchTowr ha diffuso uno strumento di rilevamento ma non un exploit.",
+      "tags": ["Barracuda", "ESG", "watchTowr", "root"],
+      "cves": ["CVE-2026-116606", "CVE-2026-111560"],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html" },
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/" }
+      ]
+    },
     {
       "id": "2026-11-05-001",
       "published": "2026-11-05",
@@ -33,6 +61,34 @@
     {
       "id": "2026-11-05-003",
       "published": "2026-11-05",
+      "title": "Servizi di sicurezza gestiti: da oggi in vigore il decreto sulla certificazione europea",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Il decreto legislativo 191/2026 entra in vigore il 6 novembre e allinea l'Italia al regolamento UE 2025/37, che estende ai servizi di sicurezza gestiti (MSSP) il sistema europeo di certificazione previsto dal Cybersecurity Act. L'ACN ottiene nuovi poteri, controlli e sanzioni nei confronti dei fornitori, ma non scatta subito un obbligo generalizzato di certificazione. I requisiti di dettaglio non si ricavano dalla parte pubblica dell'articolo.",
+      "tags": ["MSSP", "ACN", "certificazione", "Cybersecurity Act"],
+      "cves": [],
+      "sources": [
+        { "title": "Cyber Security 360", "url": "https://cybersecurity360.it/legal/servizi-di-sicurezza-gestiti-nuove-regole-di-certificazione-dal-6-novembre-cosa-cambia" }
+      ]
+    },
+    {
+      "id": "2026-11-05-004",
+      "published": "2026-11-05",
+      "title": "Chainalysis: esposti nomi, hash delle password e token attivi di tutti gli utenti, servizi sospesi",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Chainalysis, che aveva comunicato la violazione il 30 ottobre, ha ampliato il quadro: risultano esposti nomi, username, hash delle password e token attivi, e alcuni account del servizio KYT sembrano essere stati usati; alcune password erano state intercettate con un attacco on-path, ora corretto. L'azienda parla di un attacco su più fronti con \"tecniche agentiche offensive\" senza spiegarle, e ha spento Reactor, Data Solutions, KYT, lo screening degli indirizzi e la pagina di login: servono reset delle password e rotazione delle chiavi API, usando la pagina di login e non i link nelle email. Non c'è attribuzione né un numero di utenti coinvolti, e non è chiaro se ogni tipo di dato riguardi tutti gli utenti; non risultano accessi ai dati investigativi né manipolazioni dei dati di attribuzione. Attacchi simili a WorkOS, Northflank e Trigger.dev sono stati collegati dalla stampa a strumenti di AI offensiva come Artex, ma un legame con Chainalysis non è confermato.",
+      "tags": ["Chainalysis", "AI offensiva", "credenziali", "KYT"],
+      "cves": [],
+      "sources": [
+        { "title": "The Record", "url": "https://therecord.media/chainalysis-all-users-hit-by-agentic-cyberattack" },
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/chainalysis-breach-exposes-all-users.html" },
+        { "title": "SecurityWeek – violazioni legate all'AI", "url": "https://www.securityweek.com/ai-linked-breaches-mount-as-workos-northflank-trigger-dev-disclose-hacks/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-005",
+      "published": "2026-11-05",
       "title": "CERT-In: attore assistito da AI contro banche e crypto; clone di ARTEX con backdoor su Docker Hub",
       "category": "malware",
       "severity": "MEDIUM",
@@ -44,7 +100,7 @@
       ]
     },
     {
-      "id": "2026-11-05-004",
+      "id": "2026-11-05-006",
       "published": "2026-11-05",
       "title": "Zyxel GS1900: zero-day sfruttato anche dopo la patch precedente",
       "category": "vuln",
@@ -58,7 +114,20 @@
       ]
     },
     {
-      "id": "2026-11-05-005",
+      "id": "2026-11-05-007",
+      "published": "2026-11-05",
+      "title": "WatchGuard e Cisco: patch per falle critiche, aggiornato l'avviso su Node2Shell (sfruttata)",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "WatchGuard ha pubblicato cinque avvisi, quattro critici: CVE-2026-98432 (CVSS 9,8), un use-after-free nel kernel Linux che riguarda anche Dimension, per cui non c'è ancora una patch, mentre Fireware OS e gli access point non sono esposti alla catena di esecuzione remota; e tre falle critiche di autenticazione in AuthPoint Authentication Gateway (CVE-2026-121638, CVE-2026-121639, CVE-2026-121640), più una di integrità (CVE-2026-121637), già corrette. Cisco ha corretto CVE-2026-76506 in UCS Central e ha aggiornato l'avviso su CVE-2026-111497 (Node2Shell), falla di Brotli sfruttata attivamente, ora con 19 prodotti interessati e indagine in corso. Per le falle appena corrette i due produttori non conoscono sfruttamenti.",
+      "tags": ["WatchGuard", "Cisco", "Node2Shell", "Brotli", "AuthPoint"],
+      "cves": ["CVE-2026-98432", "CVE-2026-121638", "CVE-2026-121639", "CVE-2026-121640", "CVE-2026-121637", "CVE-2026-76506", "CVE-2026-111497"],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-008",
       "published": "2026-11-05",
       "title": "DreamHost conferma l'esposizione di credenziali FTP e sessioni webmail",
       "category": "breach",
@@ -72,17 +141,30 @@
       ]
     },
     {
+      "id": "2026-11-05-009",
+      "published": "2026-11-05",
+      "title": "Queens Public Library: ransomware, fuori uso computer, Wi-Fi e servizi digitali",
+      "category": "ransomware",
+      "severity": "MEDIUM",
+      "summary": "La biblioteca pubblica di Queens, a New York, ha confermato che un attacco ransomware ha causato i disservizi di mercoledì: fuori uso i computer in sede, le macchine per prestito e restituzione, il Wi-Fi, i servizi di media digitali e l'app mobile, mentre tutte le sedi restano aperte. Collabora con le forze dell'ordine e con esperti; giovedì sera nessun gruppo aveva rivendicato, e non è noto se siano stati rubati dati né quando i servizi torneranno.",
+      "tags": ["ransomware", "biblioteche", "USA"],
+      "cves": [],
+      "sources": [
+        { "title": "The Record", "url": "https://therecord.media/queens-library-ransomware-causes-disruptions" }
+      ]
+    },
+    {
       "id": "2026-11-04-001",
       "published": "2026-11-04",
-      "title": "Servizio trasfusionale francese: manomessi i frigoriferi di tre sedi, indaga l'ANSSI",
+      "title": "Servizio trasfusionale francese: manomessi i frigoriferi di tre depositi di plasma",
       "category": "ics",
       "severity": "HIGH",
-      "summary": "Un ignoto ha manipolato i controlli di temperatura delle celle frigorifere di tre sedi dell'Établissement français du sang, passando da un fornitore di impianti di refrigerazione, portando soglie di temperatura e sbrinamento a valori molto alti. Gli allarmi hanno segnalato l'anomalia, il personale ha ripreso il controllo e il plasma, anche quello destinato a farmaci, è stato spostato: l'ente dice che la sua integrità non è compromessa. L'ANSSI, con il Ministero della Salute, indaga e conosce compromissioni di controller Danfoss AK-SM/AK-SC e Copeland/Dixell xweb, da tenere fuori da Internet. Il legame con gli attacchi ai supermercati non è confermato.",
-      "tags": ["sanità", "Francia", "ANSSI", "Danfoss", "Copeland"],
+      "summary": "Il 2 novembre un attaccante ha portato a livelli estremi le soglie di temperatura e sbrinamento in tre depositi di plasma dell'Établissement français du sang, entrando tramite un fornitore di impianti di refrigerazione (Coolworld, che attribuisce la vulnerabilità a un componente di terze parti). Secondo Le Canard Enchaîné si è tentato di portare il setpoint da circa -30 °C a 110 °C. Gli allarmi hanno funzionato, il plasma è stato spostato o messo in sicurezza e l'ente esclude prodotti compromessi e conseguenze sanitarie. L'ANSSI e il Ministero della Salute indagano e conoscono compromissioni di controller Danfoss e Copeland; non ci sono responsabili noti e un legame operativo con le ondate sui supermercati, che hanno lo stesso schema, non è dimostrato.",
+      "tags": ["sanità", "Francia", "ANSSI", "refrigerazione", "Coolworld"],
       "cves": [],
       "sources": [
         { "title": "The Record", "url": "https://therecord.media/france-cyberattack-blood-refrigeration" },
-        { "title": "Cybersecurity Dive", "url": "https://www.cybersecuritydive.com/news/french-probe-cyberattack-blood-supply/873871/" }
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/" }
       ]
     },
     {
@@ -96,7 +178,7 @@
       "cves": [],
       "sources": [
         { "title": "The Record", "url": "https://therecord.media/french-bank-confirms-cyber-heist" },
-        { "title": "Matrice Digitale", "url": "https://www.matricedigitale.it/2026/11/05/cyberattacco-credit-mutuel-arkea-frode-fornitore-fortuneo/" }
+        { "title": "Cyber Security 360", "url": "https://www.cybersecurity360.it/nuove-minacce/rubati-100-milioni-a-banca-francese-ma-quanto-sono-frequenti-le-rapine-cyber/" }
       ]
     },
     {
@@ -129,19 +211,6 @@
     {
       "id": "2026-11-04-005",
       "published": "2026-11-04",
-      "title": "Violazioni legate all'AI: WorkOS, Northflank e Trigger.dev, con lo strumento Artex",
-      "category": "breach",
-      "severity": "MEDIUM",
-      "summary": "WorkOS ha reso noto un incidente del 30 ottobre in un'app interna del team vendite, con esposizione di contatti aziendali, storico degli account, comunicazioni con i clienti e dati d'uso dei prodotti. SecurityWeek lega gli attacchi a WorkOS e Chainstack allo strumento open source di pentest basato su AI Artex; Northflank e Trigger.dev hanno pubblicato incidenti simili, senza dettagli su cosa sia stato raggiunto. Non sono confermati il collegamento tra i tre casi né il coinvolgimento di Storm-0940, il gruppo cinese associato ad Artex.",
-      "tags": ["WorkOS", "Northflank", "Trigger.dev", "Artex", "AI"],
-      "cves": [],
-      "sources": [
-        { "title": "SecurityWeek", "url": "https://www.securityweek.com/ai-linked-breaches-mount-as-workos-northflank-trigger-dev-disclose-hacks/" }
-      ]
-    },
-    {
-      "id": "2026-11-04-006",
-      "published": "2026-11-04",
       "title": "Campagna Poisoned Source: APT29 contro iPhone e Android con exploit già corretti",
       "category": "apt",
       "severity": "HIGH",
@@ -149,13 +218,12 @@
       "tags": ["APT29", "watering hole", "iOS", "Android", "KEV"],
       "cves": ["CVE-2024-27834", "CVE-2026-20700"],
       "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/apt29-linked-hackers-hijack-web.html" },
-        { "title": "The Hacker News – avviso CISA", "url": "https://thehackernews.com/2026/11/hackers-exploit-patched-apple-flaw-to.html" },
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/hackers-exploit-patched-apple-flaw-to.html" },
         { "title": "SecurityWeek", "url": "https://www.securityweek.com/russia-linked-hackers-hit-ios-android-devices-with-exploit-chains-via-watering-holes/" }
       ]
     },
     {
-      "id": "2026-11-04-007",
+      "id": "2026-11-04-006",
       "published": "2026-11-04",
       "title": "WordPress core: race condition sfruttata durante gli aggiornamenti completi",
       "category": "vuln",
@@ -168,7 +236,7 @@
       ]
     },
     {
-      "id": "2026-11-04-008",
+      "id": "2026-11-04-007",
       "published": "2026-11-04",
       "title": "Xen XSA-523: una VM malevola può leggere e scrivere la memoria delle altre",
       "category": "vuln",
@@ -181,33 +249,7 @@
       ]
     },
     {
-      "id": "2026-11-04-009",
-      "published": "2026-11-04",
-      "title": "APT di Debian e Ubuntu: un attacco man-in-the-middle può sostituire pacchetti già verificati",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Chi può alterare il traffico HTTP tra APT e un server di pacchetti, per esempio un mirror o un proxy malevolo, può sfruttare redirect ed errori temporanei per far ripetere un download e inserire un pacchetto diverso da quello verificato, eseguito come root all'installazione. Ubuntu lo valuta ad alta priorità (CVSS 4.0: 7.7) e gli sviluppatori di APT lo definiscono critico. Debian e Ubuntu hanno pubblicato versioni corrette per le release supportate; le fonti non dicono se i sorgenti HTTPS siano esposti.",
-      "tags": ["APT", "Debian", "Ubuntu", "supply chain", "Linux"],
-      "cves": ["CVE-2026-109518"],
-      "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/debian-and-ubuntu-apt-flaw-lets-mitm.html" }
-      ]
-    },
-    {
-      "id": "2026-11-04-010",
-      "published": "2026-11-04",
-      "title": "Barracuda: bypass di autenticazione sull'Email Security Gateway e command injection in più prodotti",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "CVE-2026-116606 (CVSS 9.3) è un bypass di autenticazione che interessa solo l'ESG precedente alla 9.4.0.030: tramite l'importazione di un backup manipolato permette di cambiare la configurazione globale. CVE-2026-111560 (CVSS 8.6) è una command injection nell'impostazione del fuso orario, con privilegi di amministratore, presente in ESG, Load Balancer ADC, Message Archiver, WAF e Web Security Gateway. Combinate danno accesso root; gli avvisi non parlano di sfruttamento attivo e Barracuda richiede privilegi admin per entrambe, mentre Mandiant sostiene che il bypass sull'ESG funzioni senza autenticazione.",
-      "tags": ["Barracuda", "ESG", "root", "Mandiant"],
-      "cves": ["CVE-2026-116606", "CVE-2026-111560"],
-      "sources": [
-        { "title": "SecurityWeek", "url": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/" }
-      ]
-    },
-    {
-      "id": "2026-11-04-011",
+      "id": "2026-11-04-008",
       "published": "2026-11-04",
       "title": "SonicWall non correggerà due falle di GMS a fine vita, una con CVSS 9,1",
       "category": "vuln",
@@ -216,37 +258,12 @@
       "tags": ["SonicWall", "GMS", "fine vita", "nessuna patch"],
       "cves": ["CVE-2026-109593", "CVE-2026-109594", "CVE-2026-102255"],
       "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/sonicwall-wont-patch-eol-gms-flaws-that.html" }
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/sonicwall-wont-patch-eol-gms-flaws-that.html" },
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/" }
       ]
     },
     {
-      "id": "2026-11-04-012",
-      "published": "2026-11-04",
-      "title": "Rails: falla critica in Active Storage con ImageMagick consente di scrivere file sul server",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "L'avviso GHSA-f3w6-w445-fwh9 (CVSS 9,8, senza CVE al momento) riguarda le versioni di Active Storage precedenti alla 8.0.5.2 e alla 8.1.4.1: un SVG caricato da un utente non autenticato può raggiungere il coder MSL di ImageMagick, che legge e scrive file indicati nello script, e su servizi Disk si possono leggere segreti come secret_key_base. Sono più esposte le app che usano :mini_magick con una policy ImageMagick permissiva e accettano upload non fidati. Rails dice di aver ricevuto la segnalazione di una catena d'attacco ma non indica sfruttamento; la serie 8.0 riceve correzioni solo fino al 7 novembre.",
-      "tags": ["Rails", "ImageMagick", "Active Storage"],
-      "cves": [],
-      "sources": [
-        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/critical-rails-flaw-lets-attackers.html" }
-      ]
-    },
-    {
-      "id": "2026-11-04-013",
-      "published": "2026-11-04",
-      "title": "Chrome 157: 213 correzioni di sicurezza, sette critiche, nessun exploit noto",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Il nuovo Chrome corregge 213 vulnerabilità, di cui sette critiche (tra cui un buffer overflow in Dawn, la memoria in ANGLE e quattro use-after-free) e 77 gravi. Google non segnala attacchi in corso, ma l'aggiornamento è consigliato subito. Gli identificativi CVE delle falle critiche non sono riportati dalla fonte.",
-      "tags": ["Chrome", "browser", "patch"],
-      "cves": [],
-      "sources": [
-        { "title": "SecurityWeek", "url": "https://www.securityweek.com/chrome-157-rolls-out-with-213-security-fixes-seven-rated-critical/" }
-      ]
-    },
-    {
-      "id": "2026-11-04-014",
+      "id": "2026-11-04-009",
       "published": "2026-11-04",
       "title": "Segreti di app Microsoft Entra rubati usati contro MSP e loro clienti",
       "category": "apt",
@@ -256,19 +273,6 @@
       "cves": [],
       "sources": [
         { "title": "Cybersecurity Dive", "url": "https://cybersecuritydive.com/news/attacker-microsoft-entra-id-downstream-msp/873744" }
-      ]
-    },
-    {
-      "id": "2026-11-04-015",
-      "published": "2026-11-04",
-      "title": "Kyiv Independent violato: email false su un lancio nucleare inviate agli iscritti",
-      "category": "breach",
-      "severity": "MEDIUM",
-      "summary": "Degli hacker hanno violato il sistema di gestione del sito e un servizio di invio newsletter del Kyiv Independent, pubblicando messaggi falsi, subito rimossi, e mandando email in russo e inglese agli iscritti, tra cui il falso annuncio di un lancio nucleare su Kyiv. La testata sospetta attori russi in base al contenuto dei messaggi, senza prove tecniche, e dice che i dati bancari di soci e donatori non sono compromessi. Un precedente attacco all'app ucraina di allerta antiaerea non risulta collegato.",
-      "tags": ["Ucraina", "disinformazione", "media", "Russia"],
-      "cves": [],
-      "sources": [
-        { "title": "The Record", "url": "https://therecord.media/ukraine-kyiv-independent-cyberattack" }
       ]
     }
   ]
