@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self'; img-src 'self'; frame-src 'none';">
+<title>NEWS DB - SPAGHETTI HACKER</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+@font-face {
+    font-family:tredue;
+    src: url("ShareTechMono-Regular.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:'Fixedsys';
+    src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype');
+}
+
+@font-face{
+    font-family:unifont;
+    src:url("unifont.woff") format("woff");
+}
+
+@font-face{
+    font-family:dos;
+    src:url("JetBrainsMonoNL-Medium.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:'VT323';
+    src:url('VT323-Regular.ttf') format('truetype');
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0c0d10;
+    color:#65E903;
+    font-family:tredue, monospace, VT323,dos,unifont,gohu,monospace;
+    font-size:21px;
+    letter-spacing:0px;
+    line-height:1.2;
+    min-height:100vh;
+    /*padding:16px 22px 36px;*/
+    overflow-x:hidden;
+}
+
+
+.banner{
+    position:relative;
+    margin-bottom:21px;
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
+}
+
+.banner img{
+    width:100%;
+    height:auto;
+    display:block;
+    max-width:100%;
+    transform-origin:center;
+}
+
+
+@keyframes crtGlitch {
+    0%   { transform: translate(0,0); filter:none; }
+    8%   { transform: translate(-1px,0); }
+    10%  { transform: translate(2px,0); }
+    12%  { transform: translate(-3px,1px); }
+    14%  { transform: translate(1px,-1px); }
+    18%  { transform: translate(0,0); }
+    35%  { transform: translate(0,0); }
+    36%  { transform: translate(-6px,0); }
+    38%  { transform: translate(4px,0); }
+    40%  { transform: translate(0,0); }
+    65%  { transform: translate(0,0); }
+    66%  { transform: translate(3px,-2px); }
+    68%  { transform: translate(-2px,2px); }
+    70%  { transform: translate(0,0); }
+    100% { transform: translate(0,0); }
+}
+
+.ascii{
+    margin:0;
+    color:#65E903;
+    font-family:monospace, "Fixedsys";
+    font-size:.58em;
+    line-height:1.0;
+    white-space:pre;
+    overflow-x:auto;
+    letter-spacing:0;
+}
+
+.wrapper{
+    max-width:1024px;
+    margin:auto;
+}
+
+.screen{
+    background:#001C1C;
+    border:1px solid #001c1c;
+    border-radius:6px;
+    padding:16px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+}
+
+.line{
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    min-height:1em;
+}
+
+.frase{
+    text-align:left;
+}
+
+.frase .dim{
+    color:#00ffff;
+    background:#0a3a2a;
+    display:inline-block;
+    line-height:1.2;
+}
+
+.dim{
+    color:#65E903;
+}
+
+a{
+    /*color:#65E903;*/
+    color:#00ffff;
+    text-decoration:none;
+    background:#0a3a2a;
+    border:1px solid transparent;
+    /*line-height: 0.98 !important;*/
+    line-height: 1.2 !important;
+    display: inline-block;
+}
+
+a:hover{
+    border:1px solid transparent;
+    /*color:#9cff5f;*/
+    color:#000000;        /* prima: #00ffff */
+    background:#65E903;   /* prima: #3a9070 */
+}
+
+::selection{
+    color:#00ffff;
+    background:#0a3a2a;
+}
+::-moz-selection{
+    color:#00ffff;
+    background:#0a3a2a;
+}
+
+.block{
+    margin-top:18px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.25s;
+}
+
+.block.visible{
+    opacity:1;
+    transform:none;
+}
+
+.post{
+    margin-top:8px;
+    padding-left:18px;
+    opacity:0;
+    transform:translateY(4px);
+    transition:.25s;
+}
+
+.post.visible{
+    opacity:1;
+    transform:none;
+}
+
+/* ── cursore vecchio ── */
+.cursor{
+    display:inline-block;
+    width:.55em;
+    height:1em;
+    background:#65E903;
+    vertical-align:text-bottom;
+    animation:blink 1s step-end infinite;
+    margin-left:2px;
+}
+
+@keyframes blink{
+    0%,100%{opacity:1;}
+    50%{opacity:0;}
+}
+
+/* ── riga prompt interattiva ── */
+#prompt-line{
+    display:flex;
+    align-items:baseline;
+    margin-top:0;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+#prompt-label{
+    flex-shrink:0;
+}
+
+#prompt-input{
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#65E903;
+    font-family:tredue, monospace, VT323,unifont,VT323,gohu,"Lucida Console",monospace;
+    font-size:inherit;
+    line-height:inherit;
+    letter-spacing:0;
+    caret-color:#65E903;
+    flex:1;
+    min-width:0;
+    padding:0;
+}
+
+/* output dei comandi */
+.cmd-output{
+    margin-top:2px;
+    padding-left:0;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.cmd-echo{
+    color:#65E903;
+    opacity:.55;
+}
+
+.cmd{
+    color:#00ffff;
+    background:#0a3a2a;
+    display:inline-block;
+    line-height:1.2;
+}
+
+.err{
+    color:#e05050;
+}
+
+.ok{
+    color:#65E903;
+}
+
+.info{
+    color:#65E903;
+}
+
+@media(max-width:640px){
+
+    html,
+    body{
+        overflow-x:hidden !important;
+        width:100%;
+    }
+
+    body{
+        padding:20px 10px;
+        font-size:17px;
+    }
+
+    .screen{
+        padding:12px;
+        overflow-x:hidden;
+    }
+
+    #navbar{
+        font-size:17px !important;
+        overflow:visible !important;
+    }
+
+    #navbar-inner{
+        padding:0 10px;
+        overflow:visible !important;
+    }
+
+    .nav-entry > a,
+    .nav-entry > span.nav-label{
+        padding:2px 4px !important;
+    }
+
+    .nav-sep{
+        padding:0 1px !important;
+    }
+
+    .nav-desktop{
+        display:none;
+    }
+
+    .drop-tooltip{
+        display:none !important;
+    }
+
+    .nav-entry{
+        position:relative;
+        -webkit-tap-highlight-color:transparent;
+        user-select:none;
+        -webkit-user-select:none;
+    }
+
+    .nav-entry > .nav-label{
+        cursor:pointer;
+    }
+
+    /* sostituisce il testo con la label corta via data-short */
+    .nav-entry > .nav-label[data-short]{
+        font-size:0;
+    }
+    .nav-entry > .nav-label[data-short]::before{
+        content:attr(data-short);
+        font-size:17px;
+    }
+
+    .nav-entry .dropdown{
+        position:fixed !important;
+        top:48px !important;
+        left:50vw !important;
+        right:auto !important;
+        transform:translateX(-50%) !important;
+        width:min(92vw, 520px) !important;
+        max-width:min(92vw, 520px) !important;
+        min-width:0 !important;
+        background:#001c1c;
+        overflow:hidden;
+        margin:0 !important;
+        padding:0;
+        z-index:9999;
+        /* nascosto di default */
+        visibility:hidden;
+        pointer-events:none;
+    }
+
+    .nav-entry.open .dropdown{
+        visibility:visible;
+        pointer-events:auto;
+    }
+
+    .drop-item{
+        width:100%;
+    }
+
+    .drop-item > a{
+        display:block;
+        width:100%;
+        white-space:normal !important;
+        overflow-wrap:normal !important;
+        word-break:normal !important;
+        padding:2px 0;
+        /* previeni selezione testo sui link del dropdown */
+        user-select:none;
+        -webkit-user-select:none;
+    }
+
+    /* su mobile :hover non deve mai mostrare il dropdown —
+       solo la classe .open gestita da JS lo mostra */
+    .nav-entry:hover .dropdown{
+        visibility:hidden;
+        pointer-events:none;
+    }
+    .nav-entry.open .dropdown{
+        visibility:visible !important;
+        pointer-events:auto !important;
+    }
+}
+
+.post-img{
+    display:inline-block;
+    vertical-align:middle;
+    height:auto;
+    width:118px;
+    /*max-width:2.4em;*/
+    object-fit:contain;
+    /*image-rendering:pixelated;*/
+    margin-right:16px;
+    position:relative;
+    top:-.1em;
+    transition: transform 1s, opacity .1s;
+    opacity: 1;
+}
+
+.post-row:hover .post-img {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+.post-row{
+    display:flex;
+    align-items:flex-start;
+    gap:0;
+    margin-top:6px;
+}
+
+.post-row-img{
+    flex-shrink:0;
+    display:flex;
+    align-items:flex-start;
+    padding-top:.1em;
+}
+
+.post-row-body{
+    flex:1;
+    min-width:0;
+    overflow:hidden;
+}
+
+/* ── navbar ── */
+#navbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    user-select:none;
+    -webkit-user-select:none;
+    /*background:#0c0d10;*/
+    background:#001c1c;
+    border-bottom:1px solid #1a3a1a;
+    padding:0px 0;
+    display:flex;
+    justify-content:flex-start;
+    font-family:tredue, monospace, VT323,dos,unifont,gohu,monospace;
+    font-size:21px;
+    box-shadow:0 2px 12px rgba(101,233,3,.08);
+}
+
+#navbar-inner{
+    max-width:1024px;
+    width:100%;
+    margin:0 auto;
+    /* screen ha padding:16px, il nav-item ha già padding:1px 6px → 16-6=10px per allineare RECENT a CONNECT */
+    padding:0 10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:0 1ch;   /* = lo spazio tra i link in index_new.html */
+}
+
+/* voce top-level: esattamente lo stile nav-item di index27 */
+.nav-entry{
+    position:relative;
+}
+
+.nav-entry > a,
+.nav-entry > span.nav-label{
+    color:#65E903;
+    background:transparent;
+    display:inline-block;
+    padding:2px 4px;
+    line-height:1.2 !important;
+    border:0;
+    white-space:nowrap;
+    text-decoration:none;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:inherit;
+    user-select:none;
+    -webkit-user-select:none;
+}
+
+.nav-entry:hover > a,
+.nav-entry:hover > span.nav-label,
+.nav-entry > a:hover{
+    /*color:#65E903;*/
+    color:#00ffff;
+    background:#0a3a2a;
+    /*border-color:#65E903;*/
+}
+
+.nav-sep{
+    color:#1a5a1a;
+    flex-shrink:0;
+    user-select:none;
+    padding:0 2px;
+}
+
+/* ── dropdown: nessun bordo, sfondo come navbar ── */
+.nav-entry .dropdown{
+    visibility:hidden;
+    position:absolute;
+    top:100%;
+    /*left:0;*/
+    background:#001c1c;
+    min-width:260px;
+    z-index:200;
+    padding:0;
+    margin-top:0;
+    left:50%;
+    transform:translateX(-50%);
+
+    border:1px dashed #65E903;
+
+}
+
+/* ponte trasparente che copre il gap tra la voce e il dropdown */
+.nav-entry .dropdown::before{
+    content:'';
+    position:absolute;
+    top:-8px;
+    left:0;
+    right:0;
+    height:8px;
+}
+
+.nav-entry:hover .dropdown{
+    visibility:visible;
+}
+
+/* voce dropdown: stesso stile nav-item */
+.drop-item{
+    position:relative;
+}
+
+.drop-item > a{
+    display:block;
+    color:#65E903;
+    background:transparent;
+    text-decoration:none;
+    padding:0px 0px;
+    /*line-height:1.15 !important;*/
+    line-height: 1.2 !important;
+    border:1px solid transparent;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:420px;
+    margin:0;
+    user-select:none;
+    -webkit-user-select:none;
+    text-align:center;
+}
+
+.drop-item > a:hover{
+    /*color:#65E903;*/
+    color:#00ffff;
+    background:#0a3a2a;
+    /*border-color:#65E903;*/
+}
+
+/* ── tooltip: fluttua a destra della voce, fade in/out ── */
+.drop-tooltip{
+    position:absolute;
+    top:-1px;
+    left:calc(100% + 8px);
+    background:#0a3a2a;
+    color:#65E903;
+    padding:4px 4px;
+    font-size:1em;
+    line-height:1.2;
+    white-space:normal;
+    width:max-content;
+    max-width:560px;
+    z-index:500;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 0s;
+    border:1px dashed #65E903;
+    display:flex;
+    align-items:flex-start;
+    gap:6px;
+}
+
+.drop-tooltip img{
+    width:64px;
+    height:64px;
+    object-fit:contain;
+    flex-shrink:0;
+    opacity:1;
+}
+
+.drop-tooltip .tt-text{
+    flex:1;
+    min-width:0;
+}
+
+.drop-item:hover .drop-tooltip{
+    opacity:1;
+    transition:opacity 0.05s ease;
+}
+
+
+/* ═══ specifico di news.html ═══ */
+a.on, a.on:hover{
+    color:#000000;
+    background:#65E903;
+}
+
+/* voce di menu della pagina corrente: stesso aspetto dell'hover del menu */
+.nav-entry > a.current{
+    color:#00ffff;
+    background:#0a3a2a;
+}
+
+#filters{
+    margin-top:1.2em;
+}
+
+.frow{
+    margin-top:4px;
+}
+
+.frow a{
+    margin-right:6px;
+}
+
+#count{
+    margin-top:12px;
+}
+
+/* riserva sempre lo spazio della barra di scorrimento: niente "salti" di larghezza quando i risultati sono pochi */
+html{
+    overflow-y:scroll;
+}
+
+#tbl{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;   /* colonne a larghezza fissa: non cambiano con i filtri */
+    margin-top:1.2em;
+}
+
+#tbl th:nth-child(1){ width:12ch; }  /* 2026-10-29 */
+#tbl th:nth-child(2){ width:7ch; }   /* CRIT */
+#tbl th:nth-child(3){ width:14ch; }  /* SUPPLY-CHAIN */
+/* la quarta (NEWS) prende lo spazio rimanente */
+
+#tbl th{
+    text-align:left;
+    font-weight:normal;
+    color:#65E903;
+    padding:2px 14px 1.2em 0;   /* una riga vuota tra intestazione e dati */
+    border-bottom:0;
+    white-space:nowrap;
+}
+
+#tbl td{
+    vertical-align:top;
+    padding:3px 14px 3px 0;
+}
+
+#tbl td.c-date,
+#tbl td.c-sev,
+#tbl td.c-cat{
+    white-space:nowrap;
+}
+
+#tbl td.c-news{
+    color:#65E903;
+    overflow-wrap:anywhere;
+    cursor:pointer;
+}
+
+#tbl td.c-cat{
+    color:#00ffff;
+}
+
+.more{
+    color:#00ffff;
+}
+
+.detail{
+    margin-top:4px;
+    padding-left:0;
+}
+
+.detail div{
+    margin-top:2px;
+}
+
+.detail a{
+    margin-right:6px;
+}
+
+.sev-crit{ color:#ff5f5f; }
+.sev-high{ color:#ffb454; }
+.sev-med{  color:#65E903; }
+.sev-low{  color:#65E903; opacity:.7; }
+
+#pager{
+    margin-top:12px;
+}
+
+#pager a{
+    margin-right:6px;
+}
+
+@media(max-width:640px){
+    #tbl thead{ display:none; }
+    #tbl, #tbl tbody, #tbl tr, #tbl td{ display:block; }
+    #tbl tr{ margin-top:12px; }
+    #tbl td{ padding:0; }
+    #tbl td.c-date,
+    #tbl td.c-sev,
+    #tbl td.c-cat{
+        display:inline-block;
+        margin-right:12px;
+    }
+    .detail{
+        padding-left:0;
+    }
+}
+</style>
+</head>
+
+<body>
+<nav id="navbar">
+<div id="navbar-inner">
+    <div class="nav-entry"><a href="index.html">[HOME]</a></div>
+    <div class="nav-entry"><a href="cve.html">[CVE DB]</a></div>
+    <div class="nav-entry"><a href="news.html" class="current">[NEWS DB]</a></div>
+    <div class="nav-entry"><a href="https://www.exploit-db.com/">[EXPLOIT DB]</a></div>
+</div>
+</nav>
+
+<div class="wrapper">
+<div class="screen">
+
+    <div class="post-row">
+        <span class="post-row-img"><img class="post-img" src="logo_old_spa22.png" alt="" aria-hidden="true"></span>
+        <span class="post-row-body">
+            <span style="color:#65E903">[0x07] NEWS DATABASE</span><br><br>
+            <span class="dim" id="meta">;caricamento...</span>
+        </span>
+    </div>
+
+    <div id="filters">
+        <div class="frow"><span class="dim">sev    </span>
+            <a href="#" data-f="min" data-v="0">ALL</a><a href="#" data-f="min" data-v="3">HIGH+</a><a href="#" data-f="min" data-v="4">CRIT</a>
+        </div>
+        <div class="frow"><span class="dim">since  </span>
+            <a href="#" data-f="days" data-v="1">today</a><a href="#" data-f="days" data-v="2">2d</a><a href="#" data-f="days" data-v="3">3d</a>
+        </div>
+        <div class="frow"><span class="dim">cat    </span><span id="catlinks"></span></div>
+        <div class="frow"><span class="dim">sort   </span>
+            <a href="#" data-f="sort" data-v="date" data-label="DATE">DATE</a><a href="#" data-f="sort" data-v="sev" data-label="SEV">SEV</a><a href="#" data-f="sort" data-v="title" data-label="TITLE">TITLE</a>
+        </div>
+    </div>
+
+    <div id="prompt-line" class="line" style="margin-top:6px">
+        <span id="prompt-label">grep&gt;&nbsp;</span>
+        <input id="prompt-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="cerca notizie, CVE o parole chiave">
+    </div>
+
+    <div id="count" class="dim"></div>
+    <div id="list"></div>
+    <div id="pager"></div>
+
+</div>
+</div>
+
+<script>
+const PAGE_SIZE = 50;
+const SEV = {
+    CRITICAL: ["CRIT", "sev-crit", 4],
+    HIGH:     ["HIGH", "sev-high", 3],
+    MEDIUM:   ["MED",  "sev-med",  2],
+    LOW:      ["LOW",  "sev-low",  1]
+};
+const CAT = {
+    "ransomware":   "RANSOM",
+    "vuln":         "VULN",
+    "breach":       "BREACH",
+    "apt":          "APT",
+    "malware":      "MALWARE",
+    "supply-chain": "SUPPLY-CHAIN",
+    "ics":          "ICS/OT",
+    "policy":       "POLICY",
+    "business":     "BUSINESS"
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+const catLabel = c => CAT[c] || String(c || "n/a").toUpperCase();
+const safeUrl = u => /^https?:\/\//i.test(String(u || "")) ? String(u) : null;
+
+let DB = null;
+let byId = new Map();
+const openIds = new Set();
+const st = { min:0, days:3, cat:"all", q:"", sort:"date", dir:-1, page:1 };
+
+/* data locale di oggi in formato YYYY-MM-DD, meno (days-1) giorni */
+function cutoffDay(days){
+    const d = new Date();
+    const t = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - (days - 1) * 86400000;
+    return new Date(t).toISOString().slice(0, 10);
+}
+
+/* ── filtro + ordinamento ── */
+function filtered(){
+    const cutoff = cutoffDay(st.days);
+    const q = st.q.trim().toLowerCase();
+    const rows = DB.items.filter(i =>
+        i.rank >= st.min &&
+        (st.cat === "all" || i.category === st.cat) &&
+        i.published.slice(0, 10) >= cutoff &&
+        (!q || i.hay.includes(q))
+    );
+    rows.sort((a, b) => {
+        let c;
+        if(st.sort === "sev")        c = (a.rank - b.rank) || cmp(a.published, b.published);
+        else if(st.sort === "title") c = cmp(a.title.toLowerCase(), b.title.toLowerCase());
+        else                         c = cmp(a.published, b.published) || (a.rank - b.rank);
+        return c * st.dir;
+    });
+    return rows;
+}
+
+/* ── pezzi di HTML ── */
+function detailHtml(i){
+    let h = `<div class="detail">`;
+    if(i.summary) h += `<div>${esc(i.summary)}</div>`;
+    if(i.cves.length){
+        h += `<div class="dim">cve    ` + i.cves.map(c =>
+            /^CVE-\d{4}-\d{4,}$/.test(c)
+                ? `<a href="https://nvd.nist.gov/vuln/detail/${esc(c)}" target="_blank" rel="noopener noreferrer">${esc(c)}</a>`
+                : esc(c)
+        ).join(" ") + `</div>`;
+    }
+    if(i.tags.length) h += `<div class="dim">tags   ${esc(i.tags.join(", "))}</div>`;
+    const srcs = i.sources.filter(s => safeUrl(s.url));
+    if(srcs.length){
+        h += `<div class="dim">fonti  ` + srcs.map(s =>
+            `<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer">${esc(s.title || safeUrl(s.url))}</a>`
+        ).join(" ") + `</div>`;
+    }
+    return h + `</div>`;
+}
+
+function newsHtml(i){
+    const open = openIds.has(i.id);
+    const flag = (i.summary || i.cves.length || i.sources.length)
+        ? `<span class="more"> [${open ? "-" : "+"}]</span>` : "";
+    return esc(i.title) + flag + (open ? detailHtml(i) : "");
+}
+
+function rowHtml(i){
+    const sev = SEV[i.severity] || ["", "sev-med", 1];
+    return (
+        `<tr>` +
+        `<td class="c-date">${esc(i.published.slice(0, 10))}</td>` +
+        `<td class="c-sev ${sev[1]}">${sev[0]}</td>` +
+        `<td class="c-cat">${esc(catLabel(i.category))}</td>` +
+        `<td class="c-news" data-id="${esc(i.id)}">${newsHtml(i)}</td>` +
+        `</tr>`
+    );
+}
+
+function pagerHtml(pages){
+    if(pages <= 1) return "";
+    const p = st.page, out = [];
+    const link = (n, label, on) => `<a href="#" data-p="${n}"${on ? ' class="on"' : ''}>${label}</a>`;
+    if(p > 1) out.push(link(p - 1, "&lt; prev"));
+    const nums = [...new Set([1, pages, p-2, p-1, p, p+1, p+2])]
+        .filter(n => n >= 1 && n <= pages)
+        .sort((a, b) => a - b);
+    let prev = 0;
+    nums.forEach(n => {
+        if(n - prev > 1) out.push('<span class="dim">..</span>');
+        out.push(link(n, n, n === p));
+        prev = n;
+    });
+    if(p < pages) out.push(link(p + 1, "next &gt;"));
+    return out.join(" ");
+}
+
+/* ── render ── */
+function render(){
+    const rows  = filtered();
+    const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+    if(st.page > pages) st.page = pages;
+    const slice = rows.slice((st.page - 1) * PAGE_SIZE, st.page * PAGE_SIZE);
+
+    document.querySelectorAll("#filters a[data-f]").forEach(a => {
+        const f = a.dataset.f, v = a.dataset.v;
+        let on = false;
+        if(f === "min")       on = parseInt(v, 10) === st.min;
+        else if(f === "days") on = parseInt(v, 10) === st.days;
+        else if(f === "cat")  on = v === st.cat;
+        else if(f === "sort") on = st.sort === v;
+        a.classList.toggle("on", on);
+        if(f === "sort") a.textContent = a.dataset.label + (on ? (st.dir < 0 ? " v" : " ^") : "");
+    });
+
+    $("count").textContent = rows.length
+        ? `;${rows.length} ${rows.length === 1 ? "notizia" : "notizie"} — pagina ${st.page}/${pages}`
+        : ";nessuna notizia";
+
+    if(!slice.length){
+        $("list").innerHTML = "";
+    } else {
+        $("list").innerHTML =
+            `<table id="tbl"><thead><tr><th>DATE</th><th>SEV</th><th>CAT</th><th>NEWS</th></tr></thead>` +
+            `<tbody>${slice.map(rowHtml).join("")}</tbody></table>`;
+    }
+    $("pager").innerHTML = pagerHtml(pages);
+}
+
+/* ── eventi ── */
+$("filters").addEventListener("click", e => {
+    const a = e.target.closest("a[data-f]");
+    if(!a) return;
+    e.preventDefault();
+    const f = a.dataset.f, v = a.dataset.v;
+    if(f === "min")       st.min  = parseInt(v, 10);
+    else if(f === "days") st.days = parseInt(v, 10);
+    else if(f === "cat")  st.cat  = v;
+    else if(f === "sort"){
+        if(st.sort === v) st.dir = -st.dir;
+        else { st.sort = v; st.dir = (v === "title") ? 1 : -1; }
+    }
+    st.page = 1;
+    render();
+});
+
+$("pager").addEventListener("click", e => {
+    const a = e.target.closest("a[data-p]");
+    if(!a) return;
+    e.preventDefault();
+    st.page = parseInt(a.dataset.p, 10);
+    render();
+    $("count").scrollIntoView({ block: "start" });
+});
+
+$("list").addEventListener("click", e => {
+    if(e.target.closest("a")) return;   /* i link alle fonti non devono aprire/chiudere la riga */
+    const td = e.target.closest("td.c-news");
+    if(!td) return;
+    const id = td.dataset.id;
+    const item = byId.get(id);
+    if(!item) return;
+    if(openIds.has(id)) openIds.delete(id); else openIds.add(id);
+    td.innerHTML = newsHtml(item);
+});
+
+let qTimer = null;
+$("prompt-input").addEventListener("input", e => {
+    clearTimeout(qTimer);
+    qTimer = setTimeout(() => { st.q = e.target.value; st.page = 1; render(); }, 120);
+});
+
+/* ── caricamento dati ── */
+async function load(){
+    try{
+        const res = await fetch("news_db.json", { cache: "no-store" });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        DB = await res.json();
+        if(!DB || !Array.isArray(DB.items)) throw new Error("formato non valido");
+    }catch(e){
+        $("meta").innerHTML = "";
+        $("list").innerHTML = `<div class="err">;news_db.json non disponibile (${esc(e.message)})</div>`;
+        return;
+    }
+
+    /* normalizza: scarta voci senza id/titolo/data e riempie i campi mancanti */
+    DB.items = DB.items.filter(i => i && i.id && i.title && /^\d{4}-\d{2}-\d{2}/.test(String(i.published || "")));
+    DB.items.forEach(i => {
+        i.id        = String(i.id);
+        i.title     = String(i.title);
+        i.published = String(i.published);
+        i.summary   = String(i.summary || "");
+        i.category  = String(i.category || "");
+        i.tags      = Array.isArray(i.tags)    ? i.tags.map(String) : [];
+        i.cves      = Array.isArray(i.cves)    ? i.cves.map(String) : [];
+        i.sources   = Array.isArray(i.sources) ? i.sources.filter(s => s && typeof s === "object") : [];
+        i.rank      = (SEV[i.severity] || [0, 0, 1])[2];
+        i.hay       = [i.id, i.title, i.summary, i.category, catLabel(i.category), i.tags.join(" "), i.cves.join(" ")].join(" ").toLowerCase();
+        byId.set(i.id, i);
+    });
+
+    /* bottoni categoria costruiti dai dati */
+    const cats = [...new Set(DB.items.map(i => i.category).filter(Boolean))].sort();
+    $("catlinks").innerHTML =
+        `<a href="#" data-f="cat" data-v="all">ALL</a>` +
+        cats.map(c => `<a href="#" data-f="cat" data-v="${esc(c)}">${esc(catLabel(c))}</a>`).join("");
+
+    const upd = String(DB.updated || "");
+    const updMs = Date.parse(upd.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(upd) ? upd : upd + "Z");
+    const ageH = (Date.now() - updMs) / 3600000;
+    let meta = `;Notizie di cybersecurity degli ultimi giorni ;${DB.items.length} voci`;
+    if(Number.isFinite(updMs)){
+        const updLocal = new Date(updMs).toLocaleString("it-IT", { timeZone: "Europe/Rome", dateStyle: "short", timeStyle: "short" });
+        meta += ` ;aggiornato ${esc(updLocal)}`;
+        if(ageH > 36) meta += ` <span class="err">| dati vecchi di ${Math.round(ageH)} ore</span>`;
+    }
+    $("meta").innerHTML = meta;
+
+    if(Number.isFinite(DB.window_days) && DB.window_days < st.days) st.days = DB.window_days;
+
+    render();
+    if(!/Mobi|Android/i.test(navigator.userAgent)) $("prompt-input").focus();
+}
+
+load();
+</script>
+</body>
+</html>

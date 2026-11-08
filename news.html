@@ -745,7 +745,7 @@ html{
             <a href="#" data-f="min" data-v="0">ALL</a><a href="#" data-f="min" data-v="3">HIGH+</a><a href="#" data-f="min" data-v="4">CRIT</a>
         </div>
         <div class="frow"><span class="dim">since  </span>
-            <a href="#" data-f="days" data-v="1">today</a><a href="#" data-f="days" data-v="2">2d</a><a href="#" data-f="days" data-v="3">3d</a>
+            <a href="#" data-f="days" data-v="1">today</a><a href="#" data-f="days" data-v="2">2d</a><a href="#" data-f="days" data-v="3">3d</a><a href="#" data-f="days" data-v="0">all</a>
         </div>
         <div class="frow"><span class="dim">cat    </span><span id="catlinks"></span></div>
         <div class="frow"><span class="dim">sort   </span>
@@ -794,6 +794,7 @@ const safeUrl = u => /^https?:\/\//i.test(String(u || "")) ? String(u) : null;
 let DB = null;
 let byId = new Map();
 const openIds = new Set();
+/* days: 1/2/3 = ultimi N giorni, 0 = tutte le notizie del JSON */
 const st = { min:0, days:3, cat:"all", q:"", sort:"date", dir:-1, page:1 };
 
 /* data locale di oggi in formato YYYY-MM-DD, meno (days-1) giorni */
@@ -805,12 +806,12 @@ function cutoffDay(days){
 
 /* ── filtro + ordinamento ── */
 function filtered(){
-    const cutoff = cutoffDay(st.days);
+    const cutoff = st.days === 0 ? "" : cutoffDay(st.days);
     const q = st.q.trim().toLowerCase();
     const rows = DB.items.filter(i =>
         i.rank >= st.min &&
         (st.cat === "all" || i.category === st.cat) &&
-        i.published.slice(0, 10) >= cutoff &&
+        (st.days === 0 || i.published.slice(0, 10) >= cutoff) &&
         (!q || i.hay.includes(q))
     );
     rows.sort((a, b) => {

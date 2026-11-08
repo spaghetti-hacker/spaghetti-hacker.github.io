@@ -1,6 +1,6 @@
 {
- "source": "GENERAL",
- "updated": "2026-11-07",
+ "source": "VULNERABILITIES",
+ "updated": "2026-11-08",
  "items": [
   {
    "title": "SonicWall Patches Exploited SonicOS Vulnerability That Weakens VPN Logins",
@@ -8,49 +8,49 @@
    "date": "2026-11-07"
   },
   {
-   "title": "Japan Announces Emergency Cybersecurity Package Following a Wave of Attacks",
-   "link": "https://www.securityweek.com/japan-announces-emergency-cybersecurity-package-following-a-wave-of-attacks/",
-   "date": "2026-11-06"
-  },
-  {
-   "title": "In Other News: Trezor Implant, LLMJacking Bills Hit $1M, SAP Flaws Weaponized Within Days",
-   "link": "https://www.securityweek.com/in-other-news-trezor-implant-llmjacking-bills-hit-1m-sap-flaws-weaponized-within-days/",
-   "date": "2026-11-06"
-  },
-  {
-   "title": "DigiCert Data Breach Impacts Business Customer Information",
-   "link": "https://www.securityweek.com/digicert-data-breach-impacts-business-customer-information/",
-   "date": "2026-11-06"
-  },
-  {
-   "title": "OpenAI Says New GPT-6 Cyber Model Hunts Flaws Without Crossing the Line",
-   "link": "https://www.securityweek.com/openai-says-new-gpt-6-cyber-model-hunts-flaws-without-crossing-the-line/",
-   "date": "2026-11-06"
-  },
-  {
-   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
-   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
-   "date": "2026-11-06"
-  },
-  {
-   "title": "Grocery Giant Ahold Delhaize Estimates Financial Toll of October Cyberattack",
-   "link": "https://www.securityweek.com/grocery-giant-ahold-delhaize-estimates-financial-toll-of-october-cyberattack/",
-   "date": "2026-11-06"
-  },
-  {
-   "title": "Researchers Find Residential Proxies on White House Network",
-   "link": "https://www.securityweek.com/researchers-find-residential-proxies-on-white-house-network/",
-   "date": "2026-11-06"
-  },
-  {
    "title": "OpenSSH Rushes Patches for ‘SSHole’ Authentication Bypass",
    "link": "https://www.securityweek.com/openssh-rushes-patches-for-sshole-authentication-bypass/",
    "date": "2026-11-06"
   },
   {
-   "title": "OpenAI Model Wrote Its Own Network Code to Get Around Sandbox Restrictions",
-   "link": "https://www.securityweek.com/openai-model-wrote-its-own-network-code-to-get-around-sandbox-restrictions/",
-   "date": "2026-11-06"
+   "title": "Cisco, WatchGuard Release Patches; SonicWall Won’t Fix GMS Flaws",
+   "link": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/",
+   "date": "2026-11-05"
+  },
+  {
+   "title": "Zyxel Switch Hacks Blamed on Patched Flaw Actually Exploited a Zero-Day",
+   "link": "https://www.securityweek.com/zyxel-switch-hacks-blamed-on-patched-flaw-actually-exploited-a-zero-day/",
+   "date": "2026-11-05"
+  },
+  {
+   "title": "Barracuda ESG Authentication Bypass Flaw Opens Path to Root",
+   "link": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/",
+   "date": "2026-11-04"
+  },
+  {
+   "title": "Chrome 157 Rolls Out With 213 Security Fixes, Seven Rated Critical",
+   "link": "https://www.securityweek.com/chrome-157-rolls-out-with-213-security-fixes-seven-rated-critical/",
+   "date": "2026-11-04"
+  },
+  {
+   "title": "Meta Shares Top Muse Bug Bounty Findings as Payouts Reach $1.2 Million",
+   "link": "https://www.securityweek.com/meta-shares-top-muse-bug-bounty-findings-as-payouts-reach-1-2-million/",
+   "date": "2026-11-04"
+  },
+  {
+   "title": "Android’s November 2026 Updates Patch Over 200 Vulnerabilities",
+   "link": "https://www.securityweek.com/androids-november-2026-updates-patch-over-200-vulnerabilities/",
+   "date": "2026-11-03"
+  },
+  {
+   "title": "Critical Node-RED Flaw Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+   "date": "2026-11-03"
+  },
+  {
+   "title": "Google Introduces $250,000 Root-in-Cloud Bug Bounty Reward",
+   "link": "https://www.securityweek.com/google-introduces-250000-root-in-cloud-bug-bounty-reward/",
+   "date": "2026-11-02"
   }
  ]
 }
