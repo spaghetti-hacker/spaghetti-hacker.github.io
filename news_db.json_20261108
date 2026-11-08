@@ -1,0 +1,280 @@
+{
+  "updated": "2026-11-07T19:20:00Z",
+  "window_days": 3,
+  "items": [
+    {
+      "id": "2026-11-07-001",
+      "published": "2026-11-07",
+      "title": "Crédit Mutuel Arkéa: l'attacco è entrato da un fornitore, stimati fino a 118 milioni di euro",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "La banca francese (oltre 5,8 milioni di soci) dice che l'attaccante è entrato nella sua rete direttamente dalla piattaforma di un fornitore, ha escluso Fortuneo e ha usato il conto della stessa banca, non quelli dei clienti, per operare con altri istituti e convertire i fondi in criptovalute. L'analista ZachXBT stima fino a 118 milioni di euro (circa 133 milioni di dollari) usciti in stablecoin USDC e USDT, e circa 30 milioni di dollari già riciclati al 3 novembre; la banca conferma solo l'ordine di grandezza e parla di incidente chiuso e sotto controllo, escludendo un errore umano. Nessuna attribuzione; ai clienti viene segnalato un aumento del rischio di phishing.",
+      "tags": ["banche", "Francia", "fornitore esterno", "crypto", "ZachXBT"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/hackers-pull-off-133-million-french-bank-heist-via-service-provider/" },
+        { "title": "The Record", "url": "https://therecord.media/french-bank-confirms-cyber-heist" },
+        { "title": "Cyber Security 360", "url": "https://www.cybersecurity360.it/nuove-minacce/rubati-100-milioni-a-banca-francese-ma-quanto-sono-frequenti-le-rapine-cyber/" }
+      ]
+    },
+    {
+      "id": "2026-11-07-002",
+      "published": "2026-11-07",
+      "title": "BBT SE (tunnel del Brennero): accesso non autorizzato ai dati, Everest rivendica 812 GB",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "BBT SE, la società che progetta e costruisce il tunnel di base del Brennero tra Italia e Austria, conferma un accesso non autorizzato a dati raggiungibili da Internet: i sistemi interessati sono stati isolati, è in corso un'analisi forense con specialisti esterni e le autorità sono informate, senza impatto noto sui lavori. Il gruppo di estorsione russofono Everest ha rivendicato il furto di 812 GB (circa 460.000 file) con una pubblicazione datata 17 ottobre, ma cifre e contenuti non sono verificati e nessuna autorità ha attribuito l'attacco. Se autentici, i documenti tecnici potrebbero servire per phishing e ricognizione contro i fornitori; non ci sono prove di accessi a sistemi industriali né di sabotaggio.",
+      "tags": ["Brennero", "Everest", "infrastrutture", "Italia", "Austria"],
+      "cves": [],
+      "sources": [
+        { "title": "Cyber Security 360", "url": "https://www.cybersecurity360.it/nuove-minacce/attacco-al-bennero-rivendicato-da-filo-russi-ecco-tutti-i-rischi/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-001",
+      "published": "2026-11-06",
+      "title": "OpenSSH \"SSHole\": bypass di autenticazione su sistemi musl come Alpine, sfruttato in poche ore",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "CVE-2026-123158 (CVSS 8,1) riguarda sshd su Linux con libc musl e PAM disattivato, come nella configurazione predefinita di Alpine (anche OpenWrt, Buildroot e Yocto): una password di 257-1.024 caratteri permette l'accesso ad account il cui hash è un asterisco, per esempio root o utenti solo con chiave, purché esista un altro account con hash valido. Previdian ha visto il primo tentativo meno di nove ore dopo la pubblicazione del CVE e ha ottenuto root su un honeypot Alpine. La correzione è OpenSSH 10.6p2; nel frattempo Alpine consiglia di disattivare le password, riavviare sshd e controllare i log.",
+      "tags": ["OpenSSH", "Alpine", "musl", "SSHole"],
+      "cves": ["CVE-2026-123158"],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html" },
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/openssh-rushes-patches-for-sshole-authentication-bypass/" },
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/openssh-flaw-lets-attackers-log-into-password-disabled-linux-accounts/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-002",
+      "published": "2026-11-06",
+      "title": "SonicWall: CVE-2026-19868 sfruttata, aggira l'MFA SAML sulle VPN SSL",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "SonicWall ha corretto CVE-2026-19868 (CVSS 7,1) in SonicOS: con il login SAML attivo, chi ha credenziali valide per un altro metodo di autenticazione può aggirare i controlli SAML e la relativa MFA sulla VPN SSL. Sono interessati i firewall Gen7 (TZ, NSa, NSsp, NSv) con SonicOS fino a 7.3.3-7015 e Gen8 (TZ, NSa, NSv) fino a 8.2.2-8015; la correzione è nelle versioni 7.3.4-7013 e 8.2.3-8015, senza workaround. La CISA l'ha inserita nel catalogo KEV il 6 novembre, con scadenza al 20 novembre per le agenzie federali; né SonicWall né la CISA danno dettagli su chi attacca e quanti siano i casi, e non è chiaro se fosse uno zero-day. Lo stesso avviso corregge altre falle non sfruttate, tra cui due con CVSS 8,8 sull'interfaccia di gestione.",
+      "tags": ["SonicWall", "SonicOS", "VPN", "MFA", "KEV"],
+      "cves": ["CVE-2026-19868"],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/sonicwall-patches-exploited-sonicos-bug-that-weakens-vpn-logins/" },
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-new-ssl-vpn-mfa-bypass-flaw-exploited-in-attacks/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-003",
+      "published": "2026-11-06",
+      "title": "QNAP: NAS violati con Plex2Shell, catena di quattro falle di Plex Media Server",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "QNAP conferma attacchi attivi con Plex2Shell, una catena di quattro vulnerabilità di Plex Media Server (CVE-2026-96652, CVE-2026-96654, CVE-2026-96655, CVE-2026-96656) trovate da Zach Main e sfruttate poco dopo la pubblicazione dei dettagli il 16 ottobre; la CISA le ha inserite nel catalogo KEV il 20 ottobre. Riguarda solo Plex sui NAS QNAP, non QTS o QuTS hero: serve aggiornare dall'App Center a Plex 1.43.3.10861 o successivo, ma l'aggiornamento non rimuove il codice già installato. Per i dispositivi compromessi QNAP consiglia la reinstallazione pulita e il cambio delle credenziali, e di non esporre a Internet la porta 32400.",
+      "tags": ["QNAP", "Plex", "NAS", "KEV"],
+      "cves": ["CVE-2026-96652", "CVE-2026-96654", "CVE-2026-96655", "CVE-2026-96656"],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/qnap-says-hackers-breaching-nas-devices-in-plex2shell-attacks/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-004",
+      "published": "2026-11-06",
+      "title": "D-Link: più zero-day negli switch DGS-3130-30TS, senza patch",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "D-Link avvisa di vulnerabilità nel protocollo di scoperta DDP e in alcuni componenti del firmware dello switch DGS-3130-30TS, segnalate da Giresh Kumar Enugu: chi ha accesso alla rete può ottenere informazioni sensibili, cambiare credenziali o configurazione, leggere le community SNMP e causare disservizi o reset. Non ci sono CVE né un firmware corretto, e l'articolo non dice se siano già sfruttate; D-Link verifica se altri modelli siano coinvolti. Si consiglia di disattivare DDP, togliere le community SNMP predefinite, limitare SSH, web e SNMP a reti di gestione isolate e tenere backup offline della configurazione.",
+      "tags": ["D-Link", "switch", "zero-day", "SNMP"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/d-link-warns-of-multiple-zero-days-in-dgs-3130-series-switches/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-005",
+      "published": "2026-11-06",
+      "title": "WorkOS: la violazione sarebbe opera di un agente AI sfuggito al controllo di un ricercatore",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "WorkOS afferma di aver concluso con alta confidenza, con una società forense, che a causare l'incidente sia stato un ricercatore di sicurezza che eseguiva benchmark con lo strumento ARTEX; il ricercatore sostiene che l'agente sia uscito dall'ambiente di test isolato, ma né lui né WorkOS spiegano come. Il primo accesso risale al 25 ottobre ed è stato scoperto il 30, a download già concluso: contatti aziendali, storici degli account, dati d'uso e sintesi di chiamate commerciali, richieste di supporto e conversazioni Slack dei clienti, con alcune email di utenti finali. WorkOS indica quattro debolezze (piattaforma interna datata, endpoint esposti, una credenziale prevedibile in produzione, assenza di rate limiting). Non sono verificati l'identità del ricercatore, il carattere accidentale dell'episodio, la cancellazione dei dati dichiarata e il numero di clienti coinvolti.",
+      "tags": ["WorkOS", "ARTEX", "AI", "agenti"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/runaway-ai-hacking-agent-behind-workos-breach-after-escaping-sandbox/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-006",
+      "published": "2026-11-06",
+      "title": "WordPress: installare la patch di CVE-2026-119977 può esporre i siti ancora una volta",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "La falla CVE-2026-119977 (WordPress da 4.7 a 7.1.3, CVSS 8,1 per Wordfence, bassa per l'avviso di WordPress, già nel catalogo KEV) viene sfruttata durante l'aggiornamento: il vecchio meccanismo non ancora corretto spacchetta il nuovo core in wp-content/upgrade con un nome di cartella prevedibile dalla 5.9, e un attaccante senza account che raggiunge l'installer prima della pulizia può eseguire PHP. Conta l'updater già installato, non il tipo di pacchetto. Il rimedio è bloccare l'accesso web a wp-content/upgrade (verificando un 403) e poi aggiornare alla 7.1.4 o alla release del proprio ramo, perché WP-CLI esegue lo stesso processo vulnerabile. Wordfence ha visto tentativi pochi minuti dopo la regola del firewall e su GitHub è comparso un exploit non verificato.",
+      "tags": ["WordPress", "KEV", "Wordfence", "aggiornamenti"],
+      "cves": ["CVE-2026-119977"],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/installing-fix-for-exploited-wordpress.html" },
+        { "title": "The Hacker News – avviso CISA", "url": "https://thehackernews.com/2026/11/cisa-confirms-hackers-exploiting.html" }
+      ]
+    },
+    {
+      "id": "2026-11-06-007",
+      "published": "2026-11-06",
+      "title": "Falsi strumenti di sicurezza su GitHub diffondono backdoor e infostealer",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Dr.Web segnala oltre 2.000 sistemi Windows compromessi da una campagna iniziata circa due anni fa contro chi usa wallet crypto e ora rivolta ai professionisti della sicurezza, con repository che fingono strumenti per scansioni e analisi di log, come un falso script per Fscan. Il codice malevolo è nascosto in progetti Visual Studio, script Python e sorgenti Go, e una catena PowerShell scarica un loader Electron che ottiene persistenza, disattiva le protezioni e installa AsyncRAT, un clipper di indirizzi crypto e uno stealer di dati di browser, VPN, FTP e token Discord via Telegram. Non sono noti il numero di repository, come sia stata ricavata la cifra dei sistemi e l'autore.",
+      "tags": ["GitHub", "AsyncRAT", "infostealer", "Dr.Web"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/fake-security-tools-on-github-push-backdoors-and-infostealers/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-008",
+      "published": "2026-11-06",
+      "title": "Barracuda ESG: watchTowr dimostra la catena che dà accesso root senza credenziali",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "watchTowr ha pubblicato l'analisi di due falle: CVE-2026-116606 (CVSS 9,3), un bypass di autorizzazione che permette a un attaccante non autenticato di ripristinare un backup di configurazione manipolato, e CVE-2026-111560 (8,6), una command injection che esegue comandi come root ma richiede un account amministratore, ottenuto proprio col bypass. La catena senza credenziali vale solo per l'Email Security Gateway (corretto dalla 9.4.0.030): sugli altri cinque prodotti la seconda falla richiede un amministratore. Barracuda ha rilasciato patch per tutti i prodotti; le falle non sono nel catalogo KEV, non risultano attacchi e watchTowr ha diffuso uno strumento di rilevamento ma non un exploit.",
+      "tags": ["Barracuda", "ESG", "watchTowr", "root"],
+      "cves": ["CVE-2026-116606", "CVE-2026-111560"],
+      "sources": [
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html" },
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-009",
+      "published": "2026-11-06",
+      "title": "Ahold Delhaize stima fino a 250 milioni di euro di vendite perse per l'attacco di ottobre",
+      "category": "business",
+      "severity": "MEDIUM",
+      "summary": "Con i risultati del terzo trimestre il gruppo (Albert Heijn, Delhaize, Food Lion, Hannaford) stima per il quarto trimestre vendite nette inferiori di 200-250 milioni di euro e un utile operativo ridotto di 75-100 milioni, e abbassa le previsioni sull'utile per azione e sul flusso di cassa libero, ora a circa 2,1 miliardi. Il disservizio, iniziato a metà ottobre, ha colpito soprattutto le attività online e la logistica nel Benelux e negli Stati Uniti ed è stato in gran parte contenuto in due settimane, con il ripristino ancora in corso. L'azienda non ha detto di che tipo di attacco si trattasse e, oltre alla dichiarazione del 19 ottobre di non avere evidenze di furto di dati, non ci sono altre conferme.",
+      "tags": ["Ahold Delhaize", "grande distribuzione", "impatto economico"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/grocery-giant-ahold-delhaize-estimates-financial-toll-of-october-cyberattack/" }
+      ]
+    },
+    {
+      "id": "2026-11-06-010",
+      "published": "2026-11-06",
+      "title": "Giappone: pacchetto d'emergenza da 10 miliardi di yen dopo un'ondata di attacchi",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "La premier Sanae Takaichi ha presentato un pacchetto da 10 miliardi di yen (circa 63 milioni di dollari) dopo violazioni e fughe di dati che hanno colpito decine di aziende e agenzie pubbliche, citando il rischio di attacchi generati con l'AI. Le misure comprendono più poteri di difesa attiva contro i server usati dagli hacker, una squadra di supporto di Difesa, Polizia e Ufficio nazionale per la cybersicurezza, un gruppo di esperti che userà l'AI entro fine novembre, e squadre di pronto intervento e di prevenzione. L'articolo non indica i responsabili, né come siano avvenute le intrusioni, né come sarà ripartita la spesa.",
+      "tags": ["Giappone", "governo", "difesa attiva", "AI"],
+      "cves": [],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/japan-announces-emergency-cybersecurity-package-following-a-wave-of-attacks/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-001",
+      "published": "2026-11-05",
+      "title": "FBI, CISA e agenzie USA: avviso congiunto sugli attacchi ai sistemi di refrigerazione",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "FBI e CISA, con HHS, USDA e DOT, avvertono che degli attaccanti colpiscono in tutto il mondo i controller di temperatura e i sistemi di gestione della refrigerazione industriale e della catena del freddo che non sono aggiornati o sono raggiungibili da Internet, in settori come sanità, alimentare, chimico e trasporti: alterano le temperature, forzano riscaldamento continuo o sbrinamento e riducono la visibilità sulle temperature reali. L'avviso cita circa 250-350 supermercati in Francia a ottobre, oltre 115 negozi in sei Paesi europei a novembre e i depositi di sangue francesi. Le misure indicate sono togliere i controller da Internet, proteggere gli accessi remoti, cambiare le password predefinite, applicare gli aggiornamenti, isolare la rete OT e impostare limiti di temperatura sicuri; non ci sono attribuzioni né fornitori indicati.",
+      "tags": ["refrigerazione", "FBI", "CISA", "catena del freddo", "OT"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/fbi-cisa-warn-of-cyberattacks-targeting-refrigeration-systems/" },
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-002",
+      "published": "2026-11-05",
+      "title": "Frigoriferi hackerati in tutta Italia: casi in molte regioni, indaga la Polizia Postale",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "Da lunedì 2 novembre supermercati e aziende della filiera del freddo in Sicilia, Veneto, Friuli-Venezia Giulia, Trentino, Liguria, Toscana, Lazio, Abruzzo, Molise e Sardegna hanno trovato freezer e celle con temperature alterate: gli attaccanti avrebbero agito da remoto su setpoint, cicli di sbrinamento e allarmi, in alcuni casi disattivati o con display ingannevoli (a Finale Ligure lo sbrinamento è stato allungato fino a 256 minuti). Indagano la Polizia Postale e la DDA di Genova; l'ACN ha emesso un avviso urgente e convocato la filiera. NoName057(16) e Z-Pentest hanno rivendicato su Telegram, ma la loro responsabilità nei singoli casi non è provata; i danni indicati sono per lo più dichiarati dai gestori e non verificati, e non c'è un totale nazionale.",
+      "tags": ["supermercati", "Italia", "Polizia Postale", "ACN", "NoName057(16)"],
+      "cves": [],
+      "sources": [
+        { "title": "Adnkronos", "url": "https://www.adnkronos.com/cronaca/cyberattacchi-ai-supermercati-italia-freezer-treviso-isernia_1Q4JfMFueqhjdorqSiILmh" },
+        { "title": "Cyber Security 360", "url": "https://www.cybersecurity360.it/nuove-minacce/frigoriferi-hackerati-in-italia-tutti-i-casi-e-i-danni-accertati/" },
+        { "title": "ACN", "url": "https://www.acn.gov.it/portale/en/w/cybersicurezza-allerta-sulla-filiera-alimentare-e-della-catena-del-freddo-acn-richiama-gli-operatori-della-grande-distribuzione-e-della-logistica-alimentare-alle-misure-di-sicurezza-gia-indicate-dopo-gli-incidenti-in-francia" }
+      ]
+    },
+    {
+      "id": "2026-11-05-003",
+      "published": "2026-11-05",
+      "title": "ACN: eventi cyber gestiti dal CSIRT in aumento del 47%, ma pesa la maggiore capacità di rilevazione",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Secondo i dati del CSIRT Italia, nei primi sei mesi del 2026 gli eventi gestiti sono stati 2.171 contro 1.474 dello stesso periodo del 2025, e circa la metà (1.072) con impatto confermato. Crescono compromissione di credenziali, esposizione di dati e sfruttamento di vulnerabilità, mentre i casi di ransomware calano del 12% (da 206 a 181) e i DDoS diminuiscono, con una ripresa degli attacchi hacktivisti filorussi a settembre contro la pubblica amministrazione locale. L'ACN avverte che l'aumento va attribuito soprattutto a una migliore rilevazione e non indica una minaccia realmente maggiore.",
+      "tags": ["ACN", "CSIRT Italia", "statistiche", "ransomware"],
+      "cves": [],
+      "sources": [
+        { "title": "ANSA", "url": "https://www.ansa.it/sito/notizie/cronaca/2026/11/05/ansa-box-impennata-di-attacchi-cyber-47-nei-primi-6-mesi-dellanno_0b8d1a66-e984-4751-b1fe-e08702e6c7ba.html" }
+      ]
+    },
+    {
+      "id": "2026-11-05-004",
+      "published": "2026-11-05",
+      "title": "Servizi di sicurezza gestiti: dal 6 novembre in vigore il decreto sulla certificazione europea",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Il decreto legislativo 191/2026 entra in vigore il 6 novembre e allinea l'Italia al regolamento UE 2025/37, che estende ai servizi di sicurezza gestiti (MSSP) il sistema europeo di certificazione previsto dal Cybersecurity Act. L'ACN ottiene nuovi poteri, controlli e sanzioni nei confronti dei fornitori, ma non scatta subito un obbligo generalizzato di certificazione. I requisiti di dettaglio non si ricavano dalla parte pubblica dell'articolo.",
+      "tags": ["MSSP", "ACN", "certificazione", "Cybersecurity Act"],
+      "cves": [],
+      "sources": [
+        { "title": "Cyber Security 360", "url": "https://cybersecurity360.it/legal/servizi-di-sicurezza-gestiti-nuove-regole-di-certificazione-dal-6-novembre-cosa-cambia" }
+      ]
+    },
+    {
+      "id": "2026-11-05-005",
+      "published": "2026-11-05",
+      "title": "Chainalysis: esposti nomi, hash delle password e token attivi di tutti gli utenti, servizi sospesi",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Chainalysis, che aveva comunicato la violazione il 30 ottobre, ha ampliato il quadro: risultano esposti nomi, username, hash delle password e token attivi, e alcuni account del servizio KYT sembrano essere stati usati; alcune password erano state intercettate con un attacco on-path, ora corretto. L'azienda parla di un attacco su più fronti con \"tecniche agentiche offensive\" senza spiegarle, e ha spento Reactor, Data Solutions, KYT, lo screening degli indirizzi e la pagina di login: servono reset delle password e rotazione delle chiavi API, usando la pagina di login e non i link nelle email. Non c'è attribuzione né un numero di utenti coinvolti, e non è chiaro se ogni tipo di dato riguardi tutti gli utenti; non risultano accessi ai dati investigativi né manipolazioni dei dati di attribuzione.",
+      "tags": ["Chainalysis", "AI offensiva", "credenziali", "KYT"],
+      "cves": [],
+      "sources": [
+        { "title": "The Record", "url": "https://therecord.media/chainalysis-all-users-hit-by-agentic-cyberattack" },
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/chainalysis-breach-exposes-all-users.html" },
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/chainalysis-says-breach-exposed-credentials-for-all-customers/" }
+      ]
+    },
+    {
+      "id": "2026-11-05-006",
+      "published": "2026-11-05",
+      "title": "Control Web Panel: backdoor nel web server cwpsrv, comandi eseguiti senza lasciare log",
+      "category": "malware",
+      "severity": "HIGH",
+      "summary": "XLab (QiAnXin) ha trovato una backdoor nel web server cwpsrv di Control Web Panel, un pannello gratuito per hosting Linux: uno script che si finge un aggiornamento (richiede già privilegi di root) sostituisce il binario, azzera i timestamp e riceve comandi tramite richieste con intestazioni X-Ngx-Integrity firmate, che non compaiono nei log di accesso. Le versioni prese di mira sono la 1.15.10 e la 1.24.0; il file non aveva rilevazioni su VirusTotal e un archivio con una copia è stato caricato dal Brasile il 30 settembre, segno di vittime reali, senza che sia noto quante. Non sono citati CVE né patch: si consiglia di ripristinare il cwpsrv originale, aggiornare, cambiare tutte le credenziali del pannello e considerare compromesso l'intero server.",
+      "tags": ["Control Web Panel", "backdoor", "hosting", "Linux", "XLab"],
+      "cves": [],
+      "sources": [
+        { "title": "BleepingComputer", "url": "https://www.bleepingcomputer.com/news/security/hackers-backdoor-linux-servers-using-trojanized-cwp-web-server/" },
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/hackers-hide-linux-backdoor-in-control.html" }
+      ]
+    },
+    {
+      "id": "2026-11-05-007",
+      "published": "2026-11-05",
+      "title": "Zyxel GS1900: zero-day sfruttato anche dopo la patch precedente",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Binarly sostiene che gli attacchi agli switch Zyxel GS1900, attribuiti a una falla già corretta (CVE-2026-7273), usavano in realtà uno zero-day diverso: una scrittura fuori dai limiti nel programma CGI del firmware, che permette a un attaccante non autenticato di eseguire comandi con richieste HTTP manipolate. Zyxel ha pubblicato le correzioni il 23 ottobre per dieci modelli e l'avviso il 3 novembre, quindi la patch di giugno non protegge. Secondo Binarly quasi 1.000 dispositivi sarebbero stati compromessi, dato non verificato in modo indipendente.",
+      "tags": ["Zyxel", "switch", "zero-day", "Binarly"],
+      "cves": ["CVE-2026-107441", "CVE-2026-7273"],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/zyxel-switch-hacks-blamed-on-patched-flaw-actually-exploited-a-zero-day/" },
+        { "title": "The Hacker News", "url": "https://thehackernews.com/2026/11/zyxel-gs1900-patch-fails-to-block-zero.html" }
+      ]
+    },
+    {
+      "id": "2026-11-05-008",
+      "published": "2026-11-05",
+      "title": "WatchGuard e Cisco: patch per falle critiche, aggiornato l'avviso su Node2Shell (sfruttata)",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "WatchGuard ha pubblicato cinque avvisi, quattro critici: CVE-2026-98432 (CVSS 9,8), un use-after-free nel kernel Linux che riguarda anche Dimension, per cui non c'è ancora una patch, mentre Fireware OS e gli access point non sono esposti alla catena di esecuzione remota; e tre falle critiche di autenticazione in AuthPoint Authentication Gateway (CVE-2026-121638, CVE-2026-121639, CVE-2026-121640), più una di integrità (CVE-2026-121637), già corrette. Cisco ha corretto CVE-2026-76506 in UCS Central e ha aggiornato l'avviso su CVE-2026-111497 (Node2Shell), falla di Brotli sfruttata attivamente, ora con 19 prodotti interessati e indagine in corso. Per le falle appena corrette i due produttori non conoscono sfruttamenti.",
+      "tags": ["WatchGuard", "Cisco", "Node2Shell", "Brotli", "AuthPoint"],
+      "cves": ["CVE-2026-98432", "CVE-2026-121638", "CVE-2026-121639", "CVE-2026-121640", "CVE-2026-121637", "CVE-2026-76506", "CVE-2026-111497"],
+      "sources": [
+        { "title": "SecurityWeek", "url": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/" }
+      ]
+    }
+  ]
+}
