@@ -1,7 +1,91 @@
 {
-  "updated": "2026-11-07T19:20:00Z",
+  "updated": "2026-11-09T09:15:00Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-09-001",
+      "published": "2026-11-09",
+      "title": "Who Gives A Crap: accesso ai dati dei clienti tramite un fornitore di marketing",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Il marchio australiano di carta igienica ha avvisato i clienti che una persona non autorizzata ha avuto accesso ai loro dati presso un fornitore esterno di software per il marketing. Il fornitore se n'è accorto il 31 ottobre e l'azienda è stata informata il 6 novembre. Risultano coinvolti nomi, email, telefoni, indirizzi postali e importo speso, mentre non sono segnalati dati di pagamento né password. Non è noto quante persone siano state colpite e non è confermato se i file siano stati copiati.",
+      "tags": [
+        "data-breach",
+        "terze-parti",
+        "Australia",
+        "e-commerce"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SmartCompany: Who Gives A Crap data breach raises questions over third-party security risks",
+          "url": "https://www.smartcompany.com.au/information-technology/who-gives-a-crap-data-breach-raises-questions-over-third-party-security-risks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-001",
+      "published": "2026-11-08",
+      "title": "Crédit Mutuel Arkéa: cifre del furto ancora non confermate dalla banca",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Gli aggressori sono entrati tramite la piattaforma di un fornitore di servizi e hanno usato il conto della banca per spostare fondi verso altri istituti, convertendoli poi in criptovalute. Alcuni sistemi sono stati sospesi e dei bonifici hanno subito ritardi, ma secondo la banca i clienti non sono stati colpiti. Reuters parla di circa 100 milioni di euro, mentre i 118 milioni indicati dal ricercatore ZachXBT non sono confermati; restano non confermati anche i 30 milioni di dollari riciclati e l'identità degli autori.",
+      "tags": [
+        "banche",
+        "Francia",
+        "fornitore",
+        "criptovalute"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Security Affairs: Attackers exploit third-party provider to raid French bank Crédit Mutuel Arkéa",
+          "url": "https://securityaffairs.com/202628/cyber-crime/attackers-exploit-third-party-provider-to-raid-french-bank-credit-mutuel-arkea.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-002",
+      "published": "2026-11-08",
+      "title": "Galleria del Brennero (BBT SE): confermato l'accesso ai dati, il furto di 812 GB è solo una rivendicazione",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "La società che costruisce il tunnel del Brennero ha confermato un accesso non autorizzato ad alcuni dati e ha isolato i sistemi coinvolti, con l'aiuto di esperti forensi e delle autorità. Il gruppo Everest sostiene di aver sottratto 812 GB, ma la quantità, la cronologia dell'intrusione e un eventuale legame con la Russia non sono verificati. Non ci sono prove di accesso ai sistemi industriali né di cifratura, e i lavori proseguono regolarmente.",
+      "tags": [
+        "Italia",
+        "Austria",
+        "Everest",
+        "infrastrutture"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Security Affairs: Don't hand propaganda a gift, reading the Brenner Base Tunnel SE breach calmly",
+          "url": "https://securityaffairs.com/202691/cyber-crime/dont-hand-propaganda-a-gift-reading-the-brenner-base-tunnel-se-breach-calmly.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-003",
+      "published": "2026-11-08",
+      "title": "Brava Security esce dalla modalità stealth con 15 milioni di dollari",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "La startup israeliana, fondata nel 2024 da due ex membri dell'intelligence, ha chiuso un round seed da 15 milioni di dollari guidato da F2 Venture Capital e Pitango VC. La piattaforma usa l'AI per simulare il comportamento degli attaccanti e individuare lacune nelle difese, riscrivendo anche le regole di rilevamento SIEM. Secondo l'azienda i primi risultati arrivano in 10-15 minuti dall'attivazione.",
+      "tags": [
+        "finanziamenti",
+        "startup",
+        "AI",
+        "SIEM"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek: Brava Security Emerges From Stealth With $15 Million in Funding",
+          "url": "https://www.securityweek.com/brava-security-emerges-from-stealth-with-15-million-in-funding/"
+        }
+      ]
+    },
     {
       "id": "2026-11-07-001",
       "published": "2026-11-07",
