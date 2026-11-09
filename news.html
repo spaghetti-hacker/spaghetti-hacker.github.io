@@ -835,7 +835,7 @@ function detailHtml(i){
                 : esc(c)
         ).join(" ") + `</div>`;
     }
-    if(i.tags.length) h += `<div class="dim">tags   ${esc(i.tags.join(", "))}</div>`;
+    if(i.tags.length) h += `<div class="dim">tags:  ${esc(i.tags.join(", "))}</div>`;
     const srcs = i.sources.filter(s => safeUrl(s.url));
     if(srcs.length){
         h += `<div class="dim">fonti  ` + srcs.map(s =>
