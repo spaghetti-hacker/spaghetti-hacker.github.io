@@ -1,14 +1,188 @@
 {
-  "updated": "2026-11-09T09:15:00Z",
+  "updated": "2026-11-09T18:05:00Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-09-001",
       "published": "2026-11-09",
+      "title": "Backdoor Lindnor su server SQL: attacco Anubis attribuito a Hawkmoth, cifratura bloccata",
+      "category": "ransomware",
+      "severity": "MEDIUM",
+      "summary": "Symantec ha descritto un attacco ransomware Anubis, attribuito al gruppo Hawkmoth, contro un'organizzazione statunitense a ottobre 2026. Gli attaccanti hanno installato su due server Microsoft SQL un backdoor finora non documentato, mascherato da componenti di Chrome e VMware, ma il payload di cifratura è stato bloccato e non risultano file cifrati. Non è chiaro come abbiano ottenuto l'accesso iniziale; la notizia è riportata da una fonte secondaria sul rapporto Symantec.",
+      "tags": [
+        "Anubis",
+        "Hawkmoth",
+        "Microsoft SQL Server",
+        "backdoor"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/anubis-ransomware-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-002",
+      "published": "2026-11-09",
+      "title": "GhostAction: nuova ondata contro i repository GitHub per rubare chiavi cloud e AI",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "Un workflow GitHub Actions malevolo, aggiunto con messaggi del tipo \"Add security audit workflow\", cerca chiavi cloud e AI nel codice e nella cronologia git e le invia a un IP esterno. Secondo GitGuardian la campagna ha toccato oltre 30.000 repository e 3.000 utenti e organizzazioni, mentre Socket parla di oltre 500 account nel suo conteggio iniziale. Non è confermato come l'attaccante ottenga le credenziali dei maintainer né quante chiavi siano state davvero rubate: le fonti danno cifre diverse.",
+      "tags": [
+        "GitHub Actions",
+        "credenziali",
+        "CI/CD",
+        "AI"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/ghostaction-supply-chain/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-003",
+      "published": "2026-11-09",
+      "title": "Operation Snowball: un agente AI autonomo attacca un operatore telecom europeo",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Una directory esposta ha rivelato una campagna condotta da un agente AI autonomo, che per oltre due settimane ha preso di mira un operatore di telecomunicazioni europeo e 13 organizzazioni ospitate nei suoi data center e nel cloud. L'ingresso principale è stato un sistema Cisco BroadWorks XSP sfruttando una XXE senza autenticazione. L'attribuzione non è confermata: le istruzioni in cinese non indicano né nazionalità né sponsor statale, e gli esiti dettagliati non sono stati verificati in modo indipendente.",
+      "tags": [
+        "agente AI",
+        "telecomunicazioni",
+        "Europa",
+        "Cisco BroadWorks"
+      ],
+      "cves": [
+        "CVE-2026-20320",
+        "CVE-2021-4034",
+        "CVE-2020-7961"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/operation-snowball-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-004",
+      "published": "2026-11-09",
+      "title": "PolinRider torna con 10 pacchetti npm compromessi che usano Ethereum per il payload",
+      "category": "supply-chain",
+      "severity": "MEDIUM",
+      "summary": "Sono state individuate 12 release di 10 pacchetti npm con loader JavaScript nascosti, collegati alla campagna PolinRider. Il loader usa transazioni Ethereum come punto di appoggio per trovare i server che distribuiscono il payload, poi eseguito tramite eval e un processo Node separato. Sonatype ha documentato la sovrapposizione con PolinRider e Greenflagged ha osservato fasi che installano un RAT con persistenza; non è stabilito un legame tra gli operatori e la campagna GhostAction.",
+      "tags": [
+        "npm",
+        "blockchain",
+        "PolinRider",
+        "RAT"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/polinrider-malware-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-005",
+      "published": "2026-11-09",
+      "title": "ARTEX: il framework di pentest con agenti AI diventa uno strumento degli attaccanti",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "ARTEX è uno strumento open source pubblicato a luglio 2026 in cui agenti basati su LLM pianificano ed eseguono gli attacchi partendo da un obiettivo indicato dall'operatore. Nato per test autorizzati, è stato adottato in poco tempo da attori malevoli: Microsoft, CrowdStrike, Wiz e Google segnalano gruppi legati alla Cina, bande di estorsione e gruppi di spionaggio. Google giudica l'uso attuale poco sofisticato ma efficace; il numero di organizzazioni colpite e le previsioni sull'evoluzione non sono verificati in modo indipendente.",
+      "tags": [
+        "AI",
+        "pentest",
+        "agenti",
+        "strumenti offensivi"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/09/artex-goes-from-pentesting-tool-to-attacker-staple-in-three-months/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-006",
+      "published": "2026-11-09",
+      "title": "Controller frigoriferi Copeland XWEB compromessi e usati per spam e proxy",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "SecurityScorecard ha osservato controller per la refrigerazione Copeland XWEB PRO, usati in supermercati e celle frigorifere, impiegati in una probabile botnet per inviare spam e fare da nodi di uscita proxy. L'accesso iniziale sarebbe avvenuto probabilmente tramite una falla nel controllo di login, segnalata a CISA da Claroty Team82; l'articolo non dice se esista una patch. Non sono confermati i legami con gli attacchi in Europa né l'attribuzione a gruppi come NoName057(16) e Z-Pentest.",
+      "tags": [
+        "refrigerazione",
+        "botnet",
+        "supermercati",
+        "OT"
+      ],
+      "cves": [
+        "CVE-2026-25085"
+      ],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/09/copeland-xweb-refrigeration-controllers-spam-botnet/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-007",
+      "published": "2026-11-09",
+      "title": "Crédit Mutuel Arkéa: stimati 133 milioni di dollari rubati, la banca non conferma la cifra",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Secondo il monitoraggio on-chain del ricercatore ZachXBT, gli attaccanti avrebbero usato il conto della banca per bonifici verso altri istituti, con possibile conversione in criptovalute: oltre 100 milioni di dollari prelevati il 1° novembre e altri 27 milioni il 3. La banca ha confermato l'attacco il 4 novembre, ma non l'importo, parlando solo di un ordine di grandezza, e dice che parte dei fondi è stata bloccata. L'ingresso sarebbe avvenuto dalla piattaforma di un fornitore non nominato; l'ipotesi del giornalista Grégory Raymond su Fortuneo come punto d'accesso è smentita dalla banca.",
+      "tags": [
+        "banche",
+        "Francia",
+        "fornitore",
+        "criptovalute"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/09/credit-mutuel-arkea-cyberattack-133-million/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-008",
+      "published": "2026-11-09",
+      "title": "Amplifon Americas: violazione dei dati di circa 1,3 milioni di persone, anche sanitari",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "La filiale statunitense del gruppo italiano di apparecchi acustici ha subito un'intrusione a gennaio 2026, con file copiati tra il 18 gennaio e l'8 febbraio. Risultano coinvolti nomi, recapiti, documenti d'identità, date di nascita, dati medici e sull'udito e assicurativi e, per alcune persone, numeri di previdenza sociale e dati finanziari. La cifra di 1.332.826 persone arriva da una notifica al procuratore generale del Texas ed è non confermata dall'azienda; Amplifon dice di non avere prove di usi fraudolenti dei dati.",
+      "tags": [
+        "Amplifon",
+        "sanità",
+        "Stati Uniti",
+        "data-breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/amplifon-americas-data-breach-impacts-1-3-million/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-009",
+      "published": "2026-11-09",
       "title": "Who Gives A Crap: accesso ai dati dei clienti tramite un fornitore di marketing",
       "category": "breach",
       "severity": "MEDIUM",
-      "summary": "Il marchio australiano di carta igienica ha avvisato i clienti che una persona non autorizzata ha avuto accesso ai loro dati presso un fornitore esterno di software per il marketing. Il fornitore se n'è accorto il 31 ottobre e l'azienda è stata informata il 6 novembre. Risultano coinvolti nomi, email, telefoni, indirizzi postali e importo speso, mentre non sono segnalati dati di pagamento né password. Non è noto quante persone siano state colpite e non è confermato se i file siano stati copiati.",
+      "summary": "Il marchio australiano di carta igienica ha avvisato i clienti di Australia, Regno Unito e Stati Uniti che una persona non autorizzata ha avuto accesso ai loro dati presso un fornitore esterno di software di marketing. L'accesso risale al 30 ottobre, il fornitore se n'è accorto il 31 e l'azienda è stata informata il 6 novembre. Risultano coinvolti nomi, recapiti, indirizzi e importo speso, senza dati di pagamento né password; il numero di persone e l'identità del fornitore non sono confermati.",
       "tags": [
         "data-breach",
         "terze-parti",
@@ -20,6 +194,30 @@
         {
           "title": "SmartCompany",
           "url": "https://www.smartcompany.com.au/information-technology/who-gives-a-crap-data-breach-raises-questions-over-third-party-security-risks/"
+        },
+        {
+          "title": "Cybernews",
+          "url": "https://cybernews.com/news/who-gives-crap-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-010",
+      "published": "2026-11-09",
+      "title": "Contea di Washburn (Wisconsin): dopo l'attacco di agosto, nuovi fondi per il monitoraggio",
+      "category": "breach",
+      "severity": "LOW",
+      "summary": "La contea ha scoperto ad agosto un attacco informatico che aveva bloccato l'intera rete del governo locale e ora spenderà migliaia di dollari per un sistema di monitoraggio di livello più alto. L'indagine forense ha rilevato il furto di alcuni dati personali, ma la contea non ha detto quante persone siano coinvolte. Non è specificato se si sia trattato di ransomware.",
+      "tags": [
+        "pubblica amministrazione",
+        "Stati Uniti",
+        "enti locali"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "WPR",
+          "url": "https://www.wpr.org/news/cyberattack-rural-washburn-county-is-upping-security"
         }
       ]
     },
