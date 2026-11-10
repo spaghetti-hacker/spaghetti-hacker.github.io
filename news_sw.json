@@ -3,6 +3,11 @@
  "updated": "2026-11-10",
  "items": [
   {
+   "title": "Adobe Patches 110 Vulnerabilities Across 9 Products",
+   "link": "https://www.securityweek.com/adobe-patches-110-vulnerabilities-across-9-products/",
+   "date": "2026-11-10"
+  },
+  {
    "title": "Software Transparency Is Changing: Allan Friedman on SBOM, AI BOMs and What Comes Next",
    "link": "https://www.securityweek.com/software-transparency-is-changing-allan-friedman-on-sbom-ai-boms-and-what-comes-next/",
    "date": "2026-11-10"
@@ -45,11 +50,6 @@
   {
    "title": "IBM Aspera Faspex, SignalWire FreeSwitch Vulnerabilities Exploited in Attacks",
    "link": "https://www.securityweek.com/ibm-aspera-faspex-signalwire-freeswitch-vulnerabilities-exploited-in-attacks/",
-   "date": "2026-11-10"
-  },
-  {
-   "title": "France Blames Iran for a Cyberattack That Heated Supermarket Refrigerators",
-   "link": "https://www.securityweek.com/france-blames-iran-for-a-cyberattack-that-heated-supermarket-refrigerators/",
    "date": "2026-11-10"
   }
  ]
