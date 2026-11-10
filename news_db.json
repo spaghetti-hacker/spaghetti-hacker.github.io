@@ -1,7 +1,235 @@
 {
-  "updated": "2026-11-09T18:05:00Z",
+  "updated": "2026-11-10T17:35:00Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-10-001",
+      "published": "2026-11-10",
+      "title": "Apache Airflow: esecuzione di codice senza autenticazione con CeleryExecutor",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Nelle versioni di Airflow precedenti alla 3.4.0 con CeleryExecutor i messaggi ExecuteCallback sul broker Celery non sono autenticati, quindi chi può scrivere sul broker può far eseguire ai worker una funzione Python importabile a sua scelta. Il ricercatore Or Sahar (Reflectiz) ha pubblicato una proof of concept, testata sulle versioni 3.2.1 e 3.3.0, e non risultano sfruttamenti attivi. L'articolo non riporta il punteggio CVSS.",
+      "tags": [
+        "Apache Airflow",
+        "Celery",
+        "RCE",
+        "autenticazione mancante"
+      ],
+      "cves": [
+        "CVE-2026-68982"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/critical-apache-airflow-flaw-cve-2026-68982-enables-unauthenticated-remote-code-execution/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-002",
+      "published": "2026-11-10",
+      "title": "SAP Patch Day di novembre: quattro falle con punteggio CVSS 10",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "SAP ha corretto quattro vulnerabilità di gravità massima: due corruzioni di memoria in NetWeaver AS ABAP (Internet Communication Manager) e Web Dispatcher, un controllo degli accessi inadeguato in SAP Gateway e un'autenticazione mancante nel SAML2 Service Provider di NetWeaver AS ABAP. Tutte sono sfruttabili da remoto, senza privilegi né interazione dell'utente. Le fonti non parlano di sfruttamento attivo, ma SAP invita ad applicare le correzioni con priorità.",
+      "tags": [
+        "SAP",
+        "NetWeaver",
+        "Patch Day",
+        "CVSS 10"
+      ],
+      "cves": [
+        "CVE-2026-76964",
+        "CVE-2026-89126",
+        "CVE-2026-89103",
+        "CVE-2026-120017"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/sap-november-2026-patch-day/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-003",
+      "published": "2026-11-10",
+      "title": "Oltre 575 skill malevole per agenti AI OpenClaw distribuiscono malware su Windows e macOS",
+      "category": "supply-chain",
+      "severity": "MEDIUM",
+      "summary": "Secondo il rapporto Acronis TRU Cyber Pulse 2026, più di 575 skill malevole presentate come utilità hanno consegnato trojan, miner di criptovalute e infostealer a sistemi Windows e macOS. Il rapporto descrive anche un operatore che coordinava più modelli AI in attacchi contro diversi paesi. Le cifre, tra cui 1,8 milioni di endpoint, provengono solo dal rapporto e non sono verificate in modo indipendente.",
+      "tags": [
+        "OpenClaw",
+        "agenti AI",
+        "infostealer",
+        "Acronis"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/10/acronis-ai-agent-cyberattacks-report/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-004",
+      "published": "2026-11-10",
+      "title": "Turla usa i server Exchange delle vittime come centri di comando con il toolset Cereal",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "ESET ha scoperto Cereal, un toolset modulare .NET installato sui server Exchange di due enti governativi, in Kazakistan e in Romania. Gli operatori nascondono le comunicazioni di comando nel normale traffico di Outlook Web Access, Autodiscover e ActiveSync, mentre un modulo copia email selezionate dal flusso di posta; in Romania il filtro cercava messaggi legati a indirizzi NATO e UE. ESET attribuisce Cereal a Turla con alta confidenza, ma non ha identificato gli indirizzi da cui si connettevano gli operatori e il metodo di accesso iniziale non è indicato.",
+      "tags": [
+        "Turla",
+        "Exchange",
+        "spionaggio",
+        "Romania",
+        "NATO"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/10/eset-turla-exchange-malware/"
+        },
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/turla-cereal-exchange-email/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-005",
+      "published": "2026-11-10",
+      "title": "Binance indaga sulla presunta vendita di 335,9 milioni di record da parte di ShinyHunters",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Il 4 novembre ShinyHunters ha offerto su un forum 335,9 milioni di record Binance per 900.000 dollari, dichiarando tra i dati chiavi private di wallet, documenti KYC e storico delle transazioni. Binance ritiene che l'annuncio sia probabilmente una truffa, dice di non aver trovato prove di compromissione e osserva che la lista cita giurisdizioni in cui non opera più. L'autenticità dei dati e la loro origine non sono confermate, perché la valutazione si basa solo sul campione e sulla descrizione dei criminali.",
+      "tags": [
+        "Binance",
+        "ShinyHunters",
+        "criptovalute",
+        "rivendicazione"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/binance-investigates-shinyhunters/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-006",
+      "published": "2026-11-10",
+      "title": "CISA rinnova il modulo di segnalazione degli incidenti mentre la regola CIRCIA resta ferma",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "La CISA ha annunciato un modulo di segnalazione più dettagliato, con domande su malware, social engineering e minacce interne e con le attività descritte tramite il framework MITRE ATT&CK. Per ora devono segnalare solo le agenzie federali civili, mentre la regola finale CIRCIA, inviata alla Casa Bianca il 1° ottobre, attende ancora approvazione. Non è confermato se il nuovo modulo verrà usato per CIRCIA né quando la regola sarà definitiva.",
+      "tags": [
+        "CISA",
+        "CIRCIA",
+        "segnalazione incidenti",
+        "Stati Uniti"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/cisa-incident-reporting-form-circia/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-007",
+      "published": "2026-11-10",
+      "title": "Datadog: le vulnerabilità gravi nei workload cloud quadruplicano in meno di un anno",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Nel rapporto State of Cloud Security 2026 Datadog indica che la mediana delle vulnerabilità alte e critiche nei workload cloud è passata da 4 a maggio a 16 a novembre. Quasi metà degli utenti Gemini usa chiavi API di lunga durata e circa il 30% degli utenti AWS IAM e Google Cloud ha chiavi vecchie di oltre tre anni. I dati derivano dall'analisi dei clienti dell'azienda e non sono verificati in modo indipendente, così come l'attribuzione dell'aumento all'intelligenza artificiale.",
+      "tags": [
+        "cloud",
+        "Datadog",
+        "rapporto",
+        "chiavi API"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/cloud-vulnerabilities-surge/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-008",
+      "published": "2026-11-10",
+      "title": "Vanderbilt University: sistemi offline dopo un incidente, ransomware rivendicato ma non confermato",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "L'ateneo di Nashville ha messo offline gran parte dei sistemi e delle applicazioni dopo un incidente informatico ancora attivo, con le lezioni che proseguono regolarmente dal 10 novembre. L'università non ha indicato natura dell'attacco né responsabile; secondo la società Venarix il gruppo ransomware BYOD l'ha inserita nel proprio sito di leak. Le affermazioni del gruppo, tra cui oltre un milione di numeri di previdenza sociale e il controllo del domain controller, non sono verificate.",
+      "tags": [
+        "università",
+        "Stati Uniti",
+        "BYOD",
+        "rivendicazione"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/vanderbilt-university-cyber/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-009",
+      "published": "2026-11-10",
+      "title": "Chrome 157 corregge la zero-day XML sfruttata, l'ottava del 2026",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Google ha rilasciato Chrome 157 con correzioni per nove vulnerabilità, tra cui una use-after-free nel componente XML già sfruttata in attacchi reali. La falla era stata segnalata il 6 novembre da un ricercatore anonimo ed è la zero-day numero otto del 2026 per il browser. Google non ha diffuso dettagli su attacchi e autori, e la CISA non l'ha ancora inserita nel catalogo KEV.",
+      "tags": [
+        "Chrome",
+        "zero-day",
+        "use-after-free",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-125350"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/chrome-update-patches-exploited-xml-zero-day-eighth-this-year/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-010",
+      "published": "2026-11-10",
+      "title": "Francia: l'attacco ai frigoriferi dei supermercati attribuito all'Iran",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "Il 12 ottobre un attacco ha preso il controllo dei sistemi di refrigerazione di circa 700 punti vendita su 10.000 in Francia, portando le temperature a 50 °C per circa sei ore; Intermarché parla di perdite da decine di milioni di euro in un giorno. Parigi lo attribuisce al gruppo Shahid Kaveh, legato ai Guardiani della Rivoluzione iraniani, sulla base dell'uso del farsi e di indirizzi IP collegati a dispositivi in Iran, e ha convocato l'ambasciatore iraniano e chiesto mandati d'arresto internazionali. Le prove sono quelle riferite dalle autorità francesi e non risultano verificabili pubblicamente; l'articolo non indica CVE né il modello dei controller.",
+      "tags": [
+        "Francia",
+        "Iran",
+        "refrigerazione",
+        "attribuzione"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/france-blames-iran-for-a-cyberattack-that-heated-supermarket-refrigerators/"
+        },
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/france-blames-iran-supermarket/"
+        }
+      ]
+    },
     {
       "id": "2026-11-09-001",
       "published": "2026-11-09",
