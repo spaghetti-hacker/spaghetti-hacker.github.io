@@ -3,6 +3,16 @@
  "updated": "2026-11-10",
  "items": [
   {
+   "title": "N-able Takes N-central Offline as Researcher Drops Over 30 Zero-Days",
+   "link": "https://www.securityweek.com/n-able-takes-n-central-offline-as-researcher-drops-over-30-zero-days/",
+   "date": "2026-11-10"
+  },
+  {
+   "title": "IBM Aspera Faspex, SignalWire FreeSwitch Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/ibm-aspera-faspex-signalwire-freeswitch-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-10"
+  },
+  {
    "title": "France Blames Iran for a Cyberattack That Heated Supermarket Refrigerators",
    "link": "https://www.securityweek.com/france-blames-iran-for-a-cyberattack-that-heated-supermarket-refrigerators/",
    "date": "2026-11-10"
@@ -40,16 +50,6 @@
   {
    "title": "Amplifon Americas Data Breach Impacts 1.3 Million",
    "link": "https://www.securityweek.com/amplifon-americas-data-breach-impacts-1-3-million/",
-   "date": "2026-11-09"
-  },
-  {
-   "title": "Over 3 Million People Hit by Frontline Education Data Breach",
-   "link": "https://www.securityweek.com/3-million-people-hit-by-frontline-education-data-breach/",
-   "date": "2026-11-09"
-  },
-  {
-   "title": "Google DeepMind’s AI Agents Make 1024-Bit RSA Keys Cheaper to Attack",
-   "link": "https://www.securityweek.com/google-deepminds-ai-agents-make-1024-bit-rsa-keys-cheaper-to-attack/",
    "date": "2026-11-09"
   }
  ]
