@@ -1,56 +1,56 @@
 {
- "source": "ICS-OT",
- "updated": "2026-11-09",
+ "source": "GENERAL",
+ "updated": "2026-11-10",
  "items": [
   {
-   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
-   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
-   "date": "2026-11-06"
+   "title": "France Blames Iran for a Cyberattack That Heated Supermarket Refrigerators",
+   "link": "https://www.securityweek.com/france-blames-iran-for-a-cyberattack-that-heated-supermarket-refrigerators/",
+   "date": "2026-11-10"
   },
   {
-   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
-   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
-   "date": "2026-11-05"
+   "title": "Chrome Update Patches Exploited XML Zero-Day, Eighth This Year",
+   "link": "https://www.securityweek.com/chrome-update-patches-exploited-xml-zero-day-eighth-this-year/",
+   "date": "2026-11-10"
   },
   {
-   "title": "Critical Node-RED Flaw Exploited in Attacks",
-   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
-   "date": "2026-11-03"
+   "title": "Revolve Puts Data Breach Victim Count at 1.5 Million",
+   "link": "https://www.securityweek.com/revolve-puts-data-breach-victim-count-at-1-5-million/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
-   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
-   "date": "2026-11-03"
+   "title": "Plex2Shell Exploited Against QNAP NAS Users",
+   "link": "https://www.securityweek.com/plex2shell-exploited-against-qnap-nas-users/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
-   "date": "2026-10-28"
+   "title": "Iris Plaza Breach May Have Exposed Data of 7.7 Million Customers",
+   "link": "https://www.securityweek.com/iris-plaza-breach-may-have-exposed-data-of-7-7-million-customers/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
-   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
-   "date": "2026-10-27"
+   "title": "Italy’s Meloni Blames Pro-Russian Hackers for Leak of Foreign Minister’s Data on the Dark Web",
+   "link": "https://www.securityweek.com/italys-meloni-blames-pro-russian-hackers-for-leak-of-foreign-ministers-data-on-the-dark-web/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
-   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
-   "date": "2026-10-26"
+   "title": "Hackers Exploiting ‘SSHole’ Authentication Bypass in OpenSSH",
+   "link": "https://www.securityweek.com/hackers-exploiting-sshole-authentication-bypass-in-openssh/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Indurex Raises $8 Million to Expand Industrial Cybersecurity Platform",
-   "link": "https://www.securityweek.com/indurex-raises-8-million-to-expand-industrial-cybersecurity-platform/",
-   "date": "2026-10-22"
+   "title": "Amplifon Americas Data Breach Impacts 1.3 Million",
+   "link": "https://www.securityweek.com/amplifon-americas-data-breach-impacts-1-3-million/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Accenture, Dragos, SANS Launch $10M Initiative to Defend Small US Utilities",
-   "link": "https://www.securityweek.com/accenture-dragos-sans-launch-10m-initiative-to-defend-small-us-utilities/",
-   "date": "2026-10-21"
+   "title": "Over 3 Million People Hit by Frontline Education Data Breach",
+   "link": "https://www.securityweek.com/3-million-people-hit-by-frontline-education-data-breach/",
+   "date": "2026-11-09"
   },
   {
-   "title": "Siemens Software Center Vulnerability Exploited in ClickFix Malware Attacks",
-   "link": "https://www.securityweek.com/siemens-software-center-vulnerability-exploited-in-clickfix-malware-attacks/",
-   "date": "2026-10-19"
+   "title": "Google DeepMind’s AI Agents Make 1024-Bit RSA Keys Cheaper to Attack",
+   "link": "https://www.securityweek.com/google-deepminds-ai-agents-make-1024-bit-rsa-keys-cheaper-to-attack/",
+   "date": "2026-11-09"
   }
  ]
 }
