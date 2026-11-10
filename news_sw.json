@@ -1,5 +1,5 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-10",
  "items": [
   {
@@ -13,33 +13,13 @@
    "date": "2026-11-10"
   },
   {
-   "title": "France Blames Iran for a Cyberattack That Heated Supermarket Refrigerators",
-   "link": "https://www.securityweek.com/france-blames-iran-for-a-cyberattack-that-heated-supermarket-refrigerators/",
-   "date": "2026-11-10"
-  },
-  {
    "title": "Chrome Update Patches Exploited XML Zero-Day, Eighth This Year",
    "link": "https://www.securityweek.com/chrome-update-patches-exploited-xml-zero-day-eighth-this-year/",
    "date": "2026-11-10"
   },
   {
-   "title": "Revolve Puts Data Breach Victim Count at 1.5 Million",
-   "link": "https://www.securityweek.com/revolve-puts-data-breach-victim-count-at-1-5-million/",
-   "date": "2026-11-09"
-  },
-  {
    "title": "Plex2Shell Exploited Against QNAP NAS Users",
    "link": "https://www.securityweek.com/plex2shell-exploited-against-qnap-nas-users/",
-   "date": "2026-11-09"
-  },
-  {
-   "title": "Iris Plaza Breach May Have Exposed Data of 7.7 Million Customers",
-   "link": "https://www.securityweek.com/iris-plaza-breach-may-have-exposed-data-of-7-7-million-customers/",
-   "date": "2026-11-09"
-  },
-  {
-   "title": "Italy’s Meloni Blames Pro-Russian Hackers for Leak of Foreign Minister’s Data on the Dark Web",
-   "link": "https://www.securityweek.com/italys-meloni-blames-pro-russian-hackers-for-leak-of-foreign-ministers-data-on-the-dark-web/",
    "date": "2026-11-09"
   },
   {
@@ -48,9 +28,29 @@
    "date": "2026-11-09"
   },
   {
-   "title": "Amplifon Americas Data Breach Impacts 1.3 Million",
-   "link": "https://www.securityweek.com/amplifon-americas-data-breach-impacts-1-3-million/",
-   "date": "2026-11-09"
+   "title": "SonicWall Patches Exploited SonicOS Vulnerability That Weakens VPN Logins",
+   "link": "https://www.securityweek.com/sonicwall-patches-exploited-sonicos-bug-that-weakens-vpn-logins/",
+   "date": "2026-11-07"
+  },
+  {
+   "title": "OpenSSH Rushes Patches for ‘SSHole’ Authentication Bypass",
+   "link": "https://www.securityweek.com/openssh-rushes-patches-for-sshole-authentication-bypass/",
+   "date": "2026-11-06"
+  },
+  {
+   "title": "Cisco, WatchGuard Release Patches; SonicWall Won’t Fix GMS Flaws",
+   "link": "https://www.securityweek.com/cisco-watchguard-release-patches-sonicwall-wont-fix-gms-flaws/",
+   "date": "2026-11-05"
+  },
+  {
+   "title": "Zyxel Switch Hacks Blamed on Patched Flaw Actually Exploited a Zero-Day",
+   "link": "https://www.securityweek.com/zyxel-switch-hacks-blamed-on-patched-flaw-actually-exploited-a-zero-day/",
+   "date": "2026-11-05"
+  },
+  {
+   "title": "Barracuda ESG Authentication Bypass Flaw Opens Path to Root",
+   "link": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/",
+   "date": "2026-11-04"
   }
  ]
 }
