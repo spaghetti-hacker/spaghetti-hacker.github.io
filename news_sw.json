@@ -3,6 +3,11 @@
  "updated": "2026-11-10",
  "items": [
   {
+   "title": "Anthropic Rolls Out Mythos 5.2 With Improved Bug Hunting, Fewer Sandbox Escapes",
+   "link": "https://www.securityweek.com/anthropic-rolls-out-mythos-5-2-with-improved-bug-hunting-fewer-sandbox-escapes/",
+   "date": "2026-11-10"
+  },
+  {
    "title": "N-able Takes N-central Offline as Researcher Drops Over 30 Zero-Days",
    "link": "https://www.securityweek.com/n-able-takes-n-central-offline-as-researcher-drops-over-30-zero-days/",
    "date": "2026-11-10"
@@ -46,11 +51,6 @@
    "title": "Zyxel Switch Hacks Blamed on Patched Flaw Actually Exploited a Zero-Day",
    "link": "https://www.securityweek.com/zyxel-switch-hacks-blamed-on-patched-flaw-actually-exploited-a-zero-day/",
    "date": "2026-11-05"
-  },
-  {
-   "title": "Barracuda ESG Authentication Bypass Flaw Opens Path to Root",
-   "link": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/",
-   "date": "2026-11-04"
   }
  ]
 }
