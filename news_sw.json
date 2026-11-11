@@ -1,56 +1,56 @@
 {
- "source": "ICS-OT",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-11",
  "items": [
+  {
+   "title": "Critical Xen Orchestra Flaws Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-xen-orchestra-flaws-exploited-in-attacks/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Asus, Zoom Release Security Patches",
+   "link": "https://www.securityweek.com/asus-zoom-release-security-patches/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Citrix, Ivanti Patch Critical and High-Severity Vulnerabilities",
+   "link": "https://www.securityweek.com/citrix-ivanti-patch-critical-and-high-severity-vulnerabilities/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Fortinet Patches Nearly 100 Vulnerabilities",
+   "link": "https://www.securityweek.com/fortinet-patches-nearly-100-vulnerabilities/",
+   "date": "2026-11-11"
+  },
   {
    "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
    "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
    "date": "2026-11-11"
   },
   {
-   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
-   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
-   "date": "2026-11-06"
+   "title": "Threat Actors Exploit Openwave, Cisco BroadWorks Vulnerabilities",
+   "link": "https://www.securityweek.com/threat-actors-exploit-openwave-cisco-broadworks-vulnerabilities/",
+   "date": "2026-11-11"
   },
   {
-   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
-   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
-   "date": "2026-11-05"
+   "title": "Chipmaker Patch Tuesday: Over 200 Vulnerabilities Addressed by Intel, AMD",
+   "link": "https://www.securityweek.com/chipmaker-patch-tuesday-over-200-vulnerabilities-addressed-by-intel-amd/",
+   "date": "2026-11-11"
   },
   {
-   "title": "Critical Node-RED Flaw Exploited in Attacks",
-   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
-   "date": "2026-11-03"
+   "title": "Recently Patched Barracuda Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/recently-patched-barracuda-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-11"
   },
   {
-   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
-   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
-   "date": "2026-11-03"
+   "title": "Bluetooth, AirPlay Pairing Vulnerabilities Patched Across Apple Platforms",
+   "link": "https://www.securityweek.com/bluetooth-airplay-pairing-vulnerabilities-patched-across-apple-platforms/",
+   "date": "2026-11-11"
   },
   {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
-   "date": "2026-10-28"
-  },
-  {
-   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
-   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
-   "date": "2026-10-27"
-  },
-  {
-   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
-   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
-   "date": "2026-10-26"
-  },
-  {
-   "title": "Indurex Raises $8 Million to Expand Industrial Cybersecurity Platform",
-   "link": "https://www.securityweek.com/indurex-raises-8-million-to-expand-industrial-cybersecurity-platform/",
-   "date": "2026-10-22"
-  },
-  {
-   "title": "Accenture, Dragos, SANS Launch $10M Initiative to Defend Small US Utilities",
-   "link": "https://www.securityweek.com/accenture-dragos-sans-launch-10m-initiative-to-defend-small-us-utilities/",
-   "date": "2026-10-21"
+   "title": "Exploited Outlook Zero-Day Among 1,094 Flaws Patched by Microsoft",
+   "link": "https://www.securityweek.com/exploited-outlook-zero-day-among-1094-flaws-patched-by-microsoft/",
+   "date": "2026-11-10"
   }
  ]
 }
