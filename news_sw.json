@@ -1,7 +1,17 @@
 {
  "source": "VULNERABILITIES",
- "updated": "2026-11-10",
+ "updated": "2026-11-11",
  "items": [
+  {
+   "title": "Recently Patched Barracuda Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/recently-patched-barracuda-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Bluetooth, AirPlay Pairing Vulnerabilities Patched Across Apple Platforms",
+   "link": "https://www.securityweek.com/bluetooth-airplay-pairing-vulnerabilities-patched-across-apple-platforms/",
+   "date": "2026-11-11"
+  },
   {
    "title": "Exploited Outlook Zero-Day Among 1,094 Flaws Patched by Microsoft",
    "link": "https://www.securityweek.com/exploited-outlook-zero-day-among-1094-flaws-patched-by-microsoft/",
@@ -41,16 +51,6 @@
    "title": "Plex2Shell Exploited Against QNAP NAS Users",
    "link": "https://www.securityweek.com/plex2shell-exploited-against-qnap-nas-users/",
    "date": "2026-11-09"
-  },
-  {
-   "title": "Hackers Exploiting ‘SSHole’ Authentication Bypass in OpenSSH",
-   "link": "https://www.securityweek.com/hackers-exploiting-sshole-authentication-bypass-in-openssh/",
-   "date": "2026-11-09"
-  },
-  {
-   "title": "SonicWall Patches Exploited SonicOS Vulnerability That Weakens VPN Logins",
-   "link": "https://www.securityweek.com/sonicwall-patches-exploited-sonicos-bug-that-weakens-vpn-logins/",
-   "date": "2026-11-07"
   }
  ]
 }
