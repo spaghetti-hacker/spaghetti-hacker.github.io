@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T08:50:00Z",
+  "updated": "2026-11-11T18:00:00Z",
   "window_days": 7,
   "items": [
     {
@@ -159,6 +159,222 @@
         {
           "title": "GBHackers",
           "url": "https://gbhackers.com/shipping-giant-maersk-confirms-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-001",
+      "published": "2026-11-11",
+      "title": "AntiFox, piattaforma di pentest con IA, collegata ad attacchi che hanno raggiunto segreti AWS",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Arctic Wolf Labs ha osservato intrusioni in cui è stato usato AntiFox, uno strumento open source di penetration test autonomo basato su IA: gli aggressori hanno installato una web shell ASPX su un'applicazione IIS compromessa, cercato stringhe di connessione e usato identità IAM valide per enumerare servizi AWS. In alcuni casi sono riusciti a leggere un segreto di produzione in Secrets Manager e a lavorare su S3. Non sono noti la vulnerabilità usata per il codice remoto né l'origine delle credenziali AWS; non c'è un attore identificato né prova di coinvolgimento degli autori di AntiFox.",
+      "tags": [
+        "AntiFox",
+        "AWS",
+        "web shell",
+        "IA"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/antifox-ai-pentesting-platform-linked.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-002",
+      "published": "2026-11-11",
+      "title": "Zoom Workplace per Windows: due falle permettono escalation di privilegi da remoto",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Zoom ha corretto due vulnerabilità che consentono a un attaccante remoto non autenticato di ottenere privilegi elevati: una validazione impropria dell'input con punteggio CVSS 9,6, nelle versioni dalla 7.1.0 alla 7.1.7, e una validazione dell'origine con CVSS 8,1, nelle versioni precedenti alla 7.1.5. Le versioni corrette sono la 7.1.8 e la 7.1.5. Zoom non segnala sfruttamento attivo ma invita ad applicare gli aggiornamenti.",
+      "tags": [
+        "Zoom",
+        "Windows",
+        "escalation dei privilegi",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-108186",
+        "CVE-2026-108187"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/critical-zoom-workplace-flaw-could.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-003",
+      "published": "2026-11-11",
+      "title": "eMudhra revoca altre 8 CA dopo la compromissione delle chiavi: 195 certificati coinvolti",
+      "category": "supply-chain",
+      "severity": "MEDIUM",
+      "summary": "Dopo le revoche di ottobre, eMudhra ha revocato altre otto autorità di certificazione che aveva dichiarato non coinvolte, sei per TLS e due per la firma del codice, per un totale di 195 certificati. All'origine c'è uno script Python interno per trasferire chiavi tra HSM che ha esposto chiavi private: in alcuni casi la chiave era ridotta a un byte, in altri le chiavi RSA sono finite nella memoria del computer usato per la cerimonia. Microsoft, Apple, Chrome e Firefox stanno rimuovendo le root G1 tra metà e fine novembre; non è confermato che le chiavi siano state abusate e restano attesi i risultati della revisione KPMG, previsti entro il 4 dicembre.",
+      "tags": [
+        "eMudhra",
+        "PKI",
+        "certificati",
+        "HSM"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/emudhra-revokes-8-more-cas-it.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-004",
+      "published": "2026-11-11",
+      "title": "Server Qlik Sense bersaglio di reverse shell, con exploit ActiveMQ e Veeam in preparazione",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Ad ottobre Cynet ha rilevato e bloccato tentativi di inviare reverse shell PowerShell a clienti europei in poco più di tre minuti. Le analisi successive descrivono una backdoor in Go, script di persistenza OpenSSH e un'attività pianificata chiamata WinUpdCheck, mentre una directory esposta conteneva exploit per ActiveMQ e Veeam. La falla Qlik effettivamente usata non è nota e l'affinità con la campagna CACTUS del 2023 è solo parziale, quindi l'attribuzione non è confermata.",
+      "tags": [
+        "Qlik Sense",
+        "ActiveMQ",
+        "Veeam",
+        "Cynet"
+      ],
+      "cves": [
+        "CVE-2023-46604",
+        "CVE-2024-40711"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/hackers-target-qlik-sense-servers-with.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-005",
+      "published": "2026-11-11",
+      "title": "Oltre 35.000 app create con Grok sono accessibili senza login, alcune con dati riservati",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Claroc ha trovato 37.571 app costruite con Grok, di cui 35.578 aperte senza autenticazione, comprese 24 di dipendenti di X e SpaceXSI, poi rimosse solo da SpaceXSI. Circa un'app su dieci contiene dati interni o personali di una trentina di organizzazioni, sei delle quali Fortune 500, con esempi come liste di dipendenti di un ospedale, turni dei vigili del fuoco e password in chiaro nel codice. La stima che circa il 2% delle app abbia contenuto di gravità alta o critica è una valutazione dei ricercatori, che non hanno verificato se le app aperte accettino modifiche.",
+      "tags": [
+        "Grok",
+        "app generate con IA",
+        "esposizione dati",
+        "Claroc"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/over-35000-grok-built-apps-exposed.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-006",
+      "published": "2026-11-11",
+      "title": "Railway: chiavi AI dei clienti rubate, 740.000 dollari di consumi non autorizzati",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "La piattaforma PaaS ha subito a ottobre una violazione in cui l'attaccante ha sfruttato una falla sconosciuta nel sistema di build per eludere l'isolamento del filesystem, copiare il monorepo e, con una configurazione OIDC errata, arrivare a credenziali cloud e alla decifrazione delle variabili dei clienti tramite KMS. Le chiavi API di provider AI rubate sono state usate per spese stimate in 740.000 dollari, che Railway promette di coprire quando i provider non rimborsano. Non sono confermati il metodo di calcolo della cifra, il numero di workspace (circa 100.000 è solo un limite massimo) e l'identità dell'attaccante; non risultano accessi ai database dei clienti.",
+      "tags": [
+        "Railway",
+        "PaaS",
+        "chiavi API",
+        "OIDC"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/railway-says-stolen-customer-ai-keys.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-007",
+      "published": "2026-11-11",
+      "title": "Apple corregge dieci falle, metà legate a Bluetooth e AirPlay",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Apple ha rilasciato aggiornamenti per iOS, iPadOS, macOS, watchOS e visionOS, tra cui le versioni 27.2.1, 26.7.3 e 18.7.12 per i sistemi mobili. Le correzioni riguardano AirPlay, CoreUtils, Bluetooth, Messages, App Intents e il bug Brotli noto come Node2Shell; cinque falle le ha trovate Apple stessa. Nessun avviso segnala sfruttamento attivo dei bug Apple, mentre il difetto di Brotli è stato usato in attacchi contro altri obiettivi.",
+      "tags": [
+        "Apple",
+        "AirPlay",
+        "Bluetooth",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-113968",
+        "CVE-2026-113969",
+        "CVE-2026-113971",
+        "CVE-2026-113964",
+        "CVE-2026-113965",
+        "CVE-2026-113970",
+        "CVE-2026-113960",
+        "CVE-2026-113961",
+        "CVE-2026-113963",
+        "CVE-2026-111497"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/bluetooth-airplay-pairing-vulnerabilities-patched-across-apple-platforms/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-008",
+      "published": "2026-11-11",
+      "title": "Barracuda: due falle appena corrette sono già sfruttate negli attacchi",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Barracuda ha segnalato il 2 novembre due vulnerabilità sfruttate contro un numero limitato di organizzazioni: un bypass dell'autenticazione in Email Security Gateway e una command injection con privilegi root che tocca ESG, Load Balancer ADC, WAF, Web Security Gateway, Message Archiver e WAF Control Center. Le falle sono nel catalogo KEV della CISA, e Previdian ha rilevato 17 tentativi contro la prima tra il 9 e l'11 novembre da 15 indirizzi IP in tre paesi. L'azienda raccomanda di aggiornare subito e di limitare l'accesso alle interfacce di amministrazione alle reti interne; non sono noti i dettagli degli attacchi, gli autori, le versioni corrette né le vittime.",
+      "tags": [
+        "Barracuda",
+        "KEV",
+        "ESG",
+        "sfruttamento attivo"
+      ],
+      "cves": [
+        "CVE-2026-116606",
+        "CVE-2026-111560"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/recently-patched-barracuda-vulnerabilities-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-009",
+      "published": "2026-11-11",
+      "title": "Cisco BroadWorks e Openwave nel catalogo KEV: sfruttate nonostante le patch",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "La CISA ha inserito nel catalogo KEV una XXE non autenticata in Cisco BroadWorks, corretta ad agosto, e una falla nel Webtop Media Transcoder di Openwave, corretta a ottobre, con scadenza al 24 novembre per le agenzie federali. La prima è stata usata nell'operazione Snowball contro un provider telefonico europeo, secondo Malbear Labs con l'aiuto di un framework agentico; per la seconda lo sfruttamento deriva solo da un avviso del JVN basato su una dichiarazione del fornitore. L'attribuzione a un attore di lingua cinese e l'estensione reale dell'attacco, con 13 organizzazioni solo potenzialmente colpite, non sono confermate in modo indipendente.",
+      "tags": [
+        "Cisco BroadWorks",
+        "Openwave",
+        "KEV",
+        "telecomunicazioni"
+      ],
+      "cves": [
+        "CVE-2026-20320",
+        "CVE-2026-111793"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/threat-actors-exploit-openwave-cisco-broadworks-vulnerabilities/"
+        },
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/cisco-broadworks-and-openwave-flaws.html"
         }
       ]
     },
