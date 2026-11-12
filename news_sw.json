@@ -1,12 +1,7 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-12",
  "items": [
-  {
-   "title": "Today: CISO Forum Virtual Summit 2026 Day 2 – Join Cybersecurity Leaders Online",
-   "link": "https://www.securityweek.com/today-ciso-forum-virtual-summit-2026-join-global-cybersecurity-leaders/",
-   "date": "2026-11-11"
-  },
   {
    "title": "Critical Xen Orchestra Flaws Exploited in Attacks",
    "link": "https://www.securityweek.com/critical-xen-orchestra-flaws-exploited-in-attacks/",
@@ -23,23 +18,8 @@
    "date": "2026-11-11"
   },
   {
-   "title": "Finite State Raises $27 Million to Secure Software and Firmware in Connected Devices",
-   "link": "https://www.securityweek.com/finite-state-raises-27-million-to-secure-software-and-firmware-in-connected-devices/",
-   "date": "2026-11-11"
-  },
-  {
    "title": "Fortinet Patches Nearly 100 Vulnerabilities",
    "link": "https://www.securityweek.com/fortinet-patches-nearly-100-vulnerabilities/",
-   "date": "2026-11-11"
-  },
-  {
-   "title": "Bay Raises $50 Million to Control What Enterprise AI Agents Can Do",
-   "link": "https://www.securityweek.com/bay-raises-50-million-to-control-what-enterprise-ai-agents-can-do/",
-   "date": "2026-11-11"
-  },
-  {
-   "title": "Dreeze Emerges From Stealth With $33M to Rebuild Cloud Apps After Cyberattacks",
-   "link": "https://www.securityweek.com/dreeze-emerges-from-stealth-with-33m-to-rebuild-cloud-apps-after-cyberattacks/",
    "date": "2026-11-11"
   },
   {
@@ -51,6 +31,26 @@
    "title": "Threat Actors Exploit Openwave, Cisco BroadWorks Vulnerabilities",
    "link": "https://www.securityweek.com/threat-actors-exploit-openwave-cisco-broadworks-vulnerabilities/",
    "date": "2026-11-11"
+  },
+  {
+   "title": "Chipmaker Patch Tuesday: Over 200 Vulnerabilities Addressed by Intel, AMD",
+   "link": "https://www.securityweek.com/chipmaker-patch-tuesday-over-200-vulnerabilities-addressed-by-intel-amd/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Recently Patched Barracuda Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/recently-patched-barracuda-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Bluetooth, AirPlay Pairing Vulnerabilities Patched Across Apple Platforms",
+   "link": "https://www.securityweek.com/bluetooth-airplay-pairing-vulnerabilities-patched-across-apple-platforms/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Exploited Outlook Zero-Day Among 1,094 Flaws Patched by Microsoft",
+   "link": "https://www.securityweek.com/exploited-outlook-zero-day-among-1094-flaws-patched-by-microsoft/",
+   "date": "2026-11-10"
   }
  ]
 }
