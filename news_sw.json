@@ -1,7 +1,17 @@
 {
- "source": "VULNERABILITIES",
+ "source": "GENERAL",
  "updated": "2026-11-12",
  "items": [
+  {
+   "title": "Notion Customer Data Compromised in Fireworks AI Hack",
+   "link": "https://www.securityweek.com/notion-customer-data-compromised-in-fireworks-ai-hack/",
+   "date": "2026-11-12"
+  },
+  {
+   "title": "Hackers Deploy Malware in Fresh ScreenConnect Campaign",
+   "link": "https://www.securityweek.com/hackers-deploy-malware-in-fresh-screenconnect-campaign/",
+   "date": "2026-11-12"
+  },
   {
    "title": "Hackers Target N-central Zero-Days as N-able Rushes Patches",
    "link": "https://www.securityweek.com/hackers-target-n-central-zero-days-as-n-able-rushes-patches/",
@@ -11,6 +21,16 @@
    "title": "Critical Red Hat Quay Vulnerability Could Expose Private Container Images",
    "link": "https://www.securityweek.com/critical-red-hat-quay-vulnerability-could-expose-private-container-images/",
    "date": "2026-11-12"
+  },
+  {
+   "title": "Maersk Confirms Data Theft Amid $5 Million Extortion Attempt",
+   "link": "https://www.securityweek.com/maersk-confirms-data-theft-amid-5-million-extortion-attempt/",
+   "date": "2026-11-12"
+  },
+  {
+   "title": "Today: CISO Forum Virtual Summit 2026 Day 2 – Join Cybersecurity Leaders Online",
+   "link": "https://www.securityweek.com/today-ciso-forum-virtual-summit-2026-join-global-cybersecurity-leaders/",
+   "date": "2026-11-11"
   },
   {
    "title": "Critical Xen Orchestra Flaws Exploited in Attacks",
@@ -28,28 +48,8 @@
    "date": "2026-11-11"
   },
   {
-   "title": "Fortinet Patches Nearly 100 Vulnerabilities",
-   "link": "https://www.securityweek.com/fortinet-patches-nearly-100-vulnerabilities/",
-   "date": "2026-11-11"
-  },
-  {
-   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
-   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
-   "date": "2026-11-11"
-  },
-  {
-   "title": "Threat Actors Exploit Openwave, Cisco BroadWorks Vulnerabilities",
-   "link": "https://www.securityweek.com/threat-actors-exploit-openwave-cisco-broadworks-vulnerabilities/",
-   "date": "2026-11-11"
-  },
-  {
-   "title": "Chipmaker Patch Tuesday: Over 200 Vulnerabilities Addressed by Intel, AMD",
-   "link": "https://www.securityweek.com/chipmaker-patch-tuesday-over-200-vulnerabilities-addressed-by-intel-amd/",
-   "date": "2026-11-11"
-  },
-  {
-   "title": "Recently Patched Barracuda Vulnerabilities Exploited in Attacks",
-   "link": "https://www.securityweek.com/recently-patched-barracuda-vulnerabilities-exploited-in-attacks/",
+   "title": "Finite State Raises $27 Million to Secure Software and Firmware in Connected Devices",
+   "link": "https://www.securityweek.com/finite-state-raises-27-million-to-secure-software-and-firmware-in-connected-devices/",
    "date": "2026-11-11"
   }
  ]
