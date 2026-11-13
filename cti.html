@@ -963,10 +963,10 @@ function campCell(c, open){
     h += `<div class="detail">`;
     if(c.summary) h += `<div>${esc(c.summary)}</div>`;
     if(c.actor)           h += L("attore ", esc(c.actor));
-    h += L("periodo", esc(c.start || "n/a") + (c.end ? " > " + esc(c.end) : " > in corso"));
-    if(c.vector)          h += L("vettore", esc(c.vector));
-    if(c.malware.length)  h += L("malware", esc(c.malware.join(", ")));
-    if(c.sectors.length)  h += L("settori", esc(c.sectors.map(sectLabel).join(", ")));
+    h += L("periodo ", esc(c.start || "n/a") + (c.end ? " > " + esc(c.end) : " > in corso"));
+    if(c.vector)          h += L("vettore ", esc(c.vector));
+    if(c.malware.length)  h += L("malware ", esc(c.malware.join(", ")));
+    if(c.sectors.length)  h += L("settori ", esc(c.sectors.map(sectLabel).join(", ")));
     if(c.ttps.length)     h += L("ttp ", ttpLinks(c.ttps));
     if(c.tlp)             h += L("tlp ", esc("TLP:" + c.tlp));
     h += srcLinks(c.sources);
@@ -979,7 +979,7 @@ function ttpCell(r, open){
     if(!open) return h;
     h += `<div class="detail">`;
     if(r.a.length) h += L("attori ", esc(r.a.map(a => a.name).join(", ")));
-    if(r.c.length) h += L("camp.  ", r.c.map(c => esc(c.title)).join(" ; "));
+    if(r.c.length) h += L("camp. ", r.c.map(c => esc(c.title)).join(" ; "));
     h += L("mitre  ", `<a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.id)}</a>`);
     return h + `</div>`;
 }
