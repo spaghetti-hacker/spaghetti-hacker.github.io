@@ -35,9 +35,14 @@ from datetime import datetime, timedelta, timezone
 MITRE_URL = ("https://raw.githubusercontent.com/mitre-attack/attack-stix-data/"
              "master/enterprise-attack/enterprise-attack.json")
 
-WINDOW_DAYS = 30
+# Identificati in modo onesto ma nel formato classico dei bot: alcuni siti
+# (CISA compresa) rifiutano con 403 gli User-Agent "da script" generici.
+# Sostituisci l'URL con quello del tuo sito o con un tuo contatto.
+USER_AGENT = "Mozilla/5.0 (compatible; cti-update/1.0; +https://example.org/cti.html)"
+
+WINDOW_DAYS = 90
 MAX_TTPS_PER_ACTOR = 12
-MAX_AUTO_CAMPAIGNS = 30
+MAX_AUTO_CAMPAIGNS = 60
 MAX_ACTOR_SOURCES = 3
 CACHE_MAX_AGE_H = 24 * 7
 
@@ -51,19 +56,26 @@ WATCH_ACTORS = [
 
 # Feed. scope: "IT" = fonte italiana; trusted: una citazione di un attore basta
 # per creare una campagna anche senza riferimenti all'Italia;
+# incidents: diventa campagna anche un articolo che nomina l'Italia insieme a
+# parole da incidente (ransomware, DDoS, phishing, data breach...), senza attore;
 # all_items: ogni articolo diventa una voce in CAMPAIGNS (utile per fonti che
 # pubblicano solo bollettini su campagne, non per testate generaliste).
 # Verifica gli URL: alcuni siti cambiano percorso. Puoi sostituire l'intero
 # elenco con la chiave "feeds" in cti_curated.json.
 FEEDS = [
-    {"name": "Cybersecurity360", "url": "https://www.cybersecurity360.it/feed/",                    "scope": "IT"},   # URL da verificare
-    {"name": "CISA",            "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",    "scope": "GLOBAL", "trusted": True},
+    {"name": "Cybersecurity360", "url": "https://www.cybersecurity360.it/feed/",                    "scope": "IT",     "incidents": True},
     {"name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/",                   "scope": "GLOBAL"},
     {"name": "The Hacker News",  "url": "https://feeds.feedburner.com/TheHackersNews",              "scope": "GLOBAL"},
 ]
 
 ITALY_RE = re.compile(
     r"\b(italia|italy|italian[oiae]?|italiani|italiane|csirt italia|agenzia per la cybersicurezza)\b", re.I)
+
+INCIDENT_RE = re.compile(
+    r"\b(ransomware|ddos|phishing|smishing|vishing|malware|infostealer|botnet|zero[- ]day|"
+    r"data breach|data leak|violazion[ei] (?:di |dei )?dati|"
+    r"attacc[oh]\w* (?:hacker|informatic\w*|cyber)|cyber ?attacc\w*|cyber attack\w*|"
+    r"esfiltrazion\w*|compromission\w*)\b", re.I)
 
 TACTIC_ORDER = [
     "initial-access", "execution", "persistence", "privilege-escalation",
@@ -101,7 +113,11 @@ def write_json_atomic(path, data):
 
 
 def fetch(url, timeout=30):
-    req = urllib.request.Request(url, headers={"User-Agent": "cti-update/1.0"})
+    req = urllib.request.Request(url, headers={
+        "User-Agent": USER_AGENT,
+        "Accept": "application/rss+xml, application/atom+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.5",
+        "Accept-Language": "en-US,en;q=0.8,it;q=0.6",
+    })
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read()
 
@@ -347,7 +363,9 @@ def collect_feeds(feeds, actors, cutoff, ignore_urls, offline, verbose):
                 if d > a.get("last_activity", ""):
                     a["last_activity"] = d
                 a.setdefault("_mentions", []).append((it["date"], it["title"], it["link"]))
-            make = (hits and (feed.get("scope") == "IT" or italy or feed.get("trusted"))) or feed.get("all_items")
+            incident = bool(feed.get("incidents") and italy and INCIDENT_RE.search(text))
+            make = (hits and (feed.get("scope") == "IT" or italy or feed.get("trusted"))) \
+                or feed.get("all_items") or incident
             if not make:
                 continue
             cid = "AUTO-" + hashlib.sha1(it["link"].encode()).hexdigest()[:10]
