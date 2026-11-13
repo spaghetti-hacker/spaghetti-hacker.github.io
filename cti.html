@@ -757,21 +757,6 @@ html{
     overflow-wrap:anywhere;
 }
 
-/* settori: barre ASCII */
-.bars{
-    margin-top:1.2em;
-}
-
-.srow{
-    white-space:pre-wrap;
-    overflow-wrap:anywhere;
-    margin-top:3px;
-}
-
-.bar{
-    color:#65E903;
-}
-
 #tbl td.c-cat, #tbl td.c-sev{ overflow:hidden; text-overflow:ellipsis; }
 </style>
 </head>
@@ -801,7 +786,7 @@ html{
     <div id="notice"></div>
 
     <div id="tabs">
-        <a href="#actors" data-tab="actors">[ACTORS]</a><a href="#campaigns" data-tab="campaigns">[CAMPAIGNS]</a><a href="#ttp" data-tab="ttp">[TTP]</a><a href="#sectors" data-tab="sectors">[SECTORS]</a>
+        <a href="#actors" data-tab="actors">[ACTORS]</a><a href="#campaigns" data-tab="campaigns">[CAMPAIGNS]</a><a href="#ttp" data-tab="ttp">[TTP]</a>
     </div>
 
     <div id="filters">
@@ -853,7 +838,7 @@ const SECT = {
     diplomatic:    "DIPLOMAZIA",
     education:     "ISTRUZIONE"
 };
-const TABS = { actors:"ACTORS", campaigns:"CAMPAIGNS", ttp:"TTP", sectors:"SECTORS" };
+const TABS = { actors:"ACTORS", campaigns:"CAMPAIGNS", ttp:"TTP" };
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -1028,33 +1013,6 @@ function ttpRow(r){
 
 function pad(s, n){ return s + " ".repeat(Math.max(0, n - s.length)); }
 
-function sectorsHtml(){
-    const { actors, camps } = sets(false);
-    const m = new Map();
-    const add = (i, kind) => i.sectors.forEach(s => {
-        const e = m.get(s) || { a: 0, c: 0, it: 0 };
-        e[kind]++;
-        if(i.isIT) e.it++;
-        m.set(s, e);
-    });
-    actors.forEach(a => add(a, "a"));
-    camps.forEach(c => add(c, "c"));
-    const rows = [...m.entries()]
-        .map(([k, e]) => ({ k, e, n: e.a + e.c }))
-        .sort((x, y) => (y.n - x.n) || cmp(x.k, y.k));
-    if(!rows.length) return { n: 0, html: "" };
-    const max = rows[0].n, W = 20;
-    const html = `<div class="bars">` + rows.map(r => {
-        const fill = Math.max(1, Math.round(r.n / max * W));
-        const lab = sectLabel(r.k);
-        return `<div class="srow"><a href="#" data-sector="${esc(r.k)}">${esc(lab)}</a>${" ".repeat(Math.max(1, 13 - lab.length))}` +
-               `<span class="bar">[${"#".repeat(fill)}${".".repeat(W - fill)}]</span> ${r.n}` +
-               `<span class="dim"> (att ${r.e.a} / camp ${r.e.c})</span>` +
-               (r.e.it ? `<span class="scope-it"> IT:${r.e.it}</span>` : "") + `</div>`;
-    }).join("") + `</div>`;
-    return { n: rows.length, html };
-}
-
 function pagerHtml(pages){
     if(pages <= 1) return "";
     const p = st.page, out = [];
@@ -1090,7 +1048,7 @@ function render(){
 
     /* contatori nelle tab */
     const full = sets(true);
-    const counts = { actors: full.actors.length, campaigns: full.camps.length, ttp: ttpRows().length, sectors: sectorsHtml().n };
+    const counts = { actors: full.actors.length, campaigns: full.camps.length, ttp: ttpRows().length };
     document.querySelectorAll("#tabs a[data-tab]").forEach(a => {
         const t = a.dataset.tab;
         a.classList.toggle("on", t === st.tab);
@@ -1107,14 +1065,6 @@ function render(){
     } else if(st.tab === "ttp"){
         rows = ttpRows(); rowFn = ttpRow; label = ["tecnica", "tecniche"];
         head = "<th>ID</th><th>TACTIC</th><th>USE</th><th>TECHNIQUE</th>";
-    }
-
-    if(st.tab === "sectors"){
-        const s = sectorsHtml();
-        $("count").textContent = s.n ? `;${s.n} settori — attori + campagne, ordinati per attivita (clic = filtra campagne)` : ";nessun settore";
-        $("list").innerHTML = s.html;
-        $("pager").innerHTML = "";
-        return;
     }
 
     const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
@@ -1168,17 +1118,6 @@ $("pager").addEventListener("click", e => {
 });
 
 $("list").addEventListener("click", e => {
-    const sec = e.target.closest("a[data-sector]");
-    if(sec){
-        e.preventDefault();
-        st.q = sec.dataset.sector;
-        $("prompt-input").value = st.q;
-        st.tab = "campaigns";
-        st.page = 1;
-        try{ history.replaceState(null, "", "#campaigns"); }catch(_){}
-        render();
-        return;
-    }
     if(e.target.closest("a")) return;   /* i link esterni non devono aprire/chiudere la riga */
     const td = e.target.closest("td.c-news");
     if(!td) return;
