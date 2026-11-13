@@ -1,9 +1,27 @@
 {
-  "updated": "2026-11-13T10:30:05Z",
+  "updated": "2026-11-13T12:25:05Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-13-001",
+      "published": "2026-11-13",
+      "title": "Check Point warns of zero-day flaw exploited for root access",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Check Point Software has released emergency hotfixes to address a high-severity flaw that hackers have been exploiting to gain root privileges and establish persistence on vulnerable devices since late October. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-002",
       "published": "2026-11-13",
       "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
       "category": "vuln",
@@ -21,7 +39,7 @@
       ]
     },
     {
-      "id": "2026-11-13-002",
+      "id": "2026-11-13-003",
       "published": "2026-11-13",
       "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
       "category": "vuln",
@@ -39,7 +57,7 @@
       ]
     },
     {
-      "id": "2026-11-13-003",
+      "id": "2026-11-13-004",
       "published": "2026-11-13",
       "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
       "category": "vuln",
@@ -57,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-13-004",
+      "id": "2026-11-13-005",
       "published": "2026-11-13",
       "title": "Dalla catena del freddo alle infrastrutture critiche: come il NIST blinda il mondo fisico",
       "category": "ics",
@@ -75,7 +93,61 @@
       ]
     },
     {
-      "id": "2026-11-13-005",
+      "id": "2026-11-13-006",
+      "published": "2026-11-13",
+      "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Enea says SilentAir hijacked mobile network nodes to intercept calls and messages, with Taiwanese subscribers the primary targets. The post SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-007",
+      "published": "2026-11-13",
+      "title": "SilentAir Hijacks Asian Telecom Networks to Intercept SMS 2FA Codes and Spy on Taiwanese Users",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "A newly identified spying group used hacked equipment inside Asian mobile operators to intercept the calls and texts of selected people, mostly in Taiwan. Enea, a telecom and cybersecurity software company based in Stockholm, found the group's attack sources in at least six Asian countries and named it SilentAir this week. It assessed with high confidence that SilentAir is a state-level actor,",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/silentair-hijacks-asian-telecom.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-008",
+      "published": "2026-11-13",
+      "title": "Operation Endgame Takes Down Gootloader, CastleRAT and StealC Servers, Seizes 6.4M Stolen Logins",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "An international police operation took down servers behind Gootloader, CastleRAT and StealC this week. Criminals used the three malware tools to gain access to computers, steal passwords, and launch ransomware attacks. Police also seized about 6.4 million stolen logins belonging to more than 40,000 victims, according to Germany's Federal Criminal Police Office (BKA). Gootloader is a loader:",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/operation-endgame-takes-down-gootloader.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-009",
       "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
       "category": "vuln",
@@ -93,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-13-006",
+      "id": "2026-11-13-010",
       "published": "2026-11-13",
       "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
       "category": "vuln",
@@ -111,7 +183,7 @@
       ]
     },
     {
-      "id": "2026-11-13-007",
+      "id": "2026-11-13-011",
       "published": "2026-11-13",
       "title": "Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico",
       "category": "malware",
@@ -129,7 +201,7 @@
       ]
     },
     {
-      "id": "2026-11-13-008",
+      "id": "2026-11-13-012",
       "published": "2026-11-13",
       "title": "Hackers Exploit PHP2Shell Flaws in Check Point Gateways to Deploy TSGA Backdoor and Wipe ESXi Files",
       "category": "vuln",
@@ -147,7 +219,7 @@
       ]
     },
     {
-      "id": "2026-11-13-009",
+      "id": "2026-11-13-013",
       "published": "2026-11-13",
       "title": "Il fronte esterno passa da Dublino: perché l’enforcement del GDPR guarda alla carta geografica",
       "category": "vuln",
@@ -165,7 +237,7 @@
       ]
     },
     {
-      "id": "2026-11-13-010",
+      "id": "2026-11-13-014",
       "published": "2026-11-13",
       "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
       "category": "vuln",
@@ -185,7 +257,7 @@
       ]
     },
     {
-      "id": "2026-11-13-011",
+      "id": "2026-11-13-015",
       "published": "2026-11-13",
       "title": "Frigoriferi hackerati, Italia prima in Europa per esposizione. “Il display può mentire”",
       "category": "malware",
@@ -203,7 +275,7 @@
       ]
     },
     {
-      "id": "2026-11-13-012",
+      "id": "2026-11-13-016",
       "published": "2026-11-13",
       "title": "Hackers Exploit N-central Flaws to Infect 21 Servers, Including 19 Running Hotfix 2",
       "category": "vuln",
@@ -221,7 +293,7 @@
       ]
     },
     {
-      "id": "2026-11-13-013",
+      "id": "2026-11-13-017",
       "published": "2026-11-13",
       "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
       "category": "malware",
@@ -239,7 +311,25 @@
       ]
     },
     {
-      "id": "2026-11-13-014",
+      "id": "2026-11-13-018",
+      "published": "2026-11-13",
+      "title": "When an AI Agent Goes Wrong, Can You Stop It?",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Suppose an AI agent is asked to sort support tickets and look up account details. A ticket contains instructions that lead the agent to export records to an unfamiliar destination. The agent can make the request because its identity has access to the records and its connected tools allow the action. That kind of scenario raises a response question: what does “stop the agent” actually mean? A",
+      "tags": [
+        "business"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/when-ai-agent-goes-wrong-can-you-stop-it.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-019",
       "published": "2026-11-13",
       "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
       "category": "policy",
@@ -489,6 +579,28 @@
     {
       "id": "2026-11-12-013",
       "published": "2026-11-12",
+      "title": "Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Investigators seized 235 servers and 257 domains, along with 6.4 million victim credentials as part of Operation Endgame. The post Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/police-dismantles-gootloader-castlerat-stealc-malware-infrastructure/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/law-enforcement-disrupts-gootloader-castlerat-and-stealc-infrastructure/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-014",
+      "published": "2026-11-12",
       "title": "Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams",
       "category": "malware",
       "severity": "MEDIUM",
@@ -509,7 +621,7 @@
       ]
     },
     {
-      "id": "2026-11-12-014",
+      "id": "2026-11-12-015",
       "published": "2026-11-12",
       "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
       "category": "malware",
@@ -527,7 +639,7 @@
       ]
     },
     {
-      "id": "2026-11-12-015",
+      "id": "2026-11-12-016",
       "published": "2026-11-12",
       "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
       "category": "malware",
@@ -545,7 +657,7 @@
       ]
     },
     {
-      "id": "2026-11-12-016",
+      "id": "2026-11-12-017",
       "published": "2026-11-12",
       "title": "ThreatsDay: 59 Linux Kernel Bugs, Falcon Spyware, GSocket Backdoors + 17 More Stories",
       "category": "malware",
@@ -563,7 +675,7 @@
       ]
     },
     {
-      "id": "2026-11-12-017",
+      "id": "2026-11-12-018",
       "published": "2026-11-12",
       "title": "Gestione del rischio ICT in DORA: cosa significa davvero",
       "category": "malware",
@@ -581,7 +693,7 @@
       ]
     },
     {
-      "id": "2026-11-12-018",
+      "id": "2026-11-12-019",
       "published": "2026-11-12",
       "title": "186 Fake AI Domains Redirect Users to ClickFix Lures, Browser Malware, and Search Hijackers",
       "category": "malware",
@@ -595,24 +707,6 @@
         {
           "title": "The Hacker News",
           "url": "https://thehackernews.com/2026/11/186-fake-ai-domains-redirect-users-to.html"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-019",
-      "published": "2026-11-12",
-      "title": "Police dismantle Gootloader, CastleRAT, StealC malware infrastructure",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "Europol and law enforcement partners from nine countries have seized hundreds of servers and domains used by the Gootloader, CastleRAT, and StealC malware operations. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/police-dismantles-gootloader-castlerat-stealc-malware-infrastructure/"
         }
       ]
     },
@@ -637,42 +731,6 @@
     {
       "id": "2026-11-12-021",
       "published": "2026-11-12",
-      "title": "Chrome, Firefox Updates Patch Over 180 Vulnerabilities",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Google fixed 83 flaws with a new Chrome 157 release, and Mozilla addressed 99 bugs in Firefox 160. The post Chrome, Firefox Updates Patch Over 180 Vulnerabilities appeared first on SecurityWeek .",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/chrome-firefox-updates-patch-180-vulnerabilities/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-022",
-      "published": "2026-11-12",
-      "title": "Attacker Targets 60,000 GitHub Repositories in Credential Theft Campaign",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "Using thousands of hijacked accounts, the wfx-loot campaign planted a CI secret stealer that ran in over 1,800 GitHub repositories. The post Attacker Targets 60,000 GitHub Repositories in Credential Theft Campaign appeared first on SecurityWeek .",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/attacker-targets-60000-github-repositories-in-credential-theft-campaign/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-023",
-      "published": "2026-11-12",
       "title": "Ionos Plus per siti e web app con IA: 300 crediti mensili, 10 progetti e sconto a 9 euro per il primo mese",
       "category": "malware",
       "severity": "MEDIUM",
@@ -689,7 +747,7 @@
       ]
     },
     {
-      "id": "2026-11-12-024",
+      "id": "2026-11-12-022",
       "published": "2026-11-12",
       "title": "L’Italia riduce i fondi per la cybersecurity? Facciamo chiarezza",
       "category": "malware",
@@ -707,7 +765,7 @@
       ]
     },
     {
-      "id": "2026-11-12-025",
+      "id": "2026-11-12-023",
       "published": "2026-11-12",
       "title": "Microsoft: Recent Windows updates cause SQL Server performance issues",
       "category": "vuln",
@@ -725,7 +783,7 @@
       ]
     },
     {
-      "id": "2026-11-12-026",
+      "id": "2026-11-12-024",
       "published": "2026-11-12",
       "title": "Google Cloud Warns Three AMD Turin CPU Flaws Could Leak Data Across Processes in VMs",
       "category": "vuln",
@@ -743,7 +801,7 @@
       ]
     },
     {
-      "id": "2026-11-12-027",
+      "id": "2026-11-12-025",
       "published": "2026-11-12",
       "title": "Kernel Linux, l’AI scopre centinaia di falle: serve una soluzione più forte",
       "category": "vuln",
@@ -761,7 +819,7 @@
       ]
     },
     {
-      "id": "2026-11-12-028",
+      "id": "2026-11-12-026",
       "published": "2026-11-12",
       "title": "New N-central Exploits Work Against Patched Servers, Enable Root RCE and Windows SYSTEM Access",
       "category": "vuln",
@@ -779,7 +837,7 @@
       ]
     },
     {
-      "id": "2026-11-12-029",
+      "id": "2026-11-12-027",
       "published": "2026-11-12",
       "title": "Calendar Invites and Live Proxies: Inside a Google Session Hijacking Campaign",
       "category": "malware",
@@ -797,7 +855,7 @@
       ]
     },
     {
-      "id": "2026-11-12-030",
+      "id": "2026-11-12-028",
       "published": "2026-11-12",
       "title": "Microsoft confirms Windows security updates installation issues",
       "category": "malware",
@@ -815,7 +873,7 @@
       ]
     },
     {
-      "id": "2026-11-12-031",
+      "id": "2026-11-12-029",
       "published": "2026-11-12",
       "title": "Hackers plant GSocket on Linux servers for persistent access",
       "category": "vuln",
@@ -833,7 +891,7 @@
       ]
     },
     {
-      "id": "2026-11-12-032",
+      "id": "2026-11-12-030",
       "published": "2026-11-12",
       "title": "Node.js Fixes 16 Flaws, Including HTTP/2 Bugs That Crash Servers and Leak Other Connections' Data",
       "category": "vuln",
@@ -851,7 +909,7 @@
       ]
     },
     {
-      "id": "2026-11-12-033",
+      "id": "2026-11-12-031",
       "published": "2026-11-12",
       "title": "Attacker Used 4,837 Hijacked GitHub Accounts to Run a CI Secret Stealer in 1,806+ Repositories",
       "category": "malware",
@@ -869,7 +927,7 @@
       ]
     },
     {
-      "id": "2026-11-12-034",
+      "id": "2026-11-12-032",
       "published": "2026-11-12",
       "title": "ScreenConnect Attacks Target at Least 288 Endpoints Across 48 Organizations With Rogue Clients",
       "category": "vuln",
@@ -887,7 +945,7 @@
       ]
     },
     {
-      "id": "2026-11-12-035",
+      "id": "2026-11-12-033",
       "published": "2026-11-12",
       "title": "Cyber europea, il rapporto ENISA 2026 svela il paradosso: norme solide, difese ancora fragili",
       "category": "policy",
@@ -927,24 +985,6 @@
     {
       "id": "2026-11-11-002",
       "published": "2026-11-11",
-      "title": "Baker Tilly notifies clients of data breach at third-party provider",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "The Baker Tilly Advisory Group is notifying clients that a data breach has compromised certain personal information about them and their dependents. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/baker-tilly-notifies-clients-of-data-breach-at-third-party-provider/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-11-003",
-      "published": "2026-11-11",
       "title": "Railway Says Stolen Customer AI Keys Led to $740,000 in Estimated Unauthorized Usage Charges",
       "category": "breach",
       "severity": "HIGH",
@@ -961,30 +1001,7 @@
       ]
     },
     {
-      "id": "2026-11-11-004",
-      "published": "2026-11-11",
-      "title": "Cisco BroadWorks e Openwave nel catalogo KEV: sfruttate nonostante le patch",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "La CISA ha inserito nel catalogo KEV una XXE non autenticata in Cisco BroadWorks, corretta ad agosto, e una falla nel Webtop Media Transcoder di Openwave, corretta a ottobre, con scadenza al 24 novembre per le agenzie federali. La prima è stata usata nell'operazione Snowball contro un provider telefonico europeo, secondo Malbear Labs con l'aiuto di un framework agentico; per la seconda lo sfruttamento deriva solo da un avviso del JVN basato su una dichiarazione del fornitore. L'attribuzione a un attore di lingua cinese e l'estensione reale dell'attacco, con 13 organizzazioni solo potenzialmente colpite, non sono confermate in modo indipendente.",
-      "tags": [
-        "Cisco BroadWorks",
-        "Openwave",
-        "KEV",
-        "telecomunicazioni"
-      ],
-      "cves": [
-        "CVE-2026-20320"
-      ],
-      "sources": [
-        {
-          "title": "The Hacker News",
-          "url": "https://thehackernews.com/2026/11/cisco-broadworks-and-openwave-flaws.html"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-11-005",
+      "id": "2026-11-11-003",
       "published": "2026-11-11",
       "title": "AntiFox AI Pentesting Platform Linked to Attacks That Accessed AWS Production Secrets",
       "category": "malware",
@@ -1002,7 +1019,7 @@
       ]
     },
     {
-      "id": "2026-11-11-006",
+      "id": "2026-11-11-004",
       "published": "2026-11-11",
       "title": "Hackers Target Qlik Sense Servers With Reverse Shells, Stage ActiveMQ and Veeam Exploits",
       "category": "vuln",
@@ -1020,7 +1037,7 @@
       ]
     },
     {
-      "id": "2026-11-11-007",
+      "id": "2026-11-11-005",
       "published": "2026-11-11",
       "title": "Over 35,000 Grok-Built Apps Exposed Online, Some Leaking Confidential Data and Passwords",
       "category": "malware",
@@ -1038,7 +1055,7 @@
       ]
     },
     {
-      "id": "2026-11-11-008",
+      "id": "2026-11-11-006",
       "published": "2026-11-11",
       "title": "We Built An Agent That Broke All of Our Security Rules. Here's What We Learned.",
       "category": "malware",
@@ -1056,7 +1073,7 @@
       ]
     },
     {
-      "id": "2026-11-11-009",
+      "id": "2026-11-11-007",
       "published": "2026-11-11",
       "title": "eMudhra Revokes 8 More CAs It Previously Declared Unaffected by Key Compromise",
       "category": "malware",
@@ -1074,7 +1091,7 @@
       ]
     },
     {
-      "id": "2026-11-11-010",
+      "id": "2026-11-11-008",
       "published": "2026-11-11",
       "title": "Microsoft Patches 1,259 Flaws, Including Exploited Outlook Bug That May Expose NTLMv2 Hashes",
       "category": "vuln",
@@ -1088,24 +1105,6 @@
         {
           "title": "The Hacker News",
           "url": "https://thehackernews.com/2026/11/microsoft-patches-1259-flaws-including.html"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-11-011",
-      "published": "2026-11-11",
-      "title": "Microsoft Researchers Show AI Agents Can Be Backdoored by Editing Fewer Than 10 Neurons",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "An AI model can be given a hidden backdoor by editing fewer than 10 of its rarely used neurons, without retraining the model, Microsoft researchers have shown. When a chosen trigger appears, the model outputs an attacker's command, which an agent using that model would run with the agent's own permissions. The attacker must be able to change the model's weights. The team tested the method on",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "The Hacker News",
-          "url": "https://thehackernews.com/2026/11/microsoft-researchers-show-ai-agents.html"
         }
       ]
     }

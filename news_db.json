@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T10:30:05Z",
+  "updated": "2026-11-13T12:25:05Z",
   "window_days": 7,
   "items": [
     {
@@ -41,6 +41,60 @@
     {
       "id": "2026-11-13-003",
       "published": "2026-11-13",
+      "title": "Operation Endgame Takes Down Gootloader, CastleRAT and StealC Servers, Seizes 6.4M Stolen Logins",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "An international police operation took down servers behind Gootloader, CastleRAT and StealC this week. Criminals used the three malware tools to gain access to computers, steal passwords, and launch ransomware attacks. Police also seized about 6.4 million stolen logins belonging to more than 40,000 victims, according to Germany's Federal Criminal Police Office (BKA). Gootloader is a loader:",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/operation-endgame-takes-down-gootloader.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-004",
+      "published": "2026-11-13",
+      "title": "SilentAir Hijacks Asian Telecom Networks to Intercept SMS 2FA Codes and Spy on Taiwanese Users",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "A newly identified spying group used hacked equipment inside Asian mobile operators to intercept the calls and texts of selected people, mostly in Taiwan. Enea, a telecom and cybersecurity software company based in Stockholm, found the group's attack sources in at least six Asian countries and named it SilentAir this week. It assessed with high confidence that SilentAir is a state-level actor,",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/silentair-hijacks-asian-telecom.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-005",
+      "published": "2026-11-13",
+      "title": "When an AI Agent Goes Wrong, Can You Stop It?",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Suppose an AI agent is asked to sort support tickets and look up account details. A ticket contains instructions that lead the agent to export records to an unfamiliar destination. The agent can make the request because its identity has access to the records and its connected tools allow the action. That kind of scenario raises a response question: what does “stop the agent” actually mean? A",
+      "tags": [
+        "business"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/when-ai-agent-goes-wrong-can-you-stop-it.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-006",
+      "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
       "category": "vuln",
       "severity": "MEDIUM",
@@ -57,7 +111,25 @@
       ]
     },
     {
-      "id": "2026-11-13-004",
+      "id": "2026-11-13-007",
+      "published": "2026-11-13",
+      "title": "Check Point warns of zero-day flaw exploited for root access",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Check Point Software has released emergency hotfixes to address a high-severity flaw that hackers have been exploiting to gain root privileges and establish persistence on vulnerable devices since late October. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-008",
       "published": "2026-11-13",
       "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
       "category": "policy",
@@ -75,7 +147,7 @@
       ]
     },
     {
-      "id": "2026-11-13-005",
+      "id": "2026-11-13-009",
       "published": "2026-11-13",
       "title": "Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico",
       "category": "malware",
@@ -93,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-13-006",
+      "id": "2026-11-13-010",
       "published": "2026-11-13",
       "title": "Il fronte esterno passa da Dublino: perché l’enforcement del GDPR guarda alla carta geografica",
       "category": "vuln",
@@ -111,7 +183,7 @@
       ]
     },
     {
-      "id": "2026-11-13-007",
+      "id": "2026-11-13-011",
       "published": "2026-11-13",
       "title": "Dalla catena del freddo alle infrastrutture critiche: come il NIST blinda il mondo fisico",
       "category": "ics",
@@ -129,7 +201,7 @@
       ]
     },
     {
-      "id": "2026-11-13-008",
+      "id": "2026-11-13-012",
       "published": "2026-11-13",
       "title": "Frigoriferi hackerati, Italia prima in Europa per esposizione. “Il display può mentire”",
       "category": "malware",
@@ -147,7 +219,7 @@
       ]
     },
     {
-      "id": "2026-11-13-009",
+      "id": "2026-11-13-013",
       "published": "2026-11-13",
       "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
       "category": "vuln",
@@ -165,7 +237,7 @@
       ]
     },
     {
-      "id": "2026-11-13-010",
+      "id": "2026-11-13-014",
       "published": "2026-11-13",
       "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
       "category": "malware",
@@ -183,7 +255,7 @@
       ]
     },
     {
-      "id": "2026-11-13-011",
+      "id": "2026-11-13-015",
       "published": "2026-11-13",
       "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
       "category": "vuln",
@@ -201,7 +273,7 @@
       ]
     },
     {
-      "id": "2026-11-13-012",
+      "id": "2026-11-13-016",
       "published": "2026-11-13",
       "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
       "category": "vuln",
@@ -219,7 +291,7 @@
       ]
     },
     {
-      "id": "2026-11-13-013",
+      "id": "2026-11-13-017",
       "published": "2026-11-13",
       "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
       "category": "vuln",
@@ -237,7 +309,7 @@
       ]
     },
     {
-      "id": "2026-11-13-014",
+      "id": "2026-11-13-018",
       "published": "2026-11-13",
       "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
       "category": "vuln",
@@ -253,6 +325,24 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/php2shell-exploited-in-destructive-check-point-gateway-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-019",
+      "published": "2026-11-13",
+      "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Enea says SilentAir hijacked mobile network nodes to intercept calls and messages, with Taiwanese subscribers the primary targets. The post SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/"
         }
       ]
     },
@@ -887,10 +977,10 @@
     {
       "id": "2026-11-12-033",
       "published": "2026-11-12",
-      "title": "Police dismantle Gootloader, CastleRAT, StealC malware infrastructure",
+      "title": "Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure",
       "category": "malware",
       "severity": "MEDIUM",
-      "summary": "Europol and law enforcement partners from nine countries have seized hundreds of servers and domains used by the Gootloader, CastleRAT, and StealC malware operations. [...]",
+      "summary": "Investigators seized 235 servers and 257 domains, along with 6.4 million victim credentials as part of Operation Endgame. The post Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure appeared first on SecurityWeek .",
       "tags": [
         "malware"
       ],
@@ -899,6 +989,10 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/police-dismantles-gootloader-castlerat-stealc-malware-infrastructure/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/law-enforcement-disrupts-gootloader-castlerat-and-stealc-infrastructure/"
         }
       ]
     },
