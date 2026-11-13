@@ -3,6 +3,11 @@
  "updated": "2026-11-13",
  "items": [
   {
+   "title": "In Other News: New CISA Director Nominee, Connected Car Hacking, Baker Tilly Data Breach",
+   "link": "https://www.securityweek.com/in-other-news-new-cisa-director-nominee-connected-car-hacking-baker-tilly-data-breach/",
+   "date": "2026-11-13"
+  },
+  {
    "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
    "link": "https://www.securityweek.com/microsoft-struggles-to-restore-email-and-other-services-in-a-global-outage/",
    "date": "2026-11-13"
@@ -45,11 +50,6 @@
   {
    "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
    "link": "https://www.securityweek.com/hackers-exploit-new-n-central-zero-day-hours-after-poc-publication/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
-   "link": "https://www.securityweek.com/fbi-says-us-seized-1-2-billion-worth-of-cryptocurrency-stolen-from-binance/",
    "date": "2026-11-13"
   }
  ]
