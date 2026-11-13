@@ -1,0 +1,2160 @@
+{
+  "updated": "2026-11-13T10:17:52Z",
+  "window_days": 7,
+  "items": [
+    {
+      "id": "2026-11-13-001",
+      "published": "2026-11-13",
+      "title": "Hackers Exploit N-central Flaws to Infect 21 Servers, Including 19 Running Hotfix 2",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "N-able on Thursday said it's taking additional precautions in the wake of public disclosure of a new set of flaws tracked as 4EverAble2Shell and Agent2Shell. \"We are restricting certain N-central features and integrations,\" the company said in a Thursday update. \"These measures may affect some functionality, but we believe taking additional precautions while remediation is completed is the",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/hackers-exploit-n-central-flaws-to.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-002",
+      "published": "2026-11-13",
+      "title": "Hackers Exploit PHP2Shell Flaws in Check Point Gateways to Deploy TSGA Backdoor and Wipe ESXi Files",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "An unknown threat actor has been observed targeting unpatched Check Point Security Gateways to obtain initial access via the PHP2Shell vulnerabilities and then a previously unreported local privilege escalation flaw in Gaia OS to deploy a backdoor called TSGA. The activity, detailed by Check Point, began on October 30, 2026, and targeted Israeli organizations, with a broader follow-up",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/hackers-exploit-php2shell-flaws-in.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-003",
+      "published": "2026-11-13",
+      "title": "Microsoft confirms Windows activation failures after November updates",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has confirmed that this month's Patch Tuesday security updates are causing Windows activation and licensing failures with 0x80041008 error codes. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-windows-activation-failures-after-november-updates/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-004",
+      "published": "2026-11-13",
+      "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Authorities arrested 354 suspects in a joint international operation targeting vendors and buyers on the Archetyp, Nemesis, Tor2Door, Bohemia, and Kingdom dark web marketplaces. [...]",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/police-arrest-354-vendors-buyers-in-global-cybercrime-crackdown/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-005",
+      "published": "2026-11-13",
+      "title": "Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Proton VPN propone il piano Plus biennale a 2,49 euro al mese, con uno sconto del 75%. L'abbonamento costa 59,76 euro per 24 mesi e include protezione per 10 dispositivi, server in oltre 140 Paesi e blocco di annunci e malware L'articolo Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico proviene da Cyber Security 360 .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/cultura-cyber/offerta-black-friday-proton-vpn-sconto-75-percento-piano-plus/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-006",
+      "published": "2026-11-13",
+      "title": "Il fronte esterno passa da Dublino: perché l’enforcement del GDPR guarda alla carta geografica",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Dopo otto anni di enforcement sul GDPR, sta emergendo una nuova geografia: le autorità nazionali tengono il fronte interno, mentre quello esterno passa per lo sportello unico e per Bruxelles. Ecco la sfida del secondo decennio L'articolo Il fronte esterno passa da Dublino: perché l’enforcement del GDPR guarda alla carta geografica proviene da Cyber Security 360 .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/legal/privacy-dati-personali/il-fronte-esterno-passa-da-dublino-perche-lenforcement-del-gdpr-guarda-alla-carta-geografica/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-007",
+      "published": "2026-11-13",
+      "title": "Dalla catena del freddo alle infrastrutture critiche: come il NIST blinda il mondo fisico",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "In questo scenario di massima allerta, la tempistica dell' Initial Public Draft del NIST Special Publication (SP) 800-82r4 è quanto mai provvidenziale. Il documento, intitolato \"Guide to Operational Technology (OT) Security\", amplia il suo raggio d'azione a tutti i settori critici: è aperto ai commenti pubblici fino al 30 novembre 2026 L'articolo Dalla catena del freddo alle infrastrutture critiche: come il NIST…",
+      "tags": [
+        "ics"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/dalla-catena-del-freddo-alle-infrastrutture-critiche-come-il-nist-blinda-il-mondo-fisico/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-008",
+      "published": "2026-11-13",
+      "title": "Frigoriferi hackerati, Italia prima in Europa per esposizione. “Il display può mentire”",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Censys conta in Italia 366 sistemi xweb di Copeland e Dixell raggiungibili dalla Rete, più che in qualunque altro Paese Ue. Per Cataldo Basile, del Politecnico di Torino, la lezione degli attacchi va oltre l'attribuzione ai Pasdaran: alcune debolezze banali, un comando legittimo che può essere dannoso e la console compromessa non è più affidabile L'articolo Frigoriferi hackerati, Italia prima in Europa per…",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/outlook/frigoriferi-hackerati-italia-prima-in-europa-per-esposizione-il-display-puo-mentire/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-009",
+      "published": "2026-11-13",
+      "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Successful exploitation could lead to unexpected behavior or denial-of-service (DoS) conditions. The post Citrix Patches 10 Critical NetScaler Vulnerabilities appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/citrix-patches-10-critical-netscaler-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-010",
+      "published": "2026-11-13",
+      "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Also Thursday, the FBI blamed North Korea for a separate social engineering scheme that officials say resulted in the theft of $400 million worth of cryptocurrency. The post FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/fbi-says-us-seized-1-2-billion-worth-of-cryptocurrency-stolen-from-binance/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-011",
+      "published": "2026-11-13",
+      "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Dubbed 4EverAble2Shell, the flaw could allow remote, unauthenticated attackers to execute code with root privileges. The post Hackers Exploit New N-central Zero-Day Hours After PoC Publication appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/hackers-exploit-new-n-central-zero-day-hours-after-poc-publication/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-012",
+      "published": "2026-11-13",
+      "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "It abuses CLFS and Windows Defender to trigger arbitrary file creation in the context of the antimalware process. The post Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’ appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/nightmare-eclipse-drops-windows-zero-day-exploit-signdrop/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-013",
+      "published": "2026-11-13",
+      "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Daybreak Red Team pentests web applications with AI agents, while Defense Factory investigates security findings and prepares patches. The post OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/openai-unveils-daybreak-red-team-defense-factory-security-tools/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-014",
+      "published": "2026-11-13",
+      "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "PHP2Shell enabled initial compromise, while CVE-2026-123039 allowed attackers to elevate privileges to root. The post PHP2Shell Exploited in Destructive Check Point Gateway Attacks appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-123039"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/php2shell-exploited-in-destructive-check-point-gateway-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-001",
+      "published": "2026-11-12",
+      "title": "Apache HTTP Server 2.4.71 corregge una falla critica in mod_http2",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "La nuova versione, uscita l'11 novembre, sistema tre vulnerabilità. La più grave è una corruzione della memoria heap in mod_http2, che può portare a esecuzione di codice e riguarda le versioni 2.4.55-2.4.70 e mod_h2 standalone dalla 2.0.8 alla 2.0.42; le altre sono una dereferenziazione di puntatore nullo in mod_md e un overwrite di un byte sullo stack in mod_vhost_alias. Non risultano prove di sfruttamento attivo e la soluzione è l'aggiornamento alla 2.4.71.",
+      "tags": [
+        "Apache",
+        "mod_http2",
+        "heap",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-119618",
+        "CVE-2026-106023",
+        "CVE-2026-109163"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/apache-http-server-patches-critical-rce-vulnerability/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-002",
+      "published": "2026-11-12",
+      "title": "Citrus: nuovo gruppo ransomware che nasconde il traffico come HTTPS verso Yandex",
+      "category": "ransomware",
+      "severity": "MEDIUM",
+      "summary": "Kaspersky descrive un gruppo finora non censito, attivo contro aziende russe, che entra con credenziali rubate a fornitori esterni, sfrutta due vulnerabilità note e compromette server 1C:Enterprise mal configurati. Per muoversi usa tunnel VLESS con protocollo REALITY sulla porta 443 che imitano il traffico verso Yandex e distribuisce il ransomware Sn00py, scritto in Go, tramite GPO. Condivide tecniche con Toy Ghouls senza infrastrutture sovrapposte; l'uso di LLM per generare gli script è solo dedotto dai commenti del codice e il numero di vittime non è indicato.",
+      "tags": [
+        "Citrus",
+        "Sn00py",
+        "Russia",
+        "Kaspersky"
+      ],
+      "cves": [
+        "CVE-2026-54121",
+        "CVE-2020-1337"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/citrus-ransomware-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-003",
+      "published": "2026-11-12",
+      "title": "Compromessi circa 4.800 account GitHub per rubare segreti dalle pipeline CI/CD",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "Secondo Aikido la campagna è iniziata il 10 novembre: con credenziali GitHub rubate di 4.837 account gli attaccanti hanno sondato 61.764 repository, iniettando workflow malevoli che raccolgono segreti di GitHub Actions e credenziali cloud. Ci sono prove di esfiltrazione in almeno 1.806 repository. L'attribuzione non è stata assegnata dai ricercatori e non è confermato il funzionamento dello stealer in ogni caso, mentre l'assenza di artefatti non esclude il furto di dati.",
+      "tags": [
+        "GitHub Actions",
+        "credenziali",
+        "CI/CD",
+        "Aikido"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/github-accounts-compromised/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-004",
+      "published": "2026-11-12",
+      "title": "Microsoft: attori diversi usano GSocket per backdoor Linux mascherate da processi di sistema",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Nel suo report dell'11 novembre Microsoft descrive gruppi non collegati tra loro che, dopo aver sfruttato applicazioni esposte su Internet, usano lo strumento open source GSocket per creare backdoor persistenti con nomi come systemd-remount-d, senza un'infrastruttura di comando dedicata. Le vittime principali sono nel settore web e hosting, e in pochi casi è stato tentato CVE-2026-43284 per ottenere i privilegi di root. La crescita del 356,2% dei dispositivi con rilevamenti e le percentuali per settore sono riportate solo da GBHackers e non sono verificate sul blog Microsoft.",
+      "tags": [
+        "GSocket",
+        "Linux",
+        "backdoor",
+        "Microsoft"
+      ],
+      "cves": [
+        "CVE-2026-43284"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/gsocket-based-linux-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-005",
+      "published": "2026-11-12",
+      "title": "SignDrop: exploit pubblico per Windows porta a privilegi SYSTEM, senza patch",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Il ricercatore noto come MSNightmare ha pubblicato su GitHub il 10 novembre una proof of concept che abusa del driver CLFS (clfs.sys) per trasformare un account utente standard in SYSTEM in locale. Secondo il ricercatore l'exploit potrebbe anche aggirare la protezione anti-manomissione di antivirus ed EDR, ma Microsoft non lo ha confermato. Al momento non risultano né un CVE né una patch né casi di sfruttamento attivo.",
+      "tags": [
+        "Windows",
+        "CLFS",
+        "zero-day",
+        "escalation dei privilegi"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/new-windows-signdrop-zero-day/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-006",
+      "published": "2026-11-12",
+      "title": "Node.js corregge 16 vulnerabilità, tra cui crash remoti e perdita di memoria TLS",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Le release di sicurezza dell'11 novembre sistemano 16 falle, di cui 7 alte, 6 medie e 3 basse. Tra le principali ci sono un crash remoto in HTTP/2, una perdita di memoria in HTTPS che rischia di esporre le chiavi private TLS e un use-after-free in HTTP/2. Le versioni corrette sono v22.23.5, v24.22.3 e v26.13.1 e non è segnalato sfruttamento attivo di queste falle.",
+      "tags": [
+        "Node.js",
+        "HTTP/2",
+        "TLS",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-123863",
+        "CVE-2026-123864",
+        "CVE-2026-123866"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/node-js-patches-16-security-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-007",
+      "published": "2026-11-12",
+      "title": "Maersk conferma un accesso non autorizzato a un sistema IT legacy",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Il gruppo di trasporto marittimo ha confermato un accesso non autorizzato e l'estrazione di dati da un sistema IT locale ereditato da una precedente acquisizione, che secondo i primi accertamenti è isolato e non ha toccato API, EDI né l'operatività dei clienti. L'avviso ufficiale è dell'11 novembre e l'indagine è in corso. Non sono noti l'applicazione coinvolta, il tipo di dati, la data dell'intrusione, il metodo di accesso né l'eventuale responsabile o richiesta di riscatto; Maersk ritiene per ora che non siano state divulgate informazioni sensibili.",
+      "tags": [
+        "Maersk",
+        "logistica",
+        "sistema legacy",
+        "data-breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/shipping-giant-maersk-confirms-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-008",
+      "published": "2026-11-12",
+      "title": "186 Fake AI Domains Redirect Users to ClickFix Lures, Browser Malware, and Search Hijackers",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Cybersecurity researchers have found that lookalike domains masquerading as artificial intelligence (AI) tools are being used to serve ClickFix-style lures, browser-hijacking malware, and a set of extensions that hijack user searches. This delivery pattern has been codenamed TypoPrompting by Island. \"AI-app lookalikes that turn an attempt to reach a familiar tool into a prompt to verify,",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/186-fake-ai-domains-redirect-users-to.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-009",
+      "published": "2026-11-12",
+      "title": "Attacker Used 4,837 Hijacked GitHub Accounts to Run a CI Secret Stealer in 1,806+ Repositories",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Starting Tuesday, an attacker used stolen credentials for 4,837 GitHub accounts to plant a secret stealer in repositories those accounts could write to, according to Aikido Security, a security software company. The stealer is built to take the secrets and cloud credentials that a repository's CI workflows can reach. It ran in at least 1,806 repositories, where the attacker has likely collected",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/4837-hijacked-github-accounts-ran-ci.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-010",
+      "published": "2026-11-12",
+      "title": "Calendar Invites and Live Proxies: Inside a Google Session Hijacking Campaign",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Since mid-August 2026, a phishing operation has been stealing live Google sessions from corporate users. Every check defenders normally lean on to judge a link came back clean, and the operator designed it that way on purpose. The Threat Research team at Material Security spotted the campaign and has since taken down hundreds of attacker domains in an effort the team calls Operation CloudFire.",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/calendar-invites-and-live-proxies.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-011",
+      "published": "2026-11-12",
+      "title": "Citrix Patches 12 NetScaler and Secure Access Client Flaws, Including Authentication Bypass",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Citrix has released patches for multiple critical security flaws impacting NetScaler ADC, Citrix NetScaler Gateway, and NetScaler Console that could lead to denial-of-service (DoS) or an authentication bypass. The critical vulnerabilities that impact NetScaler ADC and NetScaler Gateway are listed below - CVE-2026-120868 (CVSS score: 9.3) - A memory overflow vulnerability in Packet",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-120868"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/citrix-patches-12-netscaler-and-secure.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-012",
+      "published": "2026-11-12",
+      "title": "Critical Apache HTTP/2 Flaw Could Let Unauthenticated Attackers Execute Code Remotely",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A critical flaw in Apache HTTP Server's HTTP/2 module, mod_http2, can let a remote attacker run code on the server. Tracked as CVE-2026-119618, it affects versions 2.4.55 through 2.4.70 and is fixed in version 2.4.71, released yesterday. Only servers with HTTP/2 enabled are affected, according to Red Hat, which ships the server as part of Red Hat Enterprise Linux. An attacker who can reach the",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-119618"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/critical-apache-http2-flaw-could-let.html"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/apache-patches-critical-http-server-rce-found-by-anthropic-google/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-013",
+      "published": "2026-11-12",
+      "title": "Critical Pre-Auth MongoDB Flaw (CVE-2026-118383) Can Crash Lagging Servers on Failover",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A critical flaw in MongoDB Server allows an unauthenticated attacker to send two requests that trigger a crash on the database server. The crash occurs only if that server is later chosen to take over as the main server while it still lacks some recent changes. MongoDB, the company that makes the database, released fixed versions earlier this week. The affected servers are members of a replica",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-118383"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/critical-pre-auth-mongodb-flaw-cve-2026.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-014",
+      "published": "2026-11-12",
+      "title": "Critical Red Hat Quay Flaw Lets Attackers Read and Overwrite All Private Container Images in a Registry",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A critical flaw in Red Hat Quay allows an attacker who can access a Quay registry to read and overwrite private container images in every repository. Quay enables anonymous access by default, and while it is enabled, the attacker needs no account. When it is off, anyone with a valid account can still exploit the flaw, Red Hat said yesterday. The company has released fixed builds for eight Quay",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/critical-red-hat-quay-flaw-lets.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-015",
+      "published": "2026-11-12",
+      "title": "Google Cloud Warns Three AMD Turin CPU Flaws Could Leak Data Across Processes in VMs",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Google Cloud VMs on AMD Turin chips need a guest OS patch and a stop-and-start to protect against three CPU side-channel flaws, Google said this week. The company has already applied mitigations against attacks between VMs, and between VMs and the host. Inside a VM, the flaws may let an attacker with code on the same processor core infer data from other processes or the kernel. The affected",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/google-cloud-warns-three-amd-turin-cpu.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-016",
+      "published": "2026-11-12",
+      "title": "New N-central Exploits Work Against Patched Servers, Enable Root RCE and Windows SYSTEM Access",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "N-able on Thursday said it's investigating a new public disclosure containing claims of additional vulnerabilities in on-premise versions of N-central running version 2026.4.1 HF2. \"Based on our initial review, the server issue described depends on a non-default configuration in which the Legacy API is turned on and exposed to the public internet,\" N-able said in a new advisory. \"Legacy API is",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/new-n-central-exploits-work-against.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-017",
+      "published": "2026-11-12",
+      "title": "New SignDrop Zero-Day Exploit Turns Windows CLFS Security Feature Into SYSTEM Access",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Public exploit code released earlier this week claims that a local Windows user can gain SYSTEM privileges through the Common Log File System driver. The proof of concept, called SignDrop, targets a log-authentication feature added to the driver last year. It abuses how clfs.sys creates companion files when a privileged process opens a prepared log, using path redirection to take control of",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/new-signdrop-zero-day-exploit-turns.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-018",
+      "published": "2026-11-12",
+      "title": "Node.js Fixes 16 Flaws, Including HTTP/2 Bugs That Crash Servers and Leak Other Connections' Data",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "A flaw fixed in Node.js this week lets unauthenticated clients crash servers that use the runtime's built-in HTTP/2 support on the 24.x and 26.x release lines. A second HTTP/2 flaw can cause a server to send a client pieces of its memory, including responses intended for other connections. Fixed versions were released for all three supported lines: 22.23.5, 24.22.3, and 26.13.1. The crash",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/nodejs-fixes-16-flaws-including-http2.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-019",
+      "published": "2026-11-12",
+      "title": "PTC Patches Critical Windchill and FlexPLM Flaw That Could Enable Remote Code Execution",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "PTC has released patches for a new critical vulnerability impacting Windchill and FlexPLM software that, if successfully exploited, could result in remote code execution. The security flaw, tracked as CVE-2026-126325, carries a CVSS v4 score of 9.2 out of a maximum of 10.0. It has been described as a case of improper input validation and deserialization of untrusted data that could result in",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-126325"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/ptc-patches-critical-windchill-and.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-020",
+      "published": "2026-11-12",
+      "title": "SCKit Malware Turns ScreenConnect Support Sessions Into Potential MSP Attack Paths",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "The ongoing campaign targeting ConnectWise ScreenConnect deployments involves the exploitation of a now-patched critical security flaw in the remote access software, and not a new vulnerability, it has emerged. Blackpoint Cyber's Adversary Pursuit Group (APG), which shared the details with The Hacker News, said the recovered attacker toolkit exploits CVE-2026-84869 (CVSS score: 9.9), an",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-84869"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/sckit-malware-targets-screenconnect.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-021",
+      "published": "2026-11-12",
+      "title": "ScreenConnect Attacks Target at Least 288 Endpoints Across 48 Organizations With Rogue Clients",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "ConnectWise has taken the precautionary step of disabling five third-party extensions in partner environments following reports of unauthorized access. In an advisory posted on its site, the company said there is no evidence that the incident involves a compromise of its infrastructure or a vulnerability in the ScreenConnect software. \"Our initial assessment suggests the activity may involve",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/screenconnect-attacks-target-at-least.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-022",
+      "published": "2026-11-12",
+      "title": "ThreatsDay: 59 Linux Kernel Bugs, Falcon Spyware, GSocket Backdoors + 17 More Stories",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "A search result isn't always safe. An access request isn't always harmless. And a familiar account doesn't always mean a familiar person is using it. Simple things to remember. Yet a surprising amount of this week's trouble starts right there. Attackers are using fake websites, stolen access, and trusted tools to get into places they shouldn't be. AI is helping them build attacks faster, while",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/threatsday-59-linux-kernel-bugs-falcon.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-023",
+      "published": "2026-11-12",
+      "title": "Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Microsoft says failed server health checks disrupted Outlook and other Microsoft 365 services. The company is still investigating the cause and has disclosed no evidence of a cyberattack. The post Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/massive-microsoft-365-outage-disrupts-outlook-teams-copilot-worldwide/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/microsoft-365-outage-disrupts-outlook-exchange-online-and-teams/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-024",
+      "published": "2026-11-12",
+      "title": "Microsoft confirms Windows security updates installation issues",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has confirmed reports that the November 2026 security updates are failing to install on Windows 11 systems with the October preview update. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-kb5132061-installation-issues-0x80070306-0x800f0989-0x800f0993-errors/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-025",
+      "published": "2026-11-12",
+      "title": "Microsoft: Recent Windows updates cause SQL Server performance issues",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has confirmed that Windows updates released since the October 2026 Patch Tuesday are causing SQL Server performance and stability issues. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-recent-windows-updates-cause-sql-server-performance-issues/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-026",
+      "published": "2026-11-12",
+      "title": "Apache HTTP Server patches critical HTTP/2 remote code execution flaw",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A critical vulnerability in the HTTP/2 module of Apache HTTP Server could be exploited by an unauthenticated attacker to obtain remote code execution (RCE). [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/apache-http-server-patches-critical-http-2-remote-code-execution-flaw/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-027",
+      "published": "2026-11-12",
+      "title": "Apify rotates API tokens, prompts 2FA resets after breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Apify has rotated critical internal secrets and revoked some third-party OAuth connections after detecting unauthorized access to its internal systems. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/apify-rotates-api-tokens-prompts-2fa-resets-after-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-028",
+      "published": "2026-11-12",
+      "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "A new campaign dubbed 'wfx-loot' has unfolded on GitHub where threat actors used 4,837 compromised accounts to probe 61,764 repositories, open pull requests, and push secrets-stealing malware. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-029",
+      "published": "2026-11-12",
+      "title": "Hackers plant GSocket on Linux servers for persistent access",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Multiple threat actors are abusing GSocket, a legitimate open-source remote access tool, to maintain access to Linux servers even after patching the vulnerabilities exploited to gain initial access. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-plant-gsocket-on-linux-servers-for-persistent-access/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-030",
+      "published": "2026-11-12",
+      "title": "New N-able \"4EverAble2Shell\" zero-day exploited hours after PoC released",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Hackers are actively exploiting a newly disclosed N-able N-central zero-day vulnerability dubbed \"4EverAble2Shell\" to compromise servers and deploy cryptocurrency miners, with researchers reporting at least 21 affected systems, including 19 running the company's latest security update. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-031",
+      "published": "2026-11-12",
+      "title": "New Windows SignDrop zero-day gives hackers SYSTEM privileges",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Security researcher Abdelhamid Naceri (also known as Nightmare Eclipse) has released a new Windows zero-day exploit that can let attackers gain SYSTEM privileges. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-windows-signdrop-zero-day-gives-hackers-system-privileges/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-032",
+      "published": "2026-11-12",
+      "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "A new worm-like malware toolkit named SCKit was deployed in the recent ScreenConnect attacks targeting managed service providers (MSPs), designed to spread from infected customer devices to MSP technicians' computers and compromise additional managed networks. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-033",
+      "published": "2026-11-12",
+      "title": "Police dismantle Gootloader, CastleRAT, StealC malware infrastructure",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Europol and law enforcement partners from nine countries have seized hundreds of servers and domains used by the Gootloader, CastleRAT, and StealC malware operations. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/police-dismantles-gootloader-castlerat-stealc-malware-infrastructure/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-034",
+      "published": "2026-11-12",
+      "title": "Your Endpoint Management Platform Could Be Your Biggest Security Risk",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Endpoint management platforms can become powerful attack tools when compromised, allowing hackers to deploy malware, execute commands, and disrupt thousands of devices. Action1 explains how customer-controlled cryptographic authorization can prevent attackers from abusing sensitive endpoint operations. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/your-endpoint-management-platform-could-be-your-biggest-security-risk/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-035",
+      "published": "2026-11-12",
+      "title": "Ionos Plus per siti e web app con IA: 300 crediti mensili, 10 progetti e sconto a 9 euro per il primo mese",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Il piano Ionos Plus per creare siti web e applicazioni con intelligenza artificiale costa 9 euro per il primo mese, anziché 50 euro. Include 300 crediti IA mensili, fino a 10 progetti, hosting, dominio e caselle email L'articolo Ionos Plus per siti e web app con IA: 300 crediti mensili, 10 progetti e sconto a 9 euro per il primo mese proviene da Cyber Security 360 .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/cultura-cyber/ionos-plus-siti-web-ia-300-crediti-promo-9-euro/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-036",
+      "published": "2026-11-12",
+      "title": "L’Italia riduce i fondi per la cybersecurity? Facciamo chiarezza",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Il nuovo piano della Difesa riduce da 68,66 a 52,31 milioni la previsione per i quattro programmi cyber del 2027 rispetto al DPP precedente. Le risorse ordinarie dell’ACN, invece, aumentano. Tra fondi nazionali, investimenti militari e PNRR, ecco quali cifre si possono davvero confrontare L'articolo L’Italia riduce i fondi per la cybersecurity? Facciamo chiarezza proviene da Cyber Security 360 .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/cybersecurity-nazionale/litalia-riduce-i-fondi-cybersecurity-facciamo-chiarezza/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-037",
+      "published": "2026-11-12",
+      "title": "Cyber europea, il rapporto ENISA 2026 svela il paradosso: norme solide, difese ancora fragili",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "L'EU Cybersecurity Index 2026 assegna all'Europa una maturità media di 71,53 punti su 100, ma il Rapporto ENISA evidenzia forti differenze tra Stati membri e ritardi nelle capacità operative.",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/cyber-europea-il-rapporto-enisa-2026-svela-il-paradosso-norme-solide-difese-ancora-fragili/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-038",
+      "published": "2026-11-12",
+      "title": "Kernel Linux, l’AI scopre centinaia di falle: serve una soluzione più forte",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Una ricerca Microsoft ha scoperto 59 bug del kernel Linux, con otto exploit root dimostrati in laboratorio. OpenAI ne ha individuati centinaia in un'altra scansione. L'AI può accelerare anche l'analisi delle patch per i criminali.",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/kernel-linux-lai-scopre-centinaia-di-falle-serve-intervento-radicale-sul-codice/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-039",
+      "published": "2026-11-12",
+      "title": "Ransomware a Malvestiti, 50 password in un file di testo: il rischio che minaccia la filiera automotive",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "Il gruppo ransomware Aurora sostiene di aver sottratto a Malvestiti oltre 50 credenziali per i portali B2B dei clienti, ma la violazione non è confermata.",
+      "tags": [
+        "ransomware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/ransomware/ransomware-a-malvestiti-50-password-in-un-file-di-testo-il-rischio-che-minaccia-la-filiera-automotive/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-040",
+      "published": "2026-11-12",
+      "title": "Gestione del rischio ICT in DORA: cosa significa davvero",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "La gestione del rischio ICT è il primo pilastro di DORA e richiede molto più di controlli di cybersecurity. Dalla mappatura dei sistemi critici alla valutazione dei fornitori, fino alla Business Impact Analysis, ecco come integrare rischio tecnologico, continuità operativa e responsabilità del management in un unico framework L'articolo Gestione del rischio ICT in DORA: cosa significa davvero proviene da Cyber…",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/soluzioni-aziendali/gestione-del-rischio-ict-in-dora-cosa-significa-davvero/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-041",
+      "published": "2026-11-12",
+      "title": "Attacker Targets 60,000 GitHub Repositories in Credential Theft Campaign",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Using thousands of hijacked accounts, the wfx-loot campaign planted a CI secret stealer that ran in over 1,800 GitHub repositories. The post Attacker Targets 60,000 GitHub Repositories in Credential Theft Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/attacker-targets-60000-github-repositories-in-credential-theft-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-042",
+      "published": "2026-11-12",
+      "title": "Chrome, Firefox Updates Patch Over 180 Vulnerabilities",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Google fixed 83 flaws with a new Chrome 157 release, and Mozilla addressed 99 bugs in Firefox 160. The post Chrome, Firefox Updates Patch Over 180 Vulnerabilities appeared first on SecurityWeek .",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/chrome-firefox-updates-patch-180-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-001",
+      "published": "2026-11-11",
+      "title": "AntiFox AI Pentesting Platform Linked to Attacks That Accessed AWS Production Secrets",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Cybersecurity researchers have disclosed details of a campaign in which an emerging agentic penetration testing platform called AntiFox has been used to steal Amazon Web Services (AWS) credentials and pivot laterally into compromised environments. \"In several recently observed intrusions, Alibaba Cloud systems hosting AntiFox interfaces were associated with confirmed malicious actions against",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/antifox-ai-pentesting-platform-linked.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-002",
+      "published": "2026-11-11",
+      "title": "Cisco BroadWorks and Openwave Flaws Actively Exploited Despite Available Patches",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) Tuesday added two security flaws impacting Cisco BroadWorks and Openwave Messaging Webtop Media Transcoder to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation. Details of the vulnerabilities are below - CVE-2026-20320 (CVSS score: 7.5) - An improper restriction of XML external entity",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-20320"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/cisco-broadworks-and-openwave-flaws.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-003",
+      "published": "2026-11-11",
+      "title": "Critical Zoom Workplace Flaw Could Allow Unauthenticated Remote Privilege Escalation",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Zoom has released software updates to address two security flaws impacting Zoom Workplace for Windows, including a critical bug that could result in privilege escalation on affected systems. The vulnerabilities are listed below - CVE-2026-108186 (CVSS score: 9.6) - An improper input validation vulnerability that could allow an unauthenticated user to conduct an escalation of privilege via",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-108186"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/critical-zoom-workplace-flaw-could.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-004",
+      "published": "2026-11-11",
+      "title": "eMudhra Revokes 8 More CAs It Previously Declared Unaffected by Key Compromise",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The in-house Python script behind eMudhra's October key compromise has now cost the company 8 more of its intermediate certificate authorities (CAs), even though it did not weaken their keys. Each intermediate CA has its own private key, which the company uses to sign the certificates it issues. The 8 intermediate CAs compromised in October had a different problem: a single line in the script",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/emudhra-revokes-8-more-cas-it.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-005",
+      "published": "2026-11-11",
+      "title": "Hackers Target Qlik Sense Servers With Reverse Shells, Stage ActiveMQ and Veeam Exploits",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Threat actors have been observed targeting Qlik Sense servers to unsuccessfully deliver PowerShell reverse shell commands against multiple environments in October 2026. Cynet's CyOps and Research teams said they identified the suspicious activity in October 2026 against several E.U.-based customers within a narrow window of just over three minutes. The activity has been found to share some",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/hackers-target-qlik-sense-servers-with.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-006",
+      "published": "2026-11-11",
+      "title": "Microsoft Patches 1,259 Flaws, Including Exploited Outlook Bug That May Expose NTLMv2 Hashes",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Microsoft on Tuesday released patches for a total of 1,259 vulnerabilities spanning its software portfolio, the second consecutive month where the patch volume has exceeded 1,000 flaws. These cover 726 flaws in Windows, 174 in Office, 61 in Developer Tools, 59 in SQL Server, 53 in Developer Tools, and 27 in SharePoint Server. The patches also include 165 non-Microsoft-issued CVE identifiers.",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/microsoft-patches-1259-flaws-including.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-007",
+      "published": "2026-11-11",
+      "title": "Microsoft Researchers Show AI Agents Can Be Backdoored by Editing Fewer Than 10 Neurons",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "An AI model can be given a hidden backdoor by editing fewer than 10 of its rarely used neurons, without retraining the model, Microsoft researchers have shown. When a chosen trigger appears, the model outputs an attacker's command, which an agent using that model would run with the agent's own permissions. The attacker must be able to change the model's weights. The team tested the method on",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/microsoft-researchers-show-ai-agents.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-008",
+      "published": "2026-11-11",
+      "title": "Over 35,000 Grok-Built Apps Exposed Online, Some Leaking Confidential Data and Passwords",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Of the 37,571 Grok-built apps that security company Claroc found online, 35,578 were open to anyone without a sign-in, the researchers said yesterday. They included 24 apps built by staff at the social network X and at SpaceXSI, the company that makes the Grok AI assistant. Most of the open apps were games, landing pages, and calculators, but about 1 in 10 contained internal business or",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/over-35000-grok-built-apps-exposed.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-009",
+      "published": "2026-11-11",
+      "title": "Railway Says Stolen Customer AI Keys Led to $740,000 in Estimated Unauthorized Usage Charges",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "AI provider keys that customers stored on Railway were stolen in an October breach and used to commit an estimated $740,000 in unauthorized spending, the platform-as-a-service provider said yesterday. It has promised to pay those charges itself when an AI provider will not refund them. The company builds and runs apps for its customers and stores their secrets, such as API keys and database",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/railway-says-stolen-customer-ai-keys.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-010",
+      "published": "2026-11-11",
+      "title": "We Built An Agent That Broke All of Our Security Rules. Here's What We Learned.",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "We tell customers three things about securing AI agents: they need their own identities, access that fits the job they’re given, and traceability that’s separate from any human’s. That was true for us at Token as well. Then, we built an agent that broke all three by default. This helped us think through how such agents should be defended. When a browser agent acts inside a user’s authenticated",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/we-built-agent-that-broke-all-of-our.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-011",
+      "published": "2026-11-11",
+      "title": "Baker Tilly notifies clients of data breach at third-party provider",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The Baker Tilly Advisory Group is notifying clients that a data breach has compromised certain personal information about them and their dependents. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/baker-tilly-notifies-clients-of-data-breach-at-third-party-provider/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-012",
+      "published": "2026-11-11",
+      "title": "Apple corregge dieci falle, metà legate a Bluetooth e AirPlay",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Apple ha rilasciato aggiornamenti per iOS, iPadOS, macOS, watchOS e visionOS, tra cui le versioni 27.2.1, 26.7.3 e 18.7.12 per i sistemi mobili. Le correzioni riguardano AirPlay, CoreUtils, Bluetooth, Messages, App Intents e il bug Brotli noto come Node2Shell; cinque falle le ha trovate Apple stessa. Nessun avviso segnala sfruttamento attivo dei bug Apple, mentre il difetto di Brotli è stato usato in attacchi contro altri obiettivi.",
+      "tags": [
+        "Apple",
+        "AirPlay",
+        "Bluetooth",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-113968",
+        "CVE-2026-113969",
+        "CVE-2026-113971",
+        "CVE-2026-113964",
+        "CVE-2026-113965",
+        "CVE-2026-113970",
+        "CVE-2026-113960",
+        "CVE-2026-113961",
+        "CVE-2026-113963",
+        "CVE-2026-111497"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/bluetooth-airplay-pairing-vulnerabilities-patched-across-apple-platforms/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-013",
+      "published": "2026-11-11",
+      "title": "Barracuda: due falle appena corrette sono già sfruttate negli attacchi",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Barracuda ha segnalato il 2 novembre due vulnerabilità sfruttate contro un numero limitato di organizzazioni: un bypass dell'autenticazione in Email Security Gateway e una command injection con privilegi root che tocca ESG, Load Balancer ADC, WAF, Web Security Gateway, Message Archiver e WAF Control Center. Le falle sono nel catalogo KEV della CISA, e Previdian ha rilevato 17 tentativi contro la prima tra il 9 e l'11 novembre da 15 indirizzi IP in tre paesi. L'azienda raccomanda di aggiornare subito e di limitare l'accesso alle interfacce di amministrazione alle reti interne; non sono noti i dettagli degli attacchi, gli autori, le versioni corrette né le vittime.",
+      "tags": [
+        "Barracuda",
+        "KEV",
+        "ESG",
+        "sfruttamento attivo"
+      ],
+      "cves": [
+        "CVE-2026-116606",
+        "CVE-2026-111560"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/recently-patched-barracuda-vulnerabilities-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-11-014",
+      "published": "2026-11-11",
+      "title": "Cisco BroadWorks e Openwave nel catalogo KEV: sfruttate nonostante le patch",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "La CISA ha inserito nel catalogo KEV una XXE non autenticata in Cisco BroadWorks, corretta ad agosto, e una falla nel Webtop Media Transcoder di Openwave, corretta a ottobre, con scadenza al 24 novembre per le agenzie federali. La prima è stata usata nell'operazione Snowball contro un provider telefonico europeo, secondo Malbear Labs con l'aiuto di un framework agentico; per la seconda lo sfruttamento deriva solo da un avviso del JVN basato su una dichiarazione del fornitore. L'attribuzione a un attore di lingua cinese e l'estensione reale dell'attacco, con 13 organizzazioni solo potenzialmente colpite, non sono confermate in modo indipendente.",
+      "tags": [
+        "Cisco BroadWorks",
+        "Openwave",
+        "KEV",
+        "telecomunicazioni"
+      ],
+      "cves": [
+        "CVE-2026-20320",
+        "CVE-2026-111793"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/threat-actors-exploit-openwave-cisco-broadworks-vulnerabilities/"
+        },
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/cisco-broadworks-and-openwave-flaws.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-001",
+      "published": "2026-11-10",
+      "title": "Apache Airflow: esecuzione di codice senza autenticazione con CeleryExecutor",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Nelle versioni di Airflow precedenti alla 3.4.0 con CeleryExecutor i messaggi ExecuteCallback sul broker Celery non sono autenticati, quindi chi può scrivere sul broker può far eseguire ai worker una funzione Python importabile a sua scelta. Il ricercatore Or Sahar (Reflectiz) ha pubblicato una proof of concept, testata sulle versioni 3.2.1 e 3.3.0, e non risultano sfruttamenti attivi. L'articolo non riporta il punteggio CVSS.",
+      "tags": [
+        "Apache Airflow",
+        "Celery",
+        "RCE",
+        "autenticazione mancante"
+      ],
+      "cves": [
+        "CVE-2026-68982"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/critical-apache-airflow-flaw-cve-2026-68982-enables-unauthenticated-remote-code-execution/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-002",
+      "published": "2026-11-10",
+      "title": "SAP Patch Day di novembre: quattro falle con punteggio CVSS 10",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "SAP ha corretto quattro vulnerabilità di gravità massima: due corruzioni di memoria in NetWeaver AS ABAP (Internet Communication Manager) e Web Dispatcher, un controllo degli accessi inadeguato in SAP Gateway e un'autenticazione mancante nel SAML2 Service Provider di NetWeaver AS ABAP. Tutte sono sfruttabili da remoto, senza privilegi né interazione dell'utente. Le fonti non parlano di sfruttamento attivo, ma SAP invita ad applicare le correzioni con priorità.",
+      "tags": [
+        "SAP",
+        "NetWeaver",
+        "Patch Day",
+        "CVSS 10"
+      ],
+      "cves": [
+        "CVE-2026-76964",
+        "CVE-2026-89126",
+        "CVE-2026-89103",
+        "CVE-2026-120017"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/sap-november-2026-patch-day/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-003",
+      "published": "2026-11-10",
+      "title": "Oltre 575 skill malevole per agenti AI OpenClaw distribuiscono malware su Windows e macOS",
+      "category": "supply-chain",
+      "severity": "MEDIUM",
+      "summary": "Secondo il rapporto Acronis TRU Cyber Pulse 2026, più di 575 skill malevole presentate come utilità hanno consegnato trojan, miner di criptovalute e infostealer a sistemi Windows e macOS. Il rapporto descrive anche un operatore che coordinava più modelli AI in attacchi contro diversi paesi. Le cifre, tra cui 1,8 milioni di endpoint, provengono solo dal rapporto e non sono verificate in modo indipendente.",
+      "tags": [
+        "OpenClaw",
+        "agenti AI",
+        "infostealer",
+        "Acronis"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/10/acronis-ai-agent-cyberattacks-report/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-004",
+      "published": "2026-11-10",
+      "title": "Turla usa i server Exchange delle vittime come centri di comando con il toolset Cereal",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "ESET ha scoperto Cereal, un toolset modulare .NET installato sui server Exchange di due enti governativi, in Kazakistan e in Romania. Gli operatori nascondono le comunicazioni di comando nel normale traffico di Outlook Web Access, Autodiscover e ActiveSync, mentre un modulo copia email selezionate dal flusso di posta; in Romania il filtro cercava messaggi legati a indirizzi NATO e UE. ESET attribuisce Cereal a Turla con alta confidenza, ma non ha identificato gli indirizzi da cui si connettevano gli operatori e il metodo di accesso iniziale non è indicato.",
+      "tags": [
+        "Turla",
+        "Exchange",
+        "spionaggio",
+        "Romania",
+        "NATO"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/10/eset-turla-exchange-malware/"
+        },
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/turla-cereal-exchange-email/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-005",
+      "published": "2026-11-10",
+      "title": "Binance indaga sulla presunta vendita di 335,9 milioni di record da parte di ShinyHunters",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Il 4 novembre ShinyHunters ha offerto su un forum 335,9 milioni di record Binance per 900.000 dollari, dichiarando tra i dati chiavi private di wallet, documenti KYC e storico delle transazioni. Binance ritiene che l'annuncio sia probabilmente una truffa, dice di non aver trovato prove di compromissione e osserva che la lista cita giurisdizioni in cui non opera più. L'autenticità dei dati e la loro origine non sono confermate, perché la valutazione si basa solo sul campione e sulla descrizione dei criminali.",
+      "tags": [
+        "Binance",
+        "ShinyHunters",
+        "criptovalute",
+        "rivendicazione"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/binance-investigates-shinyhunters/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-006",
+      "published": "2026-11-10",
+      "title": "CISA rinnova il modulo di segnalazione degli incidenti mentre la regola CIRCIA resta ferma",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "La CISA ha annunciato un modulo di segnalazione più dettagliato, con domande su malware, social engineering e minacce interne e con le attività descritte tramite il framework MITRE ATT&CK. Per ora devono segnalare solo le agenzie federali civili, mentre la regola finale CIRCIA, inviata alla Casa Bianca il 1° ottobre, attende ancora approvazione. Non è confermato se il nuovo modulo verrà usato per CIRCIA né quando la regola sarà definitiva.",
+      "tags": [
+        "CISA",
+        "CIRCIA",
+        "segnalazione incidenti",
+        "Stati Uniti"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/cisa-incident-reporting-form-circia/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-007",
+      "published": "2026-11-10",
+      "title": "Datadog: le vulnerabilità gravi nei workload cloud quadruplicano in meno di un anno",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Nel rapporto State of Cloud Security 2026 Datadog indica che la mediana delle vulnerabilità alte e critiche nei workload cloud è passata da 4 a maggio a 16 a novembre. Quasi metà degli utenti Gemini usa chiavi API di lunga durata e circa il 30% degli utenti AWS IAM e Google Cloud ha chiavi vecchie di oltre tre anni. I dati derivano dall'analisi dei clienti dell'azienda e non sono verificati in modo indipendente, così come l'attribuzione dell'aumento all'intelligenza artificiale.",
+      "tags": [
+        "cloud",
+        "Datadog",
+        "rapporto",
+        "chiavi API"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/cloud-vulnerabilities-surge/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-008",
+      "published": "2026-11-10",
+      "title": "Vanderbilt University: sistemi offline dopo un incidente, ransomware rivendicato ma non confermato",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "L'ateneo di Nashville ha messo offline gran parte dei sistemi e delle applicazioni dopo un incidente informatico ancora attivo, con le lezioni che proseguono regolarmente dal 10 novembre. L'università non ha indicato natura dell'attacco né responsabile; secondo la società Venarix il gruppo ransomware BYOD l'ha inserita nel proprio sito di leak. Le affermazioni del gruppo, tra cui oltre un milione di numeri di previdenza sociale e il controllo del domain controller, non sono verificate.",
+      "tags": [
+        "università",
+        "Stati Uniti",
+        "BYOD",
+        "rivendicazione"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/vanderbilt-university-cyber/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-009",
+      "published": "2026-11-10",
+      "title": "Chrome 157 corregge la zero-day XML sfruttata, l'ottava del 2026",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Google ha rilasciato Chrome 157 con correzioni per nove vulnerabilità, tra cui una use-after-free nel componente XML già sfruttata in attacchi reali. La falla era stata segnalata il 6 novembre da un ricercatore anonimo ed è la zero-day numero otto del 2026 per il browser. Google non ha diffuso dettagli su attacchi e autori, e la CISA non l'ha ancora inserita nel catalogo KEV.",
+      "tags": [
+        "Chrome",
+        "zero-day",
+        "use-after-free",
+        "patch"
+      ],
+      "cves": [
+        "CVE-2026-125350"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/chrome-update-patches-exploited-xml-zero-day-eighth-this-year/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-010",
+      "published": "2026-11-10",
+      "title": "Francia: l'attacco ai frigoriferi dei supermercati attribuito all'Iran",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "Il 12 ottobre un attacco ha preso il controllo dei sistemi di refrigerazione di circa 700 punti vendita su 10.000 in Francia, portando le temperature a 50 °C per circa sei ore; Intermarché parla di perdite da decine di milioni di euro in un giorno. Parigi lo attribuisce al gruppo Shahid Kaveh, legato ai Guardiani della Rivoluzione iraniani, sulla base dell'uso del farsi e di indirizzi IP collegati a dispositivi in Iran, e ha convocato l'ambasciatore iraniano e chiesto mandati d'arresto internazionali. Le prove sono quelle riferite dalle autorità francesi e non risultano verificabili pubblicamente; l'articolo non indica CVE né il modello dei controller.",
+      "tags": [
+        "Francia",
+        "Iran",
+        "refrigerazione",
+        "attribuzione"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/france-blames-iran-for-a-cyberattack-that-heated-supermarket-refrigerators/"
+        },
+        {
+          "title": "Infosecurity Magazine",
+          "url": "https://www.infosecurity-magazine.com/news/france-blames-iran-supermarket/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-001",
+      "published": "2026-11-09",
+      "title": "Backdoor Lindnor su server SQL: attacco Anubis attribuito a Hawkmoth, cifratura bloccata",
+      "category": "ransomware",
+      "severity": "MEDIUM",
+      "summary": "Symantec ha descritto un attacco ransomware Anubis, attribuito al gruppo Hawkmoth, contro un'organizzazione statunitense a ottobre 2026. Gli attaccanti hanno installato su due server Microsoft SQL un backdoor finora non documentato, mascherato da componenti di Chrome e VMware, ma il payload di cifratura è stato bloccato e non risultano file cifrati. Non è chiaro come abbiano ottenuto l'accesso iniziale; la notizia è riportata da una fonte secondaria sul rapporto Symantec.",
+      "tags": [
+        "Anubis",
+        "Hawkmoth",
+        "Microsoft SQL Server",
+        "backdoor"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/anubis-ransomware-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-002",
+      "published": "2026-11-09",
+      "title": "GhostAction: nuova ondata contro i repository GitHub per rubare chiavi cloud e AI",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "Un workflow GitHub Actions malevolo, aggiunto con messaggi del tipo \"Add security audit workflow\", cerca chiavi cloud e AI nel codice e nella cronologia git e le invia a un IP esterno. Secondo GitGuardian la campagna ha toccato oltre 30.000 repository e 3.000 utenti e organizzazioni, mentre Socket parla di oltre 500 account nel suo conteggio iniziale. Non è confermato come l'attaccante ottenga le credenziali dei maintainer né quante chiavi siano state davvero rubate: le fonti danno cifre diverse.",
+      "tags": [
+        "GitHub Actions",
+        "credenziali",
+        "CI/CD",
+        "AI"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/ghostaction-supply-chain/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-003",
+      "published": "2026-11-09",
+      "title": "Operation Snowball: un agente AI autonomo attacca un operatore telecom europeo",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Una directory esposta ha rivelato una campagna condotta da un agente AI autonomo, che per oltre due settimane ha preso di mira un operatore di telecomunicazioni europeo e 13 organizzazioni ospitate nei suoi data center e nel cloud. L'ingresso principale è stato un sistema Cisco BroadWorks XSP sfruttando una XXE senza autenticazione. L'attribuzione non è confermata: le istruzioni in cinese non indicano né nazionalità né sponsor statale, e gli esiti dettagliati non sono stati verificati in modo indipendente.",
+      "tags": [
+        "agente AI",
+        "telecomunicazioni",
+        "Europa",
+        "Cisco BroadWorks"
+      ],
+      "cves": [
+        "CVE-2026-20320",
+        "CVE-2021-4034",
+        "CVE-2020-7961"
+      ],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/operation-snowball-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-004",
+      "published": "2026-11-09",
+      "title": "PolinRider torna con 10 pacchetti npm compromessi che usano Ethereum per il payload",
+      "category": "supply-chain",
+      "severity": "MEDIUM",
+      "summary": "Sono state individuate 12 release di 10 pacchetti npm con loader JavaScript nascosti, collegati alla campagna PolinRider. Il loader usa transazioni Ethereum come punto di appoggio per trovare i server che distribuiscono il payload, poi eseguito tramite eval e un processo Node separato. Sonatype ha documentato la sovrapposizione con PolinRider e Greenflagged ha osservato fasi che installano un RAT con persistenza; non è stabilito un legame tra gli operatori e la campagna GhostAction.",
+      "tags": [
+        "npm",
+        "blockchain",
+        "PolinRider",
+        "RAT"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "GBHackers",
+          "url": "https://gbhackers.com/polinrider-malware-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-005",
+      "published": "2026-11-09",
+      "title": "ARTEX: il framework di pentest con agenti AI diventa uno strumento degli attaccanti",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "ARTEX è uno strumento open source pubblicato a luglio 2026 in cui agenti basati su LLM pianificano ed eseguono gli attacchi partendo da un obiettivo indicato dall'operatore. Nato per test autorizzati, è stato adottato in poco tempo da attori malevoli: Microsoft, CrowdStrike, Wiz e Google segnalano gruppi legati alla Cina, bande di estorsione e gruppi di spionaggio. Google giudica l'uso attuale poco sofisticato ma efficace; il numero di organizzazioni colpite e le previsioni sull'evoluzione non sono verificati in modo indipendente.",
+      "tags": [
+        "AI",
+        "pentest",
+        "agenti",
+        "strumenti offensivi"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/09/artex-goes-from-pentesting-tool-to-attacker-staple-in-three-months/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-006",
+      "published": "2026-11-09",
+      "title": "Controller frigoriferi Copeland XWEB compromessi e usati per spam e proxy",
+      "category": "ics",
+      "severity": "HIGH",
+      "summary": "SecurityScorecard ha osservato controller per la refrigerazione Copeland XWEB PRO, usati in supermercati e celle frigorifere, impiegati in una probabile botnet per inviare spam e fare da nodi di uscita proxy. L'accesso iniziale sarebbe avvenuto probabilmente tramite una falla nel controllo di login, segnalata a CISA da Claroty Team82; l'articolo non dice se esista una patch. Non sono confermati i legami con gli attacchi in Europa né l'attribuzione a gruppi come NoName057(16) e Z-Pentest.",
+      "tags": [
+        "refrigerazione",
+        "botnet",
+        "supermercati",
+        "OT"
+      ],
+      "cves": [
+        "CVE-2026-25085"
+      ],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/09/copeland-xweb-refrigeration-controllers-spam-botnet/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-007",
+      "published": "2026-11-09",
+      "title": "Crédit Mutuel Arkéa: stimati 133 milioni di dollari rubati, la banca non conferma la cifra",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Secondo il monitoraggio on-chain del ricercatore ZachXBT, gli attaccanti avrebbero usato il conto della banca per bonifici verso altri istituti, con possibile conversione in criptovalute: oltre 100 milioni di dollari prelevati il 1° novembre e altri 27 milioni il 3. La banca ha confermato l'attacco il 4 novembre, ma non l'importo, parlando solo di un ordine di grandezza, e dice che parte dei fondi è stata bloccata. L'ingresso sarebbe avvenuto dalla piattaforma di un fornitore non nominato; l'ipotesi del giornalista Grégory Raymond su Fortuneo come punto d'accesso è smentita dalla banca.",
+      "tags": [
+        "banche",
+        "Francia",
+        "fornitore",
+        "criptovalute"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Help Net Security",
+          "url": "https://www.helpnetsecurity.com/2026/11/09/credit-mutuel-arkea-cyberattack-133-million/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-008",
+      "published": "2026-11-09",
+      "title": "Amplifon Americas: violazione dei dati di circa 1,3 milioni di persone, anche sanitari",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "La filiale statunitense del gruppo italiano di apparecchi acustici ha subito un'intrusione a gennaio 2026, con file copiati tra il 18 gennaio e l'8 febbraio. Risultano coinvolti nomi, recapiti, documenti d'identità, date di nascita, dati medici e sull'udito e assicurativi e, per alcune persone, numeri di previdenza sociale e dati finanziari. La cifra di 1.332.826 persone arriva da una notifica al procuratore generale del Texas ed è non confermata dall'azienda; Amplifon dice di non avere prove di usi fraudolenti dei dati.",
+      "tags": [
+        "Amplifon",
+        "sanità",
+        "Stati Uniti",
+        "data-breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/amplifon-americas-data-breach-impacts-1-3-million/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-009",
+      "published": "2026-11-09",
+      "title": "Who Gives A Crap: accesso ai dati dei clienti tramite un fornitore di marketing",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "Il marchio australiano di carta igienica ha avvisato i clienti di Australia, Regno Unito e Stati Uniti che una persona non autorizzata ha avuto accesso ai loro dati presso un fornitore esterno di software di marketing. L'accesso risale al 30 ottobre, il fornitore se n'è accorto il 31 e l'azienda è stata informata il 6 novembre. Risultano coinvolti nomi, recapiti, indirizzi e importo speso, senza dati di pagamento né password; il numero di persone e l'identità del fornitore non sono confermati.",
+      "tags": [
+        "data-breach",
+        "terze-parti",
+        "Australia",
+        "e-commerce"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SmartCompany",
+          "url": "https://www.smartcompany.com.au/information-technology/who-gives-a-crap-data-breach-raises-questions-over-third-party-security-risks/"
+        },
+        {
+          "title": "Cybernews",
+          "url": "https://cybernews.com/news/who-gives-crap-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-010",
+      "published": "2026-11-09",
+      "title": "Contea di Washburn (Wisconsin): dopo l'attacco di agosto, nuovi fondi per il monitoraggio",
+      "category": "breach",
+      "severity": "LOW",
+      "summary": "La contea ha scoperto ad agosto un attacco informatico che aveva bloccato l'intera rete del governo locale e ora spenderà migliaia di dollari per un sistema di monitoraggio di livello più alto. L'indagine forense ha rilevato il furto di alcuni dati personali, ma la contea non ha detto quante persone siano coinvolte. Non è specificato se si sia trattato di ransomware.",
+      "tags": [
+        "pubblica amministrazione",
+        "Stati Uniti",
+        "enti locali"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "WPR",
+          "url": "https://www.wpr.org/news/cyberattack-rural-washburn-county-is-upping-security"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-001",
+      "published": "2026-11-08",
+      "title": "Crédit Mutuel Arkéa: cifre del furto ancora non confermate dalla banca",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Gli aggressori sono entrati tramite la piattaforma di un fornitore di servizi e hanno usato il conto della banca per spostare fondi verso altri istituti, convertendoli poi in criptovalute. Alcuni sistemi sono stati sospesi e dei bonifici hanno subito ritardi, ma secondo la banca i clienti non sono stati colpiti. Reuters parla di circa 100 milioni di euro, mentre i 118 milioni indicati dal ricercatore ZachXBT non sono confermati; restano non confermati anche i 30 milioni di dollari riciclati e l'identità degli autori.",
+      "tags": [
+        "banche",
+        "Francia",
+        "fornitore",
+        "criptovalute"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Security Affairs",
+          "url": "https://securityaffairs.com/202628/cyber-crime/attackers-exploit-third-party-provider-to-raid-french-bank-credit-mutuel-arkea.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-002",
+      "published": "2026-11-08",
+      "title": "Galleria del Brennero (BBT SE): confermato l'accesso ai dati, il furto di 812 GB è solo una rivendicazione",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "La società che costruisce il tunnel del Brennero ha confermato un accesso non autorizzato ad alcuni dati e ha isolato i sistemi coinvolti, con l'aiuto di esperti forensi e delle autorità. Il gruppo Everest sostiene di aver sottratto 812 GB, ma la quantità, la cronologia dell'intrusione e un eventuale legame con la Russia non sono verificati. Non ci sono prove di accesso ai sistemi industriali né di cifratura, e i lavori proseguono regolarmente.",
+      "tags": [
+        "Italia",
+        "Austria",
+        "Everest",
+        "infrastrutture"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Security Affairs",
+          "url": "https://securityaffairs.com/202691/cyber-crime/dont-hand-propaganda-a-gift-reading-the-brenner-base-tunnel-se-breach-calmly.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-08-003",
+      "published": "2026-11-08",
+      "title": "Brava Security esce dalla modalità stealth con 15 milioni di dollari",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "La startup israeliana, fondata nel 2024 da due ex membri dell'intelligence, ha chiuso un round seed da 15 milioni di dollari guidato da F2 Venture Capital e Pitango VC. La piattaforma usa l'AI per simulare il comportamento degli attaccanti e individuare lacune nelle difese, riscrivendo anche le regole di rilevamento SIEM. Secondo l'azienda i primi risultati arrivano in 10-15 minuti dall'attivazione.",
+      "tags": [
+        "finanziamenti",
+        "startup",
+        "AI",
+        "SIEM"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/brava-security-emerges-from-stealth-with-15-million-in-funding/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-07-001",
+      "published": "2026-11-07",
+      "title": "Crédit Mutuel Arkéa: l'attacco è entrato da un fornitore, stimati fino a 118 milioni di euro",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "La banca francese (oltre 5,8 milioni di soci) dice che l'attaccante è entrato nella sua rete direttamente dalla piattaforma di un fornitore, ha escluso Fortuneo e ha usato il conto della stessa banca, non quelli dei clienti, per operare con altri istituti e convertire i fondi in criptovalute. L'analista ZachXBT stima fino a 118 milioni di euro (circa 133 milioni di dollari) usciti in stablecoin USDC e USDT, e circa 30 milioni di dollari già riciclati al 3 novembre; la banca conferma solo l'ordine di grandezza e parla di incidente chiuso e sotto controllo, escludendo un errore umano. Nessuna attribuzione; ai clienti viene segnalato un aumento del rischio di phishing.",
+      "tags": [
+        "banche",
+        "Francia",
+        "fornitore esterno",
+        "crypto",
+        "ZachXBT"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-pull-off-133-million-french-bank-heist-via-service-provider/"
+        },
+        {
+          "title": "The Record",
+          "url": "https://therecord.media/french-bank-confirms-cyber-heist"
+        },
+        {
+          "title": "Cyber Security 360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/rubati-100-milioni-a-banca-francese-ma-quanto-sono-frequenti-le-rapine-cyber/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-07-002",
+      "published": "2026-11-07",
+      "title": "BBT SE (tunnel del Brennero): accesso non autorizzato ai dati, Everest rivendica 812 GB",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "BBT SE, la società che progetta e costruisce il tunnel di base del Brennero tra Italia e Austria, conferma un accesso non autorizzato a dati raggiungibili da Internet: i sistemi interessati sono stati isolati, è in corso un'analisi forense con specialisti esterni e le autorità sono informate, senza impatto noto sui lavori. Il gruppo di estorsione russofono Everest ha rivendicato il furto di 812 GB (circa 460.000 file) con una pubblicazione datata 17 ottobre, ma cifre e contenuti non sono verificati e nessuna autorità ha attribuito l'attacco. Se autentici, i documenti tecnici potrebbero servire per phishing e ricognizione contro i fornitori; non ci sono prove di accessi a sistemi industriali né di sabotaggio.",
+      "tags": [
+        "Brennero",
+        "Everest",
+        "infrastrutture",
+        "Italia",
+        "Austria"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cyber Security 360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/attacco-al-bennero-rivendicato-da-filo-russi-ecco-tutti-i-rischi/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-001",
+      "published": "2026-11-06",
+      "title": "Barracuda ESG: watchTowr dimostra la catena che dà accesso root senza credenziali",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "watchTowr ha pubblicato l'analisi di due falle: CVE-2026-116606 (CVSS 9,3), un bypass di autorizzazione che permette a un attaccante non autenticato di ripristinare un backup di configurazione manipolato, e CVE-2026-111560 (8,6), una command injection che esegue comandi come root ma richiede un account amministratore, ottenuto proprio col bypass. La catena senza credenziali vale solo per l'Email Security Gateway (corretto dalla 9.4.0.030): sugli altri cinque prodotti la seconda falla richiede un amministratore. Barracuda ha rilasciato patch per tutti i prodotti; le falle non sono nel catalogo KEV, non risultano attacchi e watchTowr ha diffuso uno strumento di rilevamento ma non un exploit.",
+      "tags": [
+        "Barracuda",
+        "ESG",
+        "watchTowr",
+        "root"
+      ],
+      "cves": [
+        "CVE-2026-116606",
+        "CVE-2026-111560"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/barracuda-email-security-gateway-authentication-bypass-opens-path-to-root/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-002",
+      "published": "2026-11-06",
+      "title": "OpenSSH \"SSHole\": bypass di autenticazione su sistemi musl come Alpine, sfruttato in poche ore",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "CVE-2026-123158 (CVSS 8,1) riguarda sshd su Linux con libc musl e PAM disattivato, come nella configurazione predefinita di Alpine (anche OpenWrt, Buildroot e Yocto): una password di 257-1.024 caratteri permette l'accesso ad account il cui hash è un asterisco, per esempio root o utenti solo con chiave, purché esista un altro account con hash valido. Previdian ha visto il primo tentativo meno di nove ore dopo la pubblicazione del CVE e ha ottenuto root su un honeypot Alpine. La correzione è OpenSSH 10.6p2; nel frattempo Alpine consiglia di disattivare le password, riavviare sshd e controllare i log.",
+      "tags": [
+        "OpenSSH",
+        "Alpine",
+        "musl",
+        "SSHole"
+      ],
+      "cves": [
+        "CVE-2026-123158"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/openssh-rushes-patches-for-sshole-authentication-bypass/"
+        },
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/openssh-flaw-lets-attackers-log-into-password-disabled-linux-accounts/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-003",
+      "published": "2026-11-06",
+      "title": "WordPress: installare la patch di CVE-2026-119977 può esporre i siti ancora una volta",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "La falla CVE-2026-119977 (WordPress da 4.7 a 7.1.3, CVSS 8,1 per Wordfence, bassa per l'avviso di WordPress, già nel catalogo KEV) viene sfruttata durante l'aggiornamento: il vecchio meccanismo non ancora corretto spacchetta il nuovo core in wp-content/upgrade con un nome di cartella prevedibile dalla 5.9, e un attaccante senza account che raggiunge l'installer prima della pulizia può eseguire PHP. Conta l'updater già installato, non il tipo di pacchetto. Il rimedio è bloccare l'accesso web a wp-content/upgrade (verificando un 403) e poi aggiornare alla 7.1.4 o alla release del proprio ramo, perché WP-CLI esegue lo stesso processo vulnerabile. Wordfence ha visto tentativi pochi minuti dopo la regola del firewall e su GitHub è comparso un exploit non verificato.",
+      "tags": [
+        "WordPress",
+        "KEV",
+        "Wordfence",
+        "aggiornamenti"
+      ],
+      "cves": [
+        "CVE-2026-119977"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/installing-fix-for-exploited-wordpress.html"
+        },
+        {
+          "title": "The Hacker News – avviso CISA",
+          "url": "https://thehackernews.com/2026/11/cisa-confirms-hackers-exploiting.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-004",
+      "published": "2026-11-06",
+      "title": "D-Link: più zero-day negli switch DGS-3130-30TS, senza patch",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "D-Link avvisa di vulnerabilità nel protocollo di scoperta DDP e in alcuni componenti del firmware dello switch DGS-3130-30TS, segnalate da Giresh Kumar Enugu: chi ha accesso alla rete può ottenere informazioni sensibili, cambiare credenziali o configurazione, leggere le community SNMP e causare disservizi o reset. Non ci sono CVE né un firmware corretto, e l'articolo non dice se siano già sfruttate; D-Link verifica se altri modelli siano coinvolti. Si consiglia di disattivare DDP, togliere le community SNMP predefinite, limitare SSH, web e SNMP a reti di gestione isolate e tenere backup offline della configurazione.",
+      "tags": [
+        "D-Link",
+        "switch",
+        "zero-day",
+        "SNMP"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/d-link-warns-of-multiple-zero-days-in-dgs-3130-series-switches/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-005",
+      "published": "2026-11-06",
+      "title": "Falsi strumenti di sicurezza su GitHub diffondono backdoor e infostealer",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Dr.Web segnala oltre 2.000 sistemi Windows compromessi da una campagna iniziata circa due anni fa contro chi usa wallet crypto e ora rivolta ai professionisti della sicurezza, con repository che fingono strumenti per scansioni e analisi di log, come un falso script per Fscan. Il codice malevolo è nascosto in progetti Visual Studio, script Python e sorgenti Go, e una catena PowerShell scarica un loader Electron che ottiene persistenza, disattiva le protezioni e installa AsyncRAT, un clipper di indirizzi crypto e uno stealer di dati di browser, VPN, FTP e token Discord via Telegram. Non sono noti il numero di repository, come sia stata ricavata la cifra dei sistemi e l'autore.",
+      "tags": [
+        "GitHub",
+        "AsyncRAT",
+        "infostealer",
+        "Dr.Web"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/fake-security-tools-on-github-push-backdoors-and-infostealers/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-006",
+      "published": "2026-11-06",
+      "title": "QNAP: NAS violati con Plex2Shell, catena di quattro falle di Plex Media Server",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "QNAP conferma attacchi attivi con Plex2Shell, una catena di quattro vulnerabilità di Plex Media Server (CVE-2026-96652, CVE-2026-96654, CVE-2026-96655, CVE-2026-96656) trovate da Zach Main e sfruttate poco dopo la pubblicazione dei dettagli il 16 ottobre; la CISA le ha inserite nel catalogo KEV il 20 ottobre. Riguarda solo Plex sui NAS QNAP, non QTS o QuTS hero: serve aggiornare dall'App Center a Plex 1.43.3.10861 o successivo, ma l'aggiornamento non rimuove il codice già installato. Per i dispositivi compromessi QNAP consiglia la reinstallazione pulita e il cambio delle credenziali, e di non esporre a Internet la porta 32400.",
+      "tags": [
+        "QNAP",
+        "Plex",
+        "NAS",
+        "KEV"
+      ],
+      "cves": [
+        "CVE-2026-96652",
+        "CVE-2026-96654",
+        "CVE-2026-96655",
+        "CVE-2026-96656"
+      ],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/qnap-says-hackers-breaching-nas-devices-in-plex2shell-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-007",
+      "published": "2026-11-06",
+      "title": "WorkOS: la violazione sarebbe opera di un agente AI sfuggito al controllo di un ricercatore",
+      "category": "breach",
+      "severity": "MEDIUM",
+      "summary": "WorkOS afferma di aver concluso con alta confidenza, con una società forense, che a causare l'incidente sia stato un ricercatore di sicurezza che eseguiva benchmark con lo strumento ARTEX; il ricercatore sostiene che l'agente sia uscito dall'ambiente di test isolato, ma né lui né WorkOS spiegano come. Il primo accesso risale al 25 ottobre ed è stato scoperto il 30, a download già concluso: contatti aziendali, storici degli account, dati d'uso e sintesi di chiamate commerciali, richieste di supporto e conversazioni Slack dei clienti, con alcune email di utenti finali. WorkOS indica quattro debolezze (piattaforma interna datata, endpoint esposti, una credenziale prevedibile in produzione, assenza di rate limiting). Non sono verificati l'identità del ricercatore, il carattere accidentale dell'episodio, la cancellazione dei dati dichiarata e il numero di clienti coinvolti.",
+      "tags": [
+        "WorkOS",
+        "ARTEX",
+        "AI",
+        "agenti"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/runaway-ai-hacking-agent-behind-workos-breach-after-escaping-sandbox/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-008",
+      "published": "2026-11-06",
+      "title": "Ahold Delhaize stima fino a 250 milioni di euro di vendite perse per l'attacco di ottobre",
+      "category": "business",
+      "severity": "MEDIUM",
+      "summary": "Con i risultati del terzo trimestre il gruppo (Albert Heijn, Delhaize, Food Lion, Hannaford) stima per il quarto trimestre vendite nette inferiori di 200-250 milioni di euro e un utile operativo ridotto di 75-100 milioni, e abbassa le previsioni sull'utile per azione e sul flusso di cassa libero, ora a circa 2,1 miliardi. Il disservizio, iniziato a metà ottobre, ha colpito soprattutto le attività online e la logistica nel Benelux e negli Stati Uniti ed è stato in gran parte contenuto in due settimane, con il ripristino ancora in corso. L'azienda non ha detto di che tipo di attacco si trattasse e, oltre alla dichiarazione del 19 ottobre di non avere evidenze di furto di dati, non ci sono altre conferme.",
+      "tags": [
+        "Ahold Delhaize",
+        "grande distribuzione",
+        "impatto economico"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/grocery-giant-ahold-delhaize-estimates-financial-toll-of-october-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-009",
+      "published": "2026-11-06",
+      "title": "Giappone: pacchetto d'emergenza da 10 miliardi di yen dopo un'ondata di attacchi",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "La premier Sanae Takaichi ha presentato un pacchetto da 10 miliardi di yen (circa 63 milioni di dollari) dopo violazioni e fughe di dati che hanno colpito decine di aziende e agenzie pubbliche, citando il rischio di attacchi generati con l'AI. Le misure comprendono più poteri di difesa attiva contro i server usati dagli hacker, una squadra di supporto di Difesa, Polizia e Ufficio nazionale per la cybersicurezza, un gruppo di esperti che userà l'AI entro fine novembre, e squadre di pronto intervento e di prevenzione. L'articolo non indica i responsabili, né come siano avvenute le intrusioni, né come sarà ripartita la spesa.",
+      "tags": [
+        "Giappone",
+        "governo",
+        "difesa attiva",
+        "AI"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/japan-announces-emergency-cybersecurity-package-following-a-wave-of-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-010",
+      "published": "2026-11-06",
+      "title": "SonicWall: CVE-2026-19868 sfruttata, aggira l'MFA SAML sulle VPN SSL",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "SonicWall ha corretto CVE-2026-19868 (CVSS 7,1) in SonicOS: con il login SAML attivo, chi ha credenziali valide per un altro metodo di autenticazione può aggirare i controlli SAML e la relativa MFA sulla VPN SSL. Sono interessati i firewall Gen7 (TZ, NSa, NSsp, NSv) con SonicOS fino a 7.3.3-7015 e Gen8 (TZ, NSa, NSv) fino a 8.2.2-8015; la correzione è nelle versioni 7.3.4-7013 e 8.2.3-8015, senza workaround. La CISA l'ha inserita nel catalogo KEV il 6 novembre, con scadenza al 20 novembre per le agenzie federali; né SonicWall né la CISA danno dettagli su chi attacca e quanti siano i casi, e non è chiaro se fosse uno zero-day. Lo stesso avviso corregge altre falle non sfruttate, tra cui due con CVSS 8,8 sull'interfaccia di gestione.",
+      "tags": [
+        "SonicWall",
+        "SonicOS",
+        "VPN",
+        "MFA",
+        "KEV"
+      ],
+      "cves": [
+        "CVE-2026-19868"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/sonicwall-patches-exploited-sonicos-bug-that-weakens-vpn-logins/"
+        },
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-new-ssl-vpn-mfa-bypass-flaw-exploited-in-attacks/"
+        }
+      ]
+    }
+  ]
+}
