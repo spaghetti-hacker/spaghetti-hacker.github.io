@@ -8,6 +8,7 @@
 content="default-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; media-src 'self'; connect-src 'self';">
 
 <title>ENTER MY WORLD</title>
+<link rel="icon" type="image/png" href="logo_emw.png">
 
 <style>
 
@@ -64,6 +65,20 @@ button {
 
 [hidden] {
     display: none !important;
+}
+
+.logo {
+    font-size: 1.4em;
+    color: #65E903;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    height: 1.6em;
+    width: auto;
+    display: block;
 }
 
 /* =====================================
@@ -364,9 +379,10 @@ button {
 
     <header class="header">
 
-        <div class="logo">
-            ENTER MY WORLD
-        </div>
+	<div class="logo">
+    		<img src="logo_emw.png" alt="">
+    		<span>ENTER MY WORLD</span>
+	</div>
 
         <div class="subtitle">
             HCF :: AN EXPLORABLE ENVIRONMENT
