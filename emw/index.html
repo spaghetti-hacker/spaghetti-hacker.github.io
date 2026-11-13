@@ -348,9 +348,9 @@ button {
 
 <div id="intro">
     <div class="intro-box">
-        <div class="intro-logo">HCF // THE UNDERGROUND</div>
+        <div class="intro-logo">HCF || THE UNDERGROUND</div>
         <div class="intro-line">HALT AND CATCH FIRE :: AN EXPLORABLE ENVIRONMENT</div>
-        <div class="intro-press">[ PRESS ANY KEY TO ENTER ]</div>
+        <div class="intro-press">[PRESS ANY KEY TO ENTER]</div>
     </div>
 </div>
 
@@ -801,7 +801,7 @@ function enterRoom(id, addHistory = true) {
 
             door.href = "#" + exit.id;
             door.className = "hotspot";
-            door.textContent = "[ " + exit.label + " ]";
+            door.textContent = "[" + exit.label + "]";
 
             door.style.left = exit.x + "%";
             door.style.top = exit.y + "%";
@@ -883,7 +883,7 @@ function enterRoom(id, addHistory = true) {
         link.href = "#" + exit.id;
 
         link.textContent =
-            "[ " + exit.label + " ]";
+            "[" + exit.label + "]";
 
         if (exit.back) {
             link.classList.add("exit-back");
