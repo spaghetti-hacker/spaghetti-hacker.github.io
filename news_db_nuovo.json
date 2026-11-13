@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T12:25:05Z",
+  "updated": "2026-11-13T14:25:05Z",
   "window_days": 7,
   "items": [
     {
@@ -95,6 +95,60 @@
     {
       "id": "2026-11-13-006",
       "published": "2026-11-13",
+      "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Microsoft is trying different ways to identify the cause of the problem and get its servers back online, using “a measured approach to identify and repair affected infrastructure.” The post Microsoft Struggles to Restore Email and Other Services in a Global Outage appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/microsoft-struggles-to-restore-email-and-other-services-in-a-global-outage/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-007",
+      "published": "2026-11-13",
+      "title": "Apify Confirms Customer Data Accessed in Cyberattack",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The web scraping company says an intruder accessed customer accounts and obtained personal information or stored data. The post Apify Confirms Customer Data Accessed in Cyberattack appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/apify-confirms-customer-data-accessed-in-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-008",
+      "published": "2026-11-13",
+      "title": "Microsoft says November security updates cause printing issues",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Microsoft warned customers earlier this week that the November 2026 security updates may break printing for documents with complex formatting. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-says-november-security-updates-cause-printing-issues/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-009",
+      "published": "2026-11-13",
       "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
       "category": "vuln",
       "severity": "MEDIUM",
@@ -111,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-13-007",
+      "id": "2026-11-13-010",
       "published": "2026-11-13",
       "title": "SilentAir Hijacks Asian Telecom Networks to Intercept SMS 2FA Codes and Spy on Taiwanese Users",
       "category": "vuln",
@@ -129,7 +183,7 @@
       ]
     },
     {
-      "id": "2026-11-13-008",
+      "id": "2026-11-13-011",
       "published": "2026-11-13",
       "title": "Operation Endgame Takes Down Gootloader, CastleRAT and StealC Servers, Seizes 6.4M Stolen Logins",
       "category": "malware",
@@ -147,7 +201,7 @@
       ]
     },
     {
-      "id": "2026-11-13-009",
+      "id": "2026-11-13-012",
       "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
       "category": "vuln",
@@ -165,7 +219,7 @@
       ]
     },
     {
-      "id": "2026-11-13-010",
+      "id": "2026-11-13-013",
       "published": "2026-11-13",
       "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
       "category": "vuln",
@@ -183,7 +237,7 @@
       ]
     },
     {
-      "id": "2026-11-13-011",
+      "id": "2026-11-13-014",
       "published": "2026-11-13",
       "title": "Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico",
       "category": "malware",
@@ -201,7 +255,7 @@
       ]
     },
     {
-      "id": "2026-11-13-012",
+      "id": "2026-11-13-015",
       "published": "2026-11-13",
       "title": "Hackers Exploit PHP2Shell Flaws in Check Point Gateways to Deploy TSGA Backdoor and Wipe ESXi Files",
       "category": "vuln",
@@ -219,7 +273,7 @@
       ]
     },
     {
-      "id": "2026-11-13-013",
+      "id": "2026-11-13-016",
       "published": "2026-11-13",
       "title": "Il fronte esterno passa da Dublino: perché l’enforcement del GDPR guarda alla carta geografica",
       "category": "vuln",
@@ -237,7 +291,7 @@
       ]
     },
     {
-      "id": "2026-11-13-014",
+      "id": "2026-11-13-017",
       "published": "2026-11-13",
       "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
       "category": "vuln",
@@ -257,7 +311,7 @@
       ]
     },
     {
-      "id": "2026-11-13-015",
+      "id": "2026-11-13-018",
       "published": "2026-11-13",
       "title": "Frigoriferi hackerati, Italia prima in Europa per esposizione. “Il display può mentire”",
       "category": "malware",
@@ -275,7 +329,7 @@
       ]
     },
     {
-      "id": "2026-11-13-016",
+      "id": "2026-11-13-019",
       "published": "2026-11-13",
       "title": "Hackers Exploit N-central Flaws to Infect 21 Servers, Including 19 Running Hotfix 2",
       "category": "vuln",
@@ -293,7 +347,7 @@
       ]
     },
     {
-      "id": "2026-11-13-017",
+      "id": "2026-11-13-020",
       "published": "2026-11-13",
       "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
       "category": "malware",
@@ -311,7 +365,25 @@
       ]
     },
     {
-      "id": "2026-11-13-018",
+      "id": "2026-11-13-021",
+      "published": "2026-11-13",
+      "title": "AI nelle scuole, il Garante chiede più controlli su dati e fornitori",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Il Garante privacy dà parere favorevole, con osservazioni, allo schema ministeriale sull’intelligenza artificiale nelle scuole. Utenze pseudonimizzate, identità separate dalle piattaforme e indicazioni ai fornitori aprono il confronto sulle misure di sicurezza necessarie a proteggere i dati degli studenti L'articolo AI nelle scuole, il Garante chiede più controlli su dati e fornitori proviene da Cyber Security 360 .",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/legal/privacy-dati-personali/ai-nelle-scuole-il-garante-chiede-piu-controlli-su-dati-e-fornitori/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-022",
       "published": "2026-11-13",
       "title": "When an AI Agent Goes Wrong, Can You Stop It?",
       "category": "business",
@@ -329,7 +401,7 @@
       ]
     },
     {
-      "id": "2026-11-13-019",
+      "id": "2026-11-13-023",
       "published": "2026-11-13",
       "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
       "category": "policy",
@@ -443,30 +515,6 @@
     {
       "id": "2026-11-12-006",
       "published": "2026-11-12",
-      "title": "Critical Apache HTTP/2 Flaw Could Let Unauthenticated Attackers Execute Code Remotely",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "A critical flaw in Apache HTTP Server's HTTP/2 module, mod_http2, can let a remote attacker run code on the server. Tracked as CVE-2026-119618, it affects versions 2.4.55 through 2.4.70 and is fixed in version 2.4.71, released yesterday. Only servers with HTTP/2 enabled are affected, according to Red Hat, which ships the server as part of Red Hat Enterprise Linux. An attacker who can reach the",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [
-        "CVE-2026-119618"
-      ],
-      "sources": [
-        {
-          "title": "The Hacker News",
-          "url": "https://thehackernews.com/2026/11/critical-apache-http2-flaw-could-let.html"
-        },
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/apache-patches-critical-http-server-rce-found-by-anthropic-google/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-007",
-      "published": "2026-11-12",
       "title": "Apache HTTP Server patches critical HTTP/2 remote code execution flaw",
       "category": "vuln",
       "severity": "HIGH",
@@ -483,7 +531,7 @@
       ]
     },
     {
-      "id": "2026-11-12-008",
+      "id": "2026-11-12-007",
       "published": "2026-11-12",
       "title": "Critical Red Hat Quay Flaw Lets Attackers Read and Overwrite All Private Container Images in a Registry",
       "category": "vuln",
@@ -501,7 +549,7 @@
       ]
     },
     {
-      "id": "2026-11-12-009",
+      "id": "2026-11-12-008",
       "published": "2026-11-12",
       "title": "Ransomware a Malvestiti, 50 password in un file di testo: il rischio che minaccia la filiera automotive",
       "category": "ransomware",
@@ -519,7 +567,7 @@
       ]
     },
     {
-      "id": "2026-11-12-010",
+      "id": "2026-11-12-009",
       "published": "2026-11-12",
       "title": "Apify rotates API tokens, prompts 2FA resets after breach",
       "category": "breach",
@@ -537,7 +585,7 @@
       ]
     },
     {
-      "id": "2026-11-12-011",
+      "id": "2026-11-12-010",
       "published": "2026-11-12",
       "title": "PTC Patches Critical Windchill and FlexPLM Flaw That Could Enable Remote Code Execution",
       "category": "vuln",
@@ -557,7 +605,7 @@
       ]
     },
     {
-      "id": "2026-11-12-012",
+      "id": "2026-11-12-011",
       "published": "2026-11-12",
       "title": "Critical Pre-Auth MongoDB Flaw (CVE-2026-118383) Can Crash Lagging Servers on Failover",
       "category": "vuln",
@@ -573,6 +621,26 @@
         {
           "title": "The Hacker News",
           "url": "https://thehackernews.com/2026/11/critical-pre-auth-mongodb-flaw-cve-2026.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-012",
+      "published": "2026-11-12",
+      "title": "Critical Apache HTTP/2 Flaw Could Let Unauthenticated Attackers Execute Code Remotely",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A critical flaw in Apache HTTP Server's HTTP/2 module, mod_http2, can let a remote attacker run code on the server. Tracked as CVE-2026-119618, it affects versions 2.4.55 through 2.4.70 and is fixed in version 2.4.71, released yesterday. Only servers with HTTP/2 enabled are affected, according to Red Hat, which ships the server as part of Red Hat Enterprise Linux. An attacker who can reach the",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-119618"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/critical-apache-http2-flaw-could-let.html"
         }
       ]
     },
@@ -601,28 +669,6 @@
     {
       "id": "2026-11-12-014",
       "published": "2026-11-12",
-      "title": "Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "Microsoft says failed server health checks disrupted Outlook and other Microsoft 365 services. The company is still investigating the cause and has disclosed no evidence of a cyberattack. The post Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams appeared first on SecurityWeek .",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/massive-microsoft-365-outage-disrupts-outlook-teams-copilot-worldwide/"
-        },
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/microsoft-365-outage-disrupts-outlook-exchange-online-and-teams/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-015",
-      "published": "2026-11-12",
       "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
       "category": "malware",
       "severity": "MEDIUM",
@@ -639,7 +685,7 @@
       ]
     },
     {
-      "id": "2026-11-12-016",
+      "id": "2026-11-12-015",
       "published": "2026-11-12",
       "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
       "category": "malware",
@@ -653,6 +699,24 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-12-016",
+      "published": "2026-11-12",
+      "title": "Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Microsoft says failed server health checks disrupted Outlook and other Microsoft 365 services. The company is still investigating the cause and has disclosed no evidence of a cyberattack. The post Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/massive-microsoft-365-outage-disrupts-outlook-teams-copilot-worldwide/"
         }
       ]
     },
@@ -803,24 +867,6 @@
     {
       "id": "2026-11-12-025",
       "published": "2026-11-12",
-      "title": "Kernel Linux, l’AI scopre centinaia di falle: serve una soluzione più forte",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Una ricerca Microsoft ha scoperto 59 bug del kernel Linux, con otto exploit root dimostrati in laboratorio. OpenAI ne ha individuati centinaia in un'altra scansione. L'AI può accelerare anche l'analisi delle patch per i criminali.",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "Cybersecurity360",
-          "url": "https://www.cybersecurity360.it/nuove-minacce/kernel-linux-lai-scopre-centinaia-di-falle-serve-intervento-radicale-sul-codice/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-026",
-      "published": "2026-11-12",
       "title": "New N-central Exploits Work Against Patched Servers, Enable Root RCE and Windows SYSTEM Access",
       "category": "vuln",
       "severity": "MEDIUM",
@@ -837,7 +883,7 @@
       ]
     },
     {
-      "id": "2026-11-12-027",
+      "id": "2026-11-12-026",
       "published": "2026-11-12",
       "title": "Calendar Invites and Live Proxies: Inside a Google Session Hijacking Campaign",
       "category": "malware",
@@ -855,7 +901,7 @@
       ]
     },
     {
-      "id": "2026-11-12-028",
+      "id": "2026-11-12-027",
       "published": "2026-11-12",
       "title": "Microsoft confirms Windows security updates installation issues",
       "category": "malware",
@@ -873,25 +919,7 @@
       ]
     },
     {
-      "id": "2026-11-12-029",
-      "published": "2026-11-12",
-      "title": "Hackers plant GSocket on Linux servers for persistent access",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Multiple threat actors are abusing GSocket, a legitimate open-source remote access tool, to maintain access to Linux servers even after patching the vulnerabilities exploited to gain initial access. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-plant-gsocket-on-linux-servers-for-persistent-access/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-030",
+      "id": "2026-11-12-028",
       "published": "2026-11-12",
       "title": "Node.js Fixes 16 Flaws, Including HTTP/2 Bugs That Crash Servers and Leak Other Connections' Data",
       "category": "vuln",
@@ -909,7 +937,7 @@
       ]
     },
     {
-      "id": "2026-11-12-031",
+      "id": "2026-11-12-029",
       "published": "2026-11-12",
       "title": "Attacker Used 4,837 Hijacked GitHub Accounts to Run a CI Secret Stealer in 1,806+ Repositories",
       "category": "malware",
@@ -927,7 +955,7 @@
       ]
     },
     {
-      "id": "2026-11-12-032",
+      "id": "2026-11-12-030",
       "published": "2026-11-12",
       "title": "ScreenConnect Attacks Target at Least 288 Endpoints Across 48 Organizations With Rogue Clients",
       "category": "vuln",
@@ -945,7 +973,7 @@
       ]
     },
     {
-      "id": "2026-11-12-033",
+      "id": "2026-11-12-031",
       "published": "2026-11-12",
       "title": "Cyber europea, il rapporto ENISA 2026 svela il paradosso: norme solide, difese ancora fragili",
       "category": "policy",
@@ -985,24 +1013,6 @@
     {
       "id": "2026-11-11-002",
       "published": "2026-11-11",
-      "title": "Railway Says Stolen Customer AI Keys Led to $740,000 in Estimated Unauthorized Usage Charges",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "AI provider keys that customers stored on Railway were stolen in an October breach and used to commit an estimated $740,000 in unauthorized spending, the platform-as-a-service provider said yesterday. It has promised to pay those charges itself when an AI provider will not refund them. The company builds and runs apps for its customers and stores their secrets, such as API keys and database",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "The Hacker News",
-          "url": "https://thehackernews.com/2026/11/railway-says-stolen-customer-ai-keys.html"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-11-003",
-      "published": "2026-11-11",
       "title": "AntiFox AI Pentesting Platform Linked to Attacks That Accessed AWS Production Secrets",
       "category": "malware",
       "severity": "MEDIUM",
@@ -1019,7 +1029,7 @@
       ]
     },
     {
-      "id": "2026-11-11-004",
+      "id": "2026-11-11-003",
       "published": "2026-11-11",
       "title": "Hackers Target Qlik Sense Servers With Reverse Shells, Stage ActiveMQ and Veeam Exploits",
       "category": "vuln",
@@ -1037,7 +1047,7 @@
       ]
     },
     {
-      "id": "2026-11-11-005",
+      "id": "2026-11-11-004",
       "published": "2026-11-11",
       "title": "Over 35,000 Grok-Built Apps Exposed Online, Some Leaking Confidential Data and Passwords",
       "category": "malware",
@@ -1055,7 +1065,7 @@
       ]
     },
     {
-      "id": "2026-11-11-006",
+      "id": "2026-11-11-005",
       "published": "2026-11-11",
       "title": "We Built An Agent That Broke All of Our Security Rules. Here's What We Learned.",
       "category": "malware",
@@ -1073,7 +1083,7 @@
       ]
     },
     {
-      "id": "2026-11-11-007",
+      "id": "2026-11-11-006",
       "published": "2026-11-11",
       "title": "eMudhra Revokes 8 More CAs It Previously Declared Unaffected by Key Compromise",
       "category": "malware",
@@ -1087,24 +1097,6 @@
         {
           "title": "The Hacker News",
           "url": "https://thehackernews.com/2026/11/emudhra-revokes-8-more-cas-it.html"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-11-008",
-      "published": "2026-11-11",
-      "title": "Microsoft Patches 1,259 Flaws, Including Exploited Outlook Bug That May Expose NTLMv2 Hashes",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Microsoft on Tuesday released patches for a total of 1,259 vulnerabilities spanning its software portfolio, the second consecutive month where the patch volume has exceeded 1,000 flaws. These cover 726 flaws in Windows, 174 in Office, 61 in Developer Tools, 59 in SQL Server, 53 in Developer Tools, and 27 in SharePoint Server. The patches also include 165 non-Microsoft-issued CVE identifiers.",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "The Hacker News",
-          "url": "https://thehackernews.com/2026/11/microsoft-patches-1259-flaws-including.html"
         }
       ]
     }
