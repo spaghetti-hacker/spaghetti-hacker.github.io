@@ -489,7 +489,16 @@ const rooms = {
         audio: "audio/every.mp3",
 
         description: [
-            ";dopo un lungo vagare, arrivi davanti a un grande portone d'ingresso. Il portone è socchiuso. Oltrepassandolo ti ritrovi all'interno di un edificio apparentemente abbandonato. Da qualche parte senti provenire una musica elettronica. Due passaggi si aprono davanti a te. Non sai dove conducano."
+            ";arrivi, dopo un lungo vagare, davanti a un grande portone di ingresso; il portone ti permette di accedere a un grosso edificio; è chiuso e sulla sua superfice, sotto una sorta di simbolo c'è uno strano codice; riesci a decifrarlo, a capire cosa quel codice possa significare? è la prima volta che leggi e forse comprendi qualcosa dopo giorni e giorni trascorsi a vagare senza meta all'interno del labirinto di metallo; non che la cosa ti sia di conforto in qualche modo; un piccolo legame, forse, con quella che è stata la tua vita passata, una flebile speranza; ci sono dei pulsanti vicino al portone di ingresso; se non riuscirai ad aprirlo dovrai ritornare sui tuoi passi:
+
+xor eax,eax
+lea rbx,[0]
+loop $
+mov rdx,0
+and esi,0
+sub edi,edi
+push 0
+pop rbp"
         ],
 
         exits: [
