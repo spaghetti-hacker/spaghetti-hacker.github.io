@@ -1,56 +1,56 @@
 {
- "source": "ICS-OT",
+ "source": "GENERAL",
  "updated": "2026-11-13",
  "items": [
   {
-   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
-   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
-   "date": "2026-11-11"
+   "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
+   "link": "https://www.securityweek.com/citrix-patches-10-critical-netscaler-vulnerabilities/",
+   "date": "2026-11-13"
   },
   {
-   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
-   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
-   "date": "2026-11-06"
+   "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
+   "link": "https://www.securityweek.com/openai-unveils-daybreak-red-team-defense-factory-security-tools/",
+   "date": "2026-11-13"
   },
   {
-   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
-   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
-   "date": "2026-11-05"
+   "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
+   "link": "https://www.securityweek.com/nightmare-eclipse-drops-windows-zero-day-exploit-signdrop/",
+   "date": "2026-11-13"
   },
   {
-   "title": "Critical Node-RED Flaw Exploited in Attacks",
-   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
-   "date": "2026-11-03"
+   "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
+   "link": "https://www.securityweek.com/php2shell-exploited-in-destructive-check-point-gateway-attacks/",
+   "date": "2026-11-13"
   },
   {
-   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
-   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
-   "date": "2026-11-03"
+   "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
+   "link": "https://www.securityweek.com/hackers-exploit-new-n-central-zero-day-hours-after-poc-publication/",
+   "date": "2026-11-13"
   },
   {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
-   "date": "2026-10-28"
+   "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
+   "link": "https://www.securityweek.com/fbi-says-us-seized-1-2-billion-worth-of-cryptocurrency-stolen-from-binance/",
+   "date": "2026-11-13"
   },
   {
-   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
-   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
-   "date": "2026-10-27"
+   "title": "Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams",
+   "link": "https://www.securityweek.com/microsoft-365-outage-disrupts-outlook-exchange-online-and-teams/",
+   "date": "2026-11-12"
   },
   {
-   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
-   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
-   "date": "2026-10-26"
+   "title": "Apache Patches Critical HTTP Server RCE Found by Anthropic, Google",
+   "link": "https://www.securityweek.com/apache-patches-critical-http-server-rce-found-by-anthropic-google/",
+   "date": "2026-11-12"
   },
   {
-   "title": "Indurex Raises $8 Million to Expand Industrial Cybersecurity Platform",
-   "link": "https://www.securityweek.com/indurex-raises-8-million-to-expand-industrial-cybersecurity-platform/",
-   "date": "2026-10-22"
+   "title": "Chrome, Firefox Updates Patch Over 180 Vulnerabilities",
+   "link": "https://www.securityweek.com/chrome-firefox-updates-patch-180-vulnerabilities/",
+   "date": "2026-11-12"
   },
   {
-   "title": "Accenture, Dragos, SANS Launch $10M Initiative to Defend Small US Utilities",
-   "link": "https://www.securityweek.com/accenture-dragos-sans-launch-10m-initiative-to-defend-small-us-utilities/",
-   "date": "2026-10-21"
+   "title": "Attacker Targets 60,000 GitHub Repositories in Credential Theft Campaign",
+   "link": "https://www.securityweek.com/attacker-targets-60000-github-repositories-in-credential-theft-campaign/",
+   "date": "2026-11-12"
   }
  ]
 }
