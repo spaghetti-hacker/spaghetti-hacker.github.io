@@ -64,8 +64,8 @@ WATCH_ACTORS = [
 # elenco con la chiave "feeds" in cti_curated.json.
 FEEDS = [
     {"name": "Cybersecurity360", "url": "https://www.cybersecurity360.it/feed/",                    "scope": "IT",     "incidents": True},
-    {"name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/",                   "scope": "GLOBAL"},
-    {"name": "The Hacker News",  "url": "https://feeds.feedburner.com/TheHackersNews",              "scope": "GLOBAL"},
+    {"name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/",                   "scope": "GLOBAL", "trusted": True},
+    {"name": "The Hacker News",  "url": "https://feeds.feedburner.com/TheHackersNews",              "scope": "GLOBAL", "trusted": True},
 ]
 
 ITALY_RE = re.compile(
@@ -304,10 +304,11 @@ def local(tag):
 
 def parse_feed(raw):
     root = ET.fromstring(raw)
-    items = []
+    items, total = [], 0
     for el in root.iter():
         if local(el.tag) not in ("item", "entry"):
             continue
+        total += 1
         f = {"title": "", "link": "", "date": None, "desc": ""}
         for ch in el:
             n = local(ch.tag)
@@ -326,7 +327,7 @@ def parse_feed(raw):
                 f["desc"] = strip_html(txt)
         if f["title"] and f["link"].lower().startswith(("http://", "https://")) and f["date"]:
             items.append(f)
-    return items
+    return items, total
 
 
 def actor_regex(a):
@@ -346,18 +347,22 @@ def collect_feeds(feeds, actors, cutoff, ignore_urls, offline, verbose):
         if offline and not feed["url"].startswith("file://"):
             continue
         try:
-            items = parse_feed(fetch(feed["url"]))
+            items, total = parse_feed(fetch(feed["url"]))
         except Exception as e:
             log(f"feed {feed['name']}: {e}")
             continue
         ok += 1
-        kept = 0
+        kept = n_window = n_italy = n_inc = n_hits = 0
         for it in items:
             if it["date"] < cutoff or it["link"] in ignore_urls:
                 continue
+            n_window += 1
             text = it["title"] + " " + it["desc"]
             italy = bool(ITALY_RE.search(text))
             hits = [a for a, r in regs if r.search(text)]
+            n_italy += italy
+            n_inc += bool(INCIDENT_RE.search(text))
+            n_hits += bool(hits)
             for a in hits:
                 d = day(it["date"])
                 if d > a.get("last_activity", ""):
@@ -391,8 +396,14 @@ def collect_feeds(feeds, actors, cutoff, ignore_urls, offline, verbose):
                 "auto": True,
             }
             kept += 1
+        log(f"feed {feed['name']}: {total} voci lette, {len(items)} valide (titolo+link+data), "
+            f"{n_window} in finestra, {n_italy} citano l'Italia, {n_inc} con parole da incidente, "
+            f"{n_hits} con attori, {kept} campagne")
+        if total and not items:
+            log(f"  attenzione: {total} voci ma nessuna valida (data o link mancanti/illeggibili)")
         if verbose:
-            log(f"feed {feed['name']}: {len(items)} voci, {kept} campagne")
+            for it in items[:3]:
+                log(f"  es: {day(it['date'])} {shorten(it['title'], 70)} | desc: {len(it['desc'])} car.")
     log(f"feed letti: {ok}/{len(feeds)}")
     return campaigns
 

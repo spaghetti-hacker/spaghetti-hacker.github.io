@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sample": false,
-  "updated": "2026-11-13T09:09:16Z",
+  "updated": "2026-11-13T09:14:48Z",
   "window_days": 90,
   "actors": [
     {
@@ -784,7 +784,30 @@
       ]
     }
   ],
-  "campaigns": [],
+  "campaigns": [
+    {
+      "id": "AUTO-7d35c70e67",
+      "title": "Russian Turla Hackers Use New Cereal Malware to Steal Emails From Government Exchange Servers",
+      "actor": "Turla",
+      "start": "2026-11-10",
+      "end": "",
+      "scope": "GLOBAL",
+      "sectors": [],
+      "vector": "",
+      "malware": [],
+      "ttps": [],
+      "confidence": "LOW",
+      "tlp": "CLEAR",
+      "summary": "The Russia-aligned state-sponsored threat actor known as Turla (aka Snake) is wielding a previously undocumented cyber espionage toolset called Cereal that's used to break into victims' Microsoft Exchange servers with an aim to surreptitiously collect emails. According to an...",
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/russian-turla-hackers-use-new-cereal.html"
+        }
+      ],
+      "auto": true
+    }
+  ],
   "ttps": [
     {
       "id": "T1003",
