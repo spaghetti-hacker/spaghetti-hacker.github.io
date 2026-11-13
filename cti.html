@@ -901,22 +901,34 @@ function sortRows(rows){
     return rows;
 }
 
-function ttpRows(){
-    const { actors, camps } = sets(false);
-    const q = st.q.trim().toLowerCase();
+function ttpUse(s){
     const use = new Map();
     const bump = (i, kind) => i.ttps.forEach(id => {
         const e = use.get(id) || { a: [], c: [] };
         e[kind].push(i);
         use.set(id, e);
     });
-    actors.forEach(a => bump(a, "a"));
-    camps.forEach(c => bump(c, "c"));
+    s.actors.forEach(a => bump(a, "a"));
+    s.camps.forEach(c => bump(c, "c"));
+    return use;
+}
+
+/* la ricerca vale sia sulla tecnica (id, nome, tattica) sia su attori e campagne:
+   "APT28" mostra le TTP usate da APT28, "phishing" mostra la tecnica e chi la usa */
+function ttpRows(){
+    const q = st.q.trim().toLowerCase();
+    const all = ttpUse(sets(false));
+    const hit = q ? ttpUse({ actors: sets(true).actors, camps: sets(true).camps }) : null;
     const rows = [];
-    use.forEach((e, id) => {
+    all.forEach((e, id) => {
         const t = ttpMap.get(id);
-        if(q && !t.hay.includes(q)) return;
-        rows.push({ t, a: e.a, c: e.c, n: e.a.length + e.c.length });
+        let use = e;
+        if(q){
+            if(t.hay.includes(q))  use = e;               /* la tecnica stessa corrisponde: tutti gli utilizzatori */
+            else if(hit.has(id))   use = hit.get(id);     /* corrispondono solo attori/campagne: mostra quelli */
+            else return;
+        }
+        rows.push({ t, a: use.a, c: use.c, n: use.a.length + use.c.length });
     });
     rows.sort((x, y) => (y.n - x.n) || cmp(x.t.id, y.t.id));
     return rows;
