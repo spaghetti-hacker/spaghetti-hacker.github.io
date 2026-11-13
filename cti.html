@@ -948,10 +948,10 @@ function actorCell(a, open){
     if(a.aliases.length)    h += L("alias  ", esc(a.aliases.join(", ")));
     h += L("origin ", esc([a.origin, ...a.motivation].filter(Boolean).join(" / ")));
     if(a.first_seen)        h += L("attivo ", esc(a.first_seen) + (a.date ? " ; ultima attivita " + esc(a.date) : ""));
-    if(a.sectors.length)    h += L("settori", esc(a.sectors.map(sectLabel).join(", ")));
+    if(a.sectors.length)    h += L("settori ", esc(a.sectors.map(sectLabel).join(", ")));
     if(a.tools.length)      h += L("strum. ", esc(a.tools.join(", ")));
-    if(a.ttps.length)       h += L("ttp    ", ttpLinks(a.ttps));
-    if(a.camps.length)      h += L("camp.  ", a.camps.map(c => esc(c.title)).join(" ; "));
+    if(a.ttps.length)       h += L("ttp ", ttpLinks(a.ttps));
+    if(a.camps.length)      h += L("camp. ", a.camps.map(c => esc(c.title)).join(" ; "));
     h += srcLinks(a.sources);
     return h + `</div>`;
 }
@@ -967,8 +967,8 @@ function campCell(c, open){
     if(c.vector)          h += L("vettore", esc(c.vector));
     if(c.malware.length)  h += L("malware", esc(c.malware.join(", ")));
     if(c.sectors.length)  h += L("settori", esc(c.sectors.map(sectLabel).join(", ")));
-    if(c.ttps.length)     h += L("ttp    ", ttpLinks(c.ttps));
-    if(c.tlp)             h += L("tlp    ", esc("TLP:" + c.tlp));
+    if(c.ttps.length)     h += L("ttp ", ttpLinks(c.ttps));
+    if(c.tlp)             h += L("tlp ", esc("TLP:" + c.tlp));
     h += srcLinks(c.sources);
     return h + `</div>`;
 }
