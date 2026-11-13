@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self';">
+
+<title>HCF - THE UNDERGROUND</title>
+
+<style>
+@font-face {
+    font-family: terminal;
+    src: url("ShareTechMono-Regular.ttf") format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0c0d10;
+    color: #65E903;
+    font-family: terminal, monospace;
+    font-size: 20px;
+    line-height: 1.3;
+    min-height: 100vh;
+    padding: 20px 12px;
+}
+
+a {
+    color: #00ffff;
+    background: #0a3a2a;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover {
+    color: #000;
+    background: #65E903;
+}
+
+.wrapper {
+    max-width: 1024px;
+    margin: auto;
+}
+
+.screen {
+    background: #001C1C;
+    border: 1px solid #001c1c;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(101,233,3,.06);
+}
+
+/* HEADER */
+
+.header {
+    border-bottom: 1px dashed #65E903;
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+}
+
+.logo {
+    font-size: 1.5em;
+    color: #65E903;
+}
+
+.subtitle {
+    color: #00ffff;
+    font-size: .85em;
+}
+
+/* NAVIGATION */
+
+.navigation {
+    margin-bottom: 24px;
+    padding: 8px 0;
+    border-bottom: 1px solid #1a5a1a;
+}
+
+.navigation a {
+    margin-right: 12px;
+    padding: 2px 5px;
+}
+
+.navigation .active {
+    color: #000;
+    background: #65E903;
+}
+
+/* CONTENT */
+
+#room-title {
+    color: #00ffff;
+    margin-bottom: 18px;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+.room-content {
+    min-height: 280px;
+}
+
+.room-content p {
+    margin-bottom: 14px;
+}
+
+.room-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 18px 0;
+}
+
+.room-image.hidden {
+    display: none;
+}
+
+.separator {
+    color: #1a5a1a;
+    margin: 20px 0;
+}
+
+.room-links {
+    margin-top: 24px;
+}
+
+.room-links div {
+    margin-top: 8px;
+}
+
+.room-links a {
+    padding: 2px 5px;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 35px;
+    padding-top: 12px;
+    border-top: 1px dashed #1a5a1a;
+    color: #477a35;
+    font-size: .75em;
+}
+
+/* MOBILE */
+
+@media(max-width:640px) {
+    body {
+        font-size: 17px;
+        padding: 12px 8px;
+    }
+
+    .screen {
+        padding: 12px;
+    }
+
+    .navigation a {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="screen">
+
+    <header class="header">
+        <div class="logo">HCF // THE UNDERGROUND</div>
+        <div class="subtitle">
+            HALT AND CATCH FIRE :: AN EXPLORABLE ENVIRONMENT
+        </div>
+    </header>
+
+    <nav class="navigation" id="navigation">
+        <!-- Generato da JavaScript -->
+    </nav>
+
+    <main>
+
+        <div id="room-title"></div>
+
+        <div class="room-content">
+            <img id="room-image" class="room-image hidden" src="" alt="">
+
+            <div id="room-text"></div>
+
+            <div class="separator">
+                ----------------------------------------
+            </div>
+
+            <div class="room-links" id="room-links"></div>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        HCF // 2600 :: NO RULES, JUST EXPERIMENTS
+    </footer>
+
+</div>
+</div>
+
+<script>
+
+// ==========================================
+// ROOM DATABASE
+// Per aggiungere una stanza basta aggiungere
+// un nuovo elemento a questo oggetto.
+// ==========================================
+
+const rooms = {
+
+    entrance: {
+        title: "01 :: THE ENTRANCE",
+
+        text: `
+            <p>
+            Dopo un lungo vagare, arrivi davanti a un
+            grande portone d'ingresso.
+            </p>
+
+            <p>
+            Il portone è socchiuso. Oltrepassandolo
+            ti ritrovi all'interno di un edificio
+            apparentemente abbandonato.
+            </p>
+
+            <p>
+            Da qualche parte senti provenire
+            una musica elettronica.
+            </p>
+
+            <p>
+            Non sai dove sei arrivato.
+            Ma puoi iniziare a esplorare.
+            </p>
+        `,
+
+        image: "",
+
+        links: [
+            { id: "hall", label: "[ ENTRA NELL'EDIFICIO ]" }
+        ]
+    },
+
+    hall: {
+        title: "02 :: THE MAIN HALL",
+
+        text: `
+            <p>
+            Ti trovi in un grande atrio.
+            </p>
+
+            <p>
+            L'illuminazione è debole. Alcuni monitor
+            CRT sono ancora accesi.
+            </p>
+
+            <p>
+            Diverse porte conducono ad ambienti
+            differenti. Non sembrano appartenere
+            allo stesso luogo.
+            </p>
+        `,
+
+        image: "",
+
+        links: [
+            { id: "sound", label: "[ SOUND ROOM ]" },
+            { id: "lab", label: "[ HACKING LAB ]" },
+            { id: "archive", label: "[ DIGITAL ARCHIVE ]" },
+            { id: "darkroom", label: "[ DARKROOM ]" },
+            { id: "entrance", label: "[ USCITA ]" }
+        ]
+    },
+
+    sound: {
+        title: "03 :: SOUND ROOM",
+
+        text: `
+            <p>
+            Una stanza piena di apparecchiature audio.
+            </p>
+
+            <p>
+            Mixer, campionatori, registratori e vecchi
+            computer sembrano ancora funzionanti.
+            </p>
+
+            <p>
+            [ ROOM UNDER CONSTRUCTION ]
+            </p>
+        `,
+
+        image: "",
+
+        links: [
+            { id: "hall", label: "[ TORNA ALL'ATRIO ]" }
+        ]
+    },
+
+    lab: {
+        title: "04 :: HACKING LAB",
+
+        text: `
+            <p>
+            Un laboratorio informatico.
+            </p>
+
+            <p>
+            Terminali, circuiti, binari ELF e
+            frammenti di codice sono sparsi ovunque.
+            </p>
+
+            <p>
+            [ ROOM UNDER CONSTRUCTION ]
+            </p>
+        `,
+
+        image: "",
+
+        links: [
+            { id: "hall", label: "[ TORNA ALL'ATRIO ]" }
+        ]
+    },
+
+    archive: {
+        title: "05 :: DIGITAL ARCHIVE",
+
+        text: `
+            <p>
+            Un archivio di documenti, storie,
+            immagini e reperti digitali.
+            </p>
+
+            <p>
+            [ ROOM UNDER CONSTRUCTION ]
+            </p>
+        `,
+
+        image: "",
+
+        links: [
+            { id: "hall", label: "[ TORNA ALL'ATRIO ]" }
+        ]
+    },
+
+    darkroom: {
+        title: "06 :: DARKROOM",
+
+        text: `
+            <p>
+            Una stanza immersa nell'oscurità.
+            </p>
+
+            <p>
+            Alle pareti sono appesi manifesti,
+            fotografie e immagini distorte.
+            </p>
+
+            <p>
+            [ ROOM UNDER CONSTRUCTION ]
+            </p>
+        `,
+
+        image: "",
+
+        links: [
+            { id: "hall", label: "[ TORNA ALL'ATRIO ]" }
+        ]
+    }
+
+};
+
+
+// ==========================================
+// NAVIGATION ENGINE
+// ==========================================
+
+function enterRoom(id) {
+
+    const room = rooms[id];
+
+    if (!room) return;
+
+    // Titolo
+    document.getElementById("room-title").textContent =
+        room.title;
+
+    // Testo
+    document.getElementById("room-text").innerHTML =
+        room.text;
+
+    // Immagine
+    const img = document.getElementById("room-image");
+
+    if (room.image) {
+        img.src = room.image;
+        img.alt = room.title;
+        img.classList.remove("hidden");
+    } else {
+        img.src = "";
+        img.classList.add("hidden");
+    }
+
+    // Link interni
+    const links = document.getElementById("room-links");
+
+    links.innerHTML = "";
+
+    room.links.forEach(link => {
+
+        const div = document.createElement("div");
+        const a = document.createElement("a");
+
+        a.href = "#" + link.id;
+        a.textContent = link.label;
+
+        a.addEventListener("click", function(e) {
+            e.preventDefault();
+            enterRoom(link.id);
+        });
+
+        div.appendChild(a);
+        links.appendChild(div);
+
+    });
+
+    // Aggiorna URL
+    history.replaceState(null, "", "#" + id);
+
+    // Aggiorna navigazione
+    updateNavigation(id);
+}
+
+
+// ==========================================
+// NAVBAR
+// ==========================================
+
+function updateNavigation(current) {
+
+    const nav = document.getElementById("navigation");
+
+    nav.innerHTML = "";
+
+    Object.keys(rooms).forEach(id => {
+
+        const a = document.createElement("a");
+
+        a.href = "#" + id;
+        a.textContent = rooms[id].title.split("::")[0].trim();
+
+        if (id === current) {
+            a.classList.add("active");
+        }
+
+        a.addEventListener("click", function(e) {
+            e.preventDefault();
+            enterRoom(id);
+        });
+
+        nav.appendChild(a);
+
+    });
+}
+
+
+// ==========================================
+// INITIALIZATION
+// ==========================================
+
+const initialRoom = location.hash.substring(1);
+
+enterRoom(rooms[initialRoom] ? initialRoom : "entrance");
+
+</script>
+
+</body>
+</html>
