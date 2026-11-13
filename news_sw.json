@@ -1,35 +1,10 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-13",
  "items": [
   {
-   "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
-   "link": "https://www.securityweek.com/microsoft-struggles-to-restore-email-and-other-services-in-a-global-outage/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "Apify Confirms Customer Data Accessed in Cyberattack",
-   "link": "https://www.securityweek.com/apify-confirms-customer-data-accessed-in-cyberattack/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
-   "link": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure",
-   "link": "https://www.securityweek.com/law-enforcement-disrupts-gootloader-castlerat-and-stealc-infrastructure/",
-   "date": "2026-11-13"
-  },
-  {
    "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
    "link": "https://www.securityweek.com/citrix-patches-10-critical-netscaler-vulnerabilities/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
-   "link": "https://www.securityweek.com/openai-unveils-daybreak-red-team-defense-factory-security-tools/",
    "date": "2026-11-13"
   },
   {
@@ -48,9 +23,34 @@
    "date": "2026-11-13"
   },
   {
-   "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
-   "link": "https://www.securityweek.com/fbi-says-us-seized-1-2-billion-worth-of-cryptocurrency-stolen-from-binance/",
-   "date": "2026-11-13"
+   "title": "Apache Patches Critical HTTP Server RCE Found by Anthropic, Google",
+   "link": "https://www.securityweek.com/apache-patches-critical-http-server-rce-found-by-anthropic-google/",
+   "date": "2026-11-12"
+  },
+  {
+   "title": "Chrome, Firefox Updates Patch Over 180 Vulnerabilities",
+   "link": "https://www.securityweek.com/chrome-firefox-updates-patch-180-vulnerabilities/",
+   "date": "2026-11-12"
+  },
+  {
+   "title": "Hackers Target N-central Zero-Days as N-able Rushes Patches",
+   "link": "https://www.securityweek.com/hackers-target-n-central-zero-days-as-n-able-rushes-patches/",
+   "date": "2026-11-12"
+  },
+  {
+   "title": "Critical Red Hat Quay Vulnerability Could Expose Private Container Images",
+   "link": "https://www.securityweek.com/critical-red-hat-quay-vulnerability-could-expose-private-container-images/",
+   "date": "2026-11-12"
+  },
+  {
+   "title": "Critical Xen Orchestra Flaws Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-xen-orchestra-flaws-exploited-in-attacks/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "Asus, Zoom Release Security Patches",
+   "link": "https://www.securityweek.com/asus-zoom-release-security-patches/",
+   "date": "2026-11-11"
   }
  ]
 }

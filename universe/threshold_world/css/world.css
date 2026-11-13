@@ -1,5 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&family=Press+Start+2P&display=swap');
 
+@font-face{
+    font-family:gohu;
+    src:url("gohu.woff") format("woff");
+}
+
+@font-face {
+    font-family:tredue;
+    src: url("ShareTechMono-Regular.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:'Fixedsys';
+    src:url('Fixedsys%20Excelsior%203.01%20Regular.ttf') format('truetype');
+}
+
+@font-face{
+    font-family:unifont;
+    src:url("unifont.woff") format("woff");
+}
+
+@font-face{
+    font-family:dos;
+    src:url("JetBrainsMonoNL-Medium.ttf") format("truetype");
+}
+
+@font-face{
+    font-family:'VT323';
+    src:url('VT323-Regular.ttf') format('truetype');
+}
+
 :root {
   --bg: #050809;
   --panel: #0a1113;
@@ -11,8 +41,8 @@
   --line: rgba(0, 255, 255, .22);
   --warning: #d5e4df;
   --mono: 'Share Tech Mono', monospace;
-  --terminal: 'VT323', monospace;
-  --pixel: 'Press Start 2P', monospace;
+  --terminal: tredue, 'VT323', monospace;
+  --pixel: tredue, 'Press Start 2P', monospace;
 }
 
 * { box-sizing: border-box; }
