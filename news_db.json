@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T10:17:52Z",
+  "updated": "2026-11-13T10:30:05Z",
   "window_days": 7,
   "items": [
     {
@@ -1085,12 +1085,15 @@
     {
       "id": "2026-11-11-002",
       "published": "2026-11-11",
-      "title": "Cisco BroadWorks and Openwave Flaws Actively Exploited Despite Available Patches",
+      "title": "Cisco BroadWorks e Openwave nel catalogo KEV: sfruttate nonostante le patch",
       "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) Tuesday added two security flaws impacting Cisco BroadWorks and Openwave Messaging Webtop Media Transcoder to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation. Details of the vulnerabilities are below - CVE-2026-20320 (CVSS score: 7.5) - An improper restriction of XML external entity",
+      "severity": "HIGH",
+      "summary": "La CISA ha inserito nel catalogo KEV una XXE non autenticata in Cisco BroadWorks, corretta ad agosto, e una falla nel Webtop Media Transcoder di Openwave, corretta a ottobre, con scadenza al 24 novembre per le agenzie federali. La prima è stata usata nell'operazione Snowball contro un provider telefonico europeo, secondo Malbear Labs con l'aiuto di un framework agentico; per la seconda lo sfruttamento deriva solo da un avviso del JVN basato su una dichiarazione del fornitore. L'attribuzione a un attore di lingua cinese e l'estensione reale dell'attacco, con 13 organizzazioni solo potenzialmente colpite, non sono confermate in modo indipendente.",
       "tags": [
-        "vuln"
+        "Cisco BroadWorks",
+        "Openwave",
+        "KEV",
+        "telecomunicazioni"
       ],
       "cves": [
         "CVE-2026-20320"
