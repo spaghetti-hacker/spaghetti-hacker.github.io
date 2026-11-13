@@ -459,9 +459,9 @@ def norm_campaign(c):
 
 def main():
     ap = argparse.ArgumentParser(description="Genera cti_db.json per cti.html")
-    ap.add_argument("--out", default="cti_db.json")
-    ap.add_argument("--curated", default="cti_curated.json")
-    ap.add_argument("--cache-dir", default=".cti_cache")
+    ap.add_argument("--out", default="/home/re/Desktop/SpaghettiHacker/spaghetti-hacker.github.io/cti_db.json")
+    ap.add_argument("--curated", default="/home/re/Desktop/SpaghettiHacker/spaghetti-hacker.github.io/cti_curated.json")
+    ap.add_argument("--cache-dir", default="/home/re/Desktop/SpaghettiHacker/spaghetti-hacker.github.io/.cti_cache")
     ap.add_argument("--mitre-url", default=MITRE_URL)
     ap.add_argument("--days", type=int, default=WINDOW_DAYS)
     ap.add_argument("--offline", action="store_true")
