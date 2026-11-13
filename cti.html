@@ -931,7 +931,7 @@ function ttpLinks(ids){
 
 function srcLinks(list){
     if(!list.length) return "";
-    return L("fonti  ", list.map(s =>
+    return L("fonti ", list.map(s =>
         `<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer">${esc(s.title || safeUrl(s.url))}</a>`
     ).join(" "));
 }
