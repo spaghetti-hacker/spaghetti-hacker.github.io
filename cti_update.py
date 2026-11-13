@@ -35,9 +35,9 @@ from datetime import datetime, timedelta, timezone
 MITRE_URL = ("https://raw.githubusercontent.com/mitre-attack/attack-stix-data/"
              "master/enterprise-attack/enterprise-attack.json")
 
-WINDOW_DAYS = 90
+WINDOW_DAYS = 30
 MAX_TTPS_PER_ACTOR = 12
-MAX_AUTO_CAMPAIGNS = 60
+MAX_AUTO_CAMPAIGNS = 30
 MAX_ACTOR_SOURCES = 3
 CACHE_MAX_AGE_H = 24 * 7
 
@@ -51,13 +51,13 @@ WATCH_ACTORS = [
 
 # Feed. scope: "IT" = fonte italiana; trusted: una citazione di un attore basta
 # per creare una campagna anche senza riferimenti all'Italia;
-# all_items: ogni articolo diventa una voce in CAMPAIGNS (utile per CERT-AgID).
+# all_items: ogni articolo diventa una voce in CAMPAIGNS (utile per fonti che
+# pubblicano solo bollettini su campagne, non per testate generaliste).
 # Verifica gli URL: alcuni siti cambiano percorso. Puoi sostituire l'intero
 # elenco con la chiave "feeds" in cti_curated.json.
 FEEDS = [
-    {"name": "CERT-AgID",        "url": "https://cert-agid.gov.it/feed/",                           "scope": "IT",     "all_items": True},
-    {"name": "Red Hot Cyber",    "url": "https://www.redhotcyber.com/feed/",                        "scope": "IT"},
-    {"name": "CISA",             "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",    "scope": "GLOBAL", "trusted": True},
+    {"name": "Cybersecurity360", "url": "https://www.cybersecurity360.it/feed/",                    "scope": "IT"},   # URL da verificare
+    {"name": "CISA",            "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",    "scope": "GLOBAL", "trusted": True},
     {"name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/",                   "scope": "GLOBAL"},
     {"name": "The Hacker News",  "url": "https://feeds.feedburner.com/TheHackersNews",              "scope": "GLOBAL"},
 ]
