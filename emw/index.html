@@ -282,6 +282,40 @@ button {
 }
 
 /* =====================================
+   INTRO SCREEN
+===================================== */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #0c0d10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.intro-logo {
+    color: #65E903;
+    font-size: 1.6em;
+}
+
+.intro-line {
+    color: #00ffff;
+    font-size: .75em;
+    margin-top: 8px;
+}
+
+.intro-press {
+    color: #65E903;
+    margin-top: 40px;
+    animation: blink 1s step-end infinite;
+}
+
+/* =====================================
    MOBILE
 ===================================== */
 
@@ -311,6 +345,14 @@ button {
 </head>
 
 <body>
+
+<div id="intro">
+    <div class="intro-box">
+        <div class="intro-logo">HCF // THE UNDERGROUND</div>
+        <div class="intro-line">HALT AND CATCH FIRE :: AN EXPLORABLE ENVIRONMENT</div>
+        <div class="intro-press">[ PRESS ANY KEY TO ENTER ]</div>
+    </div>
+</div>
 
 <div class="wrapper">
 
@@ -896,6 +938,31 @@ enterRoom(
     rooms[initialRoom] ? initialRoom : "gate",
     false
 );
+
+/* ==========================================
+   INTRO SCREEN
+========================================== */
+
+const intro = document.getElementById("intro");
+
+function closeIntro() {
+
+    window.removeEventListener("keydown", closeIntro);
+    window.removeEventListener("pointerdown", closeIntro);
+
+    intro.remove();
+
+    // l'utente ha interagito: ora l'audio può partire
+    const audio = document.getElementById("room-audio");
+
+    if (audio.getAttribute("src")) {
+        audio.play().catch(function() {});
+    }
+
+}
+
+window.addEventListener("keydown", closeIntro);
+window.addEventListener("pointerdown", closeIntro);
 
 </script>
 
