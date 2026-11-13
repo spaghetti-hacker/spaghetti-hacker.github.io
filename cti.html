@@ -945,7 +945,7 @@ function actorCell(a, open){
     if(!open) return h;
     h += `<div class="detail">`;
     if(a.summary) h += `<div>${esc(a.summary)}</div>`;
-    if(a.aliases.length)    h += L("alias  ", esc(a.aliases.join(", ")));
+    if(a.aliases.length)    h += L("alias: ", esc(a.aliases.join(", ")));
     h += L("origin ", esc([a.origin, ...a.motivation].filter(Boolean).join(" / ")));
     if(a.first_seen)        h += L("attivo: ", esc(a.first_seen) + (a.date ? " ; ultima attivita " + esc(a.date) : ""));
     if(a.sectors.length)    h += L("settori: ", esc(a.sectors.map(sectLabel).join(", ")));
