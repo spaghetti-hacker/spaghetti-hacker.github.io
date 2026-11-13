@@ -276,6 +276,10 @@ button {
     margin-bottom: 7px;
 }
 
+.audio-link {
+    margin-top: 10px;
+}
+
 /* =====================================
    FOOTER
 ===================================== */
@@ -444,6 +448,8 @@ button {
             <audio id="room-audio" controls preload="none">
             </audio>
 
+            <div class="audio-link" id="audio-link" hidden></div>
+
         </section>
 
 
@@ -505,6 +511,11 @@ const rooms = {
         image: "images/gate.jpg",
 
         audio: "audio/every.mp3",
+
+        audioLink: {
+            url: "https://INCOLLA-QUI-IL-LINK",
+            label: "LISTEN TO THE MASHUP"
+        },
 
 description: [
     `;arrivi, dopo un lungo vagare, davanti a un grande portone di ingresso; il portone ti permette di accedere a un grosso edificio; è chiuso e sulla sua superfice, sotto una sorta di simbolo c'è uno strano codice; riesci a decifrarlo, a capire cosa quel codice possa significare? è la prima volta che leggi e forse comprendi qualcosa dopo giorni e giorni trascorsi a vagare senza meta all'interno del labirinto di metallo; non che la cosa ti sia di conforto in qualche modo; un piccolo legame, forse, con quella che è stata la tua vita passata, una flebile speranza; ci sono dei pulsanti vicino al portone di ingresso; se non riuscirai ad aprirlo dovrai ritornare sui tuoi passi:
@@ -906,6 +917,32 @@ function enterRoom(id, addHistory = true) {
     } else {
 
         audioArea.hidden = true;
+
+    }
+
+
+    // AUDIO LINK
+
+    const audioLink =
+        document.getElementById("audio-link");
+
+    audioLink.replaceChildren();
+
+    if (room.audio && room.audioLink) {
+
+        const a = document.createElement("a");
+
+        a.href = room.audioLink.url;
+        a.textContent = "[" + room.audioLink.label + "]";
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+
+        audioLink.appendChild(a);
+        audioLink.hidden = false;
+
+    } else {
+
+        audioLink.hidden = true;
 
     }
 

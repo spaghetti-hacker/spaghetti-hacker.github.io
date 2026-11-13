@@ -1,0 +1,1011 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy"
+content="default-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; media-src 'self'; connect-src 'self';">
+
+<title>ENTER MY WORLD</title>
+<link rel="icon" type="image/png" href="logo_emw.png">
+
+<style>
+
+/* =====================================
+   FONT
+===================================== */
+
+@font-face {
+    font-family: terminal;
+    src: url("ShareTechMono-Regular.ttf") format("truetype");
+}
+
+/* =====================================
+   BASE
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    background: #0c0d10;
+    color: #65E903;
+    font-family: terminal, monospace;
+    font-size: 21px;
+    line-height: 1.2;
+    min-height: 100vh;
+    padding: 20px 12px;
+}
+
+a {
+    color: #00ffff;
+    font-size: .8em;
+    background: #0a3a2a;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover {
+    color: #000;
+    background: #65E903;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.logo {
+    font-size: 1.4em;
+    color: #65E903;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    height: 1.6em;
+    width: auto;
+    display: block;
+}
+
+/* =====================================
+   LAYOUT
+===================================== */
+
+.wrapper {
+    max-width: 1024px;
+    margin: auto;
+}
+
+.screen {
+    background: #001C1C;
+    border: 1px solid #001c1c;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 0 10px rgba(101,233,3,.06);
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
+.header {
+    margin-bottom: 24px;
+    border-bottom: 1px dashed #1a5a1a;
+    padding-bottom: 12px;
+}
+
+.logo {
+    font-size: 1.4em;
+    color: #65E903;
+}
+
+.subtitle {
+    color: #00ffff;
+    font-size: .8em;
+    margin-top: 4px;
+}
+
+.status {
+    color: #477a35;
+    font-size: .75em;
+    margin-top: 10px;
+}
+
+/* =====================================
+   ROOM HEADER
+===================================== */
+
+.room-header {
+    margin-bottom: 14px;
+}
+
+.room-id {
+    color: #477a35;
+    font-size: .75em;
+}
+
+.room-title {
+    color: #00ffff;
+    font-size: 1.2em;
+    font-weight: normal;
+    margin-top: 4px;
+}
+
+.room-subtitle {
+    color: #65E903;
+    font-size: .8em;
+    margin-top: 5px;
+}
+
+/* =====================================
+   VISUAL AREA
+===================================== */
+
+.visual {
+    position: relative;
+    width: 100%;
+    margin: 18px 0;
+    border: 1px dashed #1a5a1a;
+    background: #0c0d10;
+    overflow: hidden;
+}
+
+.visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.visual-placeholder {
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #477a35;
+    font-size: .8em;
+    text-align: center;
+    padding: 20px;
+}
+
+/* =====================================
+   CLICKABLE DOORS
+===================================== */
+
+.hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    color: #00ffff;
+    background: rgba(0,28,28,.85);
+    border: 1px dashed #65E903;
+    padding: 4px 0px 0px 0px;
+    font-size: .8em;
+    white-space: nowrap;
+    z-index: 2;
+}
+
+.hotspot:hover {
+    color: #000;
+    background: #65E903;
+}
+
+/* =====================================
+   NARRATIVE
+===================================== */
+
+.description {
+    margin-top: 0px;
+    line-height: 1.35;
+    background: #fff;
+    color: #000;
+    padding: 16px;
+}
+
+.description p {
+    margin-bottom: 0px;
+    white-space: pre-line;
+}
+
+.separator {
+    color: #1a5a1a;
+    margin: 22px 0;
+}
+
+/* =====================================
+   EXITS
+===================================== */
+
+.exits-title {
+    color: #477a35;
+    font-size: .75em;
+    margin-bottom: 10px;
+}
+
+.exits {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.exits a {
+    padding: 4px 0px 0px 0px;
+}
+
+.exits .exit-back {
+    color: #65E903;
+    background: transparent;
+}
+
+.exits .exit-back:hover {
+    color: #000;
+    background: #65E903;
+}
+
+/* =====================================
+   AUDIO
+===================================== */
+
+.audio-area {
+    margin-top: 22px;
+}
+
+.audio-area audio {
+    width: 100%;
+    height: 35px;
+    max-width: 450px;
+    accent-color: #65E903;
+}
+
+.audio-label {
+    color: #477a35;
+    font-size: .75em;
+    margin-bottom: 7px;
+}
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.footer {
+    margin-top: 35px;
+    padding-top: 12px;
+    border-top: 1px dashed #1a5a1a;
+    color: #477a35;
+    font-size: .75em;
+}
+
+.cursor {
+    display: inline-block;
+    width: .55em;
+    height: 1em;
+    background: #65E903;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* =====================================
+   INTRO SCREEN
+===================================== */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #0c0d10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.intro-logo {
+    color: #65E903;
+    font-size: 1.6em;
+}
+
+.intro-line {
+    color: #00ffff;
+    font-size: .75em;
+    margin-top: 8px;
+}
+
+.intro-press {
+    color: #65E903;
+    margin-top: 40px;
+    animation: blink 1s step-end infinite;
+}
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media(max-width:640px) {
+
+    body {
+        font-size: 17px;
+        padding: 12px 8px;
+    }
+
+    .screen {
+        padding: 12px;
+    }
+
+    .visual-placeholder {
+        min-height: 190px;
+    }
+
+    .hotspot {
+        font-size: .7em;
+        padding: 0px 0px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+    <div class="intro-box">
+        <div class="intro-logo">ENTER MY WORLD</div>
+        <div class="intro-press">[PRESS ANY KEY]</div>
+    </div>
+</div>
+
+<div class="wrapper">
+
+<div class="screen">
+
+    <header class="header">
+
+	<div class="logo">
+    		<img src="logo_emw.png" alt="">
+    		<span>ENTER MY WORLD</span>
+	</div>
+
+        <div class="subtitle">
+            HCF :: AN EXPLORABLE ENVIRONMENT
+        </div>
+
+        <div class="status">
+            SYSTEM STATUS: ONLINE
+        </div>
+
+    </header>
+
+
+    <main id="room">
+
+        <div class="room-header">
+
+            <div class="room-id" id="room-id"></div>
+
+            <h1 class="room-title" id="room-title"></h1>
+
+            <div class="room-subtitle" id="room-subtitle"></div>
+
+        </div>
+
+
+        <!-- VISUAL ENVIRONMENT -->
+
+        <div class="visual" id="visual">
+
+            <div class="visual-placeholder" id="placeholder">
+                [ VISUAL ENVIRONMENT NOT AVAILABLE ]
+            </div>
+
+            <img id="room-image" src="" alt="" hidden>
+
+            <div id="hotspots"></div>
+
+        </div>
+
+
+        <!-- NARRATIVE -->
+
+        <section class="description" id="description">
+        </section>
+
+
+        <div class="separator">
+        </div>
+
+
+        <!-- AUDIO -->
+
+        <section class="audio-area" id="audio-area" hidden>
+
+            <div class="audio-label">
+                :: AUDIO TRANSMISSION
+            </div>
+
+            <audio id="room-audio" controls preload="none">
+            </audio>
+
+        </section>
+
+
+        <!-- AVAILABLE EXITS -->
+
+        <section style="margin-top:24px">
+
+            <div class="exits-title">
+                :: AVAILABLE PASSAGES
+            </div>
+
+            <div class="exits" id="exits">
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+    REALTIME EXPLORATION BEYOND ORDINARY POSSIBILITIES
+
+        <span class="cursor"></span>
+
+    </footer>
+
+</div>
+</div>
+
+
+<script>
+
+/* ==========================================
+   LABYRINTH DATABASE
+
+   Ogni stanza dichiara le proprie uscite.
+
+   x/y = posizione della porta sull'immagine
+   (percentuale da 0 a 100).
+
+   Se x/y mancano, la porta appare
+   soltanto nell'elenco dei passaggi.
+========================================== */
+
+
+const rooms = {
+
+    /* --------------------------------------
+       ROOM 000
+    -------------------------------------- */
+
+    gate: {
+
+        number: "000",
+        title: "BE ZERO",
+        subtitle: "THE BEGINNING OF SOMETHING UNKNOWN",
+
+        image: "images/gate.jpg",
+
+        audio: "audio/every.mp3",
+
+description: [
+    `;arrivi, dopo un lungo vagare, davanti a un grande portone di ingresso; il portone ti permette di accedere a un grosso edificio; è chiuso e sulla sua superfice, sotto una sorta di simbolo c'è uno strano codice; riesci a decifrarlo, a capire cosa quel codice possa significare? è la prima volta che leggi e forse comprendi qualcosa dopo giorni e giorni trascorsi a vagare senza meta all'interno del labirinto di metallo; non che la cosa ti sia di conforto in qualche modo; un piccolo legame, forse, con quella che è stata la tua vita passata, una flebile speranza; ci sono dei pulsanti vicino al portone di ingresso; se non riuscirai ad aprirlo dovrai ritornare sui tuoi passi:
+
+xor eax,eax
+lea rbx,[0]
+loop $
+mov rdx,0
+and esi,0
+sub edi,edi
+push 0
+pop rbp`
+],
+        exits: [
+
+            {
+                id: "corridor_a",
+                label: "ZERO",
+                x: 32,
+                y: 65
+            },
+
+            {
+                id: "corridor_b",
+                label: "ONE",
+                x: 70,
+                y: 65
+            }
+
+        ]
+
+    },
+
+
+    /* --------------------------------------
+       ROOM 002
+    -------------------------------------- */
+
+    corridor_a: {
+
+        number: "002",
+        title: "BUG",
+        subtitle: "A LONG AND NARROW PASSAGE",
+
+        image: "images/corridor_a.png",
+
+        audio: "",
+
+        description: [
+`;superi l'ingresso, entri in un tunnel e lo percorri per circa 16 metri; all'improvviso avverti alle spalle alcuni rumori; sono rumori di movimenti veloci, rumori metallici. qualcosa si sta muovendo vicino all'ingresso della struttura, dal quale sei entrato;
+
+la vedi.. una strana creatura che si muove come un insetto, arrampicandosi lungo il perimetro dell'ingresso del corridoio; per qualche motivo a te ignoto, sembra non poterlo attraversare; indossa un'armatura bianca integrale di metallo e una maschera, inespressiva e serafica, di qualche strano metallo o forse di porcellana; cosa copre? un viso mostruoso? ingranaggi robot? di cosa si tratta? perché non riesce ad entrare?
+
+Mentre osservi la scena, un pensiero ti attraversa la mente: hai lasciato aperta una porta importante, un ingresso non chiuso correttamente.
+
+int main(void)
+{
+char a[16];
+strncpy(a,"0123456789abcdef",sizeof(a));
+return 0;
+}
+
+movabs rax, 0x3736353433323130
+movabs rdx, 0x6665646362613938
+mov qword [var_20h], rax
+mov qword [var_18h], rdx`
+        ],
+
+        exits: [
+
+            {
+                id: "gate",
+                label: "BACK TO THE GATE",
+                back: true
+            },
+
+            {
+                id: "sound",
+                label: "ENTER THE SOUND ROOM",
+	        x: 70,
+	        y: 80
+	    
+            }
+
+        ]
+
+    },
+
+
+    /* --------------------------------------
+       ROOM 03
+    -------------------------------------- */
+
+    corridor_b: {
+
+        number: "/dev/null",
+        title: "RIGHT CORRIDOR IS NOT RIGHT",
+        subtitle: "UNKNOWN TERRITORY",
+
+        image: "",
+
+        audio: "",
+
+        description: [
+			";hai scelto di essere uno, ma puoi essere solo uno zero. Davanti a te una fredda parete di metallo. Nessuna porta, nessun passaggio. Il simbolo inciso sulla superficie sembra quasi deriderti. Hai seguito la strada sbagliata, forse hai interpretato male qualcosa, forse hai semplicemente dimenticato chi sei.  Non c'è nulla da fare qui. Dovrai tornare indietro."
+        ],
+
+        exits: [
+
+            {
+                id: "gate",
+                label: "BACK TO THE GATE",
+                back: true
+            },
+
+            {
+                id: "lab",
+                label: "ENTER THE HACKING LAB"
+            }
+
+        ]
+
+    },
+
+
+    /* --------------------------------------
+       ROOM 04
+    -------------------------------------- */
+
+    sound: {
+
+        number: "04",
+        title: "SOUND ROOM",
+        subtitle: "FREQUENCIES FROM ANOTHER PLACE",
+
+        image: "",
+
+        audio: "",
+
+        description: [
+            "Un vecchio studio di registrazione.",
+            "Mixer analogici, registratori a nastro e apparecchiature elettroniche occupano quasi tutta la stanza.",
+            "Qualcuno ha lasciato una traccia audio in riproduzione."
+        ],
+
+        exits: [
+
+            {
+                id: "corridor_a",
+                label: "BACK TO THE CORRIDOR",
+                back: true
+            },
+
+            {
+                id: "deadend",
+                label: "OPEN THE LAST DOOR"
+            }
+
+        ]
+
+    },
+
+
+    /* --------------------------------------
+       ROOM 05
+    -------------------------------------- */
+
+    lab: {
+
+        number: "05",
+        title: "HACKING LAB",
+        subtitle: "REVERSE ENGINEERING FACILITY",
+
+        image: "",
+
+        audio: "",
+
+        description: [
+            "Un laboratorio informatico.",
+            "Terminali, circuiti, binari ELF e frammenti di codice sono sparsi ovunque.",
+            "Un computer sembra essere ancora funzionante."
+        ],
+
+        exits: [
+
+            {
+                id: "corridor_b",
+                label: "BACK TO THE CORRIDOR",
+                back: true
+            },
+
+            {
+                id: "archive",
+                label: "ENTER THE DIGITAL ARCHIVE"
+            }
+
+        ]
+
+    },
+
+
+    /* --------------------------------------
+       ROOM 06
+    -------------------------------------- */
+
+    deadend: {
+
+        number: "06",
+        title: "DEAD END",
+        subtitle: "NO FURTHER ACCESS",
+
+        image: "",
+
+        audio: "",
+
+        description: [
+            "La porta si chiude alle tue spalle.",
+            "Non sembra esserci un'altra uscita.",
+            "Per tornare indietro dovrai ripercorrere la strada."
+        ],
+
+        exits: [
+
+            {
+                id: "sound",
+                label: "RETURN TO SOUND ROOM",
+                back: true
+            }
+
+        ]
+
+    },
+
+
+    /* --------------------------------------
+       ROOM 07
+    -------------------------------------- */
+
+    archive: {
+
+        number: "07",
+        title: "DIGITAL ARCHIVE",
+        subtitle: "FRAGMENTS OF A LOST SYSTEM",
+
+        image: "",
+
+        audio: "",
+
+        description: [
+            "Un archivio pieno di vecchi documenti digitali.",
+            "File corrotti, fotografie, registrazioni e frammenti di codice.",
+            "Sembra che qualcuno abbia cercato di nascondere qualcosa."
+        ],
+
+        exits: [
+
+            {
+                id: "lab",
+                label: "BACK TO HACKING LAB",
+                back: true
+            }
+
+        ]
+
+    }
+
+};
+
+
+/* ==========================================
+   NAVIGATION ENGINE
+========================================== */
+
+
+function enterRoom(id, addHistory = true) {
+
+    const room = rooms[id];
+
+    if (!room) return;
+
+    // URL / HISTORY
+
+    if (addHistory) {
+
+        history.pushState(
+            { room: id },
+            "",
+            "#" + id
+        );
+
+    }
+
+
+    // ROOM HEADER
+
+    document.getElementById("room-id").textContent =
+        "ROOM " + room.number;
+
+    document.getElementById("room-title").textContent =
+        room.title;
+
+    document.getElementById("room-subtitle").textContent =
+        room.subtitle || "";
+
+
+    // ROOM IMAGE
+
+    const img = document.getElementById("room-image");
+
+    const placeholder =
+        document.getElementById("placeholder");
+
+    const hotspots =
+        document.getElementById("hotspots");
+
+    hotspots.replaceChildren();
+
+    if (room.image) {
+
+        img.src = room.image;
+        img.alt = room.title;
+        img.hidden = false;
+
+        placeholder.hidden = true;
+
+        // CREATE CLICKABLE DOORS
+
+        room.exits.forEach(exit => {
+
+            if (exit.x === undefined || exit.y === undefined) {
+                return;
+            }
+
+            const door = document.createElement("a");
+
+            door.href = "#" + exit.id;
+            door.className = "hotspot";
+            door.textContent = "[" + exit.label + "]";
+
+            door.style.left = exit.x + "%";
+            door.style.top = exit.y + "%";
+
+            door.addEventListener("click", function(e) {
+
+                e.preventDefault();
+                enterRoom(exit.id);
+
+            });
+
+            hotspots.appendChild(door);
+
+        });
+
+    } else {
+
+        img.hidden = true;
+        img.removeAttribute("src");
+
+        placeholder.hidden = false;
+
+    }
+
+
+    // NARRATIVE
+
+    const description =
+        document.getElementById("description");
+
+    description.replaceChildren();
+
+    room.description.forEach(paragraph => {
+
+        const p = document.createElement("p");
+
+        p.textContent = paragraph;
+
+        description.appendChild(p);
+
+    });
+
+
+    // AUDIO
+
+    const audioArea =
+        document.getElementById("audio-area");
+
+    const audio =
+        document.getElementById("room-audio");
+
+    audio.pause();
+    audio.removeAttribute("src");
+    audio.load();
+
+    if (room.audio) {
+
+        audio.src = room.audio;
+        audioArea.hidden = false;
+
+    } else {
+
+        audioArea.hidden = true;
+
+    }
+
+
+    // AVAILABLE EXITS
+
+    const exits =
+        document.getElementById("exits");
+
+    exits.replaceChildren();
+
+    room.exits.forEach(exit => {
+
+        const link = document.createElement("a");
+
+        link.href = "#" + exit.id;
+
+        link.textContent =
+            "[" + exit.label + "]";
+
+        if (exit.back) {
+            link.classList.add("exit-back");
+        }
+
+        link.addEventListener("click", function(e) {
+
+            e.preventDefault();
+            enterRoom(exit.id);
+
+        });
+
+        exits.appendChild(link);
+
+    });
+
+
+    // PAGE TITLE
+
+    document.title =
+        room.title + " // HCF";
+
+    // SCROLL TOP
+
+    window.scrollTo(0, 0);
+
+}
+
+
+/* ==========================================
+   BROWSER BACK / FORWARD
+========================================== */
+
+window.addEventListener("popstate", function() {
+
+    const id = location.hash.substring(1);
+
+    if (rooms[id]) {
+        enterRoom(id, false);
+    }
+
+});
+
+
+/* ==========================================
+   INITIALIZATION
+========================================== */
+
+const initialRoom = location.hash.substring(1);
+
+enterRoom(
+    rooms[initialRoom] ? initialRoom : "gate",
+    false
+);
+
+/* ==========================================
+   INTRO SCREEN
+========================================== */
+
+const intro = document.getElementById("intro");
+
+function closeIntro() {
+
+    window.removeEventListener("keydown", closeIntro);
+    window.removeEventListener("pointerdown", closeIntro);
+
+    intro.remove();
+
+    // l'utente ha interagito: ora l'audio può partire
+    const audio = document.getElementById("room-audio");
+
+    if (audio.getAttribute("src")) {
+        audio.play().catch(function() {});
+    }
+
+}
+
+window.addEventListener("keydown", closeIntro);
+window.addEventListener("pointerdown", closeIntro);
+
+</script>
+
+</body>
+</html>
