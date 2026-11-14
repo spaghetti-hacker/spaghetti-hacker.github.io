@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T14:25:08Z",
+  "updated": "2026-11-14T18:25:05Z",
   "window_days": 7,
   "items": [
     {
@@ -25,6 +25,42 @@
     {
       "id": "2026-11-14-002",
       "published": "2026-11-14",
+      "title": "Cursor confirms security breach led to malicious Claude Code extension",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Cursor confirmed it suffered a security breach that let hackers distribute a malicious Claude Code extension through its marketplace after stealing credentials from AI infrastructure provider Fireworks AI. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-003",
+      "published": "2026-11-14",
+      "title": "US disrupts North Korean campaign behind $400 million crypto theft",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The U.S. government has disrupted a North Korean social engineering campaign called 'FaceStealer', responsible for stealing more than $400 million in cryptocurrency. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-004",
+      "published": "2026-11-14",
       "title": "Disservizi Microsoft, l’ACN chiarisce gli obblighi NIS2: conta l’impatto, non la causa",
       "category": "policy",
       "severity": "LOW",
@@ -41,7 +77,7 @@
       ]
     },
     {
-      "id": "2026-11-14-003",
+      "id": "2026-11-14-005",
       "published": "2026-11-14",
       "title": "Microsoft down, il vero problema non è il cloud: è chi ha deciso di dipenderne",
       "category": "policy",
@@ -59,7 +95,7 @@
       ]
     },
     {
-      "id": "2026-11-14-004",
+      "id": "2026-11-14-006",
       "published": "2026-11-14",
       "title": "Apple Reveals How Secure Exclaves Shield Camera and Microphone Data",
       "category": "malware",
@@ -77,7 +113,25 @@
       ]
     },
     {
-      "id": "2026-11-14-005",
+      "id": "2026-11-14-007",
+      "published": "2026-11-14",
+      "title": "Is AI Making Us Worse at Cybersecurity?",
+      "category": "malware",
+      "severity": "HIGH",
+      "summary": "Overreliance on AI could erode the creativity, clear communication, and critical thinking security teams need when there’s no playbook. The post Is AI Making Us Worse at Cybersecurity? appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/is-ai-making-us-worse-at-cybersecurity/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-008",
       "published": "2026-11-14",
       "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
       "category": "malware",
@@ -675,6 +729,24 @@
     {
       "id": "2026-11-13-033",
       "published": "2026-11-13",
+      "title": "Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Investigators seized 235 servers and 257 domains, along with 6.4 million victim credentials as part of Operation Endgame. The post Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/law-enforcement-disrupts-gootloader-castlerat-and-stealc-infrastructure/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-034",
+      "published": "2026-11-13",
       "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
       "category": "malware",
       "severity": "MEDIUM",
@@ -691,7 +763,7 @@
       ]
     },
     {
-      "id": "2026-11-13-034",
+      "id": "2026-11-13-035",
       "published": "2026-11-13",
       "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
       "category": "vuln",
@@ -709,7 +781,7 @@
       ]
     },
     {
-      "id": "2026-11-13-035",
+      "id": "2026-11-13-036",
       "published": "2026-11-13",
       "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
       "category": "vuln",
@@ -727,7 +799,7 @@
       ]
     },
     {
-      "id": "2026-11-13-036",
+      "id": "2026-11-13-037",
       "published": "2026-11-13",
       "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
       "category": "vuln",
@@ -747,7 +819,7 @@
       ]
     },
     {
-      "id": "2026-11-13-037",
+      "id": "2026-11-13-038",
       "published": "2026-11-13",
       "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
       "category": "vuln",
