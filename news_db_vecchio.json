@@ -1,9 +1,27 @@
 {
-  "updated": "2026-11-13T14:25:05Z",
+  "updated": "2026-11-13T18:25:05Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-13-001",
+      "published": "2026-11-13",
+      "title": "FBI Says North Korean Hackers Stole Over $400 Million in Crypto Using Deepfake Video Calls",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The U.S. Federal Bureau of Investigation (FBI) has established that threat actors tied to the Democratic People's Republic of Korea (DPRK aka North Korea) have stolen more than $400 million worth of cryptocurrency as part of a social engineering scheme codenamed FaceStealer in the last 18 months. As part of a coordinated set of actions announced by the U.S. government, the cloud-based",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/fbi-says-north-korean-hackers-stole.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-002",
       "published": "2026-11-13",
       "title": "Hackers Exploit N-central Flaws to Infect 21 Servers, Including 19 Running Hotfix 2",
       "category": "vuln",
@@ -21,7 +39,7 @@
       ]
     },
     {
-      "id": "2026-11-13-002",
+      "id": "2026-11-13-003",
       "published": "2026-11-13",
       "title": "Hackers Exploit PHP2Shell Flaws in Check Point Gateways to Deploy TSGA Backdoor and Wipe ESXi Files",
       "category": "vuln",
@@ -39,7 +57,25 @@
       ]
     },
     {
-      "id": "2026-11-13-003",
+      "id": "2026-11-13-004",
+      "published": "2026-11-13",
+      "title": "New Mior and Skyfall Attacks Let Rogue Cloud Hosts Steal Secrets From AMD SEV-SNP VMs",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Two attacks made public this week allow a malicious host to read data inside AMD SEV-SNP-protected virtual machines (VMs), which are built to keep the server's operator out. One of them, Mior, can also modify a VM's memory and fake the signed report confirming which software it runs. Both need control of the server's hypervisor, and Mior also needs control of the server's BIOS. Researchers",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/new-mior-and-skyfall-attacks-let-rogue.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-005",
       "published": "2026-11-13",
       "title": "Operation Endgame Takes Down Gootloader, CastleRAT and StealC Servers, Seizes 6.4M Stolen Logins",
       "category": "malware",
@@ -57,7 +93,27 @@
       ]
     },
     {
-      "id": "2026-11-13-004",
+      "id": "2026-11-13-006",
+      "published": "2026-11-13",
+      "title": "PostgreSQL Patches 52 Flaws, Including 22-Year-Old Bug Enabling Authenticated RCE",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A type confusion flaw in PostgreSQL lets a database user who can create objects run code on the server. Updates released yesterday fix it, along with 51 other security flaws. Full protection from this flaw also requires rebuilding any C-language extensions installed on the server. The flaw, tracked as CVE-2026-6460, has a CVSS score of 8.8. Any code run this way has the rights of the operating",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-6460"
+      ],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/postgresql-patches-52-flaws-including.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-007",
       "published": "2026-11-13",
       "title": "SilentAir Hijacks Asian Telecom Networks to Intercept SMS 2FA Codes and Spy on Taiwanese Users",
       "category": "vuln",
@@ -75,7 +131,25 @@
       ]
     },
     {
-      "id": "2026-11-13-005",
+      "id": "2026-11-13-008",
+      "published": "2026-11-13",
+      "title": "Trezor Confirms Hidden Implants in CryptoBilis-Sold Wallets That Can Steal Recovery Phrases",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Three Trezor Safe 5 wallets bought from the reseller CryptoBilis contain an implant, an extra circuit board that can copy their recovery phrases, hardware wallet maker Trezor said yesterday. The implant reads the phrase from the wallet's screen and sends it over the mobile network to a server controlled by the attackers. The company examined one of the wallets in its lab, identified the other",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/trezor-confirms-hidden-hardware.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-009",
       "published": "2026-11-13",
       "title": "When an AI Agent Goes Wrong, Can You Stop It?",
       "category": "business",
@@ -93,7 +167,7 @@
       ]
     },
     {
-      "id": "2026-11-13-006",
+      "id": "2026-11-13-010",
       "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
       "category": "vuln",
@@ -111,7 +185,7 @@
       ]
     },
     {
-      "id": "2026-11-13-007",
+      "id": "2026-11-13-011",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
       "category": "malware",
@@ -129,7 +203,25 @@
       ]
     },
     {
-      "id": "2026-11-13-008",
+      "id": "2026-11-13-012",
+      "published": "2026-11-13",
+      "title": "Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Vulnerable Check Point Security Gateway instances have been targeted in PHP2Shell attacks that deployed data-wiping malware on VMware ESXi hosts. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/check-point-gateways-hacked-via-php2shell-to-deploy-vmware-esxi-wiper/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-013",
       "published": "2026-11-13",
       "title": "Check Point warns of zero-day flaw exploited for root access",
       "category": "vuln",
@@ -147,7 +239,43 @@
       ]
     },
     {
-      "id": "2026-11-13-009",
+      "id": "2026-11-13-014",
+      "published": "2026-11-13",
+      "title": "German military drone operations disrupted by cyberattack",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "German defense technology company Quantum Systems confirmed that it detected an incident in late October that was part of an active cyberattack by \"hostile actors.\" [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/german-military-drone-operations-disrupted-by-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-015",
+      "published": "2026-11-13",
+      "title": "How one AI agent exposed five critical enterprise security gaps",
+      "category": "malware",
+      "severity": "HIGH",
+      "summary": "An AI agent built to automate invoice processing could be manipulated into changing vendor bank details through a malicious email, without triggering traditional security alerts. Token Security examines five critical AI agent security gaps and shares practical guidance from industry security leaders on preventing them. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/how-one-ai-agent-exposed-five-critical-enterprise-security-gaps/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-016",
       "published": "2026-11-13",
       "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
       "category": "policy",
@@ -165,7 +293,25 @@
       ]
     },
     {
-      "id": "2026-11-13-010",
+      "id": "2026-11-13-017",
+      "published": "2026-11-13",
+      "title": "Fra norma e realtà",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Basta scrivere una norma per rendere più sicuro il mondo digitale? Evidentemente no. Tra entusiasmo legislativo, ritardi operativi e critiche liquidate come provocazioni, la cybersecurity continua a fare i conti con il divario tra regole e realtà. E senza competenze e interventi concreti, anche la norma migliore rischia di restare sulla carta L'articolo Fra norma e realtà proviene da Cyber Security 360 .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/cultura-cyber/fra-norma-e-realta/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-018",
       "published": "2026-11-13",
       "title": "Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico",
       "category": "malware",
@@ -183,7 +329,7 @@
       ]
     },
     {
-      "id": "2026-11-13-011",
+      "id": "2026-11-13-019",
       "published": "2026-11-13",
       "title": "AI nelle scuole, il Garante chiede più controlli su dati e fornitori",
       "category": "policy",
@@ -201,7 +347,7 @@
       ]
     },
     {
-      "id": "2026-11-13-012",
+      "id": "2026-11-13-020",
       "published": "2026-11-13",
       "title": "Il fronte esterno passa da Dublino: perché l’enforcement del GDPR guarda alla carta geografica",
       "category": "vuln",
@@ -219,7 +365,7 @@
       ]
     },
     {
-      "id": "2026-11-13-013",
+      "id": "2026-11-13-021",
       "published": "2026-11-13",
       "title": "Dalla catena del freddo alle infrastrutture critiche: come il NIST blinda il mondo fisico",
       "category": "ics",
@@ -237,7 +383,43 @@
       ]
     },
     {
-      "id": "2026-11-13-014",
+      "id": "2026-11-13-022",
+      "published": "2026-11-13",
+      "title": "False minacce bomba alle scuole: la mail era in regola. È questo il problema",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "La falsa minaccia bomba che ha raggiunto migliaia di scuole italiane è partita da un account e-mail compromesso. Il caso mostra perché SPF, DKIM e DMARC non possono garantire l'affidabilità del contenuto di un messaggio. Dalle evacuazioni alle frodi BEC, il rischio nasce quando un'e-mail basta a far scattare una decisione L'articolo False minacce bomba alle scuole: la mail era in regola.",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/false-minacce-bomba-alle-scuole-la-mail-era-in-regola-e-questo-il-problema/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-023",
+      "published": "2026-11-13",
+      "title": "L’attacco alla DIA che non c’è stato: quando per fare danno basta uno screenshot",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Nessuna violazione dei sistemi della DIA, solo dati pubblici spacciati per documenti riservati. Il caso dimostra che per danneggiare un'organizzazione può bastare uno screenshot sul dark web.",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/nuove-minacce/lattacco-alla-dia-che-non-ce-stato-quando-per-fare-danno-basta-uno-screenshot/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-024",
       "published": "2026-11-13",
       "title": "Frigoriferi hackerati, Italia prima in Europa per esposizione. “Il display può mentire”",
       "category": "malware",
@@ -255,7 +437,7 @@
       ]
     },
     {
-      "id": "2026-11-13-015",
+      "id": "2026-11-13-025",
       "published": "2026-11-13",
       "title": "Apify Confirms Customer Data Accessed in Cyberattack",
       "category": "malware",
@@ -273,7 +455,7 @@
       ]
     },
     {
-      "id": "2026-11-13-016",
+      "id": "2026-11-13-026",
       "published": "2026-11-13",
       "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
       "category": "vuln",
@@ -291,7 +473,7 @@
       ]
     },
     {
-      "id": "2026-11-13-017",
+      "id": "2026-11-13-027",
       "published": "2026-11-13",
       "title": "FBI Says US Seized $1.2 Billion Worth of Cryptocurrency Stolen From Binance",
       "category": "malware",
@@ -309,7 +491,7 @@
       ]
     },
     {
-      "id": "2026-11-13-018",
+      "id": "2026-11-13-028",
       "published": "2026-11-13",
       "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
       "category": "vuln",
@@ -327,7 +509,25 @@
       ]
     },
     {
-      "id": "2026-11-13-019",
+      "id": "2026-11-13-029",
+      "published": "2026-11-13",
+      "title": "In Other News: New CISA Director Nominee, Connected Car Hacking, Baker Tilly Data Breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Noteworthy stories that might have slipped under the radar: Siemens details security advisory policy, OpenAI Codex backdoor risk, Microsoft warns of model weight backdoors. The post In Other News: New CISA Director Nominee, Connected Car Hacking, Baker Tilly Data Breach appeared first on SecurityWeek .",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/in-other-news-new-cisa-director-nominee-connected-car-hacking-baker-tilly-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-13-030",
       "published": "2026-11-13",
       "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
       "category": "malware",
@@ -345,7 +545,7 @@
       ]
     },
     {
-      "id": "2026-11-13-020",
+      "id": "2026-11-13-031",
       "published": "2026-11-13",
       "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
       "category": "vuln",
@@ -363,7 +563,7 @@
       ]
     },
     {
-      "id": "2026-11-13-021",
+      "id": "2026-11-13-032",
       "published": "2026-11-13",
       "title": "OpenAI Unveils Daybreak Red Team, Defense Factory Security Tools",
       "category": "vuln",
@@ -381,7 +581,7 @@
       ]
     },
     {
-      "id": "2026-11-13-022",
+      "id": "2026-11-13-033",
       "published": "2026-11-13",
       "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
       "category": "vuln",
@@ -401,7 +601,7 @@
       ]
     },
     {
-      "id": "2026-11-13-023",
+      "id": "2026-11-13-034",
       "published": "2026-11-13",
       "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
       "category": "vuln",
