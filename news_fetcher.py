@@ -53,7 +53,7 @@ FEEDS = [
 ]
 
 CATEGORIES = ["ransomware", "vuln", "breach", "apt", "malware",
-              "supply-chain", "ics", "policy", "business"]
+              "supply-chain", "ics", "policy", "business", "general"]
 SEVERITIES = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
 SEV_RANK = {s: i for i, s in enumerate(SEVERITIES)}
 
@@ -85,7 +85,7 @@ CATEGORY_KEYWORDS = {
              "remote code execution", "rce", "privilege escalation", "cvss",
              "flaw", "exploit", "aggiornamento di sicurezza"],
     "malware": ["malware", "trojan", "botnet", "stealer", "backdoor", "loader",
-                "phishing", "infostealer", "spyware", " rat ", "campagna"],
+                "phishing", "infostealer", "spyware", "campagna"],
     "policy": ["regulation", "nis2", "gdpr", "law ", "legislation", "sanction",
                "arrest", "europol", "indicted", "fine ", "normativa", "garante",
                "legge", "acn ", "cisa", "extradit", "sentenced", "condannat"],
@@ -223,7 +223,7 @@ def heuristic_category(text, has_cves):
     scores = {c: sum(low.count(k) for k in kws) for c, kws in CATEGORY_KEYWORDS.items()}
     best = max(scores.items(), key=lambda kv: (kv[1], -CATEGORIES.index(kv[0])))
     if best[1] == 0:
-        return "vuln" if has_cves else "malware"
+        return "vuln" if has_cves else "general"
     return best[0]
 
 

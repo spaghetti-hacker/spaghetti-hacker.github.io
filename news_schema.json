@@ -11,7 +11,7 @@
           "id": { "type": "string", "description": "Identificativo unico, es. 2026-11-06-001" },
           "published": { "type": "string", "description": "Data della notizia, formato YYYY-MM-DD" },
           "title": { "type": "string", "description": "Titolo breve in italiano" },
-          "category": { "type": "string", "enum": ["ransomware", "vuln", "breach", "apt", "malware", "supply-chain", "ics", "policy", "business"] },
+          "category": { "type": "string", "enum": ["ransomware", "vuln", "breach", "apt", "malware", "supply-chain", "ics", "policy", "business", "general"] },
           "severity": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
           "summary": { "type": "string", "description": "Riassunto di 2-4 frasi, parafrasato" },
           "tags": { "type": "array", "items": { "type": "string" } },
