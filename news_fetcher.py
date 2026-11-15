@@ -67,30 +67,127 @@ SKIP_TITLE_RE = re.compile(
     r"weekly recap|newsletter|podcast|webinar|\bwhitepaper\b|sponsored|"
     r"giveaway|\bdeal(s)?\b|\bsconti\b|\bcorso\b", re.I)
 
-# Parole chiave per il fallback di classificazione (EN + IT)
-CATEGORY_KEYWORDS = {
-    "ics": ["scada", "industrial control", "plc", "ics ", "operational technology",
-            "sistemi industriali", "ot security", "hmi"],
-    "supply-chain": ["supply chain", "supply-chain", "npm", "pypi", "malicious package",
-                     "github actions", "catena di fornitura", "dependency", "rubygems",
-                     "pacchetti malevoli", "vs code extension"],
-    "ransomware": ["ransomware", "ransom ", "extortion gang", "double extortion",
-                   "lockbit", "estorsione", "riscatto"],
-    "apt": ["apt", "nation-state", "state-sponsored", "lazarus", "espionage",
-            "threat actor linked", "cyber espionage", "spionaggio", "sponsorizzat"],
-    "breach": ["data breach", "breach", "data leak", "leaked", "stolen data",
-               "exposed database", "violazione dei dati", "data exposure",
-               "esposti", "furto di dati", "dati rubati"],
-    "vuln": ["vulnerability", "vulnerabilit", "patch", "zero-day", "0-day",
-             "remote code execution", "rce", "privilege escalation", "cvss",
-             "flaw", "exploit", "aggiornamento di sicurezza"],
-    "malware": ["malware", "trojan", "botnet", "stealer", "backdoor", "loader",
-                "phishing", "infostealer", "spyware"],
-    "policy": ["regulation", "nis2", "gdpr", "law ", "legislation", "sanction",
-               "arrest", "europol", "indicted", "fine ", "normativa", "garante",
-               "legge", "acn ", "cisa", "extradit", "sentenced", "condannat"],
-    "business": ["acquire", "acquisition", "funding", "raises", "ipo", "series a",
-                 "series b", "layoffs", "acquisizione", "finanziamento", "partnership"],
+# --------------------------------------------------------------------------
+# Regole di classificazione (fallback senza LLM, EN + IT)
+# --------------------------------------------------------------------------
+# Per ogni categoria ci sono due liste di espressioni regolari con confini di
+# parola (\b): così "apt" non scatta su "adapt" né "rce" su "source".
+#   strong = termini specifici, quasi sempre indicativi della categoria
+#   weak   = termini generici, che da soli non bastano
+# Ogni lista viene cercata separatamente nel titolo, nei tag del feed e nel
+# corpo; contano i termini distinti trovati, non quante volte compaiono.
+
+
+def _rx(*patterns):
+    return re.compile("|".join(f"(?:{p})" for p in patterns), re.I)
+
+
+CATEGORY_RULES = {
+    "ransomware": {
+        "strong": _rx(r"\bransomware\b", r"\bdouble[- ]extortion\b", r"\bleak site\b",
+                      r"\bransom note\b", r"\bestorsion[ei]\b", r"\briscatto\b",
+                      r"\b(lockbit|blackcat|alphv|akira|qilin|clop|rhysida|black basta|"
+                      r"conti|revil|ransomhub|hunters international)\b"),
+        "weak": _rx(r"\bransom\b", r"\bextortion\b"),
+    },
+    "ics": {
+        "strong": _rx(r"\bscada\b", r"\bindustrial control( systems?)?\b", r"\bplcs?\b",
+                      r"\bics\b", r"\boperational technology\b",
+                      r"\bot (security|networks?|environments?|systems?)\b",
+                      r"\bsistemi (industriali|di controllo industriale)\b",
+                      r"\bhmi\b", r"\bmodbus\b"),
+        "weak": _rx(r"\bindustrial\b", r"\bindustriali?\b", r"\bcritical infrastructure\b",
+                    r"\binfrastrutture critiche\b"),
+    },
+    "supply-chain": {
+        "strong": _rx(r"\bsupply[- ]chain\b", r"\bnpm\b", r"\bpypi\b", r"\brubygems\b",
+                      r"\bgithub actions\b", r"\btyposquat\w*", r"\bdependency confusion\b",
+                      r"\bmalicious (packages?|extensions?|libraries|npm|pypi)\b",
+                      r"\bcatena di fornitura\b", r"\bpacchetti malevoli\b",
+                      r"\bvs ?code extensions?\b"),
+        "weak": _rx(r"\bdependenc(y|ies)\b", r"\bopen[- ]source (package|librar)\w*"),
+    },
+    "apt": {
+        "strong": _rx(r"\bapt[- ]?\d{1,2}\b", r"\bapt (group|actor|campaign)s?\b",
+                      r"\bnation[- ]state\b", r"\bstate[- ](sponsored|backed)\b",
+                      r"\bcyber[- ]?espionage\b", r"\bespionage\b", r"\bspionaggio\b",
+                      r"\bsponsorizzat\w*",
+                      r"\b(lazarus|sandworm|turla|kimsuky|muddywater|volt typhoon|"
+                      r"salt typhoon|fancy bear|cozy bear|charming kitten|oilrig|andariel)\b",
+                      r"\bthreat actors? (linked|tied|associated|affiliated)\b",
+                      r"\b(chinese|russian|iranian|north korean)[- ]"
+                      r"(hackers?|threat actors?|state|linked|nexus|backed)\b"),
+        "weak": _rx(r"\bnorth korea\w*", r"\bgeopolitic\w*", r"\bcyber[- ]?war(fare)?\b",
+                    r"\bguerra cibernetica\b"),
+    },
+    "breach": {
+        "strong": _rx(r"\bdata breach(es)?\b", r"\bdata leaks?\b",
+                      r"\bleaked (data|database|credentials)\b",
+                      r"\bstolen (data|credentials)\b",
+                      r"\bexposed (database|data|server|bucket)s?\b", r"\bdata exposure\b",
+                      r"\bdata theft\b", r"\bexfiltrat\w+",
+                      r"\bviolazione (dei|di) dati\b", r"\bfurto di dati\b",
+                      r"\bdati (rubati|esposti|trafugati)\b"),
+        "weak": _rx(r"\bbreach(es|ed)?\b", r"\bleak(s|ed)?\b", r"\bhacked\b",
+                    r"\bcompromised accounts?\b"),
+    },
+    "malware": {
+        "strong": _rx(r"\bmalware\b", r"\btrojans?\b", r"\bbotnets?\b",
+                      r"\b(info)?stealers?\b", r"\bbackdoors?\b", r"\bspyware\b",
+                      r"\bwipers?\b", r"\brootkits?\b", r"\bcrypto-?miners?\b",
+                      r"\bkeyloggers?\b", r"\brats?\b", r"\bcodice malevolo\b"),
+        "weak": _rx(r"\bloaders?\b", r"\bphishing\b", r"\b(smishing|vishing)\b",
+                    r"\bclickfix\b", r"\bmalicious\b", r"\bmalevol\w+", r"\bscams?\b"),
+    },
+    "vuln": {
+        "strong": _rx(r"\bcve-\d{4}-\d{4,7}\b", r"\bzero[- ]days?\b", r"\b0[- ]days?\b",
+                      r"\bremote code execution\b", r"\brce\b", r"\bprivilege escalation\b",
+                      r"\bcvss\b", r"\bvulnerabilit\w*", r"\bpatch tuesday\b",
+                      r"\bsecurity (patch|update|advisor)\w*", r"\bkev\b",
+                      r"\baggiornament[oi] di sicurezza\b", r"\bauthentication bypass\b",
+                      r"\bsql injection\b", r"\bbuffer overflow\b", r"\bpath traversal\b",
+                      r"\bcross[- ]site scripting\b", r"\bxss\b", r"\bsecurity flaws?\b"),
+        "weak": _rx(r"\bpatch(es|ed|ing)?\b", r"\bflaws?\b", r"\bbugs?\b",
+                    r"\bexploit(s|ed|ing|ation)?\b", r"\bsfruttat\w+", r"\bsfruttament\w+"),
+    },
+    "policy": {
+        "strong": _rx(r"\bnis2\b", r"\bgdpr\b", r"\bregulation\b", r"\bregolament\w+",
+                      r"\blegislation\b", r"\bsanction(s|ed)?\b", r"\bindict(ed|ment)\b",
+                      r"\bextradit\w+", r"\bsentenced\b", r"\bconvicted\b",
+                      r"\bpleads? guilty\b", r"\bcondannat\w+", r"\bnormativa\b",
+                      r"\bgarante (per la )?(protezione dei dati|privacy)\b",
+                      r"\beuropol\b", r"\binterpol\b", r"\bexecutive order\b",
+                      r"\bdirettiva\b", r"\bcyber resilience act\b"),
+        "weak": _rx(r"\barrest(s|ed)?\b", r"\barrestat\w+", r"\blaws?\b", r"\blegge\b",
+                    r"\bacn\b", r"\bcourt\b", r"\btribunale\b", r"\bfined?\b",
+                    r"\bsanzion\w+", r"\bcompliance\b", r"\bgovernment\b", r"\bgoverno\b",
+                    r"\bsenate\b", r"\bparliament\b", r"\bparlamento\b"),
+    },
+    "business": {
+        "strong": _rx(r"\bacquires?\b", r"\bacquired\b", r"\bto acquire\b",
+                      r"\bacquisition\b", r"\bacquisizion\w+", r"\bfunding\b",
+                      r"\braises? [$€£]\s?\d", r"\bseries [a-d]\b", r"\bipo\b",
+                      r"\blayoffs?\b", r"\bfinanziament\w+", r"\bmerger\b"),
+        "weak": _rx(r"\bpartnership\b", r"\bappoints?\b", r"\blaunch(es|ed)?\b",
+                    r"\bceo\b", r"\bstartup\b", r"\bmarket\b", r"\bmercato\b"),
+    },
+}
+
+# A parità di punteggio vince la categoria più specifica (prima in lista).
+PRIORITY = ["ransomware", "ics", "supply-chain", "apt", "breach", "malware",
+            "vuln", "policy", "business"]
+# Se il titolo parla di un attacco specifico, questo batte la falla/malware/breach
+# che l'attacco usa o provoca ("Ransomware sfrutta uno zero-day" -> ransomware).
+SPECIFIC_CATS = ("ransomware", "supply-chain", "apt", "ics")
+OVERRIDABLE = ("vuln", "malware", "breach")
+MIN_SCORE = 3  # sotto questa soglia la categoria resta "general"
+
+# Tag di feed troppo generici per finire nel campo "tags"
+GENERIC_TAGS = {
+    "news", "security", "cybersecurity", "cyber security", "cyber", "sicurezza",
+    "sicurezza informatica", "uncategorized", "attualità", "attualita", "featured",
+    "in evidenza", "hacking news", "hacking", "tecnologia", "technology", "blog",
+    "articoli", "notizie", "approfondimenti", "editorial",
 }
 
 # --------------------------------------------------------------------------
@@ -169,11 +266,33 @@ def fetch_articles(days):
             if e.get("content"):
                 body += " " + " ".join(c.get("value", "") for c in e["content"])
             text = clean_text(body)
+            # categorie/tag dichiarati dal feed (<category> in RSS)
+            feed_tags = []
+            for t in e.get("tags", []) or []:
+                term = clean_text(t.get("term"))
+                if term and term.lower() not in {x.lower() for x in feed_tags}:
+                    feed_tags.append(term)
             articles.append({"source": name, "title": title, "url": link,
-                             "date": dt, "text": text})
+                             "date": dt, "text": text, "tags": feed_tags})
             count += 1
         log(f"[+] {name}: {count} articoli nella finestra di {days} giorni")
     return articles
+
+
+def report_tags(articles, top=12):
+    """Diagnostica: per ogni fonte, i tag del feed più frequenti. Serve a capire
+    quali feed espongono tag utili e a estendere le regole."""
+    by_source = {}
+    for a in articles:
+        c = by_source.setdefault(a["source"], {})
+        for t in a["tags"]:
+            c[t] = c.get(t, 0) + 1
+    for source, counts in by_source.items():
+        n = sum(1 for a in articles if a["source"] == source)
+        senza = sum(1 for a in articles if a["source"] == source and not a["tags"])
+        top_tags = sorted(counts.items(), key=lambda kv: -kv[1])[:top]
+        log(f"[tag] {source}: {n} articoli, {senza} senza tag")
+        log("      " + (", ".join(f"{t} ({k})" for t, k in top_tags) or "(nessun tag)"))
 
 
 # --------------------------------------------------------------------------
@@ -218,13 +337,48 @@ def cluster_articles(articles):
 # --------------------------------------------------------------------------
 
 
-def heuristic_category(text, has_cves):
-    low = " " + text.lower() + " "
-    scores = {c: sum(low.count(k) for k in kws) for c, kws in CATEGORY_KEYWORDS.items()}
-    best = max(scores.items(), key=lambda kv: (kv[1], -CATEGORIES.index(kv[0])))
-    if best[1] == 0:
+def _hits(rx, text, cap):
+    """Numero di termini *distinti* trovati (con tetto): la frequenza non conta,
+    così un articolo lungo non batte un titolo chiaro."""
+    if not text:
+        return 0
+    return min(cap, len({m.group(0).lower() for m in rx.finditer(text)}))
+
+
+def category_scores(title, tags, body):
+    """Punteggio per categoria. Pesi: tag del feed > titolo > corpo."""
+    scores, title_strong = {}, {}
+    for cat, rule in CATEGORY_RULES.items():
+        t_strong = _hits(rule["strong"], title, 2)
+        scores[cat] = (4 * t_strong + 2 * _hits(rule["weak"], title, 2)
+                       + 5 * _hits(rule["strong"], tags, 2) + 3 * _hits(rule["weak"], tags, 2)
+                       + 2 * _hits(rule["strong"], body, 3) + 1 * _hits(rule["weak"], body, 2))
+        title_strong[cat] = t_strong
+    return scores, title_strong
+
+
+def heuristic_category(title, tags, body, has_cves):
+    scores, title_strong = category_scores(title, tags, body)
+    if has_cves:
+        scores["vuln"] += 2
+    best = max(PRIORITY, key=lambda c: (scores[c], -PRIORITY.index(c)))
+    if scores[best] < MIN_SCORE:
         return "vuln" if has_cves else "general"
-    return best[0]
+    if best in OVERRIDABLE:
+        spec = [c for c in SPECIFIC_CATS if title_strong[c] and scores[c] >= MIN_SCORE]
+        if spec:
+            best = max(spec, key=lambda c: (scores[c], -PRIORITY.index(c)))
+    return best
+
+
+def collect_feed_tags(group):
+    seen, out = set(), []
+    for a in group:
+        for t in a.get("tags", []):
+            if t.lower() not in seen:
+                seen.add(t.lower())
+                out.append(t)
+    return out
 
 
 def heuristic_severity(text, category):
@@ -254,9 +408,14 @@ def excerpt(text, limit=420):
 
 def heuristic_item(group, combined):
     cves = sorted(set(c.upper() for c in CVE_RE.findall(combined)))
-    cat = heuristic_category(combined, bool(cves))
+    feed_tags = collect_feed_tags(group)
+    # la categoria si decide sull'intero cluster: titoli, tag e testi di tutte le testate
+    cat = heuristic_category(" | ".join(a["title"] for a in group),
+                             " | ".join(feed_tags),
+                             " ".join(a["text"] for a in group),
+                             bool(cves))
     best = max(group, key=lambda a: len(a["text"]))
-    tags = sorted({c for c in cves[:0]})  # nessun tag affidabile senza LLM
+    tags = [t for t in feed_tags if t.lower() not in GENERIC_TAGS and len(t) <= 40][:6]
     return {
         "title": group[0]["title"],
         "category": cat,
@@ -414,6 +573,8 @@ def main():
     ap.add_argument("--schema", default="news_schema.json", help="schema per la validazione")
     ap.add_argument("--max-items", type=int, default=60, help="numero massimo di notizie")
     ap.add_argument("--no-llm", action="store_true", help="non usare l'API di Claude")
+    ap.add_argument("--show-tags", action="store_true",
+                    help="stampa i tag più frequenti di ogni feed (diagnostica) ed esce")
     args = ap.parse_args()
 
     api_key = None if args.no_llm else os.environ.get("ANTHROPIC_API_KEY")
@@ -427,10 +588,17 @@ def main():
         log("Nessun articolo scaricato: file non modificato.")
         sys.exit(1)
 
+    if args.show_tags:
+        report_tags(articles)
+        return
+
     groups = cluster_articles(articles)
     log(f"[i] {len(articles)} articoli -> {len(groups)} notizie distinte")
 
-    items = build_items(groups, api_key, load_cache(args.out), args.max_items)
+    # Senza LLM la classificazione è gratuita e deterministica: niente cache, così
+    # ogni esecuzione applica le regole correnti anche alle notizie già presenti.
+    cache = load_cache(args.out) if api_key else {}
+    items = build_items(groups, api_key, cache, args.max_items)
     db = {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "window_days": args.days,

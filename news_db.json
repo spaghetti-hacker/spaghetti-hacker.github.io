@@ -1,16 +1,16 @@
 {
-  "updated": "2026-11-15T18:25:06Z",
+  "updated": "2026-11-15T18:55:48Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-15-001",
       "published": "2026-11-15",
       "title": "Italy Fines Meta €805 Million Over Facebook's Android Gallery Access Without Explicit Consent",
-      "category": "policy",
-      "severity": "LOW",
+      "category": "general",
+      "severity": "MEDIUM",
       "summary": "Meta was fined €805 million in Italy yesterday over a Facebook for Android feature that suggests photos and videos from users' phone galleries for them to post. The Garante, Italy's data protection authority, found that the feature was enabled by default and that the app accessed Italian users' photos, videos, and related metadata without their explicit consent. The company has 60 days to",
       "tags": [
-        "policy"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -24,11 +24,11 @@
       "id": "2026-11-15-002",
       "published": "2026-11-15",
       "title": "Cursor Says Stolen Fireworks AI Key Led to Trojanized Claude Code Extension Incident",
-      "category": "breach",
-      "severity": "HIGH",
+      "category": "general",
+      "severity": "MEDIUM",
       "summary": "The compromise of Anthropic's official Claude Code extension on Cursor's extension marketplace was the result of the theft of an access key that was exposed in the wake of a breach targeting Fireworks AI. \"An attacker obtained an access key we had issued to Fireworks,\" Cursor said in a Friday update. \"The key was exposed by Fireworks, and the attacker used it to copy data from a read-only",
       "tags": [
-        "breach"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -40,6 +40,24 @@
     },
     {
       "id": "2026-11-15-003",
+      "published": "2026-11-15",
+      "title": "FBI warns ARTEX AI hacking tool is powering global cyberattacks",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The FBI is warning that hackers are using an AI-powered penetration testing framework called ARTEX to automate cyberattacks against organizations worldwide, including a recent ConnectWise supply-chain breach that compromised Microsoft 365 customer environments. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/fbi-warns-artex-ai-hacking-tool-is-powering-global-cyberattacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-004",
       "published": "2026-11-15",
       "title": "TSMC employee data breach linked to cloud provider",
       "category": "breach",
@@ -57,14 +75,18 @@
       ]
     },
     {
-      "id": "2026-11-15-004",
+      "id": "2026-11-15-005",
       "published": "2026-11-15",
       "title": "Il blocco dei voli USA rivela i rischi delle reti legacy",
       "category": "general",
       "severity": "MEDIUM",
       "summary": "Il blocco dei decolli negli Stati Uniti del 13 novembre 2026 mette in luce la fragilità delle infrastrutture critiche. Le anomalie nei sistemi di comunicazione della FAA mostrano i rischi della convivenza tra vecchie reti e nuove tecnologie, anche in assenza di evidenze di un attacco cyber L'articolo Il blocco dei voli USA rivela i rischi delle reti legacy proviene da Cyber Security 360 .",
       "tags": [
-        "general"
+        "Cybersecurity nazionale",
+        "Applicazioni",
+        "Cloud",
+        "Data Center",
+        "infrastrutture"
       ],
       "cves": [],
       "sources": [
@@ -75,14 +97,19 @@
       ]
     },
     {
-      "id": "2026-11-15-005",
+      "id": "2026-11-15-006",
       "published": "2026-11-15",
       "title": "Meta, 805 mln di sanzione privacy: il rischio dei permessi estesi",
       "category": "policy",
       "severity": "LOW",
       "summary": "Il Garante sanziona Meta per 805 milioni di euro: l’app Facebook per Android poteva accedere alla galleria usando un’autorizzazione generale, senza consenso specifico per i suggerimenti. Per utenti e aziende il caso riapre il tema dei permessi troppo ampi e della protezione dei dati sullo smartphone L'articolo Meta, 805 mln di sanzione privacy: il rischio dei permessi estesi proviene da Cyber Security 360 .",
       "tags": [
-        "policy"
+        "Norme e adeguamenti",
+        "Privacy e Dati personali",
+        "Applicazioni",
+        "Cloud",
+        "dati personali",
+        "facebook"
       ],
       "cves": [],
       "sources": [
@@ -93,14 +120,15 @@
       ]
     },
     {
-      "id": "2026-11-15-006",
+      "id": "2026-11-15-007",
       "published": "2026-11-15",
       "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
       "category": "general",
       "severity": "MEDIUM",
       "summary": "The move follows President Trump’s order to replace “artificial intelligence” with “super intelligence” in executive branch communications. The post Pentagon Renames CDAO ‘Super Intelligence Office’ appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Artificial Intelligence",
+        "Super Intelligence"
       ],
       "cves": [],
       "sources": [
@@ -138,7 +166,7 @@
       "severity": "HIGH",
       "summary": "Cursor confirmed it suffered a security breach that let hackers distribute a malicious Claude Code extension through its marketplace after stealing credentials from AI infrastructure provider Fireworks AI. [...]",
       "tags": [
-        "breach"
+        "Artificial Intelligence"
       ],
       "cves": [],
       "sources": [
@@ -152,11 +180,12 @@
       "id": "2026-11-14-003",
       "published": "2026-11-14",
       "title": "US disrupts North Korean campaign behind $400 million crypto theft",
-      "category": "malware",
-      "severity": "MEDIUM",
+      "category": "apt",
+      "severity": "HIGH",
       "summary": "The U.S. government has disrupted a North Korean social engineering campaign called 'FaceStealer', responsible for stealing more than $400 million in cryptocurrency. [...]",
       "tags": [
-        "malware"
+        "CryptoCurrency",
+        "Legal"
       ],
       "cves": [],
       "sources": [
@@ -174,7 +203,12 @@
       "severity": "LOW",
       "summary": "Per i soggetti NIS già obbligati, i disservizi Microsoft richiedono la notifica se superano i livelli di servizio attesi. ACN chiarisce che conta l’impatto, anche con una causa tecnica.",
       "tags": [
-        "policy"
+        "Norme e adeguamenti",
+        "ACN",
+        "Cloud",
+        "cyber resilience",
+        "cyber risk",
+        "Direttiva NIS 2"
       ],
       "cves": [],
       "sources": [
@@ -192,7 +226,12 @@
       "severity": "LOW",
       "summary": "I disservizi Microsoft riportano al centro il rischio di concentrazione tecnologica: tante scelte IT, singolarmente corrette, possono creare dipendenze critiche per il business.",
       "tags": [
-        "policy"
+        "Applicazioni",
+        "CISO",
+        "Cloud",
+        "Direttiva NIS 2",
+        "fornitori",
+        "infrastrutture"
       ],
       "cves": [],
       "sources": [
@@ -210,7 +249,11 @@
       "severity": "MEDIUM",
       "summary": "The tech giant has detailed the architecture designed to isolate ambient sensor data from the main OS on HomeView and new iPhones. The post Apple Reveals How Secure Exclaves Shield Camera and Microphone Data appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Data Protection",
+        "Endpoint Security",
+        "Apple",
+        "Data Security",
+        "Secure Exclaves"
       ],
       "cves": [],
       "sources": [
@@ -228,7 +271,8 @@
       "severity": "HIGH",
       "summary": "Overreliance on AI could erode the creativity, clear communication, and critical thinking security teams need when there’s no playbook. The post Is AI Making Us Worse at Cybersecurity? appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Artificial Intelligence",
+        "AI"
       ],
       "cves": [],
       "sources": [
@@ -242,11 +286,14 @@
       "id": "2026-11-14-008",
       "published": "2026-11-14",
       "title": "Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "policy",
+      "severity": "LOW",
       "summary": "The directive protects smartphones as part of a person’s private sphere and requires “free and informed consent” for such access, the authority said. The post Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Privacy",
+        "Privacy & Compliance",
+        "Italy",
+        "Meta"
       ],
       "cves": [],
       "sources": [
@@ -260,11 +307,16 @@
       "id": "2026-11-14-009",
       "published": "2026-11-14",
       "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "ics",
+      "severity": "HIGH",
       "summary": "Officials say there is no evidence of a cyberattack behind the nationwide FAA outage, which may have been caused by a software update. The post No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Government",
+        "ICS/OT",
+        "Incident Response",
+        "airplanes",
+        "Aviation",
+        "cyberattack"
       ],
       "cves": [],
       "sources": [
@@ -278,11 +330,11 @@
       "id": "2026-11-13-001",
       "published": "2026-11-13",
       "title": "FBI Says North Korean Hackers Stole Over $400 Million in Crypto Using Deepfake Video Calls",
-      "category": "malware",
-      "severity": "MEDIUM",
+      "category": "apt",
+      "severity": "HIGH",
       "summary": "The U.S. Federal Bureau of Investigation (FBI) has established that threat actors tied to the Democratic People's Republic of Korea (DPRK aka North Korea) have stolen more than $400 million worth of cryptocurrency as part of a social engineering scheme codenamed FaceStealer in the last 18 months. As part of a coordinated set of actions announced by the U.S. government, the cloud-based",
       "tags": [
-        "malware"
+        "apt"
       ],
       "cves": [],
       "sources": [
@@ -388,11 +440,11 @@
       "id": "2026-11-13-007",
       "published": "2026-11-13",
       "title": "SilentAir Hijacks Asian Telecom Networks to Intercept SMS 2FA Codes and Spy on Taiwanese Users",
-      "category": "vuln",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "A newly identified spying group used hacked equipment inside Asian mobile operators to intercept the calls and texts of selected people, mostly in Taiwan. Enea, a telecom and cybersecurity software company based in Stockholm, found the group's attack sources in at least six Asian countries and named it SilentAir this week. It assessed with high confidence that SilentAir is a state-level actor,",
       "tags": [
-        "vuln"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -424,11 +476,11 @@
       "id": "2026-11-13-009",
       "published": "2026-11-13",
       "title": "When an AI Agent Goes Wrong, Can You Stop It?",
-      "category": "business",
-      "severity": "LOW",
+      "category": "general",
+      "severity": "MEDIUM",
       "summary": "Suppose an AI agent is asked to sort support tickets and look up account details. A ticket contains instructions that lead the agent to export records to an unfamiliar destination. The agent can make the request because its identity has access to the records and its connected tools allow the action. That kind of scenario raises a response question: what does “stop the agent” actually mean? A",
       "tags": [
-        "business"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -446,7 +498,7 @@
       "severity": "MEDIUM",
       "summary": "Cryptocurrency hardware wallet maker Trezor has confirmed that three Safe 5 devices sold by Southeast Asian reseller CryptoBilis contained malicious hardware implants designed to steal wallet recovery phrases and send them to attackers over cellular networks. [...]",
       "tags": [
-        "general"
+        "CryptoCurrency"
       ],
       "cves": [],
       "sources": [
@@ -464,7 +516,7 @@
       "severity": "MEDIUM",
       "summary": "Microsoft has confirmed that this month's Patch Tuesday security updates are causing Windows activation and licensing failures with 0x80041008 error codes. [...]",
       "tags": [
-        "vuln"
+        "Microsoft"
       ],
       "cves": [],
       "sources": [
@@ -478,11 +530,11 @@
       "id": "2026-11-13-012",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
-      "category": "general",
+      "category": "vuln",
       "severity": "MEDIUM",
       "summary": "Microsoft warned customers earlier this week that the November 2026 security updates may break printing for documents with complex formatting. [...]",
       "tags": [
-        "general"
+        "Microsoft"
       ],
       "cves": [],
       "sources": [
@@ -586,11 +638,15 @@
       "id": "2026-11-13-018",
       "published": "2026-11-13",
       "title": "Fra norma e realtà",
-      "category": "general",
+      "category": "vuln",
       "severity": "MEDIUM",
       "summary": "Basta scrivere una norma per rendere più sicuro il mondo digitale? Evidentemente no. Tra entusiasmo legislativo, ritardi operativi e critiche liquidate come provocazioni, la cybersecurity continua a fare i conti con il divario tra regole e realtà. E senza competenze e interventi concreti, anche la norma migliore rischia di restare sulla carta L'articolo Fra norma e realtà proviene da Cyber Security 360 .",
       "tags": [
-        "general"
+        "Cultura cyber",
+        "Cyber Resilience Act",
+        "cyber risk",
+        "meme4cyber360",
+        "vulnerabilità"
       ],
       "cves": [],
       "sources": [
@@ -608,7 +664,11 @@
       "severity": "MEDIUM",
       "summary": "Proton VPN propone il piano Plus biennale a 2,49 euro al mese, con uno sconto del 75%. L'abbonamento costa 59,76 euro per 24 mesi e include protezione per 10 dispositivi, server in oltre 140 Paesi e blocco di annunci e malware L'articolo Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico proviene da Cyber Security 360 .",
       "tags": [
-        "malware"
+        "Cultura cyber",
+        "Cloud",
+        "phishing",
+        "Privacy",
+        "VPN"
       ],
       "cves": [],
       "sources": [
@@ -626,7 +686,12 @@
       "severity": "LOW",
       "summary": "Il Garante privacy dà parere favorevole, con osservazioni, allo schema ministeriale sull’intelligenza artificiale nelle scuole. Utenze pseudonimizzate, identità separate dalle piattaforme e indicazioni ai fornitori aprono il confronto sulle misure di sicurezza necessarie a proteggere i dati degli studenti L'articolo AI nelle scuole, il Garante chiede più controlli su dati e fornitori proviene da Cyber Security 360 .",
       "tags": [
-        "policy"
+        "Norme e adeguamenti",
+        "Privacy e Dati personali",
+        "Applicazioni",
+        "Cloud",
+        "Data Center",
+        "Data Protection"
       ],
       "cves": [],
       "sources": [
@@ -658,11 +723,16 @@
       "id": "2026-11-13-022",
       "published": "2026-11-13",
       "title": "Il manuale cyber dell’Iran: la scelta dei target per seminare caos nel mondo reale",
-      "category": "general",
+      "category": "malware",
       "severity": "MEDIUM",
       "summary": "Teheran intensifica i propri sforzi per causare danni nel mondo reale con attacchi contro petroliere e navi frigorifere poco protette. Ecco perché preoccupa gli esperti il salto di qualità degli attacchi cyber dell'Iran, dopo gli ultimi tre, a partire dai frigoriferi europei L'articolo Il manuale cyber dell’Iran: la scelta dei target per seminare caos nel mondo reale proviene da Cyber Security 360 .",
       "tags": [
-        "general"
+        "attacchi",
+        "attacco informatico",
+        "cyber attack",
+        "dati personali",
+        "Hacker",
+        "infrastrutture"
       ],
       "cves": [],
       "sources": [
@@ -695,11 +765,16 @@
       "id": "2026-11-13-024",
       "published": "2026-11-13",
       "title": "False minacce bomba alle scuole: la mail era in regola. È questo il problema",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "ransomware",
+      "severity": "HIGH",
       "summary": "La falsa minaccia bomba che ha raggiunto migliaia di scuole italiane è partita da un account e-mail compromesso. Il caso mostra perché SPF, DKIM e DMARC non possono garantire l'affidabilità del contenuto di un messaggio. Dalle evacuazioni alle frodi BEC, il rischio nasce quando un'e-mail basta a far scattare una decisione L'articolo False minacce bomba alle scuole: la mail era in regola.",
       "tags": [
-        "general"
+        "Business email compromise",
+        "cyber risk",
+        "DMARC",
+        "guerra ibrida",
+        "malware",
+        "password"
       ],
       "cves": [],
       "sources": [
@@ -713,11 +788,16 @@
       "id": "2026-11-13-025",
       "published": "2026-11-13",
       "title": "L’attacco alla DIA che non c’è stato: quando per fare danno basta uno screenshot",
-      "category": "general",
+      "category": "malware",
       "severity": "MEDIUM",
       "summary": "Nessuna violazione dei sistemi della DIA, solo dati pubblici spacciati per documenti riservati. Il caso dimostra che per danneggiare un'organizzazione può bastare uno screenshot sul dark web.",
       "tags": [
-        "general"
+        "Bitcoin",
+        "cyber resilience",
+        "cyber risk",
+        "dark web",
+        "dati personali",
+        "fornitori"
       ],
       "cves": [],
       "sources": [
@@ -749,11 +829,14 @@
       "id": "2026-11-13-027",
       "published": "2026-11-13",
       "title": "Apify Confirms Customer Data Accessed in Cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "breach",
+      "severity": "HIGH",
       "summary": "The web scraping company says an intruder accessed customer accounts and obtained personal information or stored data. The post Apify Confirms Customer Data Accessed in Cyberattack appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Data Breaches",
+        "Apify",
+        "cyberattack",
+        "data breach"
       ],
       "cves": [],
       "sources": [
@@ -785,11 +868,12 @@
       "id": "2026-11-13-029",
       "published": "2026-11-13",
       "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "policy",
+      "severity": "LOW",
       "summary": "Federal officials have yet to say what caused the communications disruption or whether they are investigating a possible cyberattack. The post FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’ appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Government",
+        "FAA"
       ],
       "cves": [],
       "sources": [
@@ -843,7 +927,8 @@
       "severity": "HIGH",
       "summary": "Noteworthy stories that might have slipped under the radar: Siemens details security advisory policy, OpenAI Codex backdoor risk, Microsoft warns of model weight backdoors. The post In Other News: New CISA Director Nominee, Connected Car Hacking, Baker Tilly Data Breach appeared first on SecurityWeek .",
       "tags": [
-        "breach"
+        "Artificial Intelligence",
+        "In Other News"
       ],
       "cves": [],
       "sources": [
@@ -879,7 +964,8 @@
       "severity": "MEDIUM",
       "summary": "Microsoft is trying different ways to identify the cause of the problem and get its servers back online, using “a measured approach to identify and repair affected infrastructure.” The post Microsoft Struggles to Restore Email and Other Services in a Global Outage appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Email Security",
+        "Microsoft"
       ],
       "cves": [],
       "sources": [
@@ -949,11 +1035,15 @@
       "id": "2026-11-13-038",
       "published": "2026-11-13",
       "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
-      "category": "vuln",
-      "severity": "MEDIUM",
+      "category": "apt",
+      "severity": "HIGH",
       "summary": "Enea says SilentAir hijacked mobile network nodes to intercept calls and messages, with Taiwanese subscribers the primary targets. The post SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks appeared first on SecurityWeek .",
       "tags": [
-        "vuln"
+        "Nation-State",
+        "China",
+        "China APT",
+        "malware",
+        "SilentAir"
       ],
       "cves": [],
       "sources": [
@@ -1163,11 +1253,11 @@
       "id": "2026-11-12-010",
       "published": "2026-11-12",
       "title": "Calendar Invites and Live Proxies: Inside a Google Session Hijacking Campaign",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Since mid-August 2026, a phishing operation has been stealing live Google sessions from corporate users. Every check defenders normally lean on to judge a link came back clean, and the operator designed it that way on purpose. The Threat Research team at Material Security spotted the campaign and has since taken down hundreds of attacker domains in an effort the team calls Operation CloudFire.",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -1411,7 +1501,7 @@
       "severity": "MEDIUM",
       "summary": "Microsoft is investigating a widespread outage affecting multiple Microsoft 365 services, including Outlook, Microsoft Teams, and Copilot, as users report connectivity problems worldwide. [...]",
       "tags": [
-        "general"
+        "Microsoft"
       ],
       "cves": [],
       "sources": [
@@ -1497,11 +1587,11 @@
       "id": "2026-11-12-028",
       "published": "2026-11-12",
       "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "A new campaign dubbed 'wfx-loot' has unfolded on GitHub where threat actors used 4,837 compromised accounts to probe 61,764 repositories, open pull requests, and push secrets-stealing malware. [...]",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
