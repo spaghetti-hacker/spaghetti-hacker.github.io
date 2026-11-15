@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T18:18:39Z",
+  "updated": "2026-11-15T18:25:06Z",
   "window_days": 7,
   "items": [
     {
@@ -681,7 +681,7 @@
       "summary": "In questo scenario di massima allerta, la tempistica dell' Initial Public Draft del NIST Special Publication (SP) 800-82r4 è quanto mai provvidenziale. Il documento, intitolato \"Guide to Operational Technology (OT) Security\", amplia il suo raggio d'azione a tutti i settori critici: è aperto ai commenti pubblici fino al 30 novembre 2026 L'articolo Dalla catena del freddo alle infrastrutture critiche: come il NIST…",
       "tags": [
         "ics",
-	"OT"
+        "OT"
       ],
       "cves": [],
       "sources": [
