@@ -680,7 +680,8 @@
       "severity": "HIGH",
       "summary": "In questo scenario di massima allerta, la tempistica dell' Initial Public Draft del NIST Special Publication (SP) 800-82r4 è quanto mai provvidenziale. Il documento, intitolato \"Guide to Operational Technology (OT) Security\", amplia il suo raggio d'azione a tutti i settori critici: è aperto ai commenti pubblici fino al 30 novembre 2026 L'articolo Dalla catena del freddo alle infrastrutture critiche: come il NIST…",
       "tags": [
-        "ics"
+        "ics",
+	"OT"
       ],
       "cves": [],
       "sources": [
@@ -730,11 +731,11 @@
       "id": "2026-11-13-026",
       "published": "2026-11-13",
       "title": "Frigoriferi hackerati, Italia prima in Europa per esposizione. “Il display può mentire”",
-      "category": "malware",
+      "category": "ics",
       "severity": "MEDIUM",
       "summary": "Censys conta in Italia 366 sistemi xweb di Copeland e Dixell raggiungibili dalla Rete, più che in qualunque altro Paese Ue. Per Cataldo Basile, del Politecnico di Torino, la lezione degli attacchi va oltre l'attribuzione ai Pasdaran: alcune debolezze banali, un comando legittimo che può essere dannoso e la console compromessa non è più affidabile L'articolo Frigoriferi hackerati, Italia prima in Europa per…",
       "tags": [
-        "general"
+        "ics"
       ],
       "cves": [],
       "sources": [
