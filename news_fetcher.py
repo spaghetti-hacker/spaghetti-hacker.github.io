@@ -44,6 +44,7 @@ import requests
 # Se un feed cambiasse indirizzo, basta aggiornare l'URL qui.
 FEEDS = [
     ("The Hacker News", "https://feeds.feedburner.com/TheHackersNews"),
+    ("Guerre di Rete", "https://www.guerredirete.it/feed/"),
     ("SecurityWeek", "https://feeds.feedburner.com/securityweek"),
     ("BleepingComputer", "https://www.bleepingcomputer.com/feed/"),
     ("Red Hot Cyber", "https://www.redhotcyber.com/feed/"),

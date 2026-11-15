@@ -1,7 +1,97 @@
 {
-  "updated": "2026-11-14T20:25:05Z",
+  "updated": "2026-11-15T13:43:07Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-15-001",
+      "published": "2026-11-15",
+      "title": "Italy Fines Meta €805 Million Over Facebook's Android Gallery Access Without Explicit Consent",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Meta was fined €805 million in Italy yesterday over a Facebook for Android feature that suggests photos and videos from users' phone galleries for them to post. The Garante, Italy's data protection authority, found that the feature was enabled by default and that the app accessed Italian users' photos, videos, and related metadata without their explicit consent. The company has 60 days to",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/italy-fines-meta-805-million-over.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-002",
+      "published": "2026-11-15",
+      "title": "Cursor Says Stolen Fireworks AI Key Led to Trojanized Claude Code Extension Incident",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The compromise of Anthropic's official Claude Code extension on Cursor's extension marketplace was the result of the theft of an access key that was exposed in the wake of a breach targeting Fireworks AI. \"An attacker obtained an access key we had issued to Fireworks,\" Cursor said in a Friday update. \"The key was exposed by Fireworks, and the attacker used it to copy data from a read-only",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "The Hacker News",
+          "url": "https://thehackernews.com/2026/11/stolen-fireworks-ai-key-led-to-cursor.html"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-003",
+      "published": "2026-11-15",
+      "title": "Il blocco dei voli USA rivela i rischi delle reti legacy",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Il blocco dei decolli negli Stati Uniti del 13 novembre 2026 mette in luce la fragilità delle infrastrutture critiche. Le anomalie nei sistemi di comunicazione della FAA mostrano i rischi della convivenza tra vecchie reti e nuove tecnologie, anche in assenza di evidenze di un attacco cyber L'articolo Il blocco dei voli USA rivela i rischi delle reti legacy proviene da Cyber Security 360 .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/cybersecurity-nazionale/il-blocco-dei-voli-usa-rivela-i-rischi-delle-reti-legacy/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-004",
+      "published": "2026-11-15",
+      "title": "Meta, 805 mln di sanzione privacy: il rischio dei permessi estesi",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "Il Garante sanziona Meta per 805 milioni di euro: l’app Facebook per Android poteva accedere alla galleria usando un’autorizzazione generale, senza consenso specifico per i suggerimenti. Per utenti e aziende il caso riapre il tema dei permessi troppo ampi e della protezione dei dati sullo smartphone L'articolo Meta, 805 mln di sanzione privacy: il rischio dei permessi estesi proviene da Cyber Security 360 .",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "Cybersecurity360",
+          "url": "https://www.cybersecurity360.it/legal/privacy-dati-personali/meta-805-mln-di-sanzione-privacy-il-rischio-dei-permessi-estesi/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-005",
+      "published": "2026-11-15",
+      "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The move follows President Trump’s order to replace “artificial intelligence” with “super intelligence” in executive branch communications. The post Pentagon Renames CDAO ‘Super Intelligence Office’ appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/pentagon-renames-cdao-super-intelligence-office/"
+        }
+      ]
+    },
     {
       "id": "2026-11-14-001",
       "published": "2026-11-14",
@@ -132,6 +222,24 @@
     },
     {
       "id": "2026-11-14-008",
+      "published": "2026-11-14",
+      "title": "Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The directive protects smartphones as part of a person’s private sphere and requires “free and informed consent” for such access, the authority said. The post Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook appeared first on SecurityWeek .",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/meta-fined-887-million-in-italy-over-android-gallery-photos-and-videos-on-facebook/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-009",
       "published": "2026-11-14",
       "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
       "category": "malware",
@@ -2436,58 +2544,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/brava-security-emerges-from-stealth-with-15-million-in-funding/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-07-001",
-      "published": "2026-11-07",
-      "title": "Crédit Mutuel Arkéa: l'attacco è entrato da un fornitore, stimati fino a 118 milioni di euro",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "La banca francese (oltre 5,8 milioni di soci) dice che l'attaccante è entrato nella sua rete direttamente dalla piattaforma di un fornitore, ha escluso Fortuneo e ha usato il conto della stessa banca, non quelli dei clienti, per operare con altri istituti e convertire i fondi in criptovalute. L'analista ZachXBT stima fino a 118 milioni di euro (circa 133 milioni di dollari) usciti in stablecoin USDC e USDT, e circa 30 milioni di dollari già riciclati al 3 novembre; la banca conferma solo l'ordine di grandezza e parla di incidente chiuso e sotto controllo, escludendo un errore umano. Nessuna attribuzione; ai clienti viene segnalato un aumento del rischio di phishing.",
-      "tags": [
-        "banche",
-        "Francia",
-        "fornitore esterno",
-        "crypto",
-        "ZachXBT"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-pull-off-133-million-french-bank-heist-via-service-provider/"
-        },
-        {
-          "title": "The Record",
-          "url": "https://therecord.media/french-bank-confirms-cyber-heist"
-        },
-        {
-          "title": "Cyber Security 360",
-          "url": "https://www.cybersecurity360.it/nuove-minacce/rubati-100-milioni-a-banca-francese-ma-quanto-sono-frequenti-le-rapine-cyber/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-07-002",
-      "published": "2026-11-07",
-      "title": "BBT SE (tunnel del Brennero): accesso non autorizzato ai dati, Everest rivendica 812 GB",
-      "category": "breach",
-      "severity": "MEDIUM",
-      "summary": "BBT SE, la società che progetta e costruisce il tunnel di base del Brennero tra Italia e Austria, conferma un accesso non autorizzato a dati raggiungibili da Internet: i sistemi interessati sono stati isolati, è in corso un'analisi forense con specialisti esterni e le autorità sono informate, senza impatto noto sui lavori. Il gruppo di estorsione russofono Everest ha rivendicato il furto di 812 GB (circa 460.000 file) con una pubblicazione datata 17 ottobre, ma cifre e contenuti non sono verificati e nessuna autorità ha attribuito l'attacco. Se autentici, i documenti tecnici potrebbero servire per phishing e ricognizione contro i fornitori; non ci sono prove di accessi a sistemi industriali né di sabotaggio.",
-      "tags": [
-        "Brennero",
-        "Everest",
-        "infrastrutture",
-        "Italia",
-        "Austria"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "Cyber Security 360",
-          "url": "https://www.cybersecurity360.it/nuove-minacce/attacco-al-bennero-rivendicato-da-filo-russi-ecco-tutti-i-rischi/"
         }
       ]
     }
