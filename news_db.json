@@ -734,7 +734,7 @@
       "severity": "MEDIUM",
       "summary": "Censys conta in Italia 366 sistemi xweb di Copeland e Dixell raggiungibili dalla Rete, più che in qualunque altro Paese Ue. Per Cataldo Basile, del Politecnico di Torino, la lezione degli attacchi va oltre l'attribuzione ai Pasdaran: alcune debolezze banali, un comando legittimo che può essere dannoso e la console compromessa non è più affidabile L'articolo Frigoriferi hackerati, Italia prima in Europa per…",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
