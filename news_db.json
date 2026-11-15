@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T14:25:06Z",
+  "updated": "2026-11-15T18:07:03Z",
   "window_days": 7,
   "items": [
     {
@@ -41,6 +41,24 @@
     {
       "id": "2026-11-15-003",
       "published": "2026-11-15",
+      "title": "TSMC employee data breach linked to cloud provider",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Taiwan Semiconductor Manufacturing Company (TSMC) confirmed that personal employee data has been leaked online after a threat actor put 6.9GB of information allegedly stolen from the company up for auction. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/tsmc-employee-data-breach-linked-to-cloud-provider/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-004",
+      "published": "2026-11-15",
       "title": "Il blocco dei voli USA rivela i rischi delle reti legacy",
       "category": "general",
       "severity": "MEDIUM",
@@ -57,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-15-004",
+      "id": "2026-11-15-005",
       "published": "2026-11-15",
       "title": "Meta, 805 mln di sanzione privacy: il rischio dei permessi estesi",
       "category": "policy",
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-15-005",
+      "id": "2026-11-15-006",
       "published": "2026-11-15",
       "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
       "category": "general",

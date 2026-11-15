@@ -1,9 +1,27 @@
 {
-  "updated": "2026-11-15T14:25:06Z",
+  "updated": "2026-11-15T18:07:03Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-15-001",
+      "published": "2026-11-15",
+      "title": "TSMC employee data breach linked to cloud provider",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Taiwan Semiconductor Manufacturing Company (TSMC) confirmed that personal employee data has been leaked online after a threat actor put 6.9GB of information allegedly stolen from the company up for auction. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/tsmc-employee-data-breach-linked-to-cloud-provider/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-15-002",
       "published": "2026-11-15",
       "title": "Cursor Says Stolen Fireworks AI Key Led to Trojanized Claude Code Extension Incident",
       "category": "breach",
@@ -21,7 +39,7 @@
       ]
     },
     {
-      "id": "2026-11-15-002",
+      "id": "2026-11-15-003",
       "published": "2026-11-15",
       "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
       "category": "general",
@@ -39,7 +57,7 @@
       ]
     },
     {
-      "id": "2026-11-15-003",
+      "id": "2026-11-15-004",
       "published": "2026-11-15",
       "title": "Il blocco dei voli USA rivela i rischi delle reti legacy",
       "category": "general",
@@ -57,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-15-004",
+      "id": "2026-11-15-005",
       "published": "2026-11-15",
       "title": "Meta, 805 mln di sanzione privacy: il rischio dei permessi estesi",
       "category": "policy",
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-15-005",
+      "id": "2026-11-15-006",
       "published": "2026-11-15",
       "title": "Italy Fines Meta €805 Million Over Facebook's Android Gallery Access Without Explicit Consent",
       "category": "policy",
@@ -841,24 +859,6 @@
     {
       "id": "2026-11-12-005",
       "published": "2026-11-12",
-      "title": "Apache HTTP Server patches critical HTTP/2 remote code execution flaw",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "A critical vulnerability in the HTTP/2 module of Apache HTTP Server could be exploited by an unauthenticated attacker to obtain remote code execution (RCE). [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/apache-http-server-patches-critical-http-2-remote-code-execution-flaw/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-006",
-      "published": "2026-11-12",
       "title": "Critical Red Hat Quay Flaw Lets Attackers Read and Overwrite All Private Container Images in a Registry",
       "category": "vuln",
       "severity": "HIGH",
@@ -875,7 +875,7 @@
       ]
     },
     {
-      "id": "2026-11-12-007",
+      "id": "2026-11-12-006",
       "published": "2026-11-12",
       "title": "PTC Patches Critical Windchill and FlexPLM Flaw That Could Enable Remote Code Execution",
       "category": "vuln",
@@ -895,7 +895,7 @@
       ]
     },
     {
-      "id": "2026-11-12-008",
+      "id": "2026-11-12-007",
       "published": "2026-11-12",
       "title": "Critical Pre-Auth MongoDB Flaw (CVE-2026-118383) Can Crash Lagging Servers on Failover",
       "category": "vuln",
@@ -915,7 +915,7 @@
       ]
     },
     {
-      "id": "2026-11-12-009",
+      "id": "2026-11-12-008",
       "published": "2026-11-12",
       "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
       "category": "malware",
@@ -933,7 +933,7 @@
       ]
     },
     {
-      "id": "2026-11-12-010",
+      "id": "2026-11-12-009",
       "published": "2026-11-12",
       "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
       "category": "malware",
@@ -951,7 +951,7 @@
       ]
     },
     {
-      "id": "2026-11-12-011",
+      "id": "2026-11-12-010",
       "published": "2026-11-12",
       "title": "Massive Microsoft 365 outage disrupts Outlook, Teams, Copilot worldwide",
       "category": "general",
@@ -969,7 +969,7 @@
       ]
     },
     {
-      "id": "2026-11-12-012",
+      "id": "2026-11-12-011",
       "published": "2026-11-12",
       "title": "ThreatsDay: 59 Linux Kernel Bugs, Falcon Spyware, GSocket Backdoors + 17 More Stories",
       "category": "malware",
@@ -987,7 +987,7 @@
       ]
     },
     {
-      "id": "2026-11-12-013",
+      "id": "2026-11-12-012",
       "published": "2026-11-12",
       "title": "186 Fake AI Domains Redirect Users to ClickFix Lures, Browser Malware, and Search Hijackers",
       "category": "malware",
@@ -1005,7 +1005,7 @@
       ]
     },
     {
-      "id": "2026-11-12-014",
+      "id": "2026-11-12-013",
       "published": "2026-11-12",
       "title": "Google Cloud Warns Three AMD Turin CPU Flaws Could Leak Data Across Processes in VMs",
       "category": "vuln",
@@ -1023,7 +1023,7 @@
       ]
     },
     {
-      "id": "2026-11-12-015",
+      "id": "2026-11-12-014",
       "published": "2026-11-12",
       "title": "New N-central Exploits Work Against Patched Servers, Enable Root RCE and Windows SYSTEM Access",
       "category": "vuln",
@@ -1041,7 +1041,7 @@
       ]
     },
     {
-      "id": "2026-11-12-016",
+      "id": "2026-11-12-015",
       "published": "2026-11-12",
       "title": "Calendar Invites and Live Proxies: Inside a Google Session Hijacking Campaign",
       "category": "malware",
@@ -1059,7 +1059,7 @@
       ]
     },
     {
-      "id": "2026-11-12-017",
+      "id": "2026-11-12-016",
       "published": "2026-11-12",
       "title": "Node.js Fixes 16 Flaws, Including HTTP/2 Bugs That Crash Servers and Leak Other Connections' Data",
       "category": "vuln",
@@ -1077,7 +1077,7 @@
       ]
     },
     {
-      "id": "2026-11-12-018",
+      "id": "2026-11-12-017",
       "published": "2026-11-12",
       "title": "Attacker Used 4,837 Hijacked GitHub Accounts to Run a CI Secret Stealer in 1,806+ Repositories",
       "category": "malware",
