@@ -1,0 +1,2630 @@
+{
+  "updated": "2026-11-15T14:25:23Z",
+  "keep_days": 180,
+  "items": [
+    {
+      "id": "fb7c37b377",
+      "published": "2026-11-15",
+      "title": "i just reverse engineered the htc desire hd processing and made it into a modern camera (still beta) hcam",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "i just reverse engineered the htc desire hd processing and made it into a modern camera (still beta) hcam",
+      "tags": [
+        "reverse engineered"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/arash-samadi/hcam"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwvb8y/i_just_reverse_engineered_the_htc_desire_hd"
+        }
+      ]
+    },
+    {
+      "id": "6e9819037d",
+      "published": "2026-11-15",
+      "title": "Fireface UCX on Linux: reverse engineered and built with Claude Code",
+      "topic": "reverse",
+      "source": "johanyngman.com",
+      "summary": "Fireface UCX on Linux: reverse engineered and built with Claude Code",
+      "tags": [
+        "reverse engineered"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "johanyngman.com",
+          "url": "https://johanyngman.com/fireface-ucx-on-linux-reverse-engineered-and-built-with-claude-code.html"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwtte0/fireface_ucx_on_linux_reverse_engineered_and"
+        }
+      ]
+    },
+    {
+      "id": "f2c1382911",
+      "published": "2026-11-15",
+      "title": "GitHub - sonfan76/PossiblyDisassembleSonDeltaOrigins40Mb: Feasability study on returning the Assembly code that was stuck together to make Sonic Delta Origins 40Mb, to the community (it was made using the public son 1 2 , 3&k disassemblies, but",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "GitHub - sonfan76/PossiblyDisassembleSonDeltaOrigins40Mb: Feasability study on returning the Assembly code that was stuck together to make Sonic Delta Origins 40Mb, to the community (it was made using the public son 1 2 , 3&k disassemblies, but",
+      "tags": [
+        "disassemblies"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/sonfan76/PossiblyDisassembleSonDeltaOrigins40Mb"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwonrn/github"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwonms/github"
+        }
+      ]
+    },
+    {
+      "id": "2ed20d3f96",
+      "published": "2026-11-15",
+      "title": "Reverse engineering a vintage diode-transistor logic chip",
+      "topic": "reverse",
+      "source": "righto.com",
+      "summary": "Reverse engineering a vintage diode-transistor logic chip",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "righto.com",
+          "url": "https://www.righto.com/2026/11/signetics-st680a-dtl-nand.html?m=1"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwh9xz/reverse_engineering_a_vintage_diodetransistor"
+        }
+      ]
+    },
+    {
+      "id": "a23817f0e4",
+      "published": "2026-11-14",
+      "title": "[Open Source] RESX: Windows binary analysis with API deobfuscation, argument recovery and kernel IOCTL reconstruction",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "[Open Source] RESX: Windows binary analysis with API deobfuscation, argument recovery and kernel IOCTL reconstruction",
+      "tags": [
+        "binary analysis",
+        "deobfuscation",
+        "kernel"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/Ryftenius/RESX"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xw9vi1/open_source_resx_windows_binary_analysis_with_api"
+        }
+      ]
+    },
+    {
+      "id": "42fb6aec89",
+      "published": "2026-11-14",
+      "title": "Verifying a matching decompilation of Scarface: The World Is Yours (2006, MSVC 7.1): byte comparison with relocation targets checked.",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Verifying a matching decompilation of Scarface: The World Is Yours (2006, MSVC 7.1): byte comparison with relocation targets checked.",
+      "tags": [
+        "decompilation"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/scarface-decomp/scarface_decomp/blob/main/docs/METHODOLOGY.md"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xvu0w1/verifying_a_matching_decompilation_of_scarface"
+        }
+      ]
+    },
+    {
+      "id": "88683b5ff9",
+      "published": "2026-11-14",
+      "title": "How I received a job offer, and they hid a way to launch malicious code through Git inside the ZIP",
+      "topic": "malware",
+      "source": "igumnoff.com",
+      "summary": "How I received a job offer, and they hid a way to launch malicious code through Git inside the ZIP",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "igumnoff.com",
+          "url": "https://igumnoff.com/2026/11/14/zip-trap-git-status.html"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xw0l9z/how_i_received_a_job_offer_and_they_hid_a_way_to"
+        }
+      ]
+    },
+    {
+      "id": "40994b849e",
+      "published": "2026-11-14",
+      "title": "A repo of self-contained jailbreak playbooks, for Software programs and games",
+      "topic": "exploit",
+      "source": "github.com",
+      "summary": "A repo of self-contained jailbreak playbooks, for Software programs and games",
+      "tags": [
+        "jailbreak"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/AhmedBoin/jailbreak"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xvzokc/a_repo_of_selfcontained_jailbreak_playbooks_for"
+        }
+      ]
+    },
+    {
+      "id": "871a328ee4",
+      "published": "2026-11-13",
+      "title": "Don't bother patching: multiple remote code execution vulnerabilities in Danfoss AK-SM800A",
+      "topic": "vuln",
+      "source": "midnightblue.nl",
+      "summary": "Comments",
+      "tags": [
+        "remote code execution",
+        "vulnerabilities"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "midnightblue.nl",
+          "url": "https://www.midnightblue.nl/blog/multiple-rce-danfoss-aksm800a"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/rpd05t/don_t_bother_patching_multiple_remote"
+        }
+      ]
+    },
+    {
+      "id": "5b3e85fd43",
+      "published": "2026-11-13",
+      "title": "How I Ended Up Turning a 22-Year-Old PostgreSQL Type-Confusion Primitive into RCE (CVE-2026-6460)",
+      "topic": "vuln",
+      "source": "mehmetince.net",
+      "summary": "Comments",
+      "tags": [
+        "rce",
+        "cve 2026 6460",
+        "primitive"
+      ],
+      "cves": [
+        "CVE-2026-6460"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "mehmetince.net",
+          "url": "https://mehmetince.net/part-3-6-how-i-ended-up-turning-a-22-year-old-postgresql-type-confusion-primitive-into-rce-cve-2026-6460"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/nlpvck/how_i_ended_up_turning_22_year_old"
+        }
+      ]
+    },
+    {
+      "id": "1838248a60",
+      "published": "2026-11-13",
+      "title": "Policy and Disclosure: 2026 Edition",
+      "topic": "vuln",
+      "source": "Project Zero",
+      "summary": "Since 2021, Project Zero has followed a “90 + 30” vulnerability disclosure policy, allowing vendors up to 90 days to remediate a vulnerability plus an extra 30 days “soak time” for patch rollout. Our goal was to encourage faster patching and give vendors time to deliver patches to users.",
+      "tags": [
+        "vulnerability",
+        "vulnerabilities",
+        "exploitation",
+        "exploit",
+        "reverse engineer"
+      ],
+      "cves": [],
+      "read_min": 5,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Project Zero",
+          "url": "https://projectzero.google/2026/11/disclosure-policy.html"
+        }
+      ]
+    },
+    {
+      "id": "2393daa682",
+      "published": "2026-11-13",
+      "title": "Estoy buscando colaborar con desarrolladores que tengan problemas técnicos concretos y necesiten una mano.Tengo experiencia trabajando con Linux, Python, C/C++, ingeniería inversa, análisis de binarios, debugging, automatización y validación técnica.Me interesa ayudar a resolver problemas reales",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Estoy buscando colaborar con desarrolladores que tengan problemas técnicos concretos y necesiten una mano.Tengo experiencia trabajando con Linux, Python, C/C++, ingeniería inversa, análisis de binarios, debugging, automatización y validación técnica.Me interesa ayudar a resolver problemas reales",
+      "tags": [
+        "debugging"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/LexLuthorPrimero/rxre-engine.git"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xvhxc5/estoy_buscando_colaborar_con_desarrolladores_que"
+        }
+      ]
+    },
+    {
+      "id": "30fbb4d434",
+      "published": "2026-11-13",
+      "title": "Rebuilt Super Mario Forever 2012 from GM8.1 bytecode to run natively on the web (WebGL + TypeScript)",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Rebuilt Super Mario Forever 2012 from GM8.1 bytecode to run natively on the web (WebGL + TypeScript)",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/ChinmayaGit/Mario-Forever-2012-Rebuild"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xv9ht5/rebuilt_super_mario_forever_2012_from_gm81"
+        }
+      ]
+    },
+    {
+      "id": "c525091e27",
+      "published": "2026-11-13",
+      "title": "Updated dnspy",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Updated dnspy",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/marinusmaurice/dnSpy"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xv8kjf/updated_dnspy"
+        }
+      ]
+    },
+    {
+      "id": "efc9c2e10c",
+      "published": "2026-11-13",
+      "title": "In 2013, I reverse-engineered Operation7 and rewrote it. I’ve only released the launcher and its internal system so far; I’ll upload the private server later on. (19 years... maybe it’s time to rest?)",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "In 2013, I reverse-engineered Operation7 and rewrote it. I’ve only released the launcher and its internal system so far; I’ll upload the private server later on. (19 years... maybe it’s time to rest?)",
+      "tags": [
+        "reverse engineered"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/VassaMadness/Operation7Launcher"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xv7u4s/in_2013_i_reverseengineered_operation7_and"
+        }
+      ]
+    },
+    {
+      "id": "bfc7565551",
+      "published": "2026-11-13",
+      "title": "Following up on My earlier release of the Realtek RTD2841 (RTK284x) QEMU board model",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Following up on My earlier release of the Realtek RTD2841 (RTK284x) QEMU board model",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/rubenthampy890-del/qemu-rtd2841"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xv5n75/following_up_on_my_earlier_release_of_the_realtek"
+        }
+      ]
+    },
+    {
+      "id": "d8c105f432",
+      "published": "2026-11-13",
+      "title": "U2cRumble – GPL-3.0 .NET tool that gives the 8BitDo Ultimate 2C Wireless Bluetooth rumble and native XInput",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "U2cRumble – GPL-3.0 .NET tool that gives the 8BitDo Ultimate 2C Wireless Bluetooth rumble and native XInput",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/JehuAlv/8bitdo-ultimate-2c-wireless-rumble"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xv3254/u2crumble_gpl30_net_tool_that_gives_the_8bitdo"
+        }
+      ]
+    },
+    {
+      "id": "2d91e42588",
+      "published": "2026-11-13",
+      "title": "One Piece Bounty Rush reverse engineering attempt results might be useful to anyone in the future.",
+      "topic": "reverse",
+      "source": "gitlab.com",
+      "summary": "One Piece Bounty Rush reverse engineering attempt results might be useful to anyone in the future.",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "gitlab.com",
+          "url": "https://gitlab.com/dbdb0439/one-peice-bounty-rush-private-server-attempt"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xuu3u4/one_piece_bounty_rush_reverse_engineering_attempt"
+        }
+      ]
+    },
+    {
+      "id": "f0ecb1e093",
+      "published": "2026-11-13",
+      "title": "ARTEX and beyond: AI-enabled penetration testing platforms",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "AI-enabled penetration testing and red team frameworks can automate and chain reconnaissance, vulnerability testing, and follow-on actions, lowering the skill threshold for attackers and accelerating intrusions when the tools are misused. Cisco Talos is tracking the growing in-the-wild usage of AI-enabled penetration testing frameworks.",
+      "tags": [
+        "vulnerability",
+        "ransomware",
+        "command and control",
+        "c2",
+        "exploitation"
+      ],
+      "cves": [],
+      "read_min": 11,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/artex-and-beyond"
+        }
+      ]
+    },
+    {
+      "id": "19ad942142",
+      "published": "2026-11-13",
+      "title": "Inside the loop: Five AI attack frameworks that never ask permission",
+      "topic": "malware",
+      "source": "Elastic Labs",
+      "summary": "Five agentic offensive frameworks act in bursts of two to 25 seconds, and none enforces authorization in code. What ARTEX, CyberStrikeAI, Cairn, PentAGI, and HexStrike leave in your telemetry, and the ES|QL hunt that catches them.",
+      "tags": [
+        "c2",
+        "implant"
+      ],
+      "cves": [],
+      "read_min": 14,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/threat-command/agentic-offensive-frameworks-detection-artex"
+        }
+      ]
+    },
+    {
+      "id": "3fc47aadd6",
+      "published": "2026-11-13",
+      "title": "Ransomware at the hypervisor layer: how attackers use ESXi and vCenter features for malicious purposes",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "Kaspersky experts analyze a recent ransomware incident and discuss why the hypervisor layer remains difficult to monitor, what common access paths adversaries use to reach it, and how to protect your ESXi systems. Our Global Emergency Response Team (GERT) recently investigated an engagement in which an adversary destroyed an organization’s virtualization estate over a 10-day period.",
+      "tags": [
+        "ransomware",
+        "hypervisor",
+        "vulnerabilities",
+        "exploited",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2021-21972",
+        "CVE-2021-21974",
+        "CVE-2021-21985",
+        "CVE-2021-22005",
+        "CVE-2023-34048",
+        "CVE-2024-37085",
+        "CVE-2024-38812",
+        "CVE-2024-40711"
+      ],
+      "read_min": 28,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/esxi-ransomware/121959"
+        }
+      ]
+    },
+    {
+      "id": "14a056be9c",
+      "published": "2026-11-12",
+      "title": "Reverse Engineering My Coway Air Purifier to Ditch the Cloud",
+      "topic": "reverse",
+      "source": "scottjg.com",
+      "summary": "Reverse Engineering My Coway Air Purifier to Ditch the Cloud",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "scottjg.com",
+          "url": "https://scottjg.com/posts/2026-11-11-reverse-engineering-my-coway-air-purifier-to-ditch-the-cloud"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xup710/reverse_engineering_my_coway_air_purifier_to"
+        }
+      ]
+    },
+    {
+      "id": "2eb4301c74",
+      "published": "2026-11-12",
+      "title": "Ultimate Ears Wonderboom Gen1 Reverse Engineering",
+      "topic": "reverse",
+      "source": "jrpinnovations.net",
+      "summary": "Ultimate Ears Wonderboom Gen1 Reverse Engineering",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "jrpinnovations.net",
+          "url": "https://jrpinnovations.net/2026/11/part-1-ultimate-ears-wonderboom-gen1-reverse-engineering"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xuo3wb/ultimate_ears_wonderboom_gen1_reverse_engineering"
+        }
+      ]
+    },
+    {
+      "id": "420e89ccf2",
+      "published": "2026-11-12",
+      "title": "Reverse engineering and emulating the Sony a6400 (BIONZ X) ARMv7 firmware. Discord: https://discord.gg/KjVeA9wqh",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Reverse engineering and emulating the Sony a6400 (BIONZ X) ARMv7 firmware. Discord: https://discord.gg/KjVeA9wqh",
+      "tags": [
+        "reverse engineering",
+        "emulating",
+        "firmware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/ivica00/sony-a6400-research"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xuk0jr/reverse_engineering_and_emulating_the_sony_a6400"
+        }
+      ]
+    },
+    {
+      "id": "24f4f4f8f1",
+      "published": "2026-11-12",
+      "title": "Hijacking Samsung TV Smart Hub Ads",
+      "topic": "reverse",
+      "source": "dvratil.cz",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "dvratil.cz",
+          "url": "https://dvratil.cz/2026/11/hijacking-samsung-tv-smart-hub-ads"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/2drgwh/hijacking_samsung_tv_smart_hub_ads"
+        }
+      ]
+    },
+    {
+      "id": "2cf3847555",
+      "published": "2026-11-12",
+      "title": "EDB 1.6.0 released",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "EDB 1.6.0 released",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/eteran/edb-debugger/releases/tag/1.6.0"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xtyugc/edb_160_released"
+        }
+      ]
+    },
+    {
+      "id": "a03140a674",
+      "published": "2026-11-12",
+      "title": "Never be afraid to ask questions",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Amy reflects on a formative college anthropology course that taught her the power of asking questions to bridge cultural gaps. Welcome to this week's edition of the Threat Source newsletter. Back in college, I took an anthropology course called “Peoples and Cultures of Southeast Asia.” While the title sounded like your everyday anthro course, this one was a little different.",
+      "tags": [
+        "vulnerabilities",
+        "vulnerability",
+        "exploited",
+        "c2",
+        "cve 2026 124194"
+      ],
+      "cves": [
+        "CVE-2026-124194",
+        "CVE-2026-125350"
+      ],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/never-be-afraid-to-ask-questions"
+        }
+      ]
+    },
+    {
+      "id": "3c52b13d64",
+      "published": "2026-11-12",
+      "title": "0% GPU utilization: How SANSAR hides Linux cryptomining",
+      "topic": "kernel",
+      "source": "Elastic Labs",
+      "summary": "Elastic Security Labs analyzes SANSAR, a Linux cryptomining orchestrator that manages miners over Tor, alongside a kernel rootkit, GPU monitoring hooks and a backdoor that retrieves its C2 address from Ethereum. Elastic Security Labs is tracking REF3364, a Linux cryptomining intrusion that combines custom malware with publicly available miners.",
+      "tags": [
+        "c2",
+        "backdoor",
+        "kernel",
+        "rootkit",
+        "anti debugging"
+      ],
+      "cves": [],
+      "read_min": 14,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/threat-command/sansar-linux-cryptomining-malware"
+        }
+      ]
+    },
+    {
+      "id": "17df0ad0b0",
+      "published": "2026-11-12",
+      "title": "PHP2Shell Exploitation on Check Point Gateway",
+      "topic": "exploit",
+      "source": "Check Point",
+      "summary": "Key findings Introduction We have now confirmed that, in late October 2026, approximately one week after a security fix became available, activity originating from 130.94.19[.]204 targeted Israeli organizations through vulnerable Mobile Access portals on Check Point Security Gateways.",
+      "tags": [
+        "exploitation",
+        "cve 2026 109618"
+      ],
+      "cves": [
+        "CVE-2026-109618"
+      ],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Check Point",
+          "url": "https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway"
+        }
+      ]
+    },
+    {
+      "id": "846f1981da",
+      "published": "2026-11-11",
+      "title": "Microsoft Patch Tuesday for November 2026 — Snort rules and prominent vulnerabilities",
+      "topic": "vuln",
+      "source": "Talos",
+      "summary": "Microsoft has released its monthly security update for November 2026, which includes 1328 vulnerabilities affecting a range of products, including 60 that Microsoft marked as \"critical.\" Out of 60 \"critical\" vulnerabilities, 45 are remote code execution (RCE) vulnerabilities.",
+      "tags": [
+        "vulnerability",
+        "cvss",
+        "remote code execution",
+        "use after free",
+        "buffer overflow"
+      ],
+      "cves": [
+        "CVE-2026-105501",
+        "CVE-2026-105524",
+        "CVE-2026-109459",
+        "CVE-2026-109469",
+        "CVE-2026-109473",
+        "CVE-2026-110043",
+        "CVE-2026-110047",
+        "CVE-2026-110067"
+      ],
+      "read_min": 10,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/microsoft-patch-tuesday-for-november-2026"
+        }
+      ]
+    },
+    {
+      "id": "f563ffae24",
+      "published": "2026-11-11",
+      "title": "Introducing ProtoSpector: A Burp Suite Extension for Analyzing, Tampering With, and Testing Protobuf and gRPC Traffic",
+      "topic": "reverse",
+      "source": "Doyensec",
+      "summary": "Testing protocol buffers over HTTP can be a notoriously tedious process. Today, we’re excited to announce ProtoSpector , a Burp Suite extension designed to seamlessly decode and encode Protocol Buffer messages on the fly. By eliminating the need to constantly switch to external tools or instrumented browser applications, ProtoSpector dramatically accelerates your testing workflow.",
+      "tags": [
+        "decode",
+        "decoding",
+        "reverse engineer",
+        "decodes",
+        "decoded"
+      ],
+      "cves": [],
+      "read_min": 2,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Doyensec",
+          "url": "https://blog.doyensec.com/2026/11/12/protospector.html"
+        }
+      ]
+    },
+    {
+      "id": "98d8dc6edc",
+      "published": "2026-11-11",
+      "title": "The XG Files: Falcon C2 Flying Under The (Browser) Radar",
+      "topic": "malware",
+      "source": "Unit 42",
+      "summary": "We uncover Falcon C2, a browser-based threat framework targeting governments via malicious scripts, extensions, and the Antino implant.",
+      "tags": [
+        "c2",
+        "implant"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Unit 42",
+          "url": "https://unit42.paloaltonetworks.com/falcon-c2-browser-compromise"
+        }
+      ]
+    },
+    {
+      "id": "d3c47f2647",
+      "published": "2026-11-11",
+      "title": "Citrus Ransomware: VLESS for traffic, Sn00py for encryption, and LLMs lending a hand",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "We break down the Citrus Ransomware group's attacks: the attackers' TTPs and tooling, including VLESS traffic tunneling and LLM use, plus their links to Toy Ghouls. In recent years, cyberthreats have increasingly taken a hybrid approach, combining time-tested techniques for advancing through infrastructure, modern methods of evading network filters, and automation powered by large language models.",
+      "tags": [
+        "ransomware",
+        "exploit",
+        "trojan",
+        "persistence",
+        "vulnerabilities"
+      ],
+      "cves": [
+        "CVE-2020-1337",
+        "CVE-2026-54121"
+      ],
+      "read_min": 12,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/citrus-ransomware/121879"
+        }
+      ]
+    },
+    {
+      "id": "e9bf5d4c41",
+      "published": "2026-11-11",
+      "title": "Malicious ScreenConnect deployments observed",
+      "topic": "malware",
+      "source": "Sophos X-Ops",
+      "summary": "Categories: Threat Research Tags: advisory, connectwise, ScreenConnect",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/malicious-screenconnect-deployments-observed"
+        }
+      ]
+    },
+    {
+      "id": "78154593ca",
+      "published": "2026-11-10",
+      "title": "The November 2026 Security Update Review",
+      "topic": "vuln",
+      "source": "ZDI",
+      "summary": "The penultimate month of 2026 bring with it the usual storm of patches from Microsoft and Adobe. I’ve been prototyping some new ways to display this data, but as always, I’m open to suggestions.",
+      "tags": [
+        "cvss",
+        "vulnerability",
+        "remote code execution",
+        "exploited",
+        "exploits"
+      ],
+      "cves": [
+        "CVE-2026-100204",
+        "CVE-2026-100223",
+        "CVE-2026-102200",
+        "CVE-2026-102219",
+        "CVE-2026-102224",
+        "CVE-2026-102230",
+        "CVE-2026-102236",
+        "CVE-2026-102868"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "ZDI",
+          "url": "https://www.thezdi.com/blog/2026/11/10/the-november-2026-security-update-review"
+        }
+      ]
+    },
+    {
+      "id": "e2007bcbe2",
+      "published": "2026-11-10",
+      "title": "N-able issues advisory on critical vulnerabilities",
+      "topic": "vuln",
+      "source": "Sophos X-Ops",
+      "summary": "Categories: Threat Research Tags: advisory, N-able",
+      "tags": [
+        "vulnerabilities"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/n-able-issues-advisory-on-critical-vulnerabilities"
+        }
+      ]
+    },
+    {
+      "id": "a98ef7eb68",
+      "published": "2026-11-10",
+      "title": "Beyond the compiler: Making IBM i run modified native code - Program Validation Value",
+      "topic": "reverse",
+      "source": "silentsignal.eu",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "silentsignal.eu",
+          "url": "https://blog.silentsignal.eu/2026/11/10/Beyond-the-compiler-Making-IBM-i-run-modified-native-code-PVV"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/kymztn/beyond_compiler_making_ibm_i_run_modified"
+        }
+      ]
+    },
+    {
+      "id": "10ef27de46",
+      "published": "2026-11-10",
+      "title": "IT threat evolution in Q3 2026. Non-mobile statistics",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "Key trends and statistics on malware targeting Windows and macOS computers and Internet of Things (IoT) devices in Q3 2026. IT threat evolution in Q3 2026. Non-mobile statistics IT threat evolution in Q3 2026. Mobile statistics The statistics in this report are based on detection verdicts returned by Kaspersky products unless otherwise stated.",
+      "tags": [
+        "ransomware",
+        "trojan",
+        "backdoor",
+        "vulnerabilities",
+        "remote code execution"
+      ],
+      "cves": [
+        "CVE-2025-14733",
+        "CVE-2025-60710",
+        "CVE-2026-0257",
+        "CVE-2026-15409",
+        "CVE-2026-15410",
+        "CVE-2026-45659",
+        "CVE-2026-59310",
+        "CVE-2026-63077"
+      ],
+      "read_min": 11,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/malware-report-q3-2026-pc-iot-statistics/121843"
+        }
+      ]
+    },
+    {
+      "id": "5650f02ac5",
+      "published": "2026-11-10",
+      "title": "IT threat evolution in Q3 2026. Mobile statistics",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "Q3 2026 mobile threat statistics for Android malware, adware, and unwanted software, plus the most notable malware found during the quarter. IT threat evolution in Q3 2026. Non-mobile statistics IT threat evolution in Q3 2026.",
+      "tags": [
+        "trojan",
+        "malware",
+        "dropper",
+        "android",
+        "backdoor"
+      ],
+      "cves": [],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/malware-report-q3-2026-mobile-statistics/121844"
+        }
+      ]
+    },
+    {
+      "id": "30fcd499b2",
+      "published": "2026-11-09",
+      "title": "Reverse engineering a vintage diode-transistor logic chip",
+      "topic": "reverse",
+      "source": "righto.com",
+      "summary": "Comments",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "righto.com",
+          "url": "https://www.righto.com/2026/11/signetics-st680a-dtl-nand.html"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/jqvofw/reverse_engineering_vintage_diode"
+        }
+      ]
+    },
+    {
+      "id": "b1fb5a7055",
+      "published": "2026-11-09",
+      "title": "unlocking any car from X brand in most of the world",
+      "topic": "reverse",
+      "source": "shubs.io",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "shubs.io",
+          "url": "https://shubs.io/unlocking-any-car-from-x-brand-in-most-of-the-world"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/kbrpx3/unlocking_any_car_from_x_brand_most_world"
+        }
+      ]
+    },
+    {
+      "id": "0276abc6bb",
+      "published": "2026-11-08",
+      "title": "Hacking the T-Mobile Sidekick, 20 Years Too Late",
+      "topic": "reverse",
+      "source": "x86.cx",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "x86.cx",
+          "url": "https://x86.cx/blog/redanger"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/f1nsnm/hacking_t_mobile_sidekick_20_years_too"
+        }
+      ]
+    },
+    {
+      "id": "7ca1551c5e",
+      "published": "2026-11-07",
+      "title": "Alpine Linux : openssh-server password authentication bypass",
+      "topic": "vuln",
+      "source": "alpinelinux.org",
+      "summary": "Comments",
+      "tags": [
+        "authentication bypass"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "alpinelinux.org",
+          "url": "https://www.alpinelinux.org/posts/2026-11-05-openssh-password-authentication-bypass"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/7dbarm/alpine_linux_openssh_server_password"
+        }
+      ]
+    },
+    {
+      "id": "dc6c68a7e2",
+      "published": "2026-11-06",
+      "title": "After Binance, check what your signing systems can approve",
+      "topic": "malware",
+      "source": "Trail of Bits",
+      "summary": "Binance’s October 2026 security incident raises an operational question for every organization holding user funds: Can your security controls recognize when a valid signature grants an attacker wallet authority? If an organization only monitors transfers and ownership changes, it may miss the shift in wallet authority until assets move.",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Trail of Bits",
+          "url": "https://blog.trailofbits.com/2026/11/06/after-binance-check-what-your-signing-systems-can-approve"
+        }
+      ]
+    },
+    {
+      "id": "257d61dc9b",
+      "published": "2026-11-06",
+      "title": "Virtualization security: attack layers and misconfiguration impact",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "A detailed breakdown of misconfigurations in virtual environment cybersecurity as shown by examples of ransomware cases on ESXi and Proxmox environments. Introduction Incidents in virtual environments can begin with a software vulnerability, human error, a configuration weakness, or several of these factors at once. The investigation is rarely limited to the workload.",
+      "tags": [
+        "ransomware",
+        "threat actor",
+        "malware",
+        "hypervisor",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2024-21626",
+        "CVE-2025-22224",
+        "CVE-2026-31431",
+        "CVE-2026-41567",
+        "CVE-2026-41568",
+        "CVE-2026-42306"
+      ],
+      "read_min": 14,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/virtualization-security-esxi-and-proxmox-ransomware-cases/121819"
+        }
+      ]
+    },
+    {
+      "id": "2e711d3789",
+      "published": "2026-11-05",
+      "title": "Barracuda Networks is your new best friend (Barracuda Email Security Gateway Pre-Auth Remote Root RCE CVE-2026-116606 / CVE-2026-111560)",
+      "topic": "vuln",
+      "source": "watchTowr",
+      "summary": "Yes, that's right! Today we're at the aquarium. Welcome back to yet another watchTowr Labs blog post. You can begin preparing your comments now. What Is A Barracuda, And Why? Must We? Barracuda’s Email Security Gateway solution (ESG) is no stranger to love , for Yes, that's right! Today we're at the aquarium. Welcome back to yet another watchTowr Labs blog post. You can begin preparing your comments now.",
+      "tags": [
+        "cve 2026 116606",
+        "cve 2026 111560",
+        "cvss",
+        "vulnerability",
+        "rce"
+      ],
+      "cves": [
+        "CVE-2023-2868",
+        "CVE-2026-111560",
+        "CVE-2026-116606"
+      ],
+      "read_min": 12,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "watchTowr",
+          "url": "https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560"
+        }
+      ]
+    },
+    {
+      "id": "7cc7abc127",
+      "published": "2026-11-05",
+      "title": "Bring a tent, I've got the coffee: Lessons from it-sa",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Thorsten may have had to camp out in Nuremberg to attend it-sa, but the real story is the initiative to add a formal IT Security apprenticeship program in Germany for the thousands of young hackers ready to join our side. Welcome to this week's edition of the Threat Source newsletter.",
+      "tags": [
+        "malware",
+        "botnet",
+        "c2",
+        "android",
+        "backdoor"
+      ],
+      "cves": [],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/bring-a-tent-ive-got-the-coffee-lessons-from-it-sa"
+        }
+      ]
+    },
+    {
+      "id": "1e9f8c6cb4",
+      "published": "2026-11-05",
+      "title": "ChatGPT Lockdown Mode Bypass: Phishing, Malware Delivery, and Silent Data Exfiltration",
+      "topic": "malware",
+      "source": "Check Point",
+      "summary": "Research by: Alexey Bukhteyev Key Takeaways Introduction Earlier this year, Check Point Research disclosed a security flaw in ChatGPT’s code-execution runtime that allowed sensitive conversation data to be silently exfiltrated to an attacker-controlled server through DNS tunneling, a hidden outbound channel that bypassed the runtime’s network isolation. A fix for this issue was promptly deployed. […]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "read_min": 7,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Check Point",
+          "url": "https://research.checkpoint.com/2026/chatgpt-lockdown-mode-bypass-phishing-malware-delivery-and-silent-data-exfiltration"
+        }
+      ]
+    },
+    {
+      "id": "1d16bad832",
+      "published": "2026-11-05",
+      "title": "The SOC Files 5: Ghost in the pipeline, or a fileless SharePoint breach by Storm-2603",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "Kaspersky researchers analyze a complex fileless cyberattack by Storm-2603 involving ToolShell exploitation and subsequent runtime subversion, and discuss how to detect such intrusions. Executive summary In 2025, several threat actors exploited CVE-2025-53770 and CVE-2025-53771 (ToolShell vulnerabilities) in on-premises Microsoft SharePoint to achieve remote code execution through crafted HTTP requests.",
+      "tags": [
+        "exploitation",
+        "vulnerability",
+        "implant",
+        "vulnerabilities",
+        "ransomware"
+      ],
+      "cves": [
+        "CVE-2025-53770",
+        "CVE-2025-53771",
+        "CVE-2025-6264"
+      ],
+      "read_min": 17,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/storm-2603-fileless-toolshell-attack/121467"
+        }
+      ]
+    },
+    {
+      "id": "3a3aab10d6",
+      "published": "2026-11-04",
+      "title": "Modernising threat hunting: Using Semantic Search to Find Risky AI Agent Behavior",
+      "topic": "malware",
+      "source": "Elastic Labs",
+      "summary": "I tested vector search on 7,454 turns of my own agent sessions. One in seven sessions needed review, the agent’s reasoning carried more signal than the prompt, and the stored vectors answer questions nobody thought to ask at ingest. We use query rules find behavior we can define. This is behavior you can only find through describing. How can we find behaviors we can only describe?",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "read_min": 29,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/blog/ai-agent-session-monitoring-embedding-models"
+        }
+      ]
+    },
+    {
+      "id": "fe2f58fadf",
+      "published": "2026-11-04",
+      "title": "When trust becomes the payload: Inside the threats, etc quarterly report",
+      "topic": "malware",
+      "source": "Elastic Labs",
+      "summary": "The newest threats, etc report details how adversaries are weaponizing trust across the entire enterprise stack, abusing everything from AI assistants and npm supply chains to identity flows and legitimate management tools. In the cybersecurity community, we build our defenses on a foundation of trust. We trust an AI coding assistant because it’s on our approved software list or can accomplish a task when prompted.",
+      "tags": [
+        "malware",
+        "threat actor",
+        "exploiting"
+      ],
+      "cves": [],
+      "read_min": 4,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/reports/threats-etc-report-november-2026-trouble-with-trust"
+        }
+      ]
+    },
+    {
+      "id": "f5c9901aec",
+      "published": "2026-11-03",
+      "title": "The cryptography behind electronic voting (and why paper ballots are still essential)",
+      "topic": "vuln",
+      "source": "Trail of Bits",
+      "summary": "As millions of Americans vote in today’s U.S. midterms, most will use paper ballots, which are protected by strict chain-of-custody protocols and, in some cases, statistical audits. You may wonder why we still use paper for our elections and voting systems when tasks like banking, tax filing, and document signing have moved away from paper-based legacy systems and become fully electronic. The short answer: security.",
+      "tags": [
+        "vulnerability",
+        "0 day",
+        "vulnerabilities"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Trail of Bits",
+          "url": "https://blog.trailofbits.com/2026/11/03/the-cryptography-behind-electronic-voting-and-why-paper-ballots-are-still-essential"
+        }
+      ]
+    },
+    {
+      "id": "732215e46e",
+      "published": "2026-11-03",
+      "title": "Pre-Auth RCE in Zyxel GS1900 Exploited in the Wild as a Zero-Day",
+      "topic": "vuln",
+      "source": "Binarly",
+      "summary": "GreyNoise and CISA KEV linked this Zyxel GS1900 exploit to CVE-2026-7273, but it hits a zero-day. We cover the actor, JITTERLY, SIXZUT, and the exploit.",
+      "tags": [
+        "zero day",
+        "rce",
+        "exploited",
+        "exploit",
+        "cve 2026 7273"
+      ],
+      "cves": [
+        "CVE-2026-7273"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Binarly",
+          "url": "https://www.binarly.io/blog/zyxel-gs1900-rce-cve-2026-107441"
+        }
+      ]
+    },
+    {
+      "id": "75d9433706",
+      "published": "2026-11-03",
+      "title": "MLEP in KICS for Networks 5.0: how machine learning helps track network behavior of OT devices",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "We explain how Kaspersky Industrial CyberSecurity for Networks uses Machine Learning Event Processor (MLEP) technology to help take inventory of assets and detect anomalies in industrial networks. In an industrial network, malicious activity can be hard to tell apart from normal data exchange between devices.",
+      "tags": [
+        "firmware"
+      ],
+      "cves": [],
+      "read_min": 12,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/tr/machine-learning-event-processor-in-kics-for-networks/121794"
+        }
+      ]
+    },
+    {
+      "id": "b2262f0cdc",
+      "published": "2026-11-03",
+      "title": "Free the Model, Sell the Gateway: Prompt Adware hidden in Jailbreak Bundles",
+      "topic": "exploit",
+      "source": "Check Point",
+      "summary": "Key Points Free the Model, Sell the Gateway: Prompt Adware hidden in Jailbreak Bundles Check Point Research found a misconfigured webserver of a threat actor operating the Cobalt Strike framework. Besides an open Cobalt Strike server, whose logs showed the actor compromising various private computers of Chinese speaking individuals, other tools from the toolkit of […]",
+      "tags": [
+        "jailbreak",
+        "threat actor"
+      ],
+      "cves": [],
+      "read_min": 8,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Check Point",
+          "url": "https://research.checkpoint.com/2026/free-the-model-sell-the-gateway-prompt-adware-hidden-in-jailbreak-bundles"
+        }
+      ]
+    },
+    {
+      "id": "c1e9a888a7",
+      "published": "2026-11-02",
+      "title": "Backporting security fixes at scale with Codex",
+      "topic": "vuln",
+      "source": "Trail of Bits",
+      "summary": "Stable Linux releases lack existing security fixes because backporting them is time-consuming and often thankless work. We’re using Codex to reduce the backporting process time from days to hours per fix, empowering human patch reviewers to rapidly submit fixes for critical software like Ubuntu Long Term Support, Fedora, and the Linux kernel.",
+      "tags": [
+        "kernel",
+        "vulnerabilities",
+        "cve 2026 98432",
+        "sandbox escape",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-98432"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Trail of Bits",
+          "url": "https://blog.trailofbits.com/2026/11/02/backporting-security-fixes-at-scale-with-codex"
+        }
+      ]
+    },
+    {
+      "id": "dd572276f5",
+      "published": "2026-11-02",
+      "title": "There’s a microchip in my toothbrush. But WHY?",
+      "topic": "reverse",
+      "source": "youtu.be",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "youtu.be",
+          "url": "https://youtu.be/aq0aTRG8YTE"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/drdxcw/there_s_microchip_my_toothbrush_why"
+        }
+      ]
+    },
+    {
+      "id": "30b15a7c57",
+      "published": "2026-11-02",
+      "title": "Shutting the Door on the XCPE Botnet",
+      "topic": "malware",
+      "source": "Mandiant",
+      "summary": "Introduction Last week, Google and industry partners dismantled the XCPE backdoor which enrolled more than 1.3 million set-top boxes into a botnet. We assess with high confidence that the backdoor and botnet were intentionally developed, deployed, and operated for financial gain by Videostrong Technology Co., an Android Original Equipment Manufacturer (OEM) and Original Design Manufacturer (ODM).",
+      "tags": [
+        "malware",
+        "c2",
+        "backdoor",
+        "botnet",
+        "android"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Mandiant",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/shutting-the-door-on-the-xcpe-botnet"
+        }
+      ]
+    },
+    {
+      "id": "63028db311",
+      "published": "2026-11-02",
+      "title": "The Rise of LLMJacking: How Threat Actors Monetize Compromised Cloud and Model Resources",
+      "topic": "malware",
+      "source": "Mandiant",
+      "summary": "Written by: Christopher Romano, Codi Starks, Garrett Mahoney, John Wolfram, Josh Murchie, K Singh, Mathew Potaczek, Mike Lombardi, Rik Dolfing Introduction Mandiant responded to multiple incidents in 2026 in which threat actors hijacked enterprise access to Large Language Models (LLMs), a tactic known as \"LLMJacking.\" Spanning a variety of cloud and LLM providers, these intrusions impacted organizations in North…",
+      "tags": [
+        "threat actor",
+        "persistence",
+        "vulnerability",
+        "exploitation",
+        "exploited"
+      ],
+      "cves": [
+        "CVE-2026-40217"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Mandiant",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/llmjacking-monetizing-compromised-cloud-models"
+        }
+      ]
+    },
+    {
+      "id": "b81156e2c7",
+      "published": "2026-11-02",
+      "title": "CyberStrikeAI in the wild: the use of AI in real-world attacks on organizations",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "We analyze a series of attacks on educational institutions that were fully automated during the post-exploitation phase using the CyberStrikeAI penetration testing framework. Introduction As part of proactive threat monitoring, Kaspersky’s Cyber Threat Intelligence team identified a malicious campaign involving C2 agents controlled by artificial intelligence.",
+      "tags": [
+        "implant",
+        "c2",
+        "exploitation",
+        "persistence",
+        "debugging"
+      ],
+      "cves": [],
+      "read_min": 20,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/tr/cyberstrikeai-attacks/121715"
+        }
+      ]
+    },
+    {
+      "id": "1d0799c05b",
+      "published": "2026-11-02",
+      "title": "Jailbreaking my car's navigation system just so I can change the time",
+      "topic": "exploit",
+      "source": "nns.ee",
+      "summary": "Comments",
+      "tags": [
+        "jailbreaking"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "nns.ee",
+          "url": "https://blog.nns.ee/2026/11/02/renault-hack"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/qvdatp/jailbreaking_my_car_s_navigation_system"
+        }
+      ]
+    },
+    {
+      "id": "bdefd1c573",
+      "published": "2026-10-31",
+      "title": "An LC-3 Disassembler in Haskell",
+      "topic": "reverse",
+      "source": "abhinavsarkar.net",
+      "summary": "Comments",
+      "tags": [
+        "disassembler"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "abhinavsarkar.net",
+          "url": "https://abhinavsarkar.net/posts/lc3-disassembler"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/qoznnh/lc_3_disassembler_haskell"
+        }
+      ]
+    },
+    {
+      "id": "5b0ac3b976",
+      "published": "2026-10-31",
+      "title": "Appraisal by AI: Model-driven victim prioritization in the VOLTA infostealer",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "The self-deleting VOLTA infostealer steals credentials, sessions, and cryptocurrency wallets. Then, it uses LLMs to profile victims and rank their most valuable assets. VOLTA is a mature stealer implant with an optional AI-integration layer. After stealing credentials, sessions, and cryptocurrency wallets, VOLTA sends a structured evidence bundle to an LLM to rank the victim’s assets by monetization value.",
+      "tags": [
+        "stealer",
+        "malware",
+        "implant"
+      ],
+      "cves": [],
+      "read_min": 7,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/appraisal-by-ai-model-driven-victim-prioritization-in-the-volta-infostealer"
+        }
+      ]
+    },
+    {
+      "id": "b329ec9361",
+      "published": "2026-10-30",
+      "title": "Getting Google Cast on my Soundbar",
+      "topic": "reverse",
+      "source": "codon.org.uk",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "codon.org.uk",
+          "url": "https://codon.org.uk/~mjg59/blog/p/getting-google-cast-on-my-soundbar"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/uyobll/getting_google_cast_on_my_soundbar"
+        }
+      ]
+    },
+    {
+      "id": "8b5f34b85b",
+      "published": "2026-10-30",
+      "title": "ARTEX and Friends: Enter Agentic Offensive Frameworks",
+      "topic": "malware",
+      "source": "Mandiant",
+      "summary": "Written by: Aurora Blum, David Mainor, Rohit Nambiar, Omar ElAhdan, Matthew McWhirt, Will Silverstone, Bhavesh Dhake, Chris Busse Introduction Recent intrusions in which threat actors have been observed weaponizing agentic frameworks to execute highly-automated intrusions has put a spotlight on evolving adversarial use of LLMs.",
+      "tags": [
+        "threat actor",
+        "privilege escalation",
+        "exploit",
+        "command and control",
+        "c2"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Mandiant",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks"
+        }
+      ]
+    },
+    {
+      "id": "50d9e289bd",
+      "published": "2026-10-30",
+      "title": "Malicious Claude Code extension distributed through Cursor marketplace",
+      "topic": "malware",
+      "source": "Sophos X-Ops",
+      "summary": "Categories: Threat Research Tags: advisory, Cursor",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/malicious-claude-code-extension-distributed-through-cursor-marketplace"
+        }
+      ]
+    },
+    {
+      "id": "11af3bdb99",
+      "published": "2026-10-29",
+      "title": "Threat Brief: Critical Vulnerabilities in PHP: CVE-2026-109618, CVE-2026-109619 (Updated October 29)",
+      "topic": "vuln",
+      "source": "Unit 42",
+      "summary": "CVE-2026-109618 and CVE-2026-109619 are Critical vulnerabilities in PHP, a scripting language used globally for web servers and CMS systems.",
+      "tags": [
+        "vulnerabilities",
+        "cve 2026 109618",
+        "cve 2026 109619"
+      ],
+      "cves": [
+        "CVE-2026-109618",
+        "CVE-2026-109619"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Unit 42",
+          "url": "https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619"
+        }
+      ]
+    },
+    {
+      "id": "942b0c257b",
+      "published": "2026-10-29",
+      "title": "QSYRUPWD, Part 2: Correcting the Rijndael Key Builder",
+      "topic": "reverse",
+      "source": "silentsignal.eu",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "silentsignal.eu",
+          "url": "https://blog.silentsignal.eu/2026/10/29/qsyrupwd-part-2-correcting-the-rijndael-key-builder"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/i1xogy/qsyrupwd_part_2_correcting_rijndael_key"
+        }
+      ]
+    },
+    {
+      "id": "e72de54999",
+      "published": "2026-10-29",
+      "title": "My favourite PowerMac is a Nintendo Wii",
+      "topic": "reverse",
+      "source": "virtuallyfun.com",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "virtuallyfun.com",
+          "url": "https://virtuallyfun.com/2026/10/29/my-favourite-powermac-is-a-nintendo-wii"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/siebde/my_favourite_powermac_is_nintendo_wii"
+        }
+      ]
+    },
+    {
+      "id": "743771232c",
+      "published": "2026-10-29",
+      "title": "The case of the 9 bit AES key",
+      "topic": "reverse",
+      "source": "v12.sh",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "v12.sh",
+          "url": "https://v12.sh/blog/the-case-of-the-9bit-aes-key"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/dqexzg/case_9_bit_aes_key"
+        }
+      ]
+    },
+    {
+      "id": "6b016b58d3",
+      "published": "2026-10-29",
+      "title": "A quiet week in infosec <.<",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "In this edition of the Threat Source newsletter, William explores how PHP has taken over the conversation, Node.js has joined in, but underneath it all, there are still good people doing good work. Welcome to this week’s edition of the Threat Source newsletter. “The darkest period of my life, so far, arrived the summer I was pregnant with my eldest son.",
+      "tags": [
+        "c2",
+        "vulnerabilities",
+        "ransomware",
+        "decoder",
+        "command and control"
+      ],
+      "cves": [],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/a-quiet-week-in-infosec"
+        }
+      ]
+    },
+    {
+      "id": "08252db330",
+      "published": "2026-10-29",
+      "title": "IR trends Q3 2026: Actors impersonate IT help desks in vishing attacks as ransomware activity increases",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Phishing remained the leading initial access technique, while percentage of ransomware and pre-ransomware cases increased. Finance and public administration tied as the top-targeted industries. Phishing remained the leading initial access technique, appearing in slightly over one-third of all Cisco Talos Incident Response (Talos IR) engagements — a decrease from over 50 percent last quarter.",
+      "tags": [
+        "ransomware",
+        "edr",
+        "exploiting",
+        "threat actor",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2023-20198"
+      ],
+      "read_min": 15,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/ir-trends-q3-2026"
+        }
+      ]
+    },
+    {
+      "id": "38c3956805",
+      "published": "2026-10-29",
+      "title": "NIK C2: The new AI-enabled command-and-control framework",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Cisco Talos observed a new AI-integrated command-and-control (C2) framework in the wild called “NIK C2.” Cisco Talos observed a new AI-integrated command-and-control (C2) framework in the wild called “NIK C2.” NIK C2 contains a Windows implant, using which, an actor can dump credentials, stream the victim's keystrokes to collect the targeted victim’s sensitive data, and instruct an integrated AI model to analyze the…",
+      "tags": [
+        "c2",
+        "implant",
+        "command and control",
+        "threat actor",
+        "ransomware"
+      ],
+      "cves": [],
+      "read_min": 20,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/nik-c2-new-ai-enabled-framework"
+        }
+      ]
+    },
+    {
+      "id": "ae0cda6baa",
+      "published": "2026-10-29",
+      "title": "AI used in Aur0ra ransomware testing and execution",
+      "topic": "malware",
+      "source": "Sophos X-Ops",
+      "summary": "The GOLD OGRE threat group has used AI extensively to develop tools and to orchestrate and execute ransomware operations Categories: Threat Research Tags: AI, ransomware, Aur0ra",
+      "tags": [
+        "ransomware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/ai-used-in-aur0ra-ransomware-testing-and-execution"
+        }
+      ]
+    },
+    {
+      "id": "a1f6e64bac",
+      "published": "2026-10-28",
+      "title": "Node2Shell (CVE-2026-111497) in active exploitation",
+      "topic": "vuln",
+      "source": "Sophos X-Ops",
+      "summary": "Categories: Threat Research Tags: advisory, vulnerability, Node2Shell, Brotli",
+      "tags": [
+        "cve 2026 111497",
+        "exploitation",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-111497"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/node2shell-cve-2026-111497-in-active-exploitation"
+        }
+      ]
+    },
+    {
+      "id": "2365cd15a3",
+      "published": "2026-10-28",
+      "title": "Why Is This Fingerprinting Script Creating Bioweapons?",
+      "topic": "reverse",
+      "source": "nullpt.rs",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "nullpt.rs",
+          "url": "https://nullpt.rs/fingerprinting-bioweapons"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/gvy5gz/why_is_this_fingerprinting_script"
+        }
+      ]
+    },
+    {
+      "id": "7b72d51a9d",
+      "published": "2026-10-28",
+      "title": "Inside KeyDrift: Analyzing historical UAT-11473 activity on Cisco SD-WAN",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Talos has identified UAT-11473, a highly sophisticated APT, who exploited CVE-2026-20127, an authentication bypass vulnerability in Cisco SD-WAN Catalyst Controller instances to bypass authentication and gain unauthorized access to affected systems to deploy KeyDrift.",
+      "tags": [
+        "c2",
+        "implant",
+        "backdoor",
+        "loader",
+        "control flow"
+      ],
+      "cves": [
+        "CVE-2026-20127"
+      ],
+      "read_min": 8,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/uat-11473-keydrift"
+        }
+      ]
+    },
+    {
+      "id": "2dcddaa4a7",
+      "published": "2026-10-27",
+      "title": "CVE-2026-35273: SSRF to RCE in Oracle PeopleSoft",
+      "topic": "vuln",
+      "source": "ZDI",
+      "summary": "On September 25, 2026, Mandiant released a report regarding continued mass exploitation of CVE-2026-35273 by the ShinyHunters group. TrendAI’s Zero Day Initiative first reported this CVE to Oracle on June 10, 2026, following an investigation I conducted with Minh Giang and Lucas Miller of TrendAI Research.",
+      "tags": [
+        "rce",
+        "vulnerabilities",
+        "cve 2026 35273",
+        "vulnerability",
+        "remote code execution"
+      ],
+      "cves": [
+        "CVE-2026-35273"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "ZDI",
+          "url": "https://www.thezdi.com/blog/2026/10/20/cve-2026-35273-ssrf-to-rce-in-oracle-peoplesoft"
+        }
+      ]
+    },
+    {
+      "id": "843f0669e2",
+      "published": "2026-10-27",
+      "title": "Fuzzers vs. AI: Comparing Fuzzilli and BigSleep on JavaScript Engines",
+      "topic": "vuln",
+      "source": "Project Zero",
+      "summary": "Summary Project Zero compared two automated tools used by Google to find vulnerabilities in Chrome’s JavaScript engine, V8, on a regular basis. Fuzzilli is a generative JavaScript engine fuzzer and BigSleep is an LLM-based bug finding system. In the past six months, BigSleep found more vulnerabilities than Fuzzilli (45 versus 37) with a 25% overlap in the specific bugs reported.",
+      "tags": [
+        "vulnerabilities",
+        "fuzzilli",
+        "fuzzing",
+        "fuzzers",
+        "fuzzer"
+      ],
+      "cves": [],
+      "read_min": 30,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Project Zero",
+          "url": "https://projectzero.google/2026/10/fuzzing-v-AI.html"
+        }
+      ]
+    },
+    {
+      "id": "68420a25b7",
+      "published": "2026-10-27",
+      "title": "Coders’ Rights Project Reverse Engineering FAQ (2017)",
+      "topic": "reverse",
+      "source": "eff.org",
+      "summary": "Comments",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "eff.org",
+          "url": "https://www.eff.org/issues/coders/reverse-engineering-faq"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/3bgocs/coders_rights_project_reverse"
+        }
+      ]
+    },
+    {
+      "id": "a9c446f901",
+      "published": "2026-10-27",
+      "title": "Keyless Entry: Hacking SwitchBot Smart Locks",
+      "topic": "reverse",
+      "source": "neodyme.io",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "neodyme.io",
+          "url": "https://neodyme.io/en/blog/switchbot"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/n92yur/keyless_entry_hacking_switchbot_smart"
+        }
+      ]
+    },
+    {
+      "id": "b36e3a6aa5",
+      "published": "2026-10-26",
+      "title": "Snapshotting our way to CVE-2026-9539",
+      "topic": "vuln",
+      "source": "Quarkslab",
+      "summary": "This blog post presents a LibAFL-Qemu based way to explore state machines and why we failed to find CVE-2026-9539. Introduction In this blogpost we present a LibAFL-Qemu based fuzzer we developed with the goal of targeting (complex) state machines using incremental snapshots.",
+      "tags": [
+        "fuzzer",
+        "cve 2026 9539",
+        "fuzzers",
+        "fuzzing",
+        "fuzzed"
+      ],
+      "cves": [
+        "CVE-2026-9539"
+      ],
+      "read_min": 16,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Quarkslab",
+          "url": "https://blog.quarkslab.com/snapshotting-our-way-to-cve-2026-9539.html"
+        }
+      ]
+    },
+    {
+      "id": "643d74b19a",
+      "published": "2026-10-26",
+      "title": "ElectroNG is now open source!",
+      "topic": "vuln",
+      "source": "Doyensec",
+      "summary": "ElectroNG is now free and open source! Today we are releasing both the desktop application and its core analysis engine under the Apache License 2.0, opening up years of Doyensec’s work on Electron application security to the community. Why we are open-sourcing ElectroNG We launched ElectroNG in September 2022 as a commercial static application security testing (SAST) tool for Electron applications.",
+      "tags": [
+        "vulnerability",
+        "vulnerabilities",
+        "macos"
+      ],
+      "cves": [],
+      "read_min": 4,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Doyensec",
+          "url": "https://blog.doyensec.com/2026/10/27/electrong-oss.html"
+        }
+      ]
+    },
+    {
+      "id": "8ddd1ebd6c",
+      "published": "2026-10-26",
+      "title": "Obfuscation from the Other Side",
+      "topic": "reverse",
+      "source": "youtube.com",
+      "summary": "Comments",
+      "tags": [
+        "obfuscation"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "youtube.com",
+          "url": "https://www.youtube.com/watch?v=jfqFHHsYQAs&vl=fr-FR"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/oztvnu/obfuscation_from_other_side"
+        }
+      ]
+    },
+    {
+      "id": "528d8b9aa8",
+      "published": "2026-10-26",
+      "title": "Cracking the Crackers (2025)",
+      "topic": "reverse",
+      "source": "reverse.put.as",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "reverse.put.as",
+          "url": "https://reverse.put.as/2025/03/13/cracking-the-crackers"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/sm9krp/cracking_crackers_2025"
+        }
+      ]
+    },
+    {
+      "id": "c1cd946841",
+      "published": "2026-10-26",
+      "title": "Kernel eviction notice: What wesp.sys reveals about the Windows Endpoint Security Platform",
+      "topic": "kernel",
+      "source": "Elastic Labs",
+      "summary": "Microsoft wants EDR out of the Windows kernel, and the preview binaries show wesp.sys telling a user-mode client that a process is starting, with nothing in its imports to let that client block it. Microsoft is building a way for EDR products to run outside the Windows kernel. It is called the Windows Endpoint Security Platform, and two of its binaries already ship in Windows Insider build.",
+      "tags": [
+        "kernel",
+        "edr",
+        "debugging"
+      ],
+      "cves": [],
+      "read_min": 10,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/blog/windows-endpoint-security-platform-wesp"
+        }
+      ]
+    },
+    {
+      "id": "643fbc8428",
+      "published": "2026-10-25",
+      "title": "Reverse-Engineering Instruction Encodings (2001)",
+      "topic": "reverse",
+      "source": "usenix.org",
+      "summary": "Comments",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "usenix.org",
+          "url": "https://www.usenix.org/legacy/events/usenix01/full_papers/hsieh/hsieh_html"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/1q1rc1/reverse_engineering_instruction"
+        }
+      ]
+    },
+    {
+      "id": "f28a13daf3",
+      "published": "2026-10-25",
+      "title": "MacOS Extensions pack for the Apple Network Server v1.0",
+      "topic": "mobile",
+      "source": "oldvcr.blogspot.com",
+      "summary": "Comments",
+      "tags": [
+        "macos"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "oldvcr.blogspot.com",
+          "url": "https://oldvcr.blogspot.com/2026/10/macos-extensions-pack-for-apple-network.html"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/7byfjv/macos_extensions_pack_for_apple_network"
+        }
+      ]
+    },
+    {
+      "id": "6eef90347d",
+      "published": "2026-10-23",
+      "title": "How CVE-2026-73570 turns a Zimbra log file into remote code execution",
+      "topic": "vuln",
+      "source": "Elastic Labs",
+      "summary": "We reproduced the Zimbra command injection vulnerability and found that several public PoCs write a payload Swatchdog never matches, so a failed test looks like a patched server. When we are building detections for various threats, we regularly run the exploits on representative systems to help us build high-quality rules.",
+      "tags": [
+        "cve 2026 73570",
+        "remote code execution",
+        "vulnerability",
+        "rce",
+        "persistence"
+      ],
+      "cves": [
+        "CVE-2026-73570"
+      ],
+      "read_min": 7,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/threat-command/command-injection-zimbra-cve-2026-73570"
+        }
+      ]
+    },
+    {
+      "id": "286f92fd01",
+      "published": "2026-10-23",
+      "title": "No Source Code? No Problem! What if you have to port a program, but all you have is a binary? (2003)",
+      "topic": "reverse",
+      "source": "queue.acm.org",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "queue.acm.org",
+          "url": "https://queue.acm.org/doi/10.1145/945131.945155"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/ctow98/no_source_code_no_problem_what_if_you_have"
+        }
+      ]
+    },
+    {
+      "id": "84ddf7326c",
+      "published": "2026-10-23",
+      "title": "The Many Many Missed Opportunities of Sonic 06",
+      "topic": "reverse",
+      "source": "isaacmarovitz.com",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "isaacmarovitz.com",
+          "url": "https://isaacmarovitz.com/posts/sonic-06"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/nb7wkp/many_many_missed_opportunities_sonic_06"
+        }
+      ]
+    },
+    {
+      "id": "ae3a132dc8",
+      "published": "2026-10-22",
+      "title": "I had plans for that second",
+      "topic": "vuln",
+      "source": "Talos",
+      "summary": "The Earth is speeding up, the leap second is being abolished, oh, and there's critical vulnerabilities in PHP. Welcome to this week’s edition of the Threat Source newsletter. Here for the latest on the PHP vulnerabilities? Head on down to ‘The One Big Thing’. Talos has published a blog to explain what we know so far, and details the Snort coverage available, including rules in the Community Ruleset.",
+      "tags": [
+        "vulnerabilities",
+        "vulnerability",
+        "ransomware",
+        "exploitation",
+        "malware"
+      ],
+      "cves": [],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/i-had-plans-for-that-second"
+        }
+      ]
+    },
+    {
+      "id": "7ed53aa09f",
+      "published": "2026-10-22",
+      "title": "examining the macOS gcc binary",
+      "topic": "mobile",
+      "source": "zoey-on-github.github.io",
+      "summary": "Comments",
+      "tags": [
+        "macos"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "zoey-on-github.github.io",
+          "url": "https://zoey-on-github.github.io/blog/macgcc.html"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/hplfis/examining_macos_gcc_binary"
+        }
+      ]
+    },
+    {
+      "id": "36e6f49499",
+      "published": "2026-10-22",
+      "title": "MythicRatatoskr: An Yggdrasil-enabled backdoor deployed in a UAC-0099-Sandworm collaboration",
+      "topic": "malware",
+      "source": "ESET",
+      "summary": "ESET researchers uncover MythicRatatoskr – a previously unknown Go-based backdoor hiding its C&C server inside the Yggdrasil mesh network – that paved the way for a destructive attack against a Ukrainian grain firm",
+      "tags": [
+        "backdoor"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "ESET",
+          "url": "https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration"
+        }
+      ]
+    },
+    {
+      "id": "d4cf69345a",
+      "published": "2026-10-21",
+      "title": "State of Post-Quantum Cryptography implementations",
+      "topic": "vuln",
+      "source": "Quarkslab",
+      "summary": "In this blogpost, we first review the landscape of Post-Quantum Cryptography implementations across some of the most popular cryptographic libraries. Following that, we present the results of a differential fuzzing campaign on few of the presented implementations.",
+      "tags": [
+        "fuzzing",
+        "decoding"
+      ],
+      "cves": [],
+      "read_min": 26,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Quarkslab",
+          "url": "https://blog.quarkslab.com/state-of-post-quantum-cryptography-implementations.html"
+        }
+      ]
+    },
+    {
+      "id": "a541865b61",
+      "published": "2026-10-21",
+      "title": "Two critical RCEs in PHP core",
+      "topic": "vuln",
+      "source": "Talos",
+      "summary": "Two critical remote code execution vulnerabilities in PHP core could have implications across its wider ecosystem. Talos has published a blog to explain what we know so far, and details the Snort coverage available, including rules in the Community Ruleset. Update 10/22: Added section detailing observations of in the wild exploitation and associated IOCs.",
+      "tags": [
+        "vulnerabilities",
+        "exploitation",
+        "vulnerability",
+        "cve 2026 109618",
+        "cve 2026 109619"
+      ],
+      "cves": [
+        "CVE-2026-109618",
+        "CVE-2026-109619"
+      ],
+      "read_min": 5,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/two-critical-rces-in-php-core"
+        }
+      ]
+    },
+    {
+      "id": "9bf7d56cfb",
+      "published": "2026-10-21",
+      "title": "Proof-of-concept exploit released for PHP vulnerabilities (CVE-2026-109618, CVE-2026-109619)",
+      "topic": "vuln",
+      "source": "Sophos X-Ops",
+      "summary": "Categories: Threat Research Tags: advisory, vulnerability, php",
+      "tags": [
+        "vulnerabilities",
+        "cve 2026 109618",
+        "cve 2026 109619",
+        "exploit",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-109618",
+        "CVE-2026-109619"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Sophos X-Ops",
+          "url": "https://www.sophos.com/en-us/blog/proof-of-concept-exploit-released-for-php-vulnerabilities-109618-109619"
+        }
+      ]
+    },
+    {
+      "id": "1204de4953",
+      "published": "2026-10-21",
+      "title": "“Next Exploit Opportunities”: How a Threat Actor Used AI to Help Plan and Execute Multiple Types of Cybercrime Activities",
+      "topic": "malware",
+      "source": "Unit 42",
+      "summary": "An investigation into a threat actor bypassing AI safety controls to coordinate credential theft, VoIP fraud planning, and database exfiltration.",
+      "tags": [
+        "threat actor",
+        "exploit"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Unit 42",
+          "url": "https://unit42.paloaltonetworks.com/ai-assisted-cybercrime-analysis"
+        }
+      ]
+    },
+    {
+      "id": "2a36129955",
+      "published": "2026-10-21",
+      "title": "Parasitizing trust: How legitimate infrastructure becomes a delivery pipeline for attackers",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Adversaries are turning the tools businesses trust into delivery mechanisms for malicious activity. Cisco Talos observed abuse of more than 25 legitimate platforms over the past year, exploiting the built-in trust of collaboration, file-sharing, payment and other services to reach their targets.",
+      "tags": [
+        "vulnerability",
+        "root cause",
+        "exploiting"
+      ],
+      "cves": [],
+      "read_min": 10,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/parasitizing-trust-how-legitimate-infrastructure-becomes-a-delivery-pipeline-for-attackers"
+        }
+      ]
+    },
+    {
+      "id": "19756bf008",
+      "published": "2026-10-21",
+      "title": "Compromised eMudhra intermediate certificates",
+      "topic": "firmware",
+      "source": "Talos",
+      "summary": "Cisco Talos is aware of eight intermediate certificates belonging to the intermediate certificate authority, eMudhra. Cisco Talos is aware of eight compromised intermediate certificates belonging to the intermediate certificate authority, eMudhra . Rather than possessing the mandatory 384 bits of pseudo-random security, several private keys evaluated single-digit and double-digit integers.",
+      "tags": [
+        "cve 2026 111943",
+        "vulnerability",
+        "exploitation",
+        "firmware",
+        "iot"
+      ],
+      "cves": [
+        "CVE-2026-111943"
+      ],
+      "read_min": 5,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/compromised-intermediate-certificates"
+        }
+      ]
+    },
+    {
+      "id": "67cf959bd9",
+      "published": "2026-10-21",
+      "title": "Your AI agent fixed the bug, but what else did it change?",
+      "topic": "exploit",
+      "source": "Trail of Bits",
+      "summary": "Today we’re publishing patching-bugs and regression-hunt , two plugins that let engineers delegate patch development and regression checks to agents. Our patching-bugs plugin reproduces reported bugs, develops fixes, and tests them. The regression-hunt plugin checks whether any changes break previously working and supported behavior.",
+      "tags": [
+        "poc"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Trail of Bits",
+          "url": "https://blog.trailofbits.com/2026/10/21/your-ai-agent-fixed-the-bug-but-what-else-did-it-change"
+        }
+      ]
+    },
+    {
+      "id": "937b29572a",
+      "published": "2026-10-20",
+      "title": "php2shell: Assessing Elastic detection coverage relevant to CVE-2026-109618 and CVE-2026-109619",
+      "topic": "vuln",
+      "source": "Elastic Labs",
+      "summary": "CVE-2026-109618 and CVE-2026-109619 are critical PHP core RCE flaws that leaked ahead of disclosure. We cover what is verified, why exploitation converges on a web server spawning a shell, and the Elastic detections developed to catch this behavior.",
+      "tags": [
+        "cve 2026 109618",
+        "cve 2026 109619",
+        "rce",
+        "exploitation",
+        "vulnerabilities"
+      ],
+      "cves": [
+        "CVE-2026-109618",
+        "CVE-2026-109619"
+      ],
+      "read_min": 15,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/threat-command/php2shell-php-rce-detection"
+        }
+      ]
+    },
+    {
+      "id": "0968634953",
+      "published": "2026-10-20",
+      "title": "Active Exploitation of May 2026 PAN-OS CVE-2026-0257 (Updated October 20)",
+      "topic": "vuln",
+      "source": "Unit 42",
+      "summary": "Ransomware operators including Spikey Scorpius (aka Qilin) and Tarnished Scorpius (aka Inc) are exploiting PAN-OS vulnerability CVE-2026-0257.",
+      "tags": [
+        "cve 2026 0257",
+        "exploitation",
+        "ransomware",
+        "vulnerability",
+        "exploiting"
+      ],
+      "cves": [
+        "CVE-2026-0257"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Unit 42",
+          "url": "https://unit42.paloaltonetworks.com/active-exploitation-of-pan-os-cve-2026-0257"
+        }
+      ]
+    },
+    {
+      "id": "37b85c3ffe",
+      "published": "2026-10-20",
+      "title": "There's only so much code: the rise in vulnerability numbers",
+      "topic": "vuln",
+      "source": "Talos",
+      "summary": "The September Microsoft Patch Tuesday release included 975 vulnerability advisories. This month, 1,415 vulnerabilities were just dropped. Compared to a pre-June average of 100 a month, that increase is staggering. Where did they come from? And what does the future look like?",
+      "tags": [
+        "vulnerabilities",
+        "vulnerability",
+        "exploited",
+        "exploitation",
+        "exploit"
+      ],
+      "cves": [
+        "CVE-2021-44228"
+      ],
+      "read_min": 7,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/theres-only-so-much-code-the-rise-in-vulnerability-numbers"
+        }
+      ]
+    },
+    {
+      "id": "06d61680b3",
+      "published": "2026-10-20",
+      "title": "The Annotated VT100 Firmware (2022)",
+      "topic": "firmware",
+      "source": "vt100.net",
+      "summary": "Comments",
+      "tags": [
+        "firmware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "vt100.net",
+          "url": "https://vt100.net/dec/vt100/rom"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/qflytl/annotated_vt100_firmware_2022"
+        }
+      ]
+    },
+    {
+      "id": "74f4e19b2d",
+      "published": "2026-10-19",
+      "title": "MbedTLS Security Audit",
+      "topic": "vuln",
+      "source": "Quarkslab",
+      "summary": "At the request of the Open Source Technology Improvement Fund (OSTIF), Quarkslab performed a security audit of mbedTLS , evaluating the security of the changes in version 4.0. Introduction Mbed TLS is a widely deployed open-source TLS, DTLS, and X.509 library maintained by Trusted Firmware, targeting constrained and embedded environments.",
+      "tags": [
+        "vulnerabilities",
+        "buffer overflow",
+        "firmware",
+        "memory safety",
+        "memory corruption"
+      ],
+      "cves": [],
+      "read_min": 3,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Quarkslab",
+          "url": "https://blog.quarkslab.com/mbedtls-security-audit.html"
+        }
+      ]
+    },
+    {
+      "id": "3691f81619",
+      "published": "2026-10-18",
+      "title": "Heartbreaker 💔",
+      "topic": "malware",
+      "source": "Objective-See",
+      "summary": "A newly discovered macOS ransomware sample attempts to rewrite, recompile, and replace itself with a metamorphic variant. In this blog post, we analyze Heartbreaker's encryption, persistence, and unusual self-rebuilding logic, then put it to the test against RansomWhere?'s generic ransomware detection.",
+      "tags": [
+        "ransomware",
+        "persistence",
+        "macos"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Objective-See",
+          "url": "https://objective-see.org/blog/blog_0x8A.html"
+        }
+      ]
+    },
+    {
+      "id": "163b4cf51c",
+      "published": "2026-10-17",
+      "title": "It took me nine years to hack my Xbox 360",
+      "topic": "reverse",
+      "source": "kennedn.com",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "kennedn.com",
+          "url": "https://kennedn.com/blog/posts/glitching"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/wceg2u/it_took_me_nine_years_hack_my_xbox_360"
+        }
+      ]
+    }
+  ]
+}

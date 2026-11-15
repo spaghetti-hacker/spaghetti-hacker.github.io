@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T14:07:22Z",
+  "updated": "2026-11-15T14:12:12Z",
   "window_days": 7,
   "items": [
     {
@@ -42,11 +42,11 @@
       "id": "2026-11-15-003",
       "published": "2026-11-15",
       "title": "Il blocco dei voli USA rivela i rischi delle reti legacy",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Il blocco dei decolli negli Stati Uniti del 13 novembre 2026 mette in luce la fragilità delle infrastrutture critiche. Le anomalie nei sistemi di comunicazione della FAA mostrano i rischi della convivenza tra vecchie reti e nuove tecnologie, anche in assenza di evidenze di un attacco cyber L'articolo Il blocco dei voli USA rivela i rischi delle reti legacy proviene da Cyber Security 360 .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -78,11 +78,11 @@
       "id": "2026-11-15-005",
       "published": "2026-11-15",
       "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "The move follows President Trump’s order to replace “artificial intelligence” with “super intelligence” in executive branch communications. The post Pentagon Renames CDAO ‘Super Intelligence Office’ appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -188,11 +188,11 @@
       "id": "2026-11-14-006",
       "published": "2026-11-14",
       "title": "Apple Reveals How Secure Exclaves Shield Camera and Microphone Data",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "The tech giant has detailed the architecture designed to isolate ambient sensor data from the main OS on HomeView and new iPhones. The post Apple Reveals How Secure Exclaves Shield Camera and Microphone Data appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -206,11 +206,11 @@
       "id": "2026-11-14-007",
       "published": "2026-11-14",
       "title": "Is AI Making Us Worse at Cybersecurity?",
-      "category": "malware",
+      "category": "general",
       "severity": "HIGH",
       "summary": "Overreliance on AI could erode the creativity, clear communication, and critical thinking security teams need when there’s no playbook. The post Is AI Making Us Worse at Cybersecurity? appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -224,11 +224,11 @@
       "id": "2026-11-14-008",
       "published": "2026-11-14",
       "title": "Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "The directive protects smartphones as part of a person’s private sphere and requires “free and informed consent” for such access, the authority said. The post Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -242,11 +242,11 @@
       "id": "2026-11-14-009",
       "published": "2026-11-14",
       "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Officials say there is no evidence of a cyberattack behind the nationwide FAA outage, which may have been caused by a software update. The post No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -314,11 +314,11 @@
       "id": "2026-11-13-004",
       "published": "2026-11-13",
       "title": "New Mior and Skyfall Attacks Let Rogue Cloud Hosts Steal Secrets From AMD SEV-SNP VMs",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Two attacks made public this week allow a malicious host to read data inside AMD SEV-SNP-protected virtual machines (VMs), which are built to keep the server's operator out. One of them, Mior, can also modify a VM's memory and fake the signed report confirming which software it runs. Both need control of the server's hypervisor, and Mior also needs control of the server's BIOS. Researchers",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -388,11 +388,11 @@
       "id": "2026-11-13-008",
       "published": "2026-11-13",
       "title": "Trezor Confirms Hidden Implants in CryptoBilis-Sold Wallets That Can Steal Recovery Phrases",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Three Trezor Safe 5 wallets bought from the reseller CryptoBilis contain an implant, an extra circuit board that can copy their recovery phrases, hardware wallet maker Trezor said yesterday. The implant reads the phrase from the wallet's screen and sends it over the mobile network to a server controlled by the attackers. The company examined one of the wallets in its lab, identified the other",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -424,11 +424,11 @@
       "id": "2026-11-13-010",
       "published": "2026-11-13",
       "title": "Trezor confirms crypto-stealing implants in three wallets, releases fix",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Cryptocurrency hardware wallet maker Trezor has confirmed that three Safe 5 devices sold by Southeast Asian reseller CryptoBilis contained malicious hardware implants designed to steal wallet recovery phrases and send them to attackers over cellular networks. [...]",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -460,11 +460,11 @@
       "id": "2026-11-13-012",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Microsoft warned customers earlier this week that the November 2026 security updates may break printing for documents with complex formatting. [...]",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -514,11 +514,11 @@
       "id": "2026-11-13-015",
       "published": "2026-11-13",
       "title": "German military drone operations disrupted by cyberattack",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "German defense technology company Quantum Systems confirmed that it detected an incident in late October that was part of an active cyberattack by \"hostile actors.\" [...]",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -532,11 +532,11 @@
       "id": "2026-11-13-016",
       "published": "2026-11-13",
       "title": "How one AI agent exposed five critical enterprise security gaps",
-      "category": "malware",
+      "category": "general",
       "severity": "HIGH",
       "summary": "An AI agent built to automate invoice processing could be manipulated into changing vendor bank details through a malicious email, without triggering traditional security alerts. Token Security examines five critical AI agent security gaps and shares practical guidance from industry security leaders on preventing them. [...]",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -568,11 +568,11 @@
       "id": "2026-11-13-018",
       "published": "2026-11-13",
       "title": "Fra norma e realtà",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Basta scrivere una norma per rendere più sicuro il mondo digitale? Evidentemente no. Tra entusiasmo legislativo, ritardi operativi e critiche liquidate come provocazioni, la cybersecurity continua a fare i conti con il divario tra regole e realtà. E senza competenze e interventi concreti, anche la norma migliore rischia di restare sulla carta L'articolo Fra norma e realtà proviene da Cyber Security 360 .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -640,11 +640,11 @@
       "id": "2026-11-13-022",
       "published": "2026-11-13",
       "title": "Il manuale cyber dell’Iran: la scelta dei target per seminare caos nel mondo reale",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Teheran intensifica i propri sforzi per causare danni nel mondo reale con attacchi contro petroliere e navi frigorifere poco protette. Ecco perché preoccupa gli esperti il salto di qualità degli attacchi cyber dell'Iran, dopo gli ultimi tre, a partire dai frigoriferi europei L'articolo Il manuale cyber dell’Iran: la scelta dei target per seminare caos nel mondo reale proviene da Cyber Security 360 .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -676,11 +676,11 @@
       "id": "2026-11-13-024",
       "published": "2026-11-13",
       "title": "False minacce bomba alle scuole: la mail era in regola. È questo il problema",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "La falsa minaccia bomba che ha raggiunto migliaia di scuole italiane è partita da un account e-mail compromesso. Il caso mostra perché SPF, DKIM e DMARC non possono garantire l'affidabilità del contenuto di un messaggio. Dalle evacuazioni alle frodi BEC, il rischio nasce quando un'e-mail basta a far scattare una decisione L'articolo False minacce bomba alle scuole: la mail era in regola.",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -694,11 +694,11 @@
       "id": "2026-11-13-025",
       "published": "2026-11-13",
       "title": "L’attacco alla DIA che non c’è stato: quando per fare danno basta uno screenshot",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Nessuna violazione dei sistemi della DIA, solo dati pubblici spacciati per documenti riservati. Il caso dimostra che per danneggiare un'organizzazione può bastare uno screenshot sul dark web.",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -730,11 +730,11 @@
       "id": "2026-11-13-027",
       "published": "2026-11-13",
       "title": "Apify Confirms Customer Data Accessed in Cyberattack",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "The web scraping company says an intruder accessed customer accounts and obtained personal information or stored data. The post Apify Confirms Customer Data Accessed in Cyberattack appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -766,11 +766,11 @@
       "id": "2026-11-13-029",
       "published": "2026-11-13",
       "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Federal officials have yet to say what caused the communications disruption or whether they are investigating a possible cyberattack. The post FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’ appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -856,11 +856,11 @@
       "id": "2026-11-13-034",
       "published": "2026-11-13",
       "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Microsoft is trying different ways to identify the cause of the problem and get its servers back online, using “a measured approach to identify and repair affected infrastructure.” The post Microsoft Struggles to Restore Email and Other Services in a Global Outage appeared first on SecurityWeek .",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
@@ -1387,12 +1387,12 @@
     {
       "id": "2026-11-12-023",
       "published": "2026-11-12",
-      "title": "Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams",
-      "category": "malware",
+      "title": "Massive Microsoft 365 outage disrupts Outlook, Teams, Copilot worldwide",
+      "category": "general",
       "severity": "MEDIUM",
-      "summary": "Microsoft says failed server health checks disrupted Outlook and other Microsoft 365 services. The company is still investigating the cause and has disclosed no evidence of a cyberattack. The post Microsoft 365 Outage Disrupts Outlook, Exchange Online and Teams appeared first on SecurityWeek .",
+      "summary": "Microsoft is investigating a widespread outage affecting multiple Microsoft 365 services, including Outlook, Microsoft Teams, and Copilot, as users report connectivity problems worldwide. [...]",
       "tags": [
-        "malware"
+        "general"
       ],
       "cves": [],
       "sources": [
