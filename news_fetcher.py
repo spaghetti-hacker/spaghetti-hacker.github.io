@@ -43,13 +43,9 @@ import requests
 
 # Se un feed cambiasse indirizzo, basta aggiornare l'URL qui.
 FEEDS = [
-    ("The Hacker News", "https://feeds.feedburner.com/TheHackersNews"),
     ("Guerre di Rete", "https://www.guerredirete.it/feed/"),
     ("SecurityWeek", "https://feeds.feedburner.com/securityweek"),
     ("BleepingComputer", "https://www.bleepingcomputer.com/feed/"),
-    ("Red Hot Cyber", "https://www.redhotcyber.com/feed/"),
-    ("Cybersecurity360", "https://www.cybersecurity360.it/feed/"),
-    ("Securityinfo.it", "https://www.securityinfo.it/feed/"),
 ]
 
 CATEGORIES = ["ransomware", "vuln", "breach", "apt", "malware",
