@@ -85,7 +85,7 @@ CATEGORY_KEYWORDS = {
              "remote code execution", "rce", "privilege escalation", "cvss",
              "flaw", "exploit", "aggiornamento di sicurezza"],
     "malware": ["malware", "trojan", "botnet", "stealer", "backdoor", "loader",
-                "phishing", "infostealer", "spyware", "campagna"],
+                "phishing", "infostealer", "spyware"],
     "policy": ["regulation", "nis2", "gdpr", "law ", "legislation", "sanction",
                "arrest", "europol", "indicted", "fine ", "normativa", "garante",
                "legge", "acn ", "cisa", "extradit", "sentenced", "condannat"],
