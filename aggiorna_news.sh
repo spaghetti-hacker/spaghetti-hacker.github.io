@@ -2,6 +2,9 @@
 
 cd /home/re/Desktop/SpaghettiHacker/spaghetti-hacker.github.io/ 
 
+rm news_db_vecchio.json
+rm news_db_nuovo.json
+
 cp news_db.json ./news_db_vecchio.json
 
 python3 news_fetcher.py
