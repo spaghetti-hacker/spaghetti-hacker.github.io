@@ -65,7 +65,10 @@ CVE_RE = re.compile(r"\bCVE-\d{4}-\d{4,7}\b", re.I)
 TAG_RE = re.compile(r"<[^>]+>")
 SKIP_TITLE_RE = re.compile(
     r"weekly recap|newsletter|podcast|webinar|\bwhitepaper\b|sponsored|"
-    r"giveaway|\bdeal(s)?\b|\bsconti\b|\bcorso\b", re.I)
+    r"giveaway|\bdeal(s)?\b|\bsconti\b|\bcorso\b|"
+    # offerte commerciali e rassegne di più notizie: non sono una notizia sola
+    r"\boffert[ae]\b|\bsconto\b|black friday|\bcoupon\b|\bpromo\b|"
+    r"in other news|threatsday|week in review|weekly (roundup|digest)", re.I)
 
 # --------------------------------------------------------------------------
 # Regole di classificazione (fallback senza LLM, EN + IT)
@@ -85,10 +88,11 @@ def _rx(*patterns):
 CATEGORY_RULES = {
     "ransomware": {
         "strong": _rx(r"\bransomware\b", r"\bdouble[- ]extortion\b", r"\bleak site\b",
-                      r"\bransom note\b", r"\bestorsion[ei]\b", r"\briscatto\b",
+                      r"\bransom note\b",
                       r"\b(lockbit|blackcat|alphv|akira|qilin|clop|rhysida|black basta|"
                       r"conti|revil|ransomhub|hunters international)\b"),
-        "weak": _rx(r"\bransom\b", r"\bextortion\b"),
+        # estorsione/riscatto sono troppo generici (minacce bomba, sextortion, ...)
+        "weak": _rx(r"\bransom\b", r"\bextortion\b", r"\bestorsion[ei]\b", r"\briscatto\b"),
     },
     "ics": {
         "strong": _rx(r"\bscada\b", r"\bindustrial control( systems?)?\b", r"\bplcs?\b",
@@ -104,8 +108,10 @@ CATEGORY_RULES = {
                       r"\bgithub actions\b", r"\btyposquat\w*", r"\bdependency confusion\b",
                       r"\bmalicious (packages?|extensions?|libraries|npm|pypi)\b",
                       r"\bcatena di fornitura\b", r"\bpacchetti malevoli\b",
-                      r"\bvs ?code extensions?\b"),
-        "weak": _rx(r"\bdependenc(y|ies)\b", r"\bopen[- ]source (package|librar)\w*"),
+                      r"\bvs ?code extensions?\b", r"\btrojani[sz]ed\b", r"\bci/cd\b",
+                      r"\bhidden implants?\b", r"\bmalicious (\w+ ){0,3}extensions?\b"),
+        "weak": _rx(r"\bdependenc(y|ies)\b", r"\bopen[- ]source (package|librar)\w*",
+                    r"\bgithub (accounts?|repositor\w+)\b", r"\bpipelines?\b"),
     },
     "apt": {
         "strong": _rx(r"\bapt[- ]?\d{1,2}\b", r"\bapt (group|actor|campaign)s?\b",
@@ -116,9 +122,13 @@ CATEGORY_RULES = {
                       r"salt typhoon|fancy bear|cozy bear|charming kitten|oilrig|andariel)\b",
                       r"\bthreat actors? (linked|tied|associated|affiliated)\b",
                       r"\b(chinese|russian|iranian|north korean)[- ]"
-                      r"(hackers?|threat actors?|state|linked|nexus|backed)\b"),
+                      r"(hackers?|threat actors?|state|linked|nexus|backed|campaign|apt|"
+                      r"group|attackers?|operatives?|espionage)\b",
+                      r"\battori statali\b", r"\bguerra ibrida\b"),
         "weak": _rx(r"\bnorth korea\w*", r"\bgeopolitic\w*", r"\bcyber[- ]?war(fare)?\b",
-                    r"\bguerra cibernetica\b"),
+                    r"\bguerra cibernetica\b",
+                    r"\b(iran|iraniani?|iranian|cina|cinesi|china|russia|russi|"
+                    r"russian|corea del nord|nordcoreani?)\b"),
     },
     "breach": {
         "strong": _rx(r"\bdata breach(es)?\b", r"\bdata leaks?\b",
@@ -127,15 +137,27 @@ CATEGORY_RULES = {
                       r"\bexposed (database|data|server|bucket)s?\b", r"\bdata exposure\b",
                       r"\bdata theft\b", r"\bexfiltrat\w+",
                       r"\bviolazione (dei|di) dati\b", r"\bfurto di dati\b",
-                      r"\bdati (rubati|esposti|trafugati)\b"),
+                      r"\bdati (rubati|esposti|trafugati)\b",
+                      r"\bexposed (online|publicly)\b", r"\bleaking\b",
+                      r"\bunauthori[sz]ed access\b", r"\baccesso non autorizzato\b",
+                      r"\baccesso ai dati\b", r"\bsecurity (breach|incident)\b",
+                      r"\bstolen (\w+ ){0,2}(keys?|tokens?|secrets?|credentials?|data)\b",
+                      r"\b\d[\d.,]*\s?(million|billion|milioni di|miliardi di) "
+                      r"(records?|accounts?|users?|customers?|utenti|clienti)\b",
+                      r"\bshinyhunters\b"),
         "weak": _rx(r"\bbreach(es|ed)?\b", r"\bleak(s|ed)?\b", r"\bhacked\b",
-                    r"\bcompromised accounts?\b"),
+                    r"\bcompromised accounts?\b", r"\b(customer|user|client) data\b"),
     },
     "malware": {
         "strong": _rx(r"\bmalware\b", r"\btrojans?\b", r"\bbotnets?\b",
                       r"\b(info)?stealers?\b", r"\bbackdoors?\b", r"\bspyware\b",
                       r"\bwipers?\b", r"\brootkits?\b", r"\bcrypto-?miners?\b",
-                      r"\bkeyloggers?\b", r"\brats?\b", r"\bcodice malevolo\b"),
+                      r"\bkeyloggers?\b", r"\brats?\b", r"\bcodice malevolo\b", r"\bworms?\b",
+                      r"\breverse shells?\b",
+                      # famiglie note: estendi questa lista quando ne compaiono di nuove
+                      r"\b(gootloader|castlerat|stealc|lumma|redline|vidar|emotet|qakbot|"
+                      r"trickbot|icedid|remcos|asyncrat|agent tesla|formbook|xworm|darkgate|"
+                      r"pikabot|bumblebee|smokeloader|cobalt strike|gsocket)\b"),
         "weak": _rx(r"\bloaders?\b", r"\bphishing\b", r"\b(smishing|vishing)\b",
                     r"\bclickfix\b", r"\bmalicious\b", r"\bmalevol\w+", r"\bscams?\b"),
     },
@@ -143,11 +165,13 @@ CATEGORY_RULES = {
         "strong": _rx(r"\bcve-\d{4}-\d{4,7}\b", r"\bzero[- ]days?\b", r"\b0[- ]days?\b",
                       r"\bremote code execution\b", r"\brce\b", r"\bprivilege escalation\b",
                       r"\bcvss\b", r"\bvulnerabilit\w*", r"\bpatch tuesday\b",
-                      r"\bsecurity (patch|update|advisor)\w*", r"\bkev\b",
+                      r"\bsecurity (patch|advisor)\w*", r"\bkev\b",
                       r"\baggiornament[oi] di sicurezza\b", r"\bauthentication bypass\b",
                       r"\bsql injection\b", r"\bbuffer overflow\b", r"\bpath traversal\b",
-                      r"\bcross[- ]site scripting\b", r"\bxss\b", r"\bsecurity flaws?\b"),
-        "weak": _rx(r"\bpatch(es|ed|ing)?\b", r"\bflaws?\b", r"\bbugs?\b",
+                      r"\bcross[- ]site scripting\b", r"\bxss\b", r"\bflaws?\b", r"\bfall[ae]\b"),
+        # "security updates" è debole: gli aggiornamenti spesso rompono cose (stampa,
+        # attivazione) senza che la notizia riguardi una vulnerabilità
+        "weak": _rx(r"\bsecurity updates?\b", r"\bpatch(es|ed|ing)?\b", r"\bbugs?\b",
                     r"\bexploit(s|ed|ing|ation)?\b", r"\bsfruttat\w+", r"\bsfruttament\w+"),
     },
     "policy": {
@@ -157,9 +181,12 @@ CATEGORY_RULES = {
                       r"\bpleads? guilty\b", r"\bcondannat\w+", r"\bnormativa\b",
                       r"\bgarante (per la )?(protezione dei dati|privacy)\b",
                       r"\beuropol\b", r"\binterpol\b", r"\bexecutive order\b",
-                      r"\bdirettiva\b", r"\bcyber resilience act\b"),
+                      r"\bdirettiva\b", r"\bcyber resilience act\b", r"\benisa\b",
+                      r"\b(?-i:DORA)\b", r"\bcircia\b", r"\bincident reporting\b"),
         "weak": _rx(r"\barrest(s|ed)?\b", r"\barrestat\w+", r"\blaws?\b", r"\blegge\b",
-                    r"\bacn\b", r"\bcourt\b", r"\btribunale\b", r"\bfined?\b",
+                    r"\bacn\b", r"\bcourt\b", r"\btribunale\b", r"\bfin(e|es|ed)\b",
+                    r"\bgarante\b", r"\bprivacy\b", r"\benforcement\b", r"\bpolice\b",
+                    r"\bcrackdown\b", r"\bsuspects?\b",
                     r"\bsanzion\w+", r"\bcompliance\b", r"\bgovernment\b", r"\bgoverno\b",
                     r"\bsenate\b", r"\bparliament\b", r"\bparlamento\b"),
     },
@@ -180,7 +207,7 @@ PRIORITY = ["ransomware", "ics", "supply-chain", "apt", "breach", "malware",
 # che l'attacco usa o provoca ("Ransomware sfrutta uno zero-day" -> ransomware).
 SPECIFIC_CATS = ("ransomware", "supply-chain", "apt", "ics")
 OVERRIDABLE = ("vuln", "malware", "breach")
-MIN_SCORE = 3  # sotto questa soglia la categoria resta "general"
+MIN_SCORE = 4  # sotto questa soglia la categoria resta "general"
 
 # Tag di feed troppo generici per finire nel campo "tags"
 GENERIC_TAGS = {
@@ -350,9 +377,12 @@ def category_scores(title, tags, body):
     scores, title_strong = {}, {}
     for cat, rule in CATEGORY_RULES.items():
         t_strong = _hits(rule["strong"], title, 2)
-        scores[cat] = (4 * t_strong + 2 * _hits(rule["weak"], title, 2)
-                       + 5 * _hits(rule["strong"], tags, 2) + 3 * _hits(rule["weak"], tags, 2)
-                       + 2 * _hits(rule["strong"], body, 3) + 1 * _hits(rule["weak"], body, 2))
+        # Il titolo domina: un solo termine strong nel titolo (6) batte qualunque
+        # combinazione nel solo corpo (max 5). I tag del feed sono un indizio, non
+        # una prova: da soli (3) non bastano, devono essere confermati da titolo/corpo.
+        scores[cat] = (6 * t_strong + 2 * _hits(rule["weak"], title, 2)
+                       + 3 * _hits(rule["strong"], tags, 2) + 1 * _hits(rule["weak"], tags, 2)
+                       + 2 * _hits(rule["strong"], body, 2) + 1 * _hits(rule["weak"], body, 1))
         title_strong[cat] = t_strong
     return scores, title_strong
 
@@ -360,7 +390,7 @@ def category_scores(title, tags, body):
 def heuristic_category(title, tags, body, has_cves):
     scores, title_strong = category_scores(title, tags, body)
     if has_cves:
-        scores["vuln"] += 2
+        scores["vuln"] += 1  # un CVE citato non basta: spesso è solo un riferimento
     best = max(PRIORITY, key=lambda c: (scores[c], -PRIORITY.index(c)))
     if scores[best] < MIN_SCORE:
         return "vuln" if has_cves else "general"
@@ -390,8 +420,10 @@ def heuristic_severity(text, category):
                                        "sfruttat", "attivamente"))
     if (cvss and cvss >= 9.0) or (exploited and category == "vuln"):
         return "CRITICAL"
+    technical = category not in ("general", "policy", "business")
     if (cvss and cvss >= 7.0) or category in ("ransomware", "breach", "apt", "supply-chain", "ics") \
-            or "critical" in low or "critica" in low or "remote code execution" in low:
+            or (technical and ("critical" in low or "critica" in low
+                               or "remote code execution" in low)):
         return "HIGH"
     if category in ("policy", "business"):
         return "LOW"

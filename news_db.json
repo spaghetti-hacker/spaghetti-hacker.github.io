@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T18:55:48Z",
+  "updated": "2026-11-15T19:04:07Z",
   "window_days": 7,
   "items": [
     {
@@ -24,11 +24,11 @@
       "id": "2026-11-15-002",
       "published": "2026-11-15",
       "title": "Cursor Says Stolen Fireworks AI Key Led to Trojanized Claude Code Extension Incident",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "supply-chain",
+      "severity": "HIGH",
       "summary": "The compromise of Anthropic's official Claude Code extension on Cursor's extension marketplace was the result of the theft of an access key that was exposed in the wake of a breach targeting Fireworks AI. \"An attacker obtained an access key we had issued to Fireworks,\" Cursor said in a Friday update. \"The key was exposed by Fireworks, and the attacker used it to copy data from a read-only",
       "tags": [
-        "general"
+        "supply-chain"
       ],
       "cves": [],
       "sources": [
@@ -162,7 +162,7 @@
       "id": "2026-11-14-002",
       "published": "2026-11-14",
       "title": "Cursor confirms security breach led to malicious Claude Code extension",
-      "category": "breach",
+      "category": "supply-chain",
       "severity": "HIGH",
       "summary": "Cursor confirmed it suffered a security breach that let hackers distribute a malicious Claude Code extension through its marketplace after stealing credentials from AI infrastructure provider Fireworks AI. [...]",
       "tags": [
@@ -268,7 +268,7 @@
       "published": "2026-11-14",
       "title": "Is AI Making Us Worse at Cybersecurity?",
       "category": "general",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "summary": "Overreliance on AI could erode the creativity, clear communication, and critical thinking security teams need when there’s no playbook. The post Is AI Making Us Worse at Cybersecurity? appeared first on SecurityWeek .",
       "tags": [
         "Artificial Intelligence",
@@ -307,8 +307,8 @@
       "id": "2026-11-14-009",
       "published": "2026-11-14",
       "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
-      "category": "ics",
-      "severity": "HIGH",
+      "category": "general",
+      "severity": "MEDIUM",
       "summary": "Officials say there is no evidence of a cyberattack behind the nationwide FAA outage, which may have been caused by a software update. The post No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update appeared first on SecurityWeek .",
       "tags": [
         "Government",
@@ -458,11 +458,11 @@
       "id": "2026-11-13-008",
       "published": "2026-11-13",
       "title": "Trezor Confirms Hidden Implants in CryptoBilis-Sold Wallets That Can Steal Recovery Phrases",
-      "category": "general",
-      "severity": "MEDIUM",
+      "category": "supply-chain",
+      "severity": "HIGH",
       "summary": "Three Trezor Safe 5 wallets bought from the reseller CryptoBilis contain an implant, an extra circuit board that can copy their recovery phrases, hardware wallet maker Trezor said yesterday. The implant reads the phrase from the wallet's screen and sends it over the mobile network to a server controlled by the attackers. The company examined one of the wallets in its lab, identified the other",
       "tags": [
-        "general"
+        "supply-chain"
       ],
       "cves": [],
       "sources": [
@@ -512,7 +512,7 @@
       "id": "2026-11-13-011",
       "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
-      "category": "vuln",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Microsoft has confirmed that this month's Patch Tuesday security updates are causing Windows activation and licensing failures with 0x80041008 error codes. [...]",
       "tags": [
@@ -530,7 +530,7 @@
       "id": "2026-11-13-012",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
-      "category": "vuln",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Microsoft warned customers earlier this week that the November 2026 security updates may break printing for documents with complex formatting. [...]",
       "tags": [
@@ -603,7 +603,7 @@
       "published": "2026-11-13",
       "title": "How one AI agent exposed five critical enterprise security gaps",
       "category": "general",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "summary": "An AI agent built to automate invoice processing could be manipulated into changing vendor bank details through a malicious email, without triggering traditional security alerts. Token Security examines five critical AI agent security gaps and shares practical guidance from industry security leaders on preventing them. [...]",
       "tags": [
         "general"
@@ -638,7 +638,7 @@
       "id": "2026-11-13-018",
       "published": "2026-11-13",
       "title": "Fra norma e realtà",
-      "category": "vuln",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Basta scrivere una norma per rendere più sicuro il mondo digitale? Evidentemente no. Tra entusiasmo legislativo, ritardi operativi e critiche liquidate come provocazioni, la cybersecurity continua a fare i conti con il divario tra regole e realtà. E senza competenze e interventi concreti, anche la norma migliore rischia di restare sulla carta L'articolo Fra norma e realtà proviene da Cyber Security 360 .",
       "tags": [
@@ -664,11 +664,7 @@
       "severity": "MEDIUM",
       "summary": "Proton VPN propone il piano Plus biennale a 2,49 euro al mese, con uno sconto del 75%. L'abbonamento costa 59,76 euro per 24 mesi e include protezione per 10 dispositivi, server in oltre 140 Paesi e blocco di annunci e malware L'articolo Offerta Black Friday Proton VPN: sconto del 75% sul piano biennale Plus con audit no-log pubblico proviene da Cyber Security 360 .",
       "tags": [
-        "Cultura cyber",
-        "Cloud",
-        "phishing",
-        "Privacy",
-        "VPN"
+        "malware"
       ],
       "cves": [],
       "sources": [
@@ -723,7 +719,7 @@
       "id": "2026-11-13-022",
       "published": "2026-11-13",
       "title": "Il manuale cyber dell’Iran: la scelta dei target per seminare caos nel mondo reale",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Teheran intensifica i propri sforzi per causare danni nel mondo reale con attacchi contro petroliere e navi frigorifere poco protette. Ecco perché preoccupa gli esperti il salto di qualità degli attacchi cyber dell'Iran, dopo gli ultimi tre, a partire dai frigoriferi europei L'articolo Il manuale cyber dell’Iran: la scelta dei target per seminare caos nel mondo reale proviene da Cyber Security 360 .",
       "tags": [
@@ -765,8 +761,8 @@
       "id": "2026-11-13-024",
       "published": "2026-11-13",
       "title": "False minacce bomba alle scuole: la mail era in regola. È questo il problema",
-      "category": "ransomware",
-      "severity": "HIGH",
+      "category": "general",
+      "severity": "MEDIUM",
       "summary": "La falsa minaccia bomba che ha raggiunto migliaia di scuole italiane è partita da un account e-mail compromesso. Il caso mostra perché SPF, DKIM e DMARC non possono garantire l'affidabilità del contenuto di un messaggio. Dalle evacuazioni alle frodi BEC, il rischio nasce quando un'e-mail basta a far scattare una decisione L'articolo False minacce bomba alle scuole: la mail era in regola.",
       "tags": [
         "Business email compromise",
@@ -788,7 +784,7 @@
       "id": "2026-11-13-025",
       "published": "2026-11-13",
       "title": "L’attacco alla DIA che non c’è stato: quando per fare danno basta uno screenshot",
-      "category": "malware",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "Nessuna violazione dei sistemi della DIA, solo dati pubblici spacciati per documenti riservati. Il caso dimostra che per danneggiare un'organizzazione può bastare uno screenshot sul dark web.",
       "tags": [
@@ -868,8 +864,8 @@
       "id": "2026-11-13-029",
       "published": "2026-11-13",
       "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
-      "category": "policy",
-      "severity": "LOW",
+      "category": "general",
+      "severity": "MEDIUM",
       "summary": "Federal officials have yet to say what caused the communications disruption or whether they are investigating a possible cyberattack. The post FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’ appeared first on SecurityWeek .",
       "tags": [
         "Government",
@@ -927,8 +923,7 @@
       "severity": "HIGH",
       "summary": "Noteworthy stories that might have slipped under the radar: Siemens details security advisory policy, OpenAI Codex backdoor risk, Microsoft warns of model weight backdoors. The post In Other News: New CISA Director Nominee, Connected Car Hacking, Baker Tilly Data Breach appeared first on SecurityWeek .",
       "tags": [
-        "Artificial Intelligence",
-        "In Other News"
+        "breach"
       ],
       "cves": [],
       "sources": [
@@ -1441,11 +1436,11 @@
       "id": "2026-11-12-020",
       "published": "2026-11-12",
       "title": "SCKit Malware Turns ScreenConnect Support Sessions Into Potential MSP Attack Paths",
-      "category": "vuln",
+      "category": "malware",
       "severity": "CRITICAL",
       "summary": "The ongoing campaign targeting ConnectWise ScreenConnect deployments involves the exploitation of a now-patched critical security flaw in the remote access software, and not a new vulnerability, it has emerged. Blackpoint Cyber's Adversary Pursuit Group (APG), which shared the details with The Hacker News, said the recovered attacker toolkit exploits CVE-2026-84869 (CVSS score: 9.9), an",
       "tags": [
-        "vuln"
+        "malware"
       ],
       "cves": [
         "CVE-2026-84869"
@@ -1461,11 +1456,11 @@
       "id": "2026-11-12-021",
       "published": "2026-11-12",
       "title": "ScreenConnect Attacks Target at Least 288 Endpoints Across 48 Organizations With Rogue Clients",
-      "category": "vuln",
+      "category": "general",
       "severity": "MEDIUM",
       "summary": "ConnectWise has taken the precautionary step of disabling five third-party extensions in partner environments following reports of unauthorized access. In an advisory posted on its site, the company said there is no evidence that the incident involves a compromise of its infrastructure or a vulnerability in the ScreenConnect software. \"Our initial assessment suggests the activity may involve",
       "tags": [
-        "vuln"
+        "general"
       ],
       "cves": [],
       "sources": [
