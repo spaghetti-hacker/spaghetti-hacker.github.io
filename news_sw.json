@@ -3,6 +3,16 @@
  "updated": "2026-11-15",
  "items": [
   {
+   "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
+   "link": "https://www.securityweek.com/pentagon-renames-cdao-super-intelligence-office/",
+   "date": "2026-11-15"
+  },
+  {
+   "title": "Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook",
+   "link": "https://www.securityweek.com/meta-fined-887-million-in-italy-over-android-gallery-photos-and-videos-on-facebook/",
+   "date": "2026-11-14"
+  },
+  {
    "title": "Is AI Making Us Worse at Cybersecurity?",
    "link": "https://www.securityweek.com/is-ai-making-us-worse-at-cybersecurity/",
    "date": "2026-11-14"
@@ -40,16 +50,6 @@
   {
    "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
    "link": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "Law Enforcement Disrupts Gootloader, CastleRAT, and StealC Infrastructure",
-   "link": "https://www.securityweek.com/law-enforcement-disrupts-gootloader-castlerat-and-stealc-infrastructure/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
-   "link": "https://www.securityweek.com/citrix-patches-10-critical-netscaler-vulnerabilities/",
    "date": "2026-11-13"
   }
  ]
