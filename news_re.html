@@ -55,16 +55,16 @@ body{
 }
 
 .wrapper{
-    max-width:1260px;
-    margin:auto;
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
+    position:relative;
+    width:100%;
+    max-width:1024px;
+    min-height:calc(100vh - 44px);
+    margin:0 auto;
+    display:block;
 }
 
 .screen{
-    flex:1;
-    min-width:0;
+    width:100%;
     background:#001C1C;
     border:1px solid #001c1c;
     border-radius:6px;
@@ -230,9 +230,10 @@ a:hover{
 
 /* ═══ specifico di news_re.html ═══ */
 #srcbar{
-    flex:0 0 18ch;
-    position:sticky;
-    top:44px;
+    position:absolute;
+    top:0;
+    right:calc(100% + 12px);
+    width:18ch;
     max-height:calc(100vh - 56px);
     overflow-y:auto;
     background:#001C1C;
@@ -372,14 +373,14 @@ a.on, a.on:hover{
         margin-right:10px;
     }
     .wrapper{
-        flex-direction:column;
-        gap:8px;
+        width:100%;
+        max-width:1024px;
     }
     #srcbar{
         position:static;
-        flex:none;
         width:100%;
         max-height:none;
+        margin-bottom:8px;
         padding:12px;
     }
     #srcbar a{

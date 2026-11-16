@@ -104,12 +104,24 @@ body{
 }
 
 .wrapper{
-    max-width:1260px;
+    position:relative;
+    width:100%;
+    max-width:1024px; /* stessa larghezza e asse del container CVE */
     min-height:calc(100vh - 44px);
-    margin:auto;
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
+    margin:0 auto;
+    display:block;
+}
+
+.screen{
+    width:100%;
+}
+
+#actbar{
+    position:absolute;
+    top:0;
+    right:calc(100% + 12px); /* sidebox esterna: non riduce né sposta il container CTI */
+    width:18ch;
+    max-height:calc(100vh - 56px);
 }
 
 .screen{
@@ -754,10 +766,6 @@ html{
 
 /* barra laterale con l'elenco degli attori (come #srcbar in news_re.html) */
 #actbar{
-    flex:0 0 18ch;
-    position:sticky;
-    top:44px;
-    max-height:calc(100vh - 56px);
     overflow-y:auto;
     background:#001C1C;
     border:1px solid #001c1c;
@@ -794,14 +802,14 @@ html{
 
 @media(max-width:640px){
     .wrapper{
-        flex-direction:column;
-        gap:8px;
+        width:100%;
+        max-width:1024px;
     }
     #actbar{
         position:static;
-        flex:none;
         width:100%;
         max-height:none;
+        margin-bottom:8px;
         padding:12px;
     }
     #actbar a{
