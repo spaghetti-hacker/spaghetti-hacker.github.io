@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T12:25:03Z",
+  "updated": "2026-11-16T14:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -25,6 +25,65 @@
     {
       "id": "2026-11-16-002",
       "published": "2026-11-16",
+      "title": "Google warns that fully-automated AI attacks are coming soon",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Threat actors are now relying on agentic workflows powered by AI-based offensive frameworks to automate vulnerability discovery and exploitation, accelerating attacks to machine speed. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/google-warns-that-fully-automated-ai-attacks-are-coming-soon/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-003",
+      "published": "2026-11-16",
+      "title": "Microsoft: Windows Server 2016 reaches end of support in 60 days",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has reminded customers again that Windows Server 2016 will stop receiving security updates after it reaches the end of support in two months. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2016-reaches-end-of-support-in-60-days/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-004",
+      "published": "2026-11-16",
+      "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Kaspersky suspects exploitation of Telegram’s new widgets to deliver WebRAT, as researchers demo RCE and Pavel Durov disputes the claims. The post Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Vulnerabilities",
+        "exploited",
+        "malware",
+        "Telegram",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/telegram-widgets-hit-by-rce-demos-malware-warning-days-after-launch/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-005",
+      "published": "2026-11-16",
       "title": "Australian retail giant Coles investigates cybersecurity incident",
       "category": "general",
       "severity": "MEDIUM",
@@ -41,7 +100,7 @@
       ]
     },
     {
-      "id": "2026-11-16-003",
+      "id": "2026-11-16-006",
       "published": "2026-11-16",
       "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
       "category": "vuln",
@@ -65,7 +124,7 @@
       ]
     },
     {
-      "id": "2026-11-16-004",
+      "id": "2026-11-16-007",
       "published": "2026-11-16",
       "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
       "category": "vuln",
@@ -88,7 +147,7 @@
       ]
     },
     {
-      "id": "2026-11-16-005",
+      "id": "2026-11-16-008",
       "published": "2026-11-16",
       "title": "Anthropic’s Claude Fable 5.2 blocks fewer security tasks, while Mythos gets better at finding bugs",
       "category": "general",
@@ -106,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-16-006",
+      "id": "2026-11-16-009",
       "published": "2026-11-16",
       "title": "New NoisyTCP vulnerability lets attackers crash Linux servers",
       "category": "vuln",
@@ -124,7 +183,7 @@
       ]
     },
     {
-      "id": "2026-11-16-007",
+      "id": "2026-11-16-010",
       "published": "2026-11-16",
       "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
       "category": "general",
@@ -146,7 +205,7 @@
       ]
     },
     {
-      "id": "2026-11-16-008",
+      "id": "2026-11-16-011",
       "published": "2026-11-16",
       "title": "Microsoft pushes Windows emergency updates to fix activation failures",
       "category": "general",
@@ -164,7 +223,7 @@
       ]
     },
     {
-      "id": "2026-11-16-009",
+      "id": "2026-11-16-012",
       "published": "2026-11-16",
       "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
       "category": "malware",
@@ -319,29 +378,6 @@
     {
       "id": "2026-11-14-005",
       "published": "2026-11-14",
-      "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Officials say there is no evidence of a cyberattack behind the nationwide FAA outage, which may have been caused by a software update. The post No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update appeared first on SecurityWeek .",
-      "tags": [
-        "Government",
-        "ICS/OT",
-        "Incident Response",
-        "airplanes",
-        "Aviation",
-        "cyberattack"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-14-006",
-      "published": "2026-11-14",
       "title": "Meta Fined $887 Million in Italy Over Android Gallery Photos and Videos on Facebook",
       "category": "policy",
       "severity": "LOW",
@@ -363,24 +399,6 @@
     {
       "id": "2026-11-13-001",
       "published": "2026-11-13",
-      "title": "Check Point warns of zero-day flaw exploited for root access",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "Check Point Software has released emergency hotfixes to address a high-severity flaw that hackers have been exploiting to gain root privileges and establish persistence on vulnerable devices since late October. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-002",
-      "published": "2026-11-13",
       "title": "Trezor confirms crypto-stealing implants in three wallets, releases fix",
       "category": "general",
       "severity": "MEDIUM",
@@ -397,7 +415,7 @@
       ]
     },
     {
-      "id": "2026-11-13-003",
+      "id": "2026-11-13-002",
       "published": "2026-11-13",
       "title": "German military drone operations disrupted by cyberattack",
       "category": "general",
@@ -415,7 +433,7 @@
       ]
     },
     {
-      "id": "2026-11-13-004",
+      "id": "2026-11-13-003",
       "published": "2026-11-13",
       "title": "Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper",
       "category": "malware",
@@ -433,7 +451,7 @@
       ]
     },
     {
-      "id": "2026-11-13-005",
+      "id": "2026-11-13-004",
       "published": "2026-11-13",
       "title": "How one AI agent exposed five critical enterprise security gaps",
       "category": "general",
@@ -451,7 +469,7 @@
       ]
     },
     {
-      "id": "2026-11-13-006",
+      "id": "2026-11-13-005",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
       "category": "general",
@@ -465,24 +483,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-says-november-security-updates-cause-printing-issues/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-007",
-      "published": "2026-11-13",
-      "title": "Microsoft confirms Windows activation failures after November updates",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has confirmed that this month's Patch Tuesday security updates are causing Windows activation and licensing failures with 0x80041008 error codes. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-windows-activation-failures-after-november-updates/"
         }
       ]
     }

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T12:25:03Z",
+  "updated": "2026-11-16T14:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -59,6 +59,24 @@
     {
       "id": "2026-11-16-004",
       "published": "2026-11-16",
+      "title": "Microsoft: Windows Server 2016 reaches end of support in 60 days",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has reminded customers again that Windows Server 2016 will stop receiving security updates after it reaches the end of support in two months. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2016-reaches-end-of-support-in-60-days/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-005",
+      "published": "2026-11-16",
       "title": "Australian retail giant Coles investigates cybersecurity incident",
       "category": "general",
       "severity": "MEDIUM",
@@ -75,7 +93,25 @@
       ]
     },
     {
-      "id": "2026-11-16-005",
+      "id": "2026-11-16-006",
+      "published": "2026-11-16",
+      "title": "Google warns that fully-automated AI attacks are coming soon",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Threat actors are now relying on agentic workflows powered by AI-based offensive frameworks to automate vulnerability discovery and exploitation, accelerating attacks to machine speed. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/google-warns-that-fully-automated-ai-attacks-are-coming-soon/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-007",
       "published": "2026-11-16",
       "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
       "category": "vuln",
@@ -98,7 +134,7 @@
       ]
     },
     {
-      "id": "2026-11-16-006",
+      "id": "2026-11-16-008",
       "published": "2026-11-16",
       "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
       "category": "malware",
@@ -118,7 +154,7 @@
       ]
     },
     {
-      "id": "2026-11-16-007",
+      "id": "2026-11-16-009",
       "published": "2026-11-16",
       "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
       "category": "vuln",
@@ -142,7 +178,30 @@
       ]
     },
     {
-      "id": "2026-11-16-008",
+      "id": "2026-11-16-010",
+      "published": "2026-11-16",
+      "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Kaspersky suspects exploitation of Telegram’s new widgets to deliver WebRAT, as researchers demo RCE and Pavel Durov disputes the claims. The post Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Vulnerabilities",
+        "exploited",
+        "malware",
+        "Telegram",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/telegram-widgets-hit-by-rce-demos-malware-warning-days-after-launch/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-011",
       "published": "2026-11-16",
       "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
       "category": "general",
@@ -164,7 +223,7 @@
       ]
     },
     {
-      "id": "2026-11-16-009",
+      "id": "2026-11-16-012",
       "published": "2026-11-16",
       "title": "Uber Data Breach Impacts 150,000 People",
       "category": "breach",
