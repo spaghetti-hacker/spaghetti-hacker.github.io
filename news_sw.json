@@ -3,6 +3,11 @@
  "updated": "2026-11-16",
  "items": [
   {
+   "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
+   "link": "https://www.securityweek.com/recent-unrealircd-vulnerability-exploited-in-attacks/",
+   "date": "2026-11-16"
+  },
+  {
    "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
    "link": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/",
    "date": "2026-11-16"
@@ -46,11 +51,6 @@
    "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
    "link": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/",
    "date": "2026-11-14"
-  },
-  {
-   "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
-   "link": "https://www.securityweek.com/faa-ground-stop-issued-due-to-extraordinary-circumstances/",
-   "date": "2026-11-13"
   }
  ]
 }
