@@ -55,11 +55,16 @@ body{
 }
 
 .wrapper{
-    max-width:1024px;
+    max-width:1260px;
     margin:auto;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
 }
 
 .screen{
+    flex:1;
+    min-width:0;
     background:#001C1C;
     border:1px solid #001c1c;
     border-radius:6px;
@@ -224,6 +229,29 @@ a:hover{
 }
 
 /* ═══ specifico di news_re.html ═══ */
+#srcbar{
+    flex:0 0 18ch;
+    position:sticky;
+    top:44px;
+    max-height:calc(100vh - 56px);
+    overflow-y:auto;
+    padding-top:16px;
+    scrollbar-width:none;
+}
+#srcbar::-webkit-scrollbar{ display:none; }
+
+#srcbar .dim{
+    margin-bottom:4px;
+}
+
+#srcbar a{
+    display:block;
+    margin:0 0 2px 0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
 a.on, a.on:hover{
     color:#000000;
     background:#65E903;
@@ -339,6 +367,22 @@ a.on, a.on:hover{
         width:72px;
         margin-right:10px;
     }
+    .wrapper{
+        flex-direction:column;
+        gap:8px;
+    }
+    #srcbar{
+        position:static;
+        flex:none;
+        width:100%;
+        max-height:none;
+        padding-top:0;
+    }
+    #srcbar a{
+        display:inline-block;
+        margin:0 6px 2px 0;
+        max-width:100%;
+    }
     #tbl thead{ display:none; }
     #tbl, #tbl tbody, #tbl tr, #tbl td{ display:block; }
     #tbl tr{ margin-top:12px; }
@@ -367,6 +411,10 @@ a.on, a.on:hover{
 </nav>
 
 <div class="wrapper">
+<aside id="srcbar">
+    <div class="dim">src:</div>
+    <div id="srclinks"></div>
+</aside>
 <div class="screen">
 
     <div class="post-row">
@@ -385,7 +433,6 @@ a.on, a.on:hover{
             <a href="#" data-f="days" data-v="7">7d</a><a href="#" data-f="days" data-v="30">30d</a><a href="#" data-f="days" data-v="90">90d</a><a href="#" data-f="days" data-v="0">all</a>
         </div>
         <div class="frow"><span class="dim">topic: </span><span id="topiclinks"></span></div>
-        <div class="frow"><span class="dim">src:   </span><span id="srclinks"></span></div>
         <div class="frow"><span class="dim">sort:  </span>
             <a href="#" data-f="sort" data-v="date" data-label="DATE">DATE</a><a href="#" data-f="sort" data-v="src" data-label="SRC">SRC</a><a href="#" data-f="sort" data-v="title" data-label="TITLE">TITLE</a>
         </div>
@@ -528,7 +575,7 @@ function render(){
     if(st.page > pages) st.page = pages;
     const slice = rows.slice((st.page - 1) * PAGE_SIZE, st.page * PAGE_SIZE);
 
-    document.querySelectorAll("#filters a[data-f]").forEach(a => {
+    document.querySelectorAll("#filters a[data-f], #srcbar a[data-f]").forEach(a => {
         const f = a.dataset.f, v = a.dataset.v;
         let on = false;
         if(f === "show")       on = (v === "unread") === st.unread;
@@ -556,7 +603,7 @@ function render(){
 }
 
 /* ── eventi ── */
-$("filters").addEventListener("click", e => {
+[$("filters"), $("srcbar")].forEach(el => el.addEventListener("click", e => {
     const a = e.target.closest("a[data-f]");
     if(!a) return;
     e.preventDefault();
@@ -571,7 +618,7 @@ $("filters").addEventListener("click", e => {
     }
     st.page = 1;
     render();
-});
+}));
 
 $("pager").addEventListener("click", e => {
     const a = e.target.closest("a[data-p]");
