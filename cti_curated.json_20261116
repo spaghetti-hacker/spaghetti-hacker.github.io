@@ -1,0 +1,52 @@
+{
+  "_readme": "File curato a mano, letto da cti_update.py. 'actors' = correzioni agli attori MITRE (chiave = nome MITRE); 'extra_actors' = attori non presenti in MITRE (hacktivisti, ransomware); 'campaigns' = campagne verificate da te; 'ignore_urls' = articoli da escludere dalle campagne automatiche; 'feeds' (facoltativo) = sostituisce l'elenco di feed dello script. 'match' negli attori = termini extra da cercare nei feed.",
+  "actors": {
+    "APT28": {
+      "origin": "RU",
+      "motivation": ["spionaggio"],
+      "sectors": ["government", "defense", "media"],
+      "confidence": "HIGH",
+      "summary": "Gruppo attribuito all'intelligence militare russa. Phishing mirato, password spraying e abuso di account validi contro enti governativi e difesa."
+    },
+    "APT29": {
+      "origin": "RU",
+      "motivation": ["spionaggio"],
+      "sectors": ["government", "diplomatic", "technology"],
+      "confidence": "HIGH",
+      "summary": "Gruppo attribuito al servizio di intelligence estero russo, focalizzato su enti diplomatici e governativi e sull'abuso di identita cloud."
+    },
+    "Sandworm Team": {
+      "origin": "RU",
+      "motivation": ["sabotaggio", "spionaggio"],
+      "sectors": ["energy", "government", "telecom"],
+      "confidence": "HIGH",
+      "summary": "Gruppo associato ad attacchi distruttivi contro infrastrutture critiche, in particolare energia e telecomunicazioni."
+    },
+    "Lazarus Group": {
+      "origin": "KP",
+      "motivation": ["finanziaria", "spionaggio"],
+      "sectors": ["finance", "crypto", "defense"],
+      "confidence": "HIGH",
+      "summary": "Gruppo nordcoreano attivo contro exchange di criptovalute, finanza e difesa; frequenti finte offerte di lavoro e compromissioni della supply chain software."
+    }
+  },
+  "extra_actors": [
+    {
+      "id": "HX-NONAME",
+      "name": "NoName057(16)",
+      "aliases": ["DDoSia"],
+      "origin": "pro-RU hacktivist",
+      "motivation": ["hacktivism"],
+      "sectors": ["government", "transport", "finance"],
+      "scope": "IT",
+      "targets_italy": true,
+      "ttps": ["T1498"],
+      "first_seen": "2022",
+      "confidence": "MEDIUM",
+      "summary": "Collettivo hacktivista filorusso noto per attacchi DDoS ripetuti contro siti istituzionali e di servizi pubblici di paesi europei, Italia compresa.",
+      "sources": []
+    }
+  ],
+  "campaigns": [],
+  "ignore_urls": []
+}

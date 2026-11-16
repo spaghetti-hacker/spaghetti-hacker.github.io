@@ -104,11 +104,16 @@ body{
 }
 
 .wrapper{
-    max-width:1024px;
+    max-width:1260px;
     margin:auto;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
 }
 
 .screen{
+    flex:1;
+    min-width:0;
     background:#001C1C;
     border:1px solid #001c1c;
     border-radius:6px;
@@ -739,18 +744,43 @@ html{
 
 .alias{ opacity:.65; }
 
-/* larghezze colonne per tab */
-#tbl.t-actors th:nth-child(1){ width:12ch; }
-#tbl.t-actors th:nth-child(2){ width:7ch; }
-#tbl.t-actors th:nth-child(3){ width:20ch; }
-
-#tbl.t-campaigns th:nth-child(1){ width:12ch; }
-#tbl.t-campaigns th:nth-child(2){ width:7ch; }
-#tbl.t-campaigns th:nth-child(3){ width:9ch; }
-
+/* larghezze colonne tab TTP */
 #tbl.t-ttp th:nth-child(1){ width:11ch; }
 #tbl.t-ttp th:nth-child(2){ width:22ch; }
-#tbl.t-ttp th:nth-child(3){ width:9ch; }
+#tbl.t-ttp th:nth-child(3){ width:10ch; }
+
+/* barra laterale con l'elenco degli attori (come #srcbar in news_re.html) */
+#actbar{
+    flex:0 0 22ch;
+    position:sticky;
+    top:44px;
+    max-height:calc(100vh - 56px);
+    overflow-y:auto;
+    background:#001C1C;
+    border:1px solid #001c1c;
+    border-radius:6px;
+    padding:16px 12px;
+    box-shadow:0 0 10px rgba(101,233,3,.06);
+    scrollbar-width:none;
+}
+#actbar::-webkit-scrollbar{ display:none; }
+
+#actbar .dim{
+    margin-bottom:4px;
+}
+
+#actbar a{
+    display:block;
+    margin:0 0 2px 0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* dettaglio dell'attore selezionato */
+#actor-detail .a-name{
+    margin-top:1.2em;
+}
 
 .detail div{
     white-space:pre-wrap;
@@ -758,6 +788,25 @@ html{
 }
 
 #tbl td.c-cat, #tbl td.c-sev{ overflow:hidden; text-overflow:ellipsis; }
+
+@media(max-width:640px){
+    .wrapper{
+        flex-direction:column;
+        gap:8px;
+    }
+    #actbar{
+        position:static;
+        flex:none;
+        width:100%;
+        max-height:none;
+        padding:12px;
+    }
+    #actbar a{
+        display:inline-block;
+        margin:0 6px 2px 0;
+        max-width:100%;
+    }
+}
 </style>
 </head>
 
@@ -774,6 +823,10 @@ html{
 </nav>
 
 <div class="wrapper">
+<aside id="actbar">
+    <div class="dim">actors:</div>
+    <div id="actlinks"></div>
+</aside>
 <div class="screen">
 
     <div class="post-row">
@@ -787,7 +840,7 @@ html{
     <div id="notice"></div>
 
     <div id="tabs">
-        <a href="#actors" data-tab="actors">[THREAT ACTORS]</a><a href="#campaigns" data-tab="campaigns">[CAMPAIGNS]</a><a href="#ttp" data-tab="ttp">[TTP]</a>
+        <a href="#actors" data-tab="actors">[THREAT ACTORS]</a><a href="#ttp" data-tab="ttp">[TTP]</a>
     </div>
 
     <div id="filters">
@@ -807,7 +860,7 @@ html{
 
     <div id="prompt-line" class="line" style="margin-top:6px">
         <span id="prompt-label">grep&gt;&nbsp;</span>
-        <input id="prompt-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="cerca attori, campagne, tecniche MITRE o alias">
+        <input id="prompt-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="cerca attori, tecniche MITRE o alias">
     </div>
 
     <div id="count" class="dim"></div>
@@ -839,7 +892,7 @@ const SECT = {
     diplomatic:    "DIPLOMAZIA",
     education:     "ISTRUZIONE"
 };
-const TABS = { actors:"THREAT ACTORS", campaigns:"CAMPAIGNS", ttp:"TTP" };
+const TABS = { actors:"THREAT ACTORS", ttp:"TTP" };
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -853,10 +906,10 @@ const ttpUrl = id => "https://attack.mitre.org/techniques/" + String(id).replace
 
 let DB = null;
 let ttpMap = new Map();
-let byKey = new Map();
 const openIds = new Set();
-/* days: 7/30/90 = ultimi N giorni, 0 = tutto il JSON */
-const st = { tab:"actors", min:0, scope:"all", days:90, q:"", sort:"date", dir:-1, page:1 };
+/* days: 7/30/90 = ultimi N giorni, 0 = tutto il JSON
+   actor: id dell'attore mostrato nel dettaglio (tab actors) */
+const st = { tab:"actors", actor:"", min:0, scope:"all", days:90, q:"", sort:"name", dir:1, page:1 };
 
 function cutoffDay(days){
     const d = new Date();
@@ -865,15 +918,15 @@ function cutoffDay(days){
 }
 
 /* ── filtro ── */
-function sets(withQ){
+function filteredActors(withQ){
     const cutoff = st.days === 0 ? "" : cutoffDay(st.days);
     const q = withQ ? st.q.trim().toLowerCase() : "";
-    const ok = i =>
+    return DB.actors.filter(i =>
         i.rank >= st.min &&
         (st.scope === "all" || (st.scope === "IT" ? i.isIT : i.scope === st.scope)) &&
         (!cutoff || !i.date || i.date >= cutoff) &&
-        (!q || i.hay.includes(q));
-    return { actors: DB.actors.filter(ok), camps: DB.campaigns.filter(ok) };
+        (!q || i.hay.includes(q))
+    );
 }
 
 function sortRows(rows){
@@ -887,36 +940,33 @@ function sortRows(rows){
     return rows;
 }
 
-function ttpUse(s){
+function ttpUse(actors){
     const use = new Map();
-    const bump = (i, kind) => i.ttps.forEach(id => {
-        const e = use.get(id) || { a: [], c: [] };
-        e[kind].push(i);
-        use.set(id, e);
-    });
-    s.actors.forEach(a => bump(a, "a"));
-    s.camps.forEach(c => bump(c, "c"));
+    actors.forEach(a => a.ttps.forEach(id => {
+        if(!use.has(id)) use.set(id, []);
+        use.get(id).push(a);
+    }));
     return use;
 }
 
-/* la ricerca vale sia sulla tecnica (id, nome, tattica) sia su attori e campagne:
+/* la ricerca vale sia sulla tecnica (id, nome, tattica) sia sugli attori:
    "APT28" mostra le TTP usate da APT28, "phishing" mostra la tecnica e chi la usa */
 function ttpRows(){
     const q = st.q.trim().toLowerCase();
-    const all = ttpUse(sets(false));
-    const hit = q ? ttpUse({ actors: sets(true).actors, camps: sets(true).camps }) : null;
+    const all = ttpUse(filteredActors(false));
+    const hit = q ? ttpUse(filteredActors(true)) : null;
     const rows = [];
-    all.forEach((e, id) => {
+    all.forEach((list, id) => {
         const t = ttpMap.get(id);
-        let use = e;
+        let use = list;
         if(q){
-            if(t.hay.includes(q))  use = e;               /* la tecnica stessa corrisponde: tutti gli utilizzatori */
-            else if(hit.has(id))   use = hit.get(id);     /* corrispondono solo attori/campagne: mostra quelli */
+            if(t.hay.includes(q))  use = list;            /* la tecnica stessa corrisponde: tutti gli utilizzatori */
+            else if(hit.has(id))   use = hit.get(id);     /* corrispondono solo gli attori: mostra quelli */
             else return;
         }
-        rows.push({ t, a: use.a, c: use.c, n: use.a.length + use.c.length });
+        rows.push({ t, a: use });
     });
-    rows.sort((x, y) => (y.n - x.n) || cmp(x.t.id, y.t.id));
+    rows.sort((x, y) => (y.a.length - x.a.length) || cmp(x.t.id, y.t.id));
     return rows;
 }
 
@@ -940,37 +990,19 @@ function srcLinks(list){
 const itFlag = i => i.isIT ? `<span class="scope-it"> [IT]</span>` : "";
 const autoFlag = i => i.auto ? `<span class="dim"> [auto]</span>` : "";
 
-function actorCell(a, open){
-    const al = a.aliases.length ? `<span class="alias"> (${esc(a.aliases.slice(0, 2).join(", "))})</span>` : "";
-    let h = esc(a.name) + itFlag(a) + autoFlag(a) + al + `<span class="more"> [${open ? "-" : "+"}]</span>`;
-    if(!open) return h;
-    h += `<div class="detail">`;
-    if(a.summary) h += `<div>${esc(a.summary)}</div>`;
+/* dettaglio dell'attore selezionato (sempre aperto, niente tabella) */
+function actorDetail(a){
+    const c = CONF[a.confidence] || ["n/a", "conf-low", 0];
+    let h = `<div class="a-name">${esc(a.name)}${itFlag(a)}${autoFlag(a)}</div><div class="detail">`;
+    if(a.summary)           h += `<div>${esc(a.summary)}</div>`;
     if(a.aliases.length)    h += L("alias: ", esc(a.aliases.join(", ")));
-    h += L("origin ", esc([a.origin, ...a.motivation].filter(Boolean).join(" / ")));
-    if(a.first_seen)        h += L("attivo: ", esc(a.first_seen) + (a.date ? " ; ultima attivita " + esc(a.date) : ""));
+    h += L("origin ", esc([a.origin, ...a.motivation].filter(Boolean).join(" / ") || "n/a"));
+    h += L("conf: ", `<span class="${c[1]}">${c[0]}</span>`);
+    if(a.first_seen || a.date) h += L("attivo: ", esc(a.first_seen || "n/a") + (a.date ? " ; ultima attivita " + esc(a.date) : ""));
     if(a.sectors.length)    h += L("settori: ", esc(a.sectors.map(sectLabel).join(", ")));
     if(a.tools.length)      h += L("strum.: ", esc(a.tools.join(", ")));
     if(a.ttps.length)       h += L("ttp: ", ttpLinks(a.ttps));
-    if(a.camps.length)      h += L("camp.: ", a.camps.map(c => esc(c.title)).join(" ; "));
     h += srcLinks(a.sources);
-    return h + `</div>`;
-}
-
-function campCell(c, open){
-    const act = c.actor ? `<span class="alias"> — ${esc(c.actor)}</span>` : "";
-    let h = esc(c.title) + itFlag(c) + autoFlag(c) + act + `<span class="more"> [${open ? "-" : "+"}]</span>`;
-    if(!open) return h;
-    h += `<div class="detail">`;
-    if(c.summary) h += `<div>${esc(c.summary)}</div>`;
-    if(c.actor)           h += L("attore ", esc(c.actor));
-    h += L("periodo ", esc(c.start || "n/a") + (c.end ? " > " + esc(c.end) : " > in corso"));
-    if(c.vector)          h += L("vettore: ", esc(c.vector));
-    if(c.malware.length)  h += L("malware: ", esc(c.malware.join(", ")));
-    if(c.sectors.length)  h += L("settori: ", esc(c.sectors.map(sectLabel).join(", ")));
-    if(c.ttps.length)     h += L("ttp: ", ttpLinks(c.ttps));
-    if(c.tlp)             h += L("tlp: ", esc("TLP:" + c.tlp));
-    h += srcLinks(c.sources);
     return h + `</div>`;
 }
 
@@ -980,39 +1012,17 @@ function ttpCell(r, open){
     if(!open) return h;
     h += `<div class="detail">`;
     if(r.a.length) h += L("attori: ", esc(r.a.map(a => a.name).join(", ")));
-    if(r.c.length) h += L("camp.: ", r.c.map(c => esc(c.title)).join(" ; "));
     h += L("mitre  ", `<a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.id)}</a>`);
     return h + `</div>`;
-}
-
-function confCell(i){
-    const c = CONF[i.confidence] || ["n/a", "conf-low", 0];
-    return `<td class="c-sev ${c[1]}">${c[0]}</td>`;
-}
-
-function actorRow(a){
-    const k = "actors:" + a.id;
-    return `<tr><td class="c-date">${esc(a.date || "n/a")}</td>${confCell(a)}` +
-           `<td class="c-cat">${esc(a.origin || "n/a")}</td>` +
-           `<td class="c-news" data-key="${esc(k)}">${actorCell(a, openIds.has(k))}</td></tr>`;
-}
-
-function campRow(c){
-    const k = "campaigns:" + c.id;
-    return `<tr><td class="c-date">${esc(c.date || "n/a")}</td>${confCell(c)}` +
-           `<td class="c-cat${c.isIT ? " scope-it" : ""}">${esc(c.scope || "n/a")}</td>` +
-           `<td class="c-news" data-key="${esc(k)}">${campCell(c, openIds.has(k))}</td></tr>`;
 }
 
 function ttpRow(r){
     const k = "ttp:" + r.t.id;
     return `<tr><td class="c-date">${esc(r.t.id)}</td>` +
            `<td class="c-sev">${esc(r.t.tactic || "n/a")}</td>` +
-           `<td class="c-cat">${r.a.length}a / ${r.c.length}c</td>` +
+           `<td class="c-cat">${r.a.length} ${r.a.length === 1 ? "attore" : "attori"}</td>` +
            `<td class="c-news" data-key="${esc(k)}">${ttpCell(r, openIds.has(k))}</td></tr>`;
 }
-
-function pad(s, n){ return s + " ".repeat(Math.max(0, n - s.length)); }
 
 function pagerHtml(pages){
     if(pages <= 1) return "";
@@ -1045,39 +1055,50 @@ function render(){
         a.classList.toggle("on", on);
         if(f === "sort") a.textContent = a.dataset.label + (on ? (st.dir < 0 ? " v" : " ^") : "");
     });
-    $("sortrow").style.display = (st.tab === "actors" || st.tab === "campaigns") ? "" : "none";
+
+    const isActors = st.tab === "actors";
+    $("sortrow").style.display = isActors ? "" : "none";
+    $("actbar").style.display  = isActors ? "" : "none";
 
     /* contatori nelle tab */
-    const full = sets(true);
-    const counts = { actors: full.actors.length, campaigns: full.camps.length, ttp: ttpRows().length };
+    const actors = filteredActors(true);
+    const counts = { actors: actors.length, ttp: ttpRows().length };
     document.querySelectorAll("#tabs a[data-tab]").forEach(a => {
         const t = a.dataset.tab;
         a.classList.toggle("on", t === st.tab);
         a.textContent = `[${TABS[t]} ${counts[t]}]`;
     });
 
-    let rows = [], head = "", rowFn = null, label = "";
-    if(st.tab === "actors"){
-        rows = sortRows(full.actors); rowFn = actorRow; label = ["attore", "attori"];
-        head = "<th>LAST</th><th>CONF</th><th>ORIGIN</th><th>ACTOR</th>";
-    } else if(st.tab === "campaigns"){
-        rows = sortRows(full.camps); rowFn = campRow; label = ["campagna", "campagne"];
-        head = "<th>DATE</th><th>CONF</th><th>SCOPE</th><th>CAMPAIGN</th>";
-    } else if(st.tab === "ttp"){
-        rows = ttpRows(); rowFn = ttpRow; label = ["tecnica", "tecniche"];
-        head = "<th>ID</th><th>TACTIC</th><th>USE</th><th>TECHNIQUE</th>";
+    if(isActors){
+        const rows = sortRows(actors);
+        if(!rows.some(a => a.id === st.actor)) st.actor = rows.length ? rows[0].id : "";
+
+        $("actlinks").innerHTML = rows.map(a =>
+            `<a href="#" data-act="${esc(a.id)}" title="${esc(a.name)}"${a.id === st.actor ? ' class="on"' : ""}>${esc(a.name)}</a>`
+        ).join("");
+
+        $("count").textContent = rows.length
+            ? `;${rows.length} ${rows.length === 1 ? "attore" : "attori"}`
+            : ";nessun risultato";
+
+        const sel = rows.find(a => a.id === st.actor);
+        $("list").innerHTML = sel ? `<div id="actor-detail">${actorDetail(sel)}</div>` : "";
+        $("pager").innerHTML = "";
+        return;
     }
 
+    /* tab TTP */
+    const rows = ttpRows();
     const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
     if(st.page > pages) st.page = pages;
     const slice = rows.slice((st.page - 1) * PAGE_SIZE, st.page * PAGE_SIZE);
 
     $("count").textContent = rows.length
-        ? `;${rows.length} ${rows.length === 1 ? label[0] : label[1]} — pagina ${st.page}/${pages}`
+        ? `;${rows.length} ${rows.length === 1 ? "tecnica" : "tecniche"} — pagina ${st.page}/${pages}`
         : ";nessun risultato";
 
     $("list").innerHTML = slice.length
-        ? `<table id="tbl" class="t-${st.tab}"><thead><tr>${head}</tr></thead><tbody>${slice.map(rowFn).join("")}</tbody></table>`
+        ? `<table id="tbl" class="t-ttp"><thead><tr><th>ID</th><th>TACTIC</th><th>USE</th><th>TECHNIQUE</th></tr></thead><tbody>${slice.map(ttpRow).join("")}</tbody></table>`
         : "";
     $("pager").innerHTML = pagerHtml(pages);
 }
@@ -1107,6 +1128,17 @@ $("filters").addEventListener("click", e => {
     }
     st.page = 1;
     render();
+});
+
+/* selezione attore dalla barra laterale */
+$("actbar").addEventListener("click", e => {
+    const a = e.target.closest("a[data-act]");
+    if(!a) return;
+    e.preventDefault();
+    st.actor = a.dataset.act;
+    render();
+    /* su mobile la barra sta sopra: porta il dettaglio in vista */
+    if(window.matchMedia("(max-width:640px)").matches) $("list").scrollIntoView({ block: "start" });
 });
 
 $("pager").addEventListener("click", e => {
@@ -1139,7 +1171,7 @@ async function load(){
         const res = await fetch("cti_db.json", { cache: "no-store" });
         if(!res.ok) throw new Error("HTTP " + res.status);
         DB = await res.json();
-        if(!DB || typeof DB !== "object" || !Array.isArray(DB.actors) || !Array.isArray(DB.campaigns)) throw new Error("formato non valido");
+        if(!DB || typeof DB !== "object" || !Array.isArray(DB.actors)) throw new Error("formato non valido");
     }catch(e){
         $("meta").innerHTML = "";
         $("list").innerHTML = `<div class="err">;cti_db.json non disponibile (${esc(e.message)})</div>`;
@@ -1174,45 +1206,12 @@ async function load(){
         confidence: String(a.confidence || "").toUpperCase(),
         summary:    String(a.summary || ""),
         sources:    srcs(a.sources),
-        auto:       a.auto === true,
-        camps:      []
+        auto:       a.auto === true
     }));
 
-    /* normalizza campagne */
-    DB.campaigns = DB.campaigns.filter(c => c && c.id && c.title).map(c => {
-        const start = dateOf(c.start), end = dateOf(c.end);
-        return {
-            id:         String(c.id),
-            label:      String(c.title),
-            title:      String(c.title),
-            actor:      String(c.actor || ""),
-            start, end,
-            date:       (end && end > start) ? end : start,
-            scope:      String(c.scope || ""),
-            isIT:       c.scope === "IT",
-            sectors:    arr(c.sectors),
-            vector:     String(c.vector || ""),
-            malware:    arr(c.malware),
-            ttps:       arr(c.ttps),
-            confidence: String(c.confidence || "").toUpperCase(),
-            tlp:        String(c.tlp || "").toUpperCase(),
-            summary:    String(c.summary || ""),
-            sources:    srcs(c.sources),
-            auto:       c.auto === true
-        };
-    });
-
-    /* collega campagne e attori (nome, id o alias) */
-    const byName = new Map();
-    DB.actors.forEach(a => [a.id, a.name, ...a.aliases].forEach(n => byName.set(n.toLowerCase(), a)));
-    DB.campaigns.forEach(c => {
-        const a = byName.get(c.actor.toLowerCase());
-        if(a) a.camps.push(c);
-    });
-
-    [...DB.actors, ...DB.campaigns].forEach(i => {
-        i.ttps.forEach(ensureTtp);
-        i.rank = (CONF[i.confidence] || [0, 0, 0])[2];
+    DB.actors.forEach(a => {
+        a.ttps.forEach(ensureTtp);
+        a.rank = (CONF[a.confidence] || [0, 0, 0])[2];
     });
     ttpMap.forEach(t => { t.hay = [t.id, t.name, t.tactic].join(" ").toLowerCase(); });
 
@@ -1220,16 +1219,12 @@ async function load(){
         a.hay = [a.id, a.name, a.aliases.join(" "), a.origin, a.motivation.join(" "), a.sectors.join(" "), a.sectors.map(sectLabel).join(" "),
                  a.tools.join(" "), a.scope, a.isIT ? "italia italy" : "", a.summary, a.ttps.map(id => id + " " + ttpMap.get(id).name).join(" ")].join(" ").toLowerCase();
     });
-    DB.campaigns.forEach(c => {
-        c.hay = [c.id, c.title, c.actor, c.scope, c.isIT ? "italia italy" : "", c.sectors.join(" "), c.sectors.map(sectLabel).join(" "),
-                 c.vector, c.malware.join(" "), c.summary, c.ttps.map(id => id + " " + ttpMap.get(id).name).join(" ")].join(" ").toLowerCase();
-    });
 
     /* avvisi */
     const upd = String(DB.updated || "");
     const updMs = Date.parse(upd.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(upd) ? upd : upd + "Z");
     const ageH = (Date.now() - updMs) / 3600000;
-    let meta = `;Threat intelligence ;${DB.actors.length} attori ;${DB.campaigns.length} campagne`;
+    let meta = `;Threat intelligence ;${DB.actors.length} attori`;
     if(Number.isFinite(updMs)){
         const updLocal = new Date(updMs).toLocaleString("it-IT", { timeZone: "Europe/Rome", dateStyle: "short", timeStyle: "short" });
         meta += ` ;aggiornato ${esc(updLocal)}`;

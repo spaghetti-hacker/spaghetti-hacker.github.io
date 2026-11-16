@@ -4,14 +4,14 @@ cti_update.py - genera cti_db.json per cti.html
 
 Fonti:
   1. MITRE ATT&CK (STIX, GitHub)  -> profili degli attori e tecniche (TTP)
-  2. Feed RSS/Atom (FEEDS)         -> ultima attivita degli attori + campagne "auto"
-  3. cti_curated.json (a mano)     -> correzioni agli attori, attori extra, campagne
+  2. Feed RSS/Atom (FEEDS)         -> ultima attivita e fonti recenti degli attori
+  3. cti_curated.json (a mano)     -> correzioni agli attori e attori extra
 
 Solo libreria standard. Uso tipico (cron ogni poche ore):
     python3 cti_update.py
 Opzioni utili:
     --offline      non usa la rete, solo cache MITRE e file locali
-    --days N       finestra di giorni per le campagne auto (default 90)
+    --days N       finestra di giorni per i feed (default 90)
     -v             piu dettagli
 
 Il browser non contatta mai le fonti: legge solo cti_db.json (CSP invariata).
@@ -19,7 +19,6 @@ Il browser non contatta mai le fonti: legge solo cti_db.json (CSP invariata).
 import argparse
 import copy
 import email.utils
-import hashlib
 import html
 import json
 import os
@@ -42,7 +41,6 @@ USER_AGENT = "Mozilla/5.0 (compatible; cti-update/1.0; +https://example.org/cti.
 
 WINDOW_DAYS = 90
 MAX_TTPS_PER_ACTOR = 12
-MAX_AUTO_CAMPAIGNS = 60
 MAX_ACTOR_SOURCES = 3
 CACHE_MAX_AGE_H = 24 * 7
 
@@ -54,28 +52,19 @@ WATCH_ACTORS = [
     "Volt Typhoon",
 ]
 
-# Feed. scope: "IT" = fonte italiana; trusted: una citazione di un attore basta
-# per creare una campagna anche senza riferimenti all'Italia;
-# incidents: diventa campagna anche un articolo che nomina l'Italia insieme a
-# parole da incidente (ransomware, DDoS, phishing, data breach...), senza attore;
-# all_items: ogni articolo diventa una voce in CAMPAIGNS (utile per fonti che
-# pubblicano solo bollettini su campagne, non per testate generaliste).
-# Verifica gli URL: alcuni siti cambiano percorso. Puoi sostituire l'intero
-# elenco con la chiave "feeds" in cti_curated.json.
+# Feed usati solo per gli attori: ogni articolo che nomina un attore (nome,
+# alias o termini "match") ne aggiorna l'ultima attivita e puo comparire tra
+# le sue fonti. Verifica gli URL: alcuni siti cambiano percorso. Puoi
+# sostituire l'intero elenco con la chiave "feeds" in cti_curated.json.
 FEEDS = [
-    {"name": "Cybersecurity360", "url": "https://www.cybersecurity360.it/feed/",                    "scope": "IT",     "incidents": True},
-    {"name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/",                   "scope": "GLOBAL", "trusted": True},
-    {"name": "The Hacker News",  "url": "https://feeds.feedburner.com/TheHackersNews",              "scope": "GLOBAL", "trusted": True},
+    {"name": "Cybersecurity360", "url": "https://www.cybersecurity360.it/feed/"},
+    {"name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/"},
+    {"name": "The Hacker News",  "url": "https://feeds.feedburner.com/TheHackersNews"},
 ]
 
+# Serve solo a riconoscere gli attori MITRE la cui descrizione cita l'Italia.
 ITALY_RE = re.compile(
     r"\b(italia|italy|italian[oiae]?|italiani|italiane|csirt italia|agenzia per la cybersicurezza)\b", re.I)
-
-INCIDENT_RE = re.compile(
-    r"\b(ransomware|ddos|phishing|smishing|vishing|malware|infostealer|botnet|zero[- ]day|"
-    r"data breach|data leak|violazion[ei] (?:di |dei )?dati|"
-    r"attacc[oh]\w* (?:hacker|informatic\w*|cyber)|cyber ?attacc\w*|cyber attack\w*|"
-    r"esfiltrazion\w*|compromission\w*)\b", re.I)
 
 TACTIC_ORDER = [
     "initial-access", "execution", "persistence", "privilege-escalation",
@@ -339,9 +328,9 @@ def actor_regex(a):
 
 
 def collect_feeds(feeds, actors, cutoff, ignore_urls, offline, verbose):
+    """Aggiorna last_activity e accumula le menzioni (_mentions) degli attori."""
     regs = [(a, actor_regex(a)) for a in actors]
     regs = [(a, r) for a, r in regs if r]
-    campaigns = {}
     ok = 0
     for feed in feeds:
         if offline and not feed["url"].startswith("file://"):
@@ -352,60 +341,27 @@ def collect_feeds(feeds, actors, cutoff, ignore_urls, offline, verbose):
             log(f"feed {feed['name']}: {e}")
             continue
         ok += 1
-        kept = n_window = n_italy = n_inc = n_hits = 0
+        n_window = n_hits = 0
         for it in items:
             if it["date"] < cutoff or it["link"] in ignore_urls:
                 continue
             n_window += 1
             text = it["title"] + " " + it["desc"]
-            italy = bool(ITALY_RE.search(text))
             hits = [a for a, r in regs if r.search(text)]
-            n_italy += italy
-            n_inc += bool(INCIDENT_RE.search(text))
             n_hits += bool(hits)
             for a in hits:
                 d = day(it["date"])
                 if d > a.get("last_activity", ""):
                     a["last_activity"] = d
                 a.setdefault("_mentions", []).append((it["date"], it["title"], it["link"]))
-            incident = bool(feed.get("incidents") and italy and INCIDENT_RE.search(text))
-            make = (hits and (feed.get("scope") == "IT" or italy or feed.get("trusted"))) \
-                or feed.get("all_items") or incident
-            if not make:
-                continue
-            cid = "AUTO-" + hashlib.sha1(it["link"].encode()).hexdigest()[:10]
-            names = [a["name"] for a in hits]
-            summary = shorten(it["desc"], 280)
-            if len(names) > 1:
-                summary = (summary + " | Citati anche: " + ", ".join(names[1:])).strip(" |")
-            campaigns[cid] = {
-                "id": cid,
-                "title": shorten(it["title"], 140),
-                "actor": names[0] if names else "",
-                "start": day(it["date"]),
-                "end": "",
-                "scope": "IT" if (feed.get("scope") == "IT" or italy) else "GLOBAL",
-                "sectors": [],
-                "vector": "",
-                "malware": [],
-                "ttps": [],
-                "confidence": "LOW",
-                "tlp": "CLEAR",
-                "summary": summary,
-                "sources": [{"title": feed["name"], "url": it["link"]}],
-                "auto": True,
-            }
-            kept += 1
         log(f"feed {feed['name']}: {total} voci lette, {len(items)} valide (titolo+link+data), "
-            f"{n_window} in finestra, {n_italy} citano l'Italia, {n_inc} con parole da incidente, "
-            f"{n_hits} con attori, {kept} campagne")
+            f"{n_window} in finestra, {n_hits} con attori")
         if total and not items:
             log(f"  attenzione: {total} voci ma nessuna valida (data o link mancanti/illeggibili)")
         if verbose:
             for it in items[:3]:
                 log(f"  es: {day(it['date'])} {shorten(it['title'], 70)} | desc: {len(it['desc'])} car.")
     log(f"feed letti: {ok}/{len(feeds)}")
-    return campaigns
 
 
 # ───────────────────────── normalizzazione ─────────────────────────
@@ -434,26 +390,6 @@ def norm_actor(a):
     return out
 
 
-def norm_campaign(c):
-    return {
-        "id": str(c["id"]),
-        "title": str(c["title"]),
-        "actor": str(c.get("actor", "")),
-        "start": str(c.get("start", "")),
-        "end": str(c.get("end", "")),
-        "scope": str(c.get("scope", "GLOBAL")),
-        "sectors": as_list(c.get("sectors")),
-        "vector": str(c.get("vector", "")),
-        "malware": as_list(c.get("malware")),
-        "ttps": as_list(c.get("ttps")),
-        "confidence": str(c.get("confidence", "LOW")).upper(),
-        "tlp": str(c.get("tlp", "CLEAR")).upper(),
-        "summary": str(c.get("summary", "")),
-        "sources": [s for s in c.get("sources", []) if isinstance(s, dict) and s.get("url")],
-        **({"auto": True} if c.get("auto") else {}),
-    }
-
-
 # ───────────────────────── main ─────────────────────────
 
 
@@ -474,7 +410,6 @@ def main():
     curated = load_json(args.curated, {}, strict=True)
     overrides = curated.get("actors", {}) if isinstance(curated.get("actors"), dict) else {}
     extra_actors = [a for a in curated.get("extra_actors", []) if isinstance(a, dict) and a.get("id") and a.get("name")]
-    cur_campaigns = [c for c in curated.get("campaigns", []) if isinstance(c, dict) and c.get("id") and c.get("title")]
     ignore_urls = set(as_list(curated.get("ignore_urls")))
     feeds = curated.get("feeds") if isinstance(curated.get("feeds"), list) else FEEDS
 
@@ -506,13 +441,7 @@ def main():
                 a["last_activity"] = old[a["id"]]
 
     # 2) feed
-    auto = collect_feeds(feeds, actors, cutoff, ignore_urls, args.offline, args.verbose)
-    if prev:  # conserva le campagne auto ancora in finestra
-        for c in prev.get("campaigns", []):
-            if c.get("auto") and c.get("id") not in auto and c.get("start", "") >= day(cutoff) \
-                    and not any(s.get("url") in ignore_urls for s in c.get("sources", [])):
-                auto[c["id"]] = c
-    auto_list = sorted(auto.values(), key=lambda c: c.get("start", ""), reverse=True)[:MAX_AUTO_CAMPAIGNS]
+    collect_feeds(feeds, actors, cutoff, ignore_urls, args.offline, args.verbose)
 
     # fonti recenti negli attori
     for a in actors:
@@ -526,13 +455,9 @@ def main():
                 seen.add(link)
 
     # 3) assemblaggio
-    campaigns = {c["id"]: norm_campaign(c) for c in cur_campaigns}
-    for c in auto_list:
-        campaigns.setdefault(c["id"], norm_campaign(c))
-    camp_list = sorted(campaigns.values(), key=lambda c: c["start"], reverse=True)
     actor_list = sorted((norm_actor(a) for a in actors), key=lambda a: a["name"].lower())
 
-    used = {t for i in (*actor_list, *camp_list) for t in i["ttps"]}
+    used = {t for a in actor_list for t in a["ttps"]}
     ttps = []
     for t in sorted(used):
         base = index.get(t) or index.get(t.split(".")[0]) or {}
@@ -549,11 +474,10 @@ def main():
         "updated": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "window_days": args.days,
         "actors": actor_list,
-        "campaigns": camp_list,
         "ttps": ttps,
     }
     write_json_atomic(args.out, db)
-    log(f"scritto {args.out}: {len(actor_list)} attori, {len(camp_list)} campagne, {len(ttps)} tecniche")
+    log(f"scritto {args.out}: {len(actor_list)} attori, {len(ttps)} tecniche")
     return 0
 
 
