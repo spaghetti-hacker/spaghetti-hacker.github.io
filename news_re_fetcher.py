@@ -57,7 +57,6 @@ FEEDS = [
     {"name": "Project Zero",   "url": "https://googleprojectzero.blogspot.com/feeds/posts/default", "min": 1},
     {"name": "Trail of Bits",  "url": "https://blog.trailofbits.com/feed/", "min": 1},
     {"name": "Quarkslab",      "url": "https://blog.quarkslab.com/feeds/all.rss.xml", "min": 1},
-    {"name": "Synacktiv",      "url": "https://www.synacktiv.com/feed.xml", "min": 1},
     {"name": "Binarly",        "url": "https://www.binarly.io/blog/rss.xml", "min": 1},
     {"name": "ZDI",            "url": "https://www.zerodayinitiative.com/blog?format=rss", "min": 1},
     {"name": "watchTowr",      "url": "https://labs.watchtowr.com/rss/", "min": 1},

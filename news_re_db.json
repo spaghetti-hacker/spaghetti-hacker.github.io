@@ -1,7 +1,129 @@
 {
-  "updated": "2026-11-15T14:25:23Z",
+  "updated": "2026-11-16T11:00:50Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "6fa2188284",
+      "published": "2026-11-16",
+      "title": "gta4-reversed: Open-source C++20 runtime reimplementation of GTA IV (1.0.7.0 x86) via ASI injection — 188/43,740 functions hooked, 9 pure C++ modules",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "gta4-reversed: Open-source C++20 runtime reimplementation of GTA IV (1.0.7.0 x86) via ASI injection — 188/43,740 functions hooked, 9 pure C++ modules",
+      "tags": [
+        "x86"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/gemini25873-dot/gta4-reversed"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xxlewx/gta4reversed_opensource_c20_runtime"
+        }
+      ]
+    },
+    {
+      "id": "207c4ca5f5",
+      "published": "2026-11-16",
+      "title": "Mapping defensive countermeasures to each step of an AI-assisted RE workflow (open-source harness, every defense rated with a named bypass)",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Mapping defensive countermeasures to each step of an AI-assisted RE workflow (open-source harness, every defense rated with a named bypass)",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/seifheakal/blue-harness"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xxjool/mapping_defensive_countermeasures_to_each_step_of"
+        }
+      ]
+    },
+    {
+      "id": "85e81604ed",
+      "published": "2026-11-16",
+      "title": "A USB worm’s second life: Retadup spreading CoffeeLoader",
+      "topic": "reverse",
+      "source": "Securelist",
+      "summary": "A new version of CoffeeLoader is spreading through Retadup, an old USB worm whose infrastructure was seized by law enforcement back in 2019. In August 2026, we detected a new variant of the CoffeeLoader malware in the wild. On launch, the NSIS-based installer executable dropped a file named 7z.dll into a temporary directory and ran it through rundll32.exe.",
+      "tags": [
+        "trojan",
+        "shellcode",
+        "c2",
+        "malware",
+        "persistence"
+      ],
+      "cves": [],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/retadup-delivers-coffeeloader/121908"
+        }
+      ]
+    },
+    {
+      "id": "4b73474ca0",
+      "published": "2026-11-15",
+      "title": "Frida + Burp on a rooted Android emulator on Apple Silicon, including the Android 14+ system CA store",
+      "topic": "reverse",
+      "source": "jidr.ly",
+      "summary": "Frida + Burp on a rooted Android emulator on Apple Silicon, including the Android 14+ system CA store",
+      "tags": [
+        "android",
+        "frida",
+        "emulator"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "jidr.ly",
+          "url": "https://jidr.ly/blog/frida-burp-android-emulator-apple-silicon"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xx17pk/frida_burp_on_a_rooted_android_emulator_on_apple"
+        }
+      ]
+    },
+    {
+      "id": "885787344f",
+      "published": "2026-11-15",
+      "title": "A Unicode Escape Can Turn a Java Comment Into Executable Code",
+      "topic": "reverse",
+      "source": "octri.dev",
+      "summary": "A Unicode Escape Can Turn a Java Comment Into Executable Code",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "octri.dev",
+          "url": "https://octri.dev/blog/java-unicode-escape-comment"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwzxos/a_unicode_escape_can_turn_a_java_comment_into"
+        }
+      ]
+    },
     {
       "id": "fb7c37b377",
       "published": "2026-11-15",
@@ -99,6 +221,30 @@
         {
           "title": "r/ReverseEngineering (discussione)",
           "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwh9xz/reverse_engineering_a_vintage_diodetransistor"
+        }
+      ]
+    },
+    {
+      "id": "de11172f2e",
+      "published": "2026-11-15",
+      "title": "FortiClient, FortiShield_74.sys kernel driver oob",
+      "topic": "kernel",
+      "source": "github.com",
+      "summary": "FortiClient, FortiShield_74.sys kernel driver oob",
+      "tags": [
+        "kernel"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/mein-0/FortiLess"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xwzr5v/forticlient_fortishield_74sys_kernel_driver_oob"
         }
       ]
     },
