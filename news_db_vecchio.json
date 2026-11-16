@@ -1,7 +1,27 @@
 {
-  "updated": "2026-11-15T19:17:43Z",
+  "updated": "2026-11-16T08:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-16-001",
+      "published": "2026-11-16",
+      "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Phishing emails posing as Microsoft 365 service notices referenced the real outage incident and threatened to delete held messages. The post Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Phishing",
+        "Microsoft",
+        "outage"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/microsoft-rules-out-cyberattack-in-outage-warns-of-phishing-campaign/"
+        }
+      ]
+    },
     {
       "id": "2026-11-15-001",
       "published": "2026-11-15",

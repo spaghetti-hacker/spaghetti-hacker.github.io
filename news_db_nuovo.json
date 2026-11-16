@@ -1,9 +1,170 @@
 {
-  "updated": "2026-11-16T08:25:03Z",
+  "updated": "2026-11-16T12:25:03Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-16-001",
+      "published": "2026-11-16",
+      "title": "Uber Data Breach Impacts 150,000 People",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers compromised a third-party services provider and stole names, addresses, and driver’s license numbers. The post Uber Data Breach Impacts 150,000 People appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "data breach",
+        "uber"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/uber-data-breach-impacts-150000-people/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-002",
+      "published": "2026-11-16",
+      "title": "Australian retail giant Coles investigates cybersecurity incident",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Coles Group Limited, Australia's second-largest retailer, is investigating what it described as a \"cyber security incident\" that has not impacted the company's stores. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/australian-retail-giant-coles-investigates-cybersecurity-incident/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-003",
+      "published": "2026-11-16",
+      "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Tracked as CVE-2026-114713, the high-severity flaw allows attackers to execute commands with server/IRCOp privileges. The post Recent UnrealIRCd Vulnerability Exploited in Attacks appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "CISA KEV",
+        "exploited",
+        "UnrealIRCd",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-114713"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/recent-unrealircd-vulnerability-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-004",
+      "published": "2026-11-16",
+      "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Vulncheck disclosed 14 vulnerabilities affecting Copeland XWEB EVO controllers, including two that threat actors quickly targeted. The post Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers appeared first on SecurityWeek .",
+      "tags": [
+        "ICS/OT",
+        "Vulnerabilities",
+        "controller",
+        "Copeland",
+        "exploited",
+        "ICS"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-005",
+      "published": "2026-11-16",
+      "title": "Anthropic’s Claude Fable 5.2 blocks fewer security tasks, while Mythos gets better at finding bugs",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Anthropic recently rolled out Claude Mythos 5.2 to selected partners and Fable 5.2 to regular users, with improvements to coding and reasoning. But we also noticed some interesting cybersecurity changes. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropics-claude-fable-52-blocks-fewer-security-tasks-while-mythos-gets-better-at-finding-bugs/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-006",
+      "published": "2026-11-16",
+      "title": "New NoisyTCP vulnerability lets attackers crash Linux servers",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "An 11-year-old Linux kernel vulnerability, dubbed NoisyTCP, affects almost all Linux distributions and lets attackers crash systems running Nginx, Apache, and SSH servers with default configurations. [...]",
+      "tags": [
+        "Linux"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/linux/new-noisytcp-linux-kernel-flaw-lets-attackers-crash-servers/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-007",
+      "published": "2026-11-16",
+      "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Tor 0.4.9.17 patches several security issues, including one related to how built-in DoS protections deal with IPv6. The post Tor Updates DoS Defenses Again as Relay Attacks Continue appeared first on SecurityWeek .",
+      "tags": [
+        "Incident Response",
+        "DDoS",
+        "DoS",
+        "Patch",
+        "Tor"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/tor-updates-dos-defenses-again-as-relay-attacks-continue/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-008",
+      "published": "2026-11-16",
+      "title": "Microsoft pushes Windows emergency updates to fix activation failures",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has released emergency out-of-band updates to fix Windows activation and licensing failures caused by this month's security updates. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-new-windows-emergency-updates-fix-activation-licensing-failures/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-009",
       "published": "2026-11-16",
       "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
       "category": "malware",
@@ -220,46 +381,6 @@
     {
       "id": "2026-11-13-002",
       "published": "2026-11-13",
-      "title": "Apify Confirms Customer Data Accessed in Cyberattack",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "The web scraping company says an intruder accessed customer accounts and obtained personal information or stored data. The post Apify Confirms Customer Data Accessed in Cyberattack appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "Apify",
-        "cyberattack",
-        "data breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/apify-confirms-customer-data-accessed-in-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-003",
-      "published": "2026-11-13",
-      "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Federal officials have yet to say what caused the communications disruption or whether they are investigating a possible cyberattack. The post FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’ appeared first on SecurityWeek .",
-      "tags": [
-        "Government",
-        "FAA"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/faa-ground-stop-issued-due-to-extraordinary-circumstances/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-004",
-      "published": "2026-11-13",
       "title": "Trezor confirms crypto-stealing implants in three wallets, releases fix",
       "category": "general",
       "severity": "MEDIUM",
@@ -276,7 +397,7 @@
       ]
     },
     {
-      "id": "2026-11-13-005",
+      "id": "2026-11-13-003",
       "published": "2026-11-13",
       "title": "German military drone operations disrupted by cyberattack",
       "category": "general",
@@ -294,7 +415,7 @@
       ]
     },
     {
-      "id": "2026-11-13-006",
+      "id": "2026-11-13-004",
       "published": "2026-11-13",
       "title": "Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper",
       "category": "malware",
@@ -312,7 +433,7 @@
       ]
     },
     {
-      "id": "2026-11-13-007",
+      "id": "2026-11-13-005",
       "published": "2026-11-13",
       "title": "How one AI agent exposed five critical enterprise security gaps",
       "category": "general",
@@ -330,26 +451,7 @@
       ]
     },
     {
-      "id": "2026-11-13-008",
-      "published": "2026-11-13",
-      "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is trying different ways to identify the cause of the problem and get its servers back online, using “a measured approach to identify and repair affected infrastructure.” The post Microsoft Struggles to Restore Email and Other Services in a Global Outage appeared first on SecurityWeek .",
-      "tags": [
-        "Email Security",
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/microsoft-struggles-to-restore-email-and-other-services-in-a-global-outage/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-009",
+      "id": "2026-11-13-006",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
       "category": "general",
@@ -367,7 +469,7 @@
       ]
     },
     {
-      "id": "2026-11-13-010",
+      "id": "2026-11-13-007",
       "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
       "category": "general",
@@ -381,78 +483,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-windows-activation-failures-after-november-updates/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-011",
-      "published": "2026-11-13",
-      "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "Authorities arrested 354 suspects in a joint international operation targeting vendors and buyers on the Archetyp, Nemesis, Tor2Door, Bohemia, and Kingdom dark web marketplaces. [...]",
-      "tags": [
-        "policy"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/police-arrest-354-vendors-buyers-in-global-cybercrime-crackdown/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-001",
-      "published": "2026-11-12",
-      "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "A new worm-like malware toolkit named SCKit was deployed in the recent ScreenConnect attacks targeting managed service providers (MSPs), designed to spread from infected customer devices to MSP technicians' computers and compromise additional managed networks. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-002",
-      "published": "2026-11-12",
-      "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "A new campaign dubbed 'wfx-loot' has unfolded on GitHub where threat actors used 4,837 compromised accounts to probe 61,764 repositories, open pull requests, and push secrets-stealing malware. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-003",
-      "published": "2026-11-12",
-      "title": "Massive Microsoft 365 outage disrupts Outlook, Teams, Copilot worldwide",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is investigating a widespread outage affecting multiple Microsoft 365 services, including Outlook, Microsoft Teams, and Copilot, as users report connectivity problems worldwide. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/massive-microsoft-365-outage-disrupts-outlook-teams-copilot-worldwide/"
         }
       ]
     }
