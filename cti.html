@@ -749,6 +749,11 @@ html{
 #tbl.t-ttp th:nth-child(2){ width:22ch; }
 #tbl.t-ttp th:nth-child(3){ width:10ch; }
 
+
+.wrapper.ttp-active #actbar{
+    visibility:hidden;
+}
+
 /* barra laterale con l'elenco degli attori (come #srcbar in news_re.html) */
 #actbar{
     flex:0 0 18ch;
@@ -1058,7 +1063,8 @@ function render(){
 
     const isActors = st.tab === "actors";
     $("sortrow").style.display = isActors ? "" : "none";
-    $("actbar").style.display  = isActors ? "" : "none";
+    $("actbar").style.display = "";
+    document.querySelector(".wrapper").classList.toggle("ttp-active", !isActors);
 
     /* contatori nelle tab */
     const actors = filteredActors(true);
