@@ -750,9 +750,6 @@ html{
 #tbl.t-ttp th:nth-child(3){ width:10ch; }
 
 
-.wrapper.ttp-active #actbar{
-    visibility:hidden;
-}
 
 /* barra laterale con l'elenco degli attori (come #srcbar in news_re.html) */
 #actbar{
@@ -914,7 +911,7 @@ let ttpMap = new Map();
 const openIds = new Set();
 /* days: 7/30/90 = ultimi N giorni, 0 = tutto il JSON
    actor: id dell'attore mostrato nel dettaglio (tab actors) */
-const st = { tab:"actors", actor:"", min:0, scope:"all", days:90, q:"", sort:"name", dir:1, page:1 };
+const st = { tab:"actors", actor:"", ttpActor:"", min:0, scope:"all", days:90, q:"", sort:"name", dir:1, page:1 };
 
 function cutoffDay(days){
     const d = new Date();
@@ -958,15 +955,20 @@ function ttpUse(actors){
    "APT28" mostra le TTP usate da APT28, "phishing" mostra la tecnica e chi la usa */
 function ttpRows(){
     const q = st.q.trim().toLowerCase();
-    const all = ttpUse(filteredActors(false));
-    const hit = q ? ttpUse(filteredActors(true)) : null;
+
+    /* In TTP, limita gli utilizzatori all'attore selezionato (se presente). */
+    const eligible = filteredActors(false).filter(a => !st.ttpActor || a.id === st.ttpActor);
+    const all = ttpUse(eligible);
+    const hitActors = filteredActors(true).filter(a => !st.ttpActor || a.id === st.ttpActor);
+    const hit = q ? ttpUse(hitActors) : null;
+
     const rows = [];
     all.forEach((list, id) => {
         const t = ttpMap.get(id);
         let use = list;
         if(q){
-            if(t.hay.includes(q))  use = list;            /* la tecnica stessa corrisponde: tutti gli utilizzatori */
-            else if(hit.has(id))   use = hit.get(id);     /* corrispondono solo gli attori: mostra quelli */
+            if(t.hay.includes(q))  use = list;            /* la tecnica stessa corrisponde: utilizzatori ammessi */
+            else if(hit.has(id))   use = hit.get(id);     /* corrispondono gli attori ammessi */
             else return;
         }
         rows.push({ t, a: use });
@@ -1064,7 +1066,6 @@ function render(){
     const isActors = st.tab === "actors";
     $("sortrow").style.display = isActors ? "" : "none";
     $("actbar").style.display = "";
-    document.querySelector(".wrapper").classList.toggle("ttp-active", !isActors);
 
     /* contatori nelle tab */
     const actors = filteredActors(true);
@@ -1093,7 +1094,16 @@ function render(){
         return;
     }
 
-    /* tab TTP */
+    /* tab TTP: la ACTBAR diventa un filtro per attore */
+    const ttpActors = filteredActors(false);
+    if(st.ttpActor && !ttpActors.some(a => a.id === st.ttpActor)) st.ttpActor = "";
+
+    $("actlinks").innerHTML =
+        `<a href="#" data-ttp-act=""${!st.ttpActor ? ' class="on"' : ""}>ALL</a>` +
+        ttpActors.map(a =>
+            `<a href="#" data-ttp-act="${esc(a.id)}" title="${esc(a.name)}"${a.id === st.ttpActor ? ' class="on"' : ""}>${esc(a.name)}</a>`
+        ).join("");
+
     const rows = ttpRows();
     const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
     if(st.page > pages) st.page = pages;
@@ -1138,6 +1148,16 @@ $("filters").addEventListener("click", e => {
 
 /* selezione attore dalla barra laterale */
 $("actbar").addEventListener("click", e => {
+    const ttpLink = e.target.closest("a[data-ttp-act]");
+    if(ttpLink){
+        e.preventDefault();
+        st.ttpActor = ttpLink.dataset.ttpAct || "";
+        st.page = 1;
+        render();
+        if(window.matchMedia("(max-width:640px)").matches) $("list").scrollIntoView({ block: "start" });
+        return;
+    }
+
     const a = e.target.closest("a[data-act]");
     if(!a) return;
     e.preventDefault();
