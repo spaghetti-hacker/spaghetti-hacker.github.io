@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sample": false,
-  "updated": "2026-11-14T20:15:01Z",
+  "updated": "2026-11-16T08:15:01Z",
   "window_days": 90,
   "actors": [
     {
@@ -724,10 +724,6 @@
         {
           "title": "MITRE ATT&CK G0010",
           "url": "https://attack.mitre.org/groups/G0010"
-        },
-        {
-          "title": "Russian Turla Hackers Use New Cereal Malware to Steal Emails From Government...",
-          "url": "https://thehackernews.com/2026/11/russian-turla-hackers-use-new-cereal.html"
         }
       ]
     },

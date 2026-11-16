@@ -1,7 +1,27 @@
 {
-  "updated": "2026-11-15T19:17:43Z",
+  "updated": "2026-11-16T08:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-16-001",
+      "published": "2026-11-16",
+      "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Phishing emails posing as Microsoft 365 service notices referenced the real outage incident and threatened to delete held messages. The post Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Phishing",
+        "Microsoft",
+        "outage"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/microsoft-rules-out-cyberattack-in-outage-warns-of-phishing-campaign/"
+        }
+      ]
+    },
     {
       "id": "2026-11-15-001",
       "published": "2026-11-15",
@@ -221,28 +241,6 @@
     {
       "id": "2026-11-13-003",
       "published": "2026-11-13",
-      "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "Enea says SilentAir hijacked mobile network nodes to intercept calls and messages, with Taiwanese subscribers the primary targets. The post SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks appeared first on SecurityWeek .",
-      "tags": [
-        "Nation-State",
-        "China",
-        "China APT",
-        "malware",
-        "SilentAir"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-004",
-      "published": "2026-11-13",
       "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
       "category": "general",
       "severity": "MEDIUM",
@@ -260,7 +258,7 @@
       ]
     },
     {
-      "id": "2026-11-13-005",
+      "id": "2026-11-13-004",
       "published": "2026-11-13",
       "title": "Trezor confirms crypto-stealing implants in three wallets, releases fix",
       "category": "general",
@@ -278,7 +276,7 @@
       ]
     },
     {
-      "id": "2026-11-13-006",
+      "id": "2026-11-13-005",
       "published": "2026-11-13",
       "title": "German military drone operations disrupted by cyberattack",
       "category": "general",
@@ -296,7 +294,7 @@
       ]
     },
     {
-      "id": "2026-11-13-007",
+      "id": "2026-11-13-006",
       "published": "2026-11-13",
       "title": "Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper",
       "category": "malware",
@@ -314,7 +312,7 @@
       ]
     },
     {
-      "id": "2026-11-13-008",
+      "id": "2026-11-13-007",
       "published": "2026-11-13",
       "title": "How one AI agent exposed five critical enterprise security gaps",
       "category": "general",
@@ -332,7 +330,7 @@
       ]
     },
     {
-      "id": "2026-11-13-009",
+      "id": "2026-11-13-008",
       "published": "2026-11-13",
       "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
       "category": "general",
@@ -351,7 +349,7 @@
       ]
     },
     {
-      "id": "2026-11-13-010",
+      "id": "2026-11-13-009",
       "published": "2026-11-13",
       "title": "Microsoft says November security updates cause printing issues",
       "category": "general",
@@ -369,7 +367,7 @@
       ]
     },
     {
-      "id": "2026-11-13-011",
+      "id": "2026-11-13-010",
       "published": "2026-11-13",
       "title": "Microsoft confirms Windows activation failures after November updates",
       "category": "general",
@@ -387,7 +385,7 @@
       ]
     },
     {
-      "id": "2026-11-13-012",
+      "id": "2026-11-13-011",
       "published": "2026-11-13",
       "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
       "category": "policy",
