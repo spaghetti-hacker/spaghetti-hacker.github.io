@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T12:25:08Z",
+  "updated": "2026-11-17T14:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -77,6 +77,45 @@
     {
       "id": "2026-11-17-005",
       "published": "2026-11-17",
+      "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Ride-hailing company Uber is notifying nearly 150,000 drivers that attackers stole their data after breaching AI infrastructure provider Fireworks in early October. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-006",
+      "published": "2026-11-17",
+      "title": "Access Dental Management Data Breach Impacts Over 340,000",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers breached Access Dental’s network and stole personal, health, and insurance information. The post Access Dental Management Data Breach Impacts Over 340,000 appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "Access Dental Management",
+        "data breach",
+        "healthcare"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/access-dental-management-data-breach-impacts-over-340000/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-007",
+      "published": "2026-11-17",
       "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
       "category": "general",
       "severity": "MEDIUM",
@@ -94,7 +133,76 @@
       ]
     },
     {
-      "id": "2026-11-17-006",
+      "id": "2026-11-17-008",
+      "published": "2026-11-17",
+      "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Led by NEA and supported by existing investors, the funding brings the company’s valuation to $1 billion. The post Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity appeared first on SecurityWeek .",
+      "tags": [
+        "Cybersecurity Funding",
+        "AI",
+        "Corma",
+        "funding"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/corma-receives-125-million-to-train-foundation-models-for-defensive-cybersecurity/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-009",
+      "published": "2026-11-17",
+      "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "More than 40 servers received over 688,000 requests exploiting CVE-2026-84869 to execute guest-pushed files. The post MSP ScreenConnect Servers Targeted in Month-Long Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Vulnerabilities",
+        "ConnectWise",
+        "exploited",
+        "ScreenConnect",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-84869"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-010",
+      "published": "2026-11-17",
+      "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "The patches target recently disclosed zero-days, as well as vulnerabilities already exploited in the wild. The post N-able Kills Legacy APIs, Patches 17 N-central Zero-Days appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "4EverAble2Shell",
+        "N-able",
+        "N-central",
+        "vulnerability",
+        "Zero-Day"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-011",
       "published": "2026-11-17",
       "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
       "category": "vuln",
@@ -111,6 +219,25 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/optimizely-vulnerability-exploited-to-serve-malware-on-major-websites/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-012",
+      "published": "2026-11-17",
+      "title": "PreTxt Emerges Stealth with $5M Seed and an AI Supervision Tool",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "PreTxt provides technology to prevent AI agents escaping their guardrails and causing unintended harm. The post PreTxt Emerges Stealth with $5M Seed and an AI Supervision Tool appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Cybersecurity Funding"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/pretxt-emerges-stealth-with-5m-seed-and-an-ai-supervision-tool/"
         }
       ]
     },
@@ -243,6 +370,24 @@
     {
       "id": "2026-11-16-008",
       "published": "2026-11-16",
+      "title": "Barracuda links cloud breach to ARTEX AI-powered cyberattack",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers who breached the cloud environment of network and email security company Barracuda earlier this month used a stolen cloud access key and the ARTEX AI penetration testing framework. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/barracuda-links-cloud-breach-to-artex-ai-powered-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-009",
+      "published": "2026-11-16",
       "title": "California sues OpenAI over AI agents escaping sandboxes, hacking firms",
       "category": "general",
       "severity": "MEDIUM",
@@ -259,25 +404,31 @@
       ]
     },
     {
-      "id": "2026-11-16-009",
+      "id": "2026-11-16-010",
       "published": "2026-11-16",
-      "title": "Fandango says hackers stole payment card details from checkout pages",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Ticket seller Fandango Media is notifying customers about a data breach that exposed payment card details entered on its checkout pages. [...]",
+      "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Card numbers, CVVs, expiration dates, and email addresses used at Fandango’s ticketing checkout over four days in October may have been exposed. The post Fandango Warns Ticket Buyers of Payment Card Data Exposure appeared first on SecurityWeek .",
       "tags": [
-        "general"
+        "Data Breaches",
+        "data breach",
+        "Fandango"
       ],
       "cves": [],
       "sources": [
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/fandango-says-hackers-stole-payment-card-details-from-checkout-pages/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/"
         }
       ]
     },
     {
-      "id": "2026-11-16-010",
+      "id": "2026-11-16-011",
       "published": "2026-11-16",
       "title": "Gemini AI agents repeatedly bypassed safeguards to attack real website",
       "category": "general",
@@ -295,7 +446,7 @@
       ]
     },
     {
-      "id": "2026-11-16-011",
+      "id": "2026-11-16-012",
       "published": "2026-11-16",
       "title": "Google Project Zero cuts bug disclosures to 30 days amid AI threats",
       "category": "vuln",
@@ -313,7 +464,7 @@
       ]
     },
     {
-      "id": "2026-11-16-012",
+      "id": "2026-11-16-013",
       "published": "2026-11-16",
       "title": "Google warns that fully-automated AI attacks are coming soon",
       "category": "general",
@@ -331,7 +482,7 @@
       ]
     },
     {
-      "id": "2026-11-16-013",
+      "id": "2026-11-16-014",
       "published": "2026-11-16",
       "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
       "category": "breach",
@@ -357,7 +508,7 @@
       ]
     },
     {
-      "id": "2026-11-16-014",
+      "id": "2026-11-16-015",
       "published": "2026-11-16",
       "title": "Cursor Supply Chain Attack Started at Fireworks AI",
       "category": "supply-chain",
@@ -379,7 +530,7 @@
       ]
     },
     {
-      "id": "2026-11-16-015",
+      "id": "2026-11-16-016",
       "published": "2026-11-16",
       "title": "Google Project Zero Sets Course for 30-Day Disclosure Deadline",
       "category": "vuln",
@@ -401,7 +552,7 @@
       ]
     },
     {
-      "id": "2026-11-16-016",
+      "id": "2026-11-16-017",
       "published": "2026-11-16",
       "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
       "category": "vuln",
@@ -424,7 +575,7 @@
       ]
     },
     {
-      "id": "2026-11-16-017",
+      "id": "2026-11-16-018",
       "published": "2026-11-16",
       "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
       "category": "malware",
@@ -444,7 +595,7 @@
       ]
     },
     {
-      "id": "2026-11-16-018",
+      "id": "2026-11-16-019",
       "published": "2026-11-16",
       "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
       "category": "vuln",
@@ -468,7 +619,7 @@
       ]
     },
     {
-      "id": "2026-11-16-019",
+      "id": "2026-11-16-020",
       "published": "2026-11-16",
       "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
       "category": "vuln",
@@ -491,7 +642,7 @@
       ]
     },
     {
-      "id": "2026-11-16-020",
+      "id": "2026-11-16-021",
       "published": "2026-11-16",
       "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
       "category": "general",
@@ -513,7 +664,7 @@
       ]
     },
     {
-      "id": "2026-11-16-021",
+      "id": "2026-11-16-022",
       "published": "2026-11-16",
       "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
       "category": "apt",
@@ -534,7 +685,7 @@
       ]
     },
     {
-      "id": "2026-11-16-022",
+      "id": "2026-11-16-023",
       "published": "2026-11-16",
       "title": "Uber Data Breach Impacts 150,000 People",
       "category": "breach",

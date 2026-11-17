@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T14:25:03Z",
+  "updated": "2026-11-17T18:25:02Z",
   "window_days": 7,
   "items": [
     {
@@ -28,6 +28,26 @@
     {
       "id": "2026-11-17-002",
       "published": "2026-11-17",
+      "title": "Market Research Giant Ipsos Investigating Breach of Internal System",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The company made the incident public on Monday, November 16, five days after filing a complaint with authorities. The post Market Research Giant Ipsos Investigating Breach of Internal System appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "data breach",
+        "Ipsos"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/market-research-giant-ipsos-investigating-breach-of-internal-system/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-003",
+      "published": "2026-11-17",
       "title": "Access Dental Management Data Breach Impacts Over 340,000",
       "category": "breach",
       "severity": "HIGH",
@@ -47,7 +67,7 @@
       ]
     },
     {
-      "id": "2026-11-17-003",
+      "id": "2026-11-17-004",
       "published": "2026-11-17",
       "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
       "category": "breach",
@@ -65,15 +85,113 @@
       ]
     },
     {
-      "id": "2026-11-17-004",
+      "id": "2026-11-17-005",
       "published": "2026-11-17",
-      "title": "PreTxt Emerges Stealth with $5M Seed and an AI Supervision Tool",
+      "title": "Researchers hijack Hugging Face account for popular Kokoro AI model",
       "category": "general",
       "severity": "MEDIUM",
-      "summary": "PreTxt provides technology to prevent AI agents escaping their guardrails and causing unintended harm. The post PreTxt Emerges Stealth with $5M Seed and an AI Supervision Tool appeared first on SecurityWeek .",
+      "summary": "A Lack of ownership verification on the Hugging Face platform allowed researchers to take control of Kokoro, a text-to-speech model used in projects from Google, NVIDIA, AMD, Intel, and Amazon Web Services. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/researchers-hijack-hugging-face-account-for-popular-kokoro-ai-model/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-006",
+      "published": "2026-11-17",
+      "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Threat actors are deploying multi-agent offensive frameworks to increase the velocity of multi-stage intrusions. The post AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says appeared first on SecurityWeek .",
       "tags": [
         "Artificial Intelligence",
-        "Cybersecurity Funding"
+        "Vulnerabilities",
+        "AI",
+        "google",
+        "GTIG",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/ai-framework-autonomously-weaponized-flaws-in-real-attacks-google-says/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-007",
+      "published": "2026-11-17",
+      "title": "Tor releases emergency update amid ongoing DDoS attack",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "[...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/tor-releases-emergency-update-amid-ongoing-ddos-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-008",
+      "published": "2026-11-17",
+      "title": "Flipper Devices launches $399 ‘Flipper One’ Linux-based multi-tool",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Flipper Devices, the company behind the popular Flipper Zero pentesting device, has launched a crowdfunding campaign for Flipper One, a portable Linux computer and networking multi-tool. [...]",
+      "tags": [
+        "Hardware",
+        "Linux"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/hardware/flipper-devices-launches-399-flipper-one-linux-based-multi-tool/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-009",
+      "published": "2026-11-17",
+      "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Huntress researchers break down how EvilTokens, Knight Office, and Kali365 capture and replay M365 tokens, plus how defenders can detect and contain them. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/inside-modern-phishing-kits-built-to-steal-microsoft-365-sessions/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-010",
+      "published": "2026-11-17",
+      "title": "Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Pretxt provides technology to prevent AI agents escaping their guardrails and causing unintended harm. The post Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Cybersecurity Funding",
+        "funding",
+        "Pretxt"
       ],
       "cves": [],
       "sources": [
@@ -84,7 +202,7 @@
       ]
     },
     {
-      "id": "2026-11-17-005",
+      "id": "2026-11-17-011",
       "published": "2026-11-17",
       "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
       "category": "vuln",
@@ -109,7 +227,7 @@
       ]
     },
     {
-      "id": "2026-11-17-006",
+      "id": "2026-11-17-012",
       "published": "2026-11-17",
       "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
       "category": "general",
@@ -128,7 +246,7 @@
       ]
     },
     {
-      "id": "2026-11-17-007",
+      "id": "2026-11-17-013",
       "published": "2026-11-17",
       "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
       "category": "general",
@@ -146,7 +264,7 @@
       ]
     },
     {
-      "id": "2026-11-17-008",
+      "id": "2026-11-17-014",
       "published": "2026-11-17",
       "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
       "category": "vuln",
@@ -167,7 +285,7 @@
       ]
     },
     {
-      "id": "2026-11-17-009",
+      "id": "2026-11-17-015",
       "published": "2026-11-17",
       "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
       "category": "general",
@@ -185,7 +303,7 @@
       ]
     },
     {
-      "id": "2026-11-17-010",
+      "id": "2026-11-17-016",
       "published": "2026-11-17",
       "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
       "category": "malware",
@@ -203,7 +321,7 @@
       ]
     },
     {
-      "id": "2026-11-17-011",
+      "id": "2026-11-17-017",
       "published": "2026-11-17",
       "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
       "category": "business",
@@ -224,7 +342,7 @@
       ]
     },
     {
-      "id": "2026-11-17-012",
+      "id": "2026-11-17-018",
       "published": "2026-11-17",
       "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
       "category": "policy",
@@ -268,27 +386,6 @@
     {
       "id": "2026-11-16-002",
       "published": "2026-11-16",
-      "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "Under the new rule, overseas data centers that serve companies in countries including China, Russia, Iran and Cuba are required to identify their end users. The post Trump Administration Moves to Block China From Indirect Access to American AI Technology appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Government",
-        "AI",
-        "China"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/trump-administration-moves-to-block-china-from-indirect-access-to-american-ai-technology/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-003",
-      "published": "2026-11-16",
       "title": "Barracuda links cloud breach to ARTEX AI-powered cyberattack",
       "category": "breach",
       "severity": "HIGH",
@@ -305,29 +402,7 @@
       ]
     },
     {
-      "id": "2026-11-16-004",
-      "published": "2026-11-16",
-      "title": "Cursor Supply Chain Attack Started at Fireworks AI",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "The attacker stole an access key from Fireworks and used it to exfiltrate credentials that enabled them to push malicious Claude Code extension copies. The post Cursor Supply Chain Attack Started at Fireworks AI appeared first on SecurityWeek .",
-      "tags": [
-        "Supply Chain Security",
-        "Cursor",
-        "Fireworks",
-        "Fireworks AI",
-        "supply chain attack"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/cursor-supply-chain-attack-started-at-fireworks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-005",
+      "id": "2026-11-16-003",
       "published": "2026-11-16",
       "title": "Gemini AI agents repeatedly bypassed safeguards to attack real website",
       "category": "general",
@@ -345,7 +420,7 @@
       ]
     },
     {
-      "id": "2026-11-16-006",
+      "id": "2026-11-16-004",
       "published": "2026-11-16",
       "title": "Google Project Zero cuts bug disclosures to 30 days amid AI threats",
       "category": "vuln",
@@ -363,7 +438,7 @@
       ]
     },
     {
-      "id": "2026-11-16-007",
+      "id": "2026-11-16-005",
       "published": "2026-11-16",
       "title": "California sues OpenAI over AI agents escaping sandboxes, hacking firms",
       "category": "general",
@@ -381,7 +456,7 @@
       ]
     },
     {
-      "id": "2026-11-16-008",
+      "id": "2026-11-16-006",
       "published": "2026-11-16",
       "title": "Microsoft says months-old bug caused global Microsoft 365 outage",
       "category": "general",
@@ -395,78 +470,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-says-months-old-bug-caused-global-microsoft-365-outage/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-009",
-      "published": "2026-11-16",
-      "title": "7 Tips For Complying with CJIS Password and MFA Requirements",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The FBI's latest CJIS Security Policy requires law enforcement agencies to strengthen password protections and enforce MFA across privileged and non-privileged accounts. Specops Software outlines seven practical steps to meet these requirements, block compromised passwords, and maintain compliance. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/7-tips-for-complying-with-cjis-password-and-mfa-requirements/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-010",
-      "published": "2026-11-16",
-      "title": "Google warns that fully-automated AI attacks are coming soon",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Threat actors are now relying on agentic workflows powered by AI-based offensive frameworks to automate vulnerability discovery and exploitation, accelerating attacks to machine speed. [...]",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/google-warns-that-fully-automated-ai-attacks-are-coming-soon/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-011",
-      "published": "2026-11-16",
-      "title": "Microsoft: Windows Server 2016 reaches end of support in 60 days",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has reminded customers again that Windows Server 2016 will stop receiving security updates after it reaches the end of support in two months. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2016-reaches-end-of-support-in-60-days/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-012",
-      "published": "2026-11-16",
-      "title": "Australian retail giant Coles investigates cybersecurity incident",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Coles Group Limited, Australia's second-largest retailer, is investigating what it described as a \"cyber security incident\" that has not impacted the company's stores. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/australian-retail-giant-coles-investigates-cybersecurity-incident/"
         }
       ]
     }

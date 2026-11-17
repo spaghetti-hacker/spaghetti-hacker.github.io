@@ -1,56 +1,56 @@
 {
- "source": "GENERAL",
+ "source": "ICS-OT",
  "updated": "2026-11-17",
  "items": [
   {
-   "title": "Market Research Giant Ipsos Investigating Breach of Internal System",
-   "link": "https://www.securityweek.com/market-research-giant-ipsos-investigating-breach-of-internal-system/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
-   "link": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool",
-   "link": "https://www.securityweek.com/pretxt-emerges-stealth-with-5m-seed-and-an-ai-supervision-tool/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
-   "link": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "Access Dental Management Data Breach Impacts Over 340,000",
-   "link": "https://www.securityweek.com/access-dental-management-data-breach-impacts-over-340000/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
-   "link": "https://www.securityweek.com/corma-receives-125-million-to-train-foundation-models-for-defensive-cybersecurity/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
-   "link": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
-   "link": "https://www.securityweek.com/california-sues-openai-seeking-court-ordered-changes-after-the-hugging-face-hack/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
-   "link": "https://www.securityweek.com/optimizely-vulnerability-exploited-to-serve-malware-on-major-websites/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
-   "link": "https://www.securityweek.com/trump-administration-moves-to-block-china-from-indirect-access-to-american-ai-technology/",
+   "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
+   "link": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/",
    "date": "2026-11-16"
+  },
+  {
+   "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
+   "link": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/",
+   "date": "2026-11-14"
+  },
+  {
+   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
+   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
+   "date": "2026-11-11"
+  },
+  {
+   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
+   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
+   "date": "2026-11-06"
+  },
+  {
+   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
+   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
+   "date": "2026-11-05"
+  },
+  {
+   "title": "Critical Node-RED Flaw Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+   "date": "2026-11-03"
+  },
+  {
+   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+   "date": "2026-11-03"
+  },
+  {
+   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
+   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
+   "date": "2026-10-28"
+  },
+  {
+   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
+   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
+   "date": "2026-10-27"
+  },
+  {
+   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
+   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
+   "date": "2026-10-26"
   }
  ]
 }
