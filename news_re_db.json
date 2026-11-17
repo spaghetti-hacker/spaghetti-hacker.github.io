@@ -1,7 +1,150 @@
 {
-  "updated": "2026-11-16T11:00:50Z",
+  "updated": "2026-11-17T09:00:04Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "e990f37791",
+      "published": "2026-11-17",
+      "title": "Operation ShadowCloud: cloud service–based backdoors targeting government networks in Asia and Africa. Part 1",
+      "topic": "reverse",
+      "source": "Securelist",
+      "summary": "In part 1 of our analysis of the recently uncovered Operation ShadowCloud, we discuss the initial infection stage, the GitDoor backdoor using GitHub as a C2, and the shellcode families it loads. Introduction In early 2026, we identified a new, active intrusion campaign that we have named Operation ShadowCloud . The threat actor behind it is abusing the legitimate MeshAgent utility to drop two brand-new backdoors.",
+      "tags": [
+        "backdoor",
+        "loader",
+        "c2",
+        "shellcode",
+        "threat actor"
+      ],
+      "cves": [],
+      "read_min": 23,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/operation-shadowcloud-gitdoor/122004"
+        }
+      ]
+    },
+    {
+      "id": "94e63ddaf1",
+      "published": "2026-11-17",
+      "title": "Reimplementing an old iPad Plants vs. Zombies game for the web: reverse engineering an Adobe AIR AOT binary",
+      "topic": "reverse",
+      "source": "github.com",
+      "summary": "Reimplementing an old iPad Plants vs. Zombies game for the web: reverse engineering an Adobe AIR AOT binary",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "github.com",
+          "url": "https://github.com/debugpro/pvz-pinyin"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xyd08e/reimplementing_an_old_ipad_plants_vs_zombies_game"
+        }
+      ]
+    },
+    {
+      "id": "a9481c6c1f",
+      "published": "2026-11-17",
+      "title": "Operation ShadowCloud: cloud service–based backdoors targeting government networks in Asia and Africa. Part 2",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "In part 2 of our analysis of the recently uncovered Operation ShadowCloud, we discuss the GraphDoor backdoor, additional plug-ins, and technical attribution. Introduction The first part of the blog focused on the initial infection chain, examined the GitDoor backdoor’s command‑and‑control protocol, and cataloged the diverse shellcode families the actors drop onto compromised hosts.",
+      "tags": [
+        "backdoor",
+        "malware",
+        "shellcode",
+        "c2"
+      ],
+      "cves": [],
+      "read_min": 17,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/operation-shadowcloud-graphdoor/122005"
+        }
+      ]
+    },
+    {
+      "id": "e71be78480",
+      "published": "2026-11-17",
+      "title": "I read Mirai's source code line by line so beginners can follow - what main.c reveals about how the botnet works",
+      "topic": "malware",
+      "source": "iotsec.in",
+      "summary": "I read Mirai's source code line by line so beginners can follow - what main.c reveals about how the botnet works",
+      "tags": [
+        "botnet"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "iotsec.in",
+          "url": "https://iotsec.in/t/mirai-source-code-analysis-what-main-c-reveals-about-the-botnet-s-design/20"
+        },
+        {
+          "title": "r/ReverseEngineering (discussione)",
+          "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xy9ya9/i_read_mirais_source_code_line_by_line_so"
+        }
+      ]
+    },
+    {
+      "id": "8261cf23fa",
+      "published": "2026-11-16",
+      "title": "Improving the Wii U's Wii Mode",
+      "topic": "reverse",
+      "source": "garyodernichts.blogspot.com",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "garyodernichts.blogspot.com",
+          "url": "https://garyodernichts.blogspot.com/2026/11/improving-wii-us-wii-mode.html"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/sz6o8w/improving_wii_u_s_wii_mode"
+        }
+      ]
+    },
+    {
+      "id": "496600ad09",
+      "published": "2026-11-16",
+      "title": "Where did the ACK go?",
+      "topic": "reverse",
+      "source": "yashgarg.dev",
+      "summary": "Breaking things with JioFiber, SIP and Asterisk. Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "yashgarg.dev",
+          "url": "https://yashgarg.dev/posts/where-did-the-ack-go"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/n5jtzr/where_did_ack_go"
+        }
+      ]
+    },
     {
       "id": "6fa2188284",
       "published": "2026-11-16",
@@ -71,6 +214,36 @@
         {
           "title": "Securelist",
           "url": "https://securelist.com/retadup-delivers-coffeeloader/121908"
+        }
+      ]
+    },
+    {
+      "id": "c2fb696d2a",
+      "published": "2026-11-16",
+      "title": "GTIG AI Threat Tracker: Agentic Threat Activity Crosses a Significant Threshold",
+      "topic": "malware",
+      "source": "Mandiant",
+      "summary": "Written by: Aurora Blum, Kelli Vanderlee, Jess Xia, David Mainor Executive Summary As threat actors increasingly move beyond basic prompting to deploying autonomous multi-agent frameworks , automated vulnerability exploitation pipelines, and alternative monetization schemes like LLMJacking , the adversarial AI landscape has reached a critical inflection point.",
+      "tags": [
+        "threat actor",
+        "exploitation",
+        "vulnerability",
+        "vulnerabilities",
+        "exploit"
+      ],
+      "cves": [
+        "CVE-2026-109618",
+        "CVE-2026-109619",
+        "CVE-2026-40217",
+        "CVE-2026-81578",
+        "CVE-2026-82078"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Mandiant",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/agentic-threat-activity-crosses-a-significant-threshold"
         }
       ]
     },
