@@ -1,9 +1,115 @@
 {
-  "updated": "2026-11-17T12:25:08Z",
+  "updated": "2026-11-17T14:25:03Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-17-001",
+      "published": "2026-11-17",
+      "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "The patches target recently disclosed zero-days, as well as vulnerabilities already exploited in the wild. The post N-able Kills Legacy APIs, Patches 17 N-central Zero-Days appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "4EverAble2Shell",
+        "N-able",
+        "N-central",
+        "vulnerability",
+        "Zero-Day"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-002",
+      "published": "2026-11-17",
+      "title": "Access Dental Management Data Breach Impacts Over 340,000",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers breached Access Dental’s network and stole personal, health, and insurance information. The post Access Dental Management Data Breach Impacts Over 340,000 appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "Access Dental Management",
+        "data breach",
+        "healthcare"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/access-dental-management-data-breach-impacts-over-340000/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-003",
+      "published": "2026-11-17",
+      "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Ride-hailing company Uber is notifying nearly 150,000 drivers that attackers stole their data after breaching AI infrastructure provider Fireworks in early October. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-004",
+      "published": "2026-11-17",
+      "title": "PreTxt Emerges Stealth with $5M Seed and an AI Supervision Tool",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "PreTxt provides technology to prevent AI agents escaping their guardrails and causing unintended harm. The post PreTxt Emerges Stealth with $5M Seed and an AI Supervision Tool appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Cybersecurity Funding"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/pretxt-emerges-stealth-with-5m-seed-and-an-ai-supervision-tool/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-005",
+      "published": "2026-11-17",
+      "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "More than 40 servers received over 688,000 requests exploiting CVE-2026-84869 to execute guest-pushed files. The post MSP ScreenConnect Servers Targeted in Month-Long Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Vulnerabilities",
+        "ConnectWise",
+        "exploited",
+        "ScreenConnect",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-84869"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-006",
       "published": "2026-11-17",
       "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
       "category": "general",
@@ -22,7 +128,7 @@
       ]
     },
     {
-      "id": "2026-11-17-002",
+      "id": "2026-11-17-007",
       "published": "2026-11-17",
       "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
       "category": "general",
@@ -40,7 +146,7 @@
       ]
     },
     {
-      "id": "2026-11-17-003",
+      "id": "2026-11-17-008",
       "published": "2026-11-17",
       "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
       "category": "vuln",
@@ -61,7 +167,7 @@
       ]
     },
     {
-      "id": "2026-11-17-004",
+      "id": "2026-11-17-009",
       "published": "2026-11-17",
       "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
       "category": "general",
@@ -79,7 +185,7 @@
       ]
     },
     {
-      "id": "2026-11-17-005",
+      "id": "2026-11-17-010",
       "published": "2026-11-17",
       "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
       "category": "malware",
@@ -97,7 +203,28 @@
       ]
     },
     {
-      "id": "2026-11-17-006",
+      "id": "2026-11-17-011",
+      "published": "2026-11-17",
+      "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "Led by NEA and supported by existing investors, the funding brings the company’s valuation to $1 billion. The post Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity appeared first on SecurityWeek .",
+      "tags": [
+        "Cybersecurity Funding",
+        "AI",
+        "Corma",
+        "funding"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/corma-receives-125-million-to-train-foundation-models-for-defensive-cybersecurity/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-012",
       "published": "2026-11-17",
       "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
       "category": "policy",
@@ -117,77 +244,29 @@
     {
       "id": "2026-11-16-001",
       "published": "2026-11-16",
-      "title": "Google Project Zero Sets Course for 30-Day Disclosure Deadline",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "It will move to a 60-day vulnerability disclosure window in February 2027 and to a 30-day window in January 2028. The post Google Project Zero Sets Course for 30-Day Disclosure Deadline appeared first on SecurityWeek .",
+      "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Card numbers, CVVs, expiration dates, and email addresses used at Fandango’s ticketing checkout over four days in October may have been exposed. The post Fandango Warns Ticket Buyers of Payment Card Data Exposure appeared first on SecurityWeek .",
       "tags": [
-        "Vulnerabilities",
-        "google",
-        "Project Zero",
-        "vulnerability",
-        "vulnerability disclosure"
+        "Data Breaches",
+        "data breach",
+        "Fandango"
       ],
       "cves": [],
       "sources": [
         {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/fandango-says-hackers-stole-payment-card-details-from-checkout-pages/"
+        },
+        {
           "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/google-project-zero-sets-course-for-30-day-disclosure-deadline/"
+          "url": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/"
         }
       ]
     },
     {
       "id": "2026-11-16-002",
-      "published": "2026-11-16",
-      "title": "Uber Data Breach Impacts 150,000 People",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Hackers compromised a third-party services provider and stole names, addresses, and driver’s license numbers. The post Uber Data Breach Impacts 150,000 People appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "uber"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/uber-data-breach-impacts-150000-people/"
-        },
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-003",
-      "published": "2026-11-16",
-      "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Chinese threat actors are broadly adopting the agentic AI penetration testing framework to accelerate their attacks. The post Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Malware & Threats",
-        "Artex",
-        "Barracuda",
-        "Hacked"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/barracuda-hacked-amid-surge-in-artex-powered-cyberattacks/"
-        },
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/barracuda-links-cloud-breach-to-artex-ai-powered-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-004",
       "published": "2026-11-16",
       "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
       "category": "apt",
@@ -208,7 +287,25 @@
       ]
     },
     {
-      "id": "2026-11-16-005",
+      "id": "2026-11-16-003",
+      "published": "2026-11-16",
+      "title": "Barracuda links cloud breach to ARTEX AI-powered cyberattack",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers who breached the cloud environment of network and email security company Barracuda earlier this month used a stolen cloud access key and the ARTEX AI penetration testing framework. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/barracuda-links-cloud-breach-to-artex-ai-powered-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-004",
       "published": "2026-11-16",
       "title": "Cursor Supply Chain Attack Started at Fireworks AI",
       "category": "supply-chain",
@@ -230,7 +327,7 @@
       ]
     },
     {
-      "id": "2026-11-16-006",
+      "id": "2026-11-16-005",
       "published": "2026-11-16",
       "title": "Gemini AI agents repeatedly bypassed safeguards to attack real website",
       "category": "general",
@@ -248,7 +345,7 @@
       ]
     },
     {
-      "id": "2026-11-16-007",
+      "id": "2026-11-16-006",
       "published": "2026-11-16",
       "title": "Google Project Zero cuts bug disclosures to 30 days amid AI threats",
       "category": "vuln",
@@ -266,7 +363,7 @@
       ]
     },
     {
-      "id": "2026-11-16-008",
+      "id": "2026-11-16-007",
       "published": "2026-11-16",
       "title": "California sues OpenAI over AI agents escaping sandboxes, hacking firms",
       "category": "general",
@@ -284,7 +381,7 @@
       ]
     },
     {
-      "id": "2026-11-16-009",
+      "id": "2026-11-16-008",
       "published": "2026-11-16",
       "title": "Microsoft says months-old bug caused global Microsoft 365 outage",
       "category": "general",
@@ -302,25 +399,7 @@
       ]
     },
     {
-      "id": "2026-11-16-010",
-      "published": "2026-11-16",
-      "title": "Fandango says hackers stole payment card details from checkout pages",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Ticket seller Fandango Media is notifying customers about a data breach that exposed payment card details entered on its checkout pages. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/fandango-says-hackers-stole-payment-card-details-from-checkout-pages/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-011",
+      "id": "2026-11-16-009",
       "published": "2026-11-16",
       "title": "7 Tips For Complying with CJIS Password and MFA Requirements",
       "category": "general",
@@ -338,7 +417,7 @@
       ]
     },
     {
-      "id": "2026-11-16-012",
+      "id": "2026-11-16-010",
       "published": "2026-11-16",
       "title": "Google warns that fully-automated AI attacks are coming soon",
       "category": "general",
@@ -356,7 +435,7 @@
       ]
     },
     {
-      "id": "2026-11-16-013",
+      "id": "2026-11-16-011",
       "published": "2026-11-16",
       "title": "Microsoft: Windows Server 2016 reaches end of support in 60 days",
       "category": "general",
@@ -374,30 +453,7 @@
       ]
     },
     {
-      "id": "2026-11-16-014",
-      "published": "2026-11-16",
-      "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Kaspersky suspects exploitation of Telegram’s new widgets to deliver WebRAT, as researchers demo RCE and Pavel Durov disputes the claims. The post Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Vulnerabilities",
-        "exploited",
-        "malware",
-        "Telegram",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/telegram-widgets-hit-by-rce-demos-malware-warning-days-after-launch/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-015",
+      "id": "2026-11-16-012",
       "published": "2026-11-16",
       "title": "Australian retail giant Coles investigates cybersecurity incident",
       "category": "general",
@@ -411,53 +467,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/australian-retail-giant-coles-investigates-cybersecurity-incident/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-016",
-      "published": "2026-11-16",
-      "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Tracked as CVE-2026-114713, the high-severity flaw allows attackers to execute commands with server/IRCOp privileges. The post Recent UnrealIRCd Vulnerability Exploited in Attacks appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "CISA KEV",
-        "exploited",
-        "UnrealIRCd",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-114713"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/recent-unrealircd-vulnerability-exploited-in-attacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-017",
-      "published": "2026-11-16",
-      "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Vulncheck disclosed 14 vulnerabilities affecting Copeland XWEB EVO controllers, including two that threat actors quickly targeted. The post Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers appeared first on SecurityWeek .",
-      "tags": [
-        "ICS/OT",
-        "Vulnerabilities",
-        "controller",
-        "Copeland",
-        "exploited",
-        "ICS"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/"
         }
       ]
     }

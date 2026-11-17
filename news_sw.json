@@ -3,6 +3,11 @@
  "updated": "2026-11-17",
  "items": [
   {
+   "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
+   "link": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/",
+   "date": "2026-11-17"
+  },
+  {
    "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
    "link": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/",
    "date": "2026-11-17"
@@ -46,11 +51,6 @@
    "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
    "link": "https://www.securityweek.com/hackers-exploit-new-n-central-zero-day-hours-after-poc-publication/",
    "date": "2026-11-13"
-  },
-  {
-   "title": "Apache Patches Critical HTTP Server RCE Found by Anthropic, Google",
-   "link": "https://www.securityweek.com/apache-patches-critical-http-server-rce-found-by-anthropic-google/",
-   "date": "2026-11-12"
   }
  ]
 }
