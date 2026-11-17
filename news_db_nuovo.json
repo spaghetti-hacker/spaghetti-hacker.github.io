@@ -1,9 +1,85 @@
 {
-  "updated": "2026-11-17T08:25:03Z",
+  "updated": "2026-11-17T12:25:08Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-17-001",
+      "published": "2026-11-17",
+      "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The lawsuit alleges that OpenAI misled and endangered the public and users by knowingly developing advanced AI models without necessary safeguards. The post California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "OpenAI"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/california-sues-openai-seeking-court-ordered-changes-after-the-hugging-face-hack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-002",
+      "published": "2026-11-17",
+      "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft is testing a new feature that lets enterprise IT administrators remotely lock stolen or lost Windows devices without wiping them. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-remote-lock-for-lost-or-stolen-windows-devices/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-003",
+      "published": "2026-11-17",
+      "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Affected organizations include BBC, CNN, Zoom, GitLab, Salesforce, Equifax, HSBC, and IKEA. The post Optimizely Vulnerability Exploited to Serve Malware on Major Websites appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "exploited",
+        "Optimizely",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/optimizely-vulnerability-exploited-to-serve-malware-on-major-websites/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-004",
+      "published": "2026-11-17",
+      "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "US District Judge Jessica Clarke has acquitted two brothers accused of stealing $25 million in cryptocurrency in about 12 seconds through a scheme that exploited a bug in the Ethereum blockchain. [...]",
+      "tags": [
+        "CryptoCurrency"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/court-clears-brothers-of-25-million-ethereum-crypto-heist-charges/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-005",
       "published": "2026-11-17",
       "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
       "category": "malware",
@@ -21,7 +97,7 @@
       ]
     },
     {
-      "id": "2026-11-17-002",
+      "id": "2026-11-17-006",
       "published": "2026-11-17",
       "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
       "category": "policy",
@@ -63,6 +139,30 @@
     {
       "id": "2026-11-16-002",
       "published": "2026-11-16",
+      "title": "Uber Data Breach Impacts 150,000 People",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers compromised a third-party services provider and stole names, addresses, and driver’s license numbers. The post Uber Data Breach Impacts 150,000 People appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "data breach",
+        "uber"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/uber-data-breach-impacts-150000-people/"
+        },
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-003",
+      "published": "2026-11-16",
       "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
       "category": "breach",
       "severity": "HIGH",
@@ -87,7 +187,7 @@
       ]
     },
     {
-      "id": "2026-11-16-003",
+      "id": "2026-11-16-004",
       "published": "2026-11-16",
       "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
       "category": "apt",
@@ -108,7 +208,7 @@
       ]
     },
     {
-      "id": "2026-11-16-004",
+      "id": "2026-11-16-005",
       "published": "2026-11-16",
       "title": "Cursor Supply Chain Attack Started at Fireworks AI",
       "category": "supply-chain",
@@ -126,26 +226,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/cursor-supply-chain-attack-started-at-fireworks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-005",
-      "published": "2026-11-16",
-      "title": "Uber Data Breach Impacts 150,000 People",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Hackers compromised a third-party services provider and stole names, addresses, and driver’s license numbers. The post Uber Data Breach Impacts 150,000 People appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "uber"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/uber-data-breach-impacts-150000-people/"
         }
       ]
     },
@@ -378,102 +458,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-018",
-      "published": "2026-11-16",
-      "title": "Anthropic’s Claude Fable 5.2 blocks fewer security tasks, while Mythos gets better at finding bugs",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Anthropic recently rolled out Claude Mythos 5.2 to selected partners and Fable 5.2 to regular users, with improvements to coding and reasoning. But we also noticed some interesting cybersecurity changes. [...]",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropics-claude-fable-52-blocks-fewer-security-tasks-while-mythos-gets-better-at-finding-bugs/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-019",
-      "published": "2026-11-16",
-      "title": "New NoisyTCP vulnerability lets attackers crash Linux servers",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "An 11-year-old Linux kernel vulnerability, dubbed NoisyTCP, affects almost all Linux distributions and lets attackers crash systems running Nginx, Apache, and SSH servers with default configurations. [...]",
-      "tags": [
-        "Linux"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/linux/new-noisytcp-linux-kernel-flaw-lets-attackers-crash-servers/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-020",
-      "published": "2026-11-16",
-      "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Tor 0.4.9.17 patches several security issues, including one related to how built-in DoS protections deal with IPv6. The post Tor Updates DoS Defenses Again as Relay Attacks Continue appeared first on SecurityWeek .",
-      "tags": [
-        "Incident Response",
-        "DDoS",
-        "DoS",
-        "Patch",
-        "Tor"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/tor-updates-dos-defenses-again-as-relay-attacks-continue/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-021",
-      "published": "2026-11-16",
-      "title": "Microsoft pushes Windows emergency updates to fix activation failures",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has released emergency out-of-band updates to fix Windows activation and licensing failures caused by this month's security updates. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-new-windows-emergency-updates-fix-activation-licensing-failures/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-022",
-      "published": "2026-11-16",
-      "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "Phishing emails posing as Microsoft 365 service notices referenced the real outage incident and threatened to delete held messages. The post Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign appeared first on SecurityWeek .",
-      "tags": [
-        "Phishing",
-        "Microsoft",
-        "outage"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/microsoft-rules-out-cyberattack-in-outage-warns-of-phishing-campaign/"
         }
       ]
     }
