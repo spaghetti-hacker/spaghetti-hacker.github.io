@@ -1,7 +1,43 @@
 {
-  "updated": "2026-11-16T18:25:03Z",
+  "updated": "2026-11-17T08:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-17-001",
+      "published": "2026-11-17",
+      "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "A suspected supply chain attack targeting Optimizely has led to malicious JavaScript being loaded on numerous popular websites, including Zoom, CNN, Fox News, BBC, Salesforce, and GitLab, exposing visitors to scripts designed to steal cryptocurrency and payment information and exploit vulnerabilities in iOS devices. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/optimizely-supply-chain-attack-delivers-malware-to-cnn-fox-news-bbc-salesforce-sites/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-002",
+      "published": "2026-11-17",
+      "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "A Kazakh national has been extradited from Italy to face charges alleging he targeted US schools, hospitals, and healthcare entities in ransomware attacks. [...]",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/alleged-inc-lynx-ransomware-affiliate-extradited-to-us-faces-27-years-in-prison/"
+        }
+      ]
+    },
     {
       "id": "2026-11-16-001",
       "published": "2026-11-16",
@@ -27,6 +63,53 @@
     {
       "id": "2026-11-16-002",
       "published": "2026-11-16",
+      "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Chinese threat actors are broadly adopting the agentic AI penetration testing framework to accelerate their attacks. The post Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Malware & Threats",
+        "Artex",
+        "Barracuda",
+        "Hacked"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/barracuda-hacked-amid-surge-in-artex-powered-cyberattacks/"
+        },
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/barracuda-links-cloud-breach-to-artex-ai-powered-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-003",
+      "published": "2026-11-16",
+      "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Under the new rule, overseas data centers that serve companies in countries including China, Russia, Iran and Cuba are required to identify their end users. The post Trump Administration Moves to Block China From Indirect Access to American AI Technology appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Government",
+        "AI",
+        "China"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/trump-administration-moves-to-block-china-from-indirect-access-to-american-ai-technology/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-004",
+      "published": "2026-11-16",
       "title": "Cursor Supply Chain Attack Started at Fireworks AI",
       "category": "supply-chain",
       "severity": "HIGH",
@@ -47,29 +130,7 @@
       ]
     },
     {
-      "id": "2026-11-16-003",
-      "published": "2026-11-16",
-      "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Chinese threat actors are broadly adopting the agentic AI penetration testing framework to accelerate their attacks. The post Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Malware & Threats",
-        "Artex",
-        "Barracuda",
-        "Hacked"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/barracuda-hacked-amid-surge-in-artex-powered-cyberattacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-004",
+      "id": "2026-11-16-005",
       "published": "2026-11-16",
       "title": "Uber Data Breach Impacts 150,000 People",
       "category": "breach",
@@ -89,7 +150,61 @@
       ]
     },
     {
-      "id": "2026-11-16-005",
+      "id": "2026-11-16-006",
+      "published": "2026-11-16",
+      "title": "Gemini AI agents repeatedly bypassed safeguards to attack real website",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Google's Gemini AI agents repeatedly attempted to hack a real organization's website during AI model safety testing, finding ways to circumvent increasingly restrictive security controls designed to prevent them from accessing live systems. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/gemini-ai-agents-repeatedly-bypassed-safeguards-to-attack-real-website/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-007",
+      "published": "2026-11-16",
+      "title": "Google Project Zero cuts bug disclosures to 30 days amid AI threats",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Google Project Zero will replace its \"90+30\" disclosure policy with shorter, fixed deadlines in response to AI-accelerated vulnerability discovery and exploitation. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/google-project-zero-cuts-bug-disclosure-deadline-to-30-days-amid-ai-threats/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-008",
+      "published": "2026-11-16",
+      "title": "California sues OpenAI over AI agents escaping sandboxes, hacking firms",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "California Attorney General Rob Bonta sued OpenAI on Monday, alleging the company knowingly continued testing advanced artificial intelligence models despite repeated security failures that allowed autonomous AI agents to escape isolated environments and launch cyberattacks against real-world organizations. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/california-sues-openai-over-ai-agents-escaping-sandboxes-hacking-firms/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-009",
       "published": "2026-11-16",
       "title": "Microsoft says months-old bug caused global Microsoft 365 outage",
       "category": "general",
@@ -107,7 +222,7 @@
       ]
     },
     {
-      "id": "2026-11-16-006",
+      "id": "2026-11-16-010",
       "published": "2026-11-16",
       "title": "Fandango says hackers stole payment card details from checkout pages",
       "category": "general",
@@ -125,7 +240,7 @@
       ]
     },
     {
-      "id": "2026-11-16-007",
+      "id": "2026-11-16-011",
       "published": "2026-11-16",
       "title": "7 Tips For Complying with CJIS Password and MFA Requirements",
       "category": "general",
@@ -143,7 +258,7 @@
       ]
     },
     {
-      "id": "2026-11-16-008",
+      "id": "2026-11-16-012",
       "published": "2026-11-16",
       "title": "Google warns that fully-automated AI attacks are coming soon",
       "category": "general",
@@ -161,7 +276,7 @@
       ]
     },
     {
-      "id": "2026-11-16-009",
+      "id": "2026-11-16-013",
       "published": "2026-11-16",
       "title": "Microsoft: Windows Server 2016 reaches end of support in 60 days",
       "category": "general",
@@ -179,7 +294,7 @@
       ]
     },
     {
-      "id": "2026-11-16-010",
+      "id": "2026-11-16-014",
       "published": "2026-11-16",
       "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
       "category": "vuln",
@@ -202,7 +317,7 @@
       ]
     },
     {
-      "id": "2026-11-16-011",
+      "id": "2026-11-16-015",
       "published": "2026-11-16",
       "title": "Australian retail giant Coles investigates cybersecurity incident",
       "category": "general",
@@ -220,7 +335,7 @@
       ]
     },
     {
-      "id": "2026-11-16-012",
+      "id": "2026-11-16-016",
       "published": "2026-11-16",
       "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
       "category": "vuln",
@@ -244,7 +359,7 @@
       ]
     },
     {
-      "id": "2026-11-16-013",
+      "id": "2026-11-16-017",
       "published": "2026-11-16",
       "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
       "category": "vuln",
@@ -267,7 +382,7 @@
       ]
     },
     {
-      "id": "2026-11-16-014",
+      "id": "2026-11-16-018",
       "published": "2026-11-16",
       "title": "Anthropic’s Claude Fable 5.2 blocks fewer security tasks, while Mythos gets better at finding bugs",
       "category": "general",
@@ -285,7 +400,7 @@
       ]
     },
     {
-      "id": "2026-11-16-015",
+      "id": "2026-11-16-019",
       "published": "2026-11-16",
       "title": "New NoisyTCP vulnerability lets attackers crash Linux servers",
       "category": "vuln",
@@ -303,7 +418,7 @@
       ]
     },
     {
-      "id": "2026-11-16-016",
+      "id": "2026-11-16-020",
       "published": "2026-11-16",
       "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
       "category": "general",
@@ -325,7 +440,7 @@
       ]
     },
     {
-      "id": "2026-11-16-017",
+      "id": "2026-11-16-021",
       "published": "2026-11-16",
       "title": "Microsoft pushes Windows emergency updates to fix activation failures",
       "category": "general",
@@ -343,7 +458,7 @@
       ]
     },
     {
-      "id": "2026-11-16-018",
+      "id": "2026-11-16-022",
       "published": "2026-11-16",
       "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
       "category": "malware",
@@ -359,134 +474,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/microsoft-rules-out-cyberattack-in-outage-warns-of-phishing-campaign/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-15-001",
-      "published": "2026-11-15",
-      "title": "TSMC employee data breach linked to cloud provider",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Taiwan Semiconductor Manufacturing Company (TSMC) confirmed that personal employee data has been leaked online after a threat actor put 6.9GB of information allegedly stolen from the company up for auction. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/tsmc-employee-data-breach-linked-to-cloud-provider/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-15-002",
-      "published": "2026-11-15",
-      "title": "FBI warns ARTEX AI hacking tool is powering global cyberattacks",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The FBI is warning that hackers are using an AI-powered penetration testing framework called ARTEX to automate cyberattacks against organizations worldwide, including a recent ConnectWise supply-chain breach that compromised Microsoft 365 customer environments. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/fbi-warns-artex-ai-hacking-tool-is-powering-global-cyberattacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-15-003",
-      "published": "2026-11-15",
-      "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The move follows President Trump’s order to replace “artificial intelligence” with “super intelligence” in executive branch communications. The post Pentagon Renames CDAO ‘Super Intelligence Office’ appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Super Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/pentagon-renames-cdao-super-intelligence-office/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-14-001",
-      "published": "2026-11-14",
-      "title": "Cursor confirms security breach led to malicious Claude Code extension",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "Cursor confirmed it suffered a security breach that let hackers distribute a malicious Claude Code extension through its marketplace after stealing credentials from AI infrastructure provider Fireworks AI. [...]",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-14-002",
-      "published": "2026-11-14",
-      "title": "US disrupts North Korean campaign behind $400 million crypto theft",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "The U.S. government has disrupted a North Korean social engineering campaign called 'FaceStealer', responsible for stealing more than $400 million in cryptocurrency. [...]",
-      "tags": [
-        "CryptoCurrency",
-        "Legal"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-001",
-      "published": "2026-11-13",
-      "title": "Trezor confirms crypto-stealing implants in three wallets, releases fix",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Cryptocurrency hardware wallet maker Trezor has confirmed that three Safe 5 devices sold by Southeast Asian reseller CryptoBilis contained malicious hardware implants designed to steal wallet recovery phrases and send them to attackers over cellular networks. [...]",
-      "tags": [
-        "CryptoCurrency"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/cryptocurrency/trezor-confirms-crypto-stealing-implants-in-three-wallets-releases-fix/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-002",
-      "published": "2026-11-13",
-      "title": "German military drone operations disrupted by cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "German defense technology company Quantum Systems confirmed that it detected an incident in late October that was part of an active cyberattack by \"hostile actors.\" [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/german-military-drone-operations-disrupted-by-cyberattack/"
         }
       ]
     }

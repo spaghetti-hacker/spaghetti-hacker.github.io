@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T14:25:03Z",
+  "updated": "2026-11-16T18:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -59,6 +59,24 @@
     {
       "id": "2026-11-16-004",
       "published": "2026-11-16",
+      "title": "Microsoft says months-old bug caused global Microsoft 365 outage",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft says a software bug introduced in July caused last week's worldwide Microsoft 365 outage, triggering a cascading failure that left more than 80% of its networking gateway servers unresponsive. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-says-months-old-bug-caused-global-microsoft-365-outage/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-005",
+      "published": "2026-11-16",
       "title": "Microsoft: Windows Server 2016 reaches end of support in 60 days",
       "category": "general",
       "severity": "MEDIUM",
@@ -75,7 +93,25 @@
       ]
     },
     {
-      "id": "2026-11-16-005",
+      "id": "2026-11-16-006",
+      "published": "2026-11-16",
+      "title": "7 Tips For Complying with CJIS Password and MFA Requirements",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The FBI's latest CJIS Security Policy requires law enforcement agencies to strengthen password protections and enforce MFA across privileged and non-privileged accounts. Specops Software outlines seven practical steps to meet these requirements, block compromised passwords, and maintain compliance. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/7-tips-for-complying-with-cjis-password-and-mfa-requirements/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-007",
       "published": "2026-11-16",
       "title": "Australian retail giant Coles investigates cybersecurity incident",
       "category": "general",
@@ -93,7 +129,25 @@
       ]
     },
     {
-      "id": "2026-11-16-006",
+      "id": "2026-11-16-008",
+      "published": "2026-11-16",
+      "title": "Fandango says hackers stole payment card details from checkout pages",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Ticket seller Fandango Media is notifying customers about a data breach that exposed payment card details entered on its checkout pages. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/fandango-says-hackers-stole-payment-card-details-from-checkout-pages/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-009",
       "published": "2026-11-16",
       "title": "Google warns that fully-automated AI attacks are coming soon",
       "category": "general",
@@ -111,7 +165,73 @@
       ]
     },
     {
-      "id": "2026-11-16-007",
+      "id": "2026-11-16-010",
+      "published": "2026-11-16",
+      "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Chinese threat actors are broadly adopting the agentic AI penetration testing framework to accelerate their attacks. The post Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Malware & Threats",
+        "Artex",
+        "Barracuda",
+        "Hacked"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/barracuda-hacked-amid-surge-in-artex-powered-cyberattacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-011",
+      "published": "2026-11-16",
+      "title": "Cursor Supply Chain Attack Started at Fireworks AI",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "The attacker stole an access key from Fireworks and used it to exfiltrate credentials that enabled them to push malicious Claude Code extension copies. The post Cursor Supply Chain Attack Started at Fireworks AI appeared first on SecurityWeek .",
+      "tags": [
+        "Supply Chain Security",
+        "Cursor",
+        "Fireworks",
+        "Fireworks AI",
+        "supply chain attack"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/cursor-supply-chain-attack-started-at-fireworks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-012",
+      "published": "2026-11-16",
+      "title": "Google Project Zero Sets Course for 30-Day Disclosure Deadline",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "It will move to a 60-day vulnerability disclosure window in February 2027 and to a 30-day window in January 2028. The post Google Project Zero Sets Course for 30-Day Disclosure Deadline appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "google",
+        "Project Zero",
+        "vulnerability",
+        "vulnerability disclosure"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/google-project-zero-sets-course-for-30-day-disclosure-deadline/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-16-013",
       "published": "2026-11-16",
       "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
       "category": "vuln",
@@ -134,7 +254,7 @@
       ]
     },
     {
-      "id": "2026-11-16-008",
+      "id": "2026-11-16-014",
       "published": "2026-11-16",
       "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
       "category": "malware",
@@ -154,7 +274,7 @@
       ]
     },
     {
-      "id": "2026-11-16-009",
+      "id": "2026-11-16-015",
       "published": "2026-11-16",
       "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
       "category": "vuln",
@@ -178,7 +298,7 @@
       ]
     },
     {
-      "id": "2026-11-16-010",
+      "id": "2026-11-16-016",
       "published": "2026-11-16",
       "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
       "category": "vuln",
@@ -201,7 +321,7 @@
       ]
     },
     {
-      "id": "2026-11-16-011",
+      "id": "2026-11-16-017",
       "published": "2026-11-16",
       "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
       "category": "general",
@@ -223,7 +343,7 @@
       ]
     },
     {
-      "id": "2026-11-16-012",
+      "id": "2026-11-16-018",
       "published": "2026-11-16",
       "title": "Uber Data Breach Impacts 150,000 People",
       "category": "breach",

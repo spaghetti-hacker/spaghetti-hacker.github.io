@@ -1,10 +1,25 @@
 {
- "source": "VULNERABILITIES",
- "updated": "2026-11-16",
+ "source": "GENERAL",
+ "updated": "2026-11-17",
  "items": [
+  {
+   "title": "Trump Administration Moves to Block China From Indirect Access to American AI Technology",
+   "link": "https://www.securityweek.com/trump-administration-moves-to-block-china-from-indirect-access-to-american-ai-technology/",
+   "date": "2026-11-16"
+  },
+  {
+   "title": "Cursor Supply Chain Attack Started at Fireworks AI",
+   "link": "https://www.securityweek.com/cursor-supply-chain-attack-started-at-fireworks/",
+   "date": "2026-11-16"
+  },
   {
    "title": "Google Project Zero Sets Course for 30-Day Disclosure Deadline",
    "link": "https://www.securityweek.com/google-project-zero-sets-course-for-30-day-disclosure-deadline/",
+   "date": "2026-11-16"
+  },
+  {
+   "title": "Barracuda Hacked Amid Surge in Artex-Powered Cyberattacks",
+   "link": "https://www.securityweek.com/barracuda-hacked-amid-surge-in-artex-powered-cyberattacks/",
    "date": "2026-11-16"
   },
   {
@@ -23,34 +38,19 @@
    "date": "2026-11-16"
   },
   {
-   "title": "Citrix Patches 10 Critical NetScaler Vulnerabilities",
-   "link": "https://www.securityweek.com/citrix-patches-10-critical-netscaler-vulnerabilities/",
-   "date": "2026-11-13"
+   "title": "Uber Data Breach Impacts 150,000 People",
+   "link": "https://www.securityweek.com/uber-data-breach-impacts-150000-people/",
+   "date": "2026-11-16"
   },
   {
-   "title": "Nightmare Eclipse Drops Windows Zero-Day Exploit ‘SignDrop’",
-   "link": "https://www.securityweek.com/nightmare-eclipse-drops-windows-zero-day-exploit-signdrop/",
-   "date": "2026-11-13"
+   "title": "Tor Updates DoS Defenses Again as Relay Attacks Continue",
+   "link": "https://www.securityweek.com/tor-updates-dos-defenses-again-as-relay-attacks-continue/",
+   "date": "2026-11-16"
   },
   {
-   "title": "PHP2Shell Exploited in Destructive Check Point Gateway Attacks",
-   "link": "https://www.securityweek.com/php2shell-exploited-in-destructive-check-point-gateway-attacks/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "Hackers Exploit New N-central Zero-Day Hours After PoC Publication",
-   "link": "https://www.securityweek.com/hackers-exploit-new-n-central-zero-day-hours-after-poc-publication/",
-   "date": "2026-11-13"
-  },
-  {
-   "title": "Apache Patches Critical HTTP Server RCE Found by Anthropic, Google",
-   "link": "https://www.securityweek.com/apache-patches-critical-http-server-rce-found-by-anthropic-google/",
-   "date": "2026-11-12"
-  },
-  {
-   "title": "Chrome, Firefox Updates Patch Over 180 Vulnerabilities",
-   "link": "https://www.securityweek.com/chrome-firefox-updates-patch-180-vulnerabilities/",
-   "date": "2026-11-12"
+   "title": "Microsoft Rules Out Cyberattack in Outage, Warns of Phishing Campaign",
+   "link": "https://www.securityweek.com/microsoft-rules-out-cyberattack-in-outage-warns-of-phishing-campaign/",
+   "date": "2026-11-16"
   }
  ]
 }
