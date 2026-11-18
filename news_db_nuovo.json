@@ -1,9 +1,74 @@
 {
-  "updated": "2026-11-18T08:25:09Z",
+  "updated": "2026-11-18T12:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-18-001",
+      "published": "2026-11-18",
+      "title": "Critical Perforce Puppet RCE Exploited in Attacks",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Tracked as CVE-2026-115731, it allows a client that holds any CA-signed agent certificate to execute code on the server. The post Critical Perforce Puppet RCE Exploited in Attacks appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "CISA KEV",
+        "exploited",
+        "Perforce",
+        "Perforce Puppet",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-115731"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/critical-perforce-puppet-rce-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-002",
+      "published": "2026-11-18",
+      "title": "Apache warns of Roller RCE vulnerability exploited in attacks",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Apache has released security updates to address a critical Roller flaw that threat actors are exploiting to gain code execution on vulnerable servers. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/apache-warns-of-roller-rce-vulnerability-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-003",
+      "published": "2026-11-18",
+      "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Over 300 patches address unauthenticated, remotely exploitable flaws, while 62 fix critical-severity flaws. The post Oracle Patches 950 Vulnerabilities With November 2026 CSPU appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Oracle",
+        "Oracle CSPU",
+        "Patch",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/oracle-patches-640-vulnerabilities-with-november-2026-cspu/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-004",
       "published": "2026-11-18",
       "title": "Java4Shell Vulnerability Puts Many Enterprise Applications at Risk of Takeover",
       "category": "vuln",
@@ -26,7 +91,131 @@
       ]
     },
     {
-      "id": "2026-11-18-002",
+      "id": "2026-11-18-005",
+      "published": "2026-11-18",
+      "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Four blue team agents and the Recon Agent are now generally available, while integrations and vulnerability shielding are in preview. The post Microsoft Takes Perception Agentic Security Platform Out of Preview appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "AI",
+        "AI agents",
+        "Microsoft",
+        "Project Perception",
+        "security product"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/microsoft-takes-perception-agentic-security-platform-out-of-preview/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-006",
+      "published": "2026-11-18",
+      "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Patti Degnan’s identity was stolen in 2006. It set her on a path to the CISO seat at endpoint security firm Glow. The post CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do appeared first on SecurityWeek .",
+      "tags": [
+        "CISO Conversations",
+        "CISO Strategy",
+        "CISO",
+        "Glow"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/ciso-conversations-patti-degnan-part-of-the-job-is-deciding-what-not-to-do/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-007",
+      "published": "2026-11-18",
+      "title": "Dizigom illegal streaming service with 21M monthly visits shuts down",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The Alliance for Creativity and Entertainment (ACE) has announced the shutdown of Dizigom, one of Turkey's largest piracy sites, after a settlement agreement with the site's operators. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/dizigom-illegal-streaming-service-with-21m-monthly-visits-shuts-down/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-008",
+      "published": "2026-11-18",
+      "title": "Chrome 158 Patches 204 Vulnerabilities",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Google handed out $11,000 for five externally reported flaws but has yet to determine the amounts to be paid for 36 bugs. The post Chrome 158 Patches 204 Vulnerabilities appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Chrome",
+        "patched",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/chrome-158-patches-204-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-009",
+      "published": "2026-11-18",
+      "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Versions 1.26.1 and 1.26.2 of agent-framework on PyPI steal Azure, Azure DevOps, and GitHub Actions credentials when Python starts. The post Microsoft Agent Framework Releases Poisoned With Credential Stealer appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Supply Chain Security",
+        "Agent Framework",
+        "AI",
+        "Microsoft",
+        "PyPI"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/microsoft-agent-framework-releases-poisoned-with-credential-stealer/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-010",
+      "published": "2026-11-18",
+      "title": "Microsoft announces Windows Server 2028 with hardened security",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has announced Windows Server 2028, the next major release of its server operating system, at the Ignite 2026 conference on Tuesday. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-announces-windows-server-2028-with-hardened-security/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-011",
       "published": "2026-11-18",
       "title": "Classified Communications Network at the National Security Agency Goes Down, Defense Official Says",
       "category": "general",
@@ -46,7 +235,7 @@
       ]
     },
     {
-      "id": "2026-11-18-003",
+      "id": "2026-11-18-012",
       "published": "2026-11-18",
       "title": "British Scattered Spider hacker sentenced to 6 years in prison",
       "category": "policy",
@@ -66,29 +255,6 @@
     {
       "id": "2026-11-17-001",
       "published": "2026-11-17",
-      "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "The patches target recently disclosed zero-days, as well as vulnerabilities already exploited in the wild. The post N-able Kills Legacy APIs, Patches 17 N-central Zero-Days appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "4EverAble2Shell",
-        "N-able",
-        "N-central",
-        "vulnerability",
-        "Zero-Day"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-002",
-      "published": "2026-11-17",
       "title": "Critical Java4Shell flaw allows RCE attacks on major Java applications",
       "category": "vuln",
       "severity": "HIGH",
@@ -105,7 +271,7 @@
       ]
     },
     {
-      "id": "2026-11-17-003",
+      "id": "2026-11-17-002",
       "published": "2026-11-17",
       "title": "Market Research Giant Ipsos Investigating Breach of Internal System",
       "category": "breach",
@@ -125,48 +291,7 @@
       ]
     },
     {
-      "id": "2026-11-17-004",
-      "published": "2026-11-17",
-      "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Card numbers, CVVs, expiration dates, and email addresses used at Fandango’s ticketing checkout over four days in October may have been exposed. The post Fandango Warns Ticket Buyers of Payment Card Data Exposure appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "Fandango"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-005",
-      "published": "2026-11-17",
-      "title": "Access Dental Management Data Breach Impacts Over 340,000",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Hackers breached Access Dental’s network and stole personal, health, and insurance information. The post Access Dental Management Data Breach Impacts Over 340,000 appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "Access Dental Management",
-        "data breach",
-        "healthcare"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/access-dental-management-data-breach-impacts-over-340000/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-006",
+      "id": "2026-11-17-003",
       "published": "2026-11-17",
       "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
       "category": "breach",
@@ -184,7 +309,7 @@
       ]
     },
     {
-      "id": "2026-11-17-007",
+      "id": "2026-11-17-004",
       "published": "2026-11-17",
       "title": "Cloud keys leaked in Docker Hub images are stolen within seconds",
       "category": "general",
@@ -202,7 +327,7 @@
       ]
     },
     {
-      "id": "2026-11-17-008",
+      "id": "2026-11-17-005",
       "published": "2026-11-17",
       "title": "Japan takes Fugaku supercomputer offlline after cyberattack",
       "category": "general",
@@ -220,7 +345,7 @@
       ]
     },
     {
-      "id": "2026-11-17-009",
+      "id": "2026-11-17-006",
       "published": "2026-11-17",
       "title": "Apple reports outages affecting iCloud Mail, AppleCare and more",
       "category": "general",
@@ -238,7 +363,7 @@
       ]
     },
     {
-      "id": "2026-11-17-010",
+      "id": "2026-11-17-007",
       "published": "2026-11-17",
       "title": "Researchers hijack Hugging Face account for popular Kokoro AI model",
       "category": "general",
@@ -256,7 +381,7 @@
       ]
     },
     {
-      "id": "2026-11-17-011",
+      "id": "2026-11-17-008",
       "published": "2026-11-17",
       "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
       "category": "vuln",
@@ -279,7 +404,7 @@
       ]
     },
     {
-      "id": "2026-11-17-012",
+      "id": "2026-11-17-009",
       "published": "2026-11-17",
       "title": "Tor releases emergency update amid ongoing DDoS attack",
       "category": "general",
@@ -297,7 +422,7 @@
       ]
     },
     {
-      "id": "2026-11-17-013",
+      "id": "2026-11-17-010",
       "published": "2026-11-17",
       "title": "Flipper Devices launches $399 ‘Flipper One’ Linux-based multi-tool",
       "category": "general",
@@ -316,7 +441,7 @@
       ]
     },
     {
-      "id": "2026-11-17-014",
+      "id": "2026-11-17-011",
       "published": "2026-11-17",
       "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
       "category": "general",
@@ -334,53 +459,7 @@
       ]
     },
     {
-      "id": "2026-11-17-015",
-      "published": "2026-11-17",
-      "title": "Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Pretxt provides technology to prevent AI agents escaping their guardrails and causing unintended harm. The post Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Cybersecurity Funding",
-        "funding",
-        "Pretxt"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/pretxt-emerges-stealth-with-5m-seed-and-an-ai-supervision-tool/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-016",
-      "published": "2026-11-17",
-      "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "More than 40 servers received over 688,000 requests exploiting CVE-2026-84869 to execute guest-pushed files. The post MSP ScreenConnect Servers Targeted in Month-Long Campaign appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Vulnerabilities",
-        "ConnectWise",
-        "exploited",
-        "ScreenConnect",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-84869"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-017",
+      "id": "2026-11-17-012",
       "published": "2026-11-17",
       "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
       "category": "general",
@@ -398,7 +477,7 @@
       ]
     },
     {
-      "id": "2026-11-17-018",
+      "id": "2026-11-17-013",
       "published": "2026-11-17",
       "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
       "category": "general",
@@ -412,81 +491,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/court-clears-brothers-of-25-million-ethereum-crypto-heist-charges/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-019",
-      "published": "2026-11-17",
-      "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "A suspected supply chain attack targeting Optimizely has led to malicious JavaScript being loaded on numerous popular websites, including Zoom, CNN, Fox News, BBC, Salesforce, and GitLab, exposing visitors to scripts designed to steal cryptocurrency and payment information and exploit vulnerabilities in iOS devices. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/optimizely-supply-chain-attack-delivers-malware-to-cnn-fox-news-bbc-salesforce-sites/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-020",
-      "published": "2026-11-17",
-      "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
-      "category": "business",
-      "severity": "LOW",
-      "summary": "Led by NEA and supported by existing investors, the funding brings the company’s valuation to $1 billion. The post Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity appeared first on SecurityWeek .",
-      "tags": [
-        "Cybersecurity Funding",
-        "AI",
-        "Corma",
-        "funding"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/corma-receives-125-million-to-train-foundation-models-for-defensive-cybersecurity/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-021",
-      "published": "2026-11-17",
-      "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "A Kazakh national has been extradited from Italy to face charges alleging he targeted US schools, hospitals, and healthcare entities in ransomware attacks. [...]",
-      "tags": [
-        "policy"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/alleged-inc-lynx-ransomware-affiliate-extradited-to-us-faces-27-years-in-prison/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-001",
-      "published": "2026-11-16",
-      "title": "Gemini AI agents repeatedly bypassed safeguards to attack real website",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Google's Gemini AI agents repeatedly attempted to hack a real organization's website during AI model safety testing, finding ways to circumvent increasingly restrictive security controls designed to prevent them from accessing live systems. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/gemini-ai-agents-repeatedly-bypassed-safeguards-to-attack-real-website/"
         }
       ]
     }
