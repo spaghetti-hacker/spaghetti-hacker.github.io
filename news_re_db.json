@@ -1,7 +1,57 @@
 {
-  "updated": "2026-11-17T09:00:04Z",
+  "updated": "2026-11-18T08:10:32Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "a3b0a664ad",
+      "published": "2026-11-18",
+      "title": "CVE-2026-114938: Critical vulnerability in OpenJDK JAVA",
+      "topic": "vuln",
+      "source": "Talos",
+      "summary": "Cisco Talos is tracking the disclosure of a critical vulnerability in OpenJDK Java (CVE-2026-114938), dubbed “Java4Shell,” with a CVSS 4.0 score of 9.2 that may lead to unauthenticated remote code execution (RCE).",
+      "tags": [
+        "vulnerability",
+        "cve 2026 114938",
+        "exploitation",
+        "rce",
+        "x86 64"
+      ],
+      "cves": [
+        "CVE-2026-114938"
+      ],
+      "read_min": 2,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/java4shell"
+        }
+      ]
+    },
+    {
+      "id": "816d689365",
+      "published": "2026-11-18",
+      "title": "The forced audit: how AuditTeam’s OpsAgent framework masks ransomware as consulting",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "How does a ransomware gang sell a “forced audit”? We break down AuditTeam’s OpsAgent implant, its Rust rewrite, and the extortion model demanding a consulting fee to delete stolen data. AuditTeam is an active threat group that uses the OpsAgent framework to compromise organizations across at least seven countries and territories.",
+      "tags": [
+        "shellcode",
+        "c2",
+        "implant",
+        "loader",
+        "ransomware"
+      ],
+      "cves": [],
+      "read_min": 12,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/auditteam-opsagent-forced-audit/122031"
+        }
+      ]
+    },
     {
       "id": "e990f37791",
       "published": "2026-11-17",
@@ -47,6 +97,27 @@
         {
           "title": "r/ReverseEngineering (discussione)",
           "url": "https://www.reddit.com/r/ReverseEngineering/comments/1xyd08e/reimplementing_an_old_ipad_plants_vs_zombies_game"
+        }
+      ]
+    },
+    {
+      "id": "2840a699d3",
+      "published": "2026-11-17",
+      "title": "COLD RELIC: A Case Study in Impersonation and Compromise",
+      "topic": "malware",
+      "source": "Mandiant",
+      "summary": "Written by: Josh Murchie, John Wolfram, Joseph Spero, Peter Ukhanov, Fernando Tomlinson, Jr., Wesley Shields Introduction Over the past year, Mandiant has responded to a series of linked intrusions demonstrating how Russian cyber espionage group COLD RELIC (formerly tracked as COLDRIVER and UNC4057; also known as Star Blizzard, Callisto, and Gossamer Bear) turns a single cloud compromise into a springboard for…",
+      "tags": [
+        "threat actor",
+        "malware"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Mandiant",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/cold-relic-a-case-study-in-impersonation-and-compromise"
         }
       ]
     },
