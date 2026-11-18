@@ -1,9 +1,32 @@
 {
-  "updated": "2026-11-18T12:25:04Z",
+  "updated": "2026-11-18T14:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-18-001",
+      "published": "2026-11-18",
+      "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Star Blizzard weaponized data and identities stolen in late 2025 to phish and compromise a US organization. The post Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Nation-State",
+        "APT",
+        "Cold Relic",
+        "Russia",
+        "Star Blizzard"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/russian-apt-poses-as-employee-of-hacked-firm-to-breach-another-us-organization/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-002",
       "published": "2026-11-18",
       "title": "Critical Perforce Puppet RCE Exploited in Attacks",
       "category": "vuln",
@@ -28,7 +51,7 @@
       ]
     },
     {
-      "id": "2026-11-18-002",
+      "id": "2026-11-18-003",
       "published": "2026-11-18",
       "title": "Apache warns of Roller RCE vulnerability exploited in attacks",
       "category": "vuln",
@@ -46,7 +69,7 @@
       ]
     },
     {
-      "id": "2026-11-18-003",
+      "id": "2026-11-18-004",
       "published": "2026-11-18",
       "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
       "category": "vuln",
@@ -68,7 +91,7 @@
       ]
     },
     {
-      "id": "2026-11-18-004",
+      "id": "2026-11-18-005",
       "published": "2026-11-18",
       "title": "Java4Shell Vulnerability Puts Many Enterprise Applications at Risk of Takeover",
       "category": "vuln",
@@ -91,7 +114,7 @@
       ]
     },
     {
-      "id": "2026-11-18-005",
+      "id": "2026-11-18-006",
       "published": "2026-11-18",
       "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
       "category": "general",
@@ -114,7 +137,7 @@
       ]
     },
     {
-      "id": "2026-11-18-006",
+      "id": "2026-11-18-007",
       "published": "2026-11-18",
       "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
       "category": "general",
@@ -135,7 +158,7 @@
       ]
     },
     {
-      "id": "2026-11-18-007",
+      "id": "2026-11-18-008",
       "published": "2026-11-18",
       "title": "Dizigom illegal streaming service with 21M monthly visits shuts down",
       "category": "general",
@@ -153,7 +176,7 @@
       ]
     },
     {
-      "id": "2026-11-18-008",
+      "id": "2026-11-18-009",
       "published": "2026-11-18",
       "title": "Chrome 158 Patches 204 Vulnerabilities",
       "category": "vuln",
@@ -174,7 +197,7 @@
       ]
     },
     {
-      "id": "2026-11-18-009",
+      "id": "2026-11-18-010",
       "published": "2026-11-18",
       "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
       "category": "malware",
@@ -197,7 +220,7 @@
       ]
     },
     {
-      "id": "2026-11-18-010",
+      "id": "2026-11-18-011",
       "published": "2026-11-18",
       "title": "Microsoft announces Windows Server 2028 with hardened security",
       "category": "general",
@@ -215,7 +238,7 @@
       ]
     },
     {
-      "id": "2026-11-18-011",
+      "id": "2026-11-18-012",
       "published": "2026-11-18",
       "title": "Classified Communications Network at the National Security Agency Goes Down, Defense Official Says",
       "category": "general",
@@ -235,7 +258,28 @@
       ]
     },
     {
-      "id": "2026-11-18-012",
+      "id": "2026-11-18-013",
+      "published": "2026-11-18",
+      "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "British national Tyler Robert Buchanan has been sentenced to 6 years in prison in the United States, the DOJ announced. The post Last of Five Defendants Sentenced in US Scattered Spider Hacking Case appeared first on SecurityWeek .",
+      "tags": [
+        "Cybercrime",
+        "hacker",
+        "Scattered Spider",
+        "sentenced"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/last-of-five-defendants-sentenced-in-us-scattered-spider-hacking-case/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-014",
       "published": "2026-11-18",
       "title": "British Scattered Spider hacker sentenced to 6 years in prison",
       "category": "policy",
@@ -273,26 +317,6 @@
     {
       "id": "2026-11-17-002",
       "published": "2026-11-17",
-      "title": "Market Research Giant Ipsos Investigating Breach of Internal System",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "The company made the incident public on Monday, November 16, five days after filing a complaint with authorities. The post Market Research Giant Ipsos Investigating Breach of Internal System appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "Ipsos"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/market-research-giant-ipsos-investigating-breach-of-internal-system/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-003",
-      "published": "2026-11-17",
       "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
       "category": "breach",
       "severity": "HIGH",
@@ -309,7 +333,7 @@
       ]
     },
     {
-      "id": "2026-11-17-004",
+      "id": "2026-11-17-003",
       "published": "2026-11-17",
       "title": "Cloud keys leaked in Docker Hub images are stolen within seconds",
       "category": "general",
@@ -327,7 +351,7 @@
       ]
     },
     {
-      "id": "2026-11-17-005",
+      "id": "2026-11-17-004",
       "published": "2026-11-17",
       "title": "Japan takes Fugaku supercomputer offlline after cyberattack",
       "category": "general",
@@ -345,7 +369,7 @@
       ]
     },
     {
-      "id": "2026-11-17-006",
+      "id": "2026-11-17-005",
       "published": "2026-11-17",
       "title": "Apple reports outages affecting iCloud Mail, AppleCare and more",
       "category": "general",
@@ -363,7 +387,7 @@
       ]
     },
     {
-      "id": "2026-11-17-007",
+      "id": "2026-11-17-006",
       "published": "2026-11-17",
       "title": "Researchers hijack Hugging Face account for popular Kokoro AI model",
       "category": "general",
@@ -381,30 +405,7 @@
       ]
     },
     {
-      "id": "2026-11-17-008",
-      "published": "2026-11-17",
-      "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Threat actors are deploying multi-agent offensive frameworks to increase the velocity of multi-stage intrusions. The post AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Vulnerabilities",
-        "AI",
-        "google",
-        "GTIG",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/ai-framework-autonomously-weaponized-flaws-in-real-attacks-google-says/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-009",
+      "id": "2026-11-17-007",
       "published": "2026-11-17",
       "title": "Tor releases emergency update amid ongoing DDoS attack",
       "category": "general",
@@ -422,7 +423,7 @@
       ]
     },
     {
-      "id": "2026-11-17-010",
+      "id": "2026-11-17-008",
       "published": "2026-11-17",
       "title": "Flipper Devices launches $399 ‘Flipper One’ Linux-based multi-tool",
       "category": "general",
@@ -441,7 +442,7 @@
       ]
     },
     {
-      "id": "2026-11-17-011",
+      "id": "2026-11-17-009",
       "published": "2026-11-17",
       "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
       "category": "general",
@@ -459,7 +460,7 @@
       ]
     },
     {
-      "id": "2026-11-17-012",
+      "id": "2026-11-17-010",
       "published": "2026-11-17",
       "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
       "category": "general",
@@ -477,7 +478,7 @@
       ]
     },
     {
-      "id": "2026-11-17-013",
+      "id": "2026-11-17-011",
       "published": "2026-11-17",
       "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
       "category": "general",
