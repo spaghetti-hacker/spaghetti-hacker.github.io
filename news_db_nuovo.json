@@ -1,7 +1,68 @@
 {
-  "updated": "2026-11-17T18:25:02Z",
+  "updated": "2026-11-18T08:25:09Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-18-001",
+      "published": "2026-11-18",
+      "title": "Java4Shell Vulnerability Puts Many Enterprise Applications at Risk of Takeover",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Calif demonstrated remote code execution in Jira, Jenkins and Keycloak, while VulnCheck says real-world RCE requires per-target work The post Java4Shell Vulnerability Puts Many Enterprise Applications at Risk of Takeover appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Java",
+        "Java4Shell",
+        "RCE",
+        "remote code execution",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/java4shell-vulnerability-puts-many-enterprise-applications-at-risk-of-takeover/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-002",
+      "published": "2026-11-18",
+      "title": "Classified Communications Network at the National Security Agency Goes Down, Defense Official Says",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The problem disrupted the operations of NSANet, a classified internal network used by employees of the agency. The post Classified Communications Network at the National Security Agency Goes Down, Defense Official Says appeared first on SecurityWeek .",
+      "tags": [
+        "Government",
+        "Incident Response",
+        "NSA"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/classified-communications-network-at-the-national-security-agency-goes-down-defense-official-says/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-003",
+      "published": "2026-11-18",
+      "title": "British Scattered Spider hacker sentenced to 6 years in prison",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "A leader of the Scattered Spider cybercrime collective has been sentenced to six years in prison in the United States for stealing millions in cryptocurrency and conspiring to hack a dozen companies. [...]",
+      "tags": [
+        "policy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/british-scattered-spider-hacker-sentenced-to-6-years-in-prison/"
+        }
+      ]
+    },
     {
       "id": "2026-11-17-001",
       "published": "2026-11-17",
@@ -28,6 +89,24 @@
     {
       "id": "2026-11-17-002",
       "published": "2026-11-17",
+      "title": "Critical Java4Shell flaw allows RCE attacks on major Java applications",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "A critical vulnerability dubbed Java4Shell in OpenJDK, the open-source implementation of Java, can allow unauthenticated attackers to remotely execute code on popular enterprise applications, including Jenkins, Atlassian Jira, Confluence, and Keycloak. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/critical-java4shell-flaw-allows-rce-attacks-on-major-java-applications/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-003",
+      "published": "2026-11-17",
       "title": "Market Research Giant Ipsos Investigating Breach of Internal System",
       "category": "breach",
       "severity": "HIGH",
@@ -46,7 +125,27 @@
       ]
     },
     {
-      "id": "2026-11-17-003",
+      "id": "2026-11-17-004",
+      "published": "2026-11-17",
+      "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Card numbers, CVVs, expiration dates, and email addresses used at Fandango’s ticketing checkout over four days in October may have been exposed. The post Fandango Warns Ticket Buyers of Payment Card Data Exposure appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "data breach",
+        "Fandango"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-005",
       "published": "2026-11-17",
       "title": "Access Dental Management Data Breach Impacts Over 340,000",
       "category": "breach",
@@ -67,7 +166,7 @@
       ]
     },
     {
-      "id": "2026-11-17-004",
+      "id": "2026-11-17-006",
       "published": "2026-11-17",
       "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
       "category": "breach",
@@ -85,7 +184,61 @@
       ]
     },
     {
-      "id": "2026-11-17-005",
+      "id": "2026-11-17-007",
+      "published": "2026-11-17",
+      "title": "Cloud keys leaked in Docker Hub images are stolen within seconds",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Credentials and access secrets exposed in public Docker Hub images are being extracted and exploited by attackers within as little as eight seconds of publication. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/cloud-keys-leaked-in-docker-hub-images-are-stolen-within-seconds/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-008",
+      "published": "2026-11-17",
+      "title": "Japan takes Fugaku supercomputer offlline after cyberattack",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The Fugaku supercomputer operated by Japan's RIKEN Center for Computational Science has been taken offline following a security breach. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/japan-takes-fugaku-supercomputer-offlline-after-cyberattack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-009",
+      "published": "2026-11-17",
+      "title": "Apple reports outages affecting iCloud Mail, AppleCare and more",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Apple is reporting service disruptions affecting several of its services, including iCloud Mail, iCloud Account & Sign In, Apple School Manager, and Schoolwork. [...]",
+      "tags": [
+        "Apple"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/apple/apple-reports-outages-affecting-icloud-mail-applecare-and-more/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-17-010",
       "published": "2026-11-17",
       "title": "Researchers hijack Hugging Face account for popular Kokoro AI model",
       "category": "general",
@@ -103,7 +256,7 @@
       ]
     },
     {
-      "id": "2026-11-17-006",
+      "id": "2026-11-17-011",
       "published": "2026-11-17",
       "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
       "category": "vuln",
@@ -126,12 +279,12 @@
       ]
     },
     {
-      "id": "2026-11-17-007",
+      "id": "2026-11-17-012",
       "published": "2026-11-17",
       "title": "Tor releases emergency update amid ongoing DDoS attack",
       "category": "general",
       "severity": "MEDIUM",
-      "summary": "[...]",
+      "summary": "The Tor Project has released a security update for its network relay software to increase defenses against an ongoing distributed denial-of-service attack that it says has overwhelmed relays and affected most operators. [...]",
       "tags": [
         "general"
       ],
@@ -144,7 +297,7 @@
       ]
     },
     {
-      "id": "2026-11-17-008",
+      "id": "2026-11-17-013",
       "published": "2026-11-17",
       "title": "Flipper Devices launches $399 ‘Flipper One’ Linux-based multi-tool",
       "category": "general",
@@ -163,7 +316,7 @@
       ]
     },
     {
-      "id": "2026-11-17-009",
+      "id": "2026-11-17-014",
       "published": "2026-11-17",
       "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
       "category": "general",
@@ -181,7 +334,7 @@
       ]
     },
     {
-      "id": "2026-11-17-010",
+      "id": "2026-11-17-015",
       "published": "2026-11-17",
       "title": "Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool",
       "category": "general",
@@ -202,7 +355,7 @@
       ]
     },
     {
-      "id": "2026-11-17-011",
+      "id": "2026-11-17-016",
       "published": "2026-11-17",
       "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
       "category": "vuln",
@@ -227,26 +380,7 @@
       ]
     },
     {
-      "id": "2026-11-17-012",
-      "published": "2026-11-17",
-      "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The lawsuit alleges that OpenAI misled and endangered the public and users by knowingly developing advanced AI models without necessary safeguards. The post California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "OpenAI"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/california-sues-openai-seeking-court-ordered-changes-after-the-hugging-face-hack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-013",
+      "id": "2026-11-17-017",
       "published": "2026-11-17",
       "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
       "category": "general",
@@ -264,28 +398,7 @@
       ]
     },
     {
-      "id": "2026-11-17-014",
-      "published": "2026-11-17",
-      "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Affected organizations include BBC, CNN, Zoom, GitLab, Salesforce, Equifax, HSBC, and IKEA. The post Optimizely Vulnerability Exploited to Serve Malware on Major Websites appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "exploited",
-        "Optimizely",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/optimizely-vulnerability-exploited-to-serve-malware-on-major-websites/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-015",
+      "id": "2026-11-17-018",
       "published": "2026-11-17",
       "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
       "category": "general",
@@ -303,7 +416,7 @@
       ]
     },
     {
-      "id": "2026-11-17-016",
+      "id": "2026-11-17-019",
       "published": "2026-11-17",
       "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
       "category": "malware",
@@ -321,7 +434,7 @@
       ]
     },
     {
-      "id": "2026-11-17-017",
+      "id": "2026-11-17-020",
       "published": "2026-11-17",
       "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
       "category": "business",
@@ -342,7 +455,7 @@
       ]
     },
     {
-      "id": "2026-11-17-018",
+      "id": "2026-11-17-021",
       "published": "2026-11-17",
       "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
       "category": "policy",
@@ -362,48 +475,6 @@
     {
       "id": "2026-11-16-001",
       "published": "2026-11-16",
-      "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Card numbers, CVVs, expiration dates, and email addresses used at Fandango’s ticketing checkout over four days in October may have been exposed. The post Fandango Warns Ticket Buyers of Payment Card Data Exposure appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "Fandango"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/fandango-says-hackers-stole-payment-card-details-from-checkout-pages/"
-        },
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-002",
-      "published": "2026-11-16",
-      "title": "Barracuda links cloud breach to ARTEX AI-powered cyberattack",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Hackers who breached the cloud environment of network and email security company Barracuda earlier this month used a stolen cloud access key and the ARTEX AI penetration testing framework. [...]",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/barracuda-links-cloud-breach-to-artex-ai-powered-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-003",
-      "published": "2026-11-16",
       "title": "Gemini AI agents repeatedly bypassed safeguards to attack real website",
       "category": "general",
       "severity": "MEDIUM",
@@ -416,60 +487,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/gemini-ai-agents-repeatedly-bypassed-safeguards-to-attack-real-website/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-004",
-      "published": "2026-11-16",
-      "title": "Google Project Zero cuts bug disclosures to 30 days amid AI threats",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Google Project Zero will replace its \"90+30\" disclosure policy with shorter, fixed deadlines in response to AI-accelerated vulnerability discovery and exploitation. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/google-project-zero-cuts-bug-disclosure-deadline-to-30-days-amid-ai-threats/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-005",
-      "published": "2026-11-16",
-      "title": "California sues OpenAI over AI agents escaping sandboxes, hacking firms",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "California Attorney General Rob Bonta sued OpenAI on Monday, alleging the company knowingly continued testing advanced artificial intelligence models despite repeated security failures that allowed autonomous AI agents to escape isolated environments and launch cyberattacks against real-world organizations. [...]",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/california-sues-openai-over-ai-agents-escaping-sandboxes-hacking-firms/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-16-006",
-      "published": "2026-11-16",
-      "title": "Microsoft says months-old bug caused global Microsoft 365 outage",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft says a software bug introduced in July caused last week's worldwide Microsoft 365 outage, triggering a cascading failure that left more than 80% of its networking gateway servers unresponsive. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-says-months-old-bug-caused-global-microsoft-365-outage/"
         }
       ]
     }
