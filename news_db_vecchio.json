@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T12:25:04Z",
+  "updated": "2026-11-18T14:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -187,6 +187,27 @@
     {
       "id": "2026-11-18-010",
       "published": "2026-11-18",
+      "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
+      "category": "policy",
+      "severity": "LOW",
+      "summary": "British national Tyler Robert Buchanan has been sentenced to 6 years in prison in the United States, the DOJ announced. The post Last of Five Defendants Sentenced in US Scattered Spider Hacking Case appeared first on SecurityWeek .",
+      "tags": [
+        "Cybercrime",
+        "hacker",
+        "Scattered Spider",
+        "sentenced"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/last-of-five-defendants-sentenced-in-us-scattered-spider-hacking-case/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-011",
+      "published": "2026-11-18",
       "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
       "category": "malware",
       "severity": "MEDIUM",
@@ -208,7 +229,7 @@
       ]
     },
     {
-      "id": "2026-11-18-011",
+      "id": "2026-11-18-012",
       "published": "2026-11-18",
       "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
       "category": "general",
@@ -231,7 +252,7 @@
       ]
     },
     {
-      "id": "2026-11-18-012",
+      "id": "2026-11-18-013",
       "published": "2026-11-18",
       "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
       "category": "vuln",
@@ -249,6 +270,29 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/oracle-patches-640-vulnerabilities-with-november-2026-cspu/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-014",
+      "published": "2026-11-18",
+      "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Star Blizzard weaponized data and identities stolen in late 2025 to phish and compromise a US organization. The post Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Nation-State",
+        "APT",
+        "Cold Relic",
+        "Russia",
+        "Star Blizzard"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/russian-apt-poses-as-employee-of-hacked-firm-to-breach-another-us-organization/"
         }
       ]
     },
