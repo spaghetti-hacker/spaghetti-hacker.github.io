@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T14:25:04Z",
+  "updated": "2026-11-19T18:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -31,6 +31,100 @@
     {
       "id": "2026-11-19-002",
       "published": "2026-11-19",
+      "title": "Transport for London breach exposes 265,000 Oyster card users' data",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Transport for London (TfL) has announced that around 265,000 Oyster photocard customers may have had their account details exposed in a data breach. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/transport-for-london-breach-exposes-265-000-oyster-card-users-data/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-003",
+      "published": "2026-11-19",
+      "title": "PHP security updates fix 18 flaws, including critical RCE bugs",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The PHP development team released security updates addressing 18 vulnerabilities, including critical flaws that could allow unauthenticated attackers to remotely execute code on vulnerable servers. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/php-security-updates-fix-18-flaws-including-critical-rce-bugs/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-004",
+      "published": "2026-11-19",
+      "title": "PHP Patches Seven Critical RCE Vulnerabilities",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Successful exploitation could allow attackers to crash the worker process and execute code with the PHP worker’s privileges. The post PHP Patches Seven Critical RCE Vulnerabilities appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Patch",
+        "PHP",
+        "RCE",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-005",
+      "published": "2026-11-19",
+      "title": "Five warning signs of ransomware breach before encryption or data theft",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "Ransomware attacks often involve credential theft, lateral movement, and attempts to disable security controls long before encryption begins. Acronis examines five warning signs that can help defenders detect intrusions earlier, contain malicious activity, and protect critical systems and backups. [...]",
+      "tags": [
+        "ransomware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/five-warning-signs-of-ransomware-breach-before-encryption-or-data-theft/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-006",
+      "published": "2026-11-19",
+      "title": "Critical NGINX ‘NGINX2Root’ bugs let attackers hijack servers",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Two critical NGINX vulnerabilities dubbed \"nginx2root\" allow unauthenticated attackers to execute code remotely on vulnerable web servers, with researchers demonstrating how the flaws can be chained with a Linux kernel bug to gain root access. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/critical-nginx-nginx2root-bugs-let-attackers-hijack-servers/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-007",
+      "published": "2026-11-19",
       "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
       "category": "vuln",
       "severity": "HIGH",
@@ -47,7 +141,7 @@
       ]
     },
     {
-      "id": "2026-11-19-003",
+      "id": "2026-11-19-008",
       "published": "2026-11-19",
       "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
       "category": "supply-chain",
@@ -69,7 +163,7 @@
       ]
     },
     {
-      "id": "2026-11-19-004",
+      "id": "2026-11-19-009",
       "published": "2026-11-19",
       "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
       "category": "vuln",
@@ -90,7 +184,7 @@
       ]
     },
     {
-      "id": "2026-11-19-005",
+      "id": "2026-11-19-010",
       "published": "2026-11-19",
       "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
       "category": "vuln",
@@ -111,7 +205,7 @@
       ]
     },
     {
-      "id": "2026-11-19-006",
+      "id": "2026-11-19-011",
       "published": "2026-11-19",
       "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
       "category": "vuln",
@@ -134,7 +228,7 @@
       ]
     },
     {
-      "id": "2026-11-19-007",
+      "id": "2026-11-19-012",
       "published": "2026-11-19",
       "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
       "category": "vuln",
@@ -156,7 +250,7 @@
       ]
     },
     {
-      "id": "2026-11-19-008",
+      "id": "2026-11-19-013",
       "published": "2026-11-19",
       "title": "The Governance Gap in Open-Weight AI and What to Do About It",
       "category": "general",
@@ -176,7 +270,7 @@
       ]
     },
     {
-      "id": "2026-11-19-009",
+      "id": "2026-11-19-014",
       "published": "2026-11-19",
       "title": "Microsoft tests new Edge Lockdown Mode that disables GPU APIs",
       "category": "general",
@@ -194,7 +288,7 @@
       ]
     },
     {
-      "id": "2026-11-19-010",
+      "id": "2026-11-19-015",
       "published": "2026-11-19",
       "title": "Microsoft confirms app installation, launch issues after hotpatch",
       "category": "general",
@@ -212,7 +306,7 @@
       ]
     },
     {
-      "id": "2026-11-19-011",
+      "id": "2026-11-19-016",
       "published": "2026-11-19",
       "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
       "category": "vuln",
@@ -230,27 +324,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-012",
-      "published": "2026-11-19",
-      "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
-      "category": "business",
-      "severity": "LOW",
-      "summary": "The all-stock deal will give the cybersecurity company a platform for fine-tuning and running open-weight AI models in public and sovereign clouds. The post Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "M&A Tracker",
-        "Acquisition",
-        "Palo Alto Networks"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/palo-alto-networks-to-buy-ai-startup-applied-compute-for-4-5-billion/"
         }
       ]
     },
@@ -405,78 +478,6 @@
         {
           "title": "Guerre di Rete",
           "url": "https://www.guerredirete.it/le-strategie-di-cina-e-stati-uniti-sull-intelligenza-artificiale"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-009",
-      "published": "2026-11-18",
-      "title": "Microsoft announces Windows Server 2028 with hardened security",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has announced Windows Server 2028, the next major release of its server operating system, at the Ignite 2026 conference on Tuesday. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-announces-windows-server-2028-with-hardened-security/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-010",
-      "published": "2026-11-18",
-      "title": "British Scattered Spider hacker sentenced to 6 years in prison",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "A leader of the Scattered Spider cybercrime collective has been sentenced to six years in prison in the United States for stealing millions in cryptocurrency and conspiring to hack a dozen companies. [...]",
-      "tags": [
-        "policy"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/british-scattered-spider-hacker-sentenced-to-6-years-in-prison/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-001",
-      "published": "2026-11-17",
-      "title": "Critical Java4Shell flaw allows RCE attacks on major Java applications",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "A critical vulnerability dubbed Java4Shell in OpenJDK, the open-source implementation of Java, can allow unauthenticated attackers to remotely execute code on popular enterprise applications, including Jenkins, Atlassian Jira, Confluence, and Keycloak. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/critical-java4shell-flaw-allows-rce-attacks-on-major-java-applications/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-002",
-      "published": "2026-11-17",
-      "title": "Cloud keys leaked in Docker Hub images are stolen within seconds",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Credentials and access secrets exposed in public Docker Hub images are being extracted and exploited by attackers within as little as eight seconds of publication. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/cloud-keys-leaked-in-docker-hub-images-are-stolen-within-seconds/"
         }
       ]
     }

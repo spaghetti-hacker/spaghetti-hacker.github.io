@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T12:25:03Z",
+  "updated": "2026-11-19T14:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -41,23 +41,49 @@
     {
       "id": "2026-11-19-003",
       "published": "2026-11-19",
-      "title": "NVIDIA investigating Gentlemen ransomware breach claims",
+      "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The Drupal Security Team has patched a critical remote code execution vulnerability that can let attackers take over vulnerable sites. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/drupal-patches-critical-rce-flaw-warns-exploits-may-surface-quickly/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-004",
+      "published": "2026-11-19",
+      "title": "Nvidia Responds to Gentlemen Ransomware Claim",
       "category": "ransomware",
       "severity": "HIGH",
-      "summary": "NVIDIA is investigating claims of a security breach after the Gentlemen ransomware group has added the company to its dark web data leak site. [...]",
+      "summary": "Nvidia says it has found no indication that its systems were compromised after the Gentlemen ransomware group listed the company as a victim. The post Nvidia Responds to Gentlemen Ransomware Claim appeared first on SecurityWeek .",
       "tags": [
-        "ransomware"
+        "Cybercrime",
+        "Ransomware",
+        "data breach",
+        "Gentlemen",
+        "NVIDIA"
       ],
       "cves": [],
       "sources": [
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/nvidia-investigating-gentlemen-ransomware-breach-claims/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/nvidia-responds-to-gentlemen-ransomware-claim/"
         }
       ]
     },
     {
-      "id": "2026-11-19-004",
+      "id": "2026-11-19-005",
       "published": "2026-11-19",
       "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
       "category": "vuln",
@@ -78,7 +104,29 @@
       ]
     },
     {
-      "id": "2026-11-19-005",
+      "id": "2026-11-19-006",
+      "published": "2026-11-19",
+      "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Attackers hacked clustered Cisco Expressway devices at a Russian organization and prepared tooling for lateral movement. The post Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Cisco",
+        "exploited",
+        "Expressway",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-007",
       "published": "2026-11-19",
       "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
       "category": "vuln",
@@ -100,7 +148,7 @@
       ]
     },
     {
-      "id": "2026-11-19-006",
+      "id": "2026-11-19-008",
       "published": "2026-11-19",
       "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
       "category": "business",
@@ -121,7 +169,7 @@
       ]
     },
     {
-      "id": "2026-11-19-007",
+      "id": "2026-11-19-009",
       "published": "2026-11-19",
       "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
       "category": "vuln",
@@ -144,7 +192,7 @@
       ]
     },
     {
-      "id": "2026-11-19-008",
+      "id": "2026-11-19-010",
       "published": "2026-11-19",
       "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
       "category": "vuln",
@@ -165,7 +213,29 @@
       ]
     },
     {
-      "id": "2026-11-19-009",
+      "id": "2026-11-19-011",
+      "published": "2026-11-19",
+      "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "The company will use the funds to accelerate the development and distribution of its security platform. The post StepSecurity Secures $20 Million to Expand Supply Chain Protection appeared first on SecurityWeek .",
+      "tags": [
+        "Cybersecurity Funding",
+        "Supply Chain Security",
+        "funding",
+        "StepSecurity",
+        "Supply Chain"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/stepsecurity-secures-20-million-to-expand-supply-chain-protection/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-012",
       "published": "2026-11-19",
       "title": "The Governance Gap in Open-Weight AI and What to Do About It",
       "category": "general",
