@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T18:25:04Z",
+  "updated": "2026-11-19T20:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -222,6 +222,29 @@
     {
       "id": "2026-11-19-012",
       "published": "2026-11-19",
+      "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Google says a China-linked espionage group exploited a critical VMware vCenter authentication bypass before Broadcom released a patch. The post Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "China",
+        "China APT",
+        "exploited",
+        "vCenter Server",
+        "VMware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-013",
+      "published": "2026-11-19",
       "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
       "category": "business",
       "severity": "LOW",
@@ -241,7 +264,7 @@
       ]
     },
     {
-      "id": "2026-11-19-013",
+      "id": "2026-11-19-014",
       "published": "2026-11-19",
       "title": "PHP Patches Seven Critical RCE Vulnerabilities",
       "category": "vuln",
@@ -263,7 +286,7 @@
       ]
     },
     {
-      "id": "2026-11-19-014",
+      "id": "2026-11-19-015",
       "published": "2026-11-19",
       "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
       "category": "vuln",
@@ -286,7 +309,7 @@
       ]
     },
     {
-      "id": "2026-11-19-015",
+      "id": "2026-11-19-016",
       "published": "2026-11-19",
       "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
       "category": "vuln",
@@ -307,7 +330,7 @@
       ]
     },
     {
-      "id": "2026-11-19-016",
+      "id": "2026-11-19-017",
       "published": "2026-11-19",
       "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
       "category": "supply-chain",
@@ -329,7 +352,7 @@
       ]
     },
     {
-      "id": "2026-11-19-017",
+      "id": "2026-11-19-018",
       "published": "2026-11-19",
       "title": "The Governance Gap in Open-Weight AI and What to Do About It",
       "category": "general",

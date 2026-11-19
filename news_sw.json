@@ -1,15 +1,15 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-19",
  "items": [
   {
-   "title": "PHP Patches Seven Critical RCE Vulnerabilities",
-   "link": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
+   "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
+   "link": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/",
    "date": "2026-11-19"
   },
   {
-   "title": "Nvidia Responds to Gentlemen Ransomware Claim",
-   "link": "https://www.securityweek.com/nvidia-responds-to-gentlemen-ransomware-claim/",
+   "title": "PHP Patches Seven Critical RCE Vulnerabilities",
+   "link": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
    "date": "2026-11-19"
   },
   {
@@ -18,18 +18,8 @@
    "date": "2026-11-19"
   },
   {
-   "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
-   "link": "https://www.securityweek.com/stepsecurity-secures-20-million-to-expand-supply-chain-protection/",
-   "date": "2026-11-19"
-  },
-  {
    "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
    "link": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/",
-   "date": "2026-11-19"
-  },
-  {
-   "title": "The Governance Gap in Open-Weight AI and What to Do About It",
-   "link": "https://www.securityweek.com/the-governance-gap-in-open-weight-ai-and-what-to-do-about-it/",
    "date": "2026-11-19"
   },
   {
@@ -51,6 +41,16 @@
    "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
    "link": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/",
    "date": "2026-11-19"
+  },
+  {
+   "title": "Chrome 158 Patches 204 Vulnerabilities",
+   "link": "https://www.securityweek.com/chrome-158-patches-204-vulnerabilities/",
+   "date": "2026-11-18"
+  },
+  {
+   "title": "Critical Perforce Puppet RCE Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-perforce-puppet-rce-exploited-in-attacks/",
+   "date": "2026-11-18"
   }
  ]
 }

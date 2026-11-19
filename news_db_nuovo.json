@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T18:25:04Z",
+  "updated": "2026-11-19T20:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -31,6 +31,29 @@
     {
       "id": "2026-11-19-002",
       "published": "2026-11-19",
+      "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
+      "category": "apt",
+      "severity": "HIGH",
+      "summary": "Google says a China-linked espionage group exploited a critical VMware vCenter authentication bypass before Broadcom released a patch. The post Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "China",
+        "China APT",
+        "exploited",
+        "vCenter Server",
+        "VMware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-003",
+      "published": "2026-11-19",
       "title": "Transport for London breach exposes 265,000 Oyster card users' data",
       "category": "breach",
       "severity": "HIGH",
@@ -47,7 +70,7 @@
       ]
     },
     {
-      "id": "2026-11-19-003",
+      "id": "2026-11-19-004",
       "published": "2026-11-19",
       "title": "PHP security updates fix 18 flaws, including critical RCE bugs",
       "category": "vuln",
@@ -65,7 +88,7 @@
       ]
     },
     {
-      "id": "2026-11-19-004",
+      "id": "2026-11-19-005",
       "published": "2026-11-19",
       "title": "PHP Patches Seven Critical RCE Vulnerabilities",
       "category": "vuln",
@@ -87,7 +110,7 @@
       ]
     },
     {
-      "id": "2026-11-19-005",
+      "id": "2026-11-19-006",
       "published": "2026-11-19",
       "title": "Five warning signs of ransomware breach before encryption or data theft",
       "category": "ransomware",
@@ -105,7 +128,7 @@
       ]
     },
     {
-      "id": "2026-11-19-006",
+      "id": "2026-11-19-007",
       "published": "2026-11-19",
       "title": "Critical NGINX ‘NGINX2Root’ bugs let attackers hijack servers",
       "category": "vuln",
@@ -123,7 +146,7 @@
       ]
     },
     {
-      "id": "2026-11-19-007",
+      "id": "2026-11-19-008",
       "published": "2026-11-19",
       "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
       "category": "vuln",
@@ -141,7 +164,7 @@
       ]
     },
     {
-      "id": "2026-11-19-008",
+      "id": "2026-11-19-009",
       "published": "2026-11-19",
       "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
       "category": "supply-chain",
@@ -163,7 +186,7 @@
       ]
     },
     {
-      "id": "2026-11-19-009",
+      "id": "2026-11-19-010",
       "published": "2026-11-19",
       "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
       "category": "vuln",
@@ -184,7 +207,7 @@
       ]
     },
     {
-      "id": "2026-11-19-010",
+      "id": "2026-11-19-011",
       "published": "2026-11-19",
       "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
       "category": "vuln",
@@ -201,29 +224,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/f5-patches-critical-nginx2root-flaws-as-poc-exploits-go-public/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-011",
-      "published": "2026-11-19",
-      "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Affecting the session upload progress, CVE-2026-115560 was publicly disclosed two days after PHP2Shell patches landed. The post PHP Readies Critical Security Updates to Patch Another RCE Flaw appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Patch",
-        "PHP",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-115560"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/"
         }
       ]
     },
