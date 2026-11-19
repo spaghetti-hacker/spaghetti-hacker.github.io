@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sample": false,
-  "updated": "2026-11-18T08:15:01Z",
+  "updated": "2026-11-19T08:15:01Z",
   "window_days": 90,
   "actors": [
     {
@@ -620,13 +620,17 @@
         "T1539"
       ],
       "first_seen": "",
-      "last_activity": "",
+      "last_activity": "2026-11-18",
       "confidence": "MEDIUM",
       "summary": "Scattered Spider is a native English-speaking cybercriminal group active since at least 2022. The group initially targeted customer relationship management (CRM) providers, business process outsourcing (BPO) firms, and telecommunications and technology companies before expanding in 2023 to gaming,...",
       "sources": [
         {
           "title": "MITRE ATT&CK G1015",
           "url": "https://attack.mitre.org/groups/G1015"
+        },
+        {
+          "title": "British Scattered Spider hacker sentenced to 6 years in prison",
+          "url": "https://www.bleepingcomputer.com/news/security/british-scattered-spider-hacker-sentenced-to-6-years-in-prison/"
         }
       ]
     },

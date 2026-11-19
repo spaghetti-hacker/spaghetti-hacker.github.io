@@ -1,7 +1,28 @@
 {
-  "updated": "2026-11-18T18:25:04Z",
+  "updated": "2026-11-19T07:25:14Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-19-001",
+      "published": "2026-11-19",
+      "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "The all-stock deal will give the cybersecurity company a platform for fine-tuning and running open-weight AI models in public and sovereign clouds. The post Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "M&A Tracker",
+        "Acquisition",
+        "Palo Alto Networks"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/palo-alto-networks-to-buy-ai-startup-applied-compute-for-4-5-billion/"
+        }
+      ]
+    },
     {
       "id": "2026-11-18-001",
       "published": "2026-11-18",
@@ -59,6 +80,42 @@
     {
       "id": "2026-11-18-004",
       "published": "2026-11-18",
+      "title": "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake scam",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Coinbase says it blocked $4.7 million in cryptocurrency transfers to scammers promoting a fake giveaway using an AI-generated deepfake of Elon Musk during a Tesla livestream that attracted more than 500,000 viewers. [...]",
+      "tags": [
+        "CryptoCurrency"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/coinbase-blocks-47-million-in-transfers-to-elon-musk-deepfake-scam/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-005",
+      "published": "2026-11-18",
+      "title": "Data breach impacts 40 Irish credit unions in reported IT provider hack",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "A reported cyberattack on Wellington IT has exposed sensitive information belonging to members of 50 credit unions, the majority of which are located in Ireland. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/data-breach-impacts-40-irish-credit-unions-in-reported-it-provider-hack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-006",
+      "published": "2026-11-18",
       "title": "Dizigom illegal streaming service with 21M monthly visits shuts down",
       "category": "general",
       "severity": "MEDIUM",
@@ -75,7 +132,7 @@
       ]
     },
     {
-      "id": "2026-11-18-005",
+      "id": "2026-11-18-007",
       "published": "2026-11-18",
       "title": "From Deepfakes to Helpdesk Impersonation: Why Stronger Verification Matters",
       "category": "general",
@@ -93,7 +150,25 @@
       ]
     },
     {
-      "id": "2026-11-18-006",
+      "id": "2026-11-18-008",
+      "published": "2026-11-18",
+      "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "Ukrainian authorities, working with the FBI, have arrested four suspected members of an international ransomware organization linked to more than $40.5 million in ransom payments from at least 28 companies worldwide. [...]",
+      "tags": [
+        "ransomware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-009",
       "published": "2026-11-18",
       "title": "Le strategie di Cina e Stati Uniti sull’intelligenza artificiale",
       "category": "general",
@@ -111,7 +186,7 @@
       ]
     },
     {
-      "id": "2026-11-18-007",
+      "id": "2026-11-18-010",
       "published": "2026-11-18",
       "title": "Chrome 158 Patches 204 Vulnerabilities",
       "category": "vuln",
@@ -132,7 +207,7 @@
       ]
     },
     {
-      "id": "2026-11-18-008",
+      "id": "2026-11-18-011",
       "published": "2026-11-18",
       "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
       "category": "general",
@@ -153,7 +228,7 @@
       ]
     },
     {
-      "id": "2026-11-18-009",
+      "id": "2026-11-18-012",
       "published": "2026-11-18",
       "title": "Classified Communications Network at the National Security Agency Goes Down, Defense Official Says",
       "category": "general",
@@ -173,7 +248,7 @@
       ]
     },
     {
-      "id": "2026-11-18-010",
+      "id": "2026-11-18-013",
       "published": "2026-11-18",
       "title": "Critical Perforce Puppet RCE Exploited in Attacks",
       "category": "vuln",
@@ -198,7 +273,7 @@
       ]
     },
     {
-      "id": "2026-11-18-011",
+      "id": "2026-11-18-014",
       "published": "2026-11-18",
       "title": "Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover",
       "category": "vuln",
@@ -221,7 +296,7 @@
       ]
     },
     {
-      "id": "2026-11-18-012",
+      "id": "2026-11-18-015",
       "published": "2026-11-18",
       "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
       "category": "policy",
@@ -242,7 +317,7 @@
       ]
     },
     {
-      "id": "2026-11-18-013",
+      "id": "2026-11-18-016",
       "published": "2026-11-18",
       "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
       "category": "supply-chain",
@@ -269,7 +344,7 @@
       ]
     },
     {
-      "id": "2026-11-18-014",
+      "id": "2026-11-18-017",
       "published": "2026-11-18",
       "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
       "category": "general",
@@ -292,7 +367,7 @@
       ]
     },
     {
-      "id": "2026-11-18-015",
+      "id": "2026-11-18-018",
       "published": "2026-11-18",
       "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
       "category": "vuln",
@@ -314,7 +389,7 @@
       ]
     },
     {
-      "id": "2026-11-18-016",
+      "id": "2026-11-18-019",
       "published": "2026-11-18",
       "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
       "category": "apt",
@@ -337,7 +412,7 @@
       ]
     },
     {
-      "id": "2026-11-18-017",
+      "id": "2026-11-18-020",
       "published": "2026-11-18",
       "title": "VeroSecurity Raises $11 Million for AI Security Engineering Platform",
       "category": "business",
