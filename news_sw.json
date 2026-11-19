@@ -1,56 +1,56 @@
 {
- "source": "GENERAL",
+ "source": "ICS-OT",
  "updated": "2026-11-19",
  "items": [
   {
-   "title": "Nvidia Responds to Gentlemen Ransomware Claim",
-   "link": "https://www.securityweek.com/nvidia-responds-to-gentlemen-ransomware-claim/",
-   "date": "2026-11-19"
+   "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
+   "link": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/",
+   "date": "2026-11-16"
   },
   {
-   "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
-   "link": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/",
-   "date": "2026-11-19"
+   "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
+   "link": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/",
+   "date": "2026-11-14"
   },
   {
-   "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
-   "link": "https://www.securityweek.com/stepsecurity-secures-20-million-to-expand-supply-chain-protection/",
-   "date": "2026-11-19"
+   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
+   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
+   "date": "2026-11-11"
   },
   {
-   "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
-   "link": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/",
-   "date": "2026-11-19"
+   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
+   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
+   "date": "2026-11-06"
   },
   {
-   "title": "The Governance Gap in Open-Weight AI and What to Do About It",
-   "link": "https://www.securityweek.com/the-governance-gap-in-open-weight-ai-and-what-to-do-about-it/",
-   "date": "2026-11-19"
+   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
+   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
+   "date": "2026-11-05"
   },
   {
-   "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
-   "link": "https://www.securityweek.com/splunk-patches-nearly-140-flaws-across-three-core-products/",
-   "date": "2026-11-19"
+   "title": "Critical Node-RED Flaw Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+   "date": "2026-11-03"
   },
   {
-   "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
-   "link": "https://www.securityweek.com/f5-patches-critical-nginx2root-flaws-as-poc-exploits-go-public/",
-   "date": "2026-11-19"
+   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+   "date": "2026-11-03"
   },
   {
-   "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
-   "link": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/",
-   "date": "2026-11-19"
+   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
+   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
+   "date": "2026-10-28"
   },
   {
-   "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
-   "link": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/",
-   "date": "2026-11-19"
+   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
+   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
+   "date": "2026-10-27"
   },
   {
-   "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
-   "link": "https://www.securityweek.com/palo-alto-networks-to-buy-ai-startup-applied-compute-for-4-5-billion/",
-   "date": "2026-11-19"
+   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
+   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
+   "date": "2026-10-26"
   }
  ]
 }
