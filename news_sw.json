@@ -1,40 +1,10 @@
 {
- "source": "GENERAL",
- "updated": "2026-11-18",
+ "source": "VULNERABILITIES",
+ "updated": "2026-11-19",
  "items": [
-  {
-   "title": "VeroSecurity Raises $11 Million for AI Security Engineering Platform",
-   "link": "https://www.securityweek.com/verosecurity-raises-11-million-for-ai-security-engineering-platform/",
-   "date": "2026-11-18"
-  },
-  {
-   "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
-   "link": "https://www.securityweek.com/russian-apt-poses-as-employee-of-hacked-firm-to-breach-another-us-organization/",
-   "date": "2026-11-18"
-  },
-  {
-   "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
-   "link": "https://www.securityweek.com/last-of-five-defendants-sentenced-in-us-scattered-spider-hacking-case/",
-   "date": "2026-11-18"
-  },
-  {
-   "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
-   "link": "https://www.securityweek.com/microsoft-takes-perception-agentic-security-platform-out-of-preview/",
-   "date": "2026-11-18"
-  },
-  {
-   "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
-   "link": "https://www.securityweek.com/ciso-conversations-patti-degnan-part-of-the-job-is-deciding-what-not-to-do/",
-   "date": "2026-11-18"
-  },
   {
    "title": "Chrome 158 Patches 204 Vulnerabilities",
    "link": "https://www.securityweek.com/chrome-158-patches-204-vulnerabilities/",
-   "date": "2026-11-18"
-  },
-  {
-   "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
-   "link": "https://www.securityweek.com/microsoft-agent-framework-releases-poisoned-with-credential-stealer/",
    "date": "2026-11-18"
   },
   {
@@ -51,6 +21,36 @@
    "title": "Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover",
    "link": "https://www.securityweek.com/java4shell-vulnerability-puts-many-enterprise-applications-at-risk-of-takeover/",
    "date": "2026-11-18"
+  },
+  {
+   "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
+   "link": "https://www.securityweek.com/ai-framework-autonomously-weaponized-flaws-in-real-attacks-google-says/",
+   "date": "2026-11-17"
+  },
+  {
+   "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
+   "link": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/",
+   "date": "2026-11-17"
+  },
+  {
+   "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
+   "link": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/",
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Google Project Zero Sets Course for 30-Day Disclosure Deadline",
+   "link": "https://www.securityweek.com/google-project-zero-sets-course-for-30-day-disclosure-deadline/",
+   "date": "2026-11-16"
+  },
+  {
+   "title": "Telegram Widgets Hit by RCE Demos, Malware Warning Days After Launch",
+   "link": "https://www.securityweek.com/telegram-widgets-hit-by-rce-demos-malware-warning-days-after-launch/",
+   "date": "2026-11-16"
+  },
+  {
+   "title": "Recent UnrealIRCd Vulnerability Exploited in Attacks",
+   "link": "https://www.securityweek.com/recent-unrealircd-vulnerability-exploited-in-attacks/",
+   "date": "2026-11-16"
   }
  ]
 }

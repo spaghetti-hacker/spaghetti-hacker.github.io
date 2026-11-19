@@ -1,7 +1,28 @@
 {
-  "updated": "2026-11-18T18:25:04Z",
+  "updated": "2026-11-19T07:25:14Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-19-001",
+      "published": "2026-11-19",
+      "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
+      "category": "business",
+      "severity": "LOW",
+      "summary": "The all-stock deal will give the cybersecurity company a platform for fine-tuning and running open-weight AI models in public and sovereign clouds. The post Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "M&A Tracker",
+        "Acquisition",
+        "Palo Alto Networks"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/palo-alto-networks-to-buy-ai-startup-applied-compute-for-4-5-billion/"
+        }
+      ]
+    },
     {
       "id": "2026-11-18-001",
       "published": "2026-11-18",
@@ -32,6 +53,42 @@
     {
       "id": "2026-11-18-002",
       "published": "2026-11-18",
+      "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "Ukrainian authorities, working with the FBI, have arrested four suspected members of an international ransomware organization linked to more than $40.5 million in ransom payments from at least 28 companies worldwide. [...]",
+      "tags": [
+        "ransomware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-003",
+      "published": "2026-11-18",
+      "title": "Data breach impacts 40 Irish credit unions in reported IT provider hack",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "A reported cyberattack on Wellington IT has exposed sensitive information belonging to members of 50 credit unions, the majority of which are located in Ireland. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/data-breach-impacts-40-irish-credit-unions-in-reported-it-provider-hack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-004",
+      "published": "2026-11-18",
       "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
       "category": "apt",
       "severity": "HIGH",
@@ -53,7 +110,7 @@
       ]
     },
     {
-      "id": "2026-11-18-003",
+      "id": "2026-11-18-005",
       "published": "2026-11-18",
       "title": "Critical Perforce Puppet RCE Exploited in Attacks",
       "category": "vuln",
@@ -78,7 +135,7 @@
       ]
     },
     {
-      "id": "2026-11-18-004",
+      "id": "2026-11-18-006",
       "published": "2026-11-18",
       "title": "Apache warns of Roller RCE vulnerability exploited in attacks",
       "category": "vuln",
@@ -96,7 +153,7 @@
       ]
     },
     {
-      "id": "2026-11-18-005",
+      "id": "2026-11-18-007",
       "published": "2026-11-18",
       "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
       "category": "vuln",
@@ -118,30 +175,25 @@
       ]
     },
     {
-      "id": "2026-11-18-006",
+      "id": "2026-11-18-008",
       "published": "2026-11-18",
-      "title": "Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Calif demonstrated remote code execution in Jira, Jenkins and Keycloak, while VulnCheck says real-world RCE requires per-target work The post Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover appeared first on SecurityWeek .",
+      "title": "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake scam",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Coinbase says it blocked $4.7 million in cryptocurrency transfers to scammers promoting a fake giveaway using an AI-generated deepfake of Elon Musk during a Tesla livestream that attracted more than 500,000 viewers. [...]",
       "tags": [
-        "Vulnerabilities",
-        "Java",
-        "Java4Shell",
-        "RCE",
-        "remote code execution",
-        "vulnerability"
+        "CryptoCurrency"
       ],
       "cves": [],
       "sources": [
         {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/java4shell-vulnerability-puts-many-enterprise-applications-at-risk-of-takeover/"
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/coinbase-blocks-47-million-in-transfers-to-elon-musk-deepfake-scam/"
         }
       ]
     },
     {
-      "id": "2026-11-18-007",
+      "id": "2026-11-18-009",
       "published": "2026-11-18",
       "title": "From Deepfakes to Helpdesk Impersonation: Why Stronger Verification Matters",
       "category": "general",
@@ -159,7 +211,7 @@
       ]
     },
     {
-      "id": "2026-11-18-008",
+      "id": "2026-11-18-010",
       "published": "2026-11-18",
       "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
       "category": "general",
@@ -182,7 +234,7 @@
       ]
     },
     {
-      "id": "2026-11-18-009",
+      "id": "2026-11-18-011",
       "published": "2026-11-18",
       "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
       "category": "general",
@@ -203,7 +255,7 @@
       ]
     },
     {
-      "id": "2026-11-18-010",
+      "id": "2026-11-18-012",
       "published": "2026-11-18",
       "title": "Dizigom illegal streaming service with 21M monthly visits shuts down",
       "category": "general",
@@ -221,7 +273,7 @@
       ]
     },
     {
-      "id": "2026-11-18-011",
+      "id": "2026-11-18-013",
       "published": "2026-11-18",
       "title": "Chrome 158 Patches 204 Vulnerabilities",
       "category": "vuln",
@@ -242,7 +294,7 @@
       ]
     },
     {
-      "id": "2026-11-18-012",
+      "id": "2026-11-18-014",
       "published": "2026-11-18",
       "title": "Le strategie di Cina e Stati Uniti sull’intelligenza artificiale",
       "category": "general",
@@ -260,7 +312,7 @@
       ]
     },
     {
-      "id": "2026-11-18-013",
+      "id": "2026-11-18-015",
       "published": "2026-11-18",
       "title": "Microsoft announces Windows Server 2028 with hardened security",
       "category": "general",
@@ -278,7 +330,7 @@
       ]
     },
     {
-      "id": "2026-11-18-014",
+      "id": "2026-11-18-016",
       "published": "2026-11-18",
       "title": "VeroSecurity Raises $11 Million for AI Security Engineering Platform",
       "category": "business",
@@ -299,7 +351,7 @@
       ]
     },
     {
-      "id": "2026-11-18-015",
+      "id": "2026-11-18-017",
       "published": "2026-11-18",
       "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
       "category": "policy",
@@ -320,7 +372,7 @@
       ]
     },
     {
-      "id": "2026-11-18-016",
+      "id": "2026-11-18-018",
       "published": "2026-11-18",
       "title": "British Scattered Spider hacker sentenced to 6 years in prison",
       "category": "policy",
@@ -442,61 +494,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/tor-releases-emergency-update-amid-ongoing-ddos-attack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-007",
-      "published": "2026-11-17",
-      "title": "Flipper Devices launches $399 ‘Flipper One’ Linux-based multi-tool",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Flipper Devices, the company behind the popular Flipper Zero pentesting device, has launched a crowdfunding campaign for Flipper One, a portable Linux computer and networking multi-tool. [...]",
-      "tags": [
-        "Hardware",
-        "Linux"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/hardware/flipper-devices-launches-399-flipper-one-linux-based-multi-tool/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-008",
-      "published": "2026-11-17",
-      "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Huntress researchers break down how EvilTokens, Knight Office, and Kali365 capture and replay M365 tokens, plus how defenders can detect and contain them. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/inside-modern-phishing-kits-built-to-steal-microsoft-365-sessions/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-009",
-      "published": "2026-11-17",
-      "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is testing a new feature that lets enterprise IT administrators remotely lock stolen or lost Windows devices without wiping them. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-remote-lock-for-lost-or-stolen-windows-devices/"
         }
       ]
     }
