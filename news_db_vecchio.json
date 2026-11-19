@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T07:25:14Z",
+  "updated": "2026-11-19T08:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -20,6 +20,29 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/palo-alto-networks-to-buy-ai-startup-applied-compute-for-4-5-billion/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-002",
+      "published": "2026-11-19",
+      "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Affecting the session upload progress, CVE-2026-115560 was publicly disclosed two days after PHP2Shell patches landed. The post PHP Readies Critical Security Updates to Patch Another RCE Flaw appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Patch",
+        "PHP",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-115560"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/"
         }
       ]
     },
@@ -414,10 +437,10 @@
     {
       "id": "2026-11-18-020",
       "published": "2026-11-18",
-      "title": "VeroSecurity Raises $11 Million for AI Security Engineering Platform",
+      "title": "Vero Security Raises $11 Million for AI Security Engineering Platform",
       "category": "business",
       "severity": "LOW",
-      "summary": "AI Security Engineering is a new and essential security discipline now being brought into focus by VeroSecurity. The post VeroSecurity Raises $11 Million for AI Security Engineering Platform appeared first on SecurityWeek .",
+      "summary": "AI Security Engineering is a new and essential security discipline now being brought into focus by VeroSecurity. The post Vero Security Raises $11 Million for AI Security Engineering Platform appeared first on SecurityWeek .",
       "tags": [
         "Artificial Intelligence",
         "Cybersecurity Funding",

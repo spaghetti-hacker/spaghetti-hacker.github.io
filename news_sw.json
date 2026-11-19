@@ -3,6 +3,11 @@
  "updated": "2026-11-19",
  "items": [
   {
+   "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-19"
+  },
+  {
    "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
    "link": "https://www.securityweek.com/splunk-patches-nearly-140-flaws-across-three-core-products/",
    "date": "2026-11-19"
@@ -45,11 +50,6 @@
   {
    "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
    "link": "https://www.securityweek.com/ai-framework-autonomously-weaponized-flaws-in-real-attacks-google-says/",
-   "date": "2026-11-17"
-  },
-  {
-   "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
-   "link": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/",
    "date": "2026-11-17"
   }
  ]
