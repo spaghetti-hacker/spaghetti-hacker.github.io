@@ -4,3 +4,4 @@ log.000: Everything is Open Source if you can Reverse Engineer.
 log.004: The e_entry field denotes the entry point of the binary; this is the virtual address at which execution should start.
 log.005: The CMP instruction compares two operands and sets the appropriate conditional code in EFLAGS; it compares two numbers by subtracting one from another without updating the result. The TEST instruction does the same thing except it performs a logical AND between the two operands.
 log.006: I reverse, therefore I am.
+log.007: Variables within the stack frame are typically referenced by their relative distance from the location to which the frame pointer points.
