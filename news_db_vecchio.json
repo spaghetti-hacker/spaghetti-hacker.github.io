@@ -1,9 +1,106 @@
 {
-  "updated": "2026-11-19T08:25:04Z",
+  "updated": "2026-11-19T12:25:03Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-19-001",
+      "published": "2026-11-19",
+      "title": "Microsoft confirms app installation, launch issues after hotpatch",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has shared a workaround for installation and launch issues affecting Office and third-party applications after installing this month's Windows 11 hotpatch. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-app-installation-launch-issues-after-hotpatch/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-002",
+      "published": "2026-11-19",
+      "title": "Microsoft tests new Edge Lockdown Mode that disables GPU APIs",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft is developing a new Edge security feature to reduce the attack surface by disabling the WebGL, WebGL2, and WebGPU APIs. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-tests-new-edge-lockdown-mode-that-disables-gpu-apis/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-003",
+      "published": "2026-11-19",
+      "title": "NVIDIA investigating Gentlemen ransomware breach claims",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "NVIDIA is investigating claims of a security breach after the Gentlemen ransomware group has added the company to its dark web data leak site. [...]",
+      "tags": [
+        "ransomware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/nvidia-investigating-gentlemen-ransomware-breach-claims/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-004",
+      "published": "2026-11-19",
+      "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The five NGINX2Root vulnerabilities could allow remote, unauthenticated attackers to execute arbitrary code. The post F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "F5",
+        "Nginx",
+        "NGINX2Root"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/f5-patches-critical-nginx2root-flaws-as-poc-exploits-go-public/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-005",
+      "published": "2026-11-19",
+      "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "GreyNoise, WatchTowr and Cloudflare report probing and exploit attempts, while Cisco, Elastic, Red Hat and Siemens detail impact. The post Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "exploited",
+        "Java",
+        "Java4Shell",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-006",
       "published": "2026-11-19",
       "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
       "category": "business",
@@ -24,7 +121,7 @@
       ]
     },
     {
-      "id": "2026-11-19-002",
+      "id": "2026-11-19-007",
       "published": "2026-11-19",
       "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
       "category": "vuln",
@@ -43,6 +140,47 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-008",
+      "published": "2026-11-19",
+      "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The security updates resolve critical and high-severity issues leading to authentication bypass, remote code execution, and privilege escalation. The post Splunk Patches Nearly 140 Flaws Across Three Core Products appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "patches",
+        "Splunk",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/splunk-patches-nearly-140-flaws-across-three-core-products/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-009",
+      "published": "2026-11-19",
+      "title": "The Governance Gap in Open-Weight AI and What to Do About It",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Lower costs, data privacy, and greater control are driving open-weight AI adoption, but many organizations are not addressing the risks that come with it. The post The Governance Gap in Open-Weight AI and What to Do About It appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "AI",
+        "governance"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/the-governance-gap-in-open-weight-ai-and-what-to-do-about-it/"
         }
       ]
     },
@@ -67,18 +205,27 @@
     {
       "id": "2026-11-18-002",
       "published": "2026-11-18",
-      "title": "Apache warns of Roller RCE vulnerability exploited in attacks",
+      "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
       "category": "vuln",
       "severity": "HIGH",
-      "summary": "Apache has released security updates to address a critical Roller flaw that threat actors are exploiting to gain code execution on vulnerable servers. [...]",
+      "summary": "Attackers are targeting Confluence Data Center through an Axis flaw and Apache is warning of attacks against Roller. The post Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks appeared first on SecurityWeek .",
       "tags": [
-        "vuln"
+        "Vulnerabilities",
+        "Apache",
+        "Apache Axis",
+        "Apache Roller",
+        "exploited",
+        "vulnerability"
       ],
       "cves": [],
       "sources": [
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/apache-warns-of-roller-rce-vulnerability-exploited-in-attacks/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/"
         }
       ]
     },
@@ -175,6 +322,25 @@
     {
       "id": "2026-11-18-008",
       "published": "2026-11-18",
+      "title": "Microsoft’s Agent Framework PyPI package compromised to steal credentials",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "Hackers compromised Microsoft's official Agent Framework Python package on PyPI, publishing two malicious versions designed to steal cloud credentials and other sensitive information from developers' systems. [...]",
+      "tags": [
+        "Artificial Intelligence",
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/microsofts-agent-framework-pypi-package-compromised-to-steal-credentials/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-18-009",
+      "published": "2026-11-18",
       "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
       "category": "ransomware",
       "severity": "HIGH",
@@ -191,7 +357,7 @@
       ]
     },
     {
-      "id": "2026-11-18-009",
+      "id": "2026-11-18-010",
       "published": "2026-11-18",
       "title": "Le strategie di Cina e Stati Uniti sull’intelligenza artificiale",
       "category": "general",
@@ -209,7 +375,7 @@
       ]
     },
     {
-      "id": "2026-11-18-010",
+      "id": "2026-11-18-011",
       "published": "2026-11-18",
       "title": "Chrome 158 Patches 204 Vulnerabilities",
       "category": "vuln",
@@ -230,7 +396,7 @@
       ]
     },
     {
-      "id": "2026-11-18-011",
+      "id": "2026-11-18-012",
       "published": "2026-11-18",
       "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
       "category": "general",
@@ -251,7 +417,7 @@
       ]
     },
     {
-      "id": "2026-11-18-012",
+      "id": "2026-11-18-013",
       "published": "2026-11-18",
       "title": "Classified Communications Network at the National Security Agency Goes Down, Defense Official Says",
       "category": "general",
@@ -271,7 +437,7 @@
       ]
     },
     {
-      "id": "2026-11-18-013",
+      "id": "2026-11-18-014",
       "published": "2026-11-18",
       "title": "Critical Perforce Puppet RCE Exploited in Attacks",
       "category": "vuln",
@@ -296,7 +462,7 @@
       ]
     },
     {
-      "id": "2026-11-18-014",
+      "id": "2026-11-18-015",
       "published": "2026-11-18",
       "title": "Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover",
       "category": "vuln",
@@ -319,7 +485,7 @@
       ]
     },
     {
-      "id": "2026-11-18-015",
+      "id": "2026-11-18-016",
       "published": "2026-11-18",
       "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
       "category": "policy",
@@ -340,7 +506,7 @@
       ]
     },
     {
-      "id": "2026-11-18-016",
+      "id": "2026-11-18-017",
       "published": "2026-11-18",
       "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
       "category": "supply-chain",
@@ -367,7 +533,7 @@
       ]
     },
     {
-      "id": "2026-11-18-017",
+      "id": "2026-11-18-018",
       "published": "2026-11-18",
       "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
       "category": "general",
@@ -390,7 +556,7 @@
       ]
     },
     {
-      "id": "2026-11-18-018",
+      "id": "2026-11-18-019",
       "published": "2026-11-18",
       "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
       "category": "vuln",
@@ -412,7 +578,7 @@
       ]
     },
     {
-      "id": "2026-11-18-019",
+      "id": "2026-11-18-020",
       "published": "2026-11-18",
       "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
       "category": "apt",
@@ -435,7 +601,7 @@
       ]
     },
     {
-      "id": "2026-11-18-020",
+      "id": "2026-11-18-021",
       "published": "2026-11-18",
       "title": "Vero Security Raises $11 Million for AI Security Engineering Platform",
       "category": "business",

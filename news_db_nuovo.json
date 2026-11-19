@@ -1,9 +1,75 @@
 {
-  "updated": "2026-11-19T12:25:03Z",
+  "updated": "2026-11-19T14:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-19-001",
+      "published": "2026-11-19",
+      "title": "Nvidia Responds to Gentlemen Ransomware Claim",
+      "category": "ransomware",
+      "severity": "HIGH",
+      "summary": "Nvidia says it has found no indication that its systems were compromised after the Gentlemen ransomware group listed the company as a victim. The post Nvidia Responds to Gentlemen Ransomware Claim appeared first on SecurityWeek .",
+      "tags": [
+        "Cybercrime",
+        "Ransomware",
+        "data breach",
+        "Gentlemen",
+        "NVIDIA"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/nvidia-investigating-gentlemen-ransomware-breach-claims/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/nvidia-responds-to-gentlemen-ransomware-claim/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-002",
+      "published": "2026-11-19",
+      "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The Drupal Security Team has patched a critical remote code execution vulnerability that can let attackers take over vulnerable sites. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/drupal-patches-critical-rce-flaw-warns-exploits-may-surface-quickly/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-003",
+      "published": "2026-11-19",
+      "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "The company will use the funds to accelerate the development and distribution of its security platform. The post StepSecurity Secures $20 Million to Expand Supply Chain Protection appeared first on SecurityWeek .",
+      "tags": [
+        "Cybersecurity Funding",
+        "Supply Chain Security",
+        "funding",
+        "StepSecurity",
+        "Supply Chain"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/stepsecurity-secures-20-million-to-expand-supply-chain-protection/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-004",
       "published": "2026-11-19",
       "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
       "category": "vuln",
@@ -24,7 +90,7 @@
       ]
     },
     {
-      "id": "2026-11-19-002",
+      "id": "2026-11-19-005",
       "published": "2026-11-19",
       "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
       "category": "vuln",
@@ -45,25 +111,7 @@
       ]
     },
     {
-      "id": "2026-11-19-003",
-      "published": "2026-11-19",
-      "title": "NVIDIA investigating Gentlemen ransomware breach claims",
-      "category": "ransomware",
-      "severity": "HIGH",
-      "summary": "NVIDIA is investigating claims of a security breach after the Gentlemen ransomware group has added the company to its dark web data leak site. [...]",
-      "tags": [
-        "ransomware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/nvidia-investigating-gentlemen-ransomware-breach-claims/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-004",
+      "id": "2026-11-19-006",
       "published": "2026-11-19",
       "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
       "category": "vuln",
@@ -86,7 +134,29 @@
       ]
     },
     {
-      "id": "2026-11-19-005",
+      "id": "2026-11-19-007",
+      "published": "2026-11-19",
+      "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Attackers hacked clustered Cisco Expressway devices at a Russian organization and prepared tooling for lateral movement. The post Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Cisco",
+        "exploited",
+        "Expressway",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-008",
       "published": "2026-11-19",
       "title": "The Governance Gap in Open-Weight AI and What to Do About It",
       "category": "general",
@@ -106,7 +176,7 @@
       ]
     },
     {
-      "id": "2026-11-19-006",
+      "id": "2026-11-19-009",
       "published": "2026-11-19",
       "title": "Microsoft tests new Edge Lockdown Mode that disables GPU APIs",
       "category": "general",
@@ -124,7 +194,7 @@
       ]
     },
     {
-      "id": "2026-11-19-007",
+      "id": "2026-11-19-010",
       "published": "2026-11-19",
       "title": "Microsoft confirms app installation, launch issues after hotpatch",
       "category": "general",
@@ -142,7 +212,7 @@
       ]
     },
     {
-      "id": "2026-11-19-008",
+      "id": "2026-11-19-011",
       "published": "2026-11-19",
       "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
       "category": "vuln",
@@ -164,7 +234,7 @@
       ]
     },
     {
-      "id": "2026-11-19-009",
+      "id": "2026-11-19-012",
       "published": "2026-11-19",
       "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
       "category": "business",
@@ -269,29 +339,6 @@
     {
       "id": "2026-11-18-005",
       "published": "2026-11-18",
-      "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "Star Blizzard weaponized data and identities stolen in late 2025 to phish and compromise a US organization. The post Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Nation-State",
-        "APT",
-        "Cold Relic",
-        "Russia",
-        "Star Blizzard"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/russian-apt-poses-as-employee-of-hacked-firm-to-breach-another-us-organization/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-006",
-      "published": "2026-11-18",
       "title": "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake scam",
       "category": "general",
       "severity": "MEDIUM",
@@ -308,7 +355,7 @@
       ]
     },
     {
-      "id": "2026-11-18-007",
+      "id": "2026-11-18-006",
       "published": "2026-11-18",
       "title": "From Deepfakes to Helpdesk Impersonation: Why Stronger Verification Matters",
       "category": "general",
@@ -326,7 +373,7 @@
       ]
     },
     {
-      "id": "2026-11-18-008",
+      "id": "2026-11-18-007",
       "published": "2026-11-18",
       "title": "Dizigom illegal streaming service with 21M monthly visits shuts down",
       "category": "general",
@@ -344,7 +391,7 @@
       ]
     },
     {
-      "id": "2026-11-18-009",
+      "id": "2026-11-18-008",
       "published": "2026-11-18",
       "title": "Le strategie di Cina e Stati Uniti sull’intelligenza artificiale",
       "category": "general",
@@ -362,7 +409,7 @@
       ]
     },
     {
-      "id": "2026-11-18-010",
+      "id": "2026-11-18-009",
       "published": "2026-11-18",
       "title": "Microsoft announces Windows Server 2028 with hardened security",
       "category": "general",
@@ -380,49 +427,7 @@
       ]
     },
     {
-      "id": "2026-11-18-011",
-      "published": "2026-11-18",
-      "title": "Vero Security Raises $11 Million for AI Security Engineering Platform",
-      "category": "business",
-      "severity": "LOW",
-      "summary": "AI Security Engineering is a new and essential security discipline now being brought into focus by VeroSecurity. The post Vero Security Raises $11 Million for AI Security Engineering Platform appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Cybersecurity Funding",
-        "AI",
-        "funding"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/verosecurity-raises-11-million-for-ai-security-engineering-platform/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-012",
-      "published": "2026-11-18",
-      "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "British national Tyler Robert Buchanan has been sentenced to 6 years in prison in the United States, the DOJ announced. The post Last of Five Defendants Sentenced in US Scattered Spider Hacking Case appeared first on SecurityWeek .",
-      "tags": [
-        "Cybercrime",
-        "hacker",
-        "Scattered Spider",
-        "sentenced"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/last-of-five-defendants-sentenced-in-us-scattered-spider-hacking-case/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-013",
+      "id": "2026-11-18-010",
       "published": "2026-11-18",
       "title": "British Scattered Spider hacker sentenced to 6 years in prison",
       "category": "policy",
@@ -472,24 +477,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/cloud-keys-leaked-in-docker-hub-images-are-stolen-within-seconds/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-003",
-      "published": "2026-11-17",
-      "title": "Japan takes Fugaku supercomputer offlline after cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The Fugaku supercomputer operated by Japan's RIKEN Center for Computational Science has been taken offline following a security breach. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/japan-takes-fugaku-supercomputer-offlline-after-cyberattack/"
         }
       ]
     }
