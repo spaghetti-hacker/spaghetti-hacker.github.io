@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sample": false,
-  "updated": "2026-11-19T08:15:01Z",
+  "updated": "2026-11-20T08:15:01Z",
   "window_days": 90,
   "actors": [
     {
@@ -627,10 +627,6 @@
         {
           "title": "MITRE ATT&CK G1015",
           "url": "https://attack.mitre.org/groups/G1015"
-        },
-        {
-          "title": "British Scattered Spider hacker sentenced to 6 years in prison",
-          "url": "https://www.bleepingcomputer.com/news/security/british-scattered-spider-hacker-sentenced-to-6-years-in-prison/"
         }
       ]
     },

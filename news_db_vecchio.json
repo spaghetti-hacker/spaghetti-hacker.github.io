@@ -1,7 +1,25 @@
 {
-  "updated": "2026-11-19T20:25:04Z",
+  "updated": "2026-11-20T07:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-20-001",
+      "published": "2026-11-20",
+      "title": "VMware patches vCenter zero-day exploited in attacks since September",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Broadcom has released security updates to fix a critical VMware vCenter Server authentication bypass vulnerability that Chinese-linked hackers have exploited in zero-day attacks since September 2026. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/"
+        }
+      ]
+    },
     {
       "id": "2026-11-19-001",
       "published": "2026-11-19",
@@ -41,6 +59,24 @@
     {
       "id": "2026-11-19-003",
       "published": "2026-11-19",
+      "title": "ASUS warns of critical hard-coded key flaw in Control Center Express",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "ASUS released Control Center Express v1.7.29 to fix three critical vulnerabilities that could let remote attackers gain administrative control of the management console and the devices it manages. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/asus-warns-of-critical-hard-coded-key-flaw-in-control-center-express/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-004",
+      "published": "2026-11-19",
       "title": "Critical NGINX ‘NGINX2Root’ bugs let attackers hijack servers",
       "category": "vuln",
       "severity": "HIGH",
@@ -57,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-19-004",
+      "id": "2026-11-19-005",
       "published": "2026-11-19",
       "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
       "category": "vuln",
@@ -75,7 +111,7 @@
       ]
     },
     {
-      "id": "2026-11-19-005",
+      "id": "2026-11-19-006",
       "published": "2026-11-19",
       "title": "Five warning signs of ransomware breach before encryption or data theft",
       "category": "ransomware",
@@ -93,7 +129,25 @@
       ]
     },
     {
-      "id": "2026-11-19-006",
+      "id": "2026-11-19-007",
+      "published": "2026-11-19",
+      "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "SBC Medical Group has warned in a filing with the U.S. Securities and Exchange Commission (SEC) that two cybersecurity incidents exposed sensitive customer and employee information, including personal data belonging to 1.6 million people. [...]",
+      "tags": [
+        "Healthcare"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-steal-data-of-16-million-sbc-medical-group-customers/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-008",
       "published": "2026-11-19",
       "title": "Nvidia Responds to Gentlemen Ransomware Claim",
       "category": "ransomware",
@@ -119,7 +173,7 @@
       ]
     },
     {
-      "id": "2026-11-19-007",
+      "id": "2026-11-19-009",
       "published": "2026-11-19",
       "title": "PHP security updates fix 18 flaws, including critical RCE bugs",
       "category": "vuln",
@@ -137,7 +191,7 @@
       ]
     },
     {
-      "id": "2026-11-19-008",
+      "id": "2026-11-19-010",
       "published": "2026-11-19",
       "title": "Transport for London breach exposes 265,000 Oyster card users' data",
       "category": "breach",
@@ -155,7 +209,30 @@
       ]
     },
     {
-      "id": "2026-11-19-009",
+      "id": "2026-11-19-011",
+      "published": "2026-11-19",
+      "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Attackers are targeting Confluence Data Center through an Axis flaw and Apache is warning of attacks against Roller. The post Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Apache",
+        "Apache Axis",
+        "Apache Roller",
+        "exploited",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-19-012",
       "published": "2026-11-19",
       "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
       "category": "vuln",
@@ -176,7 +253,7 @@
       ]
     },
     {
-      "id": "2026-11-19-010",
+      "id": "2026-11-19-013",
       "published": "2026-11-19",
       "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
       "category": "vuln",
@@ -198,7 +275,7 @@
       ]
     },
     {
-      "id": "2026-11-19-011",
+      "id": "2026-11-19-014",
       "published": "2026-11-19",
       "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
       "category": "vuln",
@@ -220,7 +297,7 @@
       ]
     },
     {
-      "id": "2026-11-19-012",
+      "id": "2026-11-19-015",
       "published": "2026-11-19",
       "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
       "category": "apt",
@@ -243,7 +320,7 @@
       ]
     },
     {
-      "id": "2026-11-19-013",
+      "id": "2026-11-19-016",
       "published": "2026-11-19",
       "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
       "category": "business",
@@ -264,7 +341,7 @@
       ]
     },
     {
-      "id": "2026-11-19-014",
+      "id": "2026-11-19-017",
       "published": "2026-11-19",
       "title": "PHP Patches Seven Critical RCE Vulnerabilities",
       "category": "vuln",
@@ -286,7 +363,7 @@
       ]
     },
     {
-      "id": "2026-11-19-015",
+      "id": "2026-11-19-018",
       "published": "2026-11-19",
       "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
       "category": "vuln",
@@ -309,7 +386,7 @@
       ]
     },
     {
-      "id": "2026-11-19-016",
+      "id": "2026-11-19-019",
       "published": "2026-11-19",
       "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
       "category": "vuln",
@@ -330,7 +407,7 @@
       ]
     },
     {
-      "id": "2026-11-19-017",
+      "id": "2026-11-19-020",
       "published": "2026-11-19",
       "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
       "category": "supply-chain",
@@ -352,7 +429,7 @@
       ]
     },
     {
-      "id": "2026-11-19-018",
+      "id": "2026-11-19-021",
       "published": "2026-11-19",
       "title": "The Governance Gap in Open-Weight AI and What to Do About It",
       "category": "general",
@@ -2123,60 +2200,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-001",
-      "published": "2026-11-12",
-      "title": "Massive Microsoft 365 outage disrupts Outlook, Teams, Copilot worldwide",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is investigating a widespread outage affecting multiple Microsoft 365 services, including Outlook, Microsoft Teams, and Copilot, as users report connectivity problems worldwide. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/massive-microsoft-365-outage-disrupts-outlook-teams-copilot-worldwide/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-002",
-      "published": "2026-11-12",
-      "title": "Hackers compromise 4,800 GitHub accounts to steal cloud credentials",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "A new campaign dubbed 'wfx-loot' has unfolded on GitHub where threat actors used 4,837 compromised accounts to probe 61,764 repositories, open pull requests, and push secrets-stealing malware. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-12-003",
-      "published": "2026-11-12",
-      "title": "New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "A new worm-like malware toolkit named SCKit was deployed in the recent ScreenConnect attacks targeting managed service providers (MSPs), designed to spread from infected customer devices to MSP technicians' computers and compromise additional managed networks. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/"
         }
       ]
     }

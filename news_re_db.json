@@ -1,7 +1,83 @@
 {
-  "updated": "2026-11-19T08:10:28Z",
+  "updated": "2026-11-20T08:10:36Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "082703df6d",
+      "published": "2026-11-19",
+      "title": "From posture to root cause: Investigate OpenShift compliance with Elastic Agent Builder",
+      "topic": "vuln",
+      "source": "Elastic Labs",
+      "summary": "When an OpenShift compliance control fails, Elastic Agent Builder traces the root cause, from Compliance Operator scans centralized in Elasticsearch and CEL checks for the rules the scanner marks manual. A single Elastic Agent on each cluster polls OpenShift Compliance Operator APIs every 60 seconds. An Elastic Agent Builder agent on top of that data can tell you what change failed the compliance control.",
+      "tags": [
+        "root cause",
+        "poc"
+      ],
+      "cves": [],
+      "read_min": 19,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/blog/openshift-compliance-elastic-agent-builder"
+        }
+      ]
+    },
+    {
+      "id": "ed37aae28c",
+      "published": "2026-11-19",
+      "title": "The internet needs a nap (and you do, too)",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "Bill takes a break from the non-stop breaking news to promote prioritizing environmental awareness and team stability over reactive patching. “Not everything that is faced can be changed; but nothing can be changed until it is faced.” — James Baldwin Welcome to this week’s edition of the Threat Source newsletter. I had planned to write about one thing. The week, apparently, had other plans.",
+      "tags": [
+        "vulnerability",
+        "malware",
+        "exploitation",
+        "x86 64",
+        "c2"
+      ],
+      "cves": [
+        "CVE-2026-114938"
+      ],
+      "read_min": 6,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/the-internet-needs-a-nap-and-you-do-too"
+        }
+      ]
+    },
+    {
+      "id": "0183216203",
+      "published": "2026-11-19",
+      "title": "ARMORY CASTLE Exploits vSphere",
+      "topic": "exploit",
+      "source": "Mandiant",
+      "summary": "Written by: Jayson Frost, Bryce Greathouse, Dhanesh Kizhakkinan, John Palmisano, Steve Rasch, Daniel Sislo, John Wolfram Introduction On Oct. 15, 2026, Mandiant and Google Threat Intelligence Group (GTIG) published a blog post detailing recent activity in which the suspected PRC-nexus threat actor ARMORY CASTLE (formerly tracked as UNC5221) exploited CVE-2026-102764, a zero-day vulnerability in BeyondTrust Remote…",
+      "tags": [
+        "exploitation",
+        "vulnerability",
+        "malware",
+        "cve 2026 123890",
+        "exploited"
+      ],
+      "cves": [
+        "CVE-2025-22457",
+        "CVE-2026-102764",
+        "CVE-2026-123890",
+        "CVE-2026-59309"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Mandiant",
+          "url": "https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere"
+        }
+      ]
+    },
     {
       "id": "a3b0a664ad",
       "published": "2026-11-18",
