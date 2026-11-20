@@ -1,5 +1,5 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-20",
  "items": [
   {
@@ -8,38 +8,8 @@
    "date": "2026-11-20"
   },
   {
-   "title": "In Other News: Norwegian Energy Firm Cyberattacks, Supercomputer Hack, New Nightmare Eclipse Exploit",
-   "link": "https://www.securityweek.com/in-other-news-norwegian-energy-firm-cyberattacks-supercomputer-hack-new-nightmare-eclipse-exploit/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
-   "link": "https://www.securityweek.com/industry-reactions-to-major-outages-and-ai-patching-questions-feedback-friday/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
-   "link": "https://www.securityweek.com/sbc-medical-group-data-breach-impacts-over-2-million/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
-   "link": "https://www.securityweek.com/european-commission-confirms-ai-assisted-cyberattack-disrupted-services/",
-   "date": "2026-11-20"
-  },
-  {
    "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
    "link": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "N-able Blames Service Disruption on Cyberattack",
-   "link": "https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
-   "link": "https://www.securityweek.com/jpmorgan-visa-mastercard-cite-third-party-incidents-amid-data-leak/",
    "date": "2026-11-20"
   },
   {
@@ -50,6 +20,36 @@
   {
    "title": "PHP Patches Seven Critical RCE Vulnerabilities",
    "link": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
+   "link": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
+   "link": "https://www.securityweek.com/splunk-patches-nearly-140-flaws-across-three-core-products/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
+   "link": "https://www.securityweek.com/f5-patches-critical-nginx2root-flaws-as-poc-exploits-go-public/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
+   "link": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
+   "link": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/",
    "date": "2026-11-19"
   }
  ]
