@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T18:25:03Z",
+  "updated": "2026-11-20T20:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -162,6 +162,24 @@
     {
       "id": "2026-11-20-009",
       "published": "2026-11-20",
+      "title": "Bell Canada says 'agentic' hacker stole enterprise customer data",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Bell Canada has confirmed that an \"agentic\" threat actor breached its systems on November 17, 2026, and stole enterprise customer data, including information from a system used to order and provision telecommunications circuits. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/bell-canada-says-agentic-hacker-stole-enterprise-customer-data/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-010",
+      "published": "2026-11-20",
       "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
       "category": "vuln",
       "severity": "MEDIUM",
@@ -185,7 +203,7 @@
       ]
     },
     {
-      "id": "2026-11-20-010",
+      "id": "2026-11-20-011",
       "published": "2026-11-20",
       "title": "Still tracking company passwords in spreadsheets? You’re flying blind.",
       "category": "general",
@@ -203,7 +221,7 @@
       ]
     },
     {
-      "id": "2026-11-20-011",
+      "id": "2026-11-20-012",
       "published": "2026-11-20",
       "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
       "category": "general",
@@ -226,7 +244,7 @@
       ]
     },
     {
-      "id": "2026-11-20-012",
+      "id": "2026-11-20-013",
       "published": "2026-11-20",
       "title": "Microsoft now automatically installs Windows 11 26H2 on unmanaged devices",
       "category": "general",
@@ -244,7 +262,7 @@
       ]
     },
     {
-      "id": "2026-11-20-013",
+      "id": "2026-11-20-014",
       "published": "2026-11-20",
       "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
       "category": "general",
@@ -266,7 +284,7 @@
       ]
     },
     {
-      "id": "2026-11-20-014",
+      "id": "2026-11-20-015",
       "published": "2026-11-20",
       "title": "Windows 11 KB5132057 update released with 28 changes and fixes",
       "category": "general",
@@ -284,7 +302,7 @@
       ]
     },
     {
-      "id": "2026-11-20-015",
+      "id": "2026-11-20-016",
       "published": "2026-11-20",
       "title": "N-able Blames Service Disruption on Cyberattack",
       "category": "general",
@@ -441,24 +459,6 @@
     },
     {
       "id": "2026-11-19-008",
-      "published": "2026-11-19",
-      "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "The Drupal Security Team has patched a critical remote code execution vulnerability that can let attackers take over vulnerable sites. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/drupal-patches-critical-rce-flaw-warns-exploits-may-surface-quickly/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-009",
       "published": "2026-11-19",
       "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
       "category": "general",

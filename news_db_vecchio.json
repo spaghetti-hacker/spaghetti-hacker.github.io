@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T14:25:03Z",
+  "updated": "2026-11-20T18:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -77,6 +77,60 @@
     {
       "id": "2026-11-20-005",
       "published": "2026-11-20",
+      "title": "Hackers use autonomous AI tool Cairn to find zero-day, take over server",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Threat actors used the open-source AI penetration-testing framework Cairn to find a previously unknown vulnerability in a medical imaging application. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-use-autonomous-ai-tool-cairn-to-find-zero-day-take-over-server/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-006",
+      "published": "2026-11-20",
+      "title": "Still tracking company passwords in spreadsheets? You’re flying blind.",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Tracking company passwords in spreadsheets can leave IT administrators unaware of weak, reused, or compromised credentials stored and shared outside approved systems. NordPass explains how centralized password management can improve credential visibility, identify security risks, and simplify secure password sharing. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/still-tracking-company-passwords-in-spreadsheets-youre-flying-blind/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-007",
+      "published": "2026-11-20",
+      "title": "Vendor data breach exposes Chase, Visa, Mastercard customer info",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "J.P. Morgan Chase warned it suffered a data breach after a cyberattack at a third-party service provider exposed customers' personal information and marketing data. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/vendor-data-breach-exposes-chase-visa-mastercard-customer-info/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-008",
+      "published": "2026-11-20",
       "title": "VMware patches vCenter zero-day exploited in attacks since September",
       "category": "vuln",
       "severity": "CRITICAL",
@@ -93,7 +147,7 @@
       ]
     },
     {
-      "id": "2026-11-20-006",
+      "id": "2026-11-20-009",
       "published": "2026-11-20",
       "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
       "category": "general",
@@ -115,7 +169,7 @@
       ]
     },
     {
-      "id": "2026-11-20-007",
+      "id": "2026-11-20-010",
       "published": "2026-11-20",
       "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
       "category": "general",
@@ -138,7 +192,7 @@
       ]
     },
     {
-      "id": "2026-11-20-008",
+      "id": "2026-11-20-011",
       "published": "2026-11-20",
       "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
       "category": "breach",
@@ -161,7 +215,7 @@
       ]
     },
     {
-      "id": "2026-11-20-009",
+      "id": "2026-11-20-012",
       "published": "2026-11-20",
       "title": "N-able Blames Service Disruption on Cyberattack",
       "category": "general",
@@ -182,7 +236,7 @@
       ]
     },
     {
-      "id": "2026-11-20-010",
+      "id": "2026-11-20-013",
       "published": "2026-11-20",
       "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
       "category": "vuln",
@@ -205,7 +259,7 @@
       ]
     },
     {
-      "id": "2026-11-20-011",
+      "id": "2026-11-20-014",
       "published": "2026-11-20",
       "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
       "category": "breach",
@@ -222,6 +276,31 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/sbc-medical-group-data-breach-impacts-over-2-million/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-015",
+      "published": "2026-11-20",
+      "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Tracked as CVE-2026-23871, the vulnerability was found by WhatsApp’s security team, and it may have been used to make scam messages more credible. The post WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Mobile & Wireless",
+        "Vulnerabilities",
+        "exploited",
+        "vulnerability",
+        "WhatsApp",
+        "Zero-Day"
+      ],
+      "cves": [
+        "CVE-2026-23871"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/"
         }
       ]
     },

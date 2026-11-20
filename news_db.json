@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T18:25:03Z",
+  "updated": "2026-11-20T20:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -59,6 +59,24 @@
     {
       "id": "2026-11-20-004",
       "published": "2026-11-20",
+      "title": "Bell Canada says 'agentic' hacker stole enterprise customer data",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Bell Canada has confirmed that an \"agentic\" threat actor breached its systems on November 17, 2026, and stole enterprise customer data, including information from a system used to order and provision telecommunications circuits. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/bell-canada-says-agentic-hacker-stole-enterprise-customer-data/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-005",
+      "published": "2026-11-20",
       "title": "F5 releases emergency patches for critical BIG-IP RCE flaws",
       "category": "vuln",
       "severity": "HIGH",
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-20-005",
+      "id": "2026-11-20-006",
       "published": "2026-11-20",
       "title": "Hackers use autonomous AI tool Cairn to find zero-day, take over server",
       "category": "vuln",
@@ -93,7 +111,7 @@
       ]
     },
     {
-      "id": "2026-11-20-006",
+      "id": "2026-11-20-007",
       "published": "2026-11-20",
       "title": "Still tracking company passwords in spreadsheets? You’re flying blind.",
       "category": "general",
@@ -111,7 +129,7 @@
       ]
     },
     {
-      "id": "2026-11-20-007",
+      "id": "2026-11-20-008",
       "published": "2026-11-20",
       "title": "Vendor data breach exposes Chase, Visa, Mastercard customer info",
       "category": "breach",
@@ -129,7 +147,7 @@
       ]
     },
     {
-      "id": "2026-11-20-008",
+      "id": "2026-11-20-009",
       "published": "2026-11-20",
       "title": "VMware patches vCenter zero-day exploited in attacks since September",
       "category": "vuln",
@@ -147,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-20-009",
+      "id": "2026-11-20-010",
       "published": "2026-11-20",
       "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
       "category": "general",
@@ -169,7 +187,7 @@
       ]
     },
     {
-      "id": "2026-11-20-010",
+      "id": "2026-11-20-011",
       "published": "2026-11-20",
       "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
       "category": "general",
@@ -192,7 +210,7 @@
       ]
     },
     {
-      "id": "2026-11-20-011",
+      "id": "2026-11-20-012",
       "published": "2026-11-20",
       "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
       "category": "breach",
@@ -215,7 +233,7 @@
       ]
     },
     {
-      "id": "2026-11-20-012",
+      "id": "2026-11-20-013",
       "published": "2026-11-20",
       "title": "N-able Blames Service Disruption on Cyberattack",
       "category": "general",
@@ -236,7 +254,7 @@
       ]
     },
     {
-      "id": "2026-11-20-013",
+      "id": "2026-11-20-014",
       "published": "2026-11-20",
       "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
       "category": "vuln",
@@ -259,7 +277,7 @@
       ]
     },
     {
-      "id": "2026-11-20-014",
+      "id": "2026-11-20-015",
       "published": "2026-11-20",
       "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
       "category": "breach",
@@ -280,7 +298,7 @@
       ]
     },
     {
-      "id": "2026-11-20-015",
+      "id": "2026-11-20-016",
       "published": "2026-11-20",
       "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
       "category": "vuln",
