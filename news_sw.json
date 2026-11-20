@@ -3,6 +3,16 @@
  "updated": "2026-11-20",
  "items": [
   {
+   "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
+   "link": "https://www.securityweek.com/european-commission-confirms-ai-assisted-cyberattack-disrupted-services/",
+   "date": "2026-11-20"
+  },
+  {
+   "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
+   "link": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/",
+   "date": "2026-11-20"
+  },
+  {
    "title": "N-able Blames Service Disruption on Cyberattack",
    "link": "https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/",
    "date": "2026-11-20"
@@ -40,16 +50,6 @@
   {
    "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
    "link": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/",
-   "date": "2026-11-19"
-  },
-  {
-   "title": "The Governance Gap in Open-Weight AI and What to Do About It",
-   "link": "https://www.securityweek.com/the-governance-gap-in-open-weight-ai-and-what-to-do-about-it/",
-   "date": "2026-11-19"
-  },
-  {
-   "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
-   "link": "https://www.securityweek.com/splunk-patches-nearly-140-flaws-across-three-core-products/",
    "date": "2026-11-19"
   }
  ]
