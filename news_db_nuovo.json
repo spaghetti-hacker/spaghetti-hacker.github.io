@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T12:25:03Z",
+  "updated": "2026-11-20T14:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,24 @@
     {
       "id": "2026-11-20-002",
       "published": "2026-11-20",
+      "title": "N-able says recent security breach led to major service outage",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "N-able says attackers who breached one of its servers have caused a major outage affecting Mail Assure and SpamExperts Hosted Cloud services worldwide. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/n-able-says-recent-security-breach-led-to-major-service-outage/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-003",
+      "published": "2026-11-20",
       "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
       "category": "breach",
       "severity": "HIGH",
@@ -42,7 +60,7 @@
       ]
     },
     {
-      "id": "2026-11-20-003",
+      "id": "2026-11-20-004",
       "published": "2026-11-20",
       "title": "F5 releases emergency patches for critical BIG-IP RCE flaws",
       "category": "vuln",
@@ -60,7 +78,7 @@
       ]
     },
     {
-      "id": "2026-11-20-004",
+      "id": "2026-11-20-005",
       "published": "2026-11-20",
       "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
       "category": "vuln",
@@ -83,7 +101,7 @@
       ]
     },
     {
-      "id": "2026-11-20-005",
+      "id": "2026-11-20-006",
       "published": "2026-11-20",
       "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
       "category": "breach",
@@ -106,7 +124,30 @@
       ]
     },
     {
-      "id": "2026-11-20-006",
+      "id": "2026-11-20-007",
+      "published": "2026-11-20",
+      "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Experts commented on whether AI-accelerated patching played a role, the need for tested rollback plans, and the fragility of interconnected systems. The post Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Incident Response",
+        "AI",
+        "disruption",
+        "Feedback Friday",
+        "outage"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/industry-reactions-to-major-outages-and-ai-patching-questions-feedback-friday/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-008",
       "published": "2026-11-20",
       "title": "Microsoft now automatically installs Windows 11 26H2 on unmanaged devices",
       "category": "general",
@@ -124,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-20-007",
+      "id": "2026-11-20-009",
       "published": "2026-11-20",
       "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
       "category": "general",
@@ -146,7 +187,7 @@
       ]
     },
     {
-      "id": "2026-11-20-008",
+      "id": "2026-11-20-010",
       "published": "2026-11-20",
       "title": "Windows 11 KB5132057 update released with 28 changes and fixes",
       "category": "general",
@@ -164,7 +205,7 @@
       ]
     },
     {
-      "id": "2026-11-20-009",
+      "id": "2026-11-20-011",
       "published": "2026-11-20",
       "title": "N-able Blames Service Disruption on Cyberattack",
       "category": "general",
@@ -366,28 +407,6 @@
     {
       "id": "2026-11-19-010",
       "published": "2026-11-19",
-      "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "The company will use the funds to accelerate the development and distribution of its security platform. The post StepSecurity Secures $20 Million to Expand Supply Chain Protection appeared first on SecurityWeek .",
-      "tags": [
-        "Cybersecurity Funding",
-        "Supply Chain Security",
-        "funding",
-        "StepSecurity",
-        "Supply Chain"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/stepsecurity-secures-20-million-to-expand-supply-chain-protection/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-011",
-      "published": "2026-11-19",
       "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
       "category": "general",
       "severity": "MEDIUM",
@@ -404,7 +423,7 @@
       ]
     },
     {
-      "id": "2026-11-19-012",
+      "id": "2026-11-19-011",
       "published": "2026-11-19",
       "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
       "category": "vuln",
@@ -426,7 +445,7 @@
       ]
     },
     {
-      "id": "2026-11-19-013",
+      "id": "2026-11-19-012",
       "published": "2026-11-19",
       "title": "Microsoft tests new Edge Lockdown Mode that disables GPU APIs",
       "category": "general",
@@ -444,7 +463,7 @@
       ]
     },
     {
-      "id": "2026-11-19-014",
+      "id": "2026-11-19-013",
       "published": "2026-11-19",
       "title": "Microsoft confirms app installation, launch issues after hotpatch",
       "category": "general",
@@ -463,24 +482,6 @@
     },
     {
       "id": "2026-11-18-001",
-      "published": "2026-11-18",
-      "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
-      "category": "ransomware",
-      "severity": "HIGH",
-      "summary": "Ukrainian authorities, working with the FBI, have arrested four suspected members of an international ransomware organization linked to more than $40.5 million in ransom payments from at least 28 companies worldwide. [...]",
-      "tags": [
-        "ransomware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-002",
       "published": "2026-11-18",
       "title": "Le strategie di Cina e Stati Uniti sull’intelligenza artificiale",
       "category": "general",

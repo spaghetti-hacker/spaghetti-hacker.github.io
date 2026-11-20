@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T12:25:03Z",
+  "updated": "2026-11-20T14:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,24 @@
     {
       "id": "2026-11-20-002",
       "published": "2026-11-20",
+      "title": "N-able says recent security breach led to major service outage",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "N-able says attackers who breached one of its servers have caused a major outage affecting Mail Assure and SpamExperts Hosted Cloud services worldwide. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/n-able-says-recent-security-breach-led-to-major-service-outage/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-003",
+      "published": "2026-11-20",
       "title": "Windows 11 KB5132057 update released with 28 changes and fixes",
       "category": "general",
       "severity": "MEDIUM",
@@ -39,7 +57,7 @@
       ]
     },
     {
-      "id": "2026-11-20-003",
+      "id": "2026-11-20-004",
       "published": "2026-11-20",
       "title": "F5 releases emergency patches for critical BIG-IP RCE flaws",
       "category": "vuln",
@@ -57,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-20-004",
+      "id": "2026-11-20-005",
       "published": "2026-11-20",
       "title": "VMware patches vCenter zero-day exploited in attacks since September",
       "category": "vuln",
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-20-005",
+      "id": "2026-11-20-006",
       "published": "2026-11-20",
       "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
       "category": "general",
@@ -97,7 +115,30 @@
       ]
     },
     {
-      "id": "2026-11-20-006",
+      "id": "2026-11-20-007",
+      "published": "2026-11-20",
+      "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Experts commented on whether AI-accelerated patching played a role, the need for tested rollback plans, and the fragility of interconnected systems. The post Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Incident Response",
+        "AI",
+        "disruption",
+        "Feedback Friday",
+        "outage"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/industry-reactions-to-major-outages-and-ai-patching-questions-feedback-friday/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-008",
       "published": "2026-11-20",
       "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
       "category": "breach",
@@ -120,7 +161,7 @@
       ]
     },
     {
-      "id": "2026-11-20-007",
+      "id": "2026-11-20-009",
       "published": "2026-11-20",
       "title": "N-able Blames Service Disruption on Cyberattack",
       "category": "general",
@@ -141,7 +182,7 @@
       ]
     },
     {
-      "id": "2026-11-20-008",
+      "id": "2026-11-20-010",
       "published": "2026-11-20",
       "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
       "category": "vuln",
@@ -164,7 +205,7 @@
       ]
     },
     {
-      "id": "2026-11-20-009",
+      "id": "2026-11-20-011",
       "published": "2026-11-20",
       "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
       "category": "breach",
