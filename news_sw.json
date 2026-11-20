@@ -3,6 +3,11 @@
  "updated": "2026-11-20",
  "items": [
   {
+   "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
+   "link": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/",
+   "date": "2026-11-20"
+  },
+  {
    "title": "In Other News: Norwegian Energy Firm Cyberattacks, Supercomputer Hack, New Nightmare Eclipse Exploit",
    "link": "https://www.securityweek.com/in-other-news-norwegian-energy-firm-cyberattacks-supercomputer-hack-new-nightmare-eclipse-exploit/",
    "date": "2026-11-20"
@@ -45,11 +50,6 @@
   {
    "title": "PHP Patches Seven Critical RCE Vulnerabilities",
    "link": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
-   "date": "2026-11-19"
-  },
-  {
-   "title": "Nvidia Responds to Gentlemen Ransomware Claim",
-   "link": "https://www.securityweek.com/nvidia-responds-to-gentlemen-ransomware-claim/",
    "date": "2026-11-19"
   }
  ]
