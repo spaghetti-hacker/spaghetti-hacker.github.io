@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T07:25:03Z",
+  "updated": "2026-11-20T08:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -17,6 +17,29 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-20-002",
+      "published": "2026-11-20",
+      "title": "JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The companies point to third-party providers after the N0n extortion group leaked data allegedly tied to their customers. The post JPMorgan, Visa, Mastercard Cite Third-Party Incidents Amid Data Leak appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "Ransomware",
+        "data breach",
+        "data leak",
+        "JPMorgan",
+        "Mastercard"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/jpmorgan-visa-mastercard-cite-third-party-incidents-amid-data-leak/"
         }
       ]
     },
