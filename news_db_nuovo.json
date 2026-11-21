@@ -1,7 +1,30 @@
 {
-  "updated": "2026-11-20T20:25:04Z",
+  "updated": "2026-11-21T12:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-21-001",
+      "published": "2026-11-21",
+      "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "A threat actor used autonomous Cairn AI agents to discover and exploit a critical MONAI Label vulnerability. The post Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Vulnerabilities",
+        "AI",
+        "Amazon",
+        "exploited",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/"
+        }
+      ]
+    },
     {
       "id": "2026-11-20-001",
       "published": "2026-11-20",
@@ -402,28 +425,6 @@
     {
       "id": "2026-11-19-005",
       "published": "2026-11-19",
-      "title": "PHP Patches Seven Critical RCE Vulnerabilities",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Successful exploitation could allow attackers to crash the worker process and execute code with the PHP worker’s privileges. The post PHP Patches Seven Critical RCE Vulnerabilities appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Patch",
-        "PHP",
-        "RCE",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-006",
-      "published": "2026-11-19",
       "title": "Five warning signs of ransomware breach before encryption or data theft",
       "category": "ransomware",
       "severity": "HIGH",
@@ -440,7 +441,7 @@
       ]
     },
     {
-      "id": "2026-11-19-007",
+      "id": "2026-11-19-006",
       "published": "2026-11-19",
       "title": "Critical NGINX ‘NGINX2Root’ bugs let attackers hijack servers",
       "category": "vuln",
@@ -458,7 +459,7 @@
       ]
     },
     {
-      "id": "2026-11-19-008",
+      "id": "2026-11-19-007",
       "published": "2026-11-19",
       "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
       "category": "general",

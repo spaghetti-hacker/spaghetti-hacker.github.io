@@ -1,7 +1,30 @@
 {
-  "updated": "2026-11-20T20:25:04Z",
+  "updated": "2026-11-21T12:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-21-001",
+      "published": "2026-11-21",
+      "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "A threat actor used autonomous Cairn AI agents to discover and exploit a critical MONAI Label vulnerability. The post Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Vulnerabilities",
+        "AI",
+        "Amazon",
+        "exploited",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/"
+        }
+      ]
+    },
     {
       "id": "2026-11-20-001",
       "published": "2026-11-20",
@@ -2277,231 +2300,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-001",
-      "published": "2026-11-13",
-      "title": "Trezor confirms crypto-stealing implants in three wallets, releases fix",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Cryptocurrency hardware wallet maker Trezor has confirmed that three Safe 5 devices sold by Southeast Asian reseller CryptoBilis contained malicious hardware implants designed to steal wallet recovery phrases and send them to attackers over cellular networks. [...]",
-      "tags": [
-        "CryptoCurrency"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/cryptocurrency/trezor-confirms-crypto-stealing-implants-in-three-wallets-releases-fix/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-002",
-      "published": "2026-11-13",
-      "title": "Microsoft confirms Windows activation failures after November updates",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has confirmed that this month's Patch Tuesday security updates are causing Windows activation and licensing failures with 0x80041008 error codes. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-windows-activation-failures-after-november-updates/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-003",
-      "published": "2026-11-13",
-      "title": "Microsoft says November security updates cause printing issues",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft warned customers earlier this week that the November 2026 security updates may break printing for documents with complex formatting. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-says-november-security-updates-cause-printing-issues/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-004",
-      "published": "2026-11-13",
-      "title": "Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "Vulnerable Check Point Security Gateway instances have been targeted in PHP2Shell attacks that deployed data-wiping malware on VMware ESXi hosts. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/check-point-gateways-hacked-via-php2shell-to-deploy-vmware-esxi-wiper/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-005",
-      "published": "2026-11-13",
-      "title": "Check Point warns of zero-day flaw exploited for root access",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "Check Point Software has released emergency hotfixes to address a high-severity flaw that hackers have been exploiting to gain root privileges and establish persistence on vulnerable devices since late October. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-006",
-      "published": "2026-11-13",
-      "title": "German military drone operations disrupted by cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "German defense technology company Quantum Systems confirmed that it detected an incident in late October that was part of an active cyberattack by \"hostile actors.\" [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/german-military-drone-operations-disrupted-by-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-007",
-      "published": "2026-11-13",
-      "title": "How one AI agent exposed five critical enterprise security gaps",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "An AI agent built to automate invoice processing could be manipulated into changing vendor bank details through a malicious email, without triggering traditional security alerts. Token Security examines five critical AI agent security gaps and shares practical guidance from industry security leaders on preventing them. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/how-one-ai-agent-exposed-five-critical-enterprise-security-gaps/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-008",
-      "published": "2026-11-13",
-      "title": "Police arrest 354 suspects in dark web cybercrime crackdown",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "Authorities arrested 354 suspects in a joint international operation targeting vendors and buyers on the Archetyp, Nemesis, Tor2Door, Bohemia, and Kingdom dark web marketplaces. [...]",
-      "tags": [
-        "policy"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/police-arrest-354-vendors-buyers-in-global-cybercrime-crackdown/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-009",
-      "published": "2026-11-13",
-      "title": "Apify Confirms Customer Data Accessed in Cyberattack",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "The web scraping company says an intruder accessed customer accounts and obtained personal information or stored data. The post Apify Confirms Customer Data Accessed in Cyberattack appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "Apify",
-        "cyberattack",
-        "data breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/apify-confirms-customer-data-accessed-in-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-010",
-      "published": "2026-11-13",
-      "title": "FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Federal officials have yet to say what caused the communications disruption or whether they are investigating a possible cyberattack. The post FAA Ground Stop Issued Due to ‘Extraordinary Circumstances’ appeared first on SecurityWeek .",
-      "tags": [
-        "Government",
-        "FAA"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/faa-ground-stop-issued-due-to-extraordinary-circumstances/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-011",
-      "published": "2026-11-13",
-      "title": "Microsoft Struggles to Restore Email and Other Services in a Global Outage",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is trying different ways to identify the cause of the problem and get its servers back online, using “a measured approach to identify and repair affected infrastructure.” The post Microsoft Struggles to Restore Email and Other Services in a Global Outage appeared first on SecurityWeek .",
-      "tags": [
-        "Email Security",
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/microsoft-struggles-to-restore-email-and-other-services-in-a-global-outage/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-13-012",
-      "published": "2026-11-13",
-      "title": "SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "Enea says SilentAir hijacked mobile network nodes to intercept calls and messages, with Taiwanese subscribers the primary targets. The post SilentAir Hackers Intercept Calls, SMS From Inside Mobile Networks appeared first on SecurityWeek .",
-      "tags": [
-        "Nation-State",
-        "China",
-        "China APT",
-        "malware",
-        "SilentAir"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/silentair-hackers-intercept-calls-sms-from-inside-mobile-networks/"
         }
       ]
     }
