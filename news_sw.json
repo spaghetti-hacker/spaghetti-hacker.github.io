@@ -1,56 +1,56 @@
 {
- "source": "ICS-OT",
+ "source": "GENERAL",
  "updated": "2026-11-22",
  "items": [
   {
-   "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
-   "link": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/",
-   "date": "2026-11-16"
+   "title": "FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says",
+   "link": "https://www.securityweek.com/fbi-investigating-apparent-hack-of-its-key-national-criminal-justice-database-ap-source-says/",
+   "date": "2026-11-22"
   },
   {
-   "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
-   "link": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/",
-   "date": "2026-11-14"
+   "title": "President Trump Taps Kirsten Davies as National Cyber Director",
+   "link": "https://www.securityweek.com/president-trump-taps-kirsten-davies-as-national-cyber-director/",
+   "date": "2026-11-21"
   },
   {
-   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
-   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
-   "date": "2026-11-11"
+   "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
+   "link": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/",
+   "date": "2026-11-21"
   },
   {
-   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
-   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
-   "date": "2026-11-06"
+   "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
+   "link": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/",
+   "date": "2026-11-20"
   },
   {
-   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
-   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
-   "date": "2026-11-05"
+   "title": "In Other News: Norwegian Energy Firm Cyberattacks, Supercomputer Hack, New Nightmare Eclipse Exploit",
+   "link": "https://www.securityweek.com/in-other-news-norwegian-energy-firm-cyberattacks-supercomputer-hack-new-nightmare-eclipse-exploit/",
+   "date": "2026-11-20"
   },
   {
-   "title": "Critical Node-RED Flaw Exploited in Attacks",
-   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
-   "date": "2026-11-03"
+   "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
+   "link": "https://www.securityweek.com/industry-reactions-to-major-outages-and-ai-patching-questions-feedback-friday/",
+   "date": "2026-11-20"
   },
   {
-   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
-   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
-   "date": "2026-11-03"
+   "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
+   "link": "https://www.securityweek.com/sbc-medical-group-data-breach-impacts-over-2-million/",
+   "date": "2026-11-20"
   },
   {
-   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
-   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
-   "date": "2026-10-28"
+   "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
+   "link": "https://www.securityweek.com/european-commission-confirms-ai-assisted-cyberattack-disrupted-services/",
+   "date": "2026-11-20"
   },
   {
-   "title": "Maritime Coalition Launches Free Vulnerability Database for Ship and Port Systems",
-   "link": "https://www.securityweek.com/maritime-coalition-launches-free-vulnerability-database-for-ship-and-port-systems/",
-   "date": "2026-10-27"
+   "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
+   "link": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/",
+   "date": "2026-11-20"
   },
   {
-   "title": "Industrial Vendors Check Products for PHP2Shell Vulnerabilities",
-   "link": "https://www.securityweek.com/industrial-vendors-check-products-for-php2shell-vulnerabilities/",
-   "date": "2026-10-26"
+   "title": "N-able Blames Service Disruption on Cyberattack",
+   "link": "https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/",
+   "date": "2026-11-20"
   }
  ]
 }
