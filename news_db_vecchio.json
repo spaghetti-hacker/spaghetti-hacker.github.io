@@ -1,9 +1,46 @@
 {
-  "updated": "2026-11-22T14:25:04Z",
+  "updated": "2026-11-22T18:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-22-001",
+      "published": "2026-11-22",
+      "title": "Cleverbridge warns hackers stole credit card numbers, CVVs in data breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "E-commerce platform Cleverbridge is warning that hackers breached its systems and stole customers' payment card information, including credit card numbers and CVV security codes. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-002",
+      "published": "2026-11-22",
+      "title": "Signal to block Siri, Gemini AI from capturing chats on iOS, Android",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Signal has announced new protections that block screenshots on iOS 27 and prevent AI assistants from capturing conversations on supported Android devices. [...]",
+      "tags": [
+        "Artificial Intelligence",
+        "Mobile"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-003",
       "published": "2026-11-22",
       "title": "FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says",
       "category": "general",
