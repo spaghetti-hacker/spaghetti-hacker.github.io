@@ -1,9 +1,46 @@
 {
-  "updated": "2026-11-22T14:25:04Z",
+  "updated": "2026-11-22T18:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-22-001",
+      "published": "2026-11-22",
+      "title": "Cleverbridge warns hackers stole credit card numbers, CVVs in data breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "E-commerce platform Cleverbridge is warning that hackers breached its systems and stole customers' payment card information, including credit card numbers and CVV security codes. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-002",
+      "published": "2026-11-22",
+      "title": "Signal to block Siri, Gemini AI from capturing chats on iOS, Android",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Signal has announced new protections that block screenshots on iOS 27 and prevent AI assistants from capturing conversations on supported Android devices. [...]",
+      "tags": [
+        "Artificial Intelligence",
+        "Mobile"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-003",
       "published": "2026-11-22",
       "title": "FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says",
       "category": "general",
@@ -429,42 +466,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-001",
-      "published": "2026-11-19",
-      "title": "ASUS warns of critical hard-coded key flaw in Control Center Express",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "ASUS released Control Center Express v1.7.29 to fix three critical vulnerabilities that could let remote attackers gain administrative control of the management console and the devices it manages. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/asus-warns-of-critical-hard-coded-key-flaw-in-control-center-express/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-002",
-      "published": "2026-11-19",
-      "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "SBC Medical Group has warned in a filing with the U.S. Securities and Exchange Commission (SEC) that two cybersecurity incidents exposed sensitive customer and employee information, including personal data belonging to 1.6 million people. [...]",
-      "tags": [
-        "Healthcare"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-steal-data-of-16-million-sbc-medical-group-customers/"
         }
       ]
     },
