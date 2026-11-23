@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23T12:25:04Z",
+  "updated": "2026-11-23T14:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -32,10 +32,95 @@
     {
       "id": "2026-11-23-002",
       "published": "2026-11-23",
+      "title": "AI Inference Providers Failed to Detect Hacking and Prompt Theft, Says Dragos",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Dragos uncovered undetected intrusions at three AI inference providers using nearly two million prompts sent to AI services. The post AI Inference Providers Failed to Detect Hacking and Prompt Theft, Says Dragos appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Data Breaches",
+        "AI",
+        "data breach",
+        "data leak",
+        "Dragos"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/ai-inference-providers-failed-to-detect-hacking-and-prompt-theft-says-dragos/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-003",
+      "published": "2026-11-23",
+      "title": "phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "If a session overwrite operation is interrupted, an attacker who controls the fresh data could trigger data deserialization and RCE. The post phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "PHP",
+        "PHPAfterShell",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/phpaftershell-vulnerability-revives-php2shells-attack-path/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-004",
+      "published": "2026-11-23",
+      "title": "Microsoft testing fix for Windows 11 Bluetooth audio quality drops",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft is working to fix a long-standing Windows issue that has been causing significant audio quality drops for Bluetooth headphone users. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-fix-for-windows-11-bluetooth-audio-quality-drops/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-005",
+      "published": "2026-11-23",
+      "title": "GL.iNet Routers, KVMs Compromised via Remote Management Service Flaw",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Attackers abused a flaw in the GoodCloud remote management service to push malware to devices, and cleaning them requires new firmware. The post GL.iNet Routers, KVMs Compromised via Remote Management Service Flaw appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats",
+        "Network Security",
+        "exploited",
+        "GL.iNet",
+        "KVM",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/gl-inet-routers-kvms-compromised-via-remote-management-service-flaw/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-006",
+      "published": "2026-11-23",
       "title": "Call center operator gets 8 years for helping scam 30,000 Americans",
       "category": "general",
       "severity": "MEDIUM",
-      "summary": "A Peruvian call center operator was sentenced to eight years in prison for stealing millions of dollars from over 30,000 Spanish-speaking US residents in a years-long government-impersonation fraud scheme. [...]",
+      "summary": "A Peruvian call center operator was sentenced to eight years in prison for helping steal millions of dollars from over 30,000 Spanish-speaking US residents in a years-long government-impersonation fraud scheme. [...]",
       "tags": [
         "general"
       ],
@@ -48,7 +133,7 @@
       ]
     },
     {
-      "id": "2026-11-23-003",
+      "id": "2026-11-23-007",
       "published": "2026-11-23",
       "title": "BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted",
       "category": "malware",
@@ -66,7 +151,7 @@
       ]
     },
     {
-      "id": "2026-11-23-004",
+      "id": "2026-11-23-008",
       "published": "2026-11-23",
       "title": "Microsoft confirms Windows printing issues affecting Forcepoint users",
       "category": "general",
@@ -310,45 +395,6 @@
     {
       "id": "2026-11-20-003",
       "published": "2026-11-20",
-      "title": "N-able says recent security breach led to major service outage",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "N-able says attackers who breached one of its servers have caused a major outage affecting Mail Assure and SpamExperts Hosted Cloud services worldwide. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/n-able-says-recent-security-breach-led-to-major-service-outage/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-004",
-      "published": "2026-11-20",
-      "title": "SBC Medical Group Data Breach Impacts Over 2 Million",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Threat actors accessed databases containing customer information associated with clinics in Japan. The post SBC Medical Group Data Breach Impacts Over 2 Million appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "healthcare",
-        "SBC Medical Group"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/sbc-medical-group-data-breach-impacts-over-2-million/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-005",
-      "published": "2026-11-20",
       "title": "Bell Canada says 'agentic' hacker stole enterprise customer data",
       "category": "general",
       "severity": "MEDIUM",
@@ -365,7 +411,7 @@
       ]
     },
     {
-      "id": "2026-11-20-006",
+      "id": "2026-11-20-004",
       "published": "2026-11-20",
       "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
       "category": "vuln",
@@ -390,7 +436,7 @@
       ]
     },
     {
-      "id": "2026-11-20-007",
+      "id": "2026-11-20-005",
       "published": "2026-11-20",
       "title": "Still tracking company passwords in spreadsheets? You’re flying blind.",
       "category": "general",
@@ -404,29 +450,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/still-tracking-company-passwords-in-spreadsheets-youre-flying-blind/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-008",
-      "published": "2026-11-20",
-      "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Experts commented on whether AI-accelerated patching played a role, the need for tested rollback plans, and the fragility of interconnected systems. The post Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Incident Response",
-        "AI",
-        "disruption",
-        "Feedback Friday",
-        "outage"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/industry-reactions-to-major-outages-and-ai-patching-questions-feedback-friday/"
         }
       ]
     },

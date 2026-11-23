@@ -1,22 +1,85 @@
 {
-  "updated": "2026-11-23T08:25:03Z",
+  "updated": "2026-11-23T12:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-23-001",
       "published": "2026-11-23",
-      "title": "CISA flags critical Cisco RCE flaw as actively exploited in attacks",
+      "title": "Microsoft confirms Windows printing issues affecting Forcepoint users",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft confirmed printing issues on systems running Forcepoint DLP software after installing the KB5132043 November 2026 Windows 11 hotpatch. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-printing-issues-after-kb5132043-windows-hotpatch/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-002",
+      "published": "2026-11-23",
+      "title": "Call center operator gets 8 years for helping scam 30,000 Americans",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "A Peruvian call center operator was sentenced to eight years in prison for stealing millions of dollars from over 30,000 Spanish-speaking US residents in a years-long government-impersonation fraud scheme. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/call-center-operator-gets-8-years-for-helping-scam-30-000-americans/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-003",
+      "published": "2026-11-23",
+      "title": "SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks",
       "category": "vuln",
       "severity": "CRITICAL",
-      "summary": "The US Cybersecurity and Infrastructure Security Agency (CISA) warned federal agencies that attackers are now exploiting a recently patched critical Cisco Expressway vulnerability in the wild. [...]",
+      "summary": "Threat actors could exploit them to leak or modify server information and to execute commands as root. The post SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks appeared first on SecurityWeek .",
       "tags": [
-        "vuln"
+        "Vulnerabilities",
+        "CISA KEV",
+        "Cisco",
+        "exploited",
+        "SAP",
+        "vulnerability"
       ],
       "cves": [],
       "sources": [
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/sap-netweaver-cisco-expressway-flaws-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-004",
+      "published": "2026-11-23",
+      "title": "BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Backdoors on low-cost consumer devices served modules for ad fraud and for turning devices into residential proxies. The post BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/"
         }
       ]
     },
