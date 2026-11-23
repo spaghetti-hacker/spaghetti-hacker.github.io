@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-22T20:25:04Z",
+  "updated": "2026-11-23T07:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -2288,61 +2288,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-15-001",
-      "published": "2026-11-15",
-      "title": "FBI warns ARTEX AI hacking tool is powering global cyberattacks",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The FBI is warning that hackers are using an AI-powered penetration testing framework called ARTEX to automate cyberattacks against organizations worldwide, including a recent ConnectWise supply-chain breach that compromised Microsoft 365 customer environments. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/fbi-warns-artex-ai-hacking-tool-is-powering-global-cyberattacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-15-002",
-      "published": "2026-11-15",
-      "title": "TSMC employee data breach linked to cloud provider",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Taiwan Semiconductor Manufacturing Company (TSMC) confirmed that personal employee data has been leaked online after a threat actor put 6.9GB of information allegedly stolen from the company up for auction. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/tsmc-employee-data-breach-linked-to-cloud-provider/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-15-003",
-      "published": "2026-11-15",
-      "title": "Pentagon Renames CDAO ‘Super Intelligence Office’",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The move follows President Trump’s order to replace “artificial intelligence” with “super intelligence” in executive branch communications. The post Pentagon Renames CDAO ‘Super Intelligence Office’ appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Super Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/pentagon-renames-cdao-super-intelligence-office/"
         }
       ]
     }
