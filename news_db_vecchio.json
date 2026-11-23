@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-22T18:25:04Z",
+  "updated": "2026-11-22T20:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,24 @@
     {
       "id": "2026-11-22-002",
       "published": "2026-11-22",
+      "title": "Hackers exploit GL.iNet cloud flaw to infect routers, KVM devices",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "GL.iNet has confirmed that hackers exploited a vulnerability in its cloud remote management services to install custom malware on customers' routers and KVM devices, with some affected users reporting backdoors and reverse shells giving remote access to infected devices. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-22-003",
+      "published": "2026-11-22",
       "title": "Signal to block Siri, Gemini AI from capturing chats on iOS, Android",
       "category": "general",
       "severity": "MEDIUM",
@@ -40,7 +58,7 @@
       ]
     },
     {
-      "id": "2026-11-22-003",
+      "id": "2026-11-22-004",
       "published": "2026-11-22",
       "title": "FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says",
       "category": "general",
