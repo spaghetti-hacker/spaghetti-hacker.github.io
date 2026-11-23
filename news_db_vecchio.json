@@ -1,7 +1,25 @@
 {
-  "updated": "2026-11-23T07:25:04Z",
+  "updated": "2026-11-23T08:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-23-001",
+      "published": "2026-11-23",
+      "title": "CISA flags critical Cisco RCE flaw as actively exploited in attacks",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "The US Cybersecurity and Infrastructure Security Agency (CISA) warned federal agencies that attackers are now exploiting a recently patched critical Cisco Expressway vulnerability in the wild. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited/"
+        }
+      ]
+    },
     {
       "id": "2026-11-22-001",
       "published": "2026-11-22",

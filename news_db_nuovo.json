@@ -1,22 +1,85 @@
 {
-  "updated": "2026-11-23T08:25:03Z",
+  "updated": "2026-11-23T12:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-23-001",
       "published": "2026-11-23",
-      "title": "CISA flags critical Cisco RCE flaw as actively exploited in attacks",
+      "title": "SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks",
       "category": "vuln",
       "severity": "CRITICAL",
-      "summary": "The US Cybersecurity and Infrastructure Security Agency (CISA) warned federal agencies that attackers are now exploiting a recently patched critical Cisco Expressway vulnerability in the wild. [...]",
+      "summary": "Threat actors could exploit them to leak or modify server information and to execute commands as root. The post SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks appeared first on SecurityWeek .",
       "tags": [
-        "vuln"
+        "Vulnerabilities",
+        "CISA KEV",
+        "Cisco",
+        "exploited",
+        "SAP",
+        "vulnerability"
       ],
       "cves": [],
       "sources": [
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited/"
+        },
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/sap-netweaver-cisco-expressway-flaws-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-002",
+      "published": "2026-11-23",
+      "title": "Call center operator gets 8 years for helping scam 30,000 Americans",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "A Peruvian call center operator was sentenced to eight years in prison for stealing millions of dollars from over 30,000 Spanish-speaking US residents in a years-long government-impersonation fraud scheme. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/call-center-operator-gets-8-years-for-helping-scam-30-000-americans/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-003",
+      "published": "2026-11-23",
+      "title": "BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "Backdoors on low-cost consumer devices served modules for ad fraud and for turning devices into residential proxies. The post BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted appeared first on SecurityWeek .",
+      "tags": [
+        "Malware & Threats"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-23-004",
+      "published": "2026-11-23",
+      "title": "Microsoft confirms Windows printing issues affecting Forcepoint users",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft confirmed printing issues on systems running Forcepoint DLP software after installing the KB5132043 November 2026 Windows 11 hotpatch. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-printing-issues-after-kb5132043-windows-hotpatch/"
         }
       ]
     },
@@ -286,47 +349,6 @@
     {
       "id": "2026-11-20-005",
       "published": "2026-11-20",
-      "title": "F5 releases emergency patches for critical BIG-IP RCE flaws",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "US cybersecurity company F5 warned customers to patch five critical BIG-IP vulnerabilities that attackers can exploit to trigger denial-of-service (DoS) or gain remote code execution. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/f5-releases-emergency-patches-for-critical-big-ip-rce-flaws/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-006",
-      "published": "2026-11-20",
-      "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Tracked as CVE-2026-132825, the bug is a heap-based buffer overflow that could lead to remote code execution (RCE). The post Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Ruby",
-        "Ruby2Shell",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-132825"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-007",
-      "published": "2026-11-20",
       "title": "Bell Canada says 'agentic' hacker stole enterprise customer data",
       "category": "general",
       "severity": "MEDIUM",
@@ -343,7 +365,7 @@
       ]
     },
     {
-      "id": "2026-11-20-008",
+      "id": "2026-11-20-006",
       "published": "2026-11-20",
       "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
       "category": "vuln",
@@ -368,7 +390,7 @@
       ]
     },
     {
-      "id": "2026-11-20-009",
+      "id": "2026-11-20-007",
       "published": "2026-11-20",
       "title": "Still tracking company passwords in spreadsheets? You’re flying blind.",
       "category": "general",
@@ -386,7 +408,7 @@
       ]
     },
     {
-      "id": "2026-11-20-010",
+      "id": "2026-11-20-008",
       "published": "2026-11-20",
       "title": "Industry Reactions to Major Outages and AI Patching Debate: Feedback Friday",
       "category": "general",
@@ -405,67 +427,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/industry-reactions-to-major-outages-and-ai-patching-questions-feedback-friday/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-011",
-      "published": "2026-11-20",
-      "title": "Microsoft now automatically installs Windows 11 26H2 on unmanaged devices",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Starting this week, Microsoft has begun automatically upgrading eligible devices that aren't managed by an IT department to Windows 11 26H2. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-now-automatically-installs-windows-11-26h2-on-personal-and-unmanaged-pcs/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-012",
-      "published": "2026-11-20",
-      "title": "European Commission Confirms AI-Assisted Cyberattack Disrupted Services",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The Commission took certain services offline to contain the incident, but it has no evidence of a data breach. The post European Commission Confirms AI-Assisted Cyberattack Disrupted Services appeared first on SecurityWeek .",
-      "tags": [
-        "Government",
-        "AI",
-        "cyberattack",
-        "EU",
-        "European Commission"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/european-commission-confirms-ai-assisted-cyberattack-disrupted-services/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-20-013",
-      "published": "2026-11-20",
-      "title": "N-able Blames Service Disruption on Cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The incident affected Mail Assure and SpamExperts Hosted Cloud and could have led to credential theft. The post N-able Blames Service Disruption on Cyberattack appeared first on SecurityWeek .",
-      "tags": [
-        "Incident Response",
-        "cyberattack",
-        "disruption",
-        "N-able"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/n-able-blames-service-disruption-on-cyberattack/"
         }
       ]
     },
