@@ -1,7 +1,100 @@
 {
-  "updated": "2026-11-23T08:10:29Z",
+  "updated": "2026-11-24T08:10:37Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "60279f1cfd",
+      "published": "2026-11-23",
+      "title": "Reverse Engineering a Board Game",
+      "topic": "reverse",
+      "source": "wuemeli.com",
+      "summary": "Comments",
+      "tags": [
+        "reverse engineering"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "wuemeli.com",
+          "url": "https://wuemeli.com/blog/reversing-hitster-game"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/8g6qyx/reverse_engineering_board_game"
+        }
+      ]
+    },
+    {
+      "id": "a8a7dae833",
+      "published": "2026-11-23",
+      "title": "Press play on Elastic Security 9.6, banger after banger",
+      "topic": "malware",
+      "source": "Elastic Labs",
+      "summary": "AlertZero works your alert queue in the background and nothing consequential it proposes runs until you approve it. 9.6 also brings entity resolution, MITRE ATLAS mappings, 143 AI detection rules, and Linux ransomware protection. You’ve clocked in for your shift and just hit play on your 10-hour lo-fi playlist.",
+      "tags": [
+        "ransomware",
+        "yara",
+        "reverse engineering",
+        "exploit"
+      ],
+      "cves": [],
+      "read_min": 10,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/blog/elastic-security-9-6-release-highlights"
+        }
+      ]
+    },
+    {
+      "id": "ca30c9b6b1",
+      "published": "2026-11-23",
+      "title": "Elastic ships 143 detection rules for AI agents and LLM platforms",
+      "topic": "malware",
+      "source": "Elastic Labs",
+      "summary": "A fake MCP server copied every outgoing email to an attacker and the new rules catch that, along with coding agents running attacker commands, secrets pasted into prompts, and stolen keys running models on your bill. Elastic 9.6 will ship 143 AI security detection rules. A coding agent runs with your shell and your files, along with your cloud keys.",
+      "tags": [
+        "persistence",
+        "malware",
+        "jailbreaks",
+        "jailbreak",
+        "macos"
+      ],
+      "cves": [],
+      "read_min": 12,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Elastic Labs",
+          "url": "https://www.elastic.co/security-labs/blog/ai-security-detection-rules-coding-agents-mcp"
+        }
+      ]
+    },
+    {
+      "id": "83eff4a72d",
+      "published": "2026-11-23",
+      "title": "Black Friday, red flags: too-good-to-be-true deals hiding real threats",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "How cybercriminals prepare for Black Friday: phishing, scams and malware targeting online shoppers and gamers, GTA VI- and wellness-related schemes, and fake sales spam. Intro Black Friday remains a defining moment of the holiday shopping season and a key period for cybercriminals seeking to exploit the surge in consumer activity. The scale of this demand is reflected in seasonal spending patterns.",
+      "tags": [
+        "malware",
+        "exploit",
+        "trojan"
+      ],
+      "cves": [],
+      "read_min": 16,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/black-friday-threat-report-2026/122061"
+        }
+      ]
+    },
     {
       "id": "082703df6d",
       "published": "2026-11-19",
