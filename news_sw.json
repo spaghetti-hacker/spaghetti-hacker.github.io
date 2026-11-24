@@ -1,12 +1,7 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-24",
  "items": [
-  {
-   "title": "Azure Flaw Exploited to Target Secrets at Norwegian Energy Firms",
-   "link": "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/",
-   "date": "2026-11-23"
-  },
   {
    "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
    "link": "https://www.securityweek.com/n-able-patches-critical-flaw-disclosed-after-mail-assure-cyberattack/",
@@ -18,39 +13,44 @@
    "date": "2026-11-23"
   },
   {
-   "title": "GL.iNet Routers, KVMs Compromised via Remote Management Service Flaw",
-   "link": "https://www.securityweek.com/gl-inet-routers-kvms-compromised-via-remote-management-service-flaw/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "AI Inference Providers Failed to Detect Hacking and Prompt Theft, Says Dragos",
-   "link": "https://www.securityweek.com/ai-inference-providers-failed-to-detect-hacking-and-prompt-theft-says-dragos/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted",
-   "link": "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/",
-   "date": "2026-11-23"
-  },
-  {
    "title": "SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks",
    "link": "https://www.securityweek.com/sap-netweaver-cisco-expressway-flaws-exploited-in-attacks/",
    "date": "2026-11-23"
   },
   {
-   "title": "CrowdStrike to Acquire Zscaler in $43.9 Billion Deal",
-   "link": "https://www.securityweek.com/crowdstrike-to-acquire-zscaler-in-43-9-billion-deal/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "FBI Investigating Apparent Hack of Its Key National Criminal Justice Database, AP Source Says",
-   "link": "https://www.securityweek.com/fbi-investigating-apparent-hack-of-its-key-national-criminal-justice-database-ap-source-says/",
-   "date": "2026-11-22"
-  },
-  {
-   "title": "President Trump Taps Kirsten Davies as National Cyber Director",
-   "link": "https://www.securityweek.com/president-trump-taps-kirsten-davies-as-national-cyber-director/",
+   "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
+   "link": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/",
    "date": "2026-11-21"
+  },
+  {
+   "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
+   "link": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/",
+   "date": "2026-11-20"
+  },
+  {
+   "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
+   "link": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/",
+   "date": "2026-11-20"
+  },
+  {
+   "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
+   "link": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "PHP Patches Seven Critical RCE Vulnerabilities",
+   "link": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
+   "link": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/",
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/",
+   "date": "2026-11-19"
   }
  ]
 }
