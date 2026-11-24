@@ -1,7 +1,98 @@
 {
-  "updated": "2026-11-24T08:25:04Z",
+  "updated": "2026-11-24T12:25:03Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-24-001",
+      "published": "2026-11-24",
+      "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers stole personal information from the company’s customer portal and supplier relationship management platform. The post 1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "data breach",
+        "electric grid",
+        "energy",
+        "KEPCO",
+        "South Korea"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/1-5-million-impacted-by-data-breach-at-south-korean-electric-company-kepco/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-002",
+      "published": "2026-11-24",
+      "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Critical Bluetooth flaws in Elecbrakes controllers could let nearby attackers force trailer braking, potentially causing accidents. The post Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking appeared first on SecurityWeek .",
+      "tags": [
+        "ICS/OT",
+        "Vulnerabilities",
+        "Bluetooth",
+        "braking",
+        "ICS",
+        "truck"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/elecbrakes-bluetooth-vulnerabilities-expose-trailers-to-forced-braking/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-003",
+      "published": "2026-11-24",
+      "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "OpenAI and Cisco’s Shirudo uses AI-generated shields to block Linux exploits while patches are prepared, but it’s not yet production-ready. The post OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "agentic AI",
+        "AI",
+        "Cisco",
+        "open source",
+        "OpenAI"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/openai-cisco-unveil-open-source-tool-to-shield-unpatched-linux-systems/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-004",
+      "published": "2026-11-24",
+      "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The company told the ASX that a cybersecurity incident at its Wyoming uranium project would temporarily affect operations. The post Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine appeared first on SecurityWeek .",
+      "tags": [
+        "ICS/OT",
+        "Australia",
+        "cyberattack",
+        "mining",
+        "Peninsula Energy"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/"
+        }
+      ]
+    },
     {
       "id": "2026-11-23-001",
       "published": "2026-11-23",
@@ -77,27 +168,18 @@
     {
       "id": "2026-11-23-005",
       "published": "2026-11-23",
-      "title": "SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks",
+      "title": "CISA flags critical Cisco RCE flaw as actively exploited in attacks",
       "category": "vuln",
       "severity": "CRITICAL",
-      "summary": "Threat actors could exploit them to leak or modify server information and to execute commands as root. The post SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks appeared first on SecurityWeek .",
+      "summary": "The US Cybersecurity and Infrastructure Security Agency (CISA) warned federal agencies that attackers are now exploiting a recently patched critical Cisco Expressway vulnerability in the wild. [...]",
       "tags": [
-        "Vulnerabilities",
-        "CISA KEV",
-        "Cisco",
-        "exploited",
-        "SAP",
-        "vulnerability"
+        "vuln"
       ],
       "cves": [],
       "sources": [
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited/"
-        },
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/sap-netweaver-cisco-expressway-flaws-exploited-in-attacks/"
         }
       ]
     },

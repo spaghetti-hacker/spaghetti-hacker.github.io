@@ -1,9 +1,27 @@
 {
-  "updated": "2026-11-24T12:25:03Z",
+  "updated": "2026-11-24T14:25:03Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-24-001",
+      "published": "2026-11-24",
+      "title": "McDonald's Japan data breach exposes customer location information",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "McDonald's Japan, the fast-food giant's Japanese subsidiary, has disclosed a data breach after attackers accessed a database containing sensitive information for users of the company's official smartphone app. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/mcdonalds-japan-data-breach-exposes-customer-location-information/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-002",
       "published": "2026-11-24",
       "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
       "category": "breach",
@@ -26,7 +44,7 @@
       ]
     },
     {
-      "id": "2026-11-24-002",
+      "id": "2026-11-24-003",
       "published": "2026-11-24",
       "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
       "category": "vuln",
@@ -49,7 +67,49 @@
       ]
     },
     {
-      "id": "2026-11-24-003",
+      "id": "2026-11-24-004",
+      "published": "2026-11-24",
+      "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "OpenAI and Cisco launched an open-source Linux security tool named Shirudo that deploys temporary runtime protections to block vulnerability exploitation while administrators prepare and roll out patches, without restarting services. [...]",
+      "tags": [
+        "Artificial Intelligence",
+        "Deals",
+        "Linux"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-shirudo-tool-uses-ai-to-shield-unpatched-linux-systems-from-exploits/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-005",
+      "published": "2026-11-24",
+      "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "EFS helps zero-retention customers spot Claude misuse spread across many requests while keeping conversation data in their own cloud. The post Anthropic Expands Enterprise Safeguards for Detecting AI Misuse appeared first on SecurityWeek .",
+      "tags": [
+        "Artificial Intelligence",
+        "Data Protection",
+        "AI",
+        "Anthropic",
+        "EFS"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/anthropic-expands-enterprise-safeguards-for-detecting-ai-misuse/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-006",
       "published": "2026-11-24",
       "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
       "category": "general",
@@ -72,7 +132,7 @@
       ]
     },
     {
-      "id": "2026-11-24-004",
+      "id": "2026-11-24-007",
       "published": "2026-11-24",
       "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
       "category": "general",
@@ -368,24 +428,6 @@
     {
       "id": "2026-11-23-015",
       "published": "2026-11-23",
-      "title": "BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "Backdoors on low-cost consumer devices served modules for ad fraud and for turning devices into residential proxies. The post BadBox 3.0 Ad Fraud Operation Generating 40 Billion Daily Bid Requests Disrupted appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-016",
-      "published": "2026-11-23",
       "title": "Microsoft confirms Windows printing issues affecting Forcepoint users",
       "category": "general",
       "severity": "MEDIUM",
@@ -453,42 +495,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-21-001",
-      "published": "2026-11-21",
-      "title": "Rackspace Spot breach let hackers access customer Kubernetes secrets",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Rackspace warned customers that hackers breached its Rackspace Spot cloud platform using compromised credentials, allowing them to deploy unauthorized workloads and access Kubernetes secrets in customer clusters. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/rackspace-spot-breach-let-hackers-access-customer-kubernetes-secrets/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-21-002",
-      "published": "2026-11-21",
-      "title": "Microsoft Entra Connect Health flaw exploited to steal tenant data",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is warning organizations that it suffered a data breach after attackers exploited a vulnerability in its Entra Connect Health service to gain unauthorized access to administrator email addresses and tenant configuration information. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/microsoft-entra-connect-health-flaw-exploited-to-steal-tenant-data/"
         }
       ]
     },
