@@ -1,9 +1,105 @@
 {
-  "updated": "2026-11-24T14:25:03Z",
+  "updated": "2026-11-24T18:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-24-001",
+      "published": "2026-11-24",
+      "title": "Radware discloses breach exposing customer cloud access keys",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Cybersecurity company Radware says attackers gained access to some of its customers' account details and cloud access keys through an unsecured internal Cloud WAF (Web Application Firewall) management API that was left exposed online. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/radware-discloses-breach-exposing-customer-cloud-access-keys/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-002",
+      "published": "2026-11-24",
+      "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The critical bugs include an authentication bypass in vCenter and flaws that could allow code execution on ESX hosts. The post VMware Updates Patch Critical ESX, vCenter Vulnerabilities appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "VMware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-003",
+      "published": "2026-11-24",
+      "title": "ShinyHunters claims to return after FBI arrests, uses old PGP keys as proof",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The ShinyHunters extortion gang claims to have returned in posts on a new data leak site after a series of arrests over the past two months targeting alleged members. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-004",
+      "published": "2026-11-24",
+      "title": "European Commission confirms data theft in EU Academy breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The European Commission, the European Union's main executive body, has confirmed that attackers breached its EU Academy online learning hub and stole the personal data of an undisclosed number of users. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-theft-in-eu-academy-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-005",
+      "published": "2026-11-24",
+      "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Names and email addresses of EU Academy users were exposed in the AI-assisted cyberattack the European Commission detected in October. The post European Commission Uncovers Data Breach in Cyberattack Investigation appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "AI",
+        "cyberattack",
+        "data breach",
+        "EC",
+        "EU"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-006",
       "published": "2026-11-24",
       "title": "McDonald's Japan data breach exposes customer location information",
       "category": "breach",
@@ -21,7 +117,7 @@
       ]
     },
     {
-      "id": "2026-11-24-002",
+      "id": "2026-11-24-007",
       "published": "2026-11-24",
       "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
       "category": "breach",
@@ -44,7 +140,7 @@
       ]
     },
     {
-      "id": "2026-11-24-003",
+      "id": "2026-11-24-008",
       "published": "2026-11-24",
       "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
       "category": "vuln",
@@ -67,7 +163,81 @@
       ]
     },
     {
-      "id": "2026-11-24-004",
+      "id": "2026-11-24-009",
+      "published": "2026-11-24",
+      "title": "Hackers compromise Check Point Servers in 22 organizations",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Threat actors have exploited multiple vulnerabilities to compromise two dozen Check Point Security management servers in an ongoing campaign targeting 22 organizations. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-010",
+      "published": "2026-11-24",
+      "title": "Police disrupt 57 illegal streaming services with 7.3 million visits",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Law enforcement authorities from 11 countries have disrupted 57 illegal streaming services that operated hundreds of websites and drew over 7.3 million visits each year. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/police-disrupt-57-illegal-streaming-services-with-73-million-visits/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-011",
+      "published": "2026-11-24",
+      "title": "From Vulnerability Noise to Resilience: Rethinking Security in the AI Era",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "AI-driven development is adding complexity to software supply chains, leaving security teams overwhelmed by vulnerabilities that may pose little actual risk. RapidFort explains how runtime visibility, container hardening, and automated remediation can reduce vulnerability noise and improve software resilience. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/from-vulnerability-noise-to-resilience-rethinking-security-in-the-ai-era/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-012",
+      "published": "2026-11-24",
+      "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The attacks were launched from 99 IP addresses and targeted organizations across multiple industries and countries. The post Check Point Security Management Servers Hacked in AI-Assisted Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "AI",
+        "Check Point"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-013",
       "published": "2026-11-24",
       "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
       "category": "vuln",
@@ -75,7 +245,6 @@
       "summary": "OpenAI and Cisco launched an open-source Linux security tool named Shirudo that deploys temporary runtime protections to block vulnerability exploitation while administrators prepare and roll out patches, without restarting services. [...]",
       "tags": [
         "Artificial Intelligence",
-        "Deals",
         "Linux"
       ],
       "cves": [],
@@ -87,7 +256,7 @@
       ]
     },
     {
-      "id": "2026-11-24-005",
+      "id": "2026-11-24-014",
       "published": "2026-11-24",
       "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
       "category": "general",
@@ -109,7 +278,7 @@
       ]
     },
     {
-      "id": "2026-11-24-006",
+      "id": "2026-11-24-015",
       "published": "2026-11-24",
       "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
       "category": "general",
@@ -132,7 +301,7 @@
       ]
     },
     {
-      "id": "2026-11-24-007",
+      "id": "2026-11-24-016",
       "published": "2026-11-24",
       "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
       "category": "general",
@@ -156,24 +325,6 @@
     {
       "id": "2026-11-23-001",
       "published": "2026-11-23",
-      "title": "CISA flags critical Cisco RCE flaw as actively exploited in attacks",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "The US Cybersecurity and Infrastructure Security Agency (CISA) warned federal agencies that attackers are now exploiting a recently patched critical Cisco Expressway vulnerability in the wild. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-002",
-      "published": "2026-11-23",
       "title": "South Korea’s power giant KEPCO confirms data breach impacting 1.5 million",
       "category": "breach",
       "severity": "HIGH",
@@ -190,7 +341,7 @@
       ]
     },
     {
-      "id": "2026-11-23-003",
+      "id": "2026-11-23-002",
       "published": "2026-11-23",
       "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
       "category": "vuln",
@@ -210,30 +361,7 @@
       ]
     },
     {
-      "id": "2026-11-23-004",
-      "published": "2026-11-23",
-      "title": "AI Inference Providers Failed to Detect Hacking and Prompt Theft, Says Dragos",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Dragos uncovered undetected intrusions at three AI inference providers using nearly two million prompts sent to AI services. The post AI Inference Providers Failed to Detect Hacking and Prompt Theft, Says Dragos appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Data Breaches",
-        "AI",
-        "data breach",
-        "data leak",
-        "Dragos"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/ai-inference-providers-failed-to-detect-hacking-and-prompt-theft-says-dragos/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-005",
+      "id": "2026-11-23-003",
       "published": "2026-11-23",
       "title": "OpenRouter drops AI providers over leaked prompts and secrets",
       "category": "general",
@@ -251,7 +379,7 @@
       ]
     },
     {
-      "id": "2026-11-23-006",
+      "id": "2026-11-23-004",
       "published": "2026-11-23",
       "title": "Microsoft Azure flaw exploited to steal customers' API credentials",
       "category": "vuln",
@@ -269,7 +397,7 @@
       ]
     },
     {
-      "id": "2026-11-23-007",
+      "id": "2026-11-23-005",
       "published": "2026-11-23",
       "title": "Spanish LaLiga confirms hackers stole soccer fans’ personal data",
       "category": "general",
@@ -287,7 +415,7 @@
       ]
     },
     {
-      "id": "2026-11-23-008",
+      "id": "2026-11-23-006",
       "published": "2026-11-23",
       "title": "GlobeTopper loses $2.5 million after hackers steal $70k in gift cards",
       "category": "general",
@@ -305,7 +433,7 @@
       ]
     },
     {
-      "id": "2026-11-23-009",
+      "id": "2026-11-23-007",
       "published": "2026-11-23",
       "title": "Azure Flaw Exploited to Target Secrets at Norwegian Energy Firms",
       "category": "vuln",
@@ -328,7 +456,7 @@
       ]
     },
     {
-      "id": "2026-11-23-010",
+      "id": "2026-11-23-008",
       "published": "2026-11-23",
       "title": "AI Agents Are Creating a Shared Responsibility Gap",
       "category": "general",
@@ -346,28 +474,7 @@
       ]
     },
     {
-      "id": "2026-11-23-011",
-      "published": "2026-11-23",
-      "title": "phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "If a session overwrite operation is interrupted, an attacker who controls the fresh data could trigger data deserialization and RCE. The post phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "PHP",
-        "PHPAfterShell",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/phpaftershell-vulnerability-revives-php2shells-attack-path/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-012",
+      "id": "2026-11-23-009",
       "published": "2026-11-23",
       "title": "Microsoft testing fix for Windows 11 Bluetooth audio quality drops",
       "category": "general",
@@ -381,120 +488,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-fix-for-windows-11-bluetooth-audio-quality-drops/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-013",
-      "published": "2026-11-23",
-      "title": "GL.iNet Routers, KVMs Compromised via Remote Management Service Flaw",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Attackers abused a flaw in the GoodCloud remote management service to push malware to devices, and cleaning them requires new firmware. The post GL.iNet Routers, KVMs Compromised via Remote Management Service Flaw appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Network Security",
-        "exploited",
-        "GL.iNet",
-        "KVM",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/gl-inet-routers-kvms-compromised-via-remote-management-service-flaw/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-014",
-      "published": "2026-11-23",
-      "title": "Call center operator gets 8 years for helping scam 30,000 Americans",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "A Peruvian call center operator was sentenced to eight years in prison for helping steal millions of dollars from over 30,000 Spanish-speaking US residents in a years-long government-impersonation fraud scheme. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/call-center-operator-gets-8-years-for-helping-scam-30-000-americans/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-015",
-      "published": "2026-11-23",
-      "title": "Microsoft confirms Windows printing issues affecting Forcepoint users",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft confirmed printing issues on systems running Forcepoint DLP software after installing the KB5132043 November 2026 Windows 11 hotpatch. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-printing-issues-after-kb5132043-windows-hotpatch/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-22-001",
-      "published": "2026-11-22",
-      "title": "Cleverbridge warns hackers stole credit card numbers, CVVs in data breach",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "E-commerce platform Cleverbridge is warning that hackers breached its systems and stole customers' payment card information, including credit card numbers and CVV security codes. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-22-002",
-      "published": "2026-11-22",
-      "title": "Hackers exploit GL.iNet cloud flaw to infect routers, KVM devices",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "GL.iNet has confirmed that hackers exploited a vulnerability in its cloud remote management services to install custom malware on customers' routers and KVM devices, with some affected users reporting backdoors and reverse shells giving remote access to infected devices. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-22-003",
-      "published": "2026-11-22",
-      "title": "Signal to block Siri, Gemini AI from capturing chats on iOS, Android",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Signal has announced new protections that block screenshots on iOS 27 and prevent AI assistants from capturing conversations on supported Android devices. [...]",
-      "tags": [
-        "Artificial Intelligence",
-        "Mobile"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/"
         }
       ]
     },

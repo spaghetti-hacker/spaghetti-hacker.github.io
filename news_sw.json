@@ -3,6 +3,11 @@
  "updated": "2026-11-24",
  "items": [
   {
+   "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
+   "link": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+   "date": "2026-11-24"
+  },
+  {
    "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
    "link": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/",
    "date": "2026-11-24"
@@ -45,11 +50,6 @@
   {
    "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
    "link": "https://www.securityweek.com/n-able-patches-critical-flaw-disclosed-after-mail-assure-cyberattack/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path",
-   "link": "https://www.securityweek.com/phpaftershell-vulnerability-revives-php2shells-attack-path/",
    "date": "2026-11-23"
   }
  ]
