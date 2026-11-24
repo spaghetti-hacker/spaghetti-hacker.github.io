@@ -1,16 +1,46 @@
 {
- "source": "VULNERABILITIES",
+ "source": "GENERAL",
  "updated": "2026-11-24",
  "items": [
+  {
+   "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
+   "link": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/",
+   "date": "2026-11-24"
+  },
   {
    "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
    "link": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/",
    "date": "2026-11-24"
   },
   {
+   "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
+   "link": "https://www.securityweek.com/anthropic-expands-enterprise-safeguards-for-detecting-ai-misuse/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
+   "link": "https://www.securityweek.com/openai-cisco-unveil-open-source-tool-to-shield-unpatched-linux-systems/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
+   "link": "https://www.securityweek.com/1-5-million-impacted-by-data-breach-at-south-korean-electric-company-kepco/",
+   "date": "2026-11-24"
+  },
+  {
    "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
    "link": "https://www.securityweek.com/elecbrakes-bluetooth-vulnerabilities-expose-trailers-to-forced-braking/",
    "date": "2026-11-24"
+  },
+  {
+   "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
+   "link": "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "Azure Flaw Exploited to Target Secrets at Norwegian Energy Firms",
+   "link": "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/",
+   "date": "2026-11-23"
   },
   {
    "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
@@ -21,36 +51,6 @@
    "title": "phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path",
    "link": "https://www.securityweek.com/phpaftershell-vulnerability-revives-php2shells-attack-path/",
    "date": "2026-11-23"
-  },
-  {
-   "title": "SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks",
-   "link": "https://www.securityweek.com/sap-netweaver-cisco-expressway-flaws-exploited-in-attacks/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
-   "link": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/",
-   "date": "2026-11-21"
-  },
-  {
-   "title": "WhatsApp Fixes Flaw Uncovered While Disrupting Scam Campaign",
-   "link": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "Ruby Patches Ruby2Shell Vulnerability That Could Lead to RCE",
-   "link": "https://www.securityweek.com/ruby-patches-ruby2shell-vulnerability-that-could-lead-to-rce/",
-   "date": "2026-11-20"
-  },
-  {
-   "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
-   "link": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/",
-   "date": "2026-11-19"
-  },
-  {
-   "title": "PHP Patches Seven Critical RCE Vulnerabilities",
-   "link": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/",
-   "date": "2026-11-19"
   }
  ]
 }
