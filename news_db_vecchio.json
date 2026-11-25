@@ -1,9 +1,63 @@
 {
-  "updated": "2026-11-25T08:25:03Z",
+  "updated": "2026-11-25T12:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-25-001",
+      "published": "2026-11-25",
+      "title": "Microsoft confirms authentication issues after November updates",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Microsoft has confirmed that customers may experience authentication issues after installing November security updates that address a high-severity remote code execution vulnerability. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-authentication-issues-after-november-updates/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-002",
+      "published": "2026-11-25",
+      "title": "Microsoft fixes Microsoft 365 bug blocking access to Office apps",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Earlier this week, Microsoft resolved a known issue that was preventing some Microsoft 365 customers from accessing Office applications. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-blank-dialog-that-made-microsoft-365-office-apps-unusable/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-003",
+      "published": "2026-11-25",
+      "title": "Hackers now exploit critical Drupal RCE flaw to hijack sites",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "The Drupal security team has confirmed that a critical vulnerability that lets attackers hijack unpatched sites has been actively exploited since at least Thursday. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-004",
       "published": "2026-11-25",
       "title": "Hackers reportedly breached CIA intelligence analysis system",
       "category": "general",
@@ -21,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-25-002",
+      "id": "2026-11-25-005",
       "published": "2026-11-25",
       "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
       "category": "vuln",
@@ -43,7 +97,31 @@
       ]
     },
     {
-      "id": "2026-11-25-003",
+      "id": "2026-11-25-006",
+      "published": "2026-11-25",
+      "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "Attackers can exploit CVE-2026-131914 to achieve remote code execution via a single web request containing specially crafted data. The post Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "CISA KEV",
+        "exploited",
+        "Idunno",
+        "vulnerability"
+      ],
+      "cves": [
+        "CVE-2026-131914"
+      ],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/hackers-exploit-unpatched-flaw-in-defunct-idunno-anticsrf-library/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-007",
       "published": "2026-11-25",
       "title": "Palo Alto Networks Patches Fragnesia Flaw Used to Root Firewalls",
       "category": "vuln",
@@ -62,6 +140,27 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-008",
+      "published": "2026-11-25",
+      "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The edtech company says the systems are fully operational and safe to use while it investigates the incident. The post Plagiarism Checker Turnitin Investigating Cyberattack appeared first on SecurityWeek .",
+      "tags": [
+        "Incident Response",
+        "cyberattack",
+        "education",
+        "Turnitin"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/"
         }
       ]
     },

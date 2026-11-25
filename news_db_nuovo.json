@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T12:25:04Z",
+  "updated": "2026-11-25T14:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,28 @@
     {
       "id": "2026-11-25-002",
       "published": "2026-11-25",
+      "title": "ShinyHunters Claims Comeback, New Inception Group Rejects Alleged Ties",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "An account tied to ShinyHunters announced the group’s return, as Okta spots possible links between Inception and ShinyHunters hackers. The post ShinyHunters Claims Comeback, New Inception Group Rejects Alleged Ties appeared first on SecurityWeek .",
+      "tags": [
+        "Cybercrime",
+        "Ransomware",
+        "data leak",
+        "Inception",
+        "ShinyHunters"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/shinyhunters-claims-comeback-new-inception-group-rejects-alleged-ties/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-003",
+      "published": "2026-11-25",
       "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
       "category": "vuln",
       "severity": "HIGH",
@@ -45,7 +67,7 @@
       ]
     },
     {
-      "id": "2026-11-25-003",
+      "id": "2026-11-25-004",
       "published": "2026-11-25",
       "title": "Microsoft confirms authentication issues after November updates",
       "category": "vuln",
@@ -63,7 +85,47 @@
       ]
     },
     {
-      "id": "2026-11-25-004",
+      "id": "2026-11-25-005",
+      "published": "2026-11-25",
+      "title": "US Treasury’s FinCEN Disconnects Systems Following Cyber Incident",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "FinCEN has extended deadlines for filers affected by the disruptions while it is investigating the incident. The post US Treasury’s FinCEN Disconnects Systems Following Cyber Incident appeared first on SecurityWeek .",
+      "tags": [
+        "Government",
+        "cyberattack",
+        "FinCEN",
+        "US Treasury"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/us-treasurys-fincen-disconnects-systems-following-cyber-incident/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-006",
+      "published": "2026-11-25",
+      "title": "Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Matthew Martin is Chief Information Security and Privacy Officer at Western Carolina University. The post Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget appeared first on SecurityWeek .",
+      "tags": [
+        "CISO Strategy",
+        "CISO"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/ground-truth-ciso-matt-martin-on-building-a-real-security-program-without-an-enterprise-budget/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-007",
       "published": "2026-11-25",
       "title": "Microsoft fixes Microsoft 365 bug blocking access to Office apps",
       "category": "general",
@@ -81,7 +143,7 @@
       ]
     },
     {
-      "id": "2026-11-25-005",
+      "id": "2026-11-25-008",
       "published": "2026-11-25",
       "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
       "category": "general",
@@ -102,7 +164,7 @@
       ]
     },
     {
-      "id": "2026-11-25-006",
+      "id": "2026-11-25-009",
       "published": "2026-11-25",
       "title": "Palo Alto Networks Patches Fragnesia Flaw Used to Root Firewalls",
       "category": "vuln",
@@ -125,7 +187,7 @@
       ]
     },
     {
-      "id": "2026-11-25-007",
+      "id": "2026-11-25-010",
       "published": "2026-11-25",
       "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
       "category": "vuln",
@@ -147,7 +209,7 @@
       ]
     },
     {
-      "id": "2026-11-25-008",
+      "id": "2026-11-25-011",
       "published": "2026-11-25",
       "title": "Hackers reportedly breached CIA intelligence analysis system",
       "category": "general",
@@ -409,26 +471,6 @@
     {
       "id": "2026-11-24-014",
       "published": "2026-11-24",
-      "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The attacks were launched from 99 IP addresses and targeted organizations across multiple industries and countries. The post Check Point Security Management Servers Hacked in AI-Assisted Campaign appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "AI",
-        "Check Point"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-015",
-      "published": "2026-11-24",
       "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
       "category": "vuln",
       "severity": "MEDIUM",
@@ -442,51 +484,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/new-shirudo-tool-uses-ai-to-shield-unpatched-linux-systems-from-exploits/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-016",
-      "published": "2026-11-24",
-      "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "EFS helps zero-retention customers spot Claude misuse spread across many requests while keeping conversation data in their own cloud. The post Anthropic Expands Enterprise Safeguards for Detecting AI Misuse appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Data Protection",
-        "AI",
-        "Anthropic",
-        "EFS"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/anthropic-expands-enterprise-safeguards-for-detecting-ai-misuse/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-017",
-      "published": "2026-11-24",
-      "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "OpenAI and Cisco’s Shirudo uses AI-generated shields to block Linux exploits while patches are prepared, but it’s not yet production-ready. The post OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "agentic AI",
-        "AI",
-        "Cisco",
-        "open source",
-        "OpenAI"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/openai-cisco-unveil-open-source-tool-to-shield-unpatched-linux-systems/"
         }
       ]
     }
