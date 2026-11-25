@@ -1,7 +1,12 @@
 {
- "source": "VULNERABILITIES",
+ "source": "GENERAL",
  "updated": "2026-11-25",
  "items": [
+  {
+   "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
+   "link": "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/",
+   "date": "2026-11-25"
+  },
   {
    "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
    "link": "https://www.securityweek.com/hackers-exploit-unpatched-flaw-in-defunct-idunno-anticsrf-library/",
@@ -18,8 +23,18 @@
    "date": "2026-11-25"
   },
   {
+   "title": "An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says",
+   "link": "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/",
+   "date": "2026-11-24"
+  },
+  {
    "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
    "link": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
+   "link": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/",
    "date": "2026-11-24"
   },
   {
@@ -28,29 +43,14 @@
    "date": "2026-11-24"
   },
   {
-   "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
-   "link": "https://www.securityweek.com/elecbrakes-bluetooth-vulnerabilities-expose-trailers-to-forced-braking/",
+   "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
+   "link": "https://www.securityweek.com/anthropic-expands-enterprise-safeguards-for-detecting-ai-misuse/",
    "date": "2026-11-24"
   },
   {
-   "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
-   "link": "https://www.securityweek.com/n-able-patches-critical-flaw-disclosed-after-mail-assure-cyberattack/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "phpAfterShell Vulnerability Revives PHP2Shell’s Attack Path",
-   "link": "https://www.securityweek.com/phpaftershell-vulnerability-revives-php2shells-attack-path/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "SAP NetWeaver, Cisco Expressway Flaws Exploited in Attacks",
-   "link": "https://www.securityweek.com/sap-netweaver-cisco-expressway-flaws-exploited-in-attacks/",
-   "date": "2026-11-23"
-  },
-  {
-   "title": "Amazon: China-Linked Hackers’ AI Agents Exploited Medical Software Zero-Day",
-   "link": "https://www.securityweek.com/amazon-china-linked-hackers-ai-agents-exploited-medical-software-zero-day/",
-   "date": "2026-11-21"
+   "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
+   "link": "https://www.securityweek.com/openai-cisco-unveil-open-source-tool-to-shield-unpatched-linux-systems/",
+   "date": "2026-11-24"
   }
  ]
 }
