@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T14:25:03Z",
+  "updated": "2026-11-25T18:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,42 @@
     {
       "id": "2026-11-25-002",
       "published": "2026-11-25",
+      "title": "CISA warns of critical unpatched flaw in Danfoss refrigeration controllers",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) is warning about a critical vulnerability in Danfoss AK-SM 8xxA Series controllers used by food retailers to manage commercial refrigeration, HVAC, and lighting systems. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-unpatched-flaw-in-danfoss-refrigeration-controllers/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-003",
+      "published": "2026-11-25",
+      "title": "InfraTrust warns of exploited supply chain flaws in network appliances",
+      "category": "supply-chain",
+      "severity": "HIGH",
+      "summary": "Eclypsium's November InfraTrust report warns that most infrastructure security advisories addressing exploited vulnerabilities over the past month involve flaws in third-party software bundled into products rather than code developed by the vendors themselves. [...]",
+      "tags": [
+        "supply-chain"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/infratrust-warns-of-exploited-supply-chain-flaws-in-network-appliances/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-004",
+      "published": "2026-11-25",
       "title": "ShinyHunters Claims Comeback, New Inception Group Rejects Alleged Ties",
       "category": "breach",
       "severity": "HIGH",
@@ -43,7 +79,7 @@
       ]
     },
     {
-      "id": "2026-11-25-003",
+      "id": "2026-11-25-005",
       "published": "2026-11-25",
       "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
       "category": "vuln",
@@ -67,7 +103,7 @@
       ]
     },
     {
-      "id": "2026-11-25-004",
+      "id": "2026-11-25-006",
       "published": "2026-11-25",
       "title": "Microsoft confirms authentication issues after November updates",
       "category": "vuln",
@@ -85,7 +121,47 @@
       ]
     },
     {
-      "id": "2026-11-25-005",
+      "id": "2026-11-25-007",
+      "published": "2026-11-25",
+      "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Attackers are probing GeoServer instances for two high-severity flaws that can be chained with other bugs for unauthenticated RCE. The post Two Newly Disclosed GeoServer Vulnerabilities Under Attack appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "exploited",
+        "GeoServer",
+        "RCE",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-008",
+      "published": "2026-11-25",
+      "title": "More Pentests Without More Pentesters: Where AI Safely Helps",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Penetration testers spend a significant portion of their engagements on documentation, reporting, and other tasks outside of testing. PentestPad explains how AI can reduce this workload, help teams handle more engagements, and keep sensitive client data within their own infrastructure. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/more-pentests-without-more-pentesters-where-ai-safely-helps/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-009",
       "published": "2026-11-25",
       "title": "US Treasury’s FinCEN Disconnects Systems Following Cyber Incident",
       "category": "general",
@@ -106,7 +182,7 @@
       ]
     },
     {
-      "id": "2026-11-25-006",
+      "id": "2026-11-25-010",
       "published": "2026-11-25",
       "title": "Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget",
       "category": "general",
@@ -125,7 +201,7 @@
       ]
     },
     {
-      "id": "2026-11-25-007",
+      "id": "2026-11-25-011",
       "published": "2026-11-25",
       "title": "Microsoft fixes Microsoft 365 bug blocking access to Office apps",
       "category": "general",
@@ -143,7 +219,7 @@
       ]
     },
     {
-      "id": "2026-11-25-008",
+      "id": "2026-11-25-012",
       "published": "2026-11-25",
       "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
       "category": "general",
@@ -164,7 +240,7 @@
       ]
     },
     {
-      "id": "2026-11-25-009",
+      "id": "2026-11-25-013",
       "published": "2026-11-25",
       "title": "Palo Alto Networks Patches Fragnesia Flaw Used to Root Firewalls",
       "category": "vuln",
@@ -187,7 +263,7 @@
       ]
     },
     {
-      "id": "2026-11-25-010",
+      "id": "2026-11-25-014",
       "published": "2026-11-25",
       "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
       "category": "vuln",
@@ -209,7 +285,7 @@
       ]
     },
     {
-      "id": "2026-11-25-011",
+      "id": "2026-11-25-015",
       "published": "2026-11-25",
       "title": "Hackers reportedly breached CIA intelligence analysis system",
       "category": "general",
@@ -320,47 +396,6 @@
     {
       "id": "2026-11-24-006",
       "published": "2026-11-24",
-      "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Names and email addresses of EU Academy users were exposed in the AI-assisted cyberattack the European Commission detected in October. The post European Commission Uncovers Data Breach in Cyberattack Investigation appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "AI",
-        "cyberattack",
-        "data breach",
-        "EC",
-        "EU"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-007",
-      "published": "2026-11-24",
-      "title": "McDonald's Japan data breach exposes customer location information",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "McDonald's Japan, the fast-food giant's Japanese subsidiary, has disclosed a data breach after attackers accessed a database containing sensitive information for users of the company's official smartphone app. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/mcdonalds-japan-data-breach-exposes-customer-location-information/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-008",
-      "published": "2026-11-24",
       "title": "An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says",
       "category": "general",
       "severity": "MEDIUM",
@@ -379,7 +414,7 @@
       ]
     },
     {
-      "id": "2026-11-24-009",
+      "id": "2026-11-24-007",
       "published": "2026-11-24",
       "title": "New Inception extortion gang launches large-scale vishing campaign",
       "category": "general",
@@ -397,7 +432,7 @@
       ]
     },
     {
-      "id": "2026-11-24-010",
+      "id": "2026-11-24-008",
       "published": "2026-11-24",
       "title": "Turnitin discloses cyberattack affecting customer-facing systems",
       "category": "general",
@@ -415,7 +450,7 @@
       ]
     },
     {
-      "id": "2026-11-24-011",
+      "id": "2026-11-24-009",
       "published": "2026-11-24",
       "title": "Hackers compromise Check Point Servers in 22 organizations",
       "category": "general",
@@ -433,7 +468,7 @@
       ]
     },
     {
-      "id": "2026-11-24-012",
+      "id": "2026-11-24-010",
       "published": "2026-11-24",
       "title": "Police disrupt 57 illegal streaming services with 7.3 million visits",
       "category": "general",
@@ -447,43 +482,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/police-disrupt-57-illegal-streaming-services-with-73-million-visits/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-013",
-      "published": "2026-11-24",
-      "title": "From Vulnerability Noise to Resilience: Rethinking Security in the AI Era",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "AI-driven development is adding complexity to software supply chains, leaving security teams overwhelmed by vulnerabilities that may pose little actual risk. RapidFort explains how runtime visibility, container hardening, and automated remediation can reduce vulnerability noise and improve software resilience. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/from-vulnerability-noise-to-resilience-rethinking-security-in-the-ai-era/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-014",
-      "published": "2026-11-24",
-      "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "OpenAI and Cisco launched an open-source Linux security tool named Shirudo that deploys temporary runtime protections to block vulnerability exploitation while administrators prepare and roll out patches, without restarting services. [...]",
-      "tags": [
-        "Artificial Intelligence",
-        "Linux"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/new-shirudo-tool-uses-ai-to-shield-unpatched-linux-systems-from-exploits/"
         }
       ]
     }
