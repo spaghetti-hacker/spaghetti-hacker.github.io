@@ -1,56 +1,56 @@
 {
- "source": "GENERAL",
+ "source": "ICS-OT",
  "updated": "2026-11-25",
  "items": [
   {
-   "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
-   "link": "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
-   "link": "https://www.securityweek.com/hackers-exploit-unpatched-flaw-in-defunct-idunno-anticsrf-library/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "Palo Alto Networks Patches Fragnesia Flaw Used to Root Firewalls",
-   "link": "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
-   "link": "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says",
-   "link": "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/",
+   "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
+   "link": "https://www.securityweek.com/elecbrakes-bluetooth-vulnerabilities-expose-trailers-to-forced-braking/",
    "date": "2026-11-24"
   },
   {
-   "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
-   "link": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+   "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
+   "link": "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/",
    "date": "2026-11-24"
   },
   {
-   "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
-   "link": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/",
-   "date": "2026-11-24"
+   "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
+   "link": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/",
+   "date": "2026-11-16"
   },
   {
-   "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
-   "link": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/",
-   "date": "2026-11-24"
+   "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
+   "link": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/",
+   "date": "2026-11-14"
   },
   {
-   "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
-   "link": "https://www.securityweek.com/anthropic-expands-enterprise-safeguards-for-detecting-ai-misuse/",
-   "date": "2026-11-24"
+   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
+   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
+   "date": "2026-11-11"
   },
   {
-   "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
-   "link": "https://www.securityweek.com/openai-cisco-unveil-open-source-tool-to-shield-unpatched-linux-systems/",
-   "date": "2026-11-24"
+   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
+   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
+   "date": "2026-11-06"
+  },
+  {
+   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
+   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
+   "date": "2026-11-05"
+  },
+  {
+   "title": "Critical Node-RED Flaw Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+   "date": "2026-11-03"
+  },
+  {
+   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+   "date": "2026-11-03"
+  },
+  {
+   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
+   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
+   "date": "2026-10-28"
   }
  ]
 }
