@@ -1,7 +1,55 @@
 {
-  "updated": "2026-11-24T08:10:37Z",
+  "updated": "2026-11-25T08:10:27Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "a098dfa9ed",
+      "published": "2026-11-25",
+      "title": "Showing a MessageBox from kernel-mode",
+      "topic": "kernel",
+      "source": "vollragm.github.io",
+      "summary": "Comments",
+      "tags": [
+        "kernel"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "vollragm.github.io",
+          "url": "https://vollragm.github.io/posts/kernel-message-box"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/zc12ap/showing_messagebox_from_kernel_mode"
+        }
+      ]
+    },
+    {
+      "id": "d180310534",
+      "published": "2026-11-24",
+      "title": "NGINX HTTP/2 Use-After-Free: CVE-2026-123633",
+      "topic": "vuln",
+      "source": "Unit 42",
+      "summary": "Technical analysis of CVE-2026-123633, an NGINX HTTP/2 use-after-free flaw, with details on affected versions, sanitizer tests, and patch guidance.",
+      "tags": [
+        "use after free",
+        "cve 2026 123633",
+        "sanitizer"
+      ],
+      "cves": [
+        "CVE-2026-123633"
+      ],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Unit 42",
+          "url": "https://unit42.paloaltonetworks.com/cve-2026-123633-nginx-http2-vulnerability"
+        }
+      ]
+    },
     {
       "id": "60279f1cfd",
       "published": "2026-11-23",
