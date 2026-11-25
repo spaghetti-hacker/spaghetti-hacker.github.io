@@ -1,9 +1,63 @@
 {
-  "updated": "2026-11-24T14:25:03Z",
+  "updated": "2026-11-24T18:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-24-001",
+      "published": "2026-11-24",
+      "title": "European Commission confirms data theft in EU Academy breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The European Commission, the European Union's main executive body, has confirmed that attackers breached its EU Academy online learning hub and stole the personal data of an undisclosed number of users. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-theft-in-eu-academy-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-002",
+      "published": "2026-11-24",
+      "title": "From Vulnerability Noise to Resilience: Rethinking Security in the AI Era",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "AI-driven development is adding complexity to software supply chains, leaving security teams overwhelmed by vulnerabilities that may pose little actual risk. RapidFort explains how runtime visibility, container hardening, and automated remediation can reduce vulnerability noise and improve software resilience. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/from-vulnerability-noise-to-resilience-rethinking-security-in-the-ai-era/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-003",
+      "published": "2026-11-24",
+      "title": "Hackers compromise Check Point Servers in 22 organizations",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Threat actors have exploited multiple vulnerabilities to compromise two dozen Check Point Security management servers in an ongoing campaign targeting 22 organizations. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-004",
       "published": "2026-11-24",
       "title": "McDonald's Japan data breach exposes customer location information",
       "category": "breach",
@@ -21,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-24-002",
+      "id": "2026-11-24-005",
       "published": "2026-11-24",
       "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
       "category": "vuln",
@@ -29,7 +83,6 @@
       "summary": "OpenAI and Cisco launched an open-source Linux security tool named Shirudo that deploys temporary runtime protections to block vulnerability exploitation while administrators prepare and roll out patches, without restarting services. [...]",
       "tags": [
         "Artificial Intelligence",
-        "Deals",
         "Linux"
       ],
       "cves": [],
@@ -41,7 +94,61 @@
       ]
     },
     {
-      "id": "2026-11-24-003",
+      "id": "2026-11-24-006",
+      "published": "2026-11-24",
+      "title": "Police disrupt 57 illegal streaming services with 7.3 million visits",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Law enforcement authorities from 11 countries have disrupted 57 illegal streaming services that operated hundreds of websites and drew over 7.3 million visits each year. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/police-disrupt-57-illegal-streaming-services-with-73-million-visits/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-007",
+      "published": "2026-11-24",
+      "title": "Radware discloses breach exposing customer cloud access keys",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Cybersecurity company Radware says attackers gained access to some of its customers' account details and cloud access keys through an unsecured internal Cloud WAF (Web Application Firewall) management API that was left exposed online. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/radware-discloses-breach-exposing-customer-cloud-access-keys/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-008",
+      "published": "2026-11-24",
+      "title": "ShinyHunters claims to return after FBI arrests, uses old PGP keys as proof",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "The ShinyHunters extortion gang claims to have returned in posts on a new data leak site after a series of arrests over the past two months targeting alleged members. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-009",
       "published": "2026-11-24",
       "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
       "category": "breach",
@@ -64,7 +171,7 @@
       ]
     },
     {
-      "id": "2026-11-24-004",
+      "id": "2026-11-24-010",
       "published": "2026-11-24",
       "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
       "category": "general",
@@ -86,7 +193,27 @@
       ]
     },
     {
-      "id": "2026-11-24-005",
+      "id": "2026-11-24-011",
+      "published": "2026-11-24",
+      "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The attacks were launched from 99 IP addresses and targeted organizations across multiple industries and countries. The post Check Point Security Management Servers Hacked in AI-Assisted Campaign appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "AI",
+        "Check Point"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-012",
       "published": "2026-11-24",
       "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
       "category": "vuln",
@@ -109,7 +236,30 @@
       ]
     },
     {
-      "id": "2026-11-24-006",
+      "id": "2026-11-24-013",
+      "published": "2026-11-24",
+      "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Names and email addresses of EU Academy users were exposed in the AI-assisted cyberattack the European Commission detected in October. The post European Commission Uncovers Data Breach in Cyberattack Investigation appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "AI",
+        "cyberattack",
+        "data breach",
+        "EC",
+        "EU"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-014",
       "published": "2026-11-24",
       "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
       "category": "general",
@@ -132,7 +282,7 @@
       ]
     },
     {
-      "id": "2026-11-24-007",
+      "id": "2026-11-24-015",
       "published": "2026-11-24",
       "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
       "category": "general",
@@ -150,6 +300,25 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-016",
+      "published": "2026-11-24",
+      "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The critical bugs include an authentication bypass in vCenter and flaws that could allow code execution on ESX hosts. The post VMware Updates Patch Critical ESX, vCenter Vulnerabilities appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "VMware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/"
         }
       ]
     },

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-24T18:25:04Z",
+  "updated": "2026-11-25T07:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -77,6 +77,24 @@
     {
       "id": "2026-11-24-005",
       "published": "2026-11-24",
+      "title": "New Inception extortion gang launches large-scale vishing campaign",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "A newly formed data extortion group named 'Inception' has been linked to a large-scale campaign that targets single sign-on (SSO) credentials of multiple global brands and firms. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-006",
+      "published": "2026-11-24",
       "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
       "category": "vuln",
       "severity": "MEDIUM",
@@ -94,7 +112,7 @@
       ]
     },
     {
-      "id": "2026-11-24-006",
+      "id": "2026-11-24-007",
       "published": "2026-11-24",
       "title": "Police disrupt 57 illegal streaming services with 7.3 million visits",
       "category": "general",
@@ -112,7 +130,25 @@
       ]
     },
     {
-      "id": "2026-11-24-007",
+      "id": "2026-11-24-008",
+      "published": "2026-11-24",
+      "title": "Rackspace shuts down Spot cloud platform after security breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Rackspace is shutting down its Rackspace Spot cloud platform after a security breach allowed hackers to access customer Kubernetes clusters and secrets, giving customers until December 8 to migrate their services and download their data. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-009",
       "published": "2026-11-24",
       "title": "Radware discloses breach exposing customer cloud access keys",
       "category": "breach",
@@ -130,7 +166,7 @@
       ]
     },
     {
-      "id": "2026-11-24-008",
+      "id": "2026-11-24-010",
       "published": "2026-11-24",
       "title": "ShinyHunters claims to return after FBI arrests, uses old PGP keys as proof",
       "category": "breach",
@@ -148,7 +184,25 @@
       ]
     },
     {
-      "id": "2026-11-24-009",
+      "id": "2026-11-24-011",
+      "published": "2026-11-24",
+      "title": "Turnitin discloses cyberattack affecting customer-facing systems",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Turnitin disclosed via a statement from its CEO, Chris Caren, that it recently detected unauthorized activity involving certain customer-facing systems. [...]",
+      "tags": [
+        "Education"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-012",
       "published": "2026-11-24",
       "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
       "category": "breach",
@@ -171,7 +225,27 @@
       ]
     },
     {
-      "id": "2026-11-24-010",
+      "id": "2026-11-24-013",
+      "published": "2026-11-24",
+      "title": "An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "It was not clear what specific information was compromised or who was responsible. The post An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says appeared first on SecurityWeek .",
+      "tags": [
+        "Cyberwarfare",
+        "Incident Response",
+        "CIA"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-014",
       "published": "2026-11-24",
       "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
       "category": "general",
@@ -193,7 +267,7 @@
       ]
     },
     {
-      "id": "2026-11-24-011",
+      "id": "2026-11-24-015",
       "published": "2026-11-24",
       "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
       "category": "general",
@@ -213,7 +287,7 @@
       ]
     },
     {
-      "id": "2026-11-24-012",
+      "id": "2026-11-24-016",
       "published": "2026-11-24",
       "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
       "category": "vuln",
@@ -236,7 +310,7 @@
       ]
     },
     {
-      "id": "2026-11-24-013",
+      "id": "2026-11-24-017",
       "published": "2026-11-24",
       "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
       "category": "breach",
@@ -259,7 +333,7 @@
       ]
     },
     {
-      "id": "2026-11-24-014",
+      "id": "2026-11-24-018",
       "published": "2026-11-24",
       "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
       "category": "general",
@@ -282,7 +356,7 @@
       ]
     },
     {
-      "id": "2026-11-24-015",
+      "id": "2026-11-24-019",
       "published": "2026-11-24",
       "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
       "category": "general",
@@ -304,7 +378,7 @@
       ]
     },
     {
-      "id": "2026-11-24-016",
+      "id": "2026-11-24-020",
       "published": "2026-11-24",
       "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
       "category": "vuln",
@@ -2000,455 +2074,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/verosecurity-raises-11-million-for-ai-security-engineering-platform/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-001",
-      "published": "2026-11-17",
-      "title": "Apple reports outages affecting iCloud Mail, AppleCare and more",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Apple is reporting service disruptions affecting several of its services, including iCloud Mail, iCloud Account & Sign In, Apple School Manager, and Schoolwork. [...]",
-      "tags": [
-        "Apple"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/apple/apple-reports-outages-affecting-icloud-mail-applecare-and-more/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-002",
-      "published": "2026-11-17",
-      "title": "Flipper Devices launches $399 ‘Flipper One’ Linux-based multi-tool",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Flipper Devices, the company behind the popular Flipper Zero pentesting device, has launched a crowdfunding campaign for Flipper One, a portable Linux computer and networking multi-tool. [...]",
-      "tags": [
-        "Hardware",
-        "Linux"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/hardware/flipper-devices-launches-399-flipper-one-linux-based-multi-tool/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-003",
-      "published": "2026-11-17",
-      "title": "Microsoft testing Remote Lock for lost or stolen Windows devices",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is testing a new feature that lets enterprise IT administrators remotely lock stolen or lost Windows devices without wiping them. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-remote-lock-for-lost-or-stolen-windows-devices/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-004",
-      "published": "2026-11-17",
-      "title": "Ransomware affiliate suspect extradited to US, faces 27 years in prison",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "A Kazakh national has been extradited from Italy to face charges alleging he targeted US schools, hospitals, and healthcare entities in ransomware attacks. [...]",
-      "tags": [
-        "policy"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/alleged-inc-lynx-ransomware-affiliate-extradited-to-us-faces-27-years-in-prison/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-005",
-      "published": "2026-11-17",
-      "title": "Cloud keys leaked in Docker Hub images are stolen within seconds",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Credentials and access secrets exposed in public Docker Hub images are being extracted and exploited by attackers within as little as eight seconds of publication. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/cloud-keys-leaked-in-docker-hub-images-are-stolen-within-seconds/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-006",
-      "published": "2026-11-17",
-      "title": "Court clears brothers of $25 million Ethereum crypto heist charges",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "US District Judge Jessica Clarke has acquitted two brothers accused of stealing $25 million in cryptocurrency in about 12 seconds through a scheme that exploited a bug in the Ethereum blockchain. [...]",
-      "tags": [
-        "CryptoCurrency"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/court-clears-brothers-of-25-million-ethereum-crypto-heist-charges/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-007",
-      "published": "2026-11-17",
-      "title": "Critical Java4Shell flaw allows RCE attacks on major Java applications",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "A critical vulnerability dubbed Java4Shell in OpenJDK, the open-source implementation of Java, can allow unauthenticated attackers to remotely execute code on popular enterprise applications, including Jenkins, Atlassian Jira, Confluence, and Keycloak. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/critical-java4shell-flaw-allows-rce-attacks-on-major-java-applications/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-008",
-      "published": "2026-11-17",
-      "title": "Inside Modern Phishing Kits Built to Steal Microsoft 365 Sessions",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Huntress researchers break down how EvilTokens, Knight Office, and Kali365 capture and replay M365 tokens, plus how defenders can detect and contain them. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/inside-modern-phishing-kits-built-to-steal-microsoft-365-sessions/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-009",
-      "published": "2026-11-17",
-      "title": "Japan takes Fugaku supercomputer offlline after cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The Fugaku supercomputer operated by Japan's RIKEN Center for Computational Science has been taken offline following a security breach. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/japan-takes-fugaku-supercomputer-offlline-after-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-010",
-      "published": "2026-11-17",
-      "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "A suspected supply chain attack targeting Optimizely has led to malicious JavaScript being loaded on numerous popular websites, including Zoom, CNN, Fox News, BBC, Salesforce, and GitLab, exposing visitors to scripts designed to steal cryptocurrency and payment information and exploit vulnerabilities in iOS devices. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/optimizely-supply-chain-attack-delivers-malware-to-cnn-fox-news-bbc-salesforce-sites/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-011",
-      "published": "2026-11-17",
-      "title": "Researchers hijack Hugging Face account for popular Kokoro AI model",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "A Lack of ownership verification on the Hugging Face platform allowed researchers to take control of Kokoro, a text-to-speech model used in projects from Google, NVIDIA, AMD, Intel, and Amazon Web Services. [...]",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/researchers-hijack-hugging-face-account-for-popular-kokoro-ai-model/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-012",
-      "published": "2026-11-17",
-      "title": "Tor releases emergency update amid ongoing DDoS attack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The Tor Project has released a security update for its network relay software to increase defenses against an ongoing distributed denial-of-service attack that it says has overwhelmed relays and affected most operators. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/tor-releases-emergency-update-amid-ongoing-ddos-attack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-013",
-      "published": "2026-11-17",
-      "title": "Uber notifies drivers of data breach affecting nearly 150,000 people",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Ride-hailing company Uber is notifying nearly 150,000 drivers that attackers stole their data after breaching AI infrastructure provider Fireworks in early October. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/uber-notifies-drivers-of-data-breach-affecting-nearly-150-000-people/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-014",
-      "published": "2026-11-17",
-      "title": "Access Dental Management Data Breach Impacts Over 340,000",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Hackers breached Access Dental’s network and stole personal, health, and insurance information. The post Access Dental Management Data Breach Impacts Over 340,000 appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "Access Dental Management",
-        "data breach",
-        "healthcare"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/access-dental-management-data-breach-impacts-over-340000/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-015",
-      "published": "2026-11-17",
-      "title": "AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Threat actors are deploying multi-agent offensive frameworks to increase the velocity of multi-stage intrusions. The post AI Framework Autonomously Weaponized Flaws in Real Attacks, Google Says appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Vulnerabilities",
-        "AI",
-        "google",
-        "GTIG",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/ai-framework-autonomously-weaponized-flaws-in-real-attacks-google-says/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-016",
-      "published": "2026-11-17",
-      "title": "California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The lawsuit alleges that OpenAI misled and endangered the public and users by knowingly developing advanced AI models without necessary safeguards. The post California Sues OpenAI, Seeking Court-Ordered Changes After the Hugging Face Hack appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "OpenAI"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/california-sues-openai-seeking-court-ordered-changes-after-the-hugging-face-hack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-017",
-      "published": "2026-11-17",
-      "title": "Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity",
-      "category": "business",
-      "severity": "LOW",
-      "summary": "Led by NEA and supported by existing investors, the funding brings the company’s valuation to $1 billion. The post Corma Receives $125 Million to Train Foundation Models for Defensive Cybersecurity appeared first on SecurityWeek .",
-      "tags": [
-        "Cybersecurity Funding",
-        "AI",
-        "Corma",
-        "funding"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/corma-receives-125-million-to-train-foundation-models-for-defensive-cybersecurity/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-018",
-      "published": "2026-11-17",
-      "title": "Fandango Warns Ticket Buyers of Payment Card Data Exposure",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Card numbers, CVVs, expiration dates, and email addresses used at Fandango’s ticketing checkout over four days in October may have been exposed. The post Fandango Warns Ticket Buyers of Payment Card Data Exposure appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "Fandango"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/fandango-warns-ticket-buyers-of-payment-card-data-exposure/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-019",
-      "published": "2026-11-17",
-      "title": "Market Research Giant Ipsos Investigating Breach of Internal System",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "The company made the incident public on Monday, November 16, five days after filing a complaint with authorities. The post Market Research Giant Ipsos Investigating Breach of Internal System appeared first on SecurityWeek .",
-      "tags": [
-        "Data Breaches",
-        "data breach",
-        "Ipsos"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/market-research-giant-ipsos-investigating-breach-of-internal-system/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-020",
-      "published": "2026-11-17",
-      "title": "MSP ScreenConnect Servers Targeted in Month-Long Campaign",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "More than 40 servers received over 688,000 requests exploiting CVE-2026-84869 to execute guest-pushed files. The post MSP ScreenConnect Servers Targeted in Month-Long Campaign appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Vulnerabilities",
-        "ConnectWise",
-        "exploited",
-        "ScreenConnect",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-84869"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/msp-screenconnect-servers-targeted-in-month-long-campaign/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-021",
-      "published": "2026-11-17",
-      "title": "N-able Kills Legacy APIs, Patches 17 N-central Zero-Days",
-      "category": "vuln",
-      "severity": "CRITICAL",
-      "summary": "The patches target recently disclosed zero-days, as well as vulnerabilities already exploited in the wild. The post N-able Kills Legacy APIs, Patches 17 N-central Zero-Days appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "4EverAble2Shell",
-        "N-able",
-        "N-central",
-        "vulnerability",
-        "Zero-Day"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/n-able-kills-legacy-apis-patches-17-n-central-zero-days/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-022",
-      "published": "2026-11-17",
-      "title": "Optimizely Vulnerability Exploited to Serve Malware on Major Websites",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Affected organizations include BBC, CNN, Zoom, GitLab, Salesforce, Equifax, HSBC, and IKEA. The post Optimizely Vulnerability Exploited to Serve Malware on Major Websites appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "exploited",
-        "Optimizely",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/optimizely-vulnerability-exploited-to-serve-malware-on-major-websites/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-17-023",
-      "published": "2026-11-17",
-      "title": "Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Pretxt provides technology to prevent AI agents escaping their guardrails and causing unintended harm. The post Pretxt Emerges Stealth With $5M Seed and an AI Supervision Tool appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Cybersecurity Funding",
-        "funding",
-        "Pretxt"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/pretxt-emerges-stealth-with-5m-seed-and-an-ai-supervision-tool/"
         }
       ]
     }

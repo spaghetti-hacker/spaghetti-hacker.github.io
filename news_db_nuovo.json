@@ -1,9 +1,27 @@
 {
-  "updated": "2026-11-24T18:25:04Z",
+  "updated": "2026-11-25T07:25:03Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-24-001",
+      "published": "2026-11-24",
+      "title": "Rackspace shuts down Spot cloud platform after security breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Rackspace is shutting down its Rackspace Spot cloud platform after a security breach allowed hackers to access customer Kubernetes clusters and secrets, giving customers until December 8 to migrate their services and download their data. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-002",
       "published": "2026-11-24",
       "title": "Radware discloses breach exposing customer cloud access keys",
       "category": "breach",
@@ -21,7 +39,7 @@
       ]
     },
     {
-      "id": "2026-11-24-002",
+      "id": "2026-11-24-003",
       "published": "2026-11-24",
       "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
       "category": "vuln",
@@ -40,7 +58,7 @@
       ]
     },
     {
-      "id": "2026-11-24-003",
+      "id": "2026-11-24-004",
       "published": "2026-11-24",
       "title": "ShinyHunters claims to return after FBI arrests, uses old PGP keys as proof",
       "category": "breach",
@@ -58,7 +76,7 @@
       ]
     },
     {
-      "id": "2026-11-24-004",
+      "id": "2026-11-24-005",
       "published": "2026-11-24",
       "title": "European Commission confirms data theft in EU Academy breach",
       "category": "breach",
@@ -76,7 +94,7 @@
       ]
     },
     {
-      "id": "2026-11-24-005",
+      "id": "2026-11-24-006",
       "published": "2026-11-24",
       "title": "European Commission Uncovers Data Breach in Cyberattack Investigation",
       "category": "breach",
@@ -99,7 +117,7 @@
       ]
     },
     {
-      "id": "2026-11-24-006",
+      "id": "2026-11-24-007",
       "published": "2026-11-24",
       "title": "McDonald's Japan data breach exposes customer location information",
       "category": "breach",
@@ -117,7 +135,7 @@
       ]
     },
     {
-      "id": "2026-11-24-007",
+      "id": "2026-11-24-008",
       "published": "2026-11-24",
       "title": "1.5 Million Impacted by Data Breach at South Korean Electric Company KEPCO",
       "category": "breach",
@@ -140,7 +158,7 @@
       ]
     },
     {
-      "id": "2026-11-24-008",
+      "id": "2026-11-24-009",
       "published": "2026-11-24",
       "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
       "category": "vuln",
@@ -163,7 +181,63 @@
       ]
     },
     {
-      "id": "2026-11-24-009",
+      "id": "2026-11-24-010",
+      "published": "2026-11-24",
+      "title": "An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "It was not clear what specific information was compromised or who was responsible. The post An Unclassified CIA System Was Breached in a Cyberattack, AP Source Says appeared first on SecurityWeek .",
+      "tags": [
+        "Cyberwarfare",
+        "Incident Response",
+        "CIA"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-011",
+      "published": "2026-11-24",
+      "title": "New Inception extortion gang launches large-scale vishing campaign",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "A newly formed data extortion group named 'Inception' has been linked to a large-scale campaign that targets single sign-on (SSO) credentials of multiple global brands and firms. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-012",
+      "published": "2026-11-24",
+      "title": "Turnitin discloses cyberattack affecting customer-facing systems",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Turnitin disclosed via a statement from its CEO, Chris Caren, that it recently detected unauthorized activity involving certain customer-facing systems. [...]",
+      "tags": [
+        "Education"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-24-013",
       "published": "2026-11-24",
       "title": "Hackers compromise Check Point Servers in 22 organizations",
       "category": "general",
@@ -181,7 +255,7 @@
       ]
     },
     {
-      "id": "2026-11-24-010",
+      "id": "2026-11-24-014",
       "published": "2026-11-24",
       "title": "Police disrupt 57 illegal streaming services with 7.3 million visits",
       "category": "general",
@@ -199,7 +273,7 @@
       ]
     },
     {
-      "id": "2026-11-24-011",
+      "id": "2026-11-24-015",
       "published": "2026-11-24",
       "title": "From Vulnerability Noise to Resilience: Rethinking Security in the AI Era",
       "category": "vuln",
@@ -217,7 +291,7 @@
       ]
     },
     {
-      "id": "2026-11-24-012",
+      "id": "2026-11-24-016",
       "published": "2026-11-24",
       "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
       "category": "general",
@@ -237,7 +311,7 @@
       ]
     },
     {
-      "id": "2026-11-24-013",
+      "id": "2026-11-24-017",
       "published": "2026-11-24",
       "title": "New Shirudo tool uses AI to shield unpatched Linux systems from exploits",
       "category": "vuln",
@@ -256,7 +330,7 @@
       ]
     },
     {
-      "id": "2026-11-24-014",
+      "id": "2026-11-24-018",
       "published": "2026-11-24",
       "title": "Anthropic Expands Enterprise Safeguards for Detecting AI Misuse",
       "category": "general",
@@ -278,7 +352,7 @@
       ]
     },
     {
-      "id": "2026-11-24-015",
+      "id": "2026-11-24-019",
       "published": "2026-11-24",
       "title": "OpenAI, Cisco Unveil Open Source Tool to Shield Unpatched Linux Systems",
       "category": "general",
@@ -301,7 +375,7 @@
       ]
     },
     {
-      "id": "2026-11-24-016",
+      "id": "2026-11-24-020",
       "published": "2026-11-24",
       "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
       "category": "general",
@@ -343,26 +417,6 @@
     {
       "id": "2026-11-23-002",
       "published": "2026-11-23",
-      "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "The company has restored access to the affected services and continues to monitor the affected environments. The post N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "N-able",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/n-able-patches-critical-flaw-disclosed-after-mail-assure-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-003",
-      "published": "2026-11-23",
       "title": "OpenRouter drops AI providers over leaked prompts and secrets",
       "category": "general",
       "severity": "MEDIUM",
@@ -379,7 +433,7 @@
       ]
     },
     {
-      "id": "2026-11-23-004",
+      "id": "2026-11-23-003",
       "published": "2026-11-23",
       "title": "Microsoft Azure flaw exploited to steal customers' API credentials",
       "category": "vuln",
@@ -397,7 +451,7 @@
       ]
     },
     {
-      "id": "2026-11-23-005",
+      "id": "2026-11-23-004",
       "published": "2026-11-23",
       "title": "Spanish LaLiga confirms hackers stole soccer fans’ personal data",
       "category": "general",
@@ -415,25 +469,7 @@
       ]
     },
     {
-      "id": "2026-11-23-006",
-      "published": "2026-11-23",
-      "title": "GlobeTopper loses $2.5 million after hackers steal $70k in gift cards",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "A cyberattack disrupted operations at B2B top-up solutions provider GlobeTopper, causing an estimated $2.5 million in lost revenue, while the attacker redeemed digital gift cards worth $70,000. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/globetopper-loses-25-million-after-hackers-steal-70k-in-gift-cards/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-007",
+      "id": "2026-11-23-005",
       "published": "2026-11-23",
       "title": "Azure Flaw Exploited to Target Secrets at Norwegian Energy Firms",
       "category": "vuln",
@@ -452,42 +488,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-008",
-      "published": "2026-11-23",
-      "title": "AI Agents Are Creating a Shared Responsibility Gap",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "AI agents operate across multiple platforms, creating security gaps when no single vendor can see or control their actions. Token Security examines the shared responsibility problem and explains how organizations can better manage agent identities, permissions, and accountability. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/ai-agents-are-creating-a-shared-responsibility-gap/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-23-009",
-      "published": "2026-11-23",
-      "title": "Microsoft testing fix for Windows 11 Bluetooth audio quality drops",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is working to fix a long-standing Windows issue that has been causing significant audio quality drops for Bluetooth headphone users. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-testing-fix-for-windows-11-bluetooth-audio-quality-drops/"
         }
       ]
     },
