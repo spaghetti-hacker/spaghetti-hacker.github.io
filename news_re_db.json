@@ -1,7 +1,120 @@
 {
-  "updated": "2026-11-25T08:10:27Z",
+  "updated": "2026-11-26T08:10:29Z",
   "keep_days": 180,
   "items": [
+    {
+      "id": "b858676a6b",
+      "published": "2026-11-26",
+      "title": "How WinHelp files work",
+      "topic": "reverse",
+      "source": "quin.fyi",
+      "summary": "Comments",
+      "tags": [
+        "reverse"
+      ],
+      "cves": [],
+      "read_min": null,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "quin.fyi",
+          "url": "https://quin.fyi/posts/how-winhelp-files-work.html"
+        },
+        {
+          "title": "lobste.rs (discussione)",
+          "url": "https://lobste.rs/s/w4kxiz/how_winhelp_files_work"
+        }
+      ]
+    },
+    {
+      "id": "e856b7df17",
+      "published": "2026-11-25",
+      "title": "Oh, is it Thanksgiving? I hadn’t noticed!",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "In true Thanksgiving fashion, David has a few thank-yous to give to the cybersecurity community (and a few choice words for threat actors). I tried hard not to write another typical “Thanksgiving article.” Obviously, I failed. But you know what?",
+      "tags": [
+        "command and control",
+        "c2",
+        "malware",
+        "sandbox escape",
+        "rce"
+      ],
+      "cves": [],
+      "read_min": 5,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/oh-is-it-thanksgiving-i-hadnt-noticed"
+        }
+      ]
+    },
+    {
+      "id": "a78c2fd437",
+      "published": "2026-11-25",
+      "title": "The Great Escape: Tradecraft insights from an agentic swarm",
+      "topic": "malware",
+      "source": "Talos",
+      "summary": "The OpenAI-linked swarm activity in 2026 is fully traceable through public records. This blog analyzes its tradecraft and compares it to early signals and behaviors from current agentic attack activity seen in the wild. The OpenAI-linked swarm activity in 2026 is fully traceable through public records and offers an unprecedented view into how multi-agent AI systems operate and coordinate at scale.",
+      "tags": [
+        "decode",
+        "persistence"
+      ],
+      "cves": [],
+      "read_min": 13,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/the-great-escape-tradecraft-insights-from-an-agentic-swarm"
+        }
+      ]
+    },
+    {
+      "id": "b52dc7f656",
+      "published": "2026-11-25",
+      "title": "How to protect against preinstalled Android malware",
+      "topic": "malware",
+      "source": "Securelist",
+      "summary": "We look at Trojans in the firmware of Android devices, share some statistics, and discuss the risks to corporate users and ways to counter the threat with Kaspersky Next. Introduction Preinstalled malware on mobile devices is a major threat to user security and privacy. When we buy a new smartphone or tablet, we expect it to be ready to use and secure right out of the box.",
+      "tags": [
+        "malware",
+        "firmware",
+        "backdoor",
+        "android",
+        "trojan"
+      ],
+      "cves": [],
+      "read_min": 9,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Securelist",
+          "url": "https://securelist.com/tr/how-to-protect-against-preinstalled-android-malware/122093"
+        }
+      ]
+    },
+    {
+      "id": "7b3c7839f0",
+      "published": "2026-11-25",
+      "title": "Securing Grandma's groceries with Pierre Cadieux",
+      "topic": "kernel",
+      "source": "Talos",
+      "summary": "Pierre takes us back to his early days on help desks in the 90s, where learning to correlate logs between Windows and Unix systems sparked the curiosity that eventually led him to security. This month, Amy is joined by Pierre Cadieux, Research Lead for Intelligence Efficacy at Talos.",
+      "tags": [
+        "exploiting"
+      ],
+      "cves": [],
+      "read_min": 4,
+      "by": "rules",
+      "sources": [
+        {
+          "title": "Talos",
+          "url": "https://blog.talosintelligence.com/securing-grandmas-groceries-with-pierre-cadieux"
+        }
+      ]
+    },
     {
       "id": "a098dfa9ed",
       "published": "2026-11-25",

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T18:25:03Z",
+  "updated": "2026-11-26T07:25:09Z",
   "window_days": 7,
   "items": [
     {
@@ -41,6 +41,24 @@
     {
       "id": "2026-11-25-003",
       "published": "2026-11-25",
+      "title": "1Password customer data stolen after employee GitHub account breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "1Password has disclosed a data breach after a an employee's corporate GitHub account was hacked and used to deploy malicious code to the company's backend services to steal customer data. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/1password-customer-data-stolen-after-employee-github-account-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-004",
+      "published": "2026-11-25",
       "title": "CISA warns of critical unpatched flaw in Danfoss refrigeration controllers",
       "category": "vuln",
       "severity": "HIGH",
@@ -57,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-25-004",
+      "id": "2026-11-25-005",
       "published": "2026-11-25",
       "title": "Hackers now exploit critical Drupal RCE flaw to hijack sites",
       "category": "vuln",
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-25-005",
+      "id": "2026-11-25-006",
       "published": "2026-11-25",
       "title": "Hackers reportedly breached CIA intelligence analysis system",
       "category": "general",
@@ -93,7 +111,7 @@
       ]
     },
     {
-      "id": "2026-11-25-006",
+      "id": "2026-11-25-007",
       "published": "2026-11-25",
       "title": "InfraTrust warns of exploited supply chain flaws in network appliances",
       "category": "supply-chain",
@@ -111,7 +129,25 @@
       ]
     },
     {
-      "id": "2026-11-25-007",
+      "id": "2026-11-25-008",
+      "published": "2026-11-25",
+      "title": "Italy and Switzerland warn of autonomous AI-driven cyberattacks",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Swiss and Italian cybersecurity agencies are warning about automated cyberattacks powered by AI agents targeting organizations in the critical infrastructure sector. [...]",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/italy-and-switzerland-warn-of-autonomous-ai-driven-cyberattacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-25-009",
       "published": "2026-11-25",
       "title": "More Pentests Without More Pentesters: Where AI Safely Helps",
       "category": "general",
@@ -129,7 +165,7 @@
       ]
     },
     {
-      "id": "2026-11-25-008",
+      "id": "2026-11-25-010",
       "published": "2026-11-25",
       "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
       "category": "vuln",
@@ -151,7 +187,7 @@
       ]
     },
     {
-      "id": "2026-11-25-009",
+      "id": "2026-11-25-011",
       "published": "2026-11-25",
       "title": "Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget",
       "category": "general",
@@ -170,7 +206,7 @@
       ]
     },
     {
-      "id": "2026-11-25-010",
+      "id": "2026-11-25-012",
       "published": "2026-11-25",
       "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
       "category": "vuln",
@@ -194,7 +230,7 @@
       ]
     },
     {
-      "id": "2026-11-25-011",
+      "id": "2026-11-25-013",
       "published": "2026-11-25",
       "title": "Palo Alto Networks Patches Fragnesia Flaw Used to Root Firewalls",
       "category": "vuln",
@@ -213,11 +249,15 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/"
+        },
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/palo-alto-networks-warns-of-fragnesia-flaw-exploited-in-pan-os-attacks/"
         }
       ]
     },
     {
-      "id": "2026-11-25-012",
+      "id": "2026-11-25-014",
       "published": "2026-11-25",
       "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
       "category": "general",
@@ -238,7 +278,7 @@
       ]
     },
     {
-      "id": "2026-11-25-013",
+      "id": "2026-11-25-015",
       "published": "2026-11-25",
       "title": "ShinyHunters Claims Comeback, New Inception Group Rejects Alleged Ties",
       "category": "breach",
@@ -260,7 +300,7 @@
       ]
     },
     {
-      "id": "2026-11-25-014",
+      "id": "2026-11-25-016",
       "published": "2026-11-25",
       "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
       "category": "vuln",
@@ -282,7 +322,7 @@
       ]
     },
     {
-      "id": "2026-11-25-015",
+      "id": "2026-11-25-017",
       "published": "2026-11-25",
       "title": "US Treasury’s FinCEN Disconnects Systems Following Cyber Incident",
       "category": "general",
@@ -1937,443 +1977,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/the-governance-gap-in-open-weight-ai-and-what-to-do-about-it/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-001",
-      "published": "2026-11-18",
-      "title": "Microsoft announces Windows Server 2028 with hardened security",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has announced Windows Server 2028, the next major release of its server operating system, at the Ignite 2026 conference on Tuesday. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-announces-windows-server-2028-with-hardened-security/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-002",
-      "published": "2026-11-18",
-      "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Attackers are targeting Confluence Data Center through an Axis flaw and Apache is warning of attacks against Roller. The post Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Apache",
-        "Apache Axis",
-        "Apache Roller",
-        "exploited",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/apache-warns-of-roller-rce-vulnerability-exploited-in-attacks/"
-        },
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-003",
-      "published": "2026-11-18",
-      "title": "British Scattered Spider hacker sentenced to 6 years in prison",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "A leader of the Scattered Spider cybercrime collective has been sentenced to six years in prison in the United States for stealing millions in cryptocurrency and conspiring to hack a dozen companies. [...]",
-      "tags": [
-        "policy"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/british-scattered-spider-hacker-sentenced-to-6-years-in-prison/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-004",
-      "published": "2026-11-18",
-      "title": "Coinbase blocks $4.7 million in transfers to Elon Musk deepfake scam",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Coinbase says it blocked $4.7 million in cryptocurrency transfers to scammers promoting a fake giveaway using an AI-generated deepfake of Elon Musk during a Tesla livestream that attracted more than 500,000 viewers. [...]",
-      "tags": [
-        "CryptoCurrency"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/coinbase-blocks-47-million-in-transfers-to-elon-musk-deepfake-scam/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-005",
-      "published": "2026-11-18",
-      "title": "Data breach impacts 40 Irish credit unions in reported IT provider hack",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "A reported cyberattack on Wellington IT has exposed sensitive information belonging to members of 50 credit unions, the majority of which are located in Ireland. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/data-breach-impacts-40-irish-credit-unions-in-reported-it-provider-hack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-006",
-      "published": "2026-11-18",
-      "title": "Dizigom illegal streaming service with 21M monthly visits shuts down",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The Alliance for Creativity and Entertainment (ACE) has announced the shutdown of Dizigom, one of Turkey's largest piracy sites, after a settlement agreement with the site's operators. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/dizigom-illegal-streaming-service-with-21m-monthly-visits-shuts-down/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-007",
-      "published": "2026-11-18",
-      "title": "From Deepfakes to Helpdesk Impersonation: Why Stronger Verification Matters",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Attackers are using deepfakes, helpdesk impersonation, and fake IT support requests to deceive employees and gain unauthorized access to corporate systems. Specops Software examines real-world attacks and explains how stronger identity verification can help organizations prevent social engineering threats. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/from-deepfakes-to-helpdesk-impersonation-why-stronger-verification-matters/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-008",
-      "published": "2026-11-18",
-      "title": "Microsoft’s Agent Framework PyPI package compromised to steal credentials",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "Hackers compromised Microsoft's official Agent Framework Python package on PyPI, publishing two malicious versions designed to steal cloud credentials and other sensitive information from developers' systems. [...]",
-      "tags": [
-        "Artificial Intelligence",
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/microsofts-agent-framework-pypi-package-compromised-to-steal-credentials/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-009",
-      "published": "2026-11-18",
-      "title": "Ukraine, FBI arrest ransomware gang members tied to $40M in ransoms",
-      "category": "ransomware",
-      "severity": "HIGH",
-      "summary": "Ukrainian authorities, working with the FBI, have arrested four suspected members of an international ransomware organization linked to more than $40.5 million in ransom payments from at least 28 companies worldwide. [...]",
-      "tags": [
-        "ransomware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/ukraine-fbi-arrest-ransomware-gang-members-tied-to-40m-in-ransoms/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-010",
-      "published": "2026-11-18",
-      "title": "Le strategie di Cina e Stati Uniti sull’intelligenza artificiale",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Potenza o efficienza? Mano libera o pianificazione? Modelli aperti o proprietari? Le due superpotenze stanno seguendo strade profondamente diverse nella corsa all’AI. A decretare il vincitore potrebbe però essere un altro elemento: chi riuscirà a sostenerne i costi.",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "Guerre di Rete",
-          "url": "https://www.guerredirete.it/le-strategie-di-cina-e-stati-uniti-sull-intelligenza-artificiale"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-011",
-      "published": "2026-11-18",
-      "title": "Chrome 158 Patches 204 Vulnerabilities",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Google handed out $11,000 for five externally reported flaws but has yet to determine the amounts to be paid for 36 bugs. The post Chrome 158 Patches 204 Vulnerabilities appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Chrome",
-        "patched",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/chrome-158-patches-204-vulnerabilities/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-012",
-      "published": "2026-11-18",
-      "title": "CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Patti Degnan’s identity was stolen in 2006. It set her on a path to the CISO seat at endpoint security firm Glow. The post CISO Conversations: Patti Degnan – Part of the Job Is Deciding What Not to Do appeared first on SecurityWeek .",
-      "tags": [
-        "CISO Conversations",
-        "CISO Strategy",
-        "CISO",
-        "Glow"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/ciso-conversations-patti-degnan-part-of-the-job-is-deciding-what-not-to-do/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-013",
-      "published": "2026-11-18",
-      "title": "Classified Communications Network at the National Security Agency Goes Down, Defense Official Says",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The problem disrupted the operations of NSANet, a classified internal network used by employees of the agency. The post Classified Communications Network at the National Security Agency Goes Down, Defense Official Says appeared first on SecurityWeek .",
-      "tags": [
-        "Government",
-        "Incident Response",
-        "NSA"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/classified-communications-network-at-the-national-security-agency-goes-down-defense-official-says/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-014",
-      "published": "2026-11-18",
-      "title": "Critical Perforce Puppet RCE Exploited in Attacks",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Tracked as CVE-2026-115731, it allows a client that holds any CA-signed agent certificate to execute code on the server. The post Critical Perforce Puppet RCE Exploited in Attacks appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "CISA KEV",
-        "exploited",
-        "Perforce",
-        "Perforce Puppet",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-115731"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/critical-perforce-puppet-rce-exploited-in-attacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-015",
-      "published": "2026-11-18",
-      "title": "Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Calif demonstrated remote code execution in Jira, Jenkins and Keycloak, while VulnCheck says real-world RCE requires per-target work The post Java4Shell Vulnerability Puts Enterprise Applications at Risk of Takeover appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Java",
-        "Java4Shell",
-        "RCE",
-        "remote code execution",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/java4shell-vulnerability-puts-many-enterprise-applications-at-risk-of-takeover/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-016",
-      "published": "2026-11-18",
-      "title": "Last of Five Defendants Sentenced in US Scattered Spider Hacking Case",
-      "category": "policy",
-      "severity": "LOW",
-      "summary": "British national Tyler Robert Buchanan has been sentenced to 6 years in prison in the United States, the DOJ announced. The post Last of Five Defendants Sentenced in US Scattered Spider Hacking Case appeared first on SecurityWeek .",
-      "tags": [
-        "Cybercrime",
-        "hacker",
-        "Scattered Spider",
-        "sentenced"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/last-of-five-defendants-sentenced-in-us-scattered-spider-hacking-case/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-017",
-      "published": "2026-11-18",
-      "title": "Microsoft Agent Framework Releases Poisoned With Credential Stealer",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "Versions 1.26.1 and 1.26.2 of agent-framework on PyPI steal Azure, Azure DevOps, and GitHub Actions credentials when Python starts. The post Microsoft Agent Framework Releases Poisoned With Credential Stealer appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Supply Chain Security",
-        "Agent Framework",
-        "AI",
-        "Microsoft",
-        "PyPI"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/microsoft-agent-framework-releases-poisoned-with-credential-stealer/"
-        },
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/microsofts-agent-framework-pypi-package-compromised-to-steal-credentials/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-018",
-      "published": "2026-11-18",
-      "title": "Microsoft Takes Perception Agentic Security Platform Out of Preview",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Four blue team agents and the Recon Agent are now generally available, while integrations and vulnerability shielding are in preview. The post Microsoft Takes Perception Agentic Security Platform Out of Preview appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "AI",
-        "AI agents",
-        "Microsoft",
-        "Project Perception",
-        "security product"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/microsoft-takes-perception-agentic-security-platform-out-of-preview/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-019",
-      "published": "2026-11-18",
-      "title": "Oracle Patches 950 Vulnerabilities With November 2026 CSPU",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Over 300 patches address unauthenticated, remotely exploitable flaws, while 62 fix critical-severity flaws. The post Oracle Patches 950 Vulnerabilities With November 2026 CSPU appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Oracle",
-        "Oracle CSPU",
-        "Patch",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/oracle-patches-640-vulnerabilities-with-november-2026-cspu/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-020",
-      "published": "2026-11-18",
-      "title": "Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "Star Blizzard weaponized data and identities stolen in late 2025 to phish and compromise a US organization. The post Russian APT Poses as Employee of Hacked Firm to Breach Another US Organization appeared first on SecurityWeek .",
-      "tags": [
-        "Malware & Threats",
-        "Nation-State",
-        "APT",
-        "Cold Relic",
-        "Russia",
-        "Star Blizzard"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/russian-apt-poses-as-employee-of-hacked-firm-to-breach-another-us-organization/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-18-021",
-      "published": "2026-11-18",
-      "title": "Vero Security Raises $11 Million for AI Security Engineering Platform",
-      "category": "business",
-      "severity": "LOW",
-      "summary": "AI Security Engineering is a new and essential security discipline now being brought into focus by VeroSecurity. The post Vero Security Raises $11 Million for AI Security Engineering Platform appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "Cybersecurity Funding",
-        "AI",
-        "funding"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/verosecurity-raises-11-million-for-ai-security-engineering-platform/"
         }
       ]
     }
