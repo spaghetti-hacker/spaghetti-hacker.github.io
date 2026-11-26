@@ -1,40 +1,20 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-26",
  "items": [
+  {
+   "title": "Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks",
+   "link": "https://www.securityweek.com/mitel-micollab-zero-days-exploited-in-suspected-ai-assisted-attacks/",
+   "date": "2026-11-26"
+  },
   {
    "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
    "link": "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/",
    "date": "2026-11-26"
   },
   {
-   "title": "1Password Breach Exposes Customer Data, Internal Source Code",
-   "link": "https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/",
-   "date": "2026-11-26"
-  },
-  {
    "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
    "link": "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "ShinyHunters Claims Comeback, New Inception Group Rejects Alleged Ties",
-   "link": "https://www.securityweek.com/shinyhunters-claims-comeback-new-inception-group-rejects-alleged-ties/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "US Treasury’s FinCEN Disconnects Systems Following Cyber Incident",
-   "link": "https://www.securityweek.com/us-treasurys-fincen-disconnects-systems-following-cyber-incident/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget",
-   "link": "https://www.securityweek.com/ground-truth-ciso-matt-martin-on-building-a-real-security-program-without-an-enterprise-budget/",
-   "date": "2026-11-25"
-  },
-  {
-   "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
-   "link": "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/",
    "date": "2026-11-25"
   },
   {
@@ -51,6 +31,26 @@
    "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
    "link": "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
    "date": "2026-11-25"
+  },
+  {
+   "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
+   "link": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
+   "link": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
+   "link": "https://www.securityweek.com/elecbrakes-bluetooth-vulnerabilities-expose-trailers-to-forced-braking/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "N-able Patches Critical Flaw Discovered After Mail Assure Cyberattack",
+   "link": "https://www.securityweek.com/n-able-patches-critical-flaw-disclosed-after-mail-assure-cyberattack/",
+   "date": "2026-11-23"
   }
  ]
 }

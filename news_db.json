@@ -1,7 +1,90 @@
 {
-  "updated": "2026-11-26T08:25:06Z",
+  "updated": "2026-11-26T12:25:05Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-26-001",
+      "published": "2026-11-26",
+      "title": "SYS010 malware abuses browser management to spy on Gmail, Outlook",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "A new version of the SYS01 infostealer malware delivered through Meta ads is enrolling browsers into enterprise-style management to force the installation of an extension that steals sensitive data, including Gmail and Outlook emails. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-002",
+      "published": "2026-11-26",
+      "title": "1Password Breach Exposes Customer Data, Internal Source Code",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "A hacker used a compromised employee GitHub account to push malicious code and steal customer records, but vaults were not accessed. The post 1Password Breach Exposes Customer Data, Internal Source Code appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "1Password",
+        "data breach",
+        "source code"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-003",
+      "published": "2026-11-26",
+      "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
+      "category": "vuln",
+      "severity": "MEDIUM",
+      "summary": "Drupal warns that its previous installer patch left some websites vulnerable to takeover, with attackers already exploiting the gap. The post Drupal Installer Patch Left a Gap Attackers Are Already Exploiting appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "Drupal",
+        "exploited",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-004",
+      "published": "2026-11-26",
+      "title": "Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "Accenture says hackers exploited MiCollab flaws before Mitel’s advisory, likely aided by AI, in a suspected extortion campaign. The post Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks appeared first on SecurityWeek .",
+      "tags": [
+        "Vulnerabilities",
+        "CISA KEV",
+        "exploited",
+        "MiCollab",
+        "Mitel",
+        "vulnerability"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/mitel-micollab-zero-days-exploited-in-suspected-ai-assisted-attacks/"
+        }
+      ]
+    },
     {
       "id": "2026-11-25-001",
       "published": "2026-11-25",
