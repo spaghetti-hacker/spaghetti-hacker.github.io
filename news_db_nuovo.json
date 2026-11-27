@@ -1,7 +1,71 @@
 {
-  "updated": "2026-11-27T07:25:03Z",
+  "updated": "2026-11-27T08:25:04Z",
   "window_days": 7,
   "items": [
+    {
+      "id": "2026-11-27-001",
+      "published": "2026-11-27",
+      "title": "New NFS2ROOT Linux flaw can let attackers gain root privileges",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "​A 12-year-old critical vulnerability in the Linux kernel's Network File System (NFS) server, tracked as CVE-2026-99362, allows remote attackers to gain root privileges. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [
+        "CVE-2026-99362"
+      ],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-nfs2root-linux-flaw-can-let-attackers-gain-root-privileges/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-002",
+      "published": "2026-11-27",
+      "title": "Hex Package Manager Warns of Potential Data Breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "A vulnerability in hex.pm allowed hackers to run commands on web servers. No evidence of data modification was found, but database reads are not logged. The post Hex Package Manager Warns of Potential Data Breach appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "Vulnerabilities",
+        "data breach",
+        "Elixir and Erlang",
+        "exploited",
+        "Hex"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/hex-package-manager-warns-of-potential-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-003",
+      "published": "2026-11-27",
+      "title": "SAP Confirms Cyberattack, Source Code Reportedly Compromised",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "SAP has detected suspicious activity on GitHub, where hackers reportedly used stolen employee tokens to copy and alter source code. The post SAP Confirms Cyberattack, Source Code Reportedly Compromised appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "cyberattack",
+        "data breach",
+        "SAP"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/sap-confirms-cyberattack-source-code-reportedly-compromised/"
+        }
+      ]
+    },
     {
       "id": "2026-11-26-001",
       "published": "2026-11-26",
@@ -413,25 +477,6 @@
     {
       "id": "2026-11-25-012",
       "published": "2026-11-25",
-      "title": "Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Matthew Martin is Chief Information Security and Privacy Officer at Western Carolina University. The post Ground Truth: CISO Matt Martin on Building a Real Security Program Without an Enterprise Budget appeared first on SecurityWeek .",
-      "tags": [
-        "CISO Strategy",
-        "CISO"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/ground-truth-ciso-matt-martin-on-building-a-real-security-program-without-an-enterprise-budget/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-25-013",
-      "published": "2026-11-25",
       "title": "Microsoft fixes Microsoft 365 bug blocking access to Office apps",
       "category": "general",
       "severity": "MEDIUM",
@@ -444,45 +489,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-blank-dialog-that-made-microsoft-365-office-apps-unusable/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-25-014",
-      "published": "2026-11-25",
-      "title": "Plagiarism Checker Turnitin Investigating Cyberattack",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "The edtech company says the systems are fully operational and safe to use while it investigates the incident. The post Plagiarism Checker Turnitin Investigating Cyberattack appeared first on SecurityWeek .",
-      "tags": [
-        "Incident Response",
-        "cyberattack",
-        "education",
-        "Turnitin"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-25-015",
-      "published": "2026-11-25",
-      "title": "Hackers reportedly breached CIA intelligence analysis system",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Unknown attackers have reportedly breached an open-source intelligence analysis system at the US Central Intelligence Agency (CIA) [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/"
         }
       ]
     }
