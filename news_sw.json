@@ -1,31 +1,11 @@
 {
- "source": "GENERAL",
+ "source": "VULNERABILITIES",
  "updated": "2026-11-27",
  "items": [
-  {
-   "title": "In Other News: Tanker Cyberattacks, EU Quantum Act, New VirusTotal Capabilities",
-   "link": "https://www.securityweek.com/in-other-news-tanker-cyberattacks-eu-quantum-act-new-virustotal-capabilities/",
-   "date": "2026-11-27"
-  },
-  {
-   "title": "100,000 Potentially Impacted by Colorado Data Breach",
-   "link": "https://www.securityweek.com/100000-potentially-impacted-by-colorado-data-breach/",
-   "date": "2026-11-27"
-  },
   {
    "title": "Hex Package Manager Warns of Potential Data Breach",
    "link": "https://www.securityweek.com/hex-package-manager-warns-of-potential-data-breach/",
    "date": "2026-11-27"
-  },
-  {
-   "title": "SAP Confirms Cyberattack, Source Code Reportedly Compromised",
-   "link": "https://www.securityweek.com/sap-confirms-cyberattack-source-code-reportedly-compromised/",
-   "date": "2026-11-27"
-  },
-  {
-   "title": "FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’",
-   "link": "https://www.securityweek.com/fifa-says-it-has-been-victim-of-a-cyberattack-accessing-personal-and-business-information/",
-   "date": "2026-11-26"
   },
   {
    "title": "Critical Juniper Session Smart Conductor Flaw Exploited in Attacks",
@@ -43,14 +23,34 @@
    "date": "2026-11-26"
   },
   {
-   "title": "1Password Breach Exposes Customer Data, Internal Source Code",
-   "link": "https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/",
-   "date": "2026-11-26"
-  },
-  {
    "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
    "link": "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
    "date": "2026-11-25"
+  },
+  {
+   "title": "Hackers Exploit Unpatched Flaw in Defunct Idunno AntiCsrf Library",
+   "link": "https://www.securityweek.com/hackers-exploit-unpatched-flaw-in-defunct-idunno-anticsrf-library/",
+   "date": "2026-11-25"
+  },
+  {
+   "title": "Palo Alto Networks Patches Fragnesia Flaw Used to Root Firewalls",
+   "link": "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/",
+   "date": "2026-11-25"
+  },
+  {
+   "title": "Drupal Flaw Found by Anthropic Scanner Exploited in Attacks",
+   "link": "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
+   "date": "2026-11-25"
+  },
+  {
+   "title": "VMware Updates Patch Critical ESX, vCenter Vulnerabilities",
+   "link": "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+   "date": "2026-11-24"
+  },
+  {
+   "title": "Check Point Security Management Servers Hacked in AI-Assisted Campaign",
+   "link": "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/",
+   "date": "2026-11-24"
   }
  ]
 }
