@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T18:25:04Z",
+  "updated": "2026-11-27T07:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -92,6 +92,25 @@
     {
       "id": "2026-11-26-005",
       "published": "2026-11-26",
+      "title": "OpenAI warns GPT-6.2 Astra will hit usage limits 40% faster because it fixed a bug",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "OpenAI confirmed that it fixed a 'bug' that incorrectly discounted GPT-6.2 usage, which means you'll now hit GPT usage limits 40% faster than before. [...]",
+      "tags": [
+        "Artificial Intelligence",
+        "Software"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-warns-gpt-62-astra-will-hit-usage-limits-40-percent-faster-because-it-fixed-a-bug/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-006",
+      "published": "2026-11-26",
       "title": "Fake paid expert interviews impersonate brands to steal Google logins",
       "category": "general",
       "severity": "MEDIUM",
@@ -108,7 +127,7 @@
       ]
     },
     {
-      "id": "2026-11-26-006",
+      "id": "2026-11-26-007",
       "published": "2026-11-26",
       "title": "Remus malware steals Gmail messages via fake Google Sheets extension",
       "category": "malware",
@@ -126,7 +145,7 @@
       ]
     },
     {
-      "id": "2026-11-26-007",
+      "id": "2026-11-26-008",
       "published": "2026-11-26",
       "title": "SYS010 malware abuses browser management to spy on Gmail, Outlook",
       "category": "malware",
@@ -144,7 +163,7 @@
       ]
     },
     {
-      "id": "2026-11-26-008",
+      "id": "2026-11-26-009",
       "published": "2026-11-26",
       "title": "Se l’intelligenza artificiale scrive le nostre cartelle cliniche",
       "category": "general",
@@ -162,7 +181,7 @@
       ]
     },
     {
-      "id": "2026-11-26-009",
+      "id": "2026-11-26-010",
       "published": "2026-11-26",
       "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
       "category": "vuln",
@@ -464,24 +483,6 @@
         {
           "title": "BleepingComputer",
           "url": "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-24-001",
-      "published": "2026-11-24",
-      "title": "Rackspace shuts down Spot cloud platform after security breach",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Rackspace is shutting down its Rackspace Spot cloud platform after a security breach allowed hackers to access customer Kubernetes clusters and secrets, giving customers until December 8 to migrate their services and download their data. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/"
         }
       ]
     }

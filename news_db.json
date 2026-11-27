@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T18:25:04Z",
+  "updated": "2026-11-27T07:25:03Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,25 @@
     {
       "id": "2026-11-26-002",
       "published": "2026-11-26",
+      "title": "OpenAI warns GPT-6.2 Astra will hit usage limits 40% faster because it fixed a bug",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "OpenAI confirmed that it fixed a 'bug' that incorrectly discounted GPT-6.2 usage, which means you'll now hit GPT usage limits 40% faster than before. [...]",
+      "tags": [
+        "Artificial Intelligence",
+        "Software"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-warns-gpt-62-astra-will-hit-usage-limits-40-percent-faster-because-it-fixed-a-bug/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-003",
+      "published": "2026-11-26",
       "title": "Remus malware steals Gmail messages via fake Google Sheets extension",
       "category": "malware",
       "severity": "MEDIUM",
@@ -39,7 +58,7 @@
       ]
     },
     {
-      "id": "2026-11-26-003",
+      "id": "2026-11-26-004",
       "published": "2026-11-26",
       "title": "SYS010 malware abuses browser management to spy on Gmail, Outlook",
       "category": "malware",
@@ -57,7 +76,7 @@
       ]
     },
     {
-      "id": "2026-11-26-004",
+      "id": "2026-11-26-005",
       "published": "2026-11-26",
       "title": "Se l’intelligenza artificiale scrive le nostre cartelle cliniche",
       "category": "general",
@@ -75,7 +94,7 @@
       ]
     },
     {
-      "id": "2026-11-26-005",
+      "id": "2026-11-26-006",
       "published": "2026-11-26",
       "title": "1Password Breach Exposes Customer Data, Internal Source Code",
       "category": "breach",
@@ -96,7 +115,7 @@
       ]
     },
     {
-      "id": "2026-11-26-006",
+      "id": "2026-11-26-007",
       "published": "2026-11-26",
       "title": "Critical Juniper Session Smart Conductor Flaw Exploited in Attacks",
       "category": "vuln",
@@ -119,7 +138,7 @@
       ]
     },
     {
-      "id": "2026-11-26-007",
+      "id": "2026-11-26-008",
       "published": "2026-11-26",
       "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
       "category": "vuln",
@@ -140,7 +159,7 @@
       ]
     },
     {
-      "id": "2026-11-26-008",
+      "id": "2026-11-26-009",
       "published": "2026-11-26",
       "title": "FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’",
       "category": "breach",
@@ -160,7 +179,7 @@
       ]
     },
     {
-      "id": "2026-11-26-009",
+      "id": "2026-11-26-010",
       "published": "2026-11-26",
       "title": "Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks",
       "category": "vuln",
@@ -1747,434 +1766,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/whatsapp-fixes-flaw-uncovered-while-disrupting-scam-campaign/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-001",
-      "published": "2026-11-19",
-      "title": "Microsoft confirms app installation, launch issues after hotpatch",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft has shared a workaround for installation and launch issues affecting Office and third-party applications after installing this month's Windows 11 hotpatch. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-app-installation-launch-issues-after-hotpatch/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-002",
-      "published": "2026-11-19",
-      "title": "Microsoft tests new Edge Lockdown Mode that disables GPU APIs",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Microsoft is developing a new Edge security feature to reduce the attack surface by disabling the WebGL, WebGL2, and WebGPU APIs. [...]",
-      "tags": [
-        "Microsoft"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-tests-new-edge-lockdown-mode-that-disables-gpu-apis/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-003",
-      "published": "2026-11-19",
-      "title": "ASUS warns of critical hard-coded key flaw in Control Center Express",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "ASUS released Control Center Express v1.7.29 to fix three critical vulnerabilities that could let remote attackers gain administrative control of the management console and the devices it manages. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/asus-warns-of-critical-hard-coded-key-flaw-in-control-center-express/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-004",
-      "published": "2026-11-19",
-      "title": "Critical NGINX ‘NGINX2Root’ bugs let attackers hijack servers",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Two critical NGINX vulnerabilities dubbed \"nginx2root\" allow unauthenticated attackers to execute code remotely on vulnerable web servers, with researchers demonstrating how the flaws can be chained with a Linux kernel bug to gain root access. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/critical-nginx-nginx2root-bugs-let-attackers-hijack-servers/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-005",
-      "published": "2026-11-19",
-      "title": "Drupal patches critical RCE flaw, warns exploits may surface quickly",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "The Drupal Security Team has patched a critical remote code execution vulnerability that can let attackers take over vulnerable sites. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/drupal-patches-critical-rce-flaw-warns-exploits-may-surface-quickly/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-006",
-      "published": "2026-11-19",
-      "title": "Five warning signs of ransomware breach before encryption or data theft",
-      "category": "ransomware",
-      "severity": "HIGH",
-      "summary": "Ransomware attacks often involve credential theft, lateral movement, and attempts to disable security controls long before encryption begins. Acronis examines five warning signs that can help defenders detect intrusions earlier, contain malicious activity, and protect critical systems and backups. [...]",
-      "tags": [
-        "ransomware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/five-warning-signs-of-ransomware-breach-before-encryption-or-data-theft/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-007",
-      "published": "2026-11-19",
-      "title": "Hackers steal data of 1.6 million SBC Medical Group customers",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "SBC Medical Group has warned in a filing with the U.S. Securities and Exchange Commission (SEC) that two cybersecurity incidents exposed sensitive customer and employee information, including personal data belonging to 1.6 million people. [...]",
-      "tags": [
-        "Healthcare"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/hackers-steal-data-of-16-million-sbc-medical-group-customers/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-008",
-      "published": "2026-11-19",
-      "title": "Nvidia Responds to Gentlemen Ransomware Claim",
-      "category": "ransomware",
-      "severity": "HIGH",
-      "summary": "Nvidia says it has found no indication that its systems were compromised after the Gentlemen ransomware group listed the company as a victim. The post Nvidia Responds to Gentlemen Ransomware Claim appeared first on SecurityWeek .",
-      "tags": [
-        "Cybercrime",
-        "Ransomware",
-        "data breach",
-        "Gentlemen",
-        "NVIDIA"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/nvidia-investigating-gentlemen-ransomware-breach-claims/"
-        },
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/nvidia-responds-to-gentlemen-ransomware-claim/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-009",
-      "published": "2026-11-19",
-      "title": "PHP security updates fix 18 flaws, including critical RCE bugs",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "The PHP development team released security updates addressing 18 vulnerabilities, including critical flaws that could allow unauthenticated attackers to remotely execute code on vulnerable servers. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/php-security-updates-fix-18-flaws-including-critical-rce-bugs/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-010",
-      "published": "2026-11-19",
-      "title": "Transport for London breach exposes 265,000 Oyster card users' data",
-      "category": "breach",
-      "severity": "HIGH",
-      "summary": "Transport for London (TfL) has announced that around 265,000 Oyster photocard customers may have had their account details exposed in a data breach. [...]",
-      "tags": [
-        "breach"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/transport-for-london-breach-exposes-265-000-oyster-card-users-data/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-011",
-      "published": "2026-11-19",
-      "title": "Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Attackers are targeting Confluence Data Center through an Axis flaw and Apache is warning of attacks against Roller. The post Critical Apache Roller, Axis Vulnerabilities Exploited in Attacks appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Apache",
-        "Apache Axis",
-        "Apache Roller",
-        "exploited",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/critical-apache-roller-axis-vulnerabilities-exploited-in-attacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-012",
-      "published": "2026-11-19",
-      "title": "F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "The five NGINX2Root vulnerabilities could allow remote, unauthenticated attackers to execute arbitrary code. The post F5 Patches Critical NGINX2Root Flaws as PoC Exploits Go Public appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "F5",
-        "Nginx",
-        "NGINX2Root"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/f5-patches-critical-nginx2root-flaws-as-poc-exploits-go-public/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-013",
-      "published": "2026-11-19",
-      "title": "Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Attackers hacked clustered Cisco Expressway devices at a Russian organization and prepared tooling for lateral movement. The post Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Cisco",
-        "exploited",
-        "Expressway",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-014",
-      "published": "2026-11-19",
-      "title": "Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "GreyNoise, WatchTowr and Cloudflare report probing and exploit attempts, while Cisco, Elastic, Red Hat and Siemens detail impact. The post Java4Shell Exploitation Attempts Begin as Vendors Rush Out Advisories appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "exploited",
-        "Java",
-        "Java4Shell",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/java4shell-exploitation-attempts-begin-as-vendors-rush-out-advisories/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-015",
-      "published": "2026-11-19",
-      "title": "Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT",
-      "category": "apt",
-      "severity": "HIGH",
-      "summary": "Google says a China-linked espionage group exploited a critical VMware vCenter authentication bypass before Broadcom released a patch. The post Newly Patched VMware vCenter Flaw Exploited as Zero-Day by Chinese APT appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "China",
-        "China APT",
-        "exploited",
-        "vCenter Server",
-        "VMware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/newly-patched-vmware-vcenter-flaw-exploited-as-zero-day-by-chinese-apt/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-016",
-      "published": "2026-11-19",
-      "title": "Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion",
-      "category": "business",
-      "severity": "LOW",
-      "summary": "The all-stock deal will give the cybersecurity company a platform for fine-tuning and running open-weight AI models in public and sovereign clouds. The post Palo Alto Networks to Buy AI Startup Applied Compute for $4.5 Billion appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "M&A Tracker",
-        "Acquisition",
-        "Palo Alto Networks"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/palo-alto-networks-to-buy-ai-startup-applied-compute-for-4-5-billion/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-017",
-      "published": "2026-11-19",
-      "title": "PHP Patches Seven Critical RCE Vulnerabilities",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Successful exploitation could allow attackers to crash the worker process and execute code with the PHP worker’s privileges. The post PHP Patches Seven Critical RCE Vulnerabilities appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Patch",
-        "PHP",
-        "RCE",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/php-patches-seven-critical-rce-vulnerabilities/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-018",
-      "published": "2026-11-19",
-      "title": "PHP Readies Critical Security Updates to Patch Another RCE Flaw",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "Affecting the session upload progress, CVE-2026-115560 was publicly disclosed two days after PHP2Shell patches landed. The post PHP Readies Critical Security Updates to Patch Another RCE Flaw appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "Patch",
-        "PHP",
-        "vulnerability"
-      ],
-      "cves": [
-        "CVE-2026-115560"
-      ],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/php-readies-critical-security-updates-to-patch-another-rce-flaw/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-019",
-      "published": "2026-11-19",
-      "title": "Splunk Patches Nearly 140 Flaws Across Three Core Products",
-      "category": "vuln",
-      "severity": "HIGH",
-      "summary": "The security updates resolve critical and high-severity issues leading to authentication bypass, remote code execution, and privilege escalation. The post Splunk Patches Nearly 140 Flaws Across Three Core Products appeared first on SecurityWeek .",
-      "tags": [
-        "Vulnerabilities",
-        "patches",
-        "Splunk",
-        "vulnerability"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/splunk-patches-nearly-140-flaws-across-three-core-products/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-020",
-      "published": "2026-11-19",
-      "title": "StepSecurity Secures $20 Million to Expand Supply Chain Protection",
-      "category": "supply-chain",
-      "severity": "HIGH",
-      "summary": "The company will use the funds to accelerate the development and distribution of its security platform. The post StepSecurity Secures $20 Million to Expand Supply Chain Protection appeared first on SecurityWeek .",
-      "tags": [
-        "Cybersecurity Funding",
-        "Supply Chain Security",
-        "funding",
-        "StepSecurity",
-        "Supply Chain"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/stepsecurity-secures-20-million-to-expand-supply-chain-protection/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-19-021",
-      "published": "2026-11-19",
-      "title": "The Governance Gap in Open-Weight AI and What to Do About It",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Lower costs, data privacy, and greater control are driving open-weight AI adoption, but many organizations are not addressing the risks that come with it. The post The Governance Gap in Open-Weight AI and What to Do About It appeared first on SecurityWeek .",
-      "tags": [
-        "Artificial Intelligence",
-        "AI",
-        "governance"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "SecurityWeek",
-          "url": "https://www.securityweek.com/the-governance-gap-in-open-weight-ai-and-what-to-do-about-it/"
         }
       ]
     }

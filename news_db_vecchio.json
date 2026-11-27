@@ -1,9 +1,45 @@
 {
-  "updated": "2026-11-26T14:25:05Z",
+  "updated": "2026-11-26T18:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-26-001",
+      "published": "2026-11-26",
+      "title": "Fake paid expert interviews impersonate brands to steal Google logins",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "An ongoing phishing campaign dubbed \"GoodGuys\" impersonates major brands, including Google, Nvidia, Accenture, and SpaceX, to steal corporate Google and Okta credentials using fake invitations to paid expert interviews and webinars. [...]",
+      "tags": [
+        "Apple"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/apple/fake-paid-expert-interviews-impersonate-brands-to-steal-google-logins/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-002",
+      "published": "2026-11-26",
+      "title": "Remus malware steals Gmail messages via fake Google Sheets extension",
+      "category": "malware",
+      "severity": "MEDIUM",
+      "summary": "The Remus infostealer is stealing Gmail messages through a stealthy malicious Chrome extension, a capability the malware operators marketed as a zero-day exploit in Google's email service. [...]",
+      "tags": [
+        "malware"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/remus-malware-steals-gmail-messages-via-fake-google-sheets-extension/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-003",
       "published": "2026-11-26",
       "title": "SYS010 malware abuses browser management to spy on Gmail, Outlook",
       "category": "malware",
@@ -21,7 +57,7 @@
       ]
     },
     {
-      "id": "2026-11-26-002",
+      "id": "2026-11-26-004",
       "published": "2026-11-26",
       "title": "Se l’intelligenza artificiale scrive le nostre cartelle cliniche",
       "category": "general",
@@ -39,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-26-003",
+      "id": "2026-11-26-005",
       "published": "2026-11-26",
       "title": "1Password Breach Exposes Customer Data, Internal Source Code",
       "category": "breach",
@@ -60,7 +96,7 @@
       ]
     },
     {
-      "id": "2026-11-26-004",
+      "id": "2026-11-26-006",
       "published": "2026-11-26",
       "title": "Critical Juniper Session Smart Conductor Flaw Exploited in Attacks",
       "category": "vuln",
@@ -83,7 +119,7 @@
       ]
     },
     {
-      "id": "2026-11-26-005",
+      "id": "2026-11-26-007",
       "published": "2026-11-26",
       "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
       "category": "vuln",
@@ -104,7 +140,27 @@
       ]
     },
     {
-      "id": "2026-11-26-006",
+      "id": "2026-11-26-008",
+      "published": "2026-11-26",
+      "title": "FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "FIFA didn’t say when the cyberattack took place, or the precise nature of the hacked information. The post FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’ appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "data breach",
+        "FIFA"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/fifa-says-it-has-been-victim-of-a-cyberattack-accessing-personal-and-business-information/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-26-009",
       "published": "2026-11-26",
       "title": "Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks",
       "category": "vuln",
