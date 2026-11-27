@@ -1,9 +1,63 @@
 {
-  "updated": "2026-11-27T08:25:04Z",
+  "updated": "2026-11-27T12:25:04Z",
   "window_days": 7,
   "items": [
     {
       "id": "2026-11-27-001",
+      "published": "2026-11-27",
+      "title": "Microsoft removes WSUS server role in Windows Server 2028",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft will remove the WSUS server role from Windows Server 2028, the next major release of its server operating system. [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-removes-wsus-server-role-in-windows-server-2028/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-002",
+      "published": "2026-11-27",
+      "title": "Microsoft pushes emergency hotpatch to fix Windows Server crashes",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Microsoft has released an emergency hotpatch update to address Windows Server 2025 crashes triggered after installing this month's security hotpatch update (KB5131077). [...]",
+      "tags": [
+        "Microsoft"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/microsoft/new-out-of-band-oob-emergency-hotpatch-fixes-windows-server-2025-crashes/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-003",
+      "published": "2026-11-27",
+      "title": "Drupal warns of new site takeover flaw exploited in attacks",
+      "category": "vuln",
+      "severity": "HIGH",
+      "summary": "The Drupal security team says attackers are exploiting a second critical vulnerability that lets them breach and hijack unpatched websites. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/drupal-warns-of-new-access-bypass-flaw-exploited-in-attacks/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-004",
       "published": "2026-11-27",
       "title": "New NFS2ROOT Linux flaw can let attackers gain root privileges",
       "category": "vuln",
@@ -23,7 +77,45 @@
       ]
     },
     {
-      "id": "2026-11-27-002",
+      "id": "2026-11-27-005",
+      "published": "2026-11-27",
+      "title": "SAP confirms security incident after suspicious GitHub activity",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "SAP has confirmed to BleepingComputer that it took urgent action to protect its customers after detecting suspicious activity in its IT environment. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/sap-confirms-security-incident-after-suspicious-github-activity/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-006",
+      "published": "2026-11-27",
+      "title": "100,000 Potentially Impacted by Colorado Data Breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers breached the digital identification and document storage application myColorado and accessed user-uploaded data. The post 100,000 Potentially Impacted by Colorado Data Breach appeared first on SecurityWeek .",
+      "tags": [
+        "Data Breaches",
+        "Colorado",
+        "data breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "SecurityWeek",
+          "url": "https://www.securityweek.com/100000-potentially-impacted-by-colorado-data-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-007",
       "published": "2026-11-27",
       "title": "Hex Package Manager Warns of Potential Data Breach",
       "category": "breach",
@@ -46,7 +138,7 @@
       ]
     },
     {
-      "id": "2026-11-27-003",
+      "id": "2026-11-27-008",
       "published": "2026-11-27",
       "title": "SAP Confirms Cyberattack, Source Code Reportedly Compromised",
       "category": "breach",

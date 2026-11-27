@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T12:25:04Z",
+  "updated": "2026-11-27T14:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -448,24 +448,6 @@
         {
           "title": "SecurityWeek",
           "url": "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-25-006",
-      "published": "2026-11-25",
-      "title": "More Pentests Without More Pentesters: Where AI Safely Helps",
-      "category": "general",
-      "severity": "MEDIUM",
-      "summary": "Penetration testers spend a significant portion of their engagements on documentation, reporting, and other tasks outside of testing. PentestPad explains how AI can reduce this workload, help teams handle more engagements, and keep sensitive client data within their own infrastructure. [...]",
-      "tags": [
-        "general"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/more-pentests-without-more-pentesters-where-ai-safely-helps/"
         }
       ]
     }
