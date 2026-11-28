@@ -1,56 +1,56 @@
 {
- "source": "GENERAL",
+ "source": "ICS-OT",
  "updated": "2026-11-28",
  "items": [
   {
-   "title": "In Other News: Tanker Cyberattacks, EU Quantum Act, New VirusTotal Capabilities",
-   "link": "https://www.securityweek.com/in-other-news-tanker-cyberattacks-eu-quantum-act-new-virustotal-capabilities/",
-   "date": "2026-11-27"
+   "title": "Elecbrakes Bluetooth Vulnerabilities Expose Trailers to Forced Braking",
+   "link": "https://www.securityweek.com/elecbrakes-bluetooth-vulnerabilities-expose-trailers-to-forced-braking/",
+   "date": "2026-11-24"
   },
   {
-   "title": "100,000 Potentially Impacted by Colorado Data Breach",
-   "link": "https://www.securityweek.com/100000-potentially-impacted-by-colorado-data-breach/",
-   "date": "2026-11-27"
+   "title": "Peninsula Energy Halts Trading After Cyber Incident Hits US Uranium Mine",
+   "link": "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/",
+   "date": "2026-11-24"
   },
   {
-   "title": "Hex Package Manager Warns of Potential Data Breach",
-   "link": "https://www.securityweek.com/hex-package-manager-warns-of-potential-data-breach/",
-   "date": "2026-11-27"
+   "title": "Hackers Probe Newly Disclosed Flaws in Copeland Refrigeration Controllers",
+   "link": "https://www.securityweek.com/hackers-probe-newly-disclosed-flaws-in-copeland-refrigeration-controllers/",
+   "date": "2026-11-16"
   },
   {
-   "title": "SAP Confirms Cyberattack, Source Code Reportedly Compromised",
-   "link": "https://www.securityweek.com/sap-confirms-cyberattack-source-code-reportedly-compromised/",
-   "date": "2026-11-27"
+   "title": "No Signs of Hacking in FAA Ground Stop as FBI Reportedly Probes Software Update",
+   "link": "https://www.securityweek.com/no-signs-of-hacking-in-faa-ground-stop-as-fbi-reportedly-probes-software-update/",
+   "date": "2026-11-14"
   },
   {
-   "title": "FIFA Says It Has Been Victim of a Cyberattack Accessing ‘Personal and Business Information’",
-   "link": "https://www.securityweek.com/fifa-says-it-has-been-victim-of-a-cyberattack-accessing-personal-and-business-information/",
-   "date": "2026-11-26"
+   "title": "ICS Patch Tuesday: Siemens Flags High-Severity Flaws, Node2Shell Exposure",
+   "link": "https://www.securityweek.com/ics-patch-tuesday-siemens-flags-high-severity-flaws-node2shell-exposure/",
+   "date": "2026-11-11"
   },
   {
-   "title": "Critical Juniper Session Smart Conductor Flaw Exploited in Attacks",
-   "link": "https://www.securityweek.com/critical-juniper-session-smart-conductor-flaw-exploited-in-attacks/",
-   "date": "2026-11-26"
+   "title": "US Agencies Urge Organizations to Harden Refrigeration Controllers",
+   "link": "https://www.securityweek.com/us-agencies-urge-organizations-to-harden-refrigeration-controllers/",
+   "date": "2026-11-06"
   },
   {
-   "title": "Mitel MiCollab Zero-Days Exploited in Suspected AI-Assisted Attacks",
-   "link": "https://www.securityweek.com/mitel-micollab-zero-days-exploited-in-suspected-ai-assisted-attacks/",
-   "date": "2026-11-26"
+   "title": "Cyberattack Hits French Blood Bank Site but No Blood Products Are Compromised",
+   "link": "https://www.securityweek.com/cyberattack-hits-french-blood-bank-site-but-no-blood-products-are-compromised/",
+   "date": "2026-11-05"
   },
   {
-   "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
-   "link": "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/",
-   "date": "2026-11-26"
+   "title": "Critical Node-RED Flaw Exploited in Attacks",
+   "link": "https://www.securityweek.com/critical-node-red-flaw-exploited-in-attacks/",
+   "date": "2026-11-03"
   },
   {
-   "title": "1Password Breach Exposes Customer Data, Internal Source Code",
-   "link": "https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/",
-   "date": "2026-11-26"
+   "title": "Over 100 European Stores Hit as Supermarket Fridge Attacks Return",
+   "link": "https://www.securityweek.com/over-100-european-stores-hit-as-supermarket-fridge-attacks-resume/",
+   "date": "2026-11-03"
   },
   {
-   "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
-   "link": "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
-   "date": "2026-11-25"
+   "title": "Long-Hidden Flaws Patched in EPICS Research Facility Control Software",
+   "link": "https://www.securityweek.com/long-hidden-flaws-patched-in-epics-research-facility-control-software/",
+   "date": "2026-10-28"
   }
  ]
 }
