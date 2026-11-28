@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T14:25:04Z",
+  "updated": "2026-11-27T18:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -97,6 +97,60 @@
     {
       "id": "2026-11-27-006",
       "published": "2026-11-27",
+      "title": "Unpatched Cacti zero-day with public PoC gives remote code execution",
+      "category": "vuln",
+      "severity": "CRITICAL",
+      "summary": "A zero-day vulnerability in the Cacti network monitoring platform has been publicly disclosed, along with a proof-of-concept exploit that lets unauthenticated attackers execute commands on vulnerable servers. [...]",
+      "tags": [
+        "vuln"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/unpatched-cacti-zero-day-with-public-poc-gives-remote-code-execution/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-007",
+      "published": "2026-11-27",
+      "title": "US Air Force cloud platform reportedly hacked in latest federal breach",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Hackers have reportedly breached the US Air Force's Cloud One computing platform, adding to a recent wave of cyberattacks affecting US government agencies, including the FBI, CIA, and Treasury Department. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/us-air-force-cloud-platform-reportedly-hacked-in-latest-federal-breach/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-008",
+      "published": "2026-11-27",
+      "title": "Your Firewall Isn't Enough: The Hidden Risk of Unmanaged VMs",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "Forgotten virtual machines, unpatched servers, and excessive access permissions can create security blind spots across IT infrastructure. ISPsystem explains how centralized infrastructure management, access controls, and resource lifecycle automation can help reduce these risks. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/your-firewall-isnt-enough-the-hidden-risk-of-unmanaged-vms/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-009",
+      "published": "2026-11-27",
       "title": "100,000 Potentially Impacted by Colorado Data Breach",
       "category": "breach",
       "severity": "HIGH",
@@ -115,7 +169,7 @@
       ]
     },
     {
-      "id": "2026-11-27-007",
+      "id": "2026-11-27-010",
       "published": "2026-11-27",
       "title": "Hex Package Manager Warns of Potential Data Breach",
       "category": "breach",
@@ -138,7 +192,7 @@
       ]
     },
     {
-      "id": "2026-11-27-008",
+      "id": "2026-11-27-011",
       "published": "2026-11-27",
       "title": "SAP Confirms Cyberattack, Source Code Reportedly Compromised",
       "category": "breach",

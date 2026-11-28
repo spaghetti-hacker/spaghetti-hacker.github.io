@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T18:25:04Z",
+  "updated": "2026-11-28T12:25:04Z",
   "window_days": 7,
   "items": [
     {
@@ -23,6 +23,24 @@
     {
       "id": "2026-11-27-002",
       "published": "2026-11-27",
+      "title": "New Boston Scientific data breach exposes personal, medical info",
+      "category": "breach",
+      "severity": "HIGH",
+      "summary": "Medical technology company Boston Scientific is sending data breach notices to individuals affected by a cyberattack on the firm. [...]",
+      "tags": [
+        "breach"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/new-boston-scientific-data-breach-exposes-personal-medical-info/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-003",
+      "published": "2026-11-27",
       "title": "US Air Force cloud platform reportedly hacked in latest federal breach",
       "category": "breach",
       "severity": "HIGH",
@@ -39,7 +57,7 @@
       ]
     },
     {
-      "id": "2026-11-27-003",
+      "id": "2026-11-27-004",
       "published": "2026-11-27",
       "title": "Drupal warns of new site takeover flaw exploited in attacks",
       "category": "vuln",
@@ -57,7 +75,7 @@
       ]
     },
     {
-      "id": "2026-11-27-004",
+      "id": "2026-11-27-005",
       "published": "2026-11-27",
       "title": "SAP confirms security incident after suspicious GitHub activity",
       "category": "breach",
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "id": "2026-11-27-005",
+      "id": "2026-11-27-006",
       "published": "2026-11-27",
       "title": "100,000 Potentially Impacted by Colorado Data Breach",
       "category": "breach",
@@ -95,7 +113,7 @@
       ]
     },
     {
-      "id": "2026-11-27-006",
+      "id": "2026-11-27-007",
       "published": "2026-11-27",
       "title": "New NFS2ROOT Linux flaw can let attackers gain root privileges",
       "category": "vuln",
@@ -115,7 +133,7 @@
       ]
     },
     {
-      "id": "2026-11-27-007",
+      "id": "2026-11-27-008",
       "published": "2026-11-27",
       "title": "Hex Package Manager Warns of Potential Data Breach",
       "category": "breach",
@@ -138,7 +156,7 @@
       ]
     },
     {
-      "id": "2026-11-27-008",
+      "id": "2026-11-27-009",
       "published": "2026-11-27",
       "title": "SAP Confirms Cyberattack, Source Code Reportedly Compromised",
       "category": "breach",
@@ -159,7 +177,25 @@
       ]
     },
     {
-      "id": "2026-11-27-009",
+      "id": "2026-11-27-010",
+      "published": "2026-11-27",
+      "title": "pCloud confirms password manager hack after suspicious login alerts",
+      "category": "general",
+      "severity": "MEDIUM",
+      "summary": "The pCloud Pass password manager suffered a cyberattack, with users reporting that unknown devices had connected to their accounts even with two-factor authentication (2FA) enabled. [...]",
+      "tags": [
+        "general"
+      ],
+      "cves": [],
+      "sources": [
+        {
+          "title": "BleepingComputer",
+          "url": "https://www.bleepingcomputer.com/news/security/pcloud-confirms-password-manager-hack-after-suspicious-login-alerts/"
+        }
+      ]
+    },
+    {
+      "id": "2026-11-27-011",
       "published": "2026-11-27",
       "title": "Your Firewall Isn't Enough: The Hidden Risk of Unmanaged VMs",
       "category": "general",
@@ -177,7 +213,7 @@
       ]
     },
     {
-      "id": "2026-11-27-010",
+      "id": "2026-11-27-012",
       "published": "2026-11-27",
       "title": "Microsoft removes WSUS server role in Windows Server 2028",
       "category": "general",
@@ -195,7 +231,7 @@
       ]
     },
     {
-      "id": "2026-11-27-011",
+      "id": "2026-11-27-013",
       "published": "2026-11-27",
       "title": "Microsoft pushes emergency hotpatch to fix Windows Server crashes",
       "category": "general",
@@ -357,24 +393,6 @@
     {
       "id": "2026-11-26-008",
       "published": "2026-11-26",
-      "title": "SYS010 malware abuses browser management to spy on Gmail, Outlook",
-      "category": "malware",
-      "severity": "MEDIUM",
-      "summary": "A new version of the SYS01 infostealer malware delivered through Meta ads is enrolling browsers into enterprise-style management to force the installation of an extension that steals sensitive data, including Gmail and Outlook emails. [...]",
-      "tags": [
-        "malware"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-26-009",
-      "published": "2026-11-26",
       "title": "Se l’intelligenza artificiale scrive le nostre cartelle cliniche",
       "category": "general",
       "severity": "MEDIUM",
@@ -391,7 +409,7 @@
       ]
     },
     {
-      "id": "2026-11-26-010",
+      "id": "2026-11-26-009",
       "published": "2026-11-26",
       "title": "Drupal Installer Patch Left a Gap Attackers Are Already Exploiting",
       "category": "vuln",
@@ -413,24 +431,6 @@
     },
     {
       "id": "2026-11-25-001",
-      "published": "2026-11-25",
-      "title": "Palo Alto Networks warns of Fragnesia flaw exploited in PAN-OS attacks",
-      "category": "vuln",
-      "severity": "MEDIUM",
-      "summary": "Threat actors are chaining exploits for the PHP2Shell and Fragnesia vulnerabilities to target Palo Alto Networks devices with management interfaces exposed to the internet. [...]",
-      "tags": [
-        "vuln"
-      ],
-      "cves": [],
-      "sources": [
-        {
-          "title": "BleepingComputer",
-          "url": "https://www.bleepingcomputer.com/news/security/palo-alto-networks-warns-of-fragnesia-flaw-exploited-in-pan-os-attacks/"
-        }
-      ]
-    },
-    {
-      "id": "2026-11-25-002",
       "published": "2026-11-25",
       "title": "Two Newly Disclosed GeoServer Vulnerabilities Under Attack",
       "category": "vuln",
